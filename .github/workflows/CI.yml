@@ -13,7 +13,6 @@ env:
 jobs:
   mirroring:
     if: github.event_name == 'push'
-    needs: coverage
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
