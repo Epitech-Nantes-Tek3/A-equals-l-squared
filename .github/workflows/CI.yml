@@ -11,8 +11,19 @@ env:
   BUILD_TYPE: Release
 
 jobs:
+
+  dockercompose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: isbang/compose-action@v1.4.1
+        with:
+          compose-file: "./docker-compose.yml"
+          down-flags: "--volumes"
+
   mirroring:
     if: github.event_name == 'push'
+    needs: dockercompose
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
