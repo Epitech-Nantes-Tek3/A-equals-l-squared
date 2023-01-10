@@ -24,7 +24,7 @@ jobs:
       - name: wait...
         run: sleep 10
       - name: curl check
-        run: curl -X GET http://0.0.0.0:800
+        run: curl -X GET http://0.0.0.0:8081
 
   mirroring:
     if: github.event_name == 'push'
