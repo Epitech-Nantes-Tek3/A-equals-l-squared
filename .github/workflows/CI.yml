@@ -15,11 +15,16 @@ jobs:
   dockercompose:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: isbang/compose-action@v1.4.1
-        with:
-          compose-file: "./docker-compose.yml"
-          down-flags: "--volumes"
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: build
+        run: docker-compose build && docker-compose up -d
+      - name: started ?
+        run: docker ps -a
+      - name: wait...
+        run: sleep 10
+      - name: curl check
+        run: curl -X GET http://0.0.0.0:8000
 
   mirroring:
     if: github.event_name == 'push'
