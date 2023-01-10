@@ -8,7 +8,9 @@ services:
       - .:/code
 
   client_web:
-    build: ./application/web
+    build:
+      context: ./application
+      dockerfile: web.Dockerfile
     depends_on:
       - server
     ports:
