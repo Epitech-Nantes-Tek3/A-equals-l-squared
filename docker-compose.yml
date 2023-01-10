@@ -7,12 +7,20 @@ services:
     volumes:
       - .:/code
 
+  client_mobile:
+    build:
+      context: ./application
+      dockerfile: mobile.Dockerfile
+    volumes:
+      - .:/apk
+
   client_web:
     build:
       context: ./application
       dockerfile: web.Dockerfile
     depends_on:
       - server
+      - client_mobile
     ports:
       - "8081:5000"
     volumes:
