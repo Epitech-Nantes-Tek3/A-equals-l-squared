@@ -1,10 +1,20 @@
 version: "3.9"
 services:
-  web:
+  server:
+    build: ./server
+    ports:
+      - "8080:5000"
+    volumes:
+      - .:/code
+
+  client_web:
     build: ./application/web
+    depends_on:
+      - server
     ports:
       - "8081:5000"
     volumes:
-      - .:/code
-    environment:
-      FLASK_DEBUG: "True"
+      - .:/apk
+
+volumes:
+  common:
