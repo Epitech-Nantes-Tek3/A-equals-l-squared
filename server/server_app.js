@@ -12,6 +12,7 @@ app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
+// about.json route answering the client IP, the current time and the services data
 app.get('/about.json', (req, res) => {
   try {
     const about = {};
