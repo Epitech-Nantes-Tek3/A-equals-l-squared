@@ -10,6 +10,7 @@ fuser -k 5000/tcp
 # switch directories
 cd build/web/
 
+ln -s /apk/client.apk ./client.apk
 # Start the server
 echo 'Server starting on port' $PORT '...'
 python3 -m http.server $PORT

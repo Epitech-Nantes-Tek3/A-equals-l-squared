@@ -3,10 +3,13 @@ FROM cirrusci/flutter
 COPY app_code /app
 WORKDIR /app
 
+USER root
+
 RUN rm -f .packages
 
 RUN flutter pub get
 RUN flutter clean
 RUN flutter build apk
 
-ENTRYPOINT cp /app/build/app/outputs/apk/release/app-release.apk /apk/client.apk
+RUN mkdir /apk/
+ENTRYPOINT cp build/app/outputs/apk/release/app-release.apk /apk/client.apk

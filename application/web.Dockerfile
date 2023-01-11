@@ -25,6 +25,7 @@ COPY ./app_code /app/
 WORKDIR /app/
 RUN flutter build web
 
+RUN mkdir -p /apk/
 # Record the exposed port
 EXPOSE 5000
 

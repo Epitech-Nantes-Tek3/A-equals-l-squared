@@ -12,7 +12,7 @@ services:
       context: ./application
       dockerfile: mobile.Dockerfile
     volumes:
-      - .:/apk
+      - common:/apk
 
   client_web:
     build:
@@ -24,7 +24,7 @@ services:
     ports:
       - "8081:5000"
     volumes:
-      - .:/apk
+      - common:/apk
 
 volumes:
   common:
