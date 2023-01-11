@@ -3,7 +3,7 @@ services:
   server:
     build: ./server
     ports:
-      - "8080:5000"
+      - "8080:8080"
     volumes:
       - .:/code
 

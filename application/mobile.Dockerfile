@@ -8,7 +8,6 @@ USER root
 RUN rm -f .packages
 
 RUN flutter pub get
-RUN flutter clean
 RUN flutter build apk
 
 RUN mkdir /apk/
