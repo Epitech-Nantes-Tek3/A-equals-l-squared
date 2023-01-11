@@ -19,11 +19,8 @@ app.get('/about.json', (req, res) => {
     about.server = {
       current_time: Date.now(),
       services: []
-    }  // fetch the services data from DB with the IP of the client
-       // connection.query(`SELECT name,actions,reactions FROM services`,
-       // function (error, results, fields) {
-       //   if (error) throw error;
-       //   about.server.services = results;
+    }
+    // TODO fetch the services data from DB with the IP of the client
     res.json(about);
   } catch (err) {
     console.log(err);
