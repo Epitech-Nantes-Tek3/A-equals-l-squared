@@ -1,7 +1,5 @@
 'use strict';
 
-import * from "model.ts";
-
 const express = require('express');
 
 // Constants
@@ -14,42 +12,25 @@ app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
-function generateJson(){
-  let client = {
-      host: HOST
-  }
-
-  let server = {
-      current_time: Math.floor(Date.now() / 1000);,
-      services: [
-          {
-              name: "",
-              actions: [
-                  {
-                      name: "",
-                      description: ""
-                  }
-              ],
-              reactions: [
-                  {
-                      name: "",
-                      description: ""
-                  }
-              ]
-          }
-      ]
-  }
-
-  let json = JSON.stringify({client, server});
-  return json;
-}
-
 app.get('/about.json', (req, res) => {
-    res.setHeader("Content-Type", "application/json");
-    res.writeHead(200);
-    res.end(generateJson());
+  try {
+    const about = {};
+    about.client = {host: req.ip}
+    about.server = {
+      current_time: Date.now(),
+      services: []
+    }  // fetch the services data from DB with the IP of the client
+       // connection.query(`SELECT name,actions,reactions FROM services`,
+       // function (error, results, fields) {
+       //   if (error) throw error;
+       //   about.server.services = results;
+    res.json(about);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
 });
 
 app.listen(PORT, HOST, () => {
-  console.log(`Running on http://${HOST}:${PORT}`);
+  console.log(`Server running on http://${HOST}:${PORT}`);
 });
