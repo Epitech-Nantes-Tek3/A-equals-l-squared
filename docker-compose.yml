@@ -1,9 +1,22 @@
 version: "3.9"
 services:
+  database:
+    build: ./server/database
+    env_file:
+      - ./server/database.env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${password}
+      MYSQL_DATABASE: ${database}
+    restart: always
+    volumes:
+      - .:/code
+
   server:
     build: ./server
     ports:
       - "8080:8080"
+    depends_on:
+      - database
     volumes:
       - .:/code
 

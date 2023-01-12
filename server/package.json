@@ -5,14 +5,16 @@
     "author": "Lucas Tesnier <lucas.tesnier@epitech.eu>",
     "main": "server_app.js",
     "scripts": {
-      "start": "node server_app.js"
+        "start": "node server_app.js"
     },
     "dependencies": {
-      "express": "^4.16.1"
+        "dotenv": "^16.0.3",
+        "express": "^4.16.1",
+        "mysql": "^2.18.1"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com/Epitech-Nantes-Tek3/A-equals-l-squared/"
-      },
+    },
     "license": "MIT"
-  }
+}
