@@ -84,6 +84,8 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 
+# .env secret
+./server/database.env
 
 # python
 __py*
