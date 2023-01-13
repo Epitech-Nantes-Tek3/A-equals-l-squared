@@ -21,6 +21,23 @@ app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
+// about.json route answering the client IP, the current time and the services data
+app.get('/about.json', (req, res) => {
+  try {
+    const about = {};
+    about.client = {host: req.ip}
+    about.server = {
+      current_time: Date.now(),
+      services: []
+    }
+    // TODO fetch the services data from DB with the IP of the client
+    res.json(about);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+});
+
 app.get('/database', (req, res) => {
   connection.query("SELECT * FROM Student", (err, rows) => {
     if (err) {
@@ -37,12 +54,7 @@ app.get('/database', (req, res) => {
   });
 });
 
-app.get('/about.json', (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.writeHead(200);
-  res.end(`{"message": "This is a JSON response"}`);
-});
 
 app.listen(PORT, HOST, () => {
-  console.log(`Running on http://${HOST}:${PORT}`);
+  console.log(`Server running on http://${HOST}:${PORT}`);
 });
