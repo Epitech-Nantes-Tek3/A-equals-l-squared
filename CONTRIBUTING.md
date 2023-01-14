@@ -43,20 +43,8 @@ For the coding style, there are some rules you need to follow:
 
 ## Documentation Rules
 
-**This part will change soon**
-
-We use Doxygen for documentation, and in order to allow the proper deployment of the documentation, please respect the following rules:
-
-* Please document your functions in the header as follows:
-
-```C++
-    /// @brief Print a string
-    /// @param str I am the first param and i am the string who will be printed
-    /// @return int The success value
-    /// @throw an Exception if the given string is empty
-```
-
-* No functions should have documentation within .cpp files except static functions.
+We use JSDoc 3 for documentation, and in order to allow the proper deployment of the documentation, please respect the JSDoc format. <br>
+If you have a doubt about the format, you can click [here](https://jsdoc.app/howto-commonjs-modules.html).
 
 Any undocumented elements will lead to the refusal of the PR.
 
