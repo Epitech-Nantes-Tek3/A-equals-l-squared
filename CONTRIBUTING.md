@@ -82,7 +82,7 @@ The lack of test in your code can be one of the reasons of refusing a PR.
 
 ## Pull Request Rules
 
-### The creator
+### The author
 
 When your work is done on a branch, you must make a pull request.
 
