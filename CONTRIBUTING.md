@@ -43,7 +43,7 @@ For the coding style, there are some rules you need to follow:
 
 * Everybody working on the project with you must be able to understand on what you are working within minutes. If you can split a function in two, you must do it !
 
-* Your code must respect the Clang format. It's necessary to be able to compile on Windows. While coding, press at the same time CTRL+MAJ+I to apply the format !
+* To have the same code format, your code must respect the given Clang format.
 
 ## Documentation Rules
 
