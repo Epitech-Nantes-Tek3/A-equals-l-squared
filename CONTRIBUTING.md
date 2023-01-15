@@ -56,7 +56,7 @@ Any undocumented elements will lead to the refusal of the PR.
 
 ## Committing Rules
 
-First, the commits. They should always look like the following description:
+The commits should always look like the following description:
 
 Action Verb (Add, Delete, Fix ...) + Title + Description of what you have done + Related Issue Number
 
