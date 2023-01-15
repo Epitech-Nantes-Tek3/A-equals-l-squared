@@ -47,8 +47,10 @@ For the coding style, there are some rules you need to follow:
 
 ## Documentation Rules
 
-We use JSDoc 3 for documentation, and in order to allow the proper deployment of the documentation, please respect the JSDoc format. <br>
+For the Node.js part, we use JSDoc 3 for documentation, and in order to allow the proper deployment of the documentation, please respect the JSDoc format. <br>
 If you have a doubt about the format, you can click [here](https://jsdoc.app/howto-commonjs-modules.html).
+
+For the Flutter part, precisions will be added later.
 
 Any undocumented elements will lead to the refusal of the PR.
 
