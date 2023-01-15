@@ -70,8 +70,6 @@ This should look like this:
 
 You should always commit frequently and based on the given exemple.
 
-If possible, please certify your commits (-S).
-
 ## Testing Rules
 
 When something can be verified by a test, we will be looking for tests in your PR.
