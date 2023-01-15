@@ -5,10 +5,13 @@
     "author": "Lucas Tesnier <lucas.tesnier@epitech.eu>",
     "main": "server_app.js",
     "scripts": {
-        "start": "node server_app.js"
+        "start": "node server_app.js",
+        "migration": "dotenv -e database.env -- npx prisma migrate dev --name init"
     },
     "dependencies": {
+        "@prisma/client": "^4.8.1",
         "dotenv": "^16.0.3",
+        "dotenv-cli": "^6.0.0",
         "express": "^4.16.1",
         "mysql": "^2.18.1"
     },
@@ -16,5 +19,8 @@
         "type": "git",
         "url": "https://github.com/Epitech-Nantes-Tek3/A-equals-l-squared/"
     },
-    "license": "MIT"
+    "license": "MIT",
+    "devDependencies": {
+        "prisma": "^4.8.1"
+    }
 }

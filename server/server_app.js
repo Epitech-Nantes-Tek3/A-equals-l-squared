@@ -3,6 +3,9 @@
 const express = require('express');
 const mysql = require("mysql");
 require('dotenv').config({ path: 'database.env' });
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
 
 const PORT = 8080;
 const HOST = '0.0.0.0';
@@ -25,7 +28,7 @@ app.get('/', (req, res) => {
 app.get('/about.json', (req, res) => {
   try {
     const about = {};
-    about.client = {host: req.ip}
+    about.client = { host: req.ip }
     about.server = {
       current_time: Date.now(),
       services: []
@@ -38,6 +41,7 @@ app.get('/about.json', (req, res) => {
   }
 });
 
+/// MySQL request example
 app.get('/database', (req, res) => {
   connection.query("SELECT * FROM Student", (err, rows) => {
     if (err) {
@@ -54,6 +58,55 @@ app.get('/database', (req, res) => {
   });
 });
 
+/// List a data with prisma example
+app.get('/database/get/user', async (req, res) => {
+  try {
+    const allUsers = await prisma.user.findMany({
+      include: {
+        posts: true,
+        profile: true,
+      },
+    }); /// GET all the user and her relations
+    res.send(allUsers);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+});
+
+/// Create a data with prisma example
+app.get('/database/post/user', async (req, res) => { /// ?name=alice&posts=hey&profile=bio
+  try {
+    await prisma.user.create({
+      data: {
+        name: req.query.name,
+        email: req.query.name + '@prisma.io',
+        posts: {
+          create: { title: req.query.posts },
+        },
+        profile: {
+          create: { bio: req.query.profile },
+        },
+      },
+    });
+    res.status(200).send("Succesfully added user.");
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+/// Update a data with Prisma example
+app.get('/database/update/user/name', async (req, res) => { /// ?id=1&name=pierre
+  try {
+    await prisma.user.update({
+      where: { id: Number(req.query.id) },
+      data: { name: req.query.name },
+    });
+    res.status(200).send("Succesfully updated user.");
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
 app.listen(PORT, HOST, () => {
   console.log(`Server running on http://${HOST}:${PORT}`);

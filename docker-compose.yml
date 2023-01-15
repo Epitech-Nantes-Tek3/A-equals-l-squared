@@ -20,6 +20,8 @@ services:
     volumes:
       - .:/code
 
+# Add a profile for migration
+
   client_mobile:
     build:
       context: ./application
