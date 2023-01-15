@@ -16,7 +16,11 @@ When creating an issue, choose an available template and follow the given format
 
 * Take a moment to link the issue with the project, if it hasn't been done automatically.
 
-* If possible, assign someone to it.
+* If possible, assign it to someone.
+
+* If necessary, attach it to a milestone.
+
+* If needed, specify a due date.
 
 ## Branch Rules
 
