@@ -57,11 +57,36 @@ Do not hesitate to contact any member for any questions or remarks. You can clic
 <table>
     <tbody>
         <tr>
-            <td align="center"><a href="https://github.com/ZQUEMA/"><img src="https://avatars.githubusercontent.com/u/56249749?s=96&v=4" width="100px;" alt="ZQUEMA"/><br/><sub><b>Quentin Camilleri</b></sub></a><br/></td>
-            <td align="center"><a href="https://github.com/TomDUVAL-MAHE"><img src="https://avatars.githubusercontent.com/u/72017980?v=4" width="100px;" alt="Tom Duval-Mahe"/><br/><sub><b>Tom Duval-Mahe</b></sub></a><br/></td>
-            <td align="center"><a href="https://github.com/GuyomT"><img src="https://avatars.githubusercontent.com/u/71885064?v=4" width="100px;" alt="osvegn"/><br/><sub><b>Guillaume Terriere</b></sub></a><br/></td>
-            <td align="center"><a href="https://github.com/tbellicha"><img src="https://avatars.githubusercontent.com/u/72006230?v=4" width="100px;" alt="31Nathan"/><br/><sub><b>Tanguy Bellicha</b></sub></a><br/></td>
-            <td align="center"><a href="https://github.com/LucasTesnier/"><img src="https://avatars.githubusercontent.com/u/72015360?v=4" width="100px;" alt="LucasTesnier"/><br/><sub><b>Lucas Tesnier</b></sub></a><br/></td>
+            <td align="center">
+                <a href="https://github.com/ZQUEMA/">
+                    <img src="https://avatars.githubusercontent.com/u/56249749?s=96&v=4" width="100px;" alt="ZQUEMA"/><br/>
+                    <sub><b>Quentin Camilleri</b></sub>
+                </a><br/>
+            </td>
+            <td align="center">
+                <a href="https://github.com/TomDUVAL-MAHE">
+                    <img src="https://avatars.githubusercontent.com/u/72017980?v=4" width="100px;" alt="Tom Duval-Mahe"/><br/>
+                    <sub><b>Tom Duval-Mahe</b></sub>
+                </a><br/>
+            </td>
+            <td align="center">
+                <a href="https://github.com/GuyomT">
+                    <img src="https://avatars.githubusercontent.com/u/71885064?v=4" width="100px;" alt="osvegn"/><br/>
+                    <sub><b>Guillaume Terriere</b></sub>
+                </a><br/>
+            </td>
+            <td align="center">
+                <a href="https://github.com/tbellicha">
+                    <img src="https://avatars.githubusercontent.com/u/72006230?v=4" width="100px;" alt="31Nathan"/><br/>
+                    <sub><b>Tanguy Bellicha</b></sub>
+                </a><br/>
+            </td>
+            <td align="center">
+                <a href="https://github.com/LucasTesnier/">
+                    <img src="https://avatars.githubusercontent.com/u/72015360?v=4" width="100px;" alt="LucasTesnier"/><br/>
+                    <sub><b>Lucas Tesnier</b></sub>
+                </a><br/>
+            </td>
         </tr>
     </tbody>
 </table>
