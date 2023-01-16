@@ -12,8 +12,8 @@ services:
       - .:/code
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u $${user} --password=$${password}
-      interval: 5s
-      timeout: 5s
+      interval: 30s
+      timeout: 30s
       retries: 3
 
   server:
@@ -45,7 +45,7 @@ services:
       server:
         condition: service_started
       client_mobile:
-        condition: service_completed_successfully
+        condition: service_started
     ports:
       - "8081:5000"
     volumes:
