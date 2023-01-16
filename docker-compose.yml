@@ -10,17 +10,25 @@ services:
     restart: always
     volumes:
       - .:/code
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $${user} --password=$${password}
+      interval: 5s
+      timeout: 5s
+      retries: 3
 
   server:
     build: ./server
     ports:
       - "8080:8080"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
+    environment:
+      - IS_MIGRATION=false #SET TO true when a migration needed
     volumes:
       - .:/code
-
-# Add a profile for migration
+    stdin_open: true
+    tty: true
 
   client_mobile:
     build:
@@ -34,8 +42,10 @@ services:
       context: ./application
       dockerfile: web.Dockerfile
     depends_on:
-      - server
-      - client_mobile
+      server:
+        condition: service_started
+      client_mobile:
+        condition: service_completed_successfully
     ports:
       - "8081:5000"
     volumes:

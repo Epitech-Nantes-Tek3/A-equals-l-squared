@@ -4,4 +4,6 @@ COPY . .
 RUN npm install
 EXPOSE 8080
 RUN npm install -g dotenv-cli
-CMD ["npm", "start" ]
+RUN ["chmod", "+x", "./start.sh"]
+
+ENTRYPOINT [ "./start.sh"]

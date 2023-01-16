@@ -74,6 +74,16 @@ app.get('/database/get/user', async (req, res) => {
   }
 });
 
+app.get('/database/get/try', async (req, res) => {
+  try {
+    const allUsers = await prisma.try.findMany(); /// GET all the user and her relations
+    res.send(allUsers);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+});
+
 /// Create a data with prisma example
 app.get('/database/post/user', async (req, res) => { /// ?name=alice&posts=hey&profile=bio
   try {

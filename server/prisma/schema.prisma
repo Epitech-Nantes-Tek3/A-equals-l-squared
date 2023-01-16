@@ -35,3 +35,8 @@ model User {
   posts   Post[]
   profile Profile?
 }
+
+model Try {
+  id Int @id @default(autoincrement())
+  name String?
+}

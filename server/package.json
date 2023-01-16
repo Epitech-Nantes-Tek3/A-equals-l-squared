@@ -6,7 +6,7 @@
     "main": "server_app.js",
     "scripts": {
         "start": "node server_app.js",
-        "migration": "dotenv -e database.env -- npx prisma migrate dev --name init"
+        "migration": "dotenv -e database.env -- prisma migrate reset --force && dotenv -e database.env -- npx prisma migrate dev --name init"
     },
     "dependencies": {
         "@prisma/client": "^4.8.1",
