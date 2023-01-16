@@ -5,8 +5,8 @@ services:
     env_file:
       - ./server/database.env
     environment:
-      MYSQL_ROOT_PASSWORD: ${password}
-      MYSQL_DATABASE: ${database}
+      MYSQL_ROOT_PASSWORD: $${password}
+      MYSQL_DATABASE: $${database}
     restart: always
     volumes:
       - .:/code
