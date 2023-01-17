@@ -12,8 +12,8 @@ services:
       - .:/code
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u $${user} --password=$${password}
-      interval: 30s
-      timeout: 30s
+      interval: 45s
+      timeout: 45s
       retries: 4
 
   server:
