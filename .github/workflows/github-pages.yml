@@ -15,7 +15,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build
+      - name: Js documentation
         uses: andstor/jsdoc-action@v1
         with:
           source_dir: ./server
