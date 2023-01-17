@@ -20,6 +20,15 @@ const connection = mysql.createPool({
   database: process.env.database,
 });
 
+/**
+ * A basic function to demonstrate the Jsdoc functionnality !
+ * @param {*} title 
+ * @param {*} author 
+ */
+function doc_example(title, author) {
+
+}
+
 app.use(function (req, res, next) {
   // Allow access request from any computers
   res.header("Access-Control-Allow-Origin", "*");
