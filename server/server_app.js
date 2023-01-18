@@ -154,3 +154,7 @@ app.get('/database/update/user/name', async (req, res) => {
 app.listen(PORT, HOST, () => {
   console.log(`Server running on http://${HOST}:${PORT}`)
 })
+
+module.exports = {
+  test_example
+}
