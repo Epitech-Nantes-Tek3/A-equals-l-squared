@@ -31,7 +31,7 @@ function doc_example (title, author) {}
  * @param {*} number A basic number
  * @returns The passed number
  */
-function test_example (number) {
+export function test_example (number) {
   return number
 }
 
