@@ -32,11 +32,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final int _counter = 0;
   late Future<About> futureAbout;
 
   Future<About> fetchApi() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:8080/about.json'));
+    final response =
+        await http.get(Uri.parse('http://127.0.0.1:8080/about.json'));
 
     if (response.statusCode == 200) {
       return About.fromJson(jsonDecode(response.body));
@@ -77,7 +77,8 @@ class _MyHomePageState extends State<MyHomePage> {
               future: futureAbout,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Text("${snapshot.data!.client} : ${snapshot.data!.server}");
+                  return Text(
+                      "${snapshot.data!.client} : ${snapshot.data!.server}");
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error}');
                 }
