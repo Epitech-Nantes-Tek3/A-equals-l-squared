@@ -26,6 +26,15 @@ const connection = mysql.createPool({
  */
 function doc_example (title, author) {}
 
+/**
+ * A basic function to demonstrate the test framework.
+ * @param {*} number A basic number
+ * @returns The passed number
+ */
+function test_example (number) {
+  return number
+}
+
 app.use(function (req, res, next) {
   // Allow access request from any computers
   res.header('Access-Control-Allow-Origin', '*')
