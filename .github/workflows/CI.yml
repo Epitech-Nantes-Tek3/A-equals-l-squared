@@ -22,8 +22,10 @@ jobs:
         with:
           node-version: latest
       - name: Install dependencies
+        working-directory: ./server
         run: npm install
       - name: Start unit testing
+        working-directory: ./server
         run: npm test
 
   flutter-format:
