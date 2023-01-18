@@ -7,7 +7,7 @@
     "scripts": {
         "start": "node server_app.js",
         "migration": "dotenv -e database.env -- prisma migrate reset --force && dotenv -e database.env -- npx prisma migrate dev --name init",
-        "test": "mocha --bail tests && echo Success"
+        "test": "mocha --bail --exit tests"
     },
     "dependencies": {
         "@prisma/client": "^4.8.1",
