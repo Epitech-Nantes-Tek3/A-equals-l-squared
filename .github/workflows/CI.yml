@@ -26,10 +26,13 @@ jobs:
         with:
           channel: 'beta'
       - name: dependencies
+        working-directory: ./application/app_code
         run: flutter pub get
       - name: Format check
+        working-directory: ./application/app_code
         run: flutter format --set-exit-if-changed .
       - name: Vulnerabilities analyze
+        working-directory: ./application/app_code
         run: flutter analyze .
 
   dockercompose:
