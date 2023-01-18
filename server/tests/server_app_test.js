@@ -6,6 +6,6 @@ var assert = require('assert')
  */
 describe('Classic templated test', function () {
   it('should return 1', function () {
-    assert.equal(server_app.test_example(1), 0)
+    assert.equal(server_app.test_example(1), 1)
   })
 })
