@@ -34,6 +34,9 @@ jobs:
       - name: Vulnerabilities analyze
         working-directory: ./application/app_code
         run: flutter analyze .
+      - name : Unit testing
+        working-directory: ./application/app_code
+        run: flutter test
 
   dockercompose:
     runs-on: ubuntu-latest
