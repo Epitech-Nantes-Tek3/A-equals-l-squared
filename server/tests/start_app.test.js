@@ -1,4 +1,4 @@
-import * as server_app from '../server_app.js'
+const server_app = require('../server_app')
 
 /**
  * A basic unit test for template.
