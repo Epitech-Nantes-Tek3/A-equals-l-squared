@@ -7,7 +7,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: $${password}
       MYSQL_DATABASE: $${database}
-    restart: always
     volumes:
       - .:/code
     healthcheck:
