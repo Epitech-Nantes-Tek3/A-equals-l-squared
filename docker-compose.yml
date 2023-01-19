@@ -12,9 +12,9 @@ services:
       - .:/code
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u $${user} --password=$${password}
-      interval: 45s
+      interval: 5s
       timeout: 45s
-      retries: 4
+      retries: 8
 
   server:
     build: ./server
@@ -24,7 +24,7 @@ services:
       database:
         condition: service_healthy
     environment:
-      - IS_MIGRATION=false #SET TO true when a migration needed
+      - IS_MIGRATION=true #SET TO true when a migration needed
     volumes:
       - .:/code
     stdin_open: true

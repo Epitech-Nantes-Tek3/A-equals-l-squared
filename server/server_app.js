@@ -1,12 +1,14 @@
 'use strict'
 
 const express = require('express')
-var passport = require('passport')
+const passport = require('passport')
 const database_init = require('./database_init')
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser')
+const auth = require('./passport/local')
+const utils = require('./utils')
 
 const app = express()
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 
 const PORT = 8080
 const HOST = '0.0.0.0'
@@ -71,26 +73,45 @@ app.get('/about.json', (req, res) => {
  * body.email -> User mail
  * body.password -> User password
  */
-app.post('/api/signup', async (req, res) => {
-  try {
-    await database_init.prisma.user.create({
+app.post('/api/signup', (req, res, next) => {
+  passport.authenticate('signup', { session: false }, (err, user, info) => {
+    if (err) throw new Error(err)
+    if (user == false)
+      return res.json(info)
+    const token = utils.generateToken(user.id)
+    return res.status(201).json({
+      status: 'success',
       data: {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
-      }
+        message: 'Account created.',
+        user,
+        token
+      },
+      statusCode: res.statusCode
     })
-    passport.authenticate('local')(req, res, () => {
-      res.statusCode = 200
-      res.setHeader('Content-Type', 'application/json')
-      res.json({ success: true, status: 'Registration Successful!' })
+  })(req, res, next)
+})
+
+/**
+ * Post request to login to the website.
+ * body.email -> User mail
+ * body.password -> User password
+ */
+app.post('/api/login', (req, res, next) => {
+  passport.authenticate('login', { session: false }, (err, user, info) => {
+    if (err) throw new Error(err)
+    if (user == false)
+      return res.json(info)
+    const token = utils.generateToken(user.id)
+    return res.status(201).json({
+      status: 'success',
+      data: {
+        message: 'Welcome back.',
+        user,
+        token
+      },
+      statusCode: res.statusCode
     })
-  } catch (err) {
-    console.log(err)
-    res.statusCode = 500
-    res.setHeader('Content-Type', 'application/json')
-    res.json({ err: err })
-  }
+  })(req, res, next)
 })
 
 /**
