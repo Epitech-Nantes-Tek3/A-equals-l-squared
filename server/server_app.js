@@ -120,7 +120,7 @@ app.post('/api/login', (req, res, next) => {
 app.get(
   '/profile',
   passport.authenticate('jwt', { session: false }),
-  function (req, res) {
+  (req, res) => {
     if (!req.user) return res.json('Invalid token')
     return res.json({ message: 'Welcome friend', user: req.user })
   }

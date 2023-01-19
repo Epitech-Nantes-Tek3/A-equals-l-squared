@@ -15,7 +15,7 @@ const options = {
  * Setup a passport strategy option for Bearer Token
  */
 passport.use(
-  new Strategy(options, async function (jwt_payload, done) {
+  new Strategy(options, async (jwt_payload, done) => {
     try {
       const user = await database.prisma.user.findUnique({
         where: {
