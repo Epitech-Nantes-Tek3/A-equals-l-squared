@@ -1,30 +1,15 @@
 'use strict'
 
 const express = require('express')
-const mysql = require('mysql')
-require('dotenv').config({ path: 'database.env' })
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
+var passport = require('passport')
+const database_init = require('./database_init')
+const bodyParser = require('body-parser');
+
+const app = express()
+app.use(bodyParser.json());
 
 const PORT = 8080
 const HOST = '0.0.0.0'
-
-const app = express()
-
-const connection = mysql.createPool({
-  connectionLimit: 10,
-  host: process.env.host,
-  user: process.env.user,
-  password: process.env.password,
-  database: process.env.database
-})
-
-/**
- * A basic function to demonstrate the Jsdoc functionnality !
- * @param {*} title
- * @param {*} author
- */
-function doc_example (title, author) {}
 
 /**
  * A basic function to demonstrate the test framework.
@@ -35,6 +20,9 @@ function test_example (number) {
   return number
 }
 
+/**
+ * Set the header protocol to authorize Web connection
+ */
 app.use(function (req, res, next) {
   // Allow access request from any computers
   res.header('Access-Control-Allow-Origin', '*')
@@ -51,11 +39,16 @@ app.use(function (req, res, next) {
   }
 })
 
+/**
+ * Welcoming path
+ */
 app.get('/', (req, res) => {
   res.send('Hello World')
 })
 
-// about.json route answering the client IP, the current time and the services data
+/**
+ * Required subject path, send some usefull data about service
+ */
 app.get('/about.json', (req, res) => {
   try {
     const about = {}
@@ -72,87 +65,39 @@ app.get('/about.json', (req, res) => {
   }
 })
 
-/// MySQL request example
-app.get('/database', (req, res) => {
-  connection.query('SELECT * FROM Student', (err, rows) => {
-    if (err) {
-      res.json({
-        success: false,
-        err
-      })
-    } else {
-      res.json({
-        success: true,
-        rows
-      })
-    }
-  })
-})
-
-/// List a data with prisma example
-app.get('/database/get/user', async (req, res) => {
+/**
+ * Post request to signup a new user in the database.
+ * body.name -> User name
+ * body.email -> User mail
+ * body.password -> User password
+ */
+app.post('/api/signup', async (req, res) => {
   try {
-    const allUsers = await prisma.user.findMany({
-      include: {
-        posts: true,
-        profile: true
-      }
-    }) /// GET all the user and her relations
-    res.send(allUsers)
-  } catch (err) {
-    console.log(err)
-    res.status(500).send(err)
-  }
-})
-
-app.get('/database/get/try', async (req, res) => {
-  try {
-    const allUsers = await prisma.try.findMany() /// GET all the user and her relations
-    res.send(allUsers)
-  } catch (err) {
-    console.log(err)
-    res.status(500).send(err)
-  }
-})
-
-/// Create a data with prisma example
-app.get('/database/post/user', async (req, res) => {
-  /// ?name=alice&posts=hey&profile=bio
-  try {
-    await prisma.user.create({
+    await database_init.prisma.user.create({
       data: {
-        name: req.query.name,
-        email: req.query.name + '@prisma.io',
-        posts: {
-          create: { title: req.query.posts }
-        },
-        profile: {
-          create: { bio: req.query.profile }
-        }
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password
       }
     })
-    res.status(200).send('Succesfully added user.')
-  } catch (err) {
-    res.status(500).send(err)
-  }
-})
-
-/// Update a data with Prisma example
-app.get('/database/update/user/name', async (req, res) => {
-  /// ?id=1&name=pierre
-  try {
-    await prisma.user.update({
-      where: { id: Number(req.query.id) },
-      data: { name: req.query.name }
+    passport.authenticate('local')(req, res, () => {
+      res.statusCode = 200
+      res.setHeader('Content-Type', 'application/json')
+      res.json({ success: true, status: 'Registration Successful!' })
     })
-    res.status(200).send('Succesfully updated user.')
   } catch (err) {
-    res.status(500).send(err)
+    console.log(err)
+    res.statusCode = 500
+    res.setHeader('Content-Type', 'application/json')
+    res.json({ err: err })
   }
 })
 
+/**
+ * Start the node.js server at PORT and HOST variable
+ */
 app.listen(PORT, HOST, () => {
-  console.log(`Server running on http://${HOST}:${PORT}`)
+  console.log(`Server running...`)
 })
 
 module.exports = {
