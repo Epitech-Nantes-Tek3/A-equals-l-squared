@@ -14,7 +14,7 @@ const compare = async (hash, pass) => {
 
 const generateToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE
+    expiresIn: parseInt(process.env.JWT_EXPIRE)
   })
 }
 

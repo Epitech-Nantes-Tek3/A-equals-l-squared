@@ -5,6 +5,7 @@ const passport = require('passport')
 const database_init = require('./database_init')
 const bodyParser = require('body-parser')
 const auth = require('./passport/local')
+const auth_token = require('./passport/token')
 const utils = require('./utils')
 
 const app = express()
@@ -76,8 +77,7 @@ app.get('/about.json', (req, res) => {
 app.post('/api/signup', (req, res, next) => {
   passport.authenticate('signup', { session: false }, (err, user, info) => {
     if (err) throw new Error(err)
-    if (user == false)
-      return res.json(info)
+    if (user == false) return res.json(info)
     const token = utils.generateToken(user.id)
     return res.status(201).json({
       status: 'success',
@@ -99,8 +99,7 @@ app.post('/api/signup', (req, res, next) => {
 app.post('/api/login', (req, res, next) => {
   passport.authenticate('login', { session: false }, (err, user, info) => {
     if (err) throw new Error(err)
-    if (user == false)
-      return res.json(info)
+    if (user == false) return res.json(info)
     const token = utils.generateToken(user.id)
     return res.status(201).json({
       status: 'success',
@@ -113,6 +112,19 @@ app.post('/api/login', (req, res, next) => {
     })
   })(req, res, next)
 })
+
+/**
+ * Get request accessing to the user profile.
+ * Need to be authentified with a token.
+ */
+app.get(
+  '/profile',
+  passport.authenticate('jwt', { session: false }),
+  function (req, res) {
+    if (!req.user) return res.json('Invalid token')
+    return res.json({ message: 'Welcome friend', user: req.user })
+  }
+)
 
 /**
  * Start the node.js server at PORT and HOST variable
