@@ -1,136 +1,138 @@
-'use strict';
+'use strict'
 
-const express = require('express');
-const mysql = require("mysql");
-require('dotenv').config({ path: 'database.env' });
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+const express = require('express')
+const passport = require('passport')
+const database_init = require('./database_init')
+const bodyParser = require('body-parser')
+const auth = require('./passport/local')
+const auth_token = require('./passport/token')
+const utils = require('./utils')
 
+const app = express()
+app.use(bodyParser.json())
 
-const PORT = 8080;
-const HOST = '0.0.0.0';
+const PORT = 8080
+const HOST = '0.0.0.0'
 
-const app = express();
+/**
+ * A basic function to demonstrate the test framework.
+ * @param {*} number A basic number
+ * @returns The passed number
+ */
+function test_example (number) {
+  return number
+}
 
-const connection = mysql.createPool({
-  connectionLimit: 10,
-  host: process.env.host,
-  user: process.env.user,
-  password: process.env.password,
-  database: process.env.database,
-});
-
+/**
+ * Set the header protocol to authorize Web connection
+ */
 app.use(function (req, res, next) {
   // Allow access request from any computers
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE,PATCH');
-  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  )
+  res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE,PATCH')
+  res.header('Access-Control-Allow-Credentials', true)
   if ('OPTIONS' == req.method) {
-    res.sendStatus(200);
+    res.sendStatus(200)
   } else {
-    next();
+    next()
   }
-});
+})
 
+/**
+ * Welcoming path
+ */
 app.get('/', (req, res) => {
-  res.send('Hello World');
-});
+  res.send('Hello World')
+})
 
-// about.json route answering the client IP, the current time and the services data
+/**
+ * Required subject path, send some usefull data about service
+ */
 app.get('/about.json', (req, res) => {
   try {
-    const about = {};
+    const about = {}
     about.client = { host: req.ip }
     about.server = {
       current_time: Date.now(),
       services: []
     }
     // TODO fetch the services data from DB with the IP of the client
-    res.json(about);
+    res.json(about)
   } catch (err) {
-    console.log(err);
-    res.status(500).send(err);
+    console.log(err)
+    res.status(500).send(err)
   }
-});
+})
 
-/// MySQL request example
-app.get('/database', (req, res) => {
-  connection.query("SELECT * FROM Student", (err, rows) => {
-    if (err) {
-      res.json({
-        success: false,
-        err,
-      });
-    } else {
-      res.json({
-        success: true,
-        rows,
-      });
-    }
-  });
-});
-
-/// List a data with prisma example
-app.get('/database/get/user', async (req, res) => {
-  try {
-    const allUsers = await prisma.user.findMany({
-      include: {
-        posts: true,
-        profile: true,
-      },
-    }); /// GET all the user and her relations
-    res.send(allUsers);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send(err);
-  }
-});
-
-app.get('/database/get/try', async (req, res) => {
-  try {
-    const allUsers = await prisma.try.findMany(); /// GET all the user and her relations
-    res.send(allUsers);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send(err);
-  }
-});
-
-/// Create a data with prisma example
-app.get('/database/post/user', async (req, res) => { /// ?name=alice&posts=hey&profile=bio
-  try {
-    await prisma.user.create({
+/**
+ * Post request to signup a new user in the database.
+ * body.name -> User name
+ * body.email -> User mail
+ * body.password -> User password
+ */
+app.post('/api/signup', (req, res, next) => {
+  passport.authenticate('signup', { session: false }, (err, user, info) => {
+    if (err) throw new Error(err)
+    if (user == false) return res.json(info)
+    const token = utils.generateToken(user.id)
+    return res.status(201).json({
+      status: 'success',
       data: {
-        name: req.query.name,
-        email: req.query.name + '@prisma.io',
-        posts: {
-          create: { title: req.query.posts },
-        },
-        profile: {
-          create: { bio: req.query.profile },
-        },
+        message: 'Account created.',
+        user,
+        token
       },
-    });
-    res.status(200).send("Succesfully added user.");
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
+      statusCode: res.statusCode
+    })
+  })(req, res, next)
+})
 
-/// Update a data with Prisma example
-app.get('/database/update/user/name', async (req, res) => { /// ?id=1&name=pierre
-  try {
-    await prisma.user.update({
-      where: { id: Number(req.query.id) },
-      data: { name: req.query.name },
-    });
-    res.status(200).send("Succesfully updated user.");
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
+/**
+ * Post request to login to the website.
+ * body.email -> User mail
+ * body.password -> User password
+ */
+app.post('/api/login', (req, res, next) => {
+  passport.authenticate('login', { session: false }, (err, user, info) => {
+    if (err) throw new Error(err)
+    if (user == false) return res.json(info)
+    const token = utils.generateToken(user.id)
+    return res.status(201).json({
+      status: 'success',
+      data: {
+        message: 'Welcome back.',
+        user,
+        token
+      },
+      statusCode: res.statusCode
+    })
+  })(req, res, next)
+})
 
+/**
+ * Get request accessing to the user profile.
+ * Need to be authentified with a token.
+ */
+app.get(
+  '/profile',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    if (!req.user) return res.json('Invalid token')
+    return res.json({ message: 'Welcome friend', user: req.user })
+  }
+)
+
+/**
+ * Start the node.js server at PORT and HOST variable
+ */
 app.listen(PORT, HOST, () => {
-  console.log(`Server running on http://${HOST}:${PORT}`);
-});
+  console.log(`Server running...`)
+})
+
+module.exports = {
+  test_example
+}
