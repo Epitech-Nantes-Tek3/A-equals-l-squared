@@ -10,33 +10,65 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-}
-
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
-}
-
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  id                       String                     @id @unique @default(cuid())
+  username                 String                     @unique
+  email                    String                     @unique
+  password                 String
+  isAdmin                  Boolean                    @default(false)
+  createdAt                DateTime                   @default(now())
+  ActionTriggers           ActionTrigger[]
+  UsersHasActionsReactions UsersHasActionsReactions[]
 }
 
-model Try {
-  id Int @id @default(autoincrement())
-  name String?
+model Service {
+  id          String     @id @unique @default(cuid())
+  name        String     @unique
+  description String?
+  isEnable    Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  Actions     Action[]
+  Reactions   Reaction[]
+}
+
+model Action {
+  id                       String                     @id @unique @default(cuid())
+  name                     String
+  description              String?
+  isEnable                 Boolean                    @default(false)
+  createdAt                DateTime                   @default(now())
+  Service                  Service                    @relation(fields: [serviceId], references: [id])
+  serviceId                String
+  UsersHasActionsReactions UsersHasActionsReactions[]
+}
+
+model Reaction {
+  id                       String                     @id @unique @default(cuid())
+  name                     String
+  description              String?
+  isEnable                 Boolean                    @default(false)
+  createdAt                DateTime                   @default(now())
+  Service                  Service                    @relation(fields: [serviceId], references: [id])
+  serviceId                String
+  UsersHasActionsReactions UsersHasActionsReactions[]
+}
+
+model ActionTrigger {
+  id          String   @id @unique @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  Users       User[]
+}
+
+model UsersHasActionsReactions {
+  id         String   @id @unique @default(cuid())
+  User       User     @relation(fields: [userId], references: [id])
+  Action     Action   @relation(fields: [actionId], references: [id])
+  Reaction   Reaction @relation(fields: [reactionId], references: [id])
+  isEnable   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  userId     String
+  actionId   String
+  reactionId String
 }
