@@ -4,12 +4,18 @@ const passport = require('passport')
 const database = require('../database_init')
 require('dotenv').config({ path: '../database.env' })
 
+/**
+ * Strategy option needed by passport
+ */
 const options = {
   usernameField: 'email',
   passwordField: 'password',
   passReqToCallback: true
 }
 
+/**
+ * Setup a passport strategy option for Signup
+ */
 passport.use(
   'signup',
   new Strategy(options, async (req, email, password, cb) => {
@@ -38,6 +44,10 @@ passport.use(
 )
 
 options.passReqToCallback = false
+
+/**
+ * Setup a passport strategy option for Login
+ */
 passport.use(
   'login',
   new Strategy(options, async (email, password, cb) => {

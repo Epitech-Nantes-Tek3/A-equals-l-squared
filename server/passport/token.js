@@ -3,11 +3,17 @@ const passport = require('passport')
 require('dotenv').config({ path: '../database.env' })
 const database = require('../database_init')
 
+/**
+ * Strategy options needed by passport
+ */
 const options = {
   secretOrKey: process.env.JWT_SECRET,
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
 }
 
+/**
+ * Setup a passport strategy option for Bearer Token
+ */
 passport.use(
   new Strategy(options, async function (jwt_payload, done) {
     try {

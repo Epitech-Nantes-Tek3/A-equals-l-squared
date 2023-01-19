@@ -3,6 +3,9 @@ require('dotenv').config({ path: 'database.env' })
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
+/**
+ * Connect to the MY_SQL database
+ */
 const connection = mysql.createPool({
   connectionLimit: 10,
   host: process.env.host,
