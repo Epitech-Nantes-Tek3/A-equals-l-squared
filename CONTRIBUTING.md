@@ -94,8 +94,6 @@ You should always commit frequently and based on the given exemple.
 
 If possible, please certify your commits (-S).
 
-## Testing Rules
-
 ## Testing Policy
 
 ### Node.JS
