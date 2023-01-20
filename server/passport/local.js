@@ -20,7 +20,7 @@ passport.use(
   'signup',
   new Strategy(options, async (req, email, password, cb) => {
     try {
-      const existsEmail = await database.prisma.user.findFirst({
+      const existsEmail = await database.prisma.User.findFirst({
         where: { email }
       })
       if (existsEmail)
@@ -28,11 +28,12 @@ passport.use(
           message: 'Email already exists.',
           statusCode: 400
         })
-      const user = await database.prisma.user.create({
+      const user = await database.prisma.User.create({
         data: {
-          name: req.body.name,
-          email,
-          password: await hash(password)
+          username: req.body.username,
+          email: email,
+          password: await hash(password),
+          isAdmin: false
         }
       })
       return cb(null, user)
@@ -52,7 +53,7 @@ passport.use(
   'login',
   new Strategy(options, async (email, password, cb) => {
     try {
-      const user = await database.prisma.user.findFirst({ where: { email } })
+      const user = await database.prisma.User.findFirst({ where: { email } })
       if (!user)
         return cb(null, false, {
           message: 'No user found.',

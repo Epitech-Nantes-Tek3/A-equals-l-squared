@@ -17,9 +17,9 @@ const options = {
 passport.use(
   new Strategy(options, async (jwt_payload, done) => {
     try {
-      const user = await database.prisma.user.findUnique({
+      const user = await database.prisma.User.findUnique({
         where: {
-          id: Number(jwt_payload.id)
+          id: jwt_payload.id
         }
       })
       return done(null, user)
