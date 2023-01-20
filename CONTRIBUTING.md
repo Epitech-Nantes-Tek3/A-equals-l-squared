@@ -39,17 +39,29 @@ When first committing on a branch, it is recommended to open a PR draft, so it w
 
 ## Coding Style
 
-For the coding style, there are some rules you need to follow:
+Everybody working on the project with you must be able to understand on what you are working within minutes. </br>
+There are some rules you need to follow:
 
-* Everybody working on the project with you must be able to understand on what you are working within minutes. If you can split a function in two, you must do it !
+### Node.Js Format
 
-* To have the same code format, your code must respect the given Clang format.
+* It is recommended to use a format provided by the `numso.prettier-standard-vscode` extension for VsCode.
+* Remember to disable the default formatter in VS or set the extension's formatter as the default.
+
+### Flutter Format
+
+* Flutter has its own formatting and linting system, so it is recommended to use Android Studio to benefit from this. Use the shortcut `Ctrl + Shift + Alt + L` on Linux and `Ctrl + Alt + L` on Windows to format your code.
+* Be aware that the VCS will also check for warnings in your code, so pay attention to the recommendations of the IDE.
+
+### Workflows
+
+* Currently, there is no VCS checking the format of JS code. It is up to you to maintain good formatting practices.
+* The format and integrity of your Flutter code are currently checked by the VCS. If there is a problem, the workflow will be rejected.
 
 ## Documentation
 
 We are very concerned to documentation, so anything that is not documented will result in the PR being denied. Please check the following rules:
 
-### NodeJS
+### Node.JS
 
 * We use JSDoc 3 for documentation, and in order to allow the proper deployment of the documentation, please respect the JSDoc format. If you have a doubt about the format, you can click [here](https://jsdoc.app/howto-commonjs-modules.html).
 * For automatically generating documentation for your functions, use the `crystal-spider.jsdoc-generator` extension for Visual Studio Code. Simply type `/**` and press enter to generate the documentation pattern.
