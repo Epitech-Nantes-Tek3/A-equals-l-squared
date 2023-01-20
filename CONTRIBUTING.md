@@ -155,7 +155,7 @@ For the reviewers, prioritize the people who can really help you with your work.
 
 A reviewer must read, understand and test
 
-You must have at least 2 reviewers who approve your pull request.
+You must have at least 2 reviewers who approve your pull request, including the product owner @ZQUEMA.
 
 Try not to exceed 24 hours before reading your PRs.
 
