@@ -44,7 +44,9 @@ The purpose of the application is to interconnect different services (Outlook 36
 
 ## **Documentation**
 
-The documentation of the code is not available for the moment. It will be added later.
+For now, you can find some of the documentation on our [GitHubPage](https://epitech-nantes-tek3.github.io/A-equals-l-squared/index.html). It only includes the documentation of the Node.JS part
+
+The rest will be available soon.
 
 ## **Thank for reading**
 
