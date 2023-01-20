@@ -92,23 +92,30 @@ It may be all about the issue, but often you have unexpected fixes.
 It must follow the following template :
 
 ```md
-# Purpose:
+# Purpose
+
 The purpose of this pull request is to add the service John.
 
-## Added features:
-- This service has been added to the application. It's include:
-    - A action which is used to ...
-    - A reaction which does this ...
+Fixes # (issue)
 
-## Updated features:
-- This part has been changed because the new feature needed to be implemented this way.
+## Added features
 
-## Fixed features:
-- This features has been fixed.
-- This one too.
+* This service has been added to the application. It's include:
+  * A action which is used to ...
+  * A reaction which does this ...
 
-## Removed features:
-- This features has been removed because it was unnecessary.
+## Updated features
+
+* This part has been changed because the new feature needed to be implemented this way.
+
+## Fixed feature
+
+* This features has been fixed.
+* This one too.
+
+## Removed features
+
+* This features has been removed because it was unnecessary.
 ```
 
 Of course, if a section is empty, it can be removed from the description.
