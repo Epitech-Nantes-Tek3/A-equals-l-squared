@@ -70,7 +70,7 @@ app.get('/about.json', (req, res) => {
 
 /**
  * Post request to signup a new user in the database.
- * body.name -> User name
+ * body.username -> User name
  * body.email -> User mail
  * body.password -> User password
  */
