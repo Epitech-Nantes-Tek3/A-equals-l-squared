@@ -3,7 +3,7 @@
 The rules to contribute to the AREA project are described below.
 Please follow the indicated rules to contribute in the most efficient way !
 
-## Issue Rules
+## Issues
 
 When creating an issue, choose an available template and follow the given format :
 
@@ -22,7 +22,7 @@ When creating an issue, choose an available template and follow the given format
 
 * If needed, specify a due date.
 
-## Branch Rules
+## Branchs
 
 The branch name should consider the issue title and the issue number in its name. The issue's number must come first.
 
@@ -45,14 +45,24 @@ For the coding style, there are some rules you need to follow:
 
 * To have the same code format, your code must respect the given Clang format.
 
-## Documentation Rules
+## Documentation
 
-For the Node.js part, we use JSDoc 3 for documentation, and in order to allow the proper deployment of the documentation, please respect the JSDoc format. <br>
-If you have a doubt about the format, you can click [here](https://jsdoc.app/howto-commonjs-modules.html).
+We are very concerned to documentation, so anything that is not documented will result in the PR being denied. Please check the following rules:
 
-For the Flutter part, precisions will be added later.
+### NodeJS
 
-Any undocumented elements will lead to the refusal of the PR.
+* We use JSDoc 3 for documentation, and in order to allow the proper deployment of the documentation, please respect the JSDoc format. If you have a doubt about the format, you can click [here](https://jsdoc.app/howto-commonjs-modules.html).
+* For automatically generating documentation for your functions, use the `crystal-spider.jsdoc-generator` extension for Visual Studio Code. Simply type `/**` and press enter to generate the documentation pattern.
+* An example of documentation can be found in the `server_app.js` file for the `doc_example` function.
+
+### Flutter
+
+* Unfortunately, Flutter documentation is not currently available in GitHub actions. However, you can use the `flutter_documentation.sh` script to generate and publish documentation on your localhost at port 8080. Be aware that if your `docker-compose up` command is still running, there may be a conflict with ports.
+* For Flutter documentation, you can use any format, as it is automated. However, try to follow best practices as outlined in the [Dart documentation](https://dart.dev/guides/language/effective-dart/documentation).
+
+### Workflow
+
+* A workflow that deploys documentation to GhPage is run on every `main` modification. You can find the documentation [here](https://epitech-nantes-tek3.github.io/A-equals-l-squared/).
 
 ## Committing Rules
 
@@ -80,7 +90,7 @@ When something can be verified by a test, we will be looking for tests in your P
 
 The lack of test in your code can be one of the reasons of refusing a PR.
 
-## Pull Request Rules
+## Pull Request
 
 ### The author
 
