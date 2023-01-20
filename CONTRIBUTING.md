@@ -42,17 +42,17 @@ When first committing on a branch, it is recommended to open a PR draft, so it w
 Everybody working on the project with you must be able to understand on what you are working within minutes. </br>
 There are some rules you need to follow:
 
-### Node.Js Format
+### Node.JS
 
 * It is recommended to use a format provided by the `numso.prettier-standard-vscode` extension for VsCode.
-* Remember to disable the default formatter in VS or set the extension's formatter as the default.
+* Remember to disable the default formatter in VsCode or set the extension's formatter as the default.
 
-### Flutter Format
+### Flutter
 
 * Flutter has its own formatting and linting system, so it is recommended to use Android Studio to benefit from this. Use the shortcut `Ctrl + Shift + Alt + L` on Linux and `Ctrl + Alt + L` on Windows to format your code.
 * Be aware that the VCS will also check for warnings in your code, so pay attention to the recommendations of the IDE.
 
-### Workflows
+### VCS Workflows
 
 * Currently, there is no VCS checking the format of JS code. It is up to you to maintain good formatting practices.
 * The format and integrity of your Flutter code are currently checked by the VCS. If there is a problem, the workflow will be rejected.
@@ -64,15 +64,15 @@ We are very concerned to documentation, so anything that is not documented will 
 ### Node.JS
 
 * We use JSDoc 3 for documentation, and in order to allow the proper deployment of the documentation, please respect the JSDoc format. If you have a doubt about the format, you can click [here](https://jsdoc.app/howto-commonjs-modules.html).
-* For automatically generating documentation for your functions, use the `crystal-spider.jsdoc-generator` extension for Visual Studio Code. Simply type `/**` and press enter to generate the documentation pattern.
+* For automatically generating documentation for your functions, use the `crystal-spider.jsdoc-generator` extension for VsCode. Simply type `/**` and press enter to generate the documentation pattern.
 * An example of documentation can be found in the `server_app.js` file for the `doc_example` function.
 
 ### Flutter
 
-* Unfortunately, Flutter documentation is not currently available in GitHub actions. However, you can use the `flutter_documentation.sh` script to generate and publish documentation on your localhost at port 8080. Be aware that if your `docker-compose up` command is still running, there may be a conflict with ports.
+* Unfortunately, Flutter documentation is not currently available in GitHub actions. However, you can use the `flutter_documentation.sh` script to generate and publish documentation on your localhost at port 8080. Be aware that if your project is still running, there may be a conflict with ports.
 * For Flutter documentation, you can use any format, as it is automated. However, try to follow best practices as outlined in the [Dart documentation](https://dart.dev/guides/language/effective-dart/documentation).
 
-### Workflow
+### VCS Workflow
 
 * A workflow that deploys documentation to GhPage is run on every `main` modification. You can find the documentation [here](https://epitech-nantes-tek3.github.io/A-equals-l-squared/).
 
@@ -96,10 +96,26 @@ If possible, please certify your commits (-S).
 
 ## Testing Rules
 
-**This part will be completed later when the tests will be set up.**
+## Testing Policy
 
-When something can be verified by a test, we will be looking for tests in your PR.
+### Node.JS
 
+* The directory `server/tests/` is available for your unit tests with NodeJS. We use the Mocha plugin and everything is automatically managed.
+* You can run the tests locally by running the following commands: `npm install` and `npm test`. A template is available in the file `server/tests/server_app_test.js`.
+
+### Flutter
+
+* The directory `application/app_code/test/` is available for your unit and functional tests with Flutter. *As this technology is the best on the market,* you can do integration tests by interacting with widgets (clicking a button, typing text, etc.).
+* For each different feature, remember to create a new file in the directory `application/app_code/test/` and use the template provided in the file `application/app_code/test/widget_test.dart`.
+* Be sure to add your test function in the main...
+
+### VCS Workflow
+
+* Flutter and NodeJS are now checked by the VCS. Be sure to properly format your test scripts.
+
+### Warnings
+
+When something can be verified by a test, we will be looking for tests in your PR. </br>
 The lack of test in your code can be one of the reasons of refusing a PR.
 
 ## Pull Request
