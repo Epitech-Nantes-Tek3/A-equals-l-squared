@@ -1,30 +1,38 @@
-name: GitHub pages
+name: Deploy Docs
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches:
+      - main
 
 env:
   BUILD_TYPE: Release
+  WORKING_DIR: server
 
 jobs:
-  deploy:
+  deploy-docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Js documentation
-        uses: andstor/jsdoc-action@v1
-        with:
-          source_dir: ./server
-          output_dir: ./out
-          template: minami
-          front_page: README.md
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./out
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Install dependencies
+      run: npm install
+      working-directory: ${{ env.WORKING_DIR }}
+    - name: Install prisma-docs-generator
+      run: npm install prisma-docs-generator
+      working-directory: ${{ env.WORKING_DIR }}
+    - name: Generate Prisma docs
+      run: npx prisma generate
+      working-directory: ${{ env.WORKING_DIR }}
+    - name: Js documentation
+      uses: andstor/jsdoc-action@v1
+      with:
+        source_dir: ./server
+        output_dir: ./server/docs/js
+        template: minami
+        front_page: README.md
+    - name: Deploy docs
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        publish_dir: ./server/docs
