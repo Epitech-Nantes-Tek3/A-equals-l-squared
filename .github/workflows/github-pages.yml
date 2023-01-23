@@ -7,7 +7,7 @@ on:
 
 env:
   BUILD_TYPE: Release
-  WORKING_DIR: server
+  WORKING_DIR: ./server
 
 jobs:
   deploy-docs:
@@ -24,6 +24,7 @@ jobs:
     - name: Generate Prisma docs
       run: npx prisma generate
       working-directory: ${{ env.WORKING_DIR }}
+
     - name: Js documentation
       uses: andstor/jsdoc-action@v1
       with:
@@ -31,6 +32,7 @@ jobs:
         output_dir: ./server/docs/js
         template: minami
         front_page: README.md
+
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
       with:
