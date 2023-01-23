@@ -2,7 +2,8 @@ name: Deploy Docs
 
 on:
   push:
-    branches: [main, 30*]
+    branches:
+      - main
 
 env:
   BUILD_TYPE: Release
