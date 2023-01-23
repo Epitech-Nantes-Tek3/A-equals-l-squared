@@ -83,7 +83,6 @@ app.get('/about.json', async (req, res) => {
         }
       })
     )
-    // TODO fetch the services data from DB with the IP of the client
     res.json(about)
   } catch (err) {
     console.log(err)
