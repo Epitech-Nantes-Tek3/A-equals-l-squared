@@ -5,6 +5,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
+
+generator docs {
+  provider = "node node_modules/prisma-docs-generator"
+  output = "../docs/prisma"
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
