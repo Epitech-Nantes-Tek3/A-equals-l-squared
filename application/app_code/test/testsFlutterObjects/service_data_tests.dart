@@ -1,4 +1,4 @@
-import 'package:application/flutter_objects/service.dart';
+import 'package:application/flutter_objects/serviceData.dart';
 import 'package:application/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -32,10 +32,10 @@ void templateFunction() {
       "statusCode": 201
     };
 
-    /// Create a Service Object with this json
-    Service service = Service.fromJson(json);
+    /// Create a ServiceData Object with this json
+    ServiceData service = ServiceData.fromJson(json);
 
-    /// Test all data of the Service Class
+    /// Test all data of the ServiceData Class
     expect(service.name, "paupaul");
     expect(service.description, "beurk");
     expect(service.createdAt, "2023-01-24T08:53:04.687Z");
