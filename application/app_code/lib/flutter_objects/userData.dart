@@ -1,14 +1,14 @@
-/// This class is the User class.
-/// It contains all information about a User
-class User {
+/// This class is the UserData class.
+/// It contains all information about a UserData
+class UserData {
   final String userName;
   final String token;
   final bool isAdmin;
   final String email;
   final DateTime createdAt;
 
-  /// Constructor of the User class
-  const User({
+  /// Constructor of the UserData class
+  const UserData({
     required this.userName,
     required this.email,
     required this.token,
@@ -17,8 +17,8 @@ class User {
   });
 
   /// Convert a json map into the class
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory UserData.fromJson(Map<String, dynamic> json) {
+    return UserData(
         userName: json['user']['username'],
         email: json['user']['email'],
         isAdmin: json['user']['isAdmin'],
