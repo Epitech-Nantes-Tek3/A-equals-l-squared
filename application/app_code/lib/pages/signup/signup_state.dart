@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../network/informations.dart';
 import '../login/login_functional.dart';
 import 'signup_page.dart';
 
@@ -18,6 +19,7 @@ class SignupPageState extends State<SignupPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           const Text('Welcome to Signup page !'),
+          getHostConfigField(),
           TextFormField(
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
@@ -29,7 +31,7 @@ class SignupPageState extends State<SignupPage> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (String? value) {
               return (value != null && value.length <= 4)
-                  ? 'Username must be min 4 characters long.'
+                  ? 'Username must be min 5 characters long.'
                   : null;
             },
           ),
@@ -44,8 +46,8 @@ class SignupPageState extends State<SignupPage> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (String? value) {
               return (value != null &&
-                      value.length <= 5 &&
-                      !value.contains('@'))
+                      !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value))
                   ? 'Must be a valid email.'
                   : null;
             },
@@ -62,7 +64,7 @@ class SignupPageState extends State<SignupPage> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (String? value) {
               return (value != null && value.length <= 4)
-                  ? 'Password must be min 4 characters long.'
+                  ? 'Password must be min 5 characters long.'
                   : null;
             },
           ),
