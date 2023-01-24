@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../home/home_functional.dart';
+import '../signup/signup_functional.dart';
 import 'login_page.dart';
 
 class LoginPageState extends State<LoginPage> {
@@ -18,6 +19,13 @@ class LoginPageState extends State<LoginPage> {
               goToHomePage(context);
             },
             child: const Text('Go to the home screen'),
+          ),
+          ElevatedButton(
+            key: const Key('GoSignupButton'),
+            onPressed: () {
+              goToSignupPage(context);
+            },
+            child: const Text('No account ? Go to Signup'),
           ),
         ],
       ),
