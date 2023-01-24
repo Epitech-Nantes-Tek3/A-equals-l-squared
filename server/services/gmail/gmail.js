@@ -1,7 +1,6 @@
 FROM_EMAIL = 'aequallsquared@gmail.com'
 
 const {google} = require('googleapis');
-const credentials = require('../../credentials/credentials.json');
 
 async function sendEmail(to, subject, body) {
   const auth = new google.auth.OAuth2(process.env.GMAIL_CLIENT_ID, process.env.GMAIL_CLIENT_SECRET);
