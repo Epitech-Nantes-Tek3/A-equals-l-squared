@@ -1,4 +1,4 @@
-import 'package:application/flutter_objects/user.dart';
+import 'package:application/flutter_objects/userData.dart';
 import 'package:application/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -32,10 +32,10 @@ void templateFunction() {
       "statusCode": 201
     };
 
-    /// Create a User Object with this json
-    User user = User.fromJson(json);
+    /// Create a UserData Object with this json
+    UserData user = UserData.fromJson(json);
 
-    /// Test all data of the User Class
+    /// Test all data of the UserData Class
     expect(user.userName, "paupaul");
     expect(user.email, "paupaul@epitech.eu");
     expect(user.isAdmin, false);
