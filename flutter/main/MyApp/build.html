@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the build method from the MyApp extension, for the Dart programming language.">
-  <title>build method - MyApp extension - main library - Dart API</title>
+  <meta name="description" content="API docs for the build method from the MyApp class, for the Dart programming language.">
+  <title>build method - MyApp class - main library - Dart API</title>
 
 
   
@@ -56,11 +56,11 @@
 
     <section class="multi-line-signature">
       
-<div>
-  <ol class="annotation-list">
-    <li>@<a href="https://api.flutter.dev/flutter/dart-core/override-constant.html">override</a></li>
-  </ol>
-</div>
+  <div>
+    <ol class="annotation-list">
+        <li>@<a href="https://api.flutter.dev/flutter/dart-core/override-constant.html">override</a></li>
+    </ol>
+  </div>
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
 <span class="name ">build</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="build-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span></li>
@@ -112,12 +112,14 @@ and</li>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
-  return MaterialApp(
-    title: &#39;Flutter Demo&#39;,
+  return MaterialApp.router(
+    title: &#39;A = L²&#39;,
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: const MyHomePage(title: &#39;Flutter Demo Home Page&#39;),
+    routeInformationProvider: router.routeInformationProvider,
+    routeInformationParser: router.routeInformationParser,
+    routerDelegate: router.routerDelegate,
   );
 }</code></pre>
 </section>
