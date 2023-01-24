@@ -13,6 +13,7 @@ class LoginPageState extends State<LoginPage> {
         children: <Widget>[
           const Text('Login page !'),
           ElevatedButton(
+            key: const Key('GoHomeButton'),
             onPressed: () {
               goToHomePage(context);
             },
