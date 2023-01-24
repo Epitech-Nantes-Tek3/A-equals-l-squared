@@ -17,10 +17,9 @@ class Action {
   /// Convert a json map into the class
   factory Action.fromJson(Map<String, dynamic> json) {
     return Action(
-      name: json['action']['name'],
-      description: json['action']['description'],
-      createdAt: json["action"]["createdAt"],
-      isEnable: json["action"]["isEnable"]
-    );
+        name: json['action']['name'],
+        description: json['action']['description'],
+        createdAt: json["action"]["createdAt"],
+        isEnable: json["action"]["isEnable"]);
   }
 }

@@ -15,9 +15,9 @@ class Service {
   /// Convert a json map into the class
   factory Service.fromJson(Map<String, dynamic> json) {
     return Service(
-        name: json['service']['name'],
-        description: json['service']['description'],
-        createdAt: json["service"]["createdAt"],
+      name: json['service']['name'],
+      description: json['service']['description'],
+      createdAt: json["service"]["createdAt"],
     );
   }
 }

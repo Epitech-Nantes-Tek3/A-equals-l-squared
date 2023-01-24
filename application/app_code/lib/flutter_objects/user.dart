@@ -19,11 +19,10 @@ class User {
   /// Convert a json map into the class
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      userName: json['user']['username'],
-      email: json['user']['email'],
-      isAdmin: json['user']['isAdmin'],
-      createdAt: json["user"]["createdAt"],
-      token: json["token"]
-    );
+        userName: json['user']['username'],
+        email: json['user']['email'],
+        isAdmin: json['user']['isAdmin'],
+        createdAt: json["user"]["createdAt"],
+        token: json["token"]);
   }
 }
