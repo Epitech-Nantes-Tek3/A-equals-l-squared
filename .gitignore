@@ -89,3 +89,9 @@ lint/tmp/
 
 # python
 __py*
+
+# node
+node_modules/
+
+# package-lock.json
+package-lock.json
