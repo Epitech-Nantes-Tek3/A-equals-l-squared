@@ -1,15 +1,54 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import '../../network/informations.dart';
 import '../login/login_functional.dart';
 import 'signup_page.dart';
 
 class SignupPageState extends State<SignupPage> {
-  late String username;
+  String? username;
 
-  late String email;
+  String? email;
 
-  late String password;
+  String? password;
+
+  late Future<String> futureSignup;
+
+  Future<String> apiAskForSignup() async {
+    if (username == null || email == null || password == null) {
+      return 'Please fill all the field !';
+    }
+    print('http://$serverIp:8080/api/signup');
+    final response = await http.post(
+      Uri.parse('http://$serverIp:8080/api/signup'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'username': username!,
+        'email': email!,
+        'password': password!
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      return 'Signup succeed ! Check your email and go to Login page';
+    } else {
+      return 'Invalid e-mail address !';
+    }
+  }
+
+  Future<String> getAFirstSignupAnswer() async {
+    return '';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    futureSignup = getAFirstSignupAnswer();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +64,13 @@ class SignupPageState extends State<SignupPage> {
               border: OutlineInputBorder(),
               labelText: 'Username',
             ),
-            onSaved: (String? value) {
-              username = value!;
-            },
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (String? value) {
-              return (value != null && value.length <= 4)
-                  ? 'Username must be min 5 characters long.'
-                  : null;
+              if (value != null && value.length <= 4) {
+                return 'Username must be min 5 characters long.';
+              }
+              username = value;
+              return null;
             },
           ),
           TextFormField(
@@ -40,16 +78,15 @@ class SignupPageState extends State<SignupPage> {
               border: OutlineInputBorder(),
               labelText: 'E-mail',
             ),
-            onSaved: (String? value) {
-              email = value!;
-            },
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (String? value) {
-              return (value != null &&
-                      !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value))
-                  ? 'Must be a valid email.'
-                  : null;
+              if (value != null &&
+                  !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value)) {
+                return 'Must be a valid email.';
+              }
+              email = value;
+              return null;
             },
           ),
           TextFormField(
@@ -58,15 +95,34 @@ class SignupPageState extends State<SignupPage> {
               border: OutlineInputBorder(),
               labelText: 'Password',
             ),
-            onSaved: (String? value) {
-              password = value!;
-            },
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (String? value) {
-              return (value != null && value.length <= 4)
-                  ? 'Password must be min 5 characters long.'
-                  : null;
+              if (value != null && value.length <= 4) {
+                return 'Password must be min 5 characters long.';
+              }
+              password = value;
+              return null;
             },
+          ),
+          FutureBuilder<String>(
+            future: futureSignup,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data!);
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+              return const CircularProgressIndicator();
+            },
+          ),
+          ElevatedButton(
+            key: const Key('SendSignupButton'),
+            onPressed: () {
+              setState(() {
+                futureSignup = apiAskForSignup();
+              });
+            },
+            child: const Text('Ask for Signup.'),
           ),
           ElevatedButton(
             key: const Key('GoLoginButton'),

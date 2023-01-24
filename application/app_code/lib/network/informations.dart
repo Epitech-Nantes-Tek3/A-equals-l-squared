@@ -9,13 +9,12 @@ Widget getHostConfigField() {
         labelText: 'Server IP address',
       ),
       initialValue: serverIp,
-      onSaved: (String? value) {
-        serverIp = value!;
-      },
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (String? value) {
-        return (value != null && value.length <= 6 && !value.contains('.'))
-            ? 'Must be a valid ip address.'
-            : null;
+        if (value != null && value.length <= 6 && !value.contains('.')) {
+          return 'Must be a valid ip address.';
+        }
+        serverIp = value!;
+        return null;
       });
 }
