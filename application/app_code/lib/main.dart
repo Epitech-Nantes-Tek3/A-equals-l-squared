@@ -1,4 +1,4 @@
-import 'package:application/pages/login/login_page.dart';
+import 'package:application/router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,12 +10,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'A = L²',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      routeInformationProvider: router.routeInformationProvider,
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
     );
   }
 }

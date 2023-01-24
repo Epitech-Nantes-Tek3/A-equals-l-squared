@@ -1,9 +1,9 @@
+import 'package:application/pages/login/login_functional.dart';
 import 'package:flutter/material.dart';
 
-import '../home/home_functional.dart';
-import 'login_page.dart';
+import 'home_page.dart';
 
-class LoginPageState extends State<LoginPage> {
+class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,12 +11,12 @@ class LoginPageState extends State<LoginPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const Text('Login page !'),
+          const Text('Home page !'),
           ElevatedButton(
             onPressed: () {
-              goToHomePage(context);
+              goToLoginPage(context);
             },
-            child: const Text('Go to the home screen'),
+            child: const Text('Go to the login screen'),
           ),
         ],
       ),
