@@ -1,4 +1,4 @@
-import 'package:application/flutter_objects/errorData.dart';
+import 'package:application/flutter_objects/errordata.dart';
 import 'package:application/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
