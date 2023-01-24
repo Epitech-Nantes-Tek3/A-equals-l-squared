@@ -1,4 +1,4 @@
-import 'package:application/flutter_objects/reactiondata.dart';
+import 'package:application/flutter_objects/reaction_data.dart';
 import 'package:application/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
