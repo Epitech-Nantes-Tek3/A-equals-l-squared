@@ -11,13 +11,34 @@ class SignupPageState extends State<SignupPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const Text('Signup page !'),
+          const Text('Welcome to Signup page !'),
+          const TextField(
+            obscureText: false,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Username',
+            ),
+          ),
+          const TextField(
+            obscureText: false,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'E-mail',
+            ),
+          ),
+          const TextField(
+            obscureText: true,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Password',
+            ),
+          ),
           ElevatedButton(
             key: const Key('GoLoginButton'),
             onPressed: () {
               goToLoginPage(context);
             },
-            child: const Text('Go to the Login screen'),
+            child: const Text('Back to login screen...'),
           ),
         ],
       ),
