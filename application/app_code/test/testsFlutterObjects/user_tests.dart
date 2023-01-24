@@ -13,6 +13,8 @@ void templateFunction() {
         findsOneWidget);
 
     /// Find a text containing this
+
+    /// Load a json
     Map<String, dynamic> json = {
       "status": "success",
       "data": {
@@ -29,7 +31,11 @@ void templateFunction() {
       },
       "statusCode": 201
     };
+
+    /// Create a User Object with this json
     User user = User.fromJson(json);
+
+    /// Test all data of the User Class
     expect(user.userName, "paupaul");
     expect(user.email, "paupaul@epitech.eu");
     expect(user.isAdmin, false);
