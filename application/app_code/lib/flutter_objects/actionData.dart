@@ -1,13 +1,13 @@
 /// This class is the action class.
 /// It contains all information about a action
-class Action {
+class ActionData {
   final String name;
   final String description;
   final DateTime createdAt;
   final bool isEnable;
 
   /// Constructor of the action class
-  const Action({
+  const ActionData({
     required this.name,
     required this.description,
     required this.createdAt,
@@ -15,8 +15,8 @@ class Action {
   });
 
   /// Convert a json map into the class
-  factory Action.fromJson(Map<String, dynamic> json) {
-    return Action(
+  factory ActionData.fromJson(Map<String, dynamic> json) {
+    return ActionData(
         name: json['action']['name'],
         description: json['action']['description'],
         createdAt: json["action"]["createdAt"],
