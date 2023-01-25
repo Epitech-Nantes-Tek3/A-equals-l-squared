@@ -102,8 +102,8 @@ class SignupPageState extends State<SignupPage> {
             ),
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (String? value) {
-              if (value != null && value.length <= 4) {
-                return 'Password must be min 5 characters long.';
+              if (value != null && value.length <= 7) {
+                return 'Password must be min 8 characters long.';
               }
               _password = value;
               return null;

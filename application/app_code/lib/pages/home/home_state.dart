@@ -1,3 +1,4 @@
+import 'package:application/network/informations.dart';
 import 'package:flutter/material.dart';
 
 import '../login/login_functional.dart';
@@ -28,6 +29,7 @@ class HomePageState extends State<HomePage> {
               },
               child: const Text('Logout'),
             ),
+            getHostConfigField()
           ],
         ),
       ));
