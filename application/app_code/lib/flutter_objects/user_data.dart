@@ -18,11 +18,18 @@ class UserData {
 
   /// Convert a json map into the class
   factory UserData.fromJson(Map<String, dynamic> json) {
+    late bool isToken;
+    try {
+      json['token'];
+      isToken = true;
+    } catch (err) {
+      isToken = false;
+    }
     return UserData(
         userName: json['user']['username'],
         email: json['user']['email'],
         isAdmin: json['user']['isAdmin'],
         createdAt: json['user']['createdAt'],
-        token: json['token']);
+        token: (isToken ? json['token'] : null));
   }
 }
