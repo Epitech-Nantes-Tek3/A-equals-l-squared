@@ -42,7 +42,11 @@ class LoginPageState extends State<LoginPage> {
         return 'Invalid token... Please retry';
       }
     } else {
-      return 'Invalid credentials.';
+      try {
+        return jsonDecode(response.body)['message'];
+      } catch (err) {
+        return 'Invalid credentials.';
+      }
     }
   }
 
