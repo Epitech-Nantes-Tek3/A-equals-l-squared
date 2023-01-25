@@ -13,7 +13,7 @@ function sendMessageChannel (channelID, message) {
     .fetch(channelID)
     .then(channel => {
       channel.send(message)
-      console.log('Message sent successfully')
+      console.log('Message in channel sent successfully')
       return true
     })
     .catch(err => {
