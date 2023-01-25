@@ -110,7 +110,9 @@ app.post('/api/signup', (req, res, next) => {
       'Email Verification',
       'Thank you for you registration to our service !\nPlease go to the following link to confirm your mail : http://localhost:8080/api/mail/verification?token=' +
         token
-    )
+    ).catch((_error) => {
+      return res.status(401).send('Invalid e-mail address.')
+    })
     return res.status(201).json({
       status: 'success',
       data: {
