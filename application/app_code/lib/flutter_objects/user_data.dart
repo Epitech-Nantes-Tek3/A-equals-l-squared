@@ -1,17 +1,17 @@
 /// This class is the UserData class.
-/// It contains all information about a UserData
+/// It contains all information about an UserData
 class UserData {
-  final String userName;
-  final String token;
-  final bool isAdmin;
-  final String email;
-  final DateTime createdAt;
+  String userName;
+  String? token;
+  bool isAdmin;
+  String email;
+  DateTime createdAt;
 
   /// Constructor of the UserData class
-  const UserData({
+  UserData({
     required this.userName,
     required this.email,
-    required this.token,
+    this.token,
     required this.isAdmin,
     required this.createdAt,
   });
@@ -22,7 +22,7 @@ class UserData {
         userName: json['user']['username'],
         email: json['user']['email'],
         isAdmin: json['user']['isAdmin'],
-        createdAt: json["user"]["createdAt"],
-        token: json["token"]);
+        createdAt: json['user']['createdAt'],
+        token: json['token']);
   }
 }
