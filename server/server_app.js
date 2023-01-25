@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const auth = require('./passport/local')
 const auth_token = require('./passport/token')
 const utils = require('./utils')
+const gmail = require('./services/gmail/reactions/send_email')
 
 const app = express()
 app.use(bodyParser.json())
@@ -101,6 +102,12 @@ app.post('/api/signup', (req, res, next) => {
     if (err) throw new Error(err)
     if (user == false) return res.json(info)
     const token = utils.generateToken(user.id)
+    gmail.sendEmail(
+      user.email,
+      'Email Verification',
+      'Thank you for you registration to our service !\nPlease go to the following link to confirm your mail : http://localhost:8080/api/mail/verification?token=' +
+        token
+    )
     return res.status(201).json({
       status: 'success',
       data: {
