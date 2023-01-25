@@ -10,14 +10,14 @@ import 'login_functional.dart';
 import 'login_page.dart';
 
 class LoginPageState extends State<LoginPage> {
-  String? email;
+  String? _email;
 
-  String? password;
+  String? _password;
 
-  late Future<String> futureLogin;
+  late Future<String> _futureLogin;
 
   Future<String> apiAskForLogin() async {
-    if (email == null || password == null) {
+    if (_email == null || _password == null) {
       return 'Please fill all the field !';
     }
     var response = await http.post(
@@ -25,8 +25,8 @@ class LoginPageState extends State<LoginPage> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body:
-          jsonEncode(<String, String>{'email': email!, 'password': password!}),
+      body: jsonEncode(
+          <String, String>{'email': _email!, 'password': _password!}),
     );
 
     if (response.statusCode == 201) {
@@ -49,7 +49,7 @@ class LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    futureLogin = getAFirstLoginAnswer();
+    _futureLogin = getAFirstLoginAnswer();
   }
 
   @override
@@ -57,7 +57,7 @@ class LoginPageState extends State<LoginPage> {
     return Scaffold(
         body: Center(
       child: FutureBuilder<String>(
-        future: futureLogin,
+        future: _futureLogin,
         builder: (context, snapshot) {
           if (snapshot.hasData || snapshot.hasError) {
             if (isAuth) {
@@ -80,7 +80,7 @@ class LoginPageState extends State<LoginPage> {
                             .hasMatch(value)) {
                       return 'Must be a valid email.';
                     }
-                    email = value;
+                    _email = value;
                     return null;
                   },
                 ),
@@ -95,7 +95,7 @@ class LoginPageState extends State<LoginPage> {
                     if (value != null && value.length <= 4) {
                       return 'Password must be min 5 characters long.';
                     }
-                    password = value;
+                    _password = value;
                     return null;
                   },
                 ),
@@ -107,7 +107,7 @@ class LoginPageState extends State<LoginPage> {
                   key: const Key('SendLoginButton'),
                   onPressed: () {
                     setState(() {
-                      futureLogin = apiAskForLogin();
+                      _futureLogin = apiAskForLogin();
                     });
                   },
                   child: const Text('Login'),

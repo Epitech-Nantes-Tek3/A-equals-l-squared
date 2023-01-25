@@ -8,16 +8,16 @@ import '../login/login_functional.dart';
 import 'signup_page.dart';
 
 class SignupPageState extends State<SignupPage> {
-  String? username;
+  String? _username;
 
-  String? email;
+  String? _email;
 
-  String? password;
+  String? _password;
 
-  late Future<String> futureSignup;
+  late Future<String> _futureSignup;
 
   Future<String> apiAskForSignup() async {
-    if (username == null || email == null || password == null) {
+    if (_username == null || _email == null || _password == null) {
       return 'Please fill all the field !';
     }
     final response = await http.post(
@@ -26,9 +26,9 @@ class SignupPageState extends State<SignupPage> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'username': username!,
-        'email': email!,
-        'password': password!
+        'username': _username!,
+        'email': _email!,
+        'password': _password!
       }),
     );
 
@@ -46,7 +46,7 @@ class SignupPageState extends State<SignupPage> {
   @override
   void initState() {
     super.initState();
-    futureSignup = getAFirstSignupAnswer();
+    _futureSignup = getAFirstSignupAnswer();
   }
 
   @override
@@ -68,7 +68,7 @@ class SignupPageState extends State<SignupPage> {
               if (value != null && value.length <= 4) {
                 return 'Username must be min 5 characters long.';
               }
-              username = value;
+              _username = value;
               return null;
             },
           ),
@@ -84,7 +84,7 @@ class SignupPageState extends State<SignupPage> {
                       .hasMatch(value)) {
                 return 'Must be a valid email.';
               }
-              email = value;
+              _email = value;
               return null;
             },
           ),
@@ -99,12 +99,12 @@ class SignupPageState extends State<SignupPage> {
               if (value != null && value.length <= 4) {
                 return 'Password must be min 5 characters long.';
               }
-              password = value;
+              _password = value;
               return null;
             },
           ),
           FutureBuilder<String>(
-            future: futureSignup,
+            future: _futureSignup,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Text(snapshot.data!);
@@ -118,7 +118,7 @@ class SignupPageState extends State<SignupPage> {
             key: const Key('SendSignupButton'),
             onPressed: () {
               setState(() {
-                futureSignup = apiAskForSignup();
+                _futureSignup = apiAskForSignup();
               });
             },
             child: const Text('Signup'),
