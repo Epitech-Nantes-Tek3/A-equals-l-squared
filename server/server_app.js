@@ -7,13 +7,6 @@ const bodyParser = require('body-parser')
 const auth = require('./passport/local')
 const auth_token = require('./passport/token')
 const utils = require('./utils')
-const gmail = require('./services/gmail/reactions/send_email')
-
-app.get('/api/gmail', (req, res) => {
-  gmail.sendEmail('tanguybel@gmail.com', 'test', 'test').then((response) => {
-    res.json(response)
-  })
-})
 
 const app = express()
 app.use(bodyParser.json())
