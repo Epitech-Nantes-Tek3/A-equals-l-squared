@@ -20,6 +20,7 @@ class HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
+              key: const Key('HomeLogoutButton'),
               onPressed: () {
                 setState(() {
                   _logout = true;
