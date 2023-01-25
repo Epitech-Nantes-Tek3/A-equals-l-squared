@@ -20,7 +20,6 @@ class SignupPageState extends State<SignupPage> {
     if (username == null || email == null || password == null) {
       return 'Please fill all the field !';
     }
-    print('http://$serverIp:8080/api/signup');
     final response = await http.post(
       Uri.parse('http://$serverIp:8080/api/signup'),
       headers: <String, String>{
