@@ -24,7 +24,7 @@ class HomePageState extends State<HomePage> {
                   _logout = true;
                 });
               },
-              child: const Text('Logout.'),
+              child: const Text('Logout'),
             ),
           ],
         ),

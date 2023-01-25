@@ -110,7 +110,7 @@ class LoginPageState extends State<LoginPage> {
                       futureLogin = apiAskForLogin();
                     });
                   },
-                  child: const Text('Ask for Login.'),
+                  child: const Text('Login'),
                 ),
                 ElevatedButton(
                   key: const Key('GoSignupButton'),

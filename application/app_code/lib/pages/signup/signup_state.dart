@@ -121,7 +121,7 @@ class SignupPageState extends State<SignupPage> {
                 futureSignup = apiAskForSignup();
               });
             },
-            child: const Text('Ask for Signup.'),
+            child: const Text('Signup'),
           ),
           ElevatedButton(
             key: const Key('GoLoginButton'),
