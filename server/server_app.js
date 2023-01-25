@@ -8,6 +8,11 @@ const auth = require('./passport/local')
 const auth_token = require('./passport/token')
 const utils = require('./utils')
 
+const discord = require('./services/discord/connect')
+const onMessage = require('./services/discord/actions/on_message')
+const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
+const onReactionAdd = require('./services/discord/actions/on_reaction_add')
+
 const app = express()
 app.use(bodyParser.json())
 
