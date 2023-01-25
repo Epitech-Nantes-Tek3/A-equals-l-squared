@@ -44,9 +44,11 @@ The purpose of the application is to interconnect different services (Outlook 36
 
 ## **Documentation**
 
-For now, you can find some of the documentation on our [GitHubPage](https://epitech-nantes-tek3.github.io/A-equals-l-squared/index.html). It only includes the documentation of the Node.JS part
+You can find the code documentation here :
 
-The rest will be available soon.
+- [Prisma](https://epitech-nantes-tek3.github.io/A-equals-l-squared/prisma/)
+- [Flutter](https://epitech-nantes-tek3.github.io/A-equals-l-squared/flutter/)
+- [Node.js](https://epitech-nantes-tek3.github.io/A-equals-l-squared/js/)
 
 ## **Thank for reading**
 

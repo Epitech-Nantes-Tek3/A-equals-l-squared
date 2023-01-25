@@ -7,7 +7,7 @@ on:
 
 env:
   BUILD_TYPE: Release
-  WORKING_DIR: server
+  WORKING_DIR: ./server
 
 jobs:
   deploy-docs:
@@ -24,6 +24,7 @@ jobs:
     - name: Generate Prisma docs
       run: npx prisma generate
       working-directory: ${{ env.WORKING_DIR }}
+
     - name: Js documentation
       uses: andstor/jsdoc-action@v1
       with:
@@ -31,8 +32,26 @@ jobs:
         output_dir: ./server/docs/js
         template: minami
         front_page: README.md
+
+    - name: Setup java
+      uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - name: Flutter download
+      uses: subosito/flutter-action@v1
+      with:
+        channel: 'beta'
+    - name: Flutter dependencies
+      working-directory: ./application/app_code
+      run: flutter pub get
+    - name: Generate Flutter Documentation
+      working-directory: ./application/app_code
+      run: |
+        dart pub global activate dartdoc
+        dart doc --output ../../server/docs/flutter
+
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         publish_dir: ./server/docs

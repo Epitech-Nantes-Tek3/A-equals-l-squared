@@ -2,7 +2,7 @@
 
 const express = require('express')
 const passport = require('passport')
-const database_init = require('./database_init')
+const database = require('./database_init')
 const bodyParser = require('body-parser')
 const auth = require('./passport/local')
 const auth_token = require('./passport/token')
@@ -59,7 +59,7 @@ app.get('/', (req, res) => {
 /**
  * Required subject path, send some usefull data about service
  */
-app.get('/about.json', (req, res) => {
+app.get('/about.json', async (req, res) => {
   try {
     const about = {}
     about.client = { host: req.ip }
@@ -67,7 +67,29 @@ app.get('/about.json', (req, res) => {
       current_time: Date.now(),
       services: []
     }
-    // TODO fetch the services data from DB with the IP of the client
+    about.server.services.push(
+      await database.prisma.Service.findMany({
+        select: {
+          name: true,
+          description: true,
+          isEnable: true,
+          Actions: {
+            select: {
+              name: true,
+              description: true,
+              isEnable: true
+            }
+          },
+          Reactions: {
+            select: {
+              name: true,
+              description: true,
+              isEnable: true
+            }
+          }
+        }
+      })
+    )
     res.json(about)
   } catch (err) {
     console.log(err)

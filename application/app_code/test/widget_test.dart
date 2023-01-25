@@ -25,6 +25,18 @@ void templateFunction() {
   });
 }
 
+void loginPageTest() {
+  testWidgets('Check the navigation between two page',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    expect(find.text('Login page !'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('GoHomeButton')));
+    await tester.pumpAndSettle();
+    expect(find.text('Home page !'), findsOneWidget);
+  });
+}
+
 void main() {
-  templateFunction();
+  loginPageTest();
 }
