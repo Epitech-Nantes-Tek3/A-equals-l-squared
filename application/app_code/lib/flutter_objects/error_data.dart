@@ -1,10 +1,10 @@
 /// This class is the ErrorData class.
-/// It contains all information about a Error
+/// It contains all information about an Error
 class ErrorData {
-  final String errorMessage;
+  String errorMessage;
 
   /// Constructor of the ErrorData class
-  const ErrorData({
+  ErrorData({
     required this.errorMessage,
   });
 
