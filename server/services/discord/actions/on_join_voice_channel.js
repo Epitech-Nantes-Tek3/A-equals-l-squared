@@ -2,6 +2,11 @@
 
 const client = require('../connect')
 
+/**
+ * @brief Triggered when a user joins a Discord voice channel.
+ * @param {*} oldChannel Previous channel object
+ * @param {*} newChannel Current channel object
+ */
 client.on('voiceStateUpdate', (oldChannel, newChannel) => {
   var oldUserChannel = oldChannel.channelID
   var newUserChannel = newChannel.channelID
