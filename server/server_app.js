@@ -8,6 +8,8 @@ const auth = require('./passport/local')
 const auth_token = require('./passport/token')
 const utils = require('./utils')
 const gmail = require('./services/gmail/reactions/send_email')
+const jwt = require('jwt-simple')
+require('dotenv').config({ path: '../database.env' })
 
 const app = express()
 app.use(bodyParser.json())
@@ -96,6 +98,7 @@ app.get('/about.json', async (req, res) => {
  * body.username -> User name
  * body.email -> User mail
  * body.password -> User password
+ * An e-mail is now send to the user.
  */
 app.post('/api/signup', (req, res, next) => {
   passport.authenticate('signup', { session: false }, (err, user, info) => {
@@ -140,6 +143,34 @@ app.post('/api/login', (req, res, next) => {
       statusCode: res.statusCode
     })
   })(req, res, next)
+})
+
+/**
+ * Get request use to verify e-mail address with a token
+ * Link sended by e-mail
+ */
+app.get('/api/mail/verification', async (req, res) => {
+  const token = req.query.token
+  const decoded = jwt.decode(token, process.env.JWT_SECRET)
+  try {
+    const user = await database.prisma.User.findUnique({
+      where: {
+        id: decoded.id
+      }
+    })
+    await database.prisma.User.update({
+      where: {
+        id: decoded.id
+      },
+      data: {
+        mailVerification: true
+      }
+    })
+    res.send('Email now succesfully verified !\nYou can go back to login page.')
+  } catch (err) {
+    console.error(err.message)
+    res.status(401).send('No matching user found.')
+  }
 })
 
 /**

@@ -22,6 +22,7 @@ passport.use(
           id: jwt_payload.id
         }
       })
+      if (!user.mailVerification) return done(null, null)
       return done(null, user)
     } catch (err) {
       console.error(err.message)
