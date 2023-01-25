@@ -3,7 +3,7 @@ import 'package:application/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-void templateFunction() {
+void testsActionObject() {
   testWidgets('Just a basic template test', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
 
