@@ -11,7 +11,7 @@ class ErrorData {
   /// Convert a json map into the class
   factory ErrorData.fromJson(Map<String, dynamic> json) {
     return ErrorData(
-      errorMessage: json['errorMessage'],
+      errorMessage: json['data']['message'],
     );
   }
 }
