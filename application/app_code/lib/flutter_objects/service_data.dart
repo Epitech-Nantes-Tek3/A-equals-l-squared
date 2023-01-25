@@ -1,12 +1,12 @@
 /// This class is the service class.
 /// It contains all information about a service
 class ServiceData {
-  final String name;
-  final String description;
-  final DateTime createdAt;
+  String name;
+  String description;
+  DateTime createdAt;
 
   /// Constructor of the service class
-  const ServiceData({
+  ServiceData({
     required this.name,
     required this.description,
     required this.createdAt,
@@ -17,7 +17,7 @@ class ServiceData {
     return ServiceData(
       name: json['service']['name'],
       description: json['service']['description'],
-      createdAt: json["service"]["createdAt"],
+      createdAt: json['service']['createdAt'],
     );
   }
 }
