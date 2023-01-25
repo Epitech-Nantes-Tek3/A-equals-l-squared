@@ -85,6 +85,11 @@ Don't forget to add a goTo**Page function in her _functional file.</p>
             return const HomePage();
           },
         ),
+        GoRoute(
+            path: &#39;signup&#39;,
+            builder: (BuildContext context, GoRouterState state) {
+              return const SignupPage();
+            })
       ],
     ),
   ],

@@ -179,21 +179,29 @@ prints green, as expected.</p>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
-  return Scaffold(
-      body: Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: &lt;Widget&gt;[
-        const Text(&#39;Home page !&#39;),
-        ElevatedButton(
-          onPressed: () {
-            goToLoginPage(context);
-          },
-          child: const Text(&#39;Go to the login screen&#39;),
-        ),
-      ],
-    ),
-  ));
+  if (_logout) {
+    isAuth = false;
+    return const LoginPage();
+  } else {
+    return Scaffold(
+        body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: &lt;Widget&gt;[
+          ElevatedButton(
+            key: const Key(&#39;HomeLogoutButton&#39;),
+            onPressed: () {
+              setState(() {
+                _logout = true;
+              });
+            },
+            child: const Text(&#39;Logout&#39;),
+          ),
+          getHostConfigField()
+        ],
+      ),
+    ));
+  }
 }</code></pre>
 </section>
 

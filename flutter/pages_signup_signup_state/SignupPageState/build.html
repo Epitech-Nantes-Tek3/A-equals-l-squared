@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the build method from the LoginPageState class, for the Dart programming language.">
-  <title>build method - LoginPageState class - login_state library - Dart API</title>
+  <meta name="description" content="API docs for the build method from the SignupPageState class, for the Dart programming language.">
+  <title>build method - SignupPageState class - signup_state library - Dart API</title>
 
 
   
@@ -29,8 +29,8 @@
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">application</a></li>
-    <li><a href="../../pages_login_login_state/pages_login_login_state-library.html">login_state</a></li>
-    <li><a href="../../pages_login_login_state/LoginPageState-class.html">LoginPageState</a></li>
+    <li><a href="../../pages_signup_signup_state/pages_signup_signup_state-library.html">signup_state</a></li>
+    <li><a href="../../pages_signup_signup_state/SignupPageState-class.html">SignupPageState</a></li>
     <li class="self-crumb">build method</li>
   </ol>
   <div class="self-name">build</div>
@@ -75,11 +75,11 @@
 <p>The framework calls this method in a number of different situations. For
 example:</p>
 <ul>
-<li>After calling <a href="../../pages_login_login_state/LoginPageState/initState.html">initState</a>.</li>
+<li>After calling <a href="../../pages_signup_signup_state/SignupPageState/initState.html">initState</a>.</li>
 <li>After calling <a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a>.</li>
 <li>After receiving a call to <a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a>.</li>
 <li>After a dependency of this <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> object changes (e.g., an
-<a href="https://api.flutter.dev/flutter/widgets/InheritedWidget-class.html">InheritedWidget</a> referenced by the previous <a href="../../pages_login_login_state/LoginPageState/build.html">build</a> changes).</li>
+<a href="https://api.flutter.dev/flutter/widgets/InheritedWidget-class.html">InheritedWidget</a> referenced by the previous <a href="../../pages_signup_signup_state/SignupPageState/build.html">build</a> changes).</li>
 <li>After calling <a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a> and then reinserting the <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> object into
 the tree at another location.</li>
 </ul>
@@ -101,23 +101,23 @@ this <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a
 object. The <a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a> argument is provided redundantly here so that
 this method matches the signature for a <a href="https://api.flutter.dev/flutter/widgets/WidgetBuilder.html">WidgetBuilder</a>.</p>
 <h2 id="design-discussion">Design discussion</h2>
-<h3 id="why-is-the-build-method-on-state-and-not-statefulwidget">Why is the <a href="../../pages_login_login_state/LoginPageState/build.html">build</a> method on <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a>, and not <a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a>?</h3>
+<h3 id="why-is-the-build-method-on-state-and-not-statefulwidget">Why is the <a href="../../pages_signup_signup_state/SignupPageState/build.html">build</a> method on <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a>, and not <a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a>?</h3>
 <p>Putting a <code>Widget build(BuildContext context)</code> method on <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> rather
 than putting a <code>Widget build(BuildContext context, State state)</code> method
 on <a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a> gives developers more flexibility when subclassing
 <a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a>.</p>
 <p>For example, <a href="https://api.flutter.dev/flutter/widgets/AnimatedWidget-class.html">AnimatedWidget</a> is a subclass of <a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a> that
 introduces an abstract <code>Widget build(BuildContext context)</code> method for its
-subclasses to implement. If <a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a> already had a <a href="../../pages_login_login_state/LoginPageState/build.html">build</a> method
+subclasses to implement. If <a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a> already had a <a href="../../pages_signup_signup_state/SignupPageState/build.html">build</a> method
 that took a <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> argument, <a href="https://api.flutter.dev/flutter/widgets/AnimatedWidget-class.html">AnimatedWidget</a> would be forced to provide
 its <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> object to subclasses even though its <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> object is an
 internal implementation detail of <a href="https://api.flutter.dev/flutter/widgets/AnimatedWidget-class.html">AnimatedWidget</a>.</p>
 <p>Conceptually, <a href="https://api.flutter.dev/flutter/widgets/StatelessWidget-class.html">StatelessWidget</a> could also be implemented as a subclass of
-<a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a> in a similar manner. If the <a href="../../pages_login_login_state/LoginPageState/build.html">build</a> method were on
+<a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a> in a similar manner. If the <a href="../../pages_signup_signup_state/SignupPageState/build.html">build</a> method were on
 <a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a> rather than <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a>, that would not be possible anymore.</p>
-<p>Putting the <a href="../../pages_login_login_state/LoginPageState/build.html">build</a> function on <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> rather than <a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a> also
+<p>Putting the <a href="../../pages_signup_signup_state/SignupPageState/build.html">build</a> function on <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> rather than <a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a> also
 helps avoid a category of bugs related to closures implicitly capturing
-<code>this</code>. If you defined a closure in a <a href="../../pages_login_login_state/LoginPageState/build.html">build</a> function on a
+<code>this</code>. If you defined a closure in a <a href="../../pages_signup_signup_state/SignupPageState/build.html">build</a> function on a
 <a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a>, that closure would implicitly capture <code>this</code>, which is
 the current widget instance, and would have the (immutable) fields of that
 instance in scope:</p>
@@ -142,8 +142,8 @@ the first build still implicitly refers to the original widget and the
 <code>$color</code> still prints blue even through the widget has been updated to
 green; should that closure outlive its widget, it would print outdated
 information.</p>
-<p>In contrast, with the <a href="../../pages_login_login_state/LoginPageState/build.html">build</a> function on the <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> object, closures
-created during <a href="../../pages_login_login_state/LoginPageState/build.html">build</a> implicitly capture the <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> instance instead of
+<p>In contrast, with the <a href="../../pages_signup_signup_state/SignupPageState/build.html">build</a> function on the <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> object, closures
+created during <a href="../../pages_signup_signup_state/SignupPageState/build.html">build</a> implicitly capture the <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> instance instead of
 the widget instance:</p>
 <pre class="language-dart"><code class="language-dart">class MyButton extends StatefulWidget {
   const MyButton({super.key, this.color = Colors.teal});
@@ -181,74 +181,84 @@ prints green, as expected.</p>
 Widget build(BuildContext context) {
   return Scaffold(
       body: Center(
-    child: FutureBuilder&lt;String&gt;(
-      future: _futureLogin,
-      builder: (context, snapshot) {
-        if (snapshot.hasData || snapshot.hasError) {
-          if (isAuth) {
-            return const HomePage();
-          }
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: &lt;Widget&gt;[
-              const Text(&#39;Login page !&#39;),
-              getHostConfigField(),
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: &#39;E-mail&#39;,
-                ),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (String? value) {
-                  if (value != null &amp;&amp;
-                      !RegExp(r&quot;^[a-zA-Z0-9.a-zA-Z0-9.!#$%&amp;&#39;*+-&#47;=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+&quot;)
-                          .hasMatch(value)) {
-                    return &#39;Must be a valid email.&#39;;
-                  }
-                  _email = value;
-                  return null;
-                },
-              ),
-              TextFormField(
-                obscureText: true,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: &#39;Password&#39;,
-                ),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (String? value) {
-                  if (value != null &amp;&amp; value.length &lt;= 7) {
-                    return &#39;Password must be min 8 characters long.&#39;;
-                  }
-                  _password = value;
-                  return null;
-                },
-              ),
-              if (snapshot.hasError)
-                Text(&#39;${snapshot.error}&#39;)
-              else
-                Text(snapshot.data!),
-              ElevatedButton(
-                key: const Key(&#39;SendLoginButton&#39;),
-                onPressed: () {
-                  setState(() {
-                    _futureLogin = apiAskForLogin();
-                  });
-                },
-                child: const Text(&#39;Login&#39;),
-              ),
-              ElevatedButton(
-                key: const Key(&#39;GoSignupButton&#39;),
-                onPressed: () {
-                  goToSignupPage(context);
-                },
-                child: const Text(&#39;No account ? Go to Signup&#39;),
-              ),
-            ],
-          );
-        }
-        return const CircularProgressIndicator();
-      },
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: &lt;Widget&gt;[
+        const Text(&#39;Welcome to Signup page !&#39;),
+        getHostConfigField(),
+        TextFormField(
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: &#39;Username&#39;,
+          ),
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (String? value) {
+            if (value != null &amp;&amp; value.length &lt;= 4) {
+              return &#39;Username must be min 5 characters long.&#39;;
+            }
+            _username = value;
+            return null;
+          },
+        ),
+        TextFormField(
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: &#39;E-mail&#39;,
+          ),
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (String? value) {
+            if (value != null &amp;&amp;
+                !RegExp(r&quot;^[a-zA-Z0-9.a-zA-Z0-9.!#$%&amp;&#39;*+-&#47;=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+&quot;)
+                    .hasMatch(value)) {
+              return &#39;Must be a valid email.&#39;;
+            }
+            _email = value;
+            return null;
+          },
+        ),
+        TextFormField(
+          obscureText: true,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: &#39;Password&#39;,
+          ),
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (String? value) {
+            if (value != null &amp;&amp; value.length &lt;= 7) {
+              return &#39;Password must be min 8 characters long.&#39;;
+            }
+            _password = value;
+            return null;
+          },
+        ),
+        FutureBuilder&lt;String&gt;(
+          future: _futureSignup,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data!);
+            } else if (snapshot.hasError) {
+              return Text(&#39;${snapshot.error}&#39;);
+            }
+            return const CircularProgressIndicator();
+          },
+        ),
+        ElevatedButton(
+          key: const Key(&#39;SendSignupButton&#39;),
+          onPressed: () {
+            setState(() {
+              _futureSignup = apiAskForSignup();
+            });
+          },
+          child: const Text(&#39;Signup&#39;),
+        ),
+        ElevatedButton(
+          key: const Key(&#39;GoLoginButton&#39;),
+          onPressed: () {
+            goToLoginPage(context);
+          },
+          child: const Text(&#39;Back to login screen...&#39;),
+        ),
+      ],
     ),
   ));
 }</code></pre>
@@ -266,21 +276,21 @@ Widget build(BuildContext context) {
 
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../../index.html">application</a></li>
-  <li><a href="../../pages_login_login_state/pages_login_login_state-library.html">login_state</a></li>
-  <li><a href="../../pages_login_login_state/LoginPageState-class.html">LoginPageState</a></li>
+  <li><a href="../../pages_signup_signup_state/pages_signup_signup_state-library.html">signup_state</a></li>
+  <li><a href="../../pages_signup_signup_state/SignupPageState-class.html">SignupPageState</a></li>
   <li class="self-crumb">build method</li>
 </ol>
 
 
-    <h5>LoginPageState class</h5>
+    <h5>SignupPageState class</h5>
     <ol>
 
-        <li class="section-title"><a href="../../pages_login_login_state/LoginPageState-class.html#constructors">Constructors</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/LoginPageState.html">LoginPageState</a></li>
+        <li class="section-title"><a href="../../pages_signup_signup_state/SignupPageState-class.html#constructors">Constructors</a></li>
+          <li><a href="../../pages_signup_signup_state/SignupPageState/SignupPageState.html">SignupPageState</a></li>
 
 
         <li class="section-title inherited">
-          <a href="../../pages_login_login_state/LoginPageState-class.html#instance-properties">Properties</a>
+          <a href="../../pages_signup_signup_state/SignupPageState-class.html#instance-properties">Properties</a>
         </li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/context.html">context</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
@@ -288,17 +298,17 @@ Widget build(BuildContext context) {
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/widget.html">widget</a></li>
 
-        <li class="section-title"><a href="../../pages_login_login_state/LoginPageState-class.html#instance-methods">Methods</a></li>
+        <li class="section-title"><a href="../../pages_signup_signup_state/SignupPageState-class.html#instance-methods">Methods</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/activate.html">activate</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/apiAskForLogin.html">apiAskForLogin</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/build.html">build</a></li>
+          <li><a href="../../pages_signup_signup_state/SignupPageState/apiAskForSignup.html">apiAskForSignup</a></li>
+          <li><a href="../../pages_signup_signup_state/SignupPageState/build.html">build</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/getAFirstLoginAnswer.html">getAFirstLoginAnswer</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/initState.html">initState</a></li>
+          <li><a href="../../pages_signup_signup_state/SignupPageState/getAFirstSignupAnswer.html">getAFirstSignupAnswer</a></li>
+          <li><a href="../../pages_signup_signup_state/SignupPageState/initState.html">initState</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>
@@ -306,7 +316,7 @@ Widget build(BuildContext context) {
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html">toString</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toStringShort.html">toStringShort</a></li>
 
-        <li class="section-title inherited"><a href="../../pages_login_login_state/LoginPageState-class.html#operators">Operators</a></li>
+        <li class="section-title inherited"><a href="../../pages_signup_signup_state/SignupPageState-class.html#operators">Operators</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
 
 

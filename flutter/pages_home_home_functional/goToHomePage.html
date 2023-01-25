@@ -65,12 +65,19 @@
 
     </section>
     
+<section class="desc markdown">
+  <p>Navigation function -&gt; Go to Home page</p>
+</section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">void goToHomePage(BuildContext context) {
+  if (!isAuth) {
+    context.go(&#39;&#47;&#39;);
+    return;
+  }
   context.go(&#39;&#47;home&#39;);
 }</code></pre>
 </section>
