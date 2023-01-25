@@ -1,13 +1,13 @@
 /// This class is the action class.
-/// It contains all information about a action
+/// It contains all information about an action
 class ActionData {
-  final String name;
-  final String description;
-  final DateTime createdAt;
-  final bool isEnable;
+  String name;
+  String description;
+  DateTime createdAt;
+  bool isEnable;
 
   /// Constructor of the action class
-  const ActionData({
+  ActionData({
     required this.name,
     required this.description,
     required this.createdAt,
@@ -19,7 +19,7 @@ class ActionData {
     return ActionData(
         name: json['action']['name'],
         description: json['action']['description'],
-        createdAt: json["action"]["createdAt"],
-        isEnable: json["action"]["isEnable"]);
+        createdAt: json['action']['createdAt'],
+        isEnable: json['action']['isEnable']);
   }
 }
