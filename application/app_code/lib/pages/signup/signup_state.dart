@@ -8,14 +8,19 @@ import '../login/login_functional.dart';
 import 'signup_page.dart';
 
 class SignupPageState extends State<SignupPage> {
+  /// username to signup
   String? _username;
 
+  /// email to signup
   String? _email;
 
+  /// password to signup
   String? _password;
 
+  /// future api answer
   late Future<String> _futureSignup;
 
+  /// Network function calling the api to signup
   Future<String> apiAskForSignup() async {
     if (_username == null || _email == null || _password == null) {
       return 'Please fill all the field !';
@@ -39,6 +44,7 @@ class SignupPageState extends State<SignupPage> {
     }
   }
 
+  /// Initialization function for the api answer
   Future<String> getAFirstSignupAnswer() async {
     return '';
   }

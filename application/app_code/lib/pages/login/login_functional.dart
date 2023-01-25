@@ -7,6 +7,7 @@ bool isAuth = false;
 /// Will be removed when User class will be implemented
 String? token;
 
+/// Navigation function -> Go to Login page
 void goToLoginPage(BuildContext context) {
   isAuth = false;
   token = null;

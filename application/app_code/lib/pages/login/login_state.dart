@@ -10,12 +10,16 @@ import 'login_functional.dart';
 import 'login_page.dart';
 
 class LoginPageState extends State<LoginPage> {
+  /// email to login with
   String? _email;
 
+  /// password to login with
   String? _password;
 
+  /// future api answer
   late Future<String> _futureLogin;
 
+  /// Network function calling the api to login
   Future<String> apiAskForLogin() async {
     if (_email == null || _password == null) {
       return 'Please fill all the field !';
@@ -42,6 +46,7 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
+  /// Initialization function for the api answer
   Future<String> getAFirstLoginAnswer() async {
     return '';
   }
