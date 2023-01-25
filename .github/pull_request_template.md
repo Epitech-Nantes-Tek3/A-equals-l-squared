@@ -6,7 +6,7 @@ Fixes # (issue)
 
 ## Added features
 
-* This service has been added to the application. It's include:
+* This service has been added to the application. It includes:
   * A action which is used to ...
   * A reaction which does this ...
 
