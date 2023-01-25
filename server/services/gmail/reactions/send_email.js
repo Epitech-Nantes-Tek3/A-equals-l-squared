@@ -1,7 +1,7 @@
-const gmail = require('./gmail_init').getGmailClient();
+const gmail = require('../gmail_init').getGmailClient();
 
 /**
- *
+ * @brief send an email with the gmail api
  * @param {*} to the email address to send to
  * @param {*} subject the subject of the email
  * @param {*} body the body of the email

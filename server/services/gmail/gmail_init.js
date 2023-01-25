@@ -3,7 +3,7 @@ FROM_EMAIL = 'aequallsquared@gmail.com'
 const {google} = require('googleapis');
 
 /**
- *
+ * @brief create the gmail client with the credentials
  * @returns the gmail client
  */
 function getGmailClient() {
