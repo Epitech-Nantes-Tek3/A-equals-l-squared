@@ -1,11 +1,10 @@
+import 'package:application/network/informations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../login/login_functional.dart';
-
 /// Navigation function -> Go to Home page
 void goToHomePage(BuildContext context) {
-  if (!isAuth) {
+  if (userInformation != null) {
     context.go('/');
     return;
   }

@@ -5,8 +5,8 @@ import 'package:application/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../flutter_objects/user_data.dart';
 import '../signup/signup_functional.dart';
-import 'login_functional.dart';
 import 'login_page.dart';
 
 class LoginPageState extends State<LoginPage> {
@@ -35,8 +35,7 @@ class LoginPageState extends State<LoginPage> {
 
     if (response.statusCode == 201) {
       try {
-        token = jsonDecode(response.body)['data']['token'];
-        isAuth = true;
+        userInformation = UserData.fromJson(jsonDecode(response.body)['data']);
         return 'Login succeed !';
       } catch (err) {
         return 'Invalid token... Please retry';
@@ -69,7 +68,7 @@ class LoginPageState extends State<LoginPage> {
         future: _futureLogin,
         builder: (context, snapshot) {
           if (snapshot.hasData || snapshot.hasError) {
-            if (isAuth) {
+            if (userInformation != null) {
               return const HomePage();
             }
             return Column(

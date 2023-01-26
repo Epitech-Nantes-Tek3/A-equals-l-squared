@@ -2,7 +2,6 @@ import 'package:application/network/informations.dart';
 import 'package:application/pages/settings/settings_functional.dart';
 import 'package:flutter/material.dart';
 
-import '../login/login_functional.dart';
 import '../login/login_page.dart';
 import 'home_page.dart';
 
@@ -13,7 +12,7 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (_logout) {
-      isAuth = false;
+      userInformation = null;
       return const LoginPage();
     } else {
       return Scaffold(
