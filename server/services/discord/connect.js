@@ -14,8 +14,14 @@ const client = new Client({
   partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 })
 
+/**
+ * Connect to the Discord bot thanks to its Token
+ */
 client.login(process.env.DISCORD_TOKEN)
 
+/**
+ * Called when the Discord bot is ready, here we display all the servers the bot is on
+ */
 client.once('ready', () => {
   console.log('Available on servers: ')
   console.log(
