@@ -292,6 +292,29 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
   return res.json('Verification e-mail sended.')
 })
 
+app.post(
+  '/api/user/updateData',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      await database.prisma.User.update({
+        where: {
+          id: req.user.id
+        },
+        data: {
+          username: req.body.username,
+          email: req.body.email,
+          password: await hash(req.body.password)
+        }
+      })
+      return res.json('Your informations have been succesfully updated.')
+    } catch (err) {
+      return res.status(400).json('Please pass a complete body.')
+    }
+  }
+)
+
 /**
  * Start the node.js server at PORT and HOST variable
  */
