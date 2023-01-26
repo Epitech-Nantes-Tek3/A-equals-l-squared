@@ -22,6 +22,7 @@ model User {
   password                 String
   isAdmin                  Boolean                    @default(false)
   mailVerification         Boolean                    @default(false)
+  confirmProcess           String                     @default("")
   createdAt                DateTime                   @default(now())
   ActionTriggers           ActionTrigger[]
   UsersHasActionsReactions UsersHasActionsReactions[]
