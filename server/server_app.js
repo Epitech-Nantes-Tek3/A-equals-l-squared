@@ -262,6 +262,7 @@ app.get(
 /**
  * Post request to reset current password
  * Send a confrmation e-mail before reseting.
+ * body.email -> User mail
  */
 app.post('/api/user/resetPassword', async (req, res, next) => {
   const user = await database.prisma.User.findFirst({
@@ -292,6 +293,14 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
   return res.json('Verification e-mail sended.')
 })
 
+/**
+ * Post request to update user personal data.
+ * body.username -> User name
+ * body.email -> User mail
+ * body.password -> User password
+ * Road protected by token authentification
+ * An new e-mail verification is send when e-mail is updated.
+ */
 app.post(
   '/api/user/updateData',
   passport.authenticate('jwt', { session: false }),
