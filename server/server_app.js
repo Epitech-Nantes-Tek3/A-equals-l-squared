@@ -290,7 +290,7 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
     .catch(_error => {
       return res.status(401).send('Invalid e-mail address.')
     })
-  return res.json('Verification e-mail sended.')
+  return res.json('Verification e-mail sent.')
 })
 
 /**
