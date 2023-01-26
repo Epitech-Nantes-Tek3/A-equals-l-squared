@@ -16,8 +16,7 @@ class SettingsPageState extends State<SettingsPage> {
     final response = await http.get(
       Uri.parse('http://$serverIp:8080/api/user/deleteAccount'),
       headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer ${userInformation!.token}',
       },
     );
