@@ -244,6 +244,15 @@ Widget build(BuildContext context) {
                 },
                 child: const Text(&#39;No account ? Go to Signup&#39;),
               ),
+              ElevatedButton(
+                key: const Key(&#39;AskResetButton&#39;),
+                onPressed: () {
+                  setState(() {
+                    _futureLogin = apiAskForResetPassword();
+                  });
+                },
+                child: const Text(&#39;Forgot Password ? Reset it&#39;),
+              ),
             ],
           );
         }
@@ -291,6 +300,7 @@ Widget build(BuildContext context) {
         <li class="section-title"><a href="../../pages_login_login_state/LoginPageState-class.html#instance-methods">Methods</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/activate.html">activate</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/apiAskForLogin.html">apiAskForLogin</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/apiAskForResetPassword.html">apiAskForResetPassword</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/build.html">build</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
