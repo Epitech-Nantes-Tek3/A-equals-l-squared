@@ -49,7 +49,6 @@ class SettingsPageState extends State<SettingsPage> {
       }
       return jsonDecode(response.body);
     } catch (err) {
-      print(err);
       return 'Invalid user token. Please go back to login.';
     }
   }
