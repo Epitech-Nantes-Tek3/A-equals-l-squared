@@ -180,7 +180,7 @@ app.get('/api/mail/verification', async (req, res) => {
 
 /**
  * Get request to confirm a custom action.
- * Link sended by e-mail
+ * Link sent by e-mail
  * Delete -> Remove the user credentials from the database
  * ResetPassword -> Reset the current user password and set it to 'password'
  */
