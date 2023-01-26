@@ -23,7 +23,7 @@ services:
       database:
         condition: service_healthy
     environment:
-      - IS_MIGRATION=true #SET TO true when a migration needed
+      - IS_MIGRATION=false #SET TO true when a migration needed
     volumes:
       - .:/code
     stdin_open: true
