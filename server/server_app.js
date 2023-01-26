@@ -299,7 +299,7 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
  * body.email -> User mail
  * body.password -> User password
  * Road protected by token authentification
- * An new e-mail verification is send when e-mail is updated.
+ * An new e-mail verification is sent when e-mail is updated.
  */
 app.post(
   '/api/user/updateData',
