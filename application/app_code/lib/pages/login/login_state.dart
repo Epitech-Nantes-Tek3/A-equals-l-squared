@@ -5,8 +5,8 @@ import 'package:application/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../flutter_objects/user_data.dart';
 import '../signup/signup_functional.dart';
-import 'login_functional.dart';
 import 'login_page.dart';
 
 class LoginPageState extends State<LoginPage> {
@@ -35,14 +35,36 @@ class LoginPageState extends State<LoginPage> {
 
     if (response.statusCode == 201) {
       try {
-        token = jsonDecode(response.body)['data']['token'];
-        isAuth = true;
+        userInformation = UserData.fromJson(jsonDecode(response.body)['data']);
         return 'Login succeed !';
       } catch (err) {
         return 'Invalid token... Please retry';
       }
     } else {
-      return 'Invalid credentials.';
+      try {
+        return jsonDecode(response.body)['message'];
+      } catch (err) {
+        return 'Invalid credentials.';
+      }
+    }
+  }
+
+  /// Network function calling the API to reset password
+  Future<String> apiAskForResetPassword() async {
+    if (_email == null) {
+      return 'Please provide a valid email !';
+    }
+    var response = await http.post(
+      Uri.parse('http://$serverIp:8080/api/user/resetPassword'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{'email': _email!}),
+    );
+    try {
+      return jsonDecode(response.body);
+    } catch (err) {
+      return 'Invalid e-mail address. Please check it !';
     }
   }
 
@@ -65,7 +87,7 @@ class LoginPageState extends State<LoginPage> {
         future: _futureLogin,
         builder: (context, snapshot) {
           if (snapshot.hasData || snapshot.hasError) {
-            if (isAuth) {
+            if (userInformation != null) {
               return const HomePage();
             }
             return Padding(
@@ -173,7 +195,51 @@ class LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-              ),
+                TextFormField(
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                  ),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (String? value) {
+                    if (value != null && value.length <= 7) {
+                      return 'Password must be min 8 characters long.';
+                    }
+                    _password = value;
+                    return null;
+                  },
+                ),
+                if (snapshot.hasError)
+                  Text('${snapshot.error}')
+                else
+                  Text(snapshot.data!),
+                ElevatedButton(
+                  key: const Key('SendLoginButton'),
+                  onPressed: () {
+                    setState(() {
+                      _futureLogin = apiAskForLogin();
+                    });
+                  },
+                  child: const Text('Login'),
+                ),
+                ElevatedButton(
+                  key: const Key('GoSignupButton'),
+                  onPressed: () {
+                    goToSignupPage(context);
+                  },
+                  child: const Text('No account ? Go to Signup'),
+                ),
+                ElevatedButton(
+                  key: const Key('AskResetButton'),
+                  onPressed: () {
+                    setState(() {
+                      _futureLogin = apiAskForResetPassword();
+                    });
+                  },
+                  child: const Text('Forgot Password ? Reset it'),
+                ),
+              ],
             );
           }
           return const CircularProgressIndicator();
