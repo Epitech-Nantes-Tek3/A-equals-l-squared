@@ -105,14 +105,16 @@ app.post('/api/signup', (req, res, next) => {
     if (err) throw new Error(err)
     if (user == false) return res.json(info)
     const token = utils.generateToken(user.id)
-    gmail.sendEmail(
-      user.email,
-      'Email Verification',
-      'Thank you for you registration to our service !\nPlease go to the following link to confirm your mail : http://localhost:8080/api/mail/verification?token=' +
-        token
-    ).catch((_error) => {
-      return res.status(401).send('Invalid e-mail address.')
-    })
+    gmail
+      .sendEmail(
+        user.email,
+        'Email Verification',
+        'Thank you for you registration to our service !\nPlease go to the following link to confirm your mail : http://localhost:8080/api/mail/verification?token=' +
+          token
+      )
+      .catch(_error => {
+        return res.status(401).send('Invalid e-mail address.')
+      })
     return res.status(201).json({
       status: 'success',
       data: {
@@ -175,16 +177,69 @@ app.get('/api/mail/verification', async (req, res) => {
   }
 })
 
+app.get('/api/mail/customVerification', async (req, res) => {
+  const token = req.query.token
+  const decoded = jwt.decode(token, process.env.JWT_SECRET)
+  try {
+    const user = await database.prisma.User.findUnique({
+      where: {
+        id: decoded.id
+      }
+    })
+    const process = user.confirmProcess
+    await database.prisma.User.update({
+      where: {
+        id: decoded.id
+      },
+      data: {
+        confirmProcess: ''
+      }
+    })
+    if (process == 'Delete') {
+      await database.prisma.User.delete({
+        where: {
+          id: decoded.id
+        }
+      })
+      console.log('User succesfully deleted.')
+    }
+    res.send('Operation ' + process + ' authorized and executed.')
+  } catch (err) {
+    console.error(err.message)
+    res.status(401).send('No matching user found.')
+  }
+})
+
 /**
  * Get request accessing to the user profile.
  * Need to be authentified with a token.
  */
 app.get(
-  '/profile',
+  '/api/user/deleteAccount',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    if (!req.user) return res.json('Invalid token')
-    return res.json({ message: 'Welcome friend', user: req.user })
+  async (req, res) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    console.log('AAAA')
+    await database.prisma.User.update({
+      where: {
+        id: req.user.id
+      },
+      data: {
+        confirmProcess: 'Delete'
+      }
+    })
+    const token = utils.generateToken(req.user.id)
+    gmail
+      .sendEmail(
+        req.user.email,
+        'Confirm operation',
+        'You asked to delete your account. Please confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
+          token
+      )
+      .catch(_error => {
+        return res.status(401).send('Invalid e-mail address.')
+      })
+    return res.json('Verification e-mail sended')
   }
 )
 
