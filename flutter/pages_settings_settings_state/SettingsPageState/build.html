@@ -185,6 +185,16 @@ Widget build(BuildContext context) {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: &lt;Widget&gt;[
         const Text(&#39;Welcome to Settings page&#39;),
+        userDataVisualization(),
+        ElevatedButton(
+          key: const Key(&#39;AskUpdateButton&#39;),
+          onPressed: () {
+            setState(() {
+              _futureAnswer = apiAskForUpdate();
+            });
+          },
+          child: const Text(&#39;Update account information&#39;),
+        ),
         ElevatedButton(
           key: const Key(&#39;AskDeleteButton&#39;),
           onPressed: () {
@@ -257,6 +267,7 @@ Widget build(BuildContext context) {
         <li class="section-title"><a href="../../pages_settings_settings_state/SettingsPageState-class.html#instance-methods">Methods</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/activate.html">activate</a></li>
           <li><a href="../../pages_settings_settings_state/SettingsPageState/apiAskForDelete.html">apiAskForDelete</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/apiAskForUpdate.html">apiAskForUpdate</a></li>
           <li><a href="../../pages_settings_settings_state/SettingsPageState/build.html">build</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
@@ -271,6 +282,7 @@ Widget build(BuildContext context) {
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toDiagnosticsNode.html">toDiagnosticsNode</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html">toString</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toStringShort.html">toStringShort</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/userDataVisualization.html">userDataVisualization</a></li>
 
         <li class="section-title inherited"><a href="../../pages_settings_settings_state/SettingsPageState-class.html#operators">Operators</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>

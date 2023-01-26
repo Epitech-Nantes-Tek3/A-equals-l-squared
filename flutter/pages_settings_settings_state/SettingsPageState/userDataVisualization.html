@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the apiAskForDelete method from the SettingsPageState class, for the Dart programming language.">
-  <title>apiAskForDelete method - SettingsPageState class - settings_state library - Dart API</title>
+  <meta name="description" content="API docs for the userDataVisualization method from the SettingsPageState class, for the Dart programming language.">
+  <title>userDataVisualization method - SettingsPageState class - settings_state library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">application</a></li>
     <li><a href="../../pages_settings_settings_state/pages_settings_settings_state-library.html">settings_state</a></li>
     <li><a href="../../pages_settings_settings_state/SettingsPageState-class.html">SettingsPageState</a></li>
-    <li class="self-crumb">apiAskForDelete method</li>
+    <li class="self-crumb">userDataVisualization method</li>
   </ol>
-  <div class="self-name">apiAskForDelete</div>
+  <div class="self-name">userDataVisualization</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -50,42 +50,82 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">apiAskForDelete</span> method 
+<h1><span class="kind-method">userDataVisualization</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
-<span class="name ">apiAskForDelete</span>(<wbr>)
+<span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
+<span class="name ">userDataVisualization</span>(<wbr>)
 
       
 
     </section>
     
 <section class="desc markdown">
-  <p>Network function calling the api to delete account</p>
+  <p>Display function returning a user data customizable visualization</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;String&gt; apiAskForDelete() async {
-  final response = await http.get(
-    Uri.parse(&#39;http:&#47;&#47;$serverIp:8080&#47;api&#47;user&#47;deleteAccount&#39;),
-    headers: &lt;String, String&gt;{
-      &#39;Content-Type&#39;: &#39;application&#47;json; charset=UTF-8&#39;,
-      &#39;Authorization&#39;: &#39;Bearer ${userInformation!.token}&#39;,
-    },
+  <pre class="language-dart"><code class="language-dart">Widget userDataVisualization() {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+      TextFormField(
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: &#39;Username&#39;,
+        ),
+        initialValue: _username,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: (String? value) {
+          if (value != null &amp;&amp; value.length &lt;= 4) {
+            return &#39;Username must be min 5 characters long.&#39;;
+          }
+          _username = value;
+          return null;
+        },
+      ),
+      TextFormField(
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: &#39;E-mail&#39;,
+        ),
+        initialValue: _email,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: (String? value) {
+          if (value != null &amp;&amp;
+              !RegExp(r&quot;^[a-zA-Z0-9.a-zA-Z0-9.!#$%&amp;&#39;*+-&#47;=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+&quot;)
+                  .hasMatch(value)) {
+            return &#39;Must be a valid email.&#39;;
+          }
+          _email = value;
+          return null;
+        },
+      ),
+      TextFormField(
+        obscureText: true,
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: &#39;Password&#39;,
+        ),
+        initialValue: _password,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: (String? value) {
+          if (value != null &amp;&amp; value.length &lt;= 7) {
+            return &#39;Password must be min 8 characters long.&#39;;
+          }
+          _password = value;
+          return null;
+        },
+      ),
+    ],
   );
-
-  try {
-    return jsonDecode(response.body);
-  } catch (err) {
-    return &#39;Invalid user token. Please go back to login.&#39;;
-  }
 }</code></pre>
 </section>
 
@@ -103,7 +143,7 @@
   <li><a href="../../index.html">application</a></li>
   <li><a href="../../pages_settings_settings_state/pages_settings_settings_state-library.html">settings_state</a></li>
   <li><a href="../../pages_settings_settings_state/SettingsPageState-class.html">SettingsPageState</a></li>
-  <li class="self-crumb">apiAskForDelete method</li>
+  <li class="self-crumb">userDataVisualization method</li>
 </ol>
 
 

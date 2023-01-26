@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the apiAskForDelete method from the SettingsPageState class, for the Dart programming language.">
-  <title>apiAskForDelete method - SettingsPageState class - settings_state library - Dart API</title>
+  <meta name="description" content="API docs for the apiAskForUpdate method from the SettingsPageState class, for the Dart programming language.">
+  <title>apiAskForUpdate method - SettingsPageState class - settings_state library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">application</a></li>
     <li><a href="../../pages_settings_settings_state/pages_settings_settings_state-library.html">settings_state</a></li>
     <li><a href="../../pages_settings_settings_state/SettingsPageState-class.html">SettingsPageState</a></li>
-    <li class="self-crumb">apiAskForDelete method</li>
+    <li class="self-crumb">apiAskForUpdate method</li>
   </ol>
-  <div class="self-name">apiAskForDelete</div>
+  <div class="self-name">apiAskForUpdate</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -50,7 +50,7 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">apiAskForDelete</span> method 
+<h1><span class="kind-method">apiAskForUpdate</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
@@ -58,30 +58,46 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
-<span class="name ">apiAskForDelete</span>(<wbr>)
+<span class="name ">apiAskForUpdate</span>(<wbr>)
 
       
 
     </section>
     
 <section class="desc markdown">
-  <p>Network function calling the api to delete account</p>
+  <p>Network function calling the api for updating user information</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;String&gt; apiAskForDelete() async {
-  final response = await http.get(
-    Uri.parse(&#39;http:&#47;&#47;$serverIp:8080&#47;api&#47;user&#47;deleteAccount&#39;),
+  <pre class="language-dart"><code class="language-dart">Future&lt;String&gt; apiAskForUpdate() async {
+  if (_username == null || _email == null || _password == &quot;&quot;) {
+    return &#39;Please fill all the field !&#39;;
+  }
+  final response = await http.post(
+    Uri.parse(&#39;http:&#47;&#47;$serverIp:8080&#47;api&#47;user&#47;updateData&#39;),
     headers: &lt;String, String&gt;{
       &#39;Content-Type&#39;: &#39;application&#47;json; charset=UTF-8&#39;,
       &#39;Authorization&#39;: &#39;Bearer ${userInformation!.token}&#39;,
     },
+    body: jsonEncode(&lt;String, String&gt;{
+      &#39;username&#39;: _username!,
+      &#39;email&#39;: _email!,
+      &#39;password&#39;: _password!
+    }),
   );
 
   try {
+    if (response.statusCode == 200) {
+      userInformation?.userName = _username!;
+      userInformation?.email = _email!;
+    } else {
+      _username = userInformation?.userName;
+      _email = userInformation?.email;
+      _password = &quot;&quot;;
+    }
     return jsonDecode(response.body);
   } catch (err) {
     return &#39;Invalid user token. Please go back to login.&#39;;
@@ -103,7 +119,7 @@
   <li><a href="../../index.html">application</a></li>
   <li><a href="../../pages_settings_settings_state/pages_settings_settings_state-library.html">settings_state</a></li>
   <li><a href="../../pages_settings_settings_state/SettingsPageState-class.html">SettingsPageState</a></li>
-  <li class="self-crumb">apiAskForDelete method</li>
+  <li class="self-crumb">apiAskForUpdate method</li>
 </ol>
 
 
