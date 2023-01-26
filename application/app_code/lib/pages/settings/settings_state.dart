@@ -26,7 +26,7 @@ class SettingsPageState extends State<SettingsPage> {
       return 'Please fill all the field !';
     }
     final response = await http.post(
-      Uri.parse('http://$serverIp:8080/api/user/update'),
+      Uri.parse('http://$serverIp:8080/api/user/updateData'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer ${userInformation!.token}',
@@ -45,10 +45,11 @@ class SettingsPageState extends State<SettingsPage> {
       } else {
         _username = userInformation?.userName;
         _email = userInformation?.email;
-        _password = null;
+        _password = "";
       }
       return jsonDecode(response.body);
     } catch (err) {
+      print(err);
       return 'Invalid user token. Please go back to login.';
     }
   }
