@@ -182,6 +182,7 @@ app.get('/api/mail/verification', async (req, res) => {
  * Get request to confirm a custom action.
  * Link sended by e-mail
  * Delete -> Remove the user credentials from the database
+ * ResetPassword -> Reset the current user password and set it to 'password'
  */
 app.get('/api/mail/customVerification', async (req, res) => {
   const token = req.query.token
@@ -258,6 +259,10 @@ app.get(
   }
 )
 
+/**
+ * Post request to reset current password
+ * Send a confrmation e-mail before reseting.
+ */
 app.post('/api/user/resetPassword', async (req, res, next) => {
   const user = await database.prisma.User.findFirst({
     where: { email: req.body.email }
