@@ -16,18 +16,15 @@ const options = {
  */
 passport.use(
   new Strategy(options, async (jwt_payload, done) => {
-    console.log("....")
     try {
       const user = await database.prisma.User.findUnique({
         where: {
           id: jwt_payload.id
         }
       })
-      console.log(user)
       if (!user.mailVerification) return done(null, null)
       return done(null, user)
     } catch (err) {
-      console.log("ooo")
       console.error(err.message)
       return done(null, null)
     }

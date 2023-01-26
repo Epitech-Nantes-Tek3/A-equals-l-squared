@@ -177,6 +177,11 @@ app.get('/api/mail/verification', async (req, res) => {
   }
 })
 
+/**
+ * Get request to confirm a custom action.
+ * Link sended by e-mail
+ * Delete -> Remove the user credentials from the database
+ */
 app.get('/api/mail/customVerification', async (req, res) => {
   const token = req.query.token
   const decoded = jwt.decode(token, process.env.JWT_SECRET)
@@ -201,7 +206,6 @@ app.get('/api/mail/customVerification', async (req, res) => {
           id: decoded.id
         }
       })
-      console.log('User succesfully deleted.')
     }
     res.send('Operation ' + process + ' authorized and executed.')
   } catch (err) {
@@ -211,7 +215,8 @@ app.get('/api/mail/customVerification', async (req, res) => {
 })
 
 /**
- * Get request accessing to the user profile.
+ * Get request to delete an account
+ * Send a confirmation e-mail before deleting.
  * Need to be authentified with a token.
  */
 app.get(
@@ -219,7 +224,6 @@ app.get(
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     if (!req.user) return res.status(401).send('Invalid token')
-    console.log('AAAA')
     await database.prisma.User.update({
       where: {
         id: req.user.id
