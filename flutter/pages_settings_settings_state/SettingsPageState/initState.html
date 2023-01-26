@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the apiAskForLogin method from the LoginPageState class, for the Dart programming language.">
-  <title>apiAskForLogin method - LoginPageState class - login_state library - Dart API</title>
+  <meta name="description" content="API docs for the initState method from the SettingsPageState class, for the Dart programming language.">
+  <title>initState method - SettingsPageState class - settings_state library - Dart API</title>
 
 
   
@@ -29,11 +29,11 @@
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">application</a></li>
-    <li><a href="../../pages_login_login_state/pages_login_login_state-library.html">login_state</a></li>
-    <li><a href="../../pages_login_login_state/LoginPageState-class.html">LoginPageState</a></li>
-    <li class="self-crumb">apiAskForLogin method</li>
+    <li><a href="../../pages_settings_settings_state/pages_settings_settings_state-library.html">settings_state</a></li>
+    <li><a href="../../pages_settings_settings_state/SettingsPageState-class.html">SettingsPageState</a></li>
+    <li class="self-crumb">initState method</li>
   </ol>
-  <div class="self-name">apiAskForLogin</div>
+  <div class="self-name">initState</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -50,55 +50,60 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">apiAskForLogin</span> method 
+<h1><span class="kind-method">initState</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
     <section class="multi-line-signature">
       
+  <div>
+    <ol class="annotation-list">
+        <li>@<a href="https://api.flutter.dev/flutter/dart-core/override-constant.html">override</a></li>
+    </ol>
+  </div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
-<span class="name ">apiAskForLogin</span>(<wbr>)
+<span class="returntype">void</span>
+<span class="name ">initState</span>(<wbr>)
 
-      
+      <div class="features"><span class="feature">override</span></div>
 
     </section>
     
 <section class="desc markdown">
-  <p>Network function calling the api to login</p>
+  <p>Called when this object is inserted into the tree.</p>
+<p>The framework will call this method exactly once for each <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> object
+it creates.</p>
+<p>Override this method to perform initialization that depends on the
+location at which this object was inserted into the tree (i.e., <a href="https://api.flutter.dev/flutter/widgets/State/context.html">context</a>)
+or on the widget used to configure this object (i.e., <a href="https://api.flutter.dev/flutter/widgets/State/widget.html">widget</a>).</p>
+<p>If a <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a>'s <a href="../../pages_settings_settings_state/SettingsPageState/build.html">build</a> method depends on an object that can itself
+change state, for example a <a href="https://api.flutter.dev/flutter/foundation/ChangeNotifier-class.html">ChangeNotifier</a> or <a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a>, or some
+other object to which one can subscribe to receive notifications, then
+be sure to subscribe and unsubscribe properly in <a href="../../pages_settings_settings_state/SettingsPageState/initState.html">initState</a>,
+<a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a>, and <a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a>:</p>
+<ul>
+<li>In <a href="../../pages_settings_settings_state/SettingsPageState/initState.html">initState</a>, subscribe to the object.</li>
+<li>In <a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a> unsubscribe from the old object and subscribe
+to the new one if the updated widget configuration requires
+replacing the object.</li>
+<li>In <a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a>, unsubscribe from the object.</li>
+</ul>
+<p>You cannot use <a href="https://api.flutter.dev/flutter/widgets/BuildContext/dependOnInheritedWidgetOfExactType.html">BuildContext.dependOnInheritedWidgetOfExactType</a> from this
+method. However, <a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a> will be called immediately
+following this method, and <a href="https://api.flutter.dev/flutter/widgets/BuildContext/dependOnInheritedWidgetOfExactType.html">BuildContext.dependOnInheritedWidgetOfExactType</a> can
+be used there.</p>
+<p>Implementations of this method should start with a call to the inherited
+method, as in <code>super.initState()</code>.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;String&gt; apiAskForLogin() async {
-  if (_email == null || _password == null) {
-    return &#39;Please fill all the field !&#39;;
-  }
-  var response = await http.post(
-    Uri.parse(&#39;http:&#47;&#47;$serverIp:8080&#47;api&#47;login&#39;),
-    headers: &lt;String, String&gt;{
-      &#39;Content-Type&#39;: &#39;application&#47;json; charset=UTF-8&#39;,
-    },
-    body: jsonEncode(
-        &lt;String, String&gt;{&#39;email&#39;: _email!, &#39;password&#39;: _password!}),
-  );
-
-  if (response.statusCode == 201) {
-    try {
-      userInformation = UserData.fromJson(jsonDecode(response.body)[&#39;data&#39;]);
-      return &#39;Login succeed !&#39;;
-    } catch (err) {
-      return &#39;Invalid token... Please retry&#39;;
-    }
-  } else {
-    try {
-      return jsonDecode(response.body)[&#39;message&#39;];
-    } catch (err) {
-      return &#39;Invalid credentials.&#39;;
-    }
-  }
+  <pre class="language-dart"><code class="language-dart">@override
+void initState() {
+  super.initState();
+  _futureAnswer = getAFirstApiAnswer();
 }</code></pre>
 </section>
 
@@ -114,21 +119,21 @@
 
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../../index.html">application</a></li>
-  <li><a href="../../pages_login_login_state/pages_login_login_state-library.html">login_state</a></li>
-  <li><a href="../../pages_login_login_state/LoginPageState-class.html">LoginPageState</a></li>
-  <li class="self-crumb">apiAskForLogin method</li>
+  <li><a href="../../pages_settings_settings_state/pages_settings_settings_state-library.html">settings_state</a></li>
+  <li><a href="../../pages_settings_settings_state/SettingsPageState-class.html">SettingsPageState</a></li>
+  <li class="self-crumb">initState method</li>
 </ol>
 
 
-    <h5>LoginPageState class</h5>
+    <h5>SettingsPageState class</h5>
     <ol>
 
-        <li class="section-title"><a href="../../pages_login_login_state/LoginPageState-class.html#constructors">Constructors</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/LoginPageState.html">LoginPageState</a></li>
+        <li class="section-title"><a href="../../pages_settings_settings_state/SettingsPageState-class.html#constructors">Constructors</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/SettingsPageState.html">SettingsPageState</a></li>
 
 
         <li class="section-title inherited">
-          <a href="../../pages_login_login_state/LoginPageState-class.html#instance-properties">Properties</a>
+          <a href="../../pages_settings_settings_state/SettingsPageState-class.html#instance-properties">Properties</a>
         </li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/context.html">context</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
@@ -136,17 +141,17 @@
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/widget.html">widget</a></li>
 
-        <li class="section-title"><a href="../../pages_login_login_state/LoginPageState-class.html#instance-methods">Methods</a></li>
+        <li class="section-title"><a href="../../pages_settings_settings_state/SettingsPageState-class.html#instance-methods">Methods</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/activate.html">activate</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/apiAskForLogin.html">apiAskForLogin</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/build.html">build</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/apiAskForDelete.html">apiAskForDelete</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/build.html">build</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/getAFirstLoginAnswer.html">getAFirstLoginAnswer</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/initState.html">initState</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/getAFirstApiAnswer.html">getAFirstApiAnswer</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/initState.html">initState</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>
@@ -154,7 +159,7 @@
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html">toString</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toStringShort.html">toStringShort</a></li>
 
-        <li class="section-title inherited"><a href="../../pages_login_login_state/LoginPageState-class.html#operators">Operators</a></li>
+        <li class="section-title inherited"><a href="../../pages_settings_settings_state/SettingsPageState-class.html#operators">Operators</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
 
 

@@ -81,7 +81,7 @@
       userName: json[&#39;user&#39;][&#39;username&#39;],
       email: json[&#39;user&#39;][&#39;email&#39;],
       isAdmin: json[&#39;user&#39;][&#39;isAdmin&#39;],
-      createdAt: json[&#39;user&#39;][&#39;createdAt&#39;],
+      createdAt: DateTime.parse(json[&#39;user&#39;][&#39;createdAt&#39;]),
       token: (isToken ? json[&#39;token&#39;] : null));
 }</code></pre>
 </section>

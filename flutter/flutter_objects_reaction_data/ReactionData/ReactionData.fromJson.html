@@ -73,7 +73,7 @@
   return ReactionData(
       name: json[&#39;reaction&#39;][&#39;name&#39;],
       description: json[&#39;reaction&#39;][&#39;description&#39;],
-      createdAt: json[&#39;reaction&#39;][&#39;createdAt&#39;],
+      createdAt: DateTime.parse(json[&#39;reaction&#39;][&#39;createdAt&#39;]),
       isEnable: json[&#39;reaction&#39;][&#39;isEnable&#39;]);
 }</code></pre>
 </section>

@@ -73,7 +73,7 @@
   return ServiceData(
     name: json[&#39;service&#39;][&#39;name&#39;],
     description: json[&#39;service&#39;][&#39;description&#39;],
-    createdAt: json[&#39;service&#39;][&#39;createdAt&#39;],
+    createdAt: DateTime.parse(json[&#39;service&#39;][&#39;createdAt&#39;]),
   );
 }</code></pre>
 </section>

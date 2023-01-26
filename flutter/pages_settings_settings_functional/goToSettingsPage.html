@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the isAuth property from the login_functional library, for the Dart programming language.">
-  <title>isAuth property - login_functional library - Dart API</title>
+  <meta name="description" content="API docs for the goToSettingsPage function from the settings_functional library, for the Dart programming language.">
+  <title>goToSettingsPage function - settings_functional library - Dart API</title>
 
 
   
@@ -29,10 +29,10 @@
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">application</a></li>
-    <li><a href="../pages_login_login_functional/pages_login_login_functional-library.html">login_functional</a></li>
-    <li class="self-crumb">isAuth property</li>
+    <li><a href="../pages_settings_settings_functional/pages_settings_settings_functional-library.html">settings_functional</a></li>
+    <li class="self-crumb">goToSettingsPage function</li>
   </ol>
-  <div class="self-name">isAuth</div>
+  <div class="self-name">goToSettingsPage</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -49,29 +49,38 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-top-level-property">isAuth</span> top-level property 
+<h1><span class="kind-function">goToSettingsPage</span> function 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
  
 </h1></div>
 
-        <section class="multi-line-signature">
-          
-          <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>
-          <span class="name ">isAuth</span>
-          <div class="features"><span class="feature">read / write</span></div>
-
-        </section>
+    <section class="multi-line-signature">
         
+
+<span class="returntype">void</span>
+<span class="name ">goToSettingsPage</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="goToSettingsPage-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span></li>
+</ol>)
+
+        
+
+    </section>
+    
 <section class="desc markdown">
-  <p>Will be removed when User class will be implemented</p>
+  <p>Navigation function -&gt; Go to Settings page</p>
 </section>
 
-        
+
+    
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">bool isAuth = false;</code></pre>
+  <pre class="language-dart"><code class="language-dart">void goToSettingsPage(BuildContext context) {
+  if (userInformation == null) {
+    context.go(&#39;&#47;&#39;);
+    return;
+  }
+  context.go(&#39;&#47;settings&#39;);
+}</code></pre>
 </section>
-
 
 
   </div> <!-- /.main-content -->
@@ -85,23 +94,20 @@
 
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../index.html">application</a></li>
-  <li><a href="../pages_login_login_functional/pages_login_login_functional-library.html">login_functional</a></li>
-  <li class="self-crumb">isAuth property</li>
+  <li><a href="../pages_settings_settings_functional/pages_settings_settings_functional-library.html">settings_functional</a></li>
+  <li class="self-crumb">goToSettingsPage function</li>
 </ol>
 
 
-    <h5>login_functional library</h5>
+    <h5>settings_functional library</h5>
     <ol>
 
 
 
 
-      <li class="section-title"><a href="../pages_login_login_functional/pages_login_login_functional-library.html#properties">Properties</a></li>
-        <li><a href="../pages_login_login_functional/isAuth.html">isAuth</a></li>
-        <li><a href="../pages_login_login_functional/token.html">token</a></li>
 
-      <li class="section-title"><a href="../pages_login_login_functional/pages_login_login_functional-library.html#functions">Functions</a></li>
-        <li><a href="../pages_login_login_functional/goToLoginPage.html">goToLoginPage</a></li>
+      <li class="section-title"><a href="../pages_settings_settings_functional/pages_settings_settings_functional-library.html#functions">Functions</a></li>
+        <li><a href="../pages_settings_settings_functional/goToSettingsPage.html">goToSettingsPage</a></li>
 
 
 
