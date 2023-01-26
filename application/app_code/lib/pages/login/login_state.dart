@@ -49,6 +49,7 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
+  /// Network function calling the API to reset password
   Future<String> apiAskForResetPassword() async {
     if (_email == null) {
       return 'Please provide a valid email !';
