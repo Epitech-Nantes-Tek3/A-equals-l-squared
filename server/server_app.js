@@ -298,6 +298,27 @@ app.post(
   async (req, res, next) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
+      if (req.user.email != req.body.email) {
+        const token = utils.generateToken(req.user.id)
+        gmail
+          .sendEmail(
+            req.body.email,
+            'Email Verification',
+            'You have updated your e-mail, please go to the following link to confirm your new mail address : http://localhost:8080/api/mail/verification?token=' +
+              token
+          )
+          .catch(_error => {
+            return res.status(401).send('Invalid new e-mail address.')
+          })
+        await database.prisma.User.update({
+          where: {
+            id: req.user.id
+          },
+          data: {
+            mailVerification: false
+          }
+        })
+      }
       await database.prisma.User.update({
         where: {
           id: req.user.id
