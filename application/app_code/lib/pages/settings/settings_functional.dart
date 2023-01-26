@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 /// Navigation function -> Go to Settings page
 void goToSettingsPage(BuildContext context) {
-  if (userInformation != null) {
+  if (userInformation == null) {
     context.go('/');
     return;
   }
