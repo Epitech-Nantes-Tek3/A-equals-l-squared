@@ -68,63 +68,112 @@ class LoginPageState extends State<LoginPage> {
             if (isAuth) {
               return const HomePage();
             }
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                const Text('Login page !'),
-                getHostConfigField(),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'E-mail',
-                  ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (String? value) {
-                    if (value != null &&
-                        !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            .hasMatch(value)) {
-                      return 'Must be a valid email.';
-                    }
-                    _email = value;
-                    return null;
-                  },
+            return Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    const Text('Log In To A=l²',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 48)),
+
+                    getHostConfigField(),
+                    TextButton.icon(
+                        label: const Text('Continue with Apple Account'),
+                        icon: const Icon(Icons.apple),
+                        onPressed: () {
+                          print('Pressed');
+                        }),
+                    TextButton.icon(
+                        label: const Text('Continue with Google Account'),
+                        icon: Icon(Icons.access_alarm),
+                        onPressed: () {
+                          print('Pressed');
+                        }),
+
+                    /// Put Login with Gmail or an other login
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        TextFormField(
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.all(20),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            labelText: 'E-mail',
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (String? value) {
+                            if (value != null &&
+                                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    .hasMatch(value)) {
+                              return 'Must be a valid email.';
+                            }
+                            _email = value;
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 30),
+                        TextFormField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.all(20),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            labelText: "Password",
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (String? value) {
+                            if (value != null && value.length <= 7) {
+                              return 'Password must be min 8 characters long.';
+                            }
+                            _password = value;
+                            return null;
+                          },
+                        ),
+                      ],
+                    ),
+
+                    if (snapshot.hasError)
+                      Text('${snapshot.error}')
+                    else
+                      Text(snapshot.data!),
+                    Column(
+                      children: <Widget>[
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shadowColor: Colors.black,
+                            elevation: 3,
+                          ),
+                          key: const Key('SendLoginButton'),
+                          onPressed: () {
+                            setState(() {
+                              _futureLogin = apiAskForLogin();
+                            });
+                          },
+                          child: const Text('Continue with Email',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 12)),
+                        ),
+                        TextButton(
+                          key: const Key('GoSignupButton'),
+                          onPressed: () {
+                            goToSignupPage(context);
+                          },
+                          child: const Text('No account ? Go to Signup',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 12)),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                TextFormField(
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                  ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (String? value) {
-                    if (value != null && value.length <= 7) {
-                      return 'Password must be min 8 characters long.';
-                    }
-                    _password = value;
-                    return null;
-                  },
-                ),
-                if (snapshot.hasError)
-                  Text('${snapshot.error}')
-                else
-                  Text(snapshot.data!),
-                ElevatedButton(
-                  key: const Key('SendLoginButton'),
-                  onPressed: () {
-                    setState(() {
-                      _futureLogin = apiAskForLogin();
-                    });
-                  },
-                  child: const Text('Login'),
-                ),
-                ElevatedButton(
-                  key: const Key('GoSignupButton'),
-                  onPressed: () {
-                    goToSignupPage(context);
-                  },
-                  child: const Text('No account ? Go to Signup'),
-                ),
-              ],
+              ),
             );
           }
           return const CircularProgressIndicator();
