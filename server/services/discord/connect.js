@@ -1,7 +1,6 @@
 'use strict'
 
 const { Client, Intents } = require('discord.js')
-const fetch = require('node-fetch')
 
 const client = new Client({
   intents: [
