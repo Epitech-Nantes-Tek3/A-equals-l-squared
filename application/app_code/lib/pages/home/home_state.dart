@@ -24,7 +24,6 @@ class HomePageState extends State<HomePage> {
               key: const Key('HomeSettingsButton'),
               onPressed: () {
                 setState(() {
-                  print('...');
                   goToSettingsPage(context);
                 });
               },
