@@ -9,6 +9,7 @@ const auth_token = require('./passport/token')
 const utils = require('./utils')
 const gmail = require('./services/gmail/reactions/send_email')
 const jwt = require('jwt-simple')
+const { hash } = require('./utils')
 require('dotenv').config({ path: '../database.env' })
 
 const app = express()
@@ -151,7 +152,7 @@ app.post('/api/login', (req, res, next) => {
 
 /**
  * Get request use to verify e-mail address with a token
- * Link sended by e-mail
+ * Link sent by e-mail
  */
 app.get('/api/mail/verification', async (req, res) => {
   const token = req.query.token
@@ -179,8 +180,9 @@ app.get('/api/mail/verification', async (req, res) => {
 
 /**
  * Get request to confirm a custom action.
- * Link sended by e-mail
+ * Link sent by e-mail
  * Delete -> Remove the user credentials from the database
+ * ResetPassword -> Reset the current user password and set it to 'password'
  */
 app.get('/api/mail/customVerification', async (req, res) => {
   const token = req.query.token
@@ -191,7 +193,7 @@ app.get('/api/mail/customVerification', async (req, res) => {
         id: decoded.id
       }
     })
-    const process = user.confirmProcess
+    const processType = user.confirmProcess
     await database.prisma.User.update({
       where: {
         id: decoded.id
@@ -200,14 +202,24 @@ app.get('/api/mail/customVerification', async (req, res) => {
         confirmProcess: ''
       }
     })
-    if (process == 'Delete') {
+    if (processType == 'Delete') {
       await database.prisma.User.delete({
         where: {
           id: decoded.id
         }
       })
     }
-    res.send('Operation ' + process + ' authorized and executed.')
+    if (processType == 'ResetPassword') {
+      await database.prisma.User.update({
+        where: {
+          id: decoded.id
+        },
+        data: {
+          password: await hash('password')
+        }
+      })
+    }
+    res.send('Operation ' + processType + ' authorized and executed.')
   } catch (err) {
     console.error(err.message)
     res.status(401).send('No matching user found.')
@@ -246,6 +258,39 @@ app.get(
     return res.json('Verification e-mail sended')
   }
 )
+
+/**
+ * Post request to reset current password
+ * Send a confrmation e-mail before reseting.
+ */
+app.post('/api/user/resetPassword', async (req, res, next) => {
+  const user = await database.prisma.User.findFirst({
+    where: { email: req.body.email }
+  })
+  if (!user) return res.status(400).json('No user found.')
+  if (!user.mailVerification)
+    return res.status(401).json('Please verifiy your e-mail address.')
+  await database.prisma.User.update({
+    where: {
+      id: user.id
+    },
+    data: {
+      confirmProcess: 'ResetPassword'
+    }
+  })
+  const token = utils.generateToken(user.id)
+  gmail
+    .sendEmail(
+      user.email,
+      'Confirm operation',
+      'You asked to regenerate your password. It will be set to : password\nPlease confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
+        token
+    )
+    .catch(_error => {
+      return res.status(401).send('Invalid e-mail address.')
+    })
+  return res.json('Verification e-mail sended.')
+})
 
 /**
  * Start the node.js server at PORT and HOST variable

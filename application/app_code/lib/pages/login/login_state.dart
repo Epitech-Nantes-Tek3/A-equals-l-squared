@@ -49,6 +49,25 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
+  /// Network function calling the API to reset password
+  Future<String> apiAskForResetPassword() async {
+    if (_email == null) {
+      return 'Please provide a valid email !';
+    }
+    var response = await http.post(
+      Uri.parse('http://$serverIp:8080/api/user/resetPassword'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{'email': _email!}),
+    );
+    try {
+      return jsonDecode(response.body);
+    } catch (err) {
+      return 'Invalid e-mail address. Please check it !';
+    }
+  }
+
   /// Initialization function for the api answer
   Future<String> getAFirstLoginAnswer() async {
     return '';
@@ -126,6 +145,15 @@ class LoginPageState extends State<LoginPage> {
                     goToSignupPage(context);
                   },
                   child: const Text('No account ? Go to Signup'),
+                ),
+                ElevatedButton(
+                  key: const Key('AskResetButton'),
+                  onPressed: () {
+                    setState(() {
+                      _futureLogin = apiAskForResetPassword();
+                    });
+                  },
+                  child: const Text('Forgot Password ? Reset it'),
                 ),
               ],
             );
