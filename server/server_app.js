@@ -262,6 +262,7 @@ app.get(
 /**
  * Post request to reset current password
  * Send a confrmation e-mail before reseting.
+ * body.email -> User mail
  */
 app.post('/api/user/resetPassword', async (req, res, next) => {
   const user = await database.prisma.User.findFirst({
@@ -289,8 +290,60 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
     .catch(_error => {
       return res.status(401).send('Invalid e-mail address.')
     })
-  return res.json('Verification e-mail sended.')
+  return res.json('Verification e-mail sent.')
 })
+
+/**
+ * Post request to update user personal data.
+ * body.username -> User name
+ * body.email -> User mail
+ * body.password -> User password
+ * Road protected by token authentification
+ * An new e-mail verification is sent when e-mail is updated.
+ */
+app.post(
+  '/api/user/updateData',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      if (req.user.email != req.body.email) {
+        const token = utils.generateToken(req.user.id)
+        gmail
+          .sendEmail(
+            req.body.email,
+            'Email Verification',
+            'You have updated your e-mail, please go to the following link to confirm your new mail address : http://localhost:8080/api/mail/verification?token=' +
+              token
+          )
+          .catch(_error => {
+            return res.status(401).send('Invalid new e-mail address.')
+          })
+        await database.prisma.User.update({
+          where: {
+            id: req.user.id
+          },
+          data: {
+            mailVerification: false
+          }
+        })
+      }
+      await database.prisma.User.update({
+        where: {
+          id: req.user.id
+        },
+        data: {
+          username: req.body.username,
+          email: req.body.email,
+          password: await hash(req.body.password)
+        }
+      })
+      return res.json('Your informations have been succesfully updated.')
+    } catch (err) {
+      return res.status(400).json('Please pass a complete body.')
+    }
+  }
+)
 
 /**
  * Start the node.js server at PORT and HOST variable
