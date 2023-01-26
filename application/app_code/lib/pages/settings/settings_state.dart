@@ -20,7 +20,7 @@ class SettingsPageState extends State<SettingsPage> {
   /// future api answer
   late Future<String> _futureAnswer;
 
-  /// Network function calling the api to signup
+  /// Network function calling the api for updating user information
   Future<String> apiAskForUpdate() async {
     if (_username == null || _email == null || _password == "") {
       return 'Please fill all the field !';
@@ -81,6 +81,7 @@ class SettingsPageState extends State<SettingsPage> {
     _futureAnswer = getAFirstApiAnswer();
   }
 
+  /// Display function returning a user data customizable visualization
   Widget userDataVisualization() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
