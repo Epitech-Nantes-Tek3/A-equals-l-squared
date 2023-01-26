@@ -155,8 +155,8 @@ app.post('/api/login', (req, res, next) => {
  */
 app.get('/api/mail/verification', async (req, res) => {
   const token = req.query.token
-  const decoded = jwt.decode(token, process.env.JWT_SECRET)
   try {
+    const decoded = jwt.decode(token, process.env.JWT_SECRET)
     const user = await database.prisma.User.findUnique({
       where: {
         id: decoded.id
@@ -184,8 +184,8 @@ app.get('/api/mail/verification', async (req, res) => {
  */
 app.get('/api/mail/customVerification', async (req, res) => {
   const token = req.query.token
-  const decoded = jwt.decode(token, process.env.JWT_SECRET)
   try {
+    const decoded = jwt.decode(token, process.env.JWT_SECRET)
     const user = await database.prisma.User.findUnique({
       where: {
         id: decoded.id
