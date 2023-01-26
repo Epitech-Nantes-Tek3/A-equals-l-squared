@@ -152,7 +152,7 @@ app.post('/api/login', (req, res, next) => {
 
 /**
  * Get request use to verify e-mail address with a token
- * Link sended by e-mail
+ * Link sent by e-mail
  */
 app.get('/api/mail/verification', async (req, res) => {
   const token = req.query.token
