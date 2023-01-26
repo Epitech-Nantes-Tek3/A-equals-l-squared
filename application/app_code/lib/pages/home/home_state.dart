@@ -1,4 +1,5 @@
 import 'package:application/network/informations.dart';
+import 'package:application/pages/settings/settings_functional.dart';
 import 'package:flutter/material.dart';
 
 import '../login/login_functional.dart';
@@ -21,6 +22,15 @@ class HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
+              key: const Key('HomeSettingsButton'),
+              onPressed: () {
+                setState(() {
+                  goToSettingsPage(context);
+                });
+              },
+              child: const Text('Settings'),
+            ),
+            ElevatedButton(
               key: const Key('HomeLogoutButton'),
               onPressed: () {
                 setState(() {
@@ -29,7 +39,6 @@ class HomePageState extends State<HomePage> {
               },
               child: const Text('Logout'),
             ),
-            getHostConfigField()
           ],
         ),
       ));
