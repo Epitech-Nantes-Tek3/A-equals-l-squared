@@ -3,7 +3,8 @@ FROM_EMAIL = 'aequallsquared@gmail.com'
 const database = require('../../database_init')
 const {google} = require('googleapis');
 
-function createGmailService() {
+const createGmailService =
+    async () => {
   const gmailService = {
     name: 'Gmail',
     description: 'Gmail service',
@@ -22,7 +23,7 @@ function createGmailService() {
       createdAt: new Date(),
     }],
   };
-  database.prisma.Service.create({data: gmailService});
+  await database.prisma.Service.create({data: gmailService});
 }
 
 
@@ -30,13 +31,17 @@ function createGmailService() {
  * @brief create the gmail client with the credentials
  * @returns the gmail client
  */
-function getGmailClient() {
-  const auth = new google.auth.OAuth2(
-      process.env.GMAIL_CLIENT_ID, process.env.GMAIL_CLIENT_SECRET);
-  auth.setCredentials({refresh_token: process.env.GMAIL_REFRESH_TOKEN});
-  auth.scopes = ['https://www.googleapis.com/auth/gmail.send'];
+const getGmailClient =
+    () => {
+      const auth = new google.auth.OAuth2(
+          process.env.GMAIL_CLIENT_ID, process.env.GMAIL_CLIENT_SECRET);
+      auth.setCredentials({refresh_token: process.env.GMAIL_REFRESH_TOKEN});
+      auth.scopes = ['https://www.googleapis.com/auth/gmail.send'];
 
-  return google.gmail({version: 'v1', auth});
+      return google.gmail({version: 'v1', auth});
+    }
+
+module.exports = {
+      createGmailService,
+      getGmailClient
 }
-
-module.exports = {getGmailClient}

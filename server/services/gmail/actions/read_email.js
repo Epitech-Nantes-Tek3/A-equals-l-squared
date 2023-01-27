@@ -1,6 +1,7 @@
 const gmail = require('../gmail_init').getGmailClient();
 
-async function readEmail(emailId) {
+const readEmail =
+    async (emailId) => {
   try {
     const email = await gmail.users.messages.get({userId: 'me', id: emailId});
     console.log(email.data.snippet);
@@ -9,7 +10,8 @@ async function readEmail(emailId) {
   }
 }
 
-async function searchEmails(query) {
+const searchEmails =
+    async (query) => {
   try {
     const response = await gmail.users.messages.list({userId: 'me', q: query});
     const messages = response.data.messages;

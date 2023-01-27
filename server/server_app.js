@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const auth = require('./passport/local')
 const auth_token = require('./passport/token')
 const utils = require('./utils')
+const read_email = require('./services/gmail/actions/read_email')
 
 const app = express()
 app.use(bodyParser.json())
@@ -47,6 +48,11 @@ app.use(function (req, res, next) {
  */
 app.get('/', (req, res) => {
   res.send('Hello World')
+})
+
+app.get('/test', (req, res) => {
+  read_email.searchEmails('from:me AND subject:Salut')
+  res.send('Read email')
 })
 
 /**
