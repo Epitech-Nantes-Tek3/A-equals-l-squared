@@ -62,22 +62,22 @@ model Reaction {
 }
 
 model Parameter {
-  id                String              @id @unique @default(cuid())
-  name              String
-  displayName       String
-  description       String?
-  action            Action?             @relation(fields: [actionId], references: [id])
-  actionId          String?
-  reaction          Reaction?           @relation(fields: [reactionId], references: [id])
-  reactionId        String?
-  ActionParameters  ActionParameter[]
-  ReactionParameter ReactionParameter[]
+  id                 String              @id @unique @default(cuid())
+  name               String
+  displayName        String
+  description        String?
+  Action             Action?             @relation(fields: [actionId], references: [id])
+  actionId           String?
+  Reaction           Reaction?           @relation(fields: [reactionId], references: [id])
+  reactionId         String?
+  ActionParameters   ActionParameter[]
+  ReactionParameters ReactionParameter[]
 }
 
 model ActionParameter {
   id                         String                   @id @unique @default(cuid())
   value                      String
-  parameter                  Parameter                @relation(fields: [parameterId], references: [id])
+  Parameter                  Parameter                @relation(fields: [parameterId], references: [id])
   parameterId                String
   UsersHasActionsReactions   UsersHasActionsReactions @relation(fields: [usersHasActionsReactionsId], references: [id])
   usersHasActionsReactionsId String
@@ -86,22 +86,22 @@ model ActionParameter {
 model ReactionParameter {
   id                         String                   @id @unique @default(cuid())
   value                      String
-  parameter                  Parameter                @relation(fields: [parameterId], references: [id])
+  Parameter                  Parameter                @relation(fields: [parameterId], references: [id])
   parameterId                String
   UsersHasActionsReactions   UsersHasActionsReactions @relation(fields: [usersHasActionsReactionsId], references: [id])
   usersHasActionsReactionsId String
 }
 
 model UsersHasActionsReactions {
-  id                String              @id @unique @default(cuid())
-  User              User                @relation(fields: [userId], references: [id])
-  Action            Action              @relation(fields: [actionId], references: [id])
-  Reaction          Reaction            @relation(fields: [reactionId], references: [id])
-  isEnable          Boolean             @default(true)
-  createdAt         DateTime            @default(now())
-  userId            String
-  actionId          String
-  reactionId        String
-  ActionParameter   ActionParameter[]
-  ReactionParameter ReactionParameter[]
+  id                 String              @id @unique @default(cuid())
+  User               User                @relation(fields: [userId], references: [id])
+  Action             Action              @relation(fields: [actionId], references: [id])
+  Reaction           Reaction            @relation(fields: [reactionId], references: [id])
+  isEnable           Boolean             @default(true)
+  createdAt          DateTime            @default(now())
+  userId             String
+  actionId           String
+  reactionId         String
+  ActionParameters   ActionParameter[]
+  ReactionParameters ReactionParameter[]
 }
