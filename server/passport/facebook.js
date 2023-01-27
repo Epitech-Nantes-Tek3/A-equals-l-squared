@@ -27,7 +27,8 @@ passport.use(
             email: profile.emails[0].value,
             facebookId: profile.id,
             password: await hash(profile.id),
-            isAdmin: false
+            isAdmin: false,
+            mailVerification: true
           }
         })
         return done(null, newUser)

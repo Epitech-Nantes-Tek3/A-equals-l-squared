@@ -26,7 +26,8 @@ passport.use(
             email: profile.emails[0].value,
             googleId: profile.id,
             password: await hash(profile.id),
-            isAdmin: false
+            isAdmin: false,
+            mailVerification: true
           }
         })
         return done(null, newUser)
