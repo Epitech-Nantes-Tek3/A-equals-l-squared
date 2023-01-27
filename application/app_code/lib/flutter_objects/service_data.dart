@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// This class is the service class.
 /// It contains all information about a service
 class ServiceData {
@@ -18,6 +20,26 @@ class ServiceData {
       name: json['service']['name'],
       description: json['service']['description'],
       createdAt: DateTime.parse(json['service']['createdAt']),
+    );
+  }
+
+  Widget displayServiceWithInfo() {
+    return Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                const Icon(Icons.access_alarm),
+                Text('Discord Test : $name!'),
+              ],
+            ),
+          ],
+        ),
+        Row(children: <Widget>[
+          Text('Discord description : $description'),
+        ]),
+      ],
     );
   }
 }

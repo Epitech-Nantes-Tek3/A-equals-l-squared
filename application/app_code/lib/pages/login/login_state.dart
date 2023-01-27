@@ -5,6 +5,7 @@ import 'package:application/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../flutter_objects/service_data.dart';
 import '../../flutter_objects/user_data.dart';
 import '../signup/signup_functional.dart';
 import 'login_page.dart';
@@ -18,6 +19,20 @@ class LoginPageState extends State<LoginPage> {
 
   /// future api answer
   late Future<String> _futureLogin;
+
+  ServiceData service = ServiceData.fromJson({
+    "status": "success",
+    "message": "Account created.",
+    "service": {
+      "id": "42",
+      "name": "paupaul",
+      "email": "paupaul@epitech.eu",
+      "description": "beurk",
+      "isAdmin": false,
+      "createdAt": "2023-01-24T08:53:04.687Z"
+    },
+    "token": "tokentest"
+  });
 
   /// Network function calling the api to login
   Future<String> apiAskForLogin() async {
@@ -111,6 +126,7 @@ class LoginPageState extends State<LoginPage> {
                     return null;
                   },
                 ),
+                service.displayServiceWithInfo(),
                 TextFormField(
                   obscureText: true,
                   decoration: const InputDecoration(
