@@ -8,6 +8,7 @@ const session = require('express-session')
 const auth = require('./passport/local')
 const auth_token = require('./passport/token')
 const auth_google = require('./passport/google')
+const auth_facebook = require('./passport/facebook')
 const utils = require('./utils')
 const gmail = require('./services/gmail/reactions/send_email')
 const jwt = require('jwt-simple')
@@ -369,6 +370,31 @@ app.get(
 app.get(
   '/api/login/googleCallBack',
   passport.authenticate('google', { session: false }),
+  (req, res) => {
+    const user = req.user
+    const token = utils.generateToken(user.id)
+    return res.status(201).json({
+      status: 'success',
+      data: {
+        message: 'Welcome back.',
+        user,
+        token
+      },
+      statusCode: res.statusCode
+    })
+  }
+)
+
+app.get(
+  '/api/login/facebook',
+  passport.authenticate('facebook', {
+    scope: ['email']
+  })
+)
+
+app.get(
+  '/api/login/facebookCallBack',
+  passport.authenticate('facebook', { session: false }),
   (req, res) => {
     const user = req.user
     const token = utils.generateToken(user.id)
