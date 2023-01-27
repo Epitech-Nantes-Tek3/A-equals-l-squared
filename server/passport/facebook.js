@@ -21,6 +21,16 @@ passport.use(
           where: { facebookId: profile.id }
         })
         if (user) return done(null, user)
+        const oldUser = await database.prisma.user.findUnique({
+          where: { email: profile.emails[0].value }
+        })
+        if (oldUser) {
+          const newUser = await database.prisma.user.update({
+            where: { email: profile.emails[0].value },
+            data: { facebookId: profile.id }
+          })
+          return done(null, newUser)
+        }
         const newUser = await database.prisma.user.create({
           data: {
             username: profile.name.givenName,
