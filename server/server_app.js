@@ -17,11 +17,11 @@ require('dotenv').config({ path: '../database.env' })
 
 const app = express()
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser((user, done) => {
   done(null, user.id)
 })
 
-passport.deserializeUser(function (id, done) {
+passport.deserializeUser((id, done) => {
   done(null, { id: id })
 })
 
