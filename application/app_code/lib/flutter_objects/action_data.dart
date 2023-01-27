@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// This class is the action class.
 /// It contains all information about an action
 class ActionData {
@@ -21,5 +23,41 @@ class ActionData {
         description: json['action']['description'],
         createdAt: DateTime.parse(json['action']['createdAt']),
         isEnable: json['action']['isEnable']);
+  }
+
+  Widget? displayReactionName() {
+    if (isEnable) {
+      return Column(
+        children: <Widget>[
+          Text(name),
+        ],
+      );
+    } else {
+      return null;
+    }
+  }
+
+  Widget? displayReactionWithInfo() {
+    if (isEnable) {
+      return Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  const Icon(Icons.access_alarm),
+                  Text(name),
+                ],
+              ),
+            ],
+          ),
+          Row(children: <Widget>[
+            Text(description),
+          ]),
+        ],
+      );
+    } else {
+      return null;
+    }
   }
 }
