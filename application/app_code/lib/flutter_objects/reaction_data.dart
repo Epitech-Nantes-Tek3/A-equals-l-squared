@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// This class is the reaction class.
 /// It contains all information about a reaction
 class ReactionData {
@@ -21,5 +23,38 @@ class ReactionData {
         description: json['reaction']['description'],
         createdAt: DateTime.parse(json['reaction']['createdAt']),
         isEnable: json['reaction']['isEnable']);
+  }
+
+  Widget displayReactionName() {
+    return Column(
+      children: <Widget>[
+        Text(name),
+      ],
+    );
+  }
+
+  Widget? displayReactionWithInfo() {
+    if (isEnable) {
+      return Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  const Icon(Icons.access_alarm),
+                  Text(name),
+                ],
+              ),
+            ],
+          ),
+          Row(children: <Widget>[
+            Text(description),
+          ]),
+        ],
+      );
+    }
+    else {
+      return null;
+    }
   }
 }
