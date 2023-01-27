@@ -4,8 +4,10 @@ const express = require('express')
 const passport = require('passport')
 const database = require('./database_init')
 const bodyParser = require('body-parser')
+const session = require('express-session')
 const auth = require('./passport/local')
 const auth_token = require('./passport/token')
+const auth_google = require('./passport/google')
 const utils = require('./utils')
 const gmail = require('./services/gmail/reactions/send_email')
 const jwt = require('jwt-simple')
@@ -13,7 +15,19 @@ const { hash } = require('./utils')
 require('dotenv').config({ path: '../database.env' })
 
 const app = express()
+
+passport.serializeUser(function (user, done) {
+  done(null, user.id)
+})
+
+passport.deserializeUser(function (id, done) {
+  done(null, { id: id })
+})
+
 app.use(bodyParser.json())
+app.use(session({ secret: 'SECRET' }))
+app.use(passport.initialize())
+app.use(passport.session())
 
 const PORT = 8080
 const HOST = '0.0.0.0'
@@ -342,6 +356,31 @@ app.post(
     } catch (err) {
       return res.status(400).json('Please pass a complete body.')
     }
+  }
+)
+
+app.get(
+  '/api/login/google',
+  passport.authenticate('google', {
+    scope: ['email', 'profile']
+  })
+)
+
+app.get(
+  '/api/login/googleCallBack',
+  passport.authenticate('google', { session: false }),
+  (req, res) => {
+    const user = req.user
+    const token = utils.generateToken(user.id)
+    return res.status(201).json({
+      status: 'success',
+      data: {
+        message: 'Welcome back.',
+        user,
+        token
+      },
+      statusCode: res.statusCode
+    })
   }
 )
 
