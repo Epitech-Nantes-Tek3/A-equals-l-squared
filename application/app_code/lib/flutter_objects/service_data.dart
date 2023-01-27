@@ -23,6 +23,14 @@ class ServiceData {
     );
   }
 
+  Widget displayServiceName() {
+    return Column(
+      children: <Widget>[
+        Text(name),
+      ],
+    );
+  }
+
   Widget displayServiceWithInfo() {
     return Column(
       children: <Widget>[
