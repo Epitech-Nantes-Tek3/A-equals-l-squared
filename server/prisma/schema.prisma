@@ -10,10 +10,6 @@ generator docs {
   output   = "../docs/prisma"
 }
 
-generator dbml {
-  provider = "prisma-dbml-generator"
-}
-
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
