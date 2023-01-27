@@ -25,12 +25,16 @@ class ReactionData {
         isEnable: json['reaction']['isEnable']);
   }
 
-  Widget displayReactionName() {
-    return Column(
-      children: <Widget>[
-        Text(name),
-      ],
-    );
+  Widget? displayReactionName() {
+    if (isEnable) {
+      return Column(
+        children: <Widget>[
+          Text(name),
+        ],
+      );
+    } else {
+      return null;
+    }
   }
 
   Widget? displayReactionWithInfo() {
@@ -52,8 +56,7 @@ class ReactionData {
           ]),
         ],
       );
-    }
-    else {
+    } else {
       return null;
     }
   }
