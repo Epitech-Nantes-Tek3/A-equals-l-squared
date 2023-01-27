@@ -28,7 +28,7 @@ class ServiceData {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Column(
+            Row(
               children: <Widget>[
                 const Icon(Icons.access_alarm),
                 Text('Discord Test : $name!'),
