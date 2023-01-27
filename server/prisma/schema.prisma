@@ -7,7 +7,7 @@ generator client {
 
 generator docs {
   provider = "node node_modules/prisma-docs-generator"
-  output = "../docs/prisma"
+  output   = "../docs/prisma"
 }
 
 datasource db {
@@ -46,6 +46,7 @@ model Action {
   createdAt                DateTime                   @default(now())
   Service                  Service                    @relation(fields: [serviceId], references: [id])
   serviceId                String
+  params                   Json?
   UsersHasActionsReactions UsersHasActionsReactions[]
 }
 
@@ -57,6 +58,7 @@ model Reaction {
   createdAt                DateTime                   @default(now())
   Service                  Service                    @relation(fields: [serviceId], references: [id])
   serviceId                String
+  params                   Json?
   UsersHasActionsReactions UsersHasActionsReactions[]
 }
 
@@ -69,13 +71,15 @@ model ActionTrigger {
 }
 
 model UsersHasActionsReactions {
-  id         String   @id @unique @default(cuid())
-  User       User     @relation(fields: [userId], references: [id])
-  Action     Action   @relation(fields: [actionId], references: [id])
-  Reaction   Reaction @relation(fields: [reactionId], references: [id])
-  isEnable   Boolean  @default(true)
-  createdAt  DateTime @default(now())
-  userId     String
-  actionId   String
-  reactionId String
+  id             String   @id @unique @default(cuid())
+  User           User     @relation(fields: [userId], references: [id])
+  Action         Action   @relation(fields: [actionId], references: [id])
+  Reaction       Reaction @relation(fields: [reactionId], references: [id])
+  isEnable       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  userId         String
+  actionId       String
+  actionParams   Json?
+  reactionId     String
+  reactionParams Json?
 }
