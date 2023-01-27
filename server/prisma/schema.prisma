@@ -10,6 +10,10 @@ generator docs {
   output   = "../docs/prisma"
 }
 
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
@@ -24,7 +28,6 @@ model User {
   mailVerification         Boolean                    @default(false)
   confirmProcess           String                     @default("")
   createdAt                DateTime                   @default(now())
-  ActionTriggers           ActionTrigger[]
   UsersHasActionsReactions UsersHasActionsReactions[]
 }
 
@@ -46,7 +49,7 @@ model Action {
   createdAt                DateTime                   @default(now())
   Service                  Service                    @relation(fields: [serviceId], references: [id])
   serviceId                String
-  params                   Json?
+  Parameters               Parameter[]
   UsersHasActionsReactions UsersHasActionsReactions[]
 }
 
@@ -58,28 +61,51 @@ model Reaction {
   createdAt                DateTime                   @default(now())
   Service                  Service                    @relation(fields: [serviceId], references: [id])
   serviceId                String
-  params                   Json?
+  Parameters               Parameter[]
   UsersHasActionsReactions UsersHasActionsReactions[]
 }
 
-model ActionTrigger {
-  id          String   @id @unique @default(cuid())
-  name        String
-  description String?
-  createdAt   DateTime @default(now())
-  Users       User[]
+model Parameter {
+  id                String              @id @unique @default(cuid())
+  name              String
+  displayName       String
+  description       String?
+  action            Action?             @relation(fields: [actionId], references: [id])
+  actionId          String?
+  reaction          Reaction?           @relation(fields: [reactionId], references: [id])
+  reactionId        String?
+  ActionParameters  ActionParameter[]
+  ReactionParameter ReactionParameter[]
+}
+
+model ActionParameter {
+  id                         String                   @id @unique @default(cuid())
+  value                      String
+  parameter                  Parameter                @relation(fields: [parameterId], references: [id])
+  parameterId                String
+  UsersHasActionsReactions   UsersHasActionsReactions @relation(fields: [usersHasActionsReactionsId], references: [id])
+  usersHasActionsReactionsId String
+}
+
+model ReactionParameter {
+  id                         String                   @id @unique @default(cuid())
+  value                      String
+  parameter                  Parameter                @relation(fields: [parameterId], references: [id])
+  parameterId                String
+  UsersHasActionsReactions   UsersHasActionsReactions @relation(fields: [usersHasActionsReactionsId], references: [id])
+  usersHasActionsReactionsId String
 }
 
 model UsersHasActionsReactions {
-  id             String   @id @unique @default(cuid())
-  User           User     @relation(fields: [userId], references: [id])
-  Action         Action   @relation(fields: [actionId], references: [id])
-  Reaction       Reaction @relation(fields: [reactionId], references: [id])
-  isEnable       Boolean  @default(true)
-  createdAt      DateTime @default(now())
-  userId         String
-  actionId       String
-  actionParams   Json?
-  reactionId     String
-  reactionParams Json?
+  id                String              @id @unique @default(cuid())
+  User              User                @relation(fields: [userId], references: [id])
+  Action            Action              @relation(fields: [actionId], references: [id])
+  Reaction          Reaction            @relation(fields: [reactionId], references: [id])
+  isEnable          Boolean             @default(true)
+  createdAt         DateTime            @default(now())
+  userId            String
+  actionId          String
+  reactionId        String
+  ActionParameter   ActionParameter[]
+  ReactionParameter ReactionParameter[]
 }
