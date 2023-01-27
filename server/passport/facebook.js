@@ -6,6 +6,7 @@ const { hash, compare } = require('../utils')
 
 /**
  * Strategy options needed by passport
+ * CallBackUrl will be updated when a real domain will be available.
  */
 const options = {
   clientID: process.env.FACEBOOK_CLIENT_ID,
