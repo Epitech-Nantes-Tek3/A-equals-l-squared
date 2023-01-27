@@ -4,6 +4,9 @@ const passport = require('passport')
 const database = require('../database_init')
 const { hash, compare } = require('../utils')
 
+/**
+ * Strategy options needed by passport
+ */
 const options = {
   clientID: process.env.FACEBOOK_CLIENT_ID,
   clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
@@ -12,6 +15,9 @@ const options = {
   passReqToCallback: true
 }
 
+/**
+ * Setup a passport strategy option for Facebook auth
+ */
 passport.use(
   new FacebookStrategy(
     options,

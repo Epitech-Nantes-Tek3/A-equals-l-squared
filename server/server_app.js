@@ -360,6 +360,9 @@ app.post(
   }
 )
 
+/**
+ * Get request to login with google methods
+ */
 app.get(
   '/api/login/google',
   passport.authenticate('google', {
@@ -367,6 +370,9 @@ app.get(
   })
 )
 
+/**
+ * Private request used by google after login operation
+ */
 app.get(
   '/api/login/googleCallBack',
   passport.authenticate('google', { session: false }),
@@ -385,6 +391,9 @@ app.get(
   }
 )
 
+/**
+ * Get request to login with facebook methods
+ */
 app.get(
   '/api/login/facebook',
   passport.authenticate('facebook', {
@@ -392,6 +401,9 @@ app.get(
   })
 )
 
+/**
+ * Private request used by facebook after login operation
+ */
 app.get(
   '/api/login/facebookCallBack',
   passport.authenticate('facebook', { session: false }),

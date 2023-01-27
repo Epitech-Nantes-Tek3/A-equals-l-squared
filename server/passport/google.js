@@ -4,6 +4,9 @@ const passport = require('passport')
 const database = require('../database_init')
 const { hash, compare } = require('../utils')
 
+/**
+ * Strategy options needed by passport
+ */
 const options = {
   clientID: process.env.GMAIL_CLIENT_ID,
   clientSecret: process.env.GMAIL_CLIENT_SECRET,
@@ -11,6 +14,9 @@ const options = {
   passReqToCallback: true
 }
 
+/**
+ * Setup a passport strategy option for Google auth
+ */
 passport.use(
   new GoogleStrategy(options, async (request, accessToken, profile, done) => {
     try {
