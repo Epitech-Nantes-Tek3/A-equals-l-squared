@@ -22,9 +22,12 @@
         "mocha": "^10.2.0",
         "mysql": "^2.18.1",
         "passport": "^0.6.0",
+        "passport-google-oidc": "^0.1.0",
+        "express-session": "^1.17.3",
         "passport-jwt": "^4.0.1",
         "passport-local": "^1.0.0",
-        "prisma-docs-generator": "^0.5.0"
+        "prisma-docs-generator": "^0.5.0",
+        "passport-facebook": "^3.0.0"
     },
     "repository": {
         "type": "git",

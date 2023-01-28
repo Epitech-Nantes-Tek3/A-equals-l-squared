@@ -17,6 +17,8 @@ datasource db {
 
 model User {
   id                       String                     @id @unique @default(cuid())
+  googleId                 String?                    @unique
+  facebookId               String?                    @unique
   username                 String                     @unique
   email                    String                     @unique
   password                 String
