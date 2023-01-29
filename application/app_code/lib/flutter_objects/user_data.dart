@@ -18,6 +18,7 @@ class UserData {
     required this.createdAt,
   });
 
+  /// Function to display user name
   Widget? displayUserName() {
       return Column(
         children: <Widget>[
@@ -26,6 +27,7 @@ class UserData {
       );
   }
 
+  /// Function to display user email
   Widget? displayUserEmail() {
     return Column(
       children: <Widget>[
@@ -34,6 +36,7 @@ class UserData {
     );
   }
 
+  /// Function to display if an user is admin
   Widget? displayIsUserIsAdmin() {
     if (isAdmin) {
       return Column(

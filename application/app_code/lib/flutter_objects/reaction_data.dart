@@ -25,6 +25,7 @@ class ReactionData {
         isEnable: json['reaction']['isEnable']);
   }
 
+  /// Function to display reaction name
   Widget? displayReactionName() {
     if (isEnable) {
       return Column(
@@ -37,6 +38,7 @@ class ReactionData {
     }
   }
 
+  /// Function to display reaction description
   Widget? displayReactionDescription() {
     if (isEnable) {
       return Column(
@@ -49,6 +51,7 @@ class ReactionData {
     }
   }
 
+  /// Function to display all reaction information
   Widget? displayReactionWithInfo() {
     if (isEnable) {
       return Column(

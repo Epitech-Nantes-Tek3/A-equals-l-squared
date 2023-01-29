@@ -23,6 +23,7 @@ class ServiceData {
     );
   }
 
+  /// Function to display the name of a Service
   Widget displayServiceName() {
     return Column(
       children: <Widget>[
@@ -31,6 +32,16 @@ class ServiceData {
     );
   }
 
+  /// Function to display the description of a Service
+  Widget displayServiceDescription() {
+    return Column(
+      children: <Widget>[
+        Text(description),
+      ],
+    );
+  }
+
+  /// Function to display all information about a Service
   Widget displayServiceWithInfo() {
     return Column(
       children: <Widget>[
