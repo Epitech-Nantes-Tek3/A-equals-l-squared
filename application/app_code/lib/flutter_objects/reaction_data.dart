@@ -37,6 +37,18 @@ class ReactionData {
     }
   }
 
+  Widget? displayReactionDescription() {
+    if (isEnable) {
+      return Column(
+        children: <Widget>[
+          Text(description),
+        ],
+      );
+    } else {
+      return null;
+    }
+  }
+
   Widget? displayReactionWithInfo() {
     if (isEnable) {
       return Column(
