@@ -19,7 +19,7 @@ class ReactionData {
     return ReactionData(
         name: json['reaction']['name'],
         description: json['reaction']['description'],
-        createdAt: json['reaction']['createdAt'],
+        createdAt: DateTime.parse(json['reaction']['createdAt']),
         isEnable: json['reaction']['isEnable']);
   }
 }

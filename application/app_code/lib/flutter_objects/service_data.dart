@@ -17,7 +17,7 @@ class ServiceData {
     return ServiceData(
       name: json['service']['name'],
       description: json['service']['description'],
-      createdAt: json['service']['createdAt'],
+      createdAt: DateTime.parse(json['service']['createdAt']),
     );
   }
 }

@@ -23,11 +23,14 @@ passport.use(
       const existsEmail = await database.prisma.User.findFirst({
         where: { email }
       })
-      if (existsEmail)
+      if (existsEmail && existsEmail.mailVerification)
         return cb(null, false, {
           message: 'Email already exists.',
           statusCode: 400
         })
+      if (existsEmail) {
+        return cb(null, existsEmail)
+      }
       const user = await database.prisma.User.create({
         data: {
           username: req.body.username,
@@ -63,6 +66,11 @@ passport.use(
       if (!validPassword)
         return cb(null, false, {
           message: 'Invalid credentials.',
+          statusCode: 401
+        })
+      if (!user.mailVerification)
+        return cb(null, false, {
+          message: 'Please verifiy your e-mail address.',
           statusCode: 401
         })
       return cb(null, user)

@@ -19,7 +19,7 @@ class ActionData {
     return ActionData(
         name: json['action']['name'],
         description: json['action']['description'],
-        createdAt: json['action']['createdAt'],
+        createdAt: DateTime.parse(json['action']['createdAt']),
         isEnable: json['action']['isEnable']);
   }
 }
