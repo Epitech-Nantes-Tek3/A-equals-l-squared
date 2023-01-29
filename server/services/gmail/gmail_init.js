@@ -3,27 +3,78 @@ FROM_EMAIL = 'aequallsquared@gmail.com'
 const database = require('../../database_init')
 const {google} = require('googleapis');
 
+/**
+ * @brief create the gmail service in the database
+*/
 const createGmailService =
     async () => {
-  const gmailService = {
-    name: 'Gmail',
-    description: 'Gmail service',
-    isEnable: false,
-    createdAt: new Date(),
-    Actions: [{
-      name: 'Read email',
-      description: 'Read an email',
-      isEnable: false,
-      createdAt: new Date(),
-    }],
-    Reactions: [{
-      name: 'Send email',
-      description: 'Send an email',
-      isEnable: false,
-      createdAt: new Date(),
-    }],
-  };
-  await database.prisma.Service.create({data: gmailService});
+  await database.prisma.Service.create({
+    data: {
+      name: 'gmail',
+      description: 'Gmail service',
+      isEnable: true,
+      Actions: {
+        create: [
+          {
+            name: 'get_email',
+            description: 'Get email by id',
+            isEnable: true,
+            parameters: {
+              create: [
+                {
+                  name: 'emailId',
+                  description: 'The id of the email',
+                  type: 'String',
+                },
+              ],
+            },
+          },
+          {
+            name: 'get_emails_by_query',
+            description: 'Get emails by query',
+            isEnable: true,
+            parameters: {
+              create: [
+                {
+                  name: 'query',
+                  description: 'The query to search for',
+                  type: 'String',
+                },
+              ],
+            },
+          },
+        ],
+      },
+      Reactions: {
+        create: [
+          {
+            name: 'send_email',
+            description: 'Send an email',
+            isEnable: true,
+            parameters: {
+              create: [
+                {
+                  name: 'to',
+                  description: 'The email address to send to',
+                  type: 'String',
+                },
+                {
+                  name: 'subject',
+                  description: 'The subject of the email',
+                  type: 'String',
+                },
+                {
+                  name: 'body',
+                  description: 'The body of the email',
+                  type: 'String',
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  });
 }
 
 
