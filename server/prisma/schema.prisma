@@ -17,10 +17,14 @@ datasource db {
 
 model User {
   id                       String                     @id @unique @default(cuid())
+  googleId                 String?                    @unique
+  facebookId               String?                    @unique
   username                 String                     @unique
   email                    String                     @unique
   password                 String
   isAdmin                  Boolean                    @default(false)
+  mailVerification         Boolean                    @default(false)
+  confirmProcess           String                     @default("")
   createdAt                DateTime                   @default(now())
   ActionTriggers           ActionTrigger[]
   UsersHasActionsReactions UsersHasActionsReactions[]

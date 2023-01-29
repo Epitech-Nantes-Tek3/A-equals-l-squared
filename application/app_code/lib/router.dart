@@ -1,5 +1,7 @@
 import 'package:application/pages/home/home_page.dart';
 import 'package:application/pages/login/login_page.dart';
+import 'package:application/pages/settings/settings_page.dart';
+import 'package:application/pages/signup/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,6 +22,16 @@ final GoRouter router = GoRouter(
             return const HomePage();
           },
         ),
+        GoRoute(
+            path: 'signup',
+            builder: (BuildContext context, GoRouterState state) {
+              return const SignupPage();
+            }),
+        GoRoute(
+            path: 'settings',
+            builder: (BuildContext context, GoRouterState state) {
+              return const SettingsPage();
+            })
       ],
     ),
   ],
