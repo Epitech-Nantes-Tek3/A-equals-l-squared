@@ -20,11 +20,11 @@ class UserData {
 
   /// Function to display user name
   Widget? displayUserName() {
-      return Column(
-        children: <Widget>[
-          Text(userName),
-        ],
-      );
+    return Column(
+      children: <Widget>[
+        Text(userName),
+      ],
+    );
   }
 
   /// Function to display user email
