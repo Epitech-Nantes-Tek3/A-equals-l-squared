@@ -75,22 +75,26 @@ class LoginPageState extends State<LoginPage> {
     return '';
   }
 
+  /// This function display our logo
   Widget displayLogo() {
     return const Icon(size: 120, Icons.apple);
   }
 
+  /// This function display the login name of our project
   Widget displayAreaName() {
     return const Text('Log In To A=l²',
         textAlign: TextAlign.center,
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 48));
   }
 
+  /// This function display our logo and the login name of our project
   Widget displayLogoAndName() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[displayLogo(), displayAreaName()]);
   }
 
+  /// This function display the apple button for log with apple AUTH
   Widget displayTextButtonAppleLogin() {
     return TextButton.icon(
         label: const Text('Continue with Apple Account'),
@@ -98,6 +102,7 @@ class LoginPageState extends State<LoginPage> {
         onPressed: () {});
   }
 
+  /// This function display the google button for log with google AUTH
   Widget displayTextButtonGoogleLogin() {
     return TextButton.icon(
         label: const Text('Continue with Google Account'),
@@ -105,6 +110,7 @@ class LoginPageState extends State<LoginPage> {
         onPressed: () {});
   }
 
+  /// This function display the google button for log with google AUTH and the apple button for log with apple AUTH
   Widget displayForRequestWhatConnectionIsUsed() {
     return Column(children: <Widget>[
       displayTextButtonAppleLogin(),
@@ -112,6 +118,7 @@ class LoginPageState extends State<LoginPage> {
     ]);
   }
 
+  /// This function display the button for create a new account
   Widget displayButtonRequestANewAccount() {
     return TextButton(
       key: const Key('GoSignupButton'),
@@ -122,6 +129,7 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
+  /// This function display all widget for the login with an email
   Widget displayButtonRequestForEmailLogin() {
     return Column(
       children: <Widget>[
@@ -149,6 +157,7 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
+  /// This function display widgets for connexion password with an email
   Widget displayPasswordInputForEmailConnexion(snapshot) {
     return Column(children: <Widget>[
       TextFormField(
@@ -186,6 +195,7 @@ class LoginPageState extends State<LoginPage> {
     ]);
   }
 
+  /// These function display the button for request a new password
   Widget displayResetAndForgotPassword() {
     return Column(
       children: <Widget>[
@@ -203,10 +213,12 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
+  /// This function take a Widget in parameter and attribute a shadow black
   Widget materialShadowForArea(Widget widget) {
     return Material(elevation: 5, shadowColor: Colors.black, child: widget);
   }
 
+  /// This function return the Blue Color for our Area project
   Color materialColorBlueForArea() {
     return const Color.fromRGBO(6, 161, 228, 100);
   }
