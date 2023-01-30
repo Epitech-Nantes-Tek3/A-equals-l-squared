@@ -95,18 +95,14 @@ class LoginPageState extends State<LoginPage> {
     return TextButton.icon(
         label: const Text('Continue with Apple Account'),
         icon: const Icon(Icons.apple),
-        onPressed: () {
-          print('Pressed');
-        });
+        onPressed: () {});
   }
 
   Widget displayTextButtonGoogleLogin() {
     return TextButton.icon(
         label: const Text('Continue with Google Account'),
         icon: const Icon(Icons.access_alarm),
-        onPressed: () {
-          print('Pressed');
-        });
+        onPressed: () {});
   }
 
   Widget displayForRequestWhatConnectionIsUsed() {
