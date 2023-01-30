@@ -1,6 +1,6 @@
 'use strict'
 
-const client = require('../connect')
+const client = require('../init')
 
 /**
  * @brief Change the activity of the bot

@@ -1,6 +1,6 @@
 'use strict'
 
-const client = require('../connect')
+const client = require('../init')
 
 /**
  * @brief Triggered when a new user joined the guild.

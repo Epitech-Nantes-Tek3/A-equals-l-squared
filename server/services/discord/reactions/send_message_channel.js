@@ -1,6 +1,6 @@
 'use strict'
 
-const client = require('../connect')
+const client = require('../init')
 
 /**
  * @brief Send a message to a channel
