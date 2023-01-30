@@ -13,6 +13,8 @@
         "@prisma/client": "^4.8.1",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.20.1",
+        "discord": "^0.8.2",
+        "discord.js": "^12.5.3",
         "dotenv": "^16.0.3",
         "dotenv-cli": "^6.0.0",
         "express": "^4.16.1",
@@ -22,9 +24,12 @@
         "mocha": "^10.2.0",
         "mysql": "^2.18.1",
         "passport": "^0.6.0",
+        "passport-google-oidc": "^0.1.0",
+        "express-session": "^1.17.3",
         "passport-jwt": "^4.0.1",
         "passport-local": "^1.0.0",
-        "prisma-docs-generator": "^0.5.0"
+        "prisma-docs-generator": "^0.5.0",
+        "passport-facebook": "^3.0.0"
     },
     "repository": {
         "type": "git",
