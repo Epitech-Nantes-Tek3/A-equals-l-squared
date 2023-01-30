@@ -4,16 +4,37 @@ const express = require('express')
 const passport = require('passport')
 const database = require('./database_init')
 const bodyParser = require('body-parser')
+const session = require('express-session')
 const auth = require('./passport/local')
 const auth_token = require('./passport/token')
+const auth_google = require('./passport/google')
+const auth_facebook = require('./passport/facebook')
 const utils = require('./utils')
 const gmail = require('./services/gmail/reactions/send_email')
 const jwt = require('jwt-simple')
 const { hash } = require('./utils')
 require('dotenv').config({ path: '../database.env' })
 
+const discord = require('./services/discord/init').client
+const onMessage = require('./services/discord/actions/on_message')
+const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
+const onReactionAdd = require('./services/discord/actions/on_reaction_add')
+const onMemberJoining = require('./services/discord/actions/on_member_joining')
+
 const app = express()
+
+passport.serializeUser((user, done) => {
+  done(null, user.id)
+})
+
+passport.deserializeUser((id, done) => {
+  done(null, { id: id })
+})
+
 app.use(bodyParser.json())
+app.use(session({ secret: 'SECRET' }))
+app.use(passport.initialize())
+app.use(passport.session())
 
 const PORT = 8080
 const HOST = '0.0.0.0'
@@ -54,7 +75,7 @@ app.get('/', (req, res) => {
 })
 
 /**
- * Required subject path, send some usefull data about service
+ * Required subject path, send some usefully data about service
  */
 app.get('/about.json', async (req, res) => {
   try {
@@ -171,7 +192,9 @@ app.get('/api/mail/verification', async (req, res) => {
         mailVerification: true
       }
     })
-    res.send('Email now succesfully verified !\nYou can go back to login page.')
+    res.send(
+      'Email now successfully verified !\nYou can go back to login page.'
+    )
   } catch (err) {
     console.error(err.message)
     res.status(401).send('No matching user found.')
@@ -229,7 +252,7 @@ app.get('/api/mail/customVerification', async (req, res) => {
 /**
  * Get request to delete an account
  * Send a confirmation e-mail before deleting.
- * Need to be authentified with a token.
+ * Need to be authenticated with a token.
  */
 app.get(
   '/api/user/deleteAccount',
@@ -261,7 +284,8 @@ app.get(
 
 /**
  * Post request to reset current password
- * Send a confrmation e-mail before reseting.
+ * Send a confirmation e-mail before reseting.
+ * body.email -> User mail
  */
 app.post('/api/user/resetPassword', async (req, res, next) => {
   const user = await database.prisma.User.findFirst({
@@ -269,7 +293,7 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
   })
   if (!user) return res.status(400).json('No user found.')
   if (!user.mailVerification)
-    return res.status(401).json('Please verifiy your e-mail address.')
+    return res.status(401).json('Please verify your e-mail address.')
   await database.prisma.User.update({
     where: {
       id: user.id
@@ -289,8 +313,122 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
     .catch(_error => {
       return res.status(401).send('Invalid e-mail address.')
     })
-  return res.json('Verification e-mail sended.')
+  return res.json('Verification e-mail sent.')
 })
+
+/**
+ * Post request to update user personal data.
+ * body.username -> User name
+ * body.email -> User mail
+ * body.password -> User password
+ * Road protected by token authentication
+ * An new e-mail verification is sent when e-mail is updated.
+ */
+app.post(
+  '/api/user/updateData',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      if (req.user.email != req.body.email) {
+        const token = utils.generateToken(req.user.id)
+        gmail
+          .sendEmail(
+            req.body.email,
+            'Email Verification',
+            'You have updated your e-mail, please go to the following link to confirm your new mail address : http://localhost:8080/api/mail/verification?token=' +
+              token
+          )
+          .catch(_error => {
+            return res.status(401).send('Invalid new e-mail address.')
+          })
+        await database.prisma.User.update({
+          where: {
+            id: req.user.id
+          },
+          data: {
+            mailVerification: false
+          }
+        })
+      }
+      await database.prisma.User.update({
+        where: {
+          id: req.user.id
+        },
+        data: {
+          username: req.body.username,
+          email: req.body.email,
+          password: await hash(req.body.password)
+        }
+      })
+      return res.json('Your informations have been successfully updated.')
+    } catch (err) {
+      return res.status(400).json('Please pass a complete body.')
+    }
+  }
+)
+
+/**
+ * Get request to login with google methods
+ */
+app.get(
+  '/api/login/google',
+  passport.authenticate('google', {
+    scope: ['email', 'profile']
+  })
+)
+
+/**
+ * Private request used by google after login operation
+ */
+app.get(
+  '/api/login/googleCallBack',
+  passport.authenticate('google', { session: false }),
+  (req, res) => {
+    const user = req.user
+    const token = utils.generateToken(user.id)
+    return res.status(201).json({
+      status: 'success',
+      data: {
+        message: 'Welcome back.',
+        user,
+        token
+      },
+      statusCode: res.statusCode
+    })
+  }
+)
+
+/**
+ * Get request to login with facebook methods
+ */
+app.get(
+  '/api/login/facebook',
+  passport.authenticate('facebook', {
+    scope: ['email']
+  })
+)
+
+/**
+ * Private request used by facebook after login operation
+ */
+app.get(
+  '/api/login/facebookCallBack',
+  passport.authenticate('facebook', { session: false }),
+  (req, res) => {
+    const user = req.user
+    const token = utils.generateToken(user.id)
+    return res.status(201).json({
+      status: 'success',
+      data: {
+        message: 'Welcome back.',
+        user,
+        token
+      },
+      statusCode: res.statusCode
+    })
+  }
+)
 
 /**
  * Start the node.js server at PORT and HOST variable
