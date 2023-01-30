@@ -14,8 +14,6 @@ class MyApp extends StatelessWidget {
       title: 'A = L²',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-
-        /// Change to color materialColorBlueForArea()
       ),
       routeInformationProvider: router.routeInformationProvider,
       routeInformationParser: router.routeInformationParser,
