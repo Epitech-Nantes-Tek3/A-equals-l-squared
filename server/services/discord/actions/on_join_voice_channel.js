@@ -1,6 +1,6 @@
 'use strict'
 
-const client = require('../init')
+const client = require('../init').client
 
 /**
  * @brief Triggered when a user joins a Discord voice channel.
@@ -10,7 +10,12 @@ const client = require('../init')
 client.on('voiceStateUpdate', (oldChannel, newChannel) => {
   var oldUserChannel = oldChannel.channelID
   var newUserChannel = newChannel.channelID
-  if (!newUserChannel) console.log('User left the channel') //  Leaving a voice channel
+  if (!newUserChannel) {
+    //  Leaving a voice channel
+    console.log('User left the channel')
+    return
+  }
+
   if (newUserChannel === 'ID of the channel wanted')
     //  If it's the channel that you want
     console.log('Joined the channel wanted')
