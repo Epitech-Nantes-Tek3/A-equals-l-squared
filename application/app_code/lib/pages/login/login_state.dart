@@ -233,17 +233,16 @@ class LoginPageState extends State<LoginPage> {
               return const HomePage();
             }
             return Padding(
-                padding: const EdgeInsets.only(top: 100),
+                padding: const EdgeInsets.only(top: 50),
                 child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 30),
                     child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           displayLogoAndName(),
                           materialShadowForArea(getHostConfigField()),
 
                           /// Put Login with Gmail or an other login
-
                           materialShadowForArea(TextFormField(
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(20),
@@ -265,19 +264,14 @@ class LoginPageState extends State<LoginPage> {
                               return null;
                             },
                           )),
-
                           if (snapshot.hasError)
                             Text('${snapshot.error}')
                           else
                             Text(snapshot.data!),
-                          Column(
-                            children: <Widget>[
-                              if (_isConnexionWithEmail == false)
-                                displayButtonRequestForEmailLogin()
-                            ],
-                          ),
+                          if (_isConnexionWithEmail == false)
+                            displayButtonRequestForEmailLogin(),
                           if (_isConnexionWithEmail)
-                            displayPasswordInputForEmailConnexion(snapshot)
+                            displayPasswordInputForEmailConnexion(snapshot),
                         ])));
           }
           return const CircularProgressIndicator();
