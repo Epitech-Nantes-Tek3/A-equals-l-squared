@@ -7,7 +7,7 @@ generator client {
 
 generator docs {
   provider = "node node_modules/prisma-docs-generator"
-  output = "../docs/prisma"
+  output   = "../docs/prisma"
 }
 
 datasource db {
@@ -17,12 +17,15 @@ datasource db {
 
 model User {
   id                       String                     @id @unique @default(cuid())
+  googleId                 String?                    @unique
+  facebookId               String?                    @unique
   username                 String                     @unique
   email                    String                     @unique
   password                 String
   isAdmin                  Boolean                    @default(false)
+  mailVerification         Boolean                    @default(false)
+  confirmProcess           String                     @default("")
   createdAt                DateTime                   @default(now())
-  ActionTriggers           ActionTrigger[]
   UsersHasActionsReactions UsersHasActionsReactions[]
 }
 
@@ -44,6 +47,7 @@ model Action {
   createdAt                DateTime                   @default(now())
   Service                  Service                    @relation(fields: [serviceId], references: [id])
   serviceId                String
+  Parameters               Parameter[]
   UsersHasActionsReactions UsersHasActionsReactions[]
 }
 
@@ -55,25 +59,51 @@ model Reaction {
   createdAt                DateTime                   @default(now())
   Service                  Service                    @relation(fields: [serviceId], references: [id])
   serviceId                String
+  Parameters               Parameter[]
   UsersHasActionsReactions UsersHasActionsReactions[]
 }
 
-model ActionTrigger {
-  id          String   @id @unique @default(cuid())
-  name        String
-  description String?
-  createdAt   DateTime @default(now())
-  Users       User[]
+model Parameter {
+  id                 String              @id @unique @default(cuid())
+  name               String
+  displayName        String
+  description        String?
+  Action             Action?             @relation(fields: [actionId], references: [id])
+  actionId           String?
+  Reaction           Reaction?           @relation(fields: [reactionId], references: [id])
+  reactionId         String?
+  ActionParameters   ActionParameter[]
+  ReactionParameters ReactionParameter[]
+}
+
+model ActionParameter {
+  id                         String                   @id @unique @default(cuid())
+  value                      String
+  Parameter                  Parameter                @relation(fields: [parameterId], references: [id])
+  parameterId                String
+  UsersHasActionsReactions   UsersHasActionsReactions @relation(fields: [usersHasActionsReactionsId], references: [id])
+  usersHasActionsReactionsId String
+}
+
+model ReactionParameter {
+  id                         String                   @id @unique @default(cuid())
+  value                      String
+  Parameter                  Parameter                @relation(fields: [parameterId], references: [id])
+  parameterId                String
+  UsersHasActionsReactions   UsersHasActionsReactions @relation(fields: [usersHasActionsReactionsId], references: [id])
+  usersHasActionsReactionsId String
 }
 
 model UsersHasActionsReactions {
-  id         String   @id @unique @default(cuid())
-  User       User     @relation(fields: [userId], references: [id])
-  Action     Action   @relation(fields: [actionId], references: [id])
-  Reaction   Reaction @relation(fields: [reactionId], references: [id])
-  isEnable   Boolean  @default(true)
-  createdAt  DateTime @default(now())
-  userId     String
-  actionId   String
-  reactionId String
+  id                 String              @id @unique @default(cuid())
+  User               User                @relation(fields: [userId], references: [id])
+  Action             Action              @relation(fields: [actionId], references: [id])
+  Reaction           Reaction            @relation(fields: [reactionId], references: [id])
+  isEnable           Boolean             @default(true)
+  createdAt          DateTime            @default(now())
+  userId             String
+  actionId           String
+  reactionId         String
+  ActionParameters   ActionParameter[]
+  ReactionParameters ReactionParameter[]
 }

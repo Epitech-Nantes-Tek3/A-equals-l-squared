@@ -29,7 +29,7 @@ class UserData {
         userName: json['user']['username'],
         email: json['user']['email'],
         isAdmin: json['user']['isAdmin'],
-        createdAt: json['user']['createdAt'],
+        createdAt: DateTime.parse(json['user']['createdAt']),
         token: (isToken ? json['token'] : null));
   }
 }
