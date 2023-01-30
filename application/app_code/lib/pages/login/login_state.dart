@@ -272,6 +272,16 @@ class LoginPageState extends State<LoginPage> {
                             displayButtonRequestForEmailLogin(),
                           if (_isConnexionWithEmail)
                             displayPasswordInputForEmailConnexion(snapshot),
+                          if (_isConnexionWithEmail)
+                            TextButton(
+                              key: const Key('GoLoginPageButton'),
+                              onPressed: () {
+                                setState(() {
+                                  _isConnexionWithEmail = false;
+                                });
+                              },
+                              child: const Text('Back to login page...'),
+                            ),
                         ])));
           }
           return const CircularProgressIndicator();
