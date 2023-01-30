@@ -1,6 +1,6 @@
 'use strict'
 
-const client = require('../init')
+const client = require('../init').client
 
 /**
  * @brief Triggered when a user reacts to a message.

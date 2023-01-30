@@ -1,6 +1,6 @@
 'use strict'
 
-const client = require('../init')
+const client = require('../init').client
 
 /**
  * @brief Send a private message to a user

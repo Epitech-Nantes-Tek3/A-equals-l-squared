@@ -1,6 +1,6 @@
 'use strict'
 
-const client = require('../init')
+const client = require('../init').client
 
 /**
  * @brief Triggered when a message is sent on a Discord server. 'message.content'
