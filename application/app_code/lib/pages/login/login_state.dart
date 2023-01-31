@@ -192,7 +192,7 @@ class LoginPageState extends State<LoginPage> {
               });
             },
             child: const Text('Continue with Email',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
           ),
         ),
         if (_isConnexionWithEmail == false)

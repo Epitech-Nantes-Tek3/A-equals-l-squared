@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'A = L²',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Roboto',
       ),
       routeInformationProvider: router.routeInformationProvider,
       routeInformationParser: router.routeInformationParser,
