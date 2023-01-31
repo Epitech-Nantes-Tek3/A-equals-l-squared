@@ -20,6 +20,8 @@ const onMessage = require('./services/discord/actions/on_message')
 const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
+const { createGmailService } = require('./services/gmail/gmail_init')
+const { createDiscordService } = require('./services/discord/init')
 
 const app = express()
 
@@ -38,6 +40,18 @@ app.use(passport.session())
 
 const PORT = 8080
 const HOST = '0.0.0.0'
+
+/**
+ * Add here the database operation needed for development testing
+ */
+const createDevelopmentData = async () => {}
+
+if (process.env.IS_MIGRATION == true) {
+  console.log(process.env.IS_MIGRATION)
+  createGmailService()
+  createDiscordService()
+  createDevelopmentData()
+}
 
 /**
  * A basic function to demonstrate the test framework.
@@ -139,11 +153,6 @@ app.post('/api/signup', (req, res, next) => {
       })
     return res.status(201).json({
       status: 'success',
-      data: {
-        message: 'Account created.',
-        user,
-        token
-      },
       statusCode: res.statusCode
     })
   })(req, res, next)
@@ -525,6 +534,7 @@ app.get(
         statusCode: res.statusCode
       })
     } catch (err) {
+      console.log(err)
       return res.status(400).send('AREA getter temporarily desactivated.')
     }
   }

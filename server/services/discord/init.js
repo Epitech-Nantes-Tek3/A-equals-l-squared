@@ -50,12 +50,12 @@ const createDiscordService = async () => {
             name: 'onVoiceChannel',
             description: 'When a user join a voice channel',
             isEnable: true,
-            parameters: {
+            Parameters: {
               create: [
                 {
                   name: 'channelId',
+                  displayName: 'channelId',
                   description: 'The channel id where the user join',
-                  type: 'string'
                 }
               ]
             }
@@ -73,17 +73,17 @@ const createDiscordService = async () => {
             name: 'sendMessageChannel',
             description: 'Send a message on a channel',
             isEnable: true,
-            parameters: {
+            Parameters: {
               create: [
                 {
                   name: 'messageContent',
+                  displayName: 'messageContent',
                   description: 'The content of the message',
-                  type: 'string'
                 },
                 {
                   name: 'channelId',
+                  displayName: 'channelId',
                   description: 'The channel id where the message will be send',
-                  type: 'string'
                 }
               ]
             }
@@ -92,17 +92,17 @@ const createDiscordService = async () => {
             name: 'sendMessageUser',
             description: 'Send a message to a user',
             isEnable: true,
-            parameters: {
+            Parameters: {
               create: [
                 {
                   name: 'messageContent',
+                  displayName: 'messageContent',
                   description: 'The content of the message',
-                  type: 'string'
                 },
                 {
                   name: 'UserId',
+                  displayName: 'UserId',
                   description: 'The user id where the message will be send',
-                  type: 'string'
                 }
               ]
             }
@@ -111,12 +111,12 @@ const createDiscordService = async () => {
             name: 'changeActivity',
             description: 'Change the activity of the User',
             isEnable: true,
-            parameters: {
+            Parameters: {
               create: [
                 {
                   name: 'activity',
+                  displayName: 'activity',
                   description: 'The activity of the user',
-                  type: 'string'
                 }
               ]
             }

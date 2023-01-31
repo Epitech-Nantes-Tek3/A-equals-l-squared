@@ -24,7 +24,7 @@ async function sendEmail (to, subject, body) {
     userId: 'me',
     resource: { raw: base64EncodedEmail }
   }
-  return gmail.users.messages.send(request)
+  return await gmail.users.messages.send(request)
 }
 
 module.exports = { sendEmail }
