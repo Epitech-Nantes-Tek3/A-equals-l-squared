@@ -22,6 +22,7 @@ const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
 const getVoiceChannels = require('./services/discord/getters/voice_channels')
 const getTextChannels = require('./services/discord/getters/text_channels')
+const getAvailableGuilds = require('./services/discord/getters/available_guilds')
 
 const app = express()
 
@@ -446,6 +447,15 @@ app.get('/api/services/discord/getTextChannels', async (req, res) => {
   return res.status(201).json({
     status: 'success',
     data: channels,
+    statusCode: res.statusCode
+  })
+})
+
+app.get('/api/services/discord/getAvailableGuilds', async (req, res) => {
+  const guilds = await getAvailableGuilds()
+  return res.status(201).json({
+    status: 'success',
+    data: guilds,
     statusCode: res.statusCode
   })
 })
