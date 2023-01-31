@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
 import '../../flutter_objects/user_data.dart';
+import '../../material_lib_functions/material_functions.dart';
 import '../signup/signup_functional.dart';
 import 'login_page.dart';
 
@@ -120,11 +121,6 @@ class LoginPageState extends State<LoginPage> {
     return '';
   }
 
-  /// This function display our logo
-  Widget displayLogo() {
-    return const Icon(Icons.apple, size: 120);
-  }
-
   /// This function display the login name of our project
   Widget displayAreaName() {
     return const Text('Log In To A=l²',
@@ -136,7 +132,7 @@ class LoginPageState extends State<LoginPage> {
   Widget displayLogoAndName() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[displayLogo(), displayAreaName()]);
+        children: <Widget>[displayLogo(120), displayAreaName()]);
   }
 
   /// This function display the apple button for log with apple AUTH
@@ -207,27 +203,8 @@ class LoginPageState extends State<LoginPage> {
   }
 
   /// This function display widgets for connexion password with an email
-  Widget displayPasswordInputForEmailConnexion(snapshot) {
+  Widget displayInputForEmailConnexion(snapshot) {
     return Column(children: <Widget>[
-      TextFormField(
-        obscureText: true,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Password',
-        ),
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: (String? value) {
-          if (value != null && value.length <= 7) {
-            return 'Password must be min 8 characters long.';
-          }
-          _password = value;
-          return null;
-        },
-      ),
-      if (snapshot.hasError)
-        Text('${snapshot.error}')
-      else
-        Text(snapshot.data!),
       SizedBox(
         width: double.infinity,
         child: ElevatedButton(
@@ -262,14 +239,60 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  /// This function take a Widget in parameter and attribute a shadow black
-  Widget materialShadowForArea(Widget widget) {
-    return Material(elevation: 5, shadowColor: Colors.black, child: widget);
-  }
-
-  /// This function return the Blue Color for our Area project
-  Color materialColorBlueForArea() {
-    return const Color.fromRGBO(6, 161, 228, 100);
+  /// This function display input for email login (input mail and password)
+  Widget displayInputForEmailLogin(snapshot) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        /// Put Login with Gmail or an other login
+        materialShadowForArea(TextFormField(
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(20),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            labelText: 'E-mail',
+          ),
+          initialValue: _email,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (String? value) {
+            if (value != null &&
+                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    .hasMatch(value)) {
+              return 'Must be a valid email.';
+            }
+            _email = value;
+            return null;
+          },
+        )),
+        const SizedBox(
+          height: 20,
+        ),
+        if (_isConnexionWithEmail == true)
+          TextFormField(
+            obscureText: true,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Password',
+            ),
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (String? value) {
+              if (value != null && value.length <= 7) {
+                return 'Password must be min 8 characters long.';
+              }
+              _password = value;
+              return null;
+            },
+          ),
+        const SizedBox(
+          height: 20,
+        ),
+        if (_isConnexionWithEmail == true && snapshot.hasError)
+          Text('{$snapshot.error}')
+        else
+          Text(snapshot.data!),
+      ],
+    );
   }
 
   @override
@@ -290,57 +313,35 @@ class LoginPageState extends State<LoginPage> {
                 if (userInformation != null) {
                   return const HomePage();
                 }
-                return Padding(
-                    padding: const EdgeInsets.only(top: 50),
-                    child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 30),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              displayLogoAndName(),
-                              materialShadowForArea(getHostConfigField()),
-
-                              /// Put Login with Gmail or an other login
-                              materialShadowForArea(TextFormField(
-                                decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.all(20),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                  labelText: 'E-mail',
-                                ),
-                                initialValue: _email,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                validator: (String? value) {
-                                  if (value != null &&
-                                      !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                          .hasMatch(value)) {
-                                    return 'Must be a valid email.';
-                                  }
-                                  _email = value;
-                                  return null;
-                                },
-                              )),
-                              if (snapshot.hasError)
-                                Text('${snapshot.error}')
-                              else
-                                Text(snapshot.data!),
-                              if (_isConnexionWithEmail == false)
-                                displayButtonRequestForEmailLogin(),
-                              if (_isConnexionWithEmail)
-                                displayPasswordInputForEmailConnexion(snapshot),
-                              if (_isConnexionWithEmail)
-                                TextButton(
-                                  key: const Key('GoLoginPageButton'),
-                                  onPressed: () {
-                                    setState(() {
-                                      _isConnexionWithEmail = false;
-                                    });
-                                  },
-                                  child: const Text('Back to login page...'),
-                                ),
-                            ])));
+                return Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          displayLogoAndName(),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          materialShadowForArea(getHostConfigField()),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          displayInputForEmailLogin(snapshot),
+                          if (_isConnexionWithEmail == false)
+                            displayButtonRequestForEmailLogin(),
+                          if (_isConnexionWithEmail)
+                            displayInputForEmailConnexion(snapshot),
+                          if (_isConnexionWithEmail)
+                            TextButton(
+                              key: const Key('GoLoginPageButton'),
+                              onPressed: () {
+                                setState(() {
+                                  _isConnexionWithEmail = false;
+                                });
+                              },
+                              child: const Text('Back to login page...'),
+                            ),
+                        ]));
               }
               return const CircularProgressIndicator();
             },
