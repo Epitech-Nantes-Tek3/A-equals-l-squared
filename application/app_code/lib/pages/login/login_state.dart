@@ -57,12 +57,12 @@ class LoginPageState extends State<LoginPage> {
         try {
           return jsonDecode(response.body)['message'];
         } catch (err) {
-          return 'Google Auth temporaly desactivated.';
+          return 'Google Auth temporarily desactivated.';
         }
       }
     } catch (e) {
       debugPrint(e.toString());
-      return 'Google Auth temporaly desactivated.';
+      return 'Google Auth temporarily desactivated.';
     }
   }
 
