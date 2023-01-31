@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../network/informations.dart';
+import '../../material_lib_functions/material_functions.dart';
 import '../login/login_functional.dart';
 import 'signup_page.dart';
 
@@ -49,13 +50,8 @@ class SignupPageState extends State<SignupPage> {
     return '';
   }
 
-  /// This function display our logo
-  Widget displayLogo() {
-    return const Icon(size: 120, Icons.apple);
-  }
-
-  /// This function display the login name of our project
-  Widget displayAreaName() {
+  /// This function display the login and the name of our project
+  Widget displayAreaLoginSentence() {
     return const Text('Log In To A=l²',
         textAlign: TextAlign.center,
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 48));
@@ -65,7 +61,7 @@ class SignupPageState extends State<SignupPage> {
   Widget displayLogoAndName() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[displayLogo(), displayAreaName()]);
+        children: <Widget>[displayLogo(120), displayAreaLoginSentence()]);
   }
 
   @override
@@ -73,11 +69,7 @@ class SignupPageState extends State<SignupPage> {
     super.initState();
     _futureSignup = getAFirstSignupAnswer();
   }
-
-  Widget materialShadowForArea(Widget widget) {
-    return Material(elevation: 5, shadowColor: Colors.black, child: widget);
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
