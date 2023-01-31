@@ -53,6 +53,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
+# For fonts, this use a font in assets/fonts/Roboto/ and you can use it in any Text in our app with Textstyle(fontFamily: '[family_you_want]')
 flutter:
   fonts:
     - family: Roboto-Black
