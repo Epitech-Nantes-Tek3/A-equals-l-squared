@@ -49,16 +49,19 @@ class SignupPageState extends State<SignupPage> {
     return '';
   }
 
+  /// This function display our logo
   Widget displayLogo() {
     return const Icon(size: 120, Icons.apple);
   }
 
+  /// This function display the login name of our project
   Widget displayAreaName() {
     return const Text('Log In To A=l²',
         textAlign: TextAlign.center,
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 48));
   }
 
+  /// This function display our logo and the login name of our project
   Widget displayLogoAndName() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
