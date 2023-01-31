@@ -49,95 +49,126 @@ class SignupPageState extends State<SignupPage> {
     return '';
   }
 
+  /// This function display our logo
+  Widget displayLogo() {
+    return const Icon(size: 120, Icons.apple);
+  }
+
+  /// This function display the login name of our project
+  Widget displayAreaName() {
+    return const Text('Log In To A=l²',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 48));
+  }
+
+  /// This function display our logo and the login name of our project
+  Widget displayLogoAndName() {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[displayLogo(), displayAreaName()]);
+  }
+
   @override
   void initState() {
     super.initState();
     _futureSignup = getAFirstSignupAnswer();
   }
 
+  Widget materialShadowForArea(Widget widget) {
+    return Material(elevation: 5, shadowColor: Colors.black, child: widget);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          const Text('Welcome to Signup page !'),
-          getHostConfigField(),
-          TextFormField(
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Username',
-            ),
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (String? value) {
-              if (value != null && value.length <= 4) {
-                return 'Username must be min 5 characters long.';
-              }
-              _username = value;
-              return null;
-            },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'E-mail',
-            ),
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (String? value) {
-              if (value != null &&
-                  !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                      .hasMatch(value)) {
-                return 'Must be a valid email.';
-              }
-              _email = value;
-              return null;
-            },
-          ),
-          TextFormField(
-            obscureText: true,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Password',
-            ),
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (String? value) {
-              if (value != null && value.length <= 7) {
-                return 'Password must be min 8 characters long.';
-              }
-              _password = value;
-              return null;
-            },
-          ),
-          FutureBuilder<String>(
-            future: _futureSignup,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data!);
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const CircularProgressIndicator();
-            },
-          ),
-          ElevatedButton(
-            key: const Key('SendSignupButton'),
-            onPressed: () {
-              setState(() {
-                _futureSignup = apiAskForSignup();
-              });
-            },
-            child: const Text('Signup'),
-          ),
-          ElevatedButton(
-            key: const Key('GoLoginButton'),
-            onPressed: () {
-              goToLoginPage(context);
-            },
-            child: const Text('Back to login screen...'),
-          ),
-        ],
-      ),
-    ));
+            child: Padding(
+                padding: const EdgeInsets.only(top: 50),
+                child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        displayLogoAndName(),
+                        const Text(
+                          'Welcome to Signup page !',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 22),
+                        ),
+                        materialShadowForArea(getHostConfigField()),
+                        materialShadowForArea(TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Username',
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (String? value) {
+                            if (value != null && value.length <= 4) {
+                              return 'Username must be min 5 characters long.';
+                            }
+                            _username = value;
+                            return null;
+                          },
+                        )),
+                        materialShadowForArea(TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'E-mail',
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (String? value) {
+                            if (value != null &&
+                                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    .hasMatch(value)) {
+                              return 'Must be a valid email.';
+                            }
+                            _email = value;
+                            return null;
+                          },
+                        )),
+                        materialShadowForArea(TextFormField(
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Password',
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (String? value) {
+                            if (value != null && value.length <= 7) {
+                              return 'Password must be min 8 characters long.';
+                            }
+                            _password = value;
+                            return null;
+                          },
+                        )),
+                        FutureBuilder<String>(
+                          future: _futureSignup,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(snapshot.data!);
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            }
+                            return const CircularProgressIndicator();
+                          },
+                        ),
+                        ElevatedButton(
+                          key: const Key('SendSignupButton'),
+                          onPressed: () {
+                            setState(() {
+                              _futureSignup = apiAskForSignup();
+                            });
+                          },
+                          child: const Text('Signup'),
+                        ),
+                        TextButton(
+                          key: const Key('GoLoginButton'),
+                          onPressed: () {
+                            goToLoginPage(context);
+                          },
+                          child: const Text('Back to login screen...'),
+                        ),
+                      ],
+                    )))));
   }
 }
