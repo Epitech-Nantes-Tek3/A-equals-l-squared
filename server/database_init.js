@@ -16,10 +16,14 @@ const connection = mysql.createPool({
   database: process.env.database
 })
 
-createGmailService();
-createDiscordService();
+/**
+ * Add here the database operation needed for development testing
+ */
+const createDevelopmentData = async () => {}
 
-/// Add here database operation needed for development testing
+createGmailService()
+createDiscordService()
+createDevelopmentData()
 
 module.exports = {
   prisma,
