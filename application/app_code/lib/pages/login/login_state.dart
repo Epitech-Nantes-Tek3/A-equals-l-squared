@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
 import '../../flutter_objects/user_data.dart';
+import '../../material_lib_functions/material_functions.dart';
 import '../signup/signup_functional.dart';
 import 'login_page.dart';
 
@@ -120,11 +121,6 @@ class LoginPageState extends State<LoginPage> {
     return '';
   }
 
-  /// This function display our logo
-  Widget displayLogo() {
-    return const Icon(Icons.apple, size: 120);
-  }
-
   /// This function display the login name of our project
   Widget displayAreaName() {
     return const Text('Log In To A=l²',
@@ -136,7 +132,7 @@ class LoginPageState extends State<LoginPage> {
   Widget displayLogoAndName() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[displayLogo(), displayAreaName()]);
+        children: <Widget>[displayLogo(120), displayAreaName()]);
   }
 
   /// This function display the apple button for log with apple AUTH
@@ -243,16 +239,7 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  /// This function take a Widget in parameter and attribute a shadow black
-  Widget materialShadowForArea(Widget widget) {
-    return Material(elevation: 5, shadowColor: Colors.black, child: widget);
-  }
-
-  /// This function return the Blue Color for our Area project
-  Color materialColorBlueForArea() {
-    return const Color.fromRGBO(6, 161, 228, 100);
-  }
-
+  /// This function display input for email login (input mail and password)
   Widget displayInputForEmailLogin(snapshot) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -332,6 +319,9 @@ class LoginPageState extends State<LoginPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           displayLogoAndName(),
+                          const SizedBox(
+                            height: 50,
+                          ),
                           materialShadowForArea(getHostConfigField()),
                           const SizedBox(
                             height: 20,
