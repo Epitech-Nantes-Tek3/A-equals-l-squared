@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the displayLogo method from the LoginPageState class, for the Dart programming language.">
-  <title>displayLogo method - LoginPageState class - login_state library - Dart API</title>
+  <meta name="description" content="API docs for the displayInputForEmailLogin method from the LoginPageState class, for the Dart programming language.">
+  <title>displayInputForEmailLogin method - LoginPageState class - login_state library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">application</a></li>
     <li><a href="../../pages_login_login_state/pages_login_login_state-library.html">login_state</a></li>
     <li><a href="../../pages_login_login_state/LoginPageState-class.html">LoginPageState</a></li>
-    <li class="self-crumb">displayLogo method</li>
+    <li class="self-crumb">displayInputForEmailLogin method</li>
   </ol>
-  <div class="self-name">displayLogo</div>
+  <div class="self-name">displayInputForEmailLogin</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -50,7 +50,7 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">displayLogo</span> method 
+<h1><span class="kind-method">displayInputForEmailLogin</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
@@ -58,22 +58,74 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
-<span class="name ">displayLogo</span>(<wbr>)
+<span class="name ">displayInputForEmailLogin</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="displayInputForEmailLogin-param-snapshot"><span class="type-annotation">dynamic</span> <span class="parameter-name">snapshot</span></span></li>
+</ol>)
 
       
 
     </section>
     
 <section class="desc markdown">
-  <p>This function display our logo</p>
+  <p>This function display input for email login (input mail and password)</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Widget displayLogo() {
-  return const Icon(Icons.apple, size: 120);
+  <pre class="language-dart"><code class="language-dart">Widget displayInputForEmailLogin(snapshot) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: &lt;Widget&gt;[
+      &#47;&#47;&#47; Put Login with Gmail or an other login
+      materialShadowForArea(TextFormField(
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(20),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          labelText: &#39;E-mail&#39;,
+        ),
+        initialValue: _email,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: (String? value) {
+          if (value != null &amp;&amp;
+              !RegExp(r&quot;^[a-zA-Z0-9.a-zA-Z0-9.!#$%&amp;&#39;*+-&#47;=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+&quot;)
+                  .hasMatch(value)) {
+            return &#39;Must be a valid email.&#39;;
+          }
+          _email = value;
+          return null;
+        },
+      )),
+      const SizedBox(
+        height: 20,
+      ),
+      if (_isConnexionWithEmail == true)
+        TextFormField(
+          obscureText: true,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: &#39;Password&#39;,
+          ),
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (String? value) {
+            if (value != null &amp;&amp; value.length &lt;= 7) {
+              return &#39;Password must be min 8 characters long.&#39;;
+            }
+            _password = value;
+            return null;
+          },
+        ),
+      const SizedBox(
+        height: 20,
+      ),
+      if (_isConnexionWithEmail == true &amp;&amp; snapshot.hasError)
+        Text(&#39;{$snapshot.error}&#39;)
+      else
+        Text(snapshot.data!),
+    ],
+  );
 }</code></pre>
 </section>
 
@@ -91,7 +143,7 @@
   <li><a href="../../index.html">application</a></li>
   <li><a href="../../pages_login_login_state/pages_login_login_state-library.html">login_state</a></li>
   <li><a href="../../pages_login_login_state/LoginPageState-class.html">LoginPageState</a></li>
-  <li class="self-crumb">displayLogo method</li>
+  <li class="self-crumb">displayInputForEmailLogin method</li>
 </ol>
 
 
@@ -124,17 +176,15 @@
           <li><a href="../../pages_login_login_state/LoginPageState/displayButtonRequestANewAccount.html">displayButtonRequestANewAccount</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/displayButtonRequestForEmailLogin.html">displayButtonRequestForEmailLogin</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/displayForRequestWhatConnectionIsUsed.html">displayForRequestWhatConnectionIsUsed</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/displayLogo.html">displayLogo</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/displayInputForEmailConnexion.html">displayInputForEmailConnexion</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/displayInputForEmailLogin.html">displayInputForEmailLogin</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/displayLogoAndName.html">displayLogoAndName</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/displayPasswordInputForEmailConnexion.html">displayPasswordInputForEmailConnexion</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/displayResetAndForgotPassword.html">displayResetAndForgotPassword</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/displayTextButtonAppleLogin.html">displayTextButtonAppleLogin</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/displayTextButtonGoogleLogin.html">displayTextButtonGoogleLogin</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/getAFirstLoginAnswer.html">getAFirstLoginAnswer</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/initState.html">initState</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/materialColorBlueForArea.html">materialColorBlueForArea</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/materialShadowForArea.html">materialShadowForArea</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>

@@ -189,57 +189,35 @@ Widget build(BuildContext context) {
               if (userInformation != null) {
                 return const HomePage();
               }
-              return Padding(
-                  padding: const EdgeInsets.only(top: 50),
-                  child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 30),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: &lt;Widget&gt;[
-                            displayLogoAndName(),
-                            materialShadowForArea(getHostConfigField()),
-
-                            &#47;&#47;&#47; Put Login with Gmail or an other login
-                            materialShadowForArea(TextFormField(
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(20),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                ),
-                                labelText: &#39;E-mail&#39;,
-                              ),
-                              initialValue: _email,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: (String? value) {
-                                if (value != null &amp;&amp;
-                                    !RegExp(r&quot;^[a-zA-Z0-9.a-zA-Z0-9.!#$%&amp;&#39;*+-&#47;=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+&quot;)
-                                        .hasMatch(value)) {
-                                  return &#39;Must be a valid email.&#39;;
-                                }
-                                _email = value;
-                                return null;
-                              },
-                            )),
-                            if (snapshot.hasError)
-                              Text(&#39;${snapshot.error}&#39;)
-                            else
-                              Text(snapshot.data!),
-                            if (_isConnexionWithEmail == false)
-                              displayButtonRequestForEmailLogin(),
-                            if (_isConnexionWithEmail)
-                              displayPasswordInputForEmailConnexion(snapshot),
-                            if (_isConnexionWithEmail)
-                              TextButton(
-                                key: const Key(&#39;GoLoginPageButton&#39;),
-                                onPressed: () {
-                                  setState(() {
-                                    _isConnexionWithEmail = false;
-                                  });
-                                },
-                                child: const Text(&#39;Back to login page...&#39;),
-                              ),
-                          ])));
+              return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: &lt;Widget&gt;[
+                        displayLogoAndName(),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        materialShadowForArea(getHostConfigField()),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        displayInputForEmailLogin(snapshot),
+                        if (_isConnexionWithEmail == false)
+                          displayButtonRequestForEmailLogin(),
+                        if (_isConnexionWithEmail)
+                          displayInputForEmailConnexion(snapshot),
+                        if (_isConnexionWithEmail)
+                          TextButton(
+                            key: const Key(&#39;GoLoginPageButton&#39;),
+                            onPressed: () {
+                              setState(() {
+                                _isConnexionWithEmail = false;
+                              });
+                            },
+                            child: const Text(&#39;Back to login page...&#39;),
+                          ),
+                      ]));
             }
             return const CircularProgressIndicator();
           },
@@ -295,17 +273,15 @@ Widget build(BuildContext context) {
           <li><a href="../../pages_login_login_state/LoginPageState/displayButtonRequestANewAccount.html">displayButtonRequestANewAccount</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/displayButtonRequestForEmailLogin.html">displayButtonRequestForEmailLogin</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/displayForRequestWhatConnectionIsUsed.html">displayForRequestWhatConnectionIsUsed</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/displayLogo.html">displayLogo</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/displayInputForEmailConnexion.html">displayInputForEmailConnexion</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/displayInputForEmailLogin.html">displayInputForEmailLogin</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/displayLogoAndName.html">displayLogoAndName</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/displayPasswordInputForEmailConnexion.html">displayPasswordInputForEmailConnexion</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/displayResetAndForgotPassword.html">displayResetAndForgotPassword</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/displayTextButtonAppleLogin.html">displayTextButtonAppleLogin</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/displayTextButtonGoogleLogin.html">displayTextButtonGoogleLogin</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/getAFirstLoginAnswer.html">getAFirstLoginAnswer</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/initState.html">initState</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/materialColorBlueForArea.html">materialColorBlueForArea</a></li>
-          <li><a href="../../pages_login_login_state/LoginPageState/materialShadowForArea.html">materialShadowForArea</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>
