@@ -340,7 +340,7 @@ const token = utils.generateToken(user.id)
   }
 )
 
-app.post('api/area/create', async (req, res) => {
+app.post('/api/area/create', async (req, res) => {
       try {
         const ActionParameters = []
 
@@ -366,8 +366,10 @@ app.post('api/area/create', async (req, res) => {
                 ReactionParameters: {create: ReactionParameters}
               }
             })
-        return res.json(area)
+        console.log(areaCreation)
+        return res.json(areaCreation)
       } catch (err) {
+        console.log(err)
         return res.status(400).json('Please pass a complete body.')
       }
     })
