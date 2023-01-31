@@ -1,4 +1,5 @@
 import 'package:application/network/informations.dart';
+import 'package:application/pages/home/home_functional.dart';
 import 'package:application/pages/settings/settings_functional.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,12 @@ import 'home_page.dart';
 class HomePageState extends State<HomePage> {
   /// local variable telling if we wanted to logout
   bool _logout = false;
+
+  @override
+  void initState() {
+    super.initState();
+    updateAllFlutterObject(context);
+  }
 
   @override
   Widget build(BuildContext context) {

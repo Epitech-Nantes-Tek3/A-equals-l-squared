@@ -1,12 +1,13 @@
-import 'package:application/network/informations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 /// Navigation function -> Go to Home page
 void goToHomePage(BuildContext context) {
-  if (userInformation == null) {
-    context.go('/');
-    return;
-  }
-  context.go('/home');
+  updateAllFlutterObject(context);
+  context.go('/');
+}
+
+/// Update all the Flutter object and call the api
+void updateAllFlutterObject(BuildContext context) async {
+  print('Update');
 }

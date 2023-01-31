@@ -5,7 +5,7 @@ import 'package:application/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../login/login_functional.dart';
+import '../home/home_functional.dart';
 
 class SettingsPageState extends State<SettingsPage> {
   /// username to update
@@ -180,7 +180,7 @@ class SettingsPageState extends State<SettingsPage> {
             key: const Key('SettingsHomeButton'),
             onPressed: () {
               setState(() {
-                goToLoginPage(context);
+                goToHomePage(context);
               });
             },
             child: const Text('Go Home'),
