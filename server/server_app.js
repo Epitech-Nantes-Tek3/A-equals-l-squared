@@ -369,35 +369,69 @@ app.post(
 )
 
 /**
- * Get request to login with google methods
+ * Post request to login with google methods
+ * body.id -> Google Id
+ * body.email -> User Email
+ * body.displayName -> User name
  */
-app.get(
-  '/api/login/google',
-  passport.authenticate('google', {
-    scope: ['email', 'profile']
-  })
-)
-
-/**
- * Private request used by google after login operation
- */
-app.get(
-  '/api/login/googleCallBack',
-  passport.authenticate('google', { session: false }),
-  (req, res) => {
-    const user = req.user
-    const token = utils.generateToken(user.id)
+app.post('/api/login/google', async (req, res, next) => {
+  try {
+    const user = await database.prisma.user.findUnique({
+      where: { googleId: req.body.id }
+    })
+    if (user) {
+      const token = utils.generateToken(user.id)
+      return res.status(201).json({
+        status: 'success',
+        data: {
+          user,
+          token
+        },
+        statusCode: res.statusCode
+      })
+    }
+    const oldUser = await database.prisma.user.findUnique({
+      where: { email: req.body.email }
+    })
+    if (oldUser) {
+      const newUser = await database.prisma.user.update({
+        where: { email: req.body.email },
+        data: { googleId: req.body.id }
+      })
+      const token = utils.generateToken(newUser.id)
+      return res.status(201).json({
+        status: 'success',
+        data: {
+          newUser,
+          token
+        },
+        statusCode: res.statusCode
+      })
+    }
+    const newUser = await database.prisma.user.create({
+      data: {
+        username: req.body.displayName,
+        email: req.body.email,
+        googleId: req.body.id,
+        password: await hash(req.body.id),
+        isAdmin: false,
+        mailVerification: true
+      }
+    })
+    const token = utils.generateToken(newUser.id)
     return res.status(201).json({
       status: 'success',
       data: {
-        message: 'Welcome back.',
-        user,
+        newUser,
         token
       },
       statusCode: res.statusCode
     })
+  } catch (err) {
+    console.error(err.message)
+    return res.status(401).send('Google auth failed.')
   }
-)
+})
 
 /**
  * Get request to login with facebook methods
