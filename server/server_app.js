@@ -520,11 +520,7 @@ app.get(
     try {
       const areas = await database.prisma.UsersHasActionsReactions.findMany({
         where: {
-          User: {
-            where: {
-              id: req.user.id
-            }
-          }
+          userId: req.user.id
         },
         orderBy: {
           createdAt: 'desc'
