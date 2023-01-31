@@ -233,69 +233,70 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Center(
-      child: FutureBuilder<String>(
-        future: _futureLogin,
-        builder: (context, snapshot) {
-          if (snapshot.hasData || snapshot.hasError) {
-            if (userInformation != null) {
-              return const HomePage();
-            }
-            return Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          displayLogoAndName(),
-                          materialShadowForArea(getHostConfigField()),
+          child: FutureBuilder<String>(
+            future: _futureLogin,
+            builder: (context, snapshot) {
+              if (snapshot.hasData || snapshot.hasError) {
+                if (userInformation != null) {
+                  return const HomePage();
+                }
+                return Padding(
+                    padding: const EdgeInsets.only(top: 50),
+                    child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              displayLogoAndName(),
+                              materialShadowForArea(getHostConfigField()),
 
-                          /// Put Login with Gmail or an other login
-                          materialShadowForArea(TextFormField(
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(20),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              labelText: 'E-mail',
-                            ),
-                            initialValue: _email,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            validator: (String? value) {
-                              if (value != null &&
-                                  !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                      .hasMatch(value)) {
-                                return 'Must be a valid email.';
-                              }
-                              _email = value;
-                              return null;
-                            },
-                          )),
-                          if (snapshot.hasError)
-                            Text('${snapshot.error}')
-                          else
-                            Text(snapshot.data!),
-                          if (_isConnexionWithEmail == false)
-                            displayButtonRequestForEmailLogin(),
-                          if (_isConnexionWithEmail)
-                            displayPasswordInputForEmailConnexion(snapshot),
-                          if (_isConnexionWithEmail)
-                            TextButton(
-                              key: const Key('GoLoginPageButton'),
-                              onPressed: () {
-                                setState(() {
-                                  _isConnexionWithEmail = false;
-                                });
-                              },
-                              child: const Text('Back to login page...'),
-                            ),
-                        ])));
-          }
-          return const CircularProgressIndicator();
-        },
-      ),
-    ));
+                              /// Put Login with Gmail or an other login
+                              materialShadowForArea(TextFormField(
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.all(20),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                  labelText: 'E-mail',
+                                ),
+                                initialValue: _email,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (String? value) {
+                                  if (value != null &&
+                                      !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(value)) {
+                                    return 'Must be a valid email.';
+                                  }
+                                  _email = value;
+                                  return null;
+                                },
+                              )),
+                              if (snapshot.hasError)
+                                Text('${snapshot.error}')
+                              else
+                                Text(snapshot.data!),
+                              if (_isConnexionWithEmail == false)
+                                displayButtonRequestForEmailLogin(),
+                              if (_isConnexionWithEmail)
+                                displayPasswordInputForEmailConnexion(snapshot),
+                              if (_isConnexionWithEmail)
+                                TextButton(
+                                  key: const Key('GoLoginPageButton'),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isConnexionWithEmail = false;
+                                    });
+                                  },
+                                  child: const Text('Back to login page...'),
+                                ),
+                            ])));
+              }
+              return const CircularProgressIndicator();
+            },
+          ),
+        ));
   }
 }
