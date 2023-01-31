@@ -76,7 +76,11 @@
   return TextButton.icon(
       label: const Text(&#39;Continue with Google Account&#39;),
       icon: const Icon(Icons.access_alarm),
-      onPressed: () {});
+      onPressed: () {
+        setState(() {
+          _futureLogin = _signInGoogle();
+        });
+      });
 }</code></pre>
 </section>
 
