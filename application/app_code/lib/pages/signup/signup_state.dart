@@ -51,7 +51,7 @@ class SignupPageState extends State<SignupPage> {
 
   /// This function display our logo
   Widget displayLogo() {
-    return Icon(size: 120, Icons.apple);
+    return const Icon(Icons.apple, size: 120);
   }
 
   /// This function display the login name of our project
