@@ -88,6 +88,9 @@ flutter:
     - family: Roboto-Medium
         fonts:
             - asset: assets/fonts/Roboto/Roboto-Medium.ttf
+    - family: Roboto-MediumItalic
+        fonts:
+            - asset: assets/fonts/Roboto/Roboto-MediumItalic.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
