@@ -2,7 +2,7 @@
 
 const client = require('../init').client
 
-function get_voice_channels (guildID) {
+function getVoiceChannels (guildID) {
   var voice_channels = []
   var voice_channel = {}
   client.guilds.cache.get(guildID).channels.cache.filter(channel => {
@@ -17,4 +17,4 @@ function get_voice_channels (guildID) {
   return voice_channels
 }
 
-module.exports = get_voice_channels
+module.exports = getVoiceChannels
