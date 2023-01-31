@@ -465,7 +465,8 @@ app.get(
 )
 
 /**
- * Get request returning all enabled service
+ * Get request returning all enabled service sorted by creation date.
+ * Need to be authenticated with a token.
  */
 app.get(
   '/api/get/Service',
@@ -494,6 +495,10 @@ app.get(
   }
 )
 
+/**
+ * Get request returning all user AREA sorted by creation date.
+ * Need to be authenticated with a token.
+ */
 app.get(
   '/api/get/area',
   passport.authenticate('jwt', { session: false }),
