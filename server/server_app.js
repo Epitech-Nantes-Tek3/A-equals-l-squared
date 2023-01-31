@@ -471,10 +471,14 @@ app.get(
   '/api/get/Service',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
+    if (!req.user) return res.status(401).send('Invalid token')
     try {
       const services = await database.prisma.Service.findMany({
         where: {
           isEnable: true
+        },
+        orderBy: {
+          createdAt: 'desc'
         }
       })
       return res.status(200).json({
@@ -486,6 +490,37 @@ app.get(
       })
     } catch (err) {
       return res.status(400).send('Service getter temporarily desactivated.')
+    }
+  }
+)
+
+app.get(
+  '/api/get/area',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      const areas = await database.prisma.Service.findMany({
+        where: {
+          User: {
+            some: {
+              id: req.user.id
+            }
+          }
+        },
+        orderBy: {
+          createdAt: 'desc'
+        }
+      })
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          areas
+        },
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      return res.status(400).send('AREA getter temporarily desactivated.')
     }
   }
 )
