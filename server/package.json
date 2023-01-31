@@ -13,6 +13,8 @@
         "@prisma/client": "^4.8.1",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.20.1",
+        "discord": "^0.8.2",
+        "discord.js": "^12.5.3",
         "dotenv": "^16.0.3",
         "dotenv-cli": "^6.0.0",
         "express": "^4.16.1",

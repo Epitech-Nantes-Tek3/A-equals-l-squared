@@ -15,6 +15,12 @@ const jwt = require('jwt-simple')
 const { hash } = require('./utils')
 require('dotenv').config({ path: '../database.env' })
 
+const discord = require('./services/discord/init').client
+const onMessage = require('./services/discord/actions/on_message')
+const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
+const onReactionAdd = require('./services/discord/actions/on_reaction_add')
+const onMemberJoining = require('./services/discord/actions/on_member_joining')
+
 const app = express()
 
 passport.serializeUser((user, done) => {
@@ -69,7 +75,7 @@ app.get('/', (req, res) => {
 })
 
 /**
- * Required subject path, send some usefull data about service
+ * Required subject path, send some usefully data about service
  */
 app.get('/about.json', async (req, res) => {
   try {
@@ -186,7 +192,9 @@ app.get('/api/mail/verification', async (req, res) => {
         mailVerification: true
       }
     })
-    res.send('Email now succesfully verified !\nYou can go back to login page.')
+    res.send(
+      'Email now successfully verified !\nYou can go back to login page.'
+    )
   } catch (err) {
     console.error(err.message)
     res.status(401).send('No matching user found.')
@@ -244,7 +252,7 @@ app.get('/api/mail/customVerification', async (req, res) => {
 /**
  * Get request to delete an account
  * Send a confirmation e-mail before deleting.
- * Need to be authentified with a token.
+ * Need to be authenticated with a token.
  */
 app.get(
   '/api/user/deleteAccount',
@@ -276,7 +284,7 @@ app.get(
 
 /**
  * Post request to reset current password
- * Send a confrmation e-mail before reseting.
+ * Send a confirmation e-mail before reseting.
  * body.email -> User mail
  */
 app.post('/api/user/resetPassword', async (req, res, next) => {
@@ -285,7 +293,7 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
   })
   if (!user) return res.status(400).json('No user found.')
   if (!user.mailVerification)
-    return res.status(401).json('Please verifiy your e-mail address.')
+    return res.status(401).json('Please verify your e-mail address.')
   await database.prisma.User.update({
     where: {
       id: user.id
@@ -313,7 +321,7 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
  * body.username -> User name
  * body.email -> User mail
  * body.password -> User password
- * Road protected by token authentification
+ * Road protected by token authentication
  * An new e-mail verification is sent when e-mail is updated.
  */
 app.post(
@@ -353,7 +361,7 @@ app.post(
           password: await hash(req.body.password)
         }
       })
-      return res.json('Your informations have been succesfully updated.')
+      return res.json('Your informations have been successfully updated.')
     } catch (err) {
       return res.status(400).json('Please pass a complete body.')
     }
@@ -361,35 +369,69 @@ app.post(
 )
 
 /**
- * Get request to login with google methods
+ * Post request to login with google methods
+ * body.id -> Google Id
+ * body.email -> User Email
+ * body.displayName -> User name
  */
-app.get(
-  '/api/login/google',
-  passport.authenticate('google', {
-    scope: ['email', 'profile']
-  })
-)
-
-/**
- * Private request used by google after login operation
- */
-app.get(
-  '/api/login/googleCallBack',
-  passport.authenticate('google', { session: false }),
-  (req, res) => {
-    const user = req.user
-    const token = utils.generateToken(user.id)
+app.post('/api/login/google', async (req, res, next) => {
+  try {
+    const user = await database.prisma.user.findUnique({
+      where: { googleId: req.body.id }
+    })
+    if (user) {
+      const token = utils.generateToken(user.id)
+      return res.status(201).json({
+        status: 'success',
+        data: {
+          user,
+          token
+        },
+        statusCode: res.statusCode
+      })
+    }
+    const oldUser = await database.prisma.user.findUnique({
+      where: { email: req.body.email }
+    })
+    if (oldUser) {
+      const newUser = await database.prisma.user.update({
+        where: { email: req.body.email },
+        data: { googleId: req.body.id }
+      })
+      const token = utils.generateToken(newUser.id)
+      return res.status(201).json({
+        status: 'success',
+        data: {
+          newUser,
+          token
+        },
+        statusCode: res.statusCode
+      })
+    }
+    const newUser = await database.prisma.user.create({
+      data: {
+        username: req.body.displayName,
+        email: req.body.email,
+        googleId: req.body.id,
+        password: await hash(req.body.id),
+        isAdmin: false,
+        mailVerification: true
+      }
+    })
+    const token = utils.generateToken(newUser.id)
     return res.status(201).json({
       status: 'success',
       data: {
-        message: 'Welcome back.',
-        user,
+        newUser,
         token
       },
       statusCode: res.statusCode
     })
+  } catch (err) {
+    console.error(err.message)
+    return res.status(401).send('Google auth failed.')
   }
-)
+})
 
 /**
  * Get request to login with facebook methods
