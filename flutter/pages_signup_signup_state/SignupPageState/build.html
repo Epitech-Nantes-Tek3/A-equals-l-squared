@@ -180,6 +180,7 @@ prints green, as expected.</p>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
   return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
           child: Padding(
               padding: const EdgeInsets.only(top: 50),
