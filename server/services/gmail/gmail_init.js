@@ -1,13 +1,12 @@
 FROM_EMAIL = 'aequallsquared@gmail.com'
 
 const database = require('../../database_init')
-const {google} = require('googleapis');
+const { google } = require('googleapis')
 
 /**
  * @brief create the gmail service in the database
-*/
-const createGmailService =
-    async () => {
+ */
+const createGmailService = async () => {
   await database.prisma.Service.create({
     data: {
       name: 'gmail',
@@ -24,10 +23,10 @@ const createGmailService =
                 {
                   name: 'emailId',
                   description: 'The id of the email',
-                  type: 'String',
-                },
-              ],
-            },
+                  type: 'String'
+                }
+              ]
+            }
           },
           {
             name: 'get_emails_by_query',
@@ -38,12 +37,12 @@ const createGmailService =
                 {
                   name: 'query',
                   description: 'The query to search for',
-                  type: 'String',
-                },
-              ],
-            },
-          },
-        ],
+                  type: 'String'
+                }
+              ]
+            }
+          }
+        ]
       },
       Reactions: {
         create: [
@@ -56,43 +55,44 @@ const createGmailService =
                 {
                   name: 'to',
                   description: 'The email address to send to',
-                  type: 'String',
+                  type: 'String'
                 },
                 {
                   name: 'subject',
                   description: 'The subject of the email',
-                  type: 'String',
+                  type: 'String'
                 },
                 {
                   name: 'body',
                   description: 'The body of the email',
-                  type: 'String',
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  });
+                  type: 'String'
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  })
+  console.log('Gmail service is now available.')
 }
-
 
 /**
  * @brief create the gmail client with the credentials
  * @returns the gmail client
  */
-const getGmailClient =
-    () => {
-      const auth = new google.auth.OAuth2(
-          process.env.GMAIL_CLIENT_ID, process.env.GMAIL_CLIENT_SECRET);
-      auth.setCredentials({refresh_token: process.env.GMAIL_REFRESH_TOKEN});
-      auth.scopes = ['https://www.googleapis.com/auth/gmail.send'];
+const getGmailClient = () => {
+  const auth = new google.auth.OAuth2(
+    process.env.GMAIL_CLIENT_ID,
+    process.env.GMAIL_CLIENT_SECRET
+  )
+  auth.setCredentials({ refresh_token: process.env.GMAIL_REFRESH_TOKEN })
+  auth.scopes = ['https://www.googleapis.com/auth/gmail.send']
 
-      return google.gmail({version: 'v1', auth});
-    }
+  return google.gmail({ version: 'v1', auth })
+}
 
 module.exports = {
-      createGmailService,
-      getGmailClient
+  createGmailService,
+  getGmailClient
 }

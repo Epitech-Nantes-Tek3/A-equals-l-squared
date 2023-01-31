@@ -1,6 +1,8 @@
 const mysql = require('mysql')
 require('dotenv').config({ path: 'database.env' })
 const { PrismaClient } = require('@prisma/client')
+const { createGmailService } = require('./services/gmail/gmail_init')
+const { createDiscordService } = require('./services/discord/init')
 const prisma = new PrismaClient()
 
 /**
@@ -13,6 +15,11 @@ const connection = mysql.createPool({
   password: process.env.password,
   database: process.env.database
 })
+
+createGmailService();
+createDiscordService();
+
+/// Add here database operation needed for development testing
 
 module.exports = {
   prisma,

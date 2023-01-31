@@ -1,6 +1,7 @@
 'use strict'
 
 const { Client, Intents } = require('discord.js')
+const database = require('../../database_init')
 
 const client = new Client({
   intents: [
@@ -124,6 +125,7 @@ const createDiscordService = async () => {
       }
     }
   })
+  console.log('Discord service is now available.')
 }
 
 module.exports = { client, createDiscordService }
