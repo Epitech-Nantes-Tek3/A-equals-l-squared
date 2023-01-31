@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:application/network/informations.dart';
 import 'package:application/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
 import '../../flutter_objects/user_data.dart';
@@ -18,6 +19,48 @@ class LoginPageState extends State<LoginPage> {
 
   /// future api answer
   late Future<String> _futureLogin;
+
+  Future<String> _signInGoogle() async {
+    try {
+      GoogleSignIn googleSignIn = GoogleSignIn(
+        clientId:
+            '770124443966-jh4puirdfde87lb64bansm4flcfs7vq9.apps.googleusercontent.com',
+        scopes: ['email', 'profile'],
+      );
+      var googleUser =
+          await googleSignIn.signInSilently() ?? await googleSignIn.signIn();
+      var response = await http.post(
+        Uri.parse('http://$serverIp:8080/api/login/google'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'email': googleUser!.email,
+          'displayName': googleUser.displayName!,
+          'id': googleUser.id
+        }),
+      );
+
+      if (response.statusCode == 201) {
+        try {
+          userInformation =
+              UserData.fromJson(jsonDecode(response.body)['data']);
+          return 'Login succeed !';
+        } catch (err) {
+          return 'Invalid token... Please retry';
+        }
+      } else {
+        try {
+          return jsonDecode(response.body)['message'];
+        } catch (err) {
+          return 'Google Auth temporaly desactivated.';
+        }
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return 'Google Auth temporaly desactivated.';
+    }
+  }
 
   /// Network function calling the api to login
   Future<String> apiAskForLogin() async {
@@ -125,6 +168,15 @@ class LoginPageState extends State<LoginPage> {
                     _password = value;
                     return null;
                   },
+                ),
+                ElevatedButton(
+                  key: const Key('SendLoginGoogleButton'),
+                  onPressed: () {
+                    setState(() {
+                      _signInGoogle();
+                    });
+                  },
+                  child: const Text('Login'),
                 ),
                 if (snapshot.hasError)
                   Text('${snapshot.error}')
