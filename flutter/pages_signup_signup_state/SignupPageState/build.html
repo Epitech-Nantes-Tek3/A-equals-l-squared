@@ -181,86 +181,94 @@ prints green, as expected.</p>
 Widget build(BuildContext context) {
   return Scaffold(
       body: Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: &lt;Widget&gt;[
-        const Text(&#39;Welcome to Signup page !&#39;),
-        getHostConfigField(),
-        TextFormField(
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: &#39;Username&#39;,
-          ),
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (String? value) {
-            if (value != null &amp;&amp; value.length &lt;= 4) {
-              return &#39;Username must be min 5 characters long.&#39;;
-            }
-            _username = value;
-            return null;
-          },
-        ),
-        TextFormField(
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: &#39;E-mail&#39;,
-          ),
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (String? value) {
-            if (value != null &amp;&amp;
-                !RegExp(r&quot;^[a-zA-Z0-9.a-zA-Z0-9.!#$%&amp;&#39;*+-&#47;=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+&quot;)
-                    .hasMatch(value)) {
-              return &#39;Must be a valid email.&#39;;
-            }
-            _email = value;
-            return null;
-          },
-        ),
-        TextFormField(
-          obscureText: true,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: &#39;Password&#39;,
-          ),
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (String? value) {
-            if (value != null &amp;&amp; value.length &lt;= 7) {
-              return &#39;Password must be min 8 characters long.&#39;;
-            }
-            _password = value;
-            return null;
-          },
-        ),
-        FutureBuilder&lt;String&gt;(
-          future: _futureSignup,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data!);
-            } else if (snapshot.hasError) {
-              return Text(&#39;${snapshot.error}&#39;);
-            }
-            return const CircularProgressIndicator();
-          },
-        ),
-        ElevatedButton(
-          key: const Key(&#39;SendSignupButton&#39;),
-          onPressed: () {
-            setState(() {
-              _futureSignup = apiAskForSignup();
-            });
-          },
-          child: const Text(&#39;Signup&#39;),
-        ),
-        ElevatedButton(
-          key: const Key(&#39;GoLoginButton&#39;),
-          onPressed: () {
-            goToLoginPage(context);
-          },
-          child: const Text(&#39;Back to login screen...&#39;),
-        ),
-      ],
-    ),
-  ));
+          child: Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: &lt;Widget&gt;[
+                      displayLogoAndName(),
+                      const Text(
+                        &#39;Welcome to Signup page !&#39;,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 22),
+                      ),
+                      materialShadowForArea(getHostConfigField()),
+                      materialShadowForArea(TextFormField(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: &#39;Username&#39;,
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (String? value) {
+                          if (value != null &amp;&amp; value.length &lt;= 4) {
+                            return &#39;Username must be min 5 characters long.&#39;;
+                          }
+                          _username = value;
+                          return null;
+                        },
+                      )),
+                      materialShadowForArea(TextFormField(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: &#39;E-mail&#39;,
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (String? value) {
+                          if (value != null &amp;&amp;
+                              !RegExp(r&quot;^[a-zA-Z0-9.a-zA-Z0-9.!#$%&amp;&#39;*+-&#47;=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+&quot;)
+                                  .hasMatch(value)) {
+                            return &#39;Must be a valid email.&#39;;
+                          }
+                          _email = value;
+                          return null;
+                        },
+                      )),
+                      materialShadowForArea(TextFormField(
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: &#39;Password&#39;,
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (String? value) {
+                          if (value != null &amp;&amp; value.length &lt;= 7) {
+                            return &#39;Password must be min 8 characters long.&#39;;
+                          }
+                          _password = value;
+                          return null;
+                        },
+                      )),
+                      FutureBuilder&lt;String&gt;(
+                        future: _futureSignup,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(snapshot.data!);
+                          } else if (snapshot.hasError) {
+                            return Text(&#39;${snapshot.error}&#39;);
+                          }
+                          return const CircularProgressIndicator();
+                        },
+                      ),
+                      ElevatedButton(
+                        key: const Key(&#39;SendSignupButton&#39;),
+                        onPressed: () {
+                          setState(() {
+                            _futureSignup = apiAskForSignup();
+                          });
+                        },
+                        child: const Text(&#39;Signup&#39;),
+                      ),
+                      TextButton(
+                        key: const Key(&#39;GoLoginButton&#39;),
+                        onPressed: () {
+                          goToLoginPage(context);
+                        },
+                        child: const Text(&#39;Back to login screen...&#39;),
+                      ),
+                    ],
+                  )))));
 }</code></pre>
 </section>
 
@@ -306,9 +314,13 @@ Widget build(BuildContext context) {
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a></li>
+          <li><a href="../../pages_signup_signup_state/SignupPageState/displayAreaName.html">displayAreaName</a></li>
+          <li><a href="../../pages_signup_signup_state/SignupPageState/displayLogo.html">displayLogo</a></li>
+          <li><a href="../../pages_signup_signup_state/SignupPageState/displayLogoAndName.html">displayLogoAndName</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
           <li><a href="../../pages_signup_signup_state/SignupPageState/getAFirstSignupAnswer.html">getAFirstSignupAnswer</a></li>
           <li><a href="../../pages_signup_signup_state/SignupPageState/initState.html">initState</a></li>
+          <li><a href="../../pages_signup_signup_state/SignupPageState/materialShadowForArea.html">materialShadowForArea</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>

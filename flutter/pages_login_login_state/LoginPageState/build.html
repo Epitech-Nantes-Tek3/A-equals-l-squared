@@ -188,73 +188,57 @@ Widget build(BuildContext context) {
           if (userInformation != null) {
             return const HomePage();
           }
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: &lt;Widget&gt;[
-              const Text(&#39;Login page !&#39;),
-              getHostConfigField(),
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: &#39;E-mail&#39;,
-                ),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (String? value) {
-                  if (value != null &amp;&amp;
-                      !RegExp(r&quot;^[a-zA-Z0-9.a-zA-Z0-9.!#$%&amp;&#39;*+-&#47;=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+&quot;)
-                          .hasMatch(value)) {
-                    return &#39;Must be a valid email.&#39;;
-                  }
-                  _email = value;
-                  return null;
-                },
-              ),
-              TextFormField(
-                obscureText: true,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: &#39;Password&#39;,
-                ),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (String? value) {
-                  if (value != null &amp;&amp; value.length &lt;= 7) {
-                    return &#39;Password must be min 8 characters long.&#39;;
-                  }
-                  _password = value;
-                  return null;
-                },
-              ),
-              if (snapshot.hasError)
-                Text(&#39;${snapshot.error}&#39;)
-              else
-                Text(snapshot.data!),
-              ElevatedButton(
-                key: const Key(&#39;SendLoginButton&#39;),
-                onPressed: () {
-                  setState(() {
-                    _futureLogin = apiAskForLogin();
-                  });
-                },
-                child: const Text(&#39;Login&#39;),
-              ),
-              ElevatedButton(
-                key: const Key(&#39;GoSignupButton&#39;),
-                onPressed: () {
-                  goToSignupPage(context);
-                },
-                child: const Text(&#39;No account ? Go to Signup&#39;),
-              ),
-              ElevatedButton(
-                key: const Key(&#39;AskResetButton&#39;),
-                onPressed: () {
-                  setState(() {
-                    _futureLogin = apiAskForResetPassword();
-                  });
-                },
-                child: const Text(&#39;Forgot Password ? Reset it&#39;),
-              ),
-            ],
-          );
+          return Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: &lt;Widget&gt;[
+                        displayLogoAndName(),
+                        materialShadowForArea(getHostConfigField()),
+
+                        &#47;&#47;&#47; Put Login with Gmail or an other login
+                        materialShadowForArea(TextFormField(
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.all(20),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            labelText: &#39;E-mail&#39;,
+                          ),
+                          initialValue: _email,
+                          autovalidateMode:
+                              AutovalidateMode.onUserInteraction,
+                          validator: (String? value) {
+                            if (value != null &amp;&amp;
+                                !RegExp(r&quot;^[a-zA-Z0-9.a-zA-Z0-9.!#$%&amp;&#39;*+-&#47;=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+&quot;)
+                                    .hasMatch(value)) {
+                              return &#39;Must be a valid email.&#39;;
+                            }
+                            _email = value;
+                            return null;
+                          },
+                        )),
+                        if (snapshot.hasError)
+                          Text(&#39;${snapshot.error}&#39;)
+                        else
+                          Text(snapshot.data!),
+                        if (_isConnexionWithEmail == false)
+                          displayButtonRequestForEmailLogin(),
+                        if (_isConnexionWithEmail)
+                          displayPasswordInputForEmailConnexion(snapshot),
+                        if (_isConnexionWithEmail)
+                          TextButton(
+                            key: const Key(&#39;GoLoginPageButton&#39;),
+                            onPressed: () {
+                              setState(() {
+                                _isConnexionWithEmail = false;
+                              });
+                            },
+                            child: const Text(&#39;Back to login page...&#39;),
+                          ),
+                      ])));
         }
         return const CircularProgressIndicator();
       },
@@ -306,9 +290,21 @@ Widget build(BuildContext context) {
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/displayAreaName.html">displayAreaName</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/displayButtonRequestANewAccount.html">displayButtonRequestANewAccount</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/displayButtonRequestForEmailLogin.html">displayButtonRequestForEmailLogin</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/displayForRequestWhatConnectionIsUsed.html">displayForRequestWhatConnectionIsUsed</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/displayLogo.html">displayLogo</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/displayLogoAndName.html">displayLogoAndName</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/displayPasswordInputForEmailConnexion.html">displayPasswordInputForEmailConnexion</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/displayResetAndForgotPassword.html">displayResetAndForgotPassword</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/displayTextButtonAppleLogin.html">displayTextButtonAppleLogin</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/displayTextButtonGoogleLogin.html">displayTextButtonGoogleLogin</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/getAFirstLoginAnswer.html">getAFirstLoginAnswer</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/initState.html">initState</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/materialColorBlueForArea.html">materialColorBlueForArea</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/materialShadowForArea.html">materialShadowForArea</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>
