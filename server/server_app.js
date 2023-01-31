@@ -377,6 +377,7 @@ app.get(
 )
 
 app.post('/api/dev/user/create', async (req, res) => {
+  console.log(req.body)
   try {
     const user = await database.prisma.User.create({
       data: {
@@ -394,6 +395,7 @@ app.post('/api/dev/user/create', async (req, res) => {
 })
 
 app.post('/api/dev/service/create', async (req, res) => {
+  console.log(req.body)
   try {
     const service = await database.prisma.Service.create({
       data: {
@@ -401,6 +403,7 @@ app.post('/api/dev/service/create', async (req, res) => {
         description: req.body.description
       }
     })
+    return res.json(service)
   } catch (err) {
     console.log(err)
     return res.status(400).json('Please pass a complete body.')
@@ -408,7 +411,9 @@ app.post('/api/dev/service/create', async (req, res) => {
 })
 
 app.post('/api/dev/action/create', async (req, res) => {
+  console.log(req.body)
   try {
+  console.log(req.body)
     const action = await database.prisma.Action.create({
       data: {
         name: req.body.name,
@@ -424,6 +429,7 @@ app.post('/api/dev/action/create', async (req, res) => {
 })
 
 app.post('/api/dev/reaction/create', async (req, res) => {
+  console.log(req.body)
   try {
     const reaction = await database.prisma.Reaction.create({
       data: {
@@ -440,8 +446,9 @@ app.post('/api/dev/reaction/create', async (req, res) => {
 })
 
 app.post('/api/dev/parameter/create', async (req, res) => {
+  console.log(req.body)
   try {
-    if (req.body.action) {
+    if (req.body.actionId) {
       const parameter = await database.prisma.Parameter.create({
         data: {
           name: req.body.name,
@@ -450,7 +457,7 @@ app.post('/api/dev/parameter/create', async (req, res) => {
           Action: { connect: { id: req.body.actionId } }
         }
       })
-    } else if (req.body.reaction) {
+    } else if (req.body.reactionId) {
       const parameter = await database.prisma.Parameter.create({
         data: {
           name: req.body.name,
@@ -470,6 +477,7 @@ app.post('/api/dev/parameter/create', async (req, res) => {
 })
 
 app.post('/api/area/create', async (req, res) => {
+  console.log(req.body)
   try {
     const ActionParameters = []
 
@@ -491,7 +499,7 @@ app.post('/api/area/create', async (req, res) => {
       data: {
         User: { connect: { id: req.body.userId } },
         Action: { connect: { id: req.body.actionId } },
-        ActionsParameters: { create: ActionParameters },
+        ActionParameters: { create: ActionParameters },
         Reaction: { connect: { id: req.body.reactionId } },
         ReactionParameters: { create: ReactionParameters }
       }
