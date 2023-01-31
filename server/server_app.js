@@ -487,6 +487,10 @@ app.get(
         where: {
           isEnable: true
         },
+        include: {
+          Actions: { include: { Parameters: true } },
+          Reactions: { include: { Parameters: true } }
+        },
         orderBy: {
           createdAt: 'desc'
         }
@@ -514,10 +518,10 @@ app.get(
   async (req, res) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
-      const areas = await database.prisma.Service.findMany({
+      const areas = await database.prisma.UsersHasActionsReactions.findMany({
         where: {
           User: {
-            some: {
+            where: {
               id: req.user.id
             }
           }
