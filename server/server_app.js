@@ -464,6 +464,25 @@ app.get(
   }
 )
 
+app.get(
+  '/api/get/Service',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    try {
+      const services = await database.prisma.Service.findMany()
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          services
+        },
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      return res.status(400).send('Service getter temporarily desactivated.')
+    }
+  }
+)
+
 /**
  * Start the node.js server at PORT and HOST variable
  */
