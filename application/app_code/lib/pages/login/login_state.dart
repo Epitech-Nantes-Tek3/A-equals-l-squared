@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:application/network/informations.dart';
 import 'package:application/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
 import '../../flutter_objects/user_data.dart';
@@ -21,6 +22,49 @@ class LoginPageState extends State<LoginPage> {
 
   /// future api answer
   late Future<String> _futureLogin;
+
+  /// Network function calling the api to login with Google
+  Future<String> _signInGoogle() async {
+    try {
+      GoogleSignIn googleSignIn = GoogleSignIn(
+        clientId:
+            '770124443966-jh4puirdfde87lb64bansm4flcfs7vq9.apps.googleusercontent.com',
+        scopes: ['email', 'profile'],
+      );
+      var googleUser =
+          await googleSignIn.signInSilently() ?? await googleSignIn.signIn();
+      var response = await http.post(
+        Uri.parse('http://$serverIp:8080/api/login/google'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'email': googleUser!.email,
+          'displayName': googleUser.displayName!,
+          'id': googleUser.id
+        }),
+      );
+
+      if (response.statusCode == 201) {
+        try {
+          userInformation =
+              UserData.fromJson(jsonDecode(response.body)['data']);
+          return 'Login succeed !';
+        } catch (err) {
+          return 'Invalid token... Please retry';
+        }
+      } else {
+        try {
+          return jsonDecode(response.body)['message'];
+        } catch (err) {
+          return 'Google Auth temporarily desactivated.';
+        }
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return 'Google Auth temporarily desactivated.';
+    }
+  }
 
   /// Network function calling the api to login
   Future<String> apiAskForLogin() async {
@@ -78,7 +122,7 @@ class LoginPageState extends State<LoginPage> {
 
   /// This function display our logo
   Widget displayLogo() {
-    return const Icon(size: 120, Icons.apple);
+    return const Icon(Icons.apple, size: 120);
   }
 
   /// This function display the login name of our project
@@ -108,7 +152,11 @@ class LoginPageState extends State<LoginPage> {
     return TextButton.icon(
         label: const Text('Continue with Google Account'),
         icon: const Icon(Icons.access_alarm),
-        onPressed: () {});
+        onPressed: () {
+          setState(() {
+            _futureLogin = _signInGoogle();
+          });
+        });
   }
 
   /// This function display the google button for log with google AUTH and the apple button for log with apple AUTH
@@ -233,69 +281,70 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Center(
-      child: FutureBuilder<String>(
-        future: _futureLogin,
-        builder: (context, snapshot) {
-          if (snapshot.hasData || snapshot.hasError) {
-            if (userInformation != null) {
-              return const HomePage();
-            }
-            return Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          displayLogoAndName(),
-                          materialShadowForArea(getHostConfigField()),
+          child: FutureBuilder<String>(
+            future: _futureLogin,
+            builder: (context, snapshot) {
+              if (snapshot.hasData || snapshot.hasError) {
+                if (userInformation != null) {
+                  return const HomePage();
+                }
+                return Padding(
+                    padding: const EdgeInsets.only(top: 50),
+                    child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              displayLogoAndName(),
+                              materialShadowForArea(getHostConfigField()),
 
-                          /// Put Login with Gmail or an other login
-                          materialShadowForArea(TextFormField(
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(20),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              labelText: 'E-mail',
-                            ),
-                            initialValue: _email,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            validator: (String? value) {
-                              if (value != null &&
-                                  !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                      .hasMatch(value)) {
-                                return 'Must be a valid email.';
-                              }
-                              _email = value;
-                              return null;
-                            },
-                          )),
-                          if (snapshot.hasError)
-                            Text('${snapshot.error}')
-                          else
-                            Text(snapshot.data!),
-                          if (_isConnexionWithEmail == false)
-                            displayButtonRequestForEmailLogin(),
-                          if (_isConnexionWithEmail)
-                            displayPasswordInputForEmailConnexion(snapshot),
-                          if (_isConnexionWithEmail)
-                            TextButton(
-                              key: const Key('GoLoginPageButton'),
-                              onPressed: () {
-                                setState(() {
-                                  _isConnexionWithEmail = false;
-                                });
-                              },
-                              child: const Text('Back to login page...'),
-                            ),
-                        ])));
-          }
-          return const CircularProgressIndicator();
-        },
-      ),
-    ));
+                              /// Put Login with Gmail or an other login
+                              materialShadowForArea(TextFormField(
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.all(20),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                  labelText: 'E-mail',
+                                ),
+                                initialValue: _email,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (String? value) {
+                                  if (value != null &&
+                                      !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(value)) {
+                                    return 'Must be a valid email.';
+                                  }
+                                  _email = value;
+                                  return null;
+                                },
+                              )),
+                              if (snapshot.hasError)
+                                Text('${snapshot.error}')
+                              else
+                                Text(snapshot.data!),
+                              if (_isConnexionWithEmail == false)
+                                displayButtonRequestForEmailLogin(),
+                              if (_isConnexionWithEmail)
+                                displayPasswordInputForEmailConnexion(snapshot),
+                              if (_isConnexionWithEmail)
+                                TextButton(
+                                  key: const Key('GoLoginPageButton'),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isConnexionWithEmail = false;
+                                    });
+                                  },
+                                  child: const Text('Back to login page...'),
+                                ),
+                            ])));
+              }
+              return const CircularProgressIndicator();
+            },
+          ),
+        ));
   }
 }
