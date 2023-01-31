@@ -20,6 +20,7 @@ class LoginPageState extends State<LoginPage> {
   /// future api answer
   late Future<String> _futureLogin;
 
+  /// Network function calling the api to login with Google
   Future<String> _signInGoogle() async {
     try {
       GoogleSignIn googleSignIn = GoogleSignIn(
@@ -173,7 +174,7 @@ class LoginPageState extends State<LoginPage> {
                   key: const Key('SendLoginGoogleButton'),
                   onPressed: () {
                     setState(() {
-                      _signInGoogle();
+                      _futureLogin = _signInGoogle();
                     });
                   },
                   child: const Text('Login'),
