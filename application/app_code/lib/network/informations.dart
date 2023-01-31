@@ -11,8 +11,11 @@ UserData? userInformation;
 /// Function returning a field widget to update the server ip address
 Widget getHostConfigField() {
   return TextFormField(
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.all(20),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5.0),
+        ),
         labelText: 'Server IP address',
       ),
       initialValue: serverIp,
