@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../../network/informations.dart';
 import '../../material_lib_functions/material_functions.dart';
+import '../../network/informations.dart';
 import '../login/login_functional.dart';
 import 'signup_page.dart';
 
@@ -69,7 +69,7 @@ class SignupPageState extends State<SignupPage> {
     super.initState();
     _futureSignup = getAFirstSignupAnswer();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
