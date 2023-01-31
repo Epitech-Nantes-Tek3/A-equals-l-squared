@@ -430,6 +430,64 @@ app.get(
   }
 )
 
+app.post('api/area/create', async (req, res) => {
+  try {
+    const ActionParameters = []
+
+    req.body.actionParameters.forEach(param => {
+      ActionParameters.push({
+        Parameter: {
+          connect: {
+            id: param.paramId,
+            value: param.value
+          }
+        }
+      })
+    })
+
+    const ReactionParameters = []
+
+    req.body.reactionParameters.forEach(param => {
+      ReactionParameters.push({
+        Parameter: {
+          connect: {
+            id: param.paramId,
+            value: param.value
+          }
+        }
+      })
+    })
+
+    const areaCreation = await database.prisma.UsersHasActionsReactions.create({
+      data: {
+        User: {
+          connect: {
+            id: req.body.userId
+          }
+        },
+        Action: {
+          connect: {
+            id: req.body.actionId
+          }
+        },
+        ActionsParameters: {
+          create: ActionParameters
+        },
+        Reaction: {
+          connect: {
+            id: req.body.reactionId
+          }
+        },
+        ReactionParameters: {
+          create: ReactionParameters
+        }
+      }
+    })
+    return res.json(area)
+  } catch (err) {
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
 /**
  * Start the node.js server at PORT and HOST variable
  */
