@@ -464,12 +464,19 @@ app.get(
   }
 )
 
+/**
+ * Get request returning all enabled service
+ */
 app.get(
   '/api/get/Service',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     try {
-      const services = await database.prisma.Service.findMany()
+      const services = await database.prisma.Service.findMany({
+        where: {
+          isEnable: true
+        }
+      })
       return res.status(200).json({
         status: 'success',
         data: {
