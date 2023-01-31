@@ -295,7 +295,7 @@ class LoginPageState extends State<LoginPage> {
                     child: Container(
                         margin: const EdgeInsets.symmetric(horizontal: 30),
                         child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               displayLogoAndName(),
                               materialShadowForArea(getHostConfigField()),
@@ -322,10 +322,6 @@ class LoginPageState extends State<LoginPage> {
                                   return null;
                                 },
                               )),
-                              if (snapshot.hasError)
-                                Text('${snapshot.error}')
-                              else
-                                Text(snapshot.data!),
                               if (_isConnexionWithEmail == false)
                                 displayButtonRequestForEmailLogin(),
                               if (_isConnexionWithEmail)
