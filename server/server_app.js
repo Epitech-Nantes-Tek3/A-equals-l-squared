@@ -20,6 +20,7 @@ const onMessage = require('./services/discord/actions/on_message')
 const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
+const getVoiceChannels = require('./services/discord/getters/voice_channels')
 
 const app = express()
 
@@ -429,6 +430,15 @@ app.get(
     })
   }
 )
+
+app.get('/api/services/discord/getVoiceChannels', async (req, res) => {
+  const channels = await getVoiceChannels(req.query.id)
+  return res.status(201).json({
+    status: 'success',
+    data: channels,
+    statusCode: res.statusCode
+  })
+})
 
 /**
  * Start the node.js server at PORT and HOST variable
