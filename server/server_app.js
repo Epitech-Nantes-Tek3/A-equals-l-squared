@@ -12,24 +12,27 @@ const auth_facebook = require('./passport/facebook')
 const utils = require('./utils')
 const gmail = require('./services/gmail/reactions/send_email')
 const jwt = require('jwt-simple')
-const {hash} = require('./utils')
-require('dotenv').config({path: '../database.env'})
+const { hash } = require('./utils')
+require('dotenv').config({ path: '../database.env' })
 
 const discord = require('./services/discord/init').client
 const onMessage = require('./services/discord/actions/on_message')
-const onVoiceChannel =
-    require('./services/discord/actions/on_join_voice_channel')
+const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
 
 const app = express()
 
-passport.serializeUser((user, done) => {done(null, user.id)})
+passport.serializeUser((user, done) => {
+  done(null, user.id)
+})
 
-passport.deserializeUser((id, done) => {done(null, {id: id})})
+passport.deserializeUser((id, done) => {
+  done(null, { id: id })
+})
 
 app.use(bodyParser.json())
-app.use(session({secret: 'SECRET', resave: false, saveUninitialized: false}))
+app.use(session({ secret: 'SECRET', resave: false, saveUninitialized: false }))
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -41,25 +44,25 @@ const HOST = '0.0.0.0'
  * @param {*} number A basic number
  * @returns The passed number
  */
-function test_example(number) {
+function test_example (number) {
   return number
 }
 
 /**
  * Set the header protocol to authorize Web connection
  */
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   // Allow access request from any computers
   res.header('Access-Control-Allow-Origin', '*')
   res.header(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  )
   res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE,PATCH')
   res.header('Access-Control-Allow-Credentials', true)
   if ('OPTIONS' == req.method) {
     res.sendStatus(200)
-  }
-  else {
+  } else {
     next()
   }
 })
@@ -67,7 +70,9 @@ app.use(function(req, res, next) {
 /**
  * Welcoming path
  */
-app.get('/', (req, res) => {res.send('Hello World')})
+app.get('/', (req, res) => {
+  res.send('Hello World')
+})
 
 /**
  * Required subject path, send some usefully data about service
@@ -75,20 +80,26 @@ app.get('/', (req, res) => {res.send('Hello World')})
 app.get('/about.json', async (req, res) => {
   try {
     const about = {}
-    about.client = {host: req.ip}
+    about.client = { host: req.ip }
     about.server = {
       current_time: Date.now(),
       services: []
     }
-    about.server.services.push(await database.prisma.Service.findMany({
-      select: {
-        name: true,
-        description: true,
-        isEnable: true,
-        Actions: {select: {name: true, description: true, isEnable: true}},
-        Reactions: {select: {name: true, description: true, isEnable: true}}
-      }
-    }))
+    about.server.services.push(
+      await database.prisma.Service.findMany({
+        select: {
+          name: true,
+          description: true,
+          isEnable: true,
+          Actions: {
+            select: { name: true, description: true, isEnable: true }
+          },
+          Reactions: {
+            select: { name: true, description: true, isEnable: true }
+          }
+        }
+      })
+    )
     res.json(about)
   } catch (err) {
     console.log(err)
@@ -103,46 +114,46 @@ app.get('/about.json', async (req, res) => {
  * body.password -> User password
  * An e-mail is now send to the user.
  */
-app.post(
-    '/api/signup',
-    (req, res, next) => {
-        passport.authenticate('signup', {session: false}, (err, user, info) => {
-          if (err) throw new Error(err)
-            if (user == false) return res.json(info)
-            const token = utils.generateToken(user.id)
-            gmail
-                .sendEmail(
-                    user.email, 'Email Verification',
-                    'Thank you for you registration to our service !\nPlease go to the following link to confirm your mail : http://localhost:8080/api/mail/verification?token=' +
-                        token)
-                .catch(
-                    _error => {
-                        return res.status(401).send('Invalid e-mail address.')})
-            return res.status(201).json({
-              status: 'success',
-              data: {message: 'Account created.', user, token},
-              statusCode: res.statusCode
-            })
-        })(req, res, next)})
+app.post('/api/signup', (req, res, next) => {
+  passport.authenticate('signup', { session: false }, (err, user, info) => {
+    if (err) throw new Error(err)
+    if (user == false) return res.json(info)
+    const token = utils.generateToken(user.id)
+    gmail
+      .sendEmail(
+        user.email,
+        'Email Verification',
+        'Thank you for you registration to our service !\nPlease go to the following link to confirm your mail : http://localhost:8080/api/mail/verification?token=' +
+          token
+      )
+      .catch(_error => {
+        return res.status(401).send('Invalid e-mail address.')
+      })
+    return res.status(201).json({
+      status: 'success',
+      data: { message: 'Account created.', user, token },
+      statusCode: res.statusCode
+    })
+  })(req, res, next)
+})
 
 /**
  * Post request to login to the website.
  * body.email -> User mail
  * body.password -> User password
  */
-app.post(
-    '/api/login',
-    (req, res, next) => {
-        passport.authenticate('login', {session: false}, (err, user, info) => {
-          if (err) throw new Error(err)
-            if (user == false) return res.json(info)
-            const token = utils.generateToken(user.id)
-            return res.status(201).json({
-              status: 'success',
-              data: {message: 'Welcome back.', user, token},
-              statusCode: res.statusCode
-            })
-        })(req, res, next)})
+app.post('/api/login', (req, res, next) => {
+  passport.authenticate('login', { session: false }, (err, user, info) => {
+    if (err) throw new Error(err)
+    if (user == false) return res.json(info)
+    const token = utils.generateToken(user.id)
+    return res.status(201).json({
+      status: 'success',
+      data: { message: 'Welcome back.', user, token },
+      statusCode: res.statusCode
+    })
+  })(req, res, next)
+})
 
 /**
  * Get request use to verify e-mail address with a token
@@ -152,13 +163,16 @@ app.get('/api/mail/verification', async (req, res) => {
   const token = req.query.token
   try {
     const decoded = jwt.decode(token, process.env.JWT_SECRET)
-    const user =
-        await database.prisma.User
-            .findUnique({where: {id: decoded.id}})
-                await database.prisma.User.update(
-                    {where: {id: decoded.id}, data: {mailVerification: true}})
+    const user = await database.prisma.User.findUnique({
+      where: { id: decoded.id }
+    })
+    await database.prisma.User.update({
+      where: { id: decoded.id },
+      data: { mailVerification: true }
+    })
     res.send(
-        'Email now successfully verified !\nYou can go back to login page.')
+      'Email now successfully verified !\nYou can go back to login page.'
+    )
   } catch (err) {
     console.error(err.message)
     res.status(401).send('No matching user found.')
@@ -175,17 +189,22 @@ app.get('/api/mail/customVerification', async (req, res) => {
   const token = req.query.token
   try {
     const decoded = jwt.decode(token, process.env.JWT_SECRET)
-    const user =
-        await database.prisma.User.findUnique({where: {id: decoded.id}})
+    const user = await database.prisma.User.findUnique({
+      where: { id: decoded.id }
+    })
     const processType = user.confirmProcess
-    await database.prisma.User.update(
-        {where: {id: decoded.id}, data: {confirmProcess: ''}})
+    await database.prisma.User.update({
+      where: { id: decoded.id },
+      data: { confirmProcess: '' }
+    })
     if (processType == 'Delete') {
-      await database.prisma.User.delete({where: {id: decoded.id}})
+      await database.prisma.User.delete({ where: { id: decoded.id } })
     }
     if (processType == 'ResetPassword') {
-      await database.prisma.User.update(
-          {where: {id: decoded.id}, data: {password: await hash('password')}})
+      await database.prisma.User.update({
+        where: { id: decoded.id },
+        data: { password: await hash('password') }
+      })
     }
     res.send('Operation ' + processType + ' authorized and executed.')
   } catch (err) {
@@ -200,23 +219,28 @@ app.get('/api/mail/customVerification', async (req, res) => {
  * Need to be authenticated with a token.
  */
 app.get(
-    '/api/user/deleteAccount', passport.authenticate('jwt', {session: false}),
-    async (req, res) => {
-      if (!req.user)
-        return res.status(401).send('Invalid token')
-            await database.prisma.User.update(
-                {where: {id: req.user.id}, data: {confirmProcess: 'Delete'}})
-        const token = utils.generateToken(req.user.id)
-        gmail
-            .sendEmail(
-                req.user.email, 'Confirm operation',
-                'You asked to delete your account. Please confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
-                    token)
-            .catch(
-                _error => {
-                    return res.status(401).send('Invalid e-mail address.')})
-        return res.json('Verification e-mail sended')
+  '/api/user/deleteAccount',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    await database.prisma.User.update({
+      where: { id: req.user.id },
+      data: { confirmProcess: 'Delete' }
     })
+    const token = utils.generateToken(req.user.id)
+    gmail
+      .sendEmail(
+        req.user.email,
+        'Confirm operation',
+        'You asked to delete your account. Please confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
+          token
+      )
+      .catch(_error => {
+        return res.status(401).send('Invalid e-mail address.')
+      })
+    return res.json('Verification e-mail sended')
+  }
+)
 
 /**
  * Post request to reset current password
@@ -224,21 +248,27 @@ app.get(
  * body.email -> User mail
  */
 app.post('/api/user/resetPassword', async (req, res, next) => {
-  const user =
-      await database.prisma.User.findFirst({where: {email: req.body.email}})
+  const user = await database.prisma.User.findFirst({
+    where: { email: req.body.email }
+  })
   if (!user) return res.status(400).json('No user found.')
   if (!user.mailVerification)
-  return res.status(401)
-      .json('Please verify your e-mail address.')
-          await database.prisma.User.update(
-              {where: {id: user.id}, data: {confirmProcess: 'ResetPassword'}})
+    return res.status(401).json('Please verify your e-mail address.')
+  await database.prisma.User.update({
+    where: { id: user.id },
+    data: { confirmProcess: 'ResetPassword' }
+  })
   const token = utils.generateToken(user.id)
   gmail
-      .sendEmail(
-          user.email, 'Confirm operation',
-          'You asked to regenerate your password. It will be set to : password\nPlease confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
-              token)
-      .catch(_error => {return res.status(401).send('Invalid e-mail address.')})
+    .sendEmail(
+      user.email,
+      'Confirm operation',
+      'You asked to regenerate your password. It will be set to : password\nPlease confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
+        token
+    )
+    .catch(_error => {
+      return res.status(401).send('Invalid e-mail address.')
+    })
   return res.json('Verification e-mail sent.')
 })
 
@@ -251,45 +281,50 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
  * An new e-mail verification is sent when e-mail is updated.
  */
 app.post(
-    '/api/user/updateData', passport.authenticate('jwt', {session: false}),
-    async (req, res, next) => {
-      if (!req.user) return res.status(401).send('Invalid token')
-        try {
-          if (req.user.email != req.body.email) {
-            const token = utils.generateToken(req.user.id)
-            gmail
-                .sendEmail(
-                    req.body.email, 'Email Verification',
-                    'You have updated your e-mail, please go to the following link to confirm your new mail address : http://localhost:8080/api/mail/verification?token=' +
-                        token)
-                .catch(
-                    _error => {return res.status(401).send(
-                        'Invalid new e-mail address.')})
-                    await database.prisma.User.update({
-                      where: {id: req.user.id},
-                      data: {mailVerification: false}
-                    })
-          }
-          await database.prisma.User.update({
-            where: {id: req.user.id},
-            data: {
-              username: req.body.username,
-              email: req.body.email,
-              password: await hash(req.body.password)
-            }
+  '/api/user/updateData',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      if (req.user.email != req.body.email) {
+        const token = utils.generateToken(req.user.id)
+        gmail
+          .sendEmail(
+            req.body.email,
+            'Email Verification',
+            'You have updated your e-mail, please go to the following link to confirm your new mail address : http://localhost:8080/api/mail/verification?token=' +
+              token
+          )
+          .catch(_error => {
+            return res.status(401).send('Invalid new e-mail address.')
           })
-          return res.json('Your informations have been successfully updated.')
-        } catch (err) {
-          return res.status(400).json('Please pass a complete body.')
+        await database.prisma.User.update({
+          where: { id: req.user.id },
+          data: { mailVerification: false }
+        })
+      }
+      await database.prisma.User.update({
+        where: { id: req.user.id },
+        data: {
+          username: req.body.username,
+          email: req.body.email,
+          password: await hash(req.body.password)
         }
-    })
+      })
+      return res.json('Your informations have been successfully updated.')
+    } catch (err) {
+      return res.status(400).json('Please pass a complete body.')
+    }
+  }
+)
 
 /**
  * Get request to login with google methods
  */
 app.get(
-    '/api/login/google',
-    passport.authenticate('google', {scope: ['email', 'profile']}))
+  '/api/login/google',
+  passport.authenticate('google', { scope: ['email', 'profile'] })
+)
 
 /**
  * Private request used by google after login operation
@@ -299,7 +334,7 @@ app.get(
   passport.authenticate('google', { session: false }),
   (req, res) => {
     const user = req.user
-const token = utils.generateToken(user.id)
+    const token = utils.generateToken(user.id)
     return res.status(201).json({
       status: 'success',
       data: {
@@ -312,22 +347,23 @@ const token = utils.generateToken(user.id)
   }
 )
 
-    /**
-     * Get request to login with facebook methods
-     */
-    app.get(
-        '/api/login/facebook',
-        passport.authenticate('facebook', {scope: ['email']}))
+/**
+ * Get request to login with facebook methods
+ */
+app.get(
+  '/api/login/facebook',
+  passport.authenticate('facebook', { scope: ['email'] })
+)
 
-    /**
-     * Private request used by facebook after login operation
-     */
+/**
+ * Private request used by facebook after login operation
+ */
 app.get(
   '/api/login/facebookCallBack',
   passport.authenticate('facebook', { session: false }),
   (req, res) => {
     const user = req.user
-const token = utils.generateToken(user.id)
+    const token = utils.generateToken(user.id)
     return res.status(201).json({
       status: 'success',
       data: {
@@ -340,42 +376,138 @@ const token = utils.generateToken(user.id)
   }
 )
 
-app.post('/api/area/create', async (req, res) => {
-      try {
-        const ActionParameters = []
-
-        req.body.actionParameters.forEach(
-            param => {ActionParameters.push({
-              Parameter: {connect: {id: param.paramId, value: param.value}}
-            })})
-
-        const ReactionParameters = []
-
-        req.body.reactionParameters.forEach(
-            param => {ReactionParameters.push({
-              Parameter: {connect: {id: param.paramId, value: param.value}}
-            })})
-
-        const areaCreation =
-            await database.prisma.UsersHasActionsReactions.create({
-              data: {
-                User: {connect: {id: req.body.userId}},
-                Action: {connect: {id: req.body.actionId}},
-                ActionsParameters: {create: ActionParameters},
-                Reaction: {connect: {id: req.body.reactionId}},
-                ReactionParameters: {create: ReactionParameters}
-              }
-            })
-        console.log(areaCreation)
-        return res.json(areaCreation)
-      } catch (err) {
-        console.log(err)
-        return res.status(400).json('Please pass a complete body.')
+app.post('/api/dev/user/create', async (req, res) => {
+  try {
+    const user = await database.prisma.User.create({
+      data: {
+        username: req.body.username,
+        email: req.body.email,
+        password: await hash(req.body.password),
+        mailVerification: true
       }
     })
-    /**
-     * Start the node.js server at PORT and HOST variable
-     */
-    app.listen(PORT, HOST, () => {console.log(`Server running...`)})
+    return res.json(user)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
 
-    module.exports = {test_example}
+app.post('/api/dev/service/create', async (req, res) => {
+  try {
+    const service = await database.prisma.Service.create({
+      data: {
+        name: req.body.name,
+        description: req.body.description
+      }
+    })
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+app.post('/api/dev/action/create', async (req, res) => {
+  try {
+    const action = await database.prisma.Action.create({
+      data: {
+        name: req.body.name,
+        description: req.body.description,
+        Service: { connect: { id: req.body.serviceId } }
+      }
+    })
+    return res.json(action)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+app.post('/api/dev/reaction/create', async (req, res) => {
+  try {
+    const reaction = await database.prisma.Reaction.create({
+      data: {
+        name: req.body.name,
+        description: req.body.description,
+        Service: { connect: { id: req.body.serviceId } }
+      }
+    })
+    return res.json(reaction)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+app.post('/api/dev/parameter/create', async (req, res) => {
+  try {
+    if (req.body.action) {
+      const parameter = await database.prisma.Parameter.create({
+        data: {
+          name: req.body.name,
+          displayName: req.body.displayName,
+          description: req.body.description,
+          Action: { connect: { id: req.body.actionId } }
+        }
+      })
+    } else if (req.body.reaction) {
+      const parameter = await database.prisma.Parameter.create({
+        data: {
+          name: req.body.name,
+          displayName: req.body.displayName,
+          description: req.body.description,
+          Reaction: { connect: { id: req.body.reactionId } }
+        }
+      })
+    } else {
+      return res.status(400).json('Please pass a complete body.')
+    }
+    return res.json(parameter)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+app.post('/api/area/create', async (req, res) => {
+  try {
+    const ActionParameters = []
+
+    req.body.actionParameters.forEach(param => {
+      ActionParameters.push({
+        Parameter: { connect: { id: param.paramId, value: param.value } }
+      })
+    })
+
+    const ReactionParameters = []
+
+    req.body.reactionParameters.forEach(param => {
+      ReactionParameters.push({
+        Parameter: { connect: { id: param.paramId, value: param.value } }
+      })
+    })
+
+    const areaCreation = await database.prisma.UsersHasActionsReactions.create({
+      data: {
+        User: { connect: { id: req.body.userId } },
+        Action: { connect: { id: req.body.actionId } },
+        ActionsParameters: { create: ActionParameters },
+        Reaction: { connect: { id: req.body.reactionId } },
+        ReactionParameters: { create: ReactionParameters }
+      }
+    })
+    console.log(areaCreation)
+    return res.json(areaCreation)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
+/**
+ * Start the node.js server at PORT and HOST variable
+ */
+app.listen(PORT, HOST, () => {
+  console.log(`Server running...`)
+})
+
+module.exports = { test_example }
