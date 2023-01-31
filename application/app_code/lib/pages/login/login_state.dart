@@ -16,6 +16,7 @@ class LoginPageState extends State<LoginPage> {
   /// password to login with
   String? _password;
 
+  /// To know if an user connect himself with email method
   bool _isConnexionWithEmail = false;
 
   /// future api answer
@@ -195,7 +196,7 @@ class LoginPageState extends State<LoginPage> {
     ]);
   }
 
-  /// These function display the button for request a new password
+  /// This function display the button for request a new password
   Widget displayResetAndForgotPassword() {
     return Column(
       children: <Widget>[
