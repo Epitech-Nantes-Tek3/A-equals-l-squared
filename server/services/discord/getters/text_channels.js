@@ -2,6 +2,11 @@
 
 const client = require('../init').client
 
+/**
+ * @brief Get all text channels of a guild by its ID.
+ * @param {*} guildID ID of the guild you want to get text channels.
+ * @returns An array of text channels with their ID and name.
+ */
 function getTextChannels (guildID) {
   var text_channels = []
   var text_channel = {}
