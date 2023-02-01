@@ -95,6 +95,15 @@ const createDiscordService = async () => {
             name: 'onReactionAdd',
             description: 'When a user add a reaction to a message',
             isEnable: true
+            Parameters: {
+              create: [
+                {
+                  name: 'channelId',
+                  description: 'The channel id where the message is sent',
+                  type: 'string'
+                }
+              ]
+            }
           }
         ]
       },
