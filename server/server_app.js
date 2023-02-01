@@ -412,6 +412,13 @@ app.get(
   }
 )
 
+
+/**
+ * Creating a new user in the database.
+ * bodi.username -> User name
+ * body.email -> User mail
+ * body.password -> User password
+ */
 app.post('/api/dev/user/create', async (req, res) => {
   try {
     const user = await database.prisma.User.create({
@@ -429,6 +436,11 @@ app.post('/api/dev/user/create', async (req, res) => {
   }
 })
 
+/**
+ * Creating a new service in the database.
+ * body.name -> Service name
+ * body.description -> Service description (optionnal)
+ */
 app.post('/api/dev/service/create', async (req, res) => {
   try {
     const service = await database.prisma.Service.create({
@@ -444,6 +456,12 @@ app.post('/api/dev/service/create', async (req, res) => {
   }
 })
 
+/**
+ * Creating a new action.
+ * body.name -> Action name
+ * body.description -> Action description (optionnal)
+ * body.serviceId -> Service id
+ */
 app.post('/api/dev/action/create', async (req, res) => {
   try {
     const action = await database.prisma.Action.create({
@@ -460,6 +478,12 @@ app.post('/api/dev/action/create', async (req, res) => {
   }
 })
 
+/**
+ * Creating a new reaction.
+ * body.name -> Reaction name
+ * body.description -> Reaction description (optionnal)
+ * body.serviceId -> Service id
+ */
 app.post('/api/dev/reaction/create', async (req, res) => {
   try {
     const reaction = await database.prisma.Reaction.create({
@@ -476,6 +500,14 @@ app.post('/api/dev/reaction/create', async (req, res) => {
   }
 })
 
+/**
+ * Creating a new parameter.
+ * body.name -> Parameter name
+ * body.displayName -> Parameter display name
+ * body.description -> Parameter description (optionnal)
+ * body.actionId -> Action id (optionnal)
+ * body.reactionId -> Reaction id (optionnal)
+ */
 app.post('/api/dev/parameter/create', async (req, res) => {
   try {
     if (req.body.actionId) {
@@ -506,6 +538,14 @@ app.post('/api/dev/parameter/create', async (req, res) => {
   }
 })
 
+/**
+ * Creating a new area.
+ * body.userId -> User id
+ * body.actionId -> Action id (optionnal if reactionId is set)
+ * body.actionParameters -> Action parameters (optionnal)
+ * body.reactionId -> Reaction id (optionnal if actionId is set)
+ * body.reactionParameters -> Reaction parameters (optionnal)
+ */
 app.post('/api/area/create', async (req, res) => {
   try {
     const ActionParameters = []
@@ -539,6 +579,7 @@ app.post('/api/area/create', async (req, res) => {
     return res.status(400).json('Please pass a complete body.')
   }
 })
+
 /**
  * Start the node.js server at PORT and HOST variable
  */
