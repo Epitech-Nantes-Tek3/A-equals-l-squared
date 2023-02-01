@@ -66,7 +66,7 @@ const createDiscordService = async () => {
           {
             name: 'onMessage',
             description: 'When a message is sent',
-            isEnable: true
+            isEnable: true,
             Parameters: {
               create: [
                 {
@@ -94,7 +94,7 @@ const createDiscordService = async () => {
           {
             name: 'onReactionAdd',
             description: 'When a user add a reaction to a message',
-            isEnable: true
+            isEnable: true,
             Parameters: {
               create: [
                 {
