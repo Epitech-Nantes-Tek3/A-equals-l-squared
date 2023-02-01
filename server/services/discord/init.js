@@ -46,6 +46,7 @@ const createDiscordService = async () => {
                 {
                   name: 'channelId',
                   description: 'The channel id where the message is sent',
+                  isRequired: true,
                   type: 'string'
                 }
               ]
@@ -60,6 +61,7 @@ const createDiscordService = async () => {
                 {
                   name: 'channelId',
                   description: 'The channel id where the user join',
+                  isRequired: true,
                   type: 'string'
                 }
               ]
@@ -74,6 +76,7 @@ const createDiscordService = async () => {
                 {
                   name: 'channelId',
                   description: 'The channel id where the message is sent',
+                  isRequired: true,
                   type: 'string'
                 }
               ]
@@ -92,11 +95,13 @@ const createDiscordService = async () => {
                 {
                   name: 'messageContent',
                   description: 'The content of the message',
+                  isRequired: true,
                   type: 'string'
                 },
                 {
                   name: 'channelId',
                   description: 'The channel id where the message will be send',
+                  isRequired: true,
                   type: 'string'
                 }
               ]
@@ -111,11 +116,13 @@ const createDiscordService = async () => {
                 {
                   name: 'messageContent',
                   description: 'The content of the message',
+                  isRequired: true,
                   type: 'string'
                 },
                 {
                   name: 'UserId',
                   description: 'The user id where the message will be send',
+                  isRequired: true,
                   type: 'string'
                 }
               ]
@@ -130,6 +137,7 @@ const createDiscordService = async () => {
                 {
                   name: 'activity',
                   description: 'The activity of the user',
+                  isRequired: true,
                   type: 'string'
                 }
               ]
