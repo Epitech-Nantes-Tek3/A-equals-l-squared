@@ -70,7 +70,7 @@ const createDiscordService = async () => {
           {
             name: 'onMemberJoining',
             description: 'When a user join a guild',
-            isEnable: true,
+            isEnable: true
           },
           {
             name: 'onReactionAdd',
