@@ -23,33 +23,7 @@ client.login(process.env.DISCORD_TOKEN)
  * Called when the Discord bot is ready, here we display all the servers the bot is on.
  */
 client.once('ready', () => {
-  console.log('Available on servers: ')
-  var guilds = []
-  var curr_guild = {}
-  var curr_channel = {}
-  const getVoiceChannels = require('./getters/voice_channels')
-  client.guilds.cache.map(guild => {
-    if (guild.available) {
-      curr_guild = {
-        id: guild.id,
-        name: guild.name,
-        channels: []
-      }
-      console.log(getVoiceChannels(guild.id))
-      guild.channels.cache.map(channel => {
-        if (channel.type != 'category') {
-          curr_channel = {
-            id: channel.id,
-            name: channel.name,
-            type: channel.type
-          }
-          curr_guild.channels.push(curr_channel)
-        }
-      })
-      guilds.push(curr_guild)
-    }
-  })
-  console.log(guilds)
+  console.log('Discord bot ready !')
 })
 
 /**
