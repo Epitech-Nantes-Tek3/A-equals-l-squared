@@ -433,8 +433,8 @@ app.get(
   }
 )
 
-app.get('/api/services/discord/getVoiceChannels', async (req, res) => {
-  const channels = await getVoiceChannels(req.query.id)
+app.post('/api/services/discord/getVoiceChannels', async (req, res) => {
+  const channels = await getVoiceChannels(req.body.id)
   return res.status(201).json({
     status: 'success',
     data: channels,
@@ -442,8 +442,8 @@ app.get('/api/services/discord/getVoiceChannels', async (req, res) => {
   })
 })
 
-app.get('/api/services/discord/getTextChannels', async (req, res) => {
-  const channels = await getTextChannels(req.query.id)
+app.post('/api/services/discord/getTextChannels', async (req, res) => {
+  const channels = await getTextChannels(req.body.id)
   return res.status(201).json({
     status: 'success',
     data: channels,
@@ -451,7 +451,7 @@ app.get('/api/services/discord/getTextChannels', async (req, res) => {
   })
 })
 
-app.get('/api/services/discord/getAvailableGuilds', async (req, res) => {
+app.post('/api/services/discord/getAvailableGuilds', async (req, res) => {
   const guilds = await getAvailableGuilds()
   return res.status(201).json({
     status: 'success',
