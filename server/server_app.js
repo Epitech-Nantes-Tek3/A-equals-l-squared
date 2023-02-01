@@ -413,7 +413,6 @@ app.get(
 )
 
 app.post('/api/dev/user/create', async (req, res) => {
-  console.log(req.body)
   try {
     const user = await database.prisma.User.create({
       data: {
@@ -431,7 +430,6 @@ app.post('/api/dev/user/create', async (req, res) => {
 })
 
 app.post('/api/dev/service/create', async (req, res) => {
-  console.log(req.body)
   try {
     const service = await database.prisma.Service.create({
       data: {
@@ -447,9 +445,7 @@ app.post('/api/dev/service/create', async (req, res) => {
 })
 
 app.post('/api/dev/action/create', async (req, res) => {
-  console.log(req.body)
   try {
-  console.log(req.body)
     const action = await database.prisma.Action.create({
       data: {
         name: req.body.name,
@@ -465,7 +461,6 @@ app.post('/api/dev/action/create', async (req, res) => {
 })
 
 app.post('/api/dev/reaction/create', async (req, res) => {
-  console.log(req.body)
   try {
     const reaction = await database.prisma.Reaction.create({
       data: {
@@ -482,7 +477,6 @@ app.post('/api/dev/reaction/create', async (req, res) => {
 })
 
 app.post('/api/dev/parameter/create', async (req, res) => {
-  console.log(req.body)
   try {
     if (req.body.actionId) {
       const parameter = await database.prisma.Parameter.create({
@@ -513,7 +507,6 @@ app.post('/api/dev/parameter/create', async (req, res) => {
 })
 
 app.post('/api/area/create', async (req, res) => {
-  console.log(req.body)
   try {
     const ActionParameters = []
 
@@ -540,7 +533,6 @@ app.post('/api/area/create', async (req, res) => {
         ReactionParameters: { create: ReactionParameters }
       }
     })
-    console.log(areaCreation)
     return res.json(areaCreation)
   } catch (err) {
     console.log(err)
