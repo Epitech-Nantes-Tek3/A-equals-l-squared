@@ -48,6 +48,7 @@ void updateAllFlutterObject(BuildContext context) async {
       },
     );
 
+    print(jsonDecode(response.body));
     if (response.statusCode == 200) {
       List<AreaData> newList = <AreaData>[];
       var json = jsonDecode(response.body);

@@ -16,6 +16,15 @@ class HomePageState extends State<HomePage> {
     updateAllFlutterObject(context);
   }
 
+  List<Widget> areasDisplay() {
+    List<Widget> areaVis = <Widget>[];
+
+    for (var temp in areaDataList) {
+      areaVis.add(temp.display(false));
+    }
+    return areaVis;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_logout) {
@@ -27,6 +36,10 @@ class HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: areasDisplay(),
+            ),
             ElevatedButton(
               key: const Key('HomeSettingsButton'),
               onPressed: () {

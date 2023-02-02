@@ -13,13 +13,14 @@ class ParameterData {
   String? reactionId;
 
   /// Constructor of the reaction class
-  ParameterData(
-      {required this.id,
-      required this.name,
-      required this.displayName,
-      required this.description,
-      this.actionId,
-      this.reactionId});
+  ParameterData({
+    required this.id,
+    required this.name,
+    required this.displayName,
+    required this.description,
+    this.actionId,
+    this.reactionId,
+  });
 
   /// Convert a json map into the class
   factory ParameterData.fromJson(Map<String, dynamic> json) {
@@ -75,7 +76,7 @@ class ParameterData {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (String? value) {
           value ??= "";
-          if (matchedContent != null) matchedContent.content = value!;
+          if (matchedContent != null) matchedContent.content = value;
           return null;
         });
   }
@@ -93,7 +94,7 @@ class ParameterContent {
   /// Convert a json map into the class
   factory ParameterContent.fromJson(Map<String, dynamic> json) {
     return ParameterContent(
-      paramId: json['paramId'],
+      paramId: json['parameterId'],
       content: json['value'],
     );
   }

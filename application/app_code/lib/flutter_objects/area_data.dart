@@ -12,6 +12,7 @@ class AreaData {
   String userId;
   String actionId;
   String reactionId;
+  bool isEnable;
   List<ParameterContent> actionParameter;
   List<ParameterContent> reactionParameter;
 
@@ -21,6 +22,7 @@ class AreaData {
     required this.userId,
     required this.actionId,
     required this.reactionId,
+    required this.isEnable,
     required this.actionParameter,
     required this.reactionParameter,
   });
@@ -40,12 +42,14 @@ class AreaData {
         userId: json['userId'],
         actionId: json['actionId'],
         reactionId: json['reactionId'],
+        isEnable: json['isEnable'],
         actionParameter: actionParameters,
         reactionParameter: reactionParameters);
   }
 
   /// Get a visual representation of an Area
-  Widget display() {
+  /// mode -> true = complete representation, false = only area preview
+  Widget display(bool mode) {
     late ActionData action;
     late ReactionData reaction;
 
@@ -64,11 +68,22 @@ class AreaData {
       }
     }
     List<Widget> listDisplay = <Widget>[];
-    listDisplay.add(const Text("Area"));
-    listDisplay.add(const Text("Action"));
-    listDisplay.add(action.display());
-    listDisplay.add(const Text("Reaction"));
-    listDisplay.add(reaction.display());
+    if (mode) {
+      listDisplay.add(Text(
+        "Area",
+        style: TextStyle(color: isEnable ? Colors.green : Colors.red),
+      ));
+      listDisplay.add(const Text("Action"));
+      listDisplay.add(action.display());
+      listDisplay.add(const Text("Reaction"));
+      listDisplay.add(reaction.display());
+    } else {
+      listDisplay.add(Text(id));
+
+      /// Replace it later with area name
+      listDisplay.add(Text(action.name));
+      listDisplay.add(Text(reaction.name));
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: listDisplay,
