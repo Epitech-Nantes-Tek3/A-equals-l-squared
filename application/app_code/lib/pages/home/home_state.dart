@@ -2,6 +2,7 @@ import 'package:application/network/informations.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:application/pages/settings/settings_functional.dart';
+import 'package:application/pages/update_area/update_area_functional.dart';
 import 'package:flutter/material.dart';
 
 import '../login/login_page.dart';
@@ -17,11 +18,17 @@ class HomePageState extends State<HomePage> {
     updateAllFlutterObject(context);
   }
 
+  /// Display all the area
   List<Widget> areasDisplay() {
     List<Widget> areaVis = <Widget>[];
 
     for (var temp in areaDataList) {
-      areaVis.add(temp.display(false));
+      areaVis.add(ElevatedButton(
+          onPressed: () {
+            updatingArea = temp;
+            goToUpdateAreaPage(context);
+          },
+          child: temp.display(false)));
     }
     return areaVis;
   }

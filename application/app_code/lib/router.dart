@@ -3,6 +3,7 @@ import 'package:application/pages/home/home_page.dart';
 import 'package:application/pages/login/login_page.dart';
 import 'package:application/pages/settings/settings_page.dart';
 import 'package:application/pages/signup/signup_page.dart';
+import 'package:application/pages/update_area/update_area_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -37,6 +38,11 @@ final GoRouter router = GoRouter(
             path: 'create_area',
             builder: (BuildContext context, GoRouterState state) {
               return const CreateAreaPage();
+            }),
+        GoRoute(
+            path: 'update_area',
+            builder: (BuildContext context, GoRouterState state) {
+              return const UpdateAreaPage();
             })
       ],
     ),
