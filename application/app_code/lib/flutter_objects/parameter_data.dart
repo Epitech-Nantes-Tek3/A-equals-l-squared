@@ -40,3 +40,21 @@ class ParameterData {
         reactionId: reactionId);
   }
 }
+
+/// This class is the ParameterContent class.
+/// It contains the value of a parameter content.
+class ParameterContent {
+  String paramId;
+  String content;
+
+  /// Constructor of the parameterContent class
+  ParameterContent({required this.paramId, required this.content});
+
+  /// Convert a json map into the class
+  factory ParameterContent.fromJson(Map<String, dynamic> json) {
+    return ParameterContent(
+      paramId: json['paramId'],
+      content: json['value'],
+    );
+  }
+}
