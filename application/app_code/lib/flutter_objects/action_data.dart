@@ -1,4 +1,5 @@
 import 'package:application/flutter_objects/parameter_data.dart';
+import 'package:flutter/material.dart';
 
 /// This class is the action class.
 /// It contains all information about an action
@@ -35,5 +36,26 @@ class ActionData {
         isEnable: json['isEnable'],
         serviceId: json['serviceId'],
         parameters: parameters);
+  }
+
+  /// Get a visual representation of an Action
+  Widget display() {
+    List<Widget> paramWid = <Widget>[];
+    paramWid.add(
+      Text(
+        name,
+        style: TextStyle(color: isEnable ? Colors.green : Colors.red),
+      ),
+    );
+    paramWid.add(
+      Text(description),
+    );
+    for (var temp in parameters) {
+      paramWid.add(temp.display());
+    }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: paramWid,
+    );
   }
 }
