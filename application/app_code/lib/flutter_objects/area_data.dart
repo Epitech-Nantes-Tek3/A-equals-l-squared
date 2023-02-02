@@ -1,7 +1,7 @@
 import 'package:application/flutter_objects/parameter_data.dart';
 
-/// This class is the reaction class.
-/// It contains all information about a reaction
+/// This class is the Area class.
+/// It contains all information about an Area
 class AreaData {
   String id;
   String userId;
@@ -10,7 +10,7 @@ class AreaData {
   List<ParameterContent> actionParameter;
   List<ParameterContent> reactionParameter;
 
-  /// Constructor of the reaction class
+  /// Constructor of the Area class
   AreaData({
     required this.id,
     required this.userId,
