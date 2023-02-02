@@ -412,7 +412,6 @@ app.get(
   }
 )
 
-
 /**
  * Creating a new user in the database.
  * bodi.username -> User name
