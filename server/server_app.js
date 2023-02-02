@@ -44,13 +44,9 @@ const HOST = '0.0.0.0'
 /**
  * Add here the database operation needed for development testing
  */
-const createDevelopmentData = async () => {}
-
-if (process.env.IS_MIGRATION == true) {
-  console.log(process.env.IS_MIGRATION)
+const createDevelopmentData = async () => {
   createGmailService()
   createDiscordService()
-  createDevelopmentData()
 }
 
 /**
@@ -474,6 +470,10 @@ app.get(
         where: {
           userId: req.user.id
         },
+        include: {
+          ActionsParameters: { include: { parameterId: true, value: true } },
+          ReactionsParameters: { include: { parameterId: true, value: true } }
+        },
         orderBy: {
           createdAt: 'desc'
         }
@@ -619,45 +619,53 @@ app.post('/api/dev/parameter/create', async (req, res) => {
 
 /**
  * Creating a new area.
- * body.userId -> User id
  * body.actionId -> Action id (optionnal if reactionId is set)
  * body.actionParameters -> Action parameters (optionnal)
  * body.reactionId -> Reaction id (optionnal if actionId is set)
  * body.reactionParameters -> Reaction parameters (optionnal)
+ * Protected by a JWT token
  */
-app.post('/api/area/create', async (req, res) => {
-  try {
-    const ActionParameters = []
+app.post(
+  '/api/area/create',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      const ActionParameters = []
 
-    req.body.actionParameters.forEach(param => {
-      ActionParameters.push({
-        Parameter: { connect: { id: param.paramId, value: param.value } }
+      req.body.actionParameters.forEach(param => {
+        ActionParameters.push({
+          Parameter: { connect: { id: param.paramId } },
+          value: param.value
+        })
       })
-    })
 
-    const ReactionParameters = []
+      const ReactionParameters = []
 
-    req.body.reactionParameters.forEach(param => {
-      ReactionParameters.push({
-        Parameter: { connect: { id: param.paramId, value: param.value } }
+      req.body.reactionParameters.forEach(param => {
+        ReactionParameters.push({
+          Parameter: { connect: { id: param.paramId } },
+          value: param.value
+        })
       })
-    })
 
-    const areaCreation = await database.prisma.UsersHasActionsReactions.create({
-      data: {
-        User: { connect: { id: req.body.userId } },
-        Action: { connect: { id: req.body.actionId } },
-        ActionParameters: { create: ActionParameters },
-        Reaction: { connect: { id: req.body.reactionId } },
-        ReactionParameters: { create: ReactionParameters }
-      }
-    })
-    return res.json(areaCreation)
-  } catch (err) {
-    console.log(err)
-    return res.status(400).json('Please pass a complete body.')
+      const areaCreation =
+        await database.prisma.UsersHasActionsReactions.create({
+          data: {
+            User: { connect: { id: req.user.id } },
+            Action: { connect: { id: req.body.actionId } },
+            ActionParameters: { create: ActionParameters },
+            Reaction: { connect: { id: req.body.reactionId } },
+            ReactionParameters: { create: ReactionParameters }
+          }
+        })
+      return res.json(areaCreation)
+    } catch (err) {
+      console.log(err)
+      return res.status(400).json('Please pass a complete body.')
+    }
   }
-})
+)
 
 /**
  * Start the node.js server at PORT and HOST variable
