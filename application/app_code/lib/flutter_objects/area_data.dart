@@ -30,11 +30,11 @@ class AreaData {
   /// Convert a json map into the class
   factory AreaData.fromJson(Map<String, dynamic> json) {
     List<ParameterContent> actionParameters = <ParameterContent>[];
-    for (var temp in json['actionParameters']) {
+    for (var temp in json['ActionParameters']) {
       actionParameters.add(ParameterContent.fromJson(temp));
     }
     List<ParameterContent> reactionParameters = <ParameterContent>[];
-    for (var temp in json['reactionParameters']) {
+    for (var temp in json['ReactionParameters']) {
       reactionParameters.add(ParameterContent.fromJson(temp));
     }
     return AreaData(
@@ -60,8 +60,11 @@ class AreaData {
           break;
         }
       }
+    }
+    for (var temp in serviceDataList) {
       for (var tempReact in temp.reactions) {
-        if (tempReact.id == actionId) {
+        print(tempReact.id);
+        if (tempReact.id == reactionId) {
           reaction = tempReact;
           break;
         }
