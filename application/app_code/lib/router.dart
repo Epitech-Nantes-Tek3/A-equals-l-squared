@@ -1,6 +1,7 @@
 import 'package:application/pages/create_area/create_area_page.dart';
 import 'package:application/pages/home/home_page.dart';
 import 'package:application/pages/login/login_page.dart';
+import 'package:application/pages/service_list/service_list_page.dart';
 import 'package:application/pages/settings/settings_page.dart';
 import 'package:application/pages/signup/signup_page.dart';
 import 'package:application/pages/update_area/update_area_page.dart';
@@ -43,6 +44,11 @@ final GoRouter router = GoRouter(
             path: 'update_area',
             builder: (BuildContext context, GoRouterState state) {
               return const UpdateAreaPage();
+            }),
+        GoRoute(
+            path: 'service_list',
+            builder: (BuildContext context, GoRouterState state) {
+              return const ServiceListPage();
             })
       ],
     ),

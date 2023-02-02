@@ -1,9 +1,9 @@
-import 'package:application/pages/create_area/create_area_page.dart';
+import 'package:application/pages/service_list/service_list_page.dart';
 import 'package:flutter/material.dart';
 
 import '../home/home_functional.dart';
 
-class CreateAreaPageState extends State<CreateAreaPage> {
+class ServiceListPageState extends State<ServiceListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +13,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         children: <Widget>[
           const Text('Welcome to Create Area page'),
           ElevatedButton(
-            key: const Key('CreateAreaHomeButton'),
+            key: const Key('ServiceListHomeButton'),
             onPressed: () {
               setState(() {
                 goToHomePage(context);
