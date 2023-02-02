@@ -467,6 +467,9 @@ app.get(
   }
 )
 
+/**
+ * @brief List all available Voice Channels on a given GuildID.
+ */
 app.post('/api/services/discord/getVoiceChannels', async (req, res) => {
   const channels = await getVoiceChannels(req.body.id)
   return res.status(201).json({
@@ -476,6 +479,9 @@ app.post('/api/services/discord/getVoiceChannels', async (req, res) => {
   })
 })
 
+/**
+ * @brief List all available Text Channels on a given GuildID.
+ */
 app.post('/api/services/discord/getTextChannels', async (req, res) => {
   const channels = await getTextChannels(req.body.id)
   return res.status(201).json({
@@ -485,6 +491,9 @@ app.post('/api/services/discord/getTextChannels', async (req, res) => {
   })
 })
 
+/**
+ * @brief List all available Guilds where the bot is.
+ */
 app.post('/api/services/discord/getAvailableGuilds', async (req, res) => {
   const guilds = await getAvailableGuilds()
   return res.status(201).json({
