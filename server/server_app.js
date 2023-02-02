@@ -416,7 +416,8 @@ app.get(
 )
 
 /**
- * @brief List all available Voice Channels on a given GuildID.
+ * @brief List all available Voice Channels on a given Guild ID.
+ * body.id -> Guild ID
  */
 app.post('/api/services/discord/getVoiceChannels', async (req, res) => {
   const channels = await getVoiceChannels(req.body.id)
@@ -429,6 +430,7 @@ app.post('/api/services/discord/getVoiceChannels', async (req, res) => {
 
 /**
  * @brief List all available Text Channels on a given GuildID.
+ * body.id -> Guild ID
  */
 app.post('/api/services/discord/getTextChannels', async (req, res) => {
   const channels = await getTextChannels(req.body.id)
