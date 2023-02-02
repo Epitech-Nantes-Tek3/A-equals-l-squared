@@ -442,7 +442,7 @@ app.post('/api/services/discord/getTextChannels', async (req, res) => {
 /**
  * @brief List all available Guilds where the bot is.
  */
-app.post('/api/services/discord/getAvailableGuilds', async (req, res) => {
+app.get('/api/services/discord/getAvailableGuilds', async (req, res) => {
   const guilds = await getAvailableGuilds()
   return res.status(201).json({
     status: 'success',
