@@ -471,8 +471,8 @@ app.get(
           userId: req.user.id
         },
         include: {
-          ActionsParameters: { include: { parameterId: true, value: true } },
-          ReactionsParameters: { include: { parameterId: true, value: true } }
+          ActionParameters: { include: { parameterId: true, value: true } },
+          ReactionParameters: { include: { parameterId: true, value: true } }
         },
         orderBy: {
           createdAt: 'desc'
