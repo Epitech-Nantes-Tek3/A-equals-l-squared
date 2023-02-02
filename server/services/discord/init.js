@@ -97,13 +97,11 @@ const createDiscordService = async () => {
               create: [
                 {
                   name: 'messageContent',
-                  displayName: 'messageContent',
                   description: 'The content of the message',
                   isRequired: true
                 },
                 {
                   name: 'channelId',
-                  displayName: 'channelId',
                   description: 'The channel id where the message will be send',
                   isRequired: true
                 }
@@ -118,13 +116,11 @@ const createDiscordService = async () => {
               create: [
                 {
                   name: 'messageContent',
-                  displayName: 'messageContent',
                   description: 'The content of the message',
                   isRequired: true
                 },
                 {
                   name: 'UserId',
-                  displayName: 'UserId',
                   description: 'The user id where the message will be send',
                   isRequired: true
                 }
@@ -139,7 +135,6 @@ const createDiscordService = async () => {
               create: [
                 {
                   name: 'activity',
-                  displayName: 'activity',
                   description: 'The activity of the user',
                   isRequired: true
                 }
