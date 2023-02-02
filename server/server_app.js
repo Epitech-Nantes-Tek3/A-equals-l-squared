@@ -543,7 +543,7 @@ app.post('/api/dev/reaction/create', async (req, res) => {
 /**
  * Creating a new parameter.
  * body.name -> Parameter name
- * body.displayName -> Parameter display name
+ * body.isRequired -> Parameter is required or not
  * body.description -> Parameter description (optionnal)
  * body.actionId -> Action id (optionnal)
  * body.reactionId -> Reaction id (optionnal)
@@ -554,7 +554,7 @@ app.post('/api/dev/parameter/create', async (req, res) => {
       const parameter = await database.prisma.Parameter.create({
         data: {
           name: req.body.name,
-          displayName: req.body.displayName,
+          isRequired:  req.body.isRequired,
           description: req.body.description,
           Action: { connect: { id: req.body.actionId } }
         }
@@ -563,7 +563,7 @@ app.post('/api/dev/parameter/create', async (req, res) => {
       const parameter = await database.prisma.Parameter.create({
         data: {
           name: req.body.name,
-          displayName: req.body.displayName,
+          isRequired:  req.body.isRequired,
           description: req.body.description,
           Reaction: { connect: { id: req.body.reactionId } }
         }
