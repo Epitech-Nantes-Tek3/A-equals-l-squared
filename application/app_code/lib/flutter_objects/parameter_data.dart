@@ -7,7 +7,6 @@ import '../pages/home/home_functional.dart';
 class ParameterData {
   String id;
   String name;
-  String displayName;
   String description;
   String? actionId;
   String? reactionId;
@@ -16,7 +15,6 @@ class ParameterData {
   ParameterData({
     required this.id,
     required this.name,
-    required this.displayName,
     required this.description,
     this.actionId,
     this.reactionId,
@@ -39,7 +37,6 @@ class ParameterData {
     return ParameterData(
         id: json['id'],
         name: json['name'],
-        displayName: json['displayName'],
         description: json['description'],
         actionId: actionId,
         reactionId: reactionId);
@@ -70,7 +67,7 @@ class ParameterData {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5.0),
           ),
-          labelText: displayName,
+          labelText: name,
         ),
         initialValue: matchedContent != null ? matchedContent.content : "",
         autovalidateMode: AutovalidateMode.onUserInteraction,

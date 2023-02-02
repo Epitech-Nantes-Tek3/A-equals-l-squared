@@ -24,6 +24,7 @@ const createGmailService = async () => {
                   name: 'emailId',
                   displayName: 'emailId',
                   description: 'The id of the email',
+                  isRequired: true
                 }
               ]
             }
@@ -38,6 +39,7 @@ const createGmailService = async () => {
                   name: 'query',
                   displayName: 'query',
                   description: 'The query to search for',
+                  isRequired: true
                 }
               ]
             }
@@ -56,16 +58,19 @@ const createGmailService = async () => {
                   name: 'to',
                   displayName: 'to',
                   description: 'The email address to send to',
+                  isRequired: true
                 },
                 {
                   name: 'subject',
                   displayName: 'subject',
                   description: 'The subject of the email',
+                  isRequired: true
                 },
                 {
                   name: 'body',
                   displayName: 'body',
                   description: 'The body of the email',
+                  isRequired: true
                 }
               ]
             }
@@ -74,7 +79,6 @@ const createGmailService = async () => {
       }
     }
   })
-  console.log('Gmail service is now available.')
 }
 
 /**
