@@ -32,7 +32,7 @@ passport.deserializeUser((id, done) => {
 })
 
 app.use(bodyParser.json())
-app.use(session({ secret: 'SECRET' }))
+app.use(session({ secret: 'SECRET', resave: false, saveUninitialized: false }))
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -92,18 +92,10 @@ app.get('/about.json', async (req, res) => {
           description: true,
           isEnable: true,
           Actions: {
-            select: {
-              name: true,
-              description: true,
-              isEnable: true
-            }
+            select: { name: true, description: true, isEnable: true }
           },
           Reactions: {
-            select: {
-              name: true,
-              description: true,
-              isEnable: true
-            }
+            select: { name: true, description: true, isEnable: true }
           }
         }
       })
@@ -139,11 +131,7 @@ app.post('/api/signup', (req, res, next) => {
       })
     return res.status(201).json({
       status: 'success',
-      data: {
-        message: 'Account created.',
-        user,
-        token
-      },
+      data: { message: 'Account created.', user, token },
       statusCode: res.statusCode
     })
   })(req, res, next)
@@ -161,11 +149,7 @@ app.post('/api/login', (req, res, next) => {
     const token = utils.generateToken(user.id)
     return res.status(201).json({
       status: 'success',
-      data: {
-        message: 'Welcome back.',
-        user,
-        token
-      },
+      data: { message: 'Welcome back.', user, token },
       statusCode: res.statusCode
     })
   })(req, res, next)
@@ -180,17 +164,11 @@ app.get('/api/mail/verification', async (req, res) => {
   try {
     const decoded = jwt.decode(token, process.env.JWT_SECRET)
     const user = await database.prisma.User.findUnique({
-      where: {
-        id: decoded.id
-      }
+      where: { id: decoded.id }
     })
     await database.prisma.User.update({
-      where: {
-        id: decoded.id
-      },
-      data: {
-        mailVerification: true
-      }
+      where: { id: decoded.id },
+      data: { mailVerification: true }
     })
     res.send(
       'Email now successfully verified !\nYou can go back to login page.'
@@ -212,34 +190,20 @@ app.get('/api/mail/customVerification', async (req, res) => {
   try {
     const decoded = jwt.decode(token, process.env.JWT_SECRET)
     const user = await database.prisma.User.findUnique({
-      where: {
-        id: decoded.id
-      }
+      where: { id: decoded.id }
     })
     const processType = user.confirmProcess
     await database.prisma.User.update({
-      where: {
-        id: decoded.id
-      },
-      data: {
-        confirmProcess: ''
-      }
+      where: { id: decoded.id },
+      data: { confirmProcess: '' }
     })
     if (processType == 'Delete') {
-      await database.prisma.User.delete({
-        where: {
-          id: decoded.id
-        }
-      })
+      await database.prisma.User.delete({ where: { id: decoded.id } })
     }
     if (processType == 'ResetPassword') {
       await database.prisma.User.update({
-        where: {
-          id: decoded.id
-        },
-        data: {
-          password: await hash('password')
-        }
+        where: { id: decoded.id },
+        data: { password: await hash('password') }
       })
     }
     res.send('Operation ' + processType + ' authorized and executed.')
@@ -260,12 +224,8 @@ app.get(
   async (req, res) => {
     if (!req.user) return res.status(401).send('Invalid token')
     await database.prisma.User.update({
-      where: {
-        id: req.user.id
-      },
-      data: {
-        confirmProcess: 'Delete'
-      }
+      where: { id: req.user.id },
+      data: { confirmProcess: 'Delete' }
     })
     const token = utils.generateToken(req.user.id)
     gmail
@@ -295,12 +255,8 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
   if (!user.mailVerification)
     return res.status(401).json('Please verify your e-mail address.')
   await database.prisma.User.update({
-    where: {
-      id: user.id
-    },
-    data: {
-      confirmProcess: 'ResetPassword'
-    }
+    where: { id: user.id },
+    data: { confirmProcess: 'ResetPassword' }
   })
   const token = utils.generateToken(user.id)
   gmail
@@ -343,18 +299,12 @@ app.post(
             return res.status(401).send('Invalid new e-mail address.')
           })
         await database.prisma.User.update({
-          where: {
-            id: req.user.id
-          },
-          data: {
-            mailVerification: false
-          }
+          where: { id: req.user.id },
+          data: { mailVerification: false }
         })
       }
       await database.prisma.User.update({
-        where: {
-          id: req.user.id
-        },
+        where: { id: req.user.id },
         data: {
           username: req.body.username,
           email: req.body.email,
@@ -438,9 +388,7 @@ app.post('/api/login/google', async (req, res, next) => {
  */
 app.get(
   '/api/login/facebook',
-  passport.authenticate('facebook', {
-    scope: ['email']
-  })
+  passport.authenticate('facebook', { scope: ['email'] })
 )
 
 /**
@@ -465,12 +413,177 @@ app.get(
 )
 
 /**
+ * Creating a new user in the database.
+ * bodi.username -> User name
+ * body.email -> User mail
+ * body.password -> User password
+ */
+app.post('/api/dev/user/create', async (req, res) => {
+  try {
+    const user = await database.prisma.User.create({
+      data: {
+        username: req.body.username,
+        email: req.body.email,
+        password: await hash(req.body.password),
+        mailVerification: true
+      }
+    })
+    return res.json(user)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+/**
+ * Creating a new service in the database.
+ * body.name -> Service name
+ * body.description -> Service description (optionnal)
+ */
+app.post('/api/dev/service/create', async (req, res) => {
+  try {
+    const service = await database.prisma.Service.create({
+      data: {
+        name: req.body.name,
+        description: req.body.description
+      }
+    })
+    return res.json(service)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+/**
+ * Creating a new action.
+ * body.name -> Action name
+ * body.description -> Action description (optionnal)
+ * body.serviceId -> Service id
+ */
+app.post('/api/dev/action/create', async (req, res) => {
+  try {
+    const action = await database.prisma.Action.create({
+      data: {
+        name: req.body.name,
+        description: req.body.description,
+        Service: { connect: { id: req.body.serviceId } }
+      }
+    })
+    return res.json(action)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+/**
+ * Creating a new reaction.
+ * body.name -> Reaction name
+ * body.description -> Reaction description (optionnal)
+ * body.serviceId -> Service id
+ */
+app.post('/api/dev/reaction/create', async (req, res) => {
+  try {
+    const reaction = await database.prisma.Reaction.create({
+      data: {
+        name: req.body.name,
+        description: req.body.description,
+        Service: { connect: { id: req.body.serviceId } }
+      }
+    })
+    return res.json(reaction)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+/**
+ * Creating a new parameter.
+ * body.name -> Parameter name
+ * body.displayName -> Parameter display name
+ * body.description -> Parameter description (optionnal)
+ * body.actionId -> Action id (optionnal)
+ * body.reactionId -> Reaction id (optionnal)
+ */
+app.post('/api/dev/parameter/create', async (req, res) => {
+  try {
+    if (req.body.actionId) {
+      const parameter = await database.prisma.Parameter.create({
+        data: {
+          name: req.body.name,
+          displayName: req.body.displayName,
+          description: req.body.description,
+          Action: { connect: { id: req.body.actionId } }
+        }
+      })
+    } else if (req.body.reactionId) {
+      const parameter = await database.prisma.Parameter.create({
+        data: {
+          name: req.body.name,
+          displayName: req.body.displayName,
+          description: req.body.description,
+          Reaction: { connect: { id: req.body.reactionId } }
+        }
+      })
+    } else {
+      return res.status(400).json('Please pass a complete body.')
+    }
+    return res.json(parameter)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+/**
+ * Creating a new area.
+ * body.userId -> User id
+ * body.actionId -> Action id (optionnal if reactionId is set)
+ * body.actionParameters -> Action parameters (optionnal)
+ * body.reactionId -> Reaction id (optionnal if actionId is set)
+ * body.reactionParameters -> Reaction parameters (optionnal)
+ */
+app.post('/api/area/create', async (req, res) => {
+  try {
+    const ActionParameters = []
+
+    req.body.actionParameters.forEach(param => {
+      ActionParameters.push({
+        Parameter: { connect: { id: param.paramId, value: param.value } }
+      })
+    })
+
+    const ReactionParameters = []
+
+    req.body.reactionParameters.forEach(param => {
+      ReactionParameters.push({
+        Parameter: { connect: { id: param.paramId, value: param.value } }
+      })
+    })
+
+    const areaCreation = await database.prisma.UsersHasActionsReactions.create({
+      data: {
+        User: { connect: { id: req.body.userId } },
+        Action: { connect: { id: req.body.actionId } },
+        ActionParameters: { create: ActionParameters },
+        Reaction: { connect: { id: req.body.reactionId } },
+        ReactionParameters: { create: ReactionParameters }
+      }
+    })
+    return res.json(areaCreation)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+/**
  * Start the node.js server at PORT and HOST variable
  */
 app.listen(PORT, HOST, () => {
   console.log(`Server running...`)
 })
 
-module.exports = {
-  test_example
-}
+module.exports = { test_example }
