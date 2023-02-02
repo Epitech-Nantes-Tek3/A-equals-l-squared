@@ -1,4 +1,5 @@
 import 'package:application/network/informations.dart';
+import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:application/pages/settings/settings_functional.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,15 @@ class HomePageState extends State<HomePage> {
                 });
               },
               child: const Text('Settings'),
+            ),
+            ElevatedButton(
+              key: const Key('HomeCreateAreaButton'),
+              onPressed: () {
+                setState(() {
+                  goToCreateAreaPage(context);
+                });
+              },
+              child: const Text('Create Area'),
             ),
             ElevatedButton(
               key: const Key('HomeLogoutButton'),
