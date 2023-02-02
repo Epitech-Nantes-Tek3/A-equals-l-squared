@@ -11,7 +11,7 @@ class ServiceListPageState extends State<ServiceListPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          const Text('Welcome to Create Area page'),
+          const Text('Welcome to Service List page'),
           ElevatedButton(
             key: const Key('ServiceListHomeButton'),
             onPressed: () {
