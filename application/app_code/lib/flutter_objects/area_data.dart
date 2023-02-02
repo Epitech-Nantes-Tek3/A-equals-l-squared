@@ -63,7 +63,6 @@ class AreaData {
     }
     for (var temp in serviceDataList) {
       for (var tempReact in temp.reactions) {
-        print(tempReact.id);
         if (tempReact.id == reactionId) {
           reaction = tempReact;
           break;
