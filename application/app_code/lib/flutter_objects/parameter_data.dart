@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+
+import '../pages/home/home_functional.dart';
+
 /// This class is the parameter class.
 /// It contains all information about a parameter
 class ParameterData {
@@ -38,6 +42,42 @@ class ParameterData {
         description: json['description'],
         actionId: actionId,
         reactionId: reactionId);
+  }
+
+  /// Function returning a visual representation of a parameter
+  Widget display() {
+    ParameterContent? matchedContent;
+
+    for (var temp in areaDataList) {
+      for (var tempParam in temp.reactionParameter) {
+        if (tempParam.paramId == id) {
+          matchedContent = tempParam;
+          break;
+        }
+      }
+
+      for (var tempParam in temp.actionParameter) {
+        if (tempParam.paramId == id) {
+          matchedContent = tempParam;
+          break;
+        }
+      }
+    }
+    return TextFormField(
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(20),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          labelText: displayName,
+        ),
+        initialValue: matchedContent != null ? matchedContent.content : "",
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: (String? value) {
+          value ??= "";
+          if (matchedContent != null) matchedContent.content = value!;
+          return null;
+        });
   }
 }
 

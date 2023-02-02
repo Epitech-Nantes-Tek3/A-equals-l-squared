@@ -1,4 +1,5 @@
 import 'package:application/flutter_objects/reaction_data.dart';
+import 'package:flutter/material.dart';
 
 import 'action_data.dart';
 
@@ -41,5 +42,19 @@ class ServiceData {
         id: json['id'],
         actions: actions,
         reactions: reactions);
+  }
+
+  /// Get a visual representation of a service
+  Widget display() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(
+          name,
+          style: TextStyle(color: isEnabled ? Colors.green : Colors.red),
+        ),
+        Text(description),
+      ],
+    );
   }
 }
