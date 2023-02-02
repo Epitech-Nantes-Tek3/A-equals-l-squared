@@ -20,6 +20,9 @@ const onMessage = require('./services/discord/actions/on_message')
 const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
+const getVoiceChannels = require('./services/discord/getters/voice_channels')
+const getTextChannels = require('./services/discord/getters/text_channels')
+const getAvailableGuilds = require('./services/discord/getters/available_guilds')
 
 const app = express()
 
@@ -413,6 +416,44 @@ app.get(
 )
 
 /**
+ * @brief List all available Voice Channels on a given Guild ID.
+ * body.id -> Guild ID
+ */
+app.post('/api/services/discord/getVoiceChannels', async (req, res) => {
+  const channels = await getVoiceChannels(req.body.id)
+  return res.status(201).json({
+    status: 'success',
+    data: channels,
+    statusCode: res.statusCode
+  })
+})
+
+/**
+ * @brief List all available Text Channels on a given GuildID.
+ * body.id -> Guild ID
+ */
+app.post('/api/services/discord/getTextChannels', async (req, res) => {
+  const channels = await getTextChannels(req.body.id)
+  return res.status(201).json({
+    status: 'success',
+    data: channels,
+    statusCode: res.statusCode
+  })
+})
+
+/**
+ * @brief List all available Guilds where the bot is.
+ */
+app.get('/api/services/discord/getAvailableGuilds', async (req, res) => {
+  const guilds = await getAvailableGuilds()
+  return res.status(201).json({
+    status: 'success',
+    data: guilds,
+    statusCode: res.statusCode
+  })
+})
+
+/**
  * Creating a new user in the database.
  * bodi.username -> User name
  * body.email -> User mail
@@ -502,7 +543,7 @@ app.post('/api/dev/reaction/create', async (req, res) => {
 /**
  * Creating a new parameter.
  * body.name -> Parameter name
- * body.displayName -> Parameter display name
+ * body.isRequired -> Parameter is required or not
  * body.description -> Parameter description (optionnal)
  * body.actionId -> Action id (optionnal)
  * body.reactionId -> Reaction id (optionnal)
@@ -513,7 +554,7 @@ app.post('/api/dev/parameter/create', async (req, res) => {
       const parameter = await database.prisma.Parameter.create({
         data: {
           name: req.body.name,
-          displayName: req.body.displayName,
+          isRequired:  req.body.isRequired,
           description: req.body.description,
           Action: { connect: { id: req.body.actionId } }
         }
@@ -522,7 +563,7 @@ app.post('/api/dev/parameter/create', async (req, res) => {
       const parameter = await database.prisma.Parameter.create({
         data: {
           name: req.body.name,
-          displayName: req.body.displayName,
+          isRequired:  req.body.isRequired,
           description: req.body.description,
           Reaction: { connect: { id: req.body.reactionId } }
         }

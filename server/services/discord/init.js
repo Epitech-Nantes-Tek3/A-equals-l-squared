@@ -23,10 +23,7 @@ client.login(process.env.DISCORD_TOKEN)
  * Called when the Discord bot is ready, here we display all the servers the bot is on.
  */
 client.once('ready', () => {
-  console.log('Available on servers: ')
-  console.log(
-    `${client.guilds.cache.map(guild => `\t'${guild.name}'\n`).join('')}`
-  )
+  console.log('Discord bot ready !')
 })
 
 /**
@@ -43,26 +40,52 @@ const createDiscordService = async () => {
           {
             name: 'onMessage',
             description: 'When a message is sent',
-            isEnable: true
-          },
-          {
-            name: 'onVoiceChannel',
-            description: 'When a user join a voice channel',
             isEnable: true,
-            parameters: {
+            Parameters: {
               create: [
                 {
                   name: 'channelId',
-                  description: 'The channel id where the user join',
+                  description: 'The channel id where the message is sent',
+                  isRequired: true,
                   type: 'string'
                 }
               ]
             }
           },
           {
+            name: 'onVoiceChannel',
+            description: 'When a user join a voice channel',
+            isEnable: true,
+            Parameters: {
+              create: [
+                {
+                  name: 'channelId',
+                  description: 'The channel id where the user join',
+                  isRequired: true,
+                  type: 'string'
+                }
+              ]
+            }
+          },
+          {
+            name: 'onMemberJoining',
+            description: 'When a user join a guild',
+            isEnable: true
+          },
+          {
             name: 'onReactionAdd',
             description: 'When a user add a reaction to a message',
-            isEnable: true
+            isEnable: true,
+            Parameters: {
+              create: [
+                {
+                  name: 'channelId',
+                  description: 'The channel id where the message is sent',
+                  isRequired: true,
+                  type: 'string'
+                }
+              ]
+            }
           }
         ]
       },
@@ -72,16 +95,18 @@ const createDiscordService = async () => {
             name: 'sendMessageChannel',
             description: 'Send a message on a channel',
             isEnable: true,
-            parameters: {
+            Parameters: {
               create: [
                 {
                   name: 'messageContent',
                   description: 'The content of the message',
+                  isRequired: true,
                   type: 'string'
                 },
                 {
                   name: 'channelId',
                   description: 'The channel id where the message will be send',
+                  isRequired: true,
                   type: 'string'
                 }
               ]
@@ -91,16 +116,18 @@ const createDiscordService = async () => {
             name: 'sendMessageUser',
             description: 'Send a message to a user',
             isEnable: true,
-            parameters: {
+            Parameters: {
               create: [
                 {
                   name: 'messageContent',
                   description: 'The content of the message',
+                  isRequired: true,
                   type: 'string'
                 },
                 {
                   name: 'UserId',
                   description: 'The user id where the message will be send',
+                  isRequired: true,
                   type: 'string'
                 }
               ]
@@ -110,11 +137,12 @@ const createDiscordService = async () => {
             name: 'changeActivity',
             description: 'Change the activity of the User',
             isEnable: true,
-            parameters: {
+            Parameters: {
               create: [
                 {
                   name: 'activity',
                   description: 'The activity of the user',
+                  isRequired: true,
                   type: 'string'
                 }
               ]
