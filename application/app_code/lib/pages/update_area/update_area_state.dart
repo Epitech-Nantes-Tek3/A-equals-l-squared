@@ -62,6 +62,16 @@ class UpdateAreaPageState extends State<UpdateAreaPage> {
         children: <Widget>[
           const Text('Welcome to Update Area page'),
           if (updatingArea != null) updatingArea!.display(true),
+          if (updatingArea != null)
+            Switch(
+              value: updatingArea!.isEnable,
+              activeColor: Colors.blue,
+              onChanged: (bool value) {
+                setState(() {
+                  updatingArea!.isEnable = value;
+                });
+              },
+            ),
           FutureBuilder<String>(
             future: _futureAnswer,
             builder: (context, snapshot) {
