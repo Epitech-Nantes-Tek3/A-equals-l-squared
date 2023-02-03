@@ -4,6 +4,7 @@ import 'package:application/pages/home/home_functional.dart';
 import 'package:flutter/material.dart';
 
 import 'action_data.dart';
+import '../../material_lib_functions/material_functions.dart';
 
 /// This class is the Area class.
 /// It contains all information about an Area
@@ -84,9 +85,21 @@ class AreaData {
       listDisplay.add(reaction.display(true, reactionParameters));
     } else {
       try {
-        listDisplay.add(Text(name));
-        listDisplay.add(Text(action.name));
-        listDisplay.add(Text(reaction.name));
+        listDisplay.add(
+            Column(
+              children: <Widget>[
+                Row(
+                  children: const <Widget>[
+                    Icon(Icons.ac_unit, color: Colors.black,) /// change color
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Text('This area is $name', style: const TextStyle(color: Colors.black),)
+              ],
+            )
+        );
+///        listDisplay.add(Text(action.name));
+///        listDisplay.add(Text(reaction.name));
       } catch (err) {
         listDisplay.add(const Text("Please logout and login."));
       }

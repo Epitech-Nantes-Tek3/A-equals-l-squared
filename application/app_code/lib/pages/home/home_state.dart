@@ -7,6 +7,7 @@ import 'package:application/pages/update_area/update_area_functional.dart';
 import 'package:flutter/material.dart';
 
 import '../login/login_page.dart';
+import '../../material_lib_functions/material_functions.dart';
 import 'home_page.dart';
 
 class HomePageState extends State<HomePage> {
@@ -25,11 +26,17 @@ class HomePageState extends State<HomePage> {
 
     for (var temp in areaDataList) {
       areaVis.add(ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            side: const BorderSide(width: 3, color: Colors.white), /// Change when DB is Up
+              backgroundColor: const Color.fromRGBO(255, 255, 255, 0),
+          ),
           onPressed: () {
             updatingArea = temp;
             goToUpdateAreaPage(context);
           },
           child: temp.display(false)));
+      areaVis.add(const SizedBox(height: 20));
     }
     return areaVis;
   }
@@ -47,28 +54,32 @@ class HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                IconButton(onPressed: () {
-                  setState(() {
-                    goToSettingsPage(context);
-                  });
-                }, icon: const Icon(Icons.settings)),
-                IconButton(onPressed: () {
-                  setState(() {
-                    goToCreateAreaPage(context);
-                  });
-                }, icon: const Icon(Icons.add))
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        goToSettingsPage(context);
+                      });
+                    },
+                    icon: const Icon(Icons.settings)),
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        goToCreateAreaPage(context);
+                      });
+                    },
+                    icon: const Icon(Icons.add))
               ],
             ),
 
             Column(children: <Widget>[
-              const Text('All Areas', style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 28,
-                fontFamily: 'Roboto-Bold')),
+              const Text('All Areas',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28,
+                      fontFamily: 'Roboto-Bold')),
               TextFormField(
                   obscureText: true,
                   decoration: const InputDecoration(
@@ -76,13 +87,14 @@ class HomePageState extends State<HomePage> {
                     labelText: 'Search an Area',
                   )),
             ]),
+
             /// AllAreas
 
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: areasDisplay(),
             ),
-            ElevatedButton(
+             ElevatedButton(
               key: const Key('HomeServiceButton'),
               onPressed: () {
                 setState(() {
