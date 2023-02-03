@@ -12,16 +12,22 @@ import '../../network/informations.dart';
 import '../home/home_functional.dart';
 
 class CreateAreaPageState extends State<CreateAreaPage> {
+  /// Creation state
   int _state = 0;
 
+  /// Name of the AREA
   String _name = "";
 
+  /// Future answer of the api
   late Future<String> _futureAnswer;
 
+  /// Parameter value of the action
   List<ParameterContent> actionParameterContent = <ParameterContent>[];
 
+  /// Parameter value of the reaction
   List<ParameterContent> reactionParameterContent = <ParameterContent>[];
 
+  /// Ask the api to create an area
   Future<String> apiAskForAreaCreation() async {
     try {
       List<Map<String, String>> actionParameter = <Map<String, String>>[];
@@ -62,6 +68,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     }
   }
 
+  /// A display function useful for creation steps
   List<Widget> creationDisplay() {
     List<Widget> createVis = <Widget>[];
 
