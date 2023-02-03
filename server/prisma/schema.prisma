@@ -45,8 +45,8 @@ model Action {
   description              String?
   isEnable                 Boolean                    @default(false)
   createdAt                DateTime                   @default(now())
-  Service                  Service                    @relation(fields: [serviceId], references: [id])
-  serviceId                String
+  Service                  Service?                   @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  serviceId                String?
   Parameters               Parameter[]
   UsersHasActionsReactions UsersHasActionsReactions[]
 }
@@ -57,8 +57,8 @@ model Reaction {
   description              String?
   isEnable                 Boolean                    @default(false)
   createdAt                DateTime                   @default(now())
-  Service                  Service                    @relation(fields: [serviceId], references: [id])
-  serviceId                String
+  Service                  Service?                   @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  serviceId                String?
   Parameters               Parameter[]
   UsersHasActionsReactions UsersHasActionsReactions[]
 }
@@ -70,43 +70,43 @@ model Parameter {
   isRequired         Boolean             @default(false)
   ProposalUrl        String?
   ProposalBody       Boolean?
-  Action             Action?             @relation(fields: [actionId], references: [id])
+  Action             Action?             @relation(fields: [actionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   actionId           String?
-  Reaction           Reaction?           @relation(fields: [reactionId], references: [id])
+  Reaction           Reaction?           @relation(fields: [reactionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   reactionId         String?
   ActionParameters   ActionParameter[]
   ReactionParameters ReactionParameter[]
 }
 
 model ActionParameter {
-  id                         String                   @id @unique @default(cuid())
+  id                         String                    @id @unique @default(cuid())
   value                      String
-  Parameter                  Parameter                @relation(fields: [parameterId], references: [id])
-  parameterId                String
-  UsersHasActionsReactions   UsersHasActionsReactions @relation(fields: [usersHasActionsReactionsId], references: [id])
-  usersHasActionsReactionsId String
+  Parameter                  Parameter?                @relation(fields: [parameterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  parameterId                String?
+  UsersHasActionsReactions   UsersHasActionsReactions? @relation(fields: [usersHasActionsReactionsId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  usersHasActionsReactionsId String?
 }
 
 model ReactionParameter {
-  id                         String                   @id @unique @default(cuid())
+  id                         String                    @id @unique @default(cuid())
   value                      String
-  Parameter                  Parameter                @relation(fields: [parameterId], references: [id])
-  parameterId                String
-  UsersHasActionsReactions   UsersHasActionsReactions @relation(fields: [usersHasActionsReactionsId], references: [id])
-  usersHasActionsReactionsId String
+  Parameter                  Parameter?                @relation(fields: [parameterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  parameterId                String?
+  UsersHasActionsReactions   UsersHasActionsReactions? @relation(fields: [usersHasActionsReactionsId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  usersHasActionsReactionsId String?
 }
 
 model UsersHasActionsReactions {
   id                 String              @id @unique @default(cuid())
   name               String
-  User               User                @relation(fields: [userId], references: [id])
-  Action             Action              @relation(fields: [actionId], references: [id])
-  Reaction           Reaction            @relation(fields: [reactionId], references: [id])
+  User               User?               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Action             Action?             @relation(fields: [actionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Reaction           Reaction?           @relation(fields: [reactionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   isEnable           Boolean             @default(true)
   createdAt          DateTime            @default(now())
-  userId             String
-  actionId           String
-  reactionId         String
+  userId             String?
+  actionId           String?
+  reactionId         String?
   ActionParameters   ActionParameter[]
   ReactionParameters ReactionParameter[]
 }
