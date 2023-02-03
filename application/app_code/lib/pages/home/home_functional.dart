@@ -15,13 +15,13 @@ List<ServiceData> serviceDataList = <ServiceData>[];
 List<AreaData> areaDataList = <AreaData>[];
 
 /// Navigation function -> Go to Home page
-void goToHomePage(BuildContext context) {
-  updateAllFlutterObject(context);
+void goToHomePage(BuildContext context) async {
+  await updateAllFlutterObject();
   context.go('/');
 }
 
 /// Update all the Flutter object and call the api
-void updateAllFlutterObject(BuildContext context) async {
+Future<void> updateAllFlutterObject() async {
   try {
     var response = await http.get(
       Uri.parse('http://$serverIp:8080/api/get/service'),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:application/network/informations.dart';
+import 'package:application/pages/home/home_functional.dart';
 import 'package:application/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -89,6 +90,7 @@ class LoginPageState extends State<LoginPage> {
     if (response.statusCode == 201) {
       try {
         userInformation = UserData.fromJson(jsonDecode(response.body)['data']);
+        await updateAllFlutterObject();
         return 'Login succeed !';
       } catch (err) {
         return 'Invalid token... Please retry';
