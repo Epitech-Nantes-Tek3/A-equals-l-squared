@@ -9,22 +9,24 @@ import 'action_data.dart';
 /// It contains all information about an Area
 class AreaData {
   String id;
+  String name;
   String userId;
   String actionId;
   String reactionId;
   bool isEnable;
-  List<ParameterContent> actionParameter;
-  List<ParameterContent> reactionParameter;
+  List<ParameterContent> actionParameters;
+  List<ParameterContent> reactionParameters;
 
   /// Constructor of the Area class
   AreaData({
     required this.id,
+    required this.name,
     required this.userId,
     required this.actionId,
     required this.reactionId,
     required this.isEnable,
-    required this.actionParameter,
-    required this.reactionParameter,
+    required this.actionParameters,
+    required this.reactionParameters,
   });
 
   /// Convert a json map into the class
@@ -39,12 +41,13 @@ class AreaData {
     }
     return AreaData(
         id: json['id'],
+        name: json['name'],
         userId: json['userId'],
         actionId: json['actionId'],
         reactionId: json['reactionId'],
         isEnable: json['isEnable'],
-        actionParameter: actionParameters,
-        reactionParameter: reactionParameters);
+        actionParameters: actionParameters,
+        reactionParameters: reactionParameters);
   }
 
   /// Get a visual representation of an Area
@@ -72,19 +75,21 @@ class AreaData {
     List<Widget> listDisplay = <Widget>[];
     if (mode) {
       listDisplay.add(Text(
-        "Area",
+        name,
         style: TextStyle(color: isEnable ? Colors.green : Colors.red),
       ));
       listDisplay.add(const Text("Action"));
-      listDisplay.add(action.display());
+      listDisplay.add(action.display(true, actionParameters));
       listDisplay.add(const Text("Reaction"));
-      listDisplay.add(reaction.display());
+      listDisplay.add(reaction.display(true, reactionParameters));
     } else {
-      listDisplay.add(Text(id));
-
-      /// Replace it later with area name
-      listDisplay.add(Text(action.name));
-      listDisplay.add(Text(reaction.name));
+      try {
+        listDisplay.add(Text(name));
+        listDisplay.add(Text(action.name));
+        listDisplay.add(Text(reaction.name));
+      } catch (err) {
+        listDisplay.add(const Text("Please logout and login."));
+      }
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
