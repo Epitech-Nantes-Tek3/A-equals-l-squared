@@ -50,8 +50,7 @@ class ParameterData {
         break;
       }
     }
-    matchedContent ??=
-        ParameterContent(paramId: id, value: "");
+    matchedContent ??= ParameterContent(paramId: id, value: "");
     return TextFormField(
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(20),
@@ -77,13 +76,10 @@ class ParameterContent {
   String value;
 
   /// Constructor of the parameterContent class
-  ParameterContent(
-      {required this.paramId, required this.value});
+  ParameterContent({required this.paramId, required this.value});
 
   /// Convert a json map into the class
   factory ParameterContent.fromJson(Map<String, dynamic> json) {
-    return ParameterContent(
-        paramId: json['parameterId'],
-        value: json['value']);
+    return ParameterContent(paramId: json['parameterId'], value: json['value']);
   }
 }

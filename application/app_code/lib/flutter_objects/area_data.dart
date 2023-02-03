@@ -87,7 +87,7 @@ class AreaData {
         listDisplay.add(Text(name));
         listDisplay.add(Text(action.name));
         listDisplay.add(Text(reaction.name));
-      } catch(err) {
+      } catch (err) {
         listDisplay.add(const Text("Please logout and login."));
       }
     }
