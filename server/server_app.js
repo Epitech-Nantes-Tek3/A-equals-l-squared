@@ -499,39 +499,51 @@ app.get(
  * @brief List all available Voice Channels on a given Guild ID.
  * body.id -> Guild ID
  */
-app.post('/api/services/discord/getVoiceChannels', async (req, res) => {
-  const channels = await getVoiceChannels(req.body.id)
-  return res.status(201).json({
-    status: 'success',
-    data: channels,
-    statusCode: res.statusCode
-  })
-})
+app.post(
+  '/api/services/discord/getVoiceChannels',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const channels = getVoiceChannels(req.body.id)
+    return res.status(201).json({
+      status: 'success',
+      data: channels,
+      statusCode: res.statusCode
+    })
+  }
+)
 
 /**
  * @brief List all available Text Channels on a given GuildID.
  * body.id -> Guild ID
  */
-app.post('/api/services/discord/getTextChannels', async (req, res) => {
-  const channels = await getTextChannels(req.body.id)
-  return res.status(201).json({
-    status: 'success',
-    data: channels,
-    statusCode: res.statusCode
-  })
-})
+app.post(
+  '/api/services/discord/getTextChannels',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const channels = getTextChannels(req.body.id)
+    return res.status(201).json({
+      status: 'success',
+      data: channels,
+      statusCode: res.statusCode
+    })
+  }
+)
 
 /**
  * @brief List all available Guilds where the bot is.
  */
-app.get('/api/services/discord/getAvailableGuilds', async (req, res) => {
-  const guilds = await getAvailableGuilds()
-  return res.status(201).json({
-    status: 'success',
-    data: guilds,
-    statusCode: res.statusCode
-  })
-})
+app.get(
+  '/api/services/discord/getAvailableGuilds',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const guilds = getAvailableGuilds()
+    return res.status(201).json({
+      status: 'success',
+      data: guilds,
+      statusCode: res.statusCode
+    })
+  }
+)
 
 /**
  * Creating a new user in the database.
