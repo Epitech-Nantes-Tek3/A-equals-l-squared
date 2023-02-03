@@ -14,9 +14,11 @@ List<ServiceData> serviceDataList = <ServiceData>[];
 /// List of all the Area data
 List<AreaData> areaDataList = <AreaData>[];
 
+/// Function pointer needed to update the Home Page
+Function? updatePage;
+
 /// Navigation function -> Go to Home page
 void goToHomePage(BuildContext context) {
-  updateAllFlutterObject();
   context.go('/');
 }
 
