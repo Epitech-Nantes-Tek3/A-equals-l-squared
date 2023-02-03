@@ -44,11 +44,13 @@ const createDiscordService = async () => {
           create: [
             {
               name: 'onMessage',
+              code: "D-01",
               description: 'When a message is sent',
               isEnable: true
             },
             {
               name: 'onVoiceChannel',
+              code: "D-02",
               description: 'When a user join a voice channel',
               isEnable: true,
               Parameters: {
@@ -63,6 +65,7 @@ const createDiscordService = async () => {
             },
             {
               name: 'onReactionAdd',
+              code: "D-03",
               description: 'When a user add a reaction to a message',
               isEnable: true
             }
@@ -72,6 +75,7 @@ const createDiscordService = async () => {
           create: [
             {
               name: 'sendMessageChannel',
+              code: "D-01",
               description: 'Send a message on a channel',
               isEnable: true,
               Parameters: {
@@ -92,6 +96,7 @@ const createDiscordService = async () => {
             },
             {
               name: 'sendMessageUser',
+              code: "D-02",
               description: 'Send a message to a user',
               isEnable: true,
               Parameters: {
@@ -111,6 +116,7 @@ const createDiscordService = async () => {
             },
             {
               name: 'changeActivity',
+              code: "D-03",
               description: 'Change the activity of the User',
               isEnable: true,
               Parameters: {

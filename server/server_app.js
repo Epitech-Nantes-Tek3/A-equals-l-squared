@@ -663,10 +663,10 @@ app.get('/api/dev/area/listall', async (req, res) => {
   }
 })
 
-app.get("/api/dev/service/createAll", (req, res) => {
+app.get("/api/dev/service/createAll", async (req, res) => {
   const response = []
-  response.push(createDiscordService())
-  response.push(createGmailService())
+  response.push(await createDiscordService())
+  response.push(await createGmailService())
   return res.json(response)
 })
 
