@@ -47,14 +47,14 @@ class ParameterData {
     ParameterContent? matchedContent;
 
     for (var temp in areaDataList) {
-      for (var tempParam in temp.reactionParameter) {
+      for (var tempParam in temp.reactionParameters) {
         if (tempParam.paramId == id) {
           matchedContent = tempParam;
           break;
         }
       }
 
-      for (var tempParam in temp.actionParameter) {
+      for (var tempParam in temp.actionParameters) {
         if (tempParam.paramId == id) {
           matchedContent = tempParam;
           break;
@@ -69,11 +69,11 @@ class ParameterData {
           ),
           labelText: name,
         ),
-        initialValue: matchedContent != null ? matchedContent.content : "",
+        initialValue: matchedContent != null ? matchedContent.value : "",
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (String? value) {
           value ??= "";
-          if (matchedContent != null) matchedContent.content = value;
+          if (matchedContent != null) matchedContent.value = value;
           return null;
         });
   }
@@ -83,16 +83,16 @@ class ParameterData {
 /// It contains the value of a parameter content.
 class ParameterContent {
   String paramId;
-  String content;
+  String value;
 
   /// Constructor of the parameterContent class
-  ParameterContent({required this.paramId, required this.content});
+  ParameterContent({required this.paramId, required this.value});
 
   /// Convert a json map into the class
   factory ParameterContent.fromJson(Map<String, dynamic> json) {
     return ParameterContent(
       paramId: json['parameterId'],
-      content: json['value'],
+      value: json['value'],
     );
   }
 }

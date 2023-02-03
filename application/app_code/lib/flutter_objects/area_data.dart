@@ -14,8 +14,8 @@ class AreaData {
   String actionId;
   String reactionId;
   bool isEnable;
-  List<ParameterContent> actionParameter;
-  List<ParameterContent> reactionParameter;
+  List<ParameterContent> actionParameters;
+  List<ParameterContent> reactionParameters;
 
   /// Constructor of the Area class
   AreaData({
@@ -25,8 +25,8 @@ class AreaData {
     required this.actionId,
     required this.reactionId,
     required this.isEnable,
-    required this.actionParameter,
-    required this.reactionParameter,
+    required this.actionParameters,
+    required this.reactionParameters,
   });
 
   /// Convert a json map into the class
@@ -46,8 +46,8 @@ class AreaData {
         actionId: json['actionId'],
         reactionId: json['reactionId'],
         isEnable: json['isEnable'],
-        actionParameter: actionParameters,
-        reactionParameter: reactionParameters);
+        actionParameters: actionParameters,
+        reactionParameters: reactionParameters);
   }
 
   /// Get a visual representation of an Area

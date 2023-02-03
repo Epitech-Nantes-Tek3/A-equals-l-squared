@@ -72,14 +72,19 @@ class LoginPageState extends State<LoginPage> {
     if (_email == null || _password == null) {
       return 'Please fill all the field !';
     }
-    var response = await http.post(
-      Uri.parse('http://$serverIp:8080/api/login'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(
-          <String, String>{'email': _email!, 'password': _password!}),
-    );
+    late http.Response response;
+    try {
+      response = await http.post(
+        Uri.parse('http://$serverIp:8080/api/login'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+            <String, String>{'email': _email!, 'password': _password!}),
+      );
+    } catch (err) {
+      return 'Connection refused.';
+    }
 
     if (response.statusCode == 201) {
       try {
