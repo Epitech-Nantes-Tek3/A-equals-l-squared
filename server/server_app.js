@@ -516,6 +516,60 @@ app.post(
   }
 )
 
+/**
+ * Post function used for updating an area
+ * body.id -> id of the AREA to update
+ * body.name -> Name of the area
+ * body.isEnable -> Status of the area
+ * body.actionId -> Action id (optionnal if reactionId is set)
+ * body.actionParameters -> Action parameters (optional)
+ * body.reactionId -> Reaction id (optionnal if actionId is set)
+ * body.reactionParameters -> Reaction parameters (optionnal)
+ * Road protected by a JWT token
+ */
+app.post(
+  '/api/update/area',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      const ActionParameters = []
+
+      req.body.actionParameters.forEach(param => {
+        ActionParameters.push({
+          Parameter: { connect: { id: param.paramId } },
+          value: param.value
+        })
+      })
+
+      const ReactionParameters = []
+
+      req.body.reactionParameters.forEach(param => {
+        ReactionParameters.push({
+          Parameter: { connect: { id: param.paramId } },
+          value: param.value
+        })
+      })
+
+      await database.prisma.UsersHasActionsReactions.update({
+        where: { id: req.body.id },
+        data: {
+          name: req.body.name,
+          isEnable: req.body.isEnable,
+          Action: { connect: { id: req.body.actionId } },
+          ActionParameters: { create: ActionParameters },
+          Reaction: { connect: { id: req.body.reactionId } },
+          ReactionParameters: { create: ReactionParameters }
+        }
+      })
+      return res.status(200).send('AREA succesfully updated.')
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('You cannot update this area.')
+    }
+  }
+)
+
 /*
  * @brief List all available Voice Channels on a given Guild ID.
  * body.id -> Guild ID
