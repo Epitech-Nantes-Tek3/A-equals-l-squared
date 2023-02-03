@@ -450,7 +450,6 @@ app.get('/api/dev/user/listall', async (req, res) => {
   }
 })
 
-
 /**
  * Creating a new service in the database.
  * body.name -> Service name
@@ -483,7 +482,6 @@ app.get('/api/dev/service/listall', async (req, res) => {
     return res.status(400).json('An error occured.')
   }
 })
-
 
 /**
  * Creating a new action.
@@ -520,7 +518,6 @@ app.get('/api/dev/action/listall', async (req, res) => {
   }
 })
 
-
 /**
  * Creating a new reaction.
  * body.name -> Reaction name
@@ -555,7 +552,6 @@ app.get('/api/dev/reaction/listall', async (req, res) => {
     return res.status(400).json('An error occured.')
   }
 })
-
 
 /**
  * Creating a new parameter.
@@ -622,7 +618,10 @@ app.post('/api/area/create', async (req, res) => {
 
     req.body.actionParameters.forEach(param => {
       ActionParameters.push({
-        Parameter: { connect: { id: param.paramId, value: param.value } }
+        Parameter: {
+          connect: { id: param.paramId }
+        },
+        value: param.value
       })
     })
 
@@ -630,7 +629,10 @@ app.post('/api/area/create', async (req, res) => {
 
     req.body.reactionParameters.forEach(param => {
       ReactionParameters.push({
-        Parameter: { connect: { id: param.paramId, value: param.value } }
+        Parameter: {
+          connect: { id: param.paramId }
+        },
+        value: param.value
       })
     })
 
@@ -663,7 +665,10 @@ app.get('/api/dev/area/listall', async (req, res) => {
   }
 })
 
-app.get("/api/dev/service/createAll", async (req, res) => {
+/**
+ * Initialize the database with all services, actions, reactions and parameters.
+ */
+app.get('/api/dev/service/createAll', async (req, res) => {
   const response = []
   response.push(await createDiscordService())
   response.push(await createGmailService())
