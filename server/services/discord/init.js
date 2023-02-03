@@ -95,7 +95,7 @@ const createDiscordService = async () => {
                   {
                     name: 'messageContent',
                     description: 'The content of the message',
-                    displayName: 'string'
+                    isRequired: true
                   },
                   {
                     name: 'channelId',

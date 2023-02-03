@@ -15,6 +15,10 @@ const jwt = require('jwt-simple')
 const { hash } = require('./utils')
 require('dotenv').config({ path: '../database.env' })
 
+const onMessage = require('./services/discord/actions/on_message')
+const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
+const onReactionAdd = require('./services/discord/actions/on_reaction_add')
+const onMemberJoining = require('./services/discord/actions/on_member_joining')
 const { createGmailService } = require('./services/gmail/gmail_init')
 const { createDiscordService } = require('./services/discord/init')
 const getVoiceChannels = require('./services/discord/getters/voice_channels')
@@ -556,8 +560,8 @@ app.post('/api/dev/user/create', async (req, res) => {
  */
 app.get('/api/dev/user/listall', async (req, res) => {
   try {
-    const services = await database.prisma.User.findMany()
-    return res.json(services)
+    const users = await database.prisma.User.findMany()
+    return res.json(users)
   } catch (err) {
     console.log(err)
     return res.status(400).json('An error occured.')
@@ -767,6 +771,52 @@ app.post(
     }
   }
 )
+
+/**
+ * Creating a new area without protection.
+ * body.actionId -> Action id (optionnal if reactionId is set)
+ * body.actionParameters -> Action parameters (optionnal)
+ * body.reactionId -> Reaction id (optionnal if actionId is set)
+ * body.reactionParameters -> Reaction parameters (optionnal)
+ */
+app.post('/api/dev/area/create', async (req, res) => {
+    try {
+      const ActionParameters = []
+
+      req.body.actionParameters.forEach(param => {
+        ActionParameters.push({
+          Parameter: { connect: { id: param.paramId } },
+          value: param.value
+        })
+      })
+
+      const ReactionParameters = []
+
+      req.body.reactionParameters.forEach(param => {
+        ReactionParameters.push({
+          Parameter: { connect: { id: param.paramId } },
+          value: param.value
+        })
+      })
+
+      const areaCreation =
+        await database.prisma.UsersHasActionsReactions.create({
+          data: {
+            User: { connect: { id: req.body.userId } },
+            Action: { connect: { id: req.body.actionId } },
+            ActionParameters: { create: ActionParameters },
+            Reaction: { connect: { id: req.body.reactionId } },
+            ReactionParameters: { create: ReactionParameters }
+          }
+        })
+      return res.json(areaCreation)
+    } catch (err) {
+      console.log(err)
+      return res.status(400).json('Please pass a complete body.')
+    }
+  }
+)
+
 
 /**
  * List all areas in the database.

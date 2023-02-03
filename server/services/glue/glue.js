@@ -51,6 +51,7 @@ const getActionFromCode = async code => {
   })
   return action
 }
+
 /**
  * Called by actionss, it will call the appropriate reaction
  * @param {String} actionCode
@@ -58,6 +59,7 @@ const getActionFromCode = async code => {
  * @returns
  */
 const AreaGlue = async (actionCode, actionParameters) => {
+  console.log('AreaGlue called')
   const action = await getActionFromCode(actionCode)
   if (!action) {
     return

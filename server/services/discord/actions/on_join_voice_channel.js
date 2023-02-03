@@ -1,7 +1,7 @@
 'use strict'
 
-const { AreaGlue } = require('../../glue/glue.js')
 const client = require('../init').client
+const { AreaGlue } = require('../../glue/glue.js')
 
 /**
  * @brief Triggered when a user joins a Discord voice channel.
