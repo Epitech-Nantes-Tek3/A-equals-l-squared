@@ -1,6 +1,7 @@
 'use strict'
 
 const client = require('../init').client
+const { AreaGlue } = require('../../glue/glue.js')
 
 /**
  * @brief Triggered when a message is sent on a Discord server. 'message.content'
@@ -9,8 +10,13 @@ const client = require('../init').client
  */
 client.on('message', message => {
   if (message.author.bot) return
-  message.content = message.content.replace(
-    '<@' + client.user.id.toString() + '> ',
-    ''
-  )
+  try {
+    message.content = message.content.replace(
+      '<@' + client.user.id.toString() + '> ',
+      ''
+    )
+    AreaGlue('D-01', ['null'])
+  } catch (error) {
+    console.error(error)
+  }
 })

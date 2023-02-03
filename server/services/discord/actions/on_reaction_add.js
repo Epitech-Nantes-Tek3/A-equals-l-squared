@@ -10,5 +10,9 @@ const { AreaGlue } = require('../../glue/glue.js')
  */
 client.on('messageReactionAdd', (reaction, user) => {
   console.log(reaction.emoji.name)
-  AreaGlue("D-03", ["null"])
+  try {
+    AreaGlue('D-03', ['null'])
+  } catch (error) {
+    console.error(error)
+  }
 })
