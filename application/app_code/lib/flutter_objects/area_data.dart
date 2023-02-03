@@ -9,6 +9,7 @@ import 'action_data.dart';
 /// It contains all information about an Area
 class AreaData {
   String id;
+  String name;
   String userId;
   String actionId;
   String reactionId;
@@ -19,6 +20,7 @@ class AreaData {
   /// Constructor of the Area class
   AreaData({
     required this.id,
+    required this.name,
     required this.userId,
     required this.actionId,
     required this.reactionId,
@@ -39,6 +41,7 @@ class AreaData {
     }
     return AreaData(
         id: json['id'],
+        name: json['name'],
         userId: json['userId'],
         actionId: json['actionId'],
         reactionId: json['reactionId'],
@@ -72,7 +75,7 @@ class AreaData {
     List<Widget> listDisplay = <Widget>[];
     if (mode) {
       listDisplay.add(Text(
-        "Area",
+        name,
         style: TextStyle(color: isEnable ? Colors.green : Colors.red),
       ));
       listDisplay.add(const Text("Action"));
@@ -80,9 +83,7 @@ class AreaData {
       listDisplay.add(const Text("Reaction"));
       listDisplay.add(reaction.display());
     } else {
-      listDisplay.add(Text(id));
-
-      /// Replace it later with area name
+      listDisplay.add(Text(name));
       listDisplay.add(Text(action.name));
       listDisplay.add(Text(reaction.name));
     }
