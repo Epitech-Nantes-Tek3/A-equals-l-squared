@@ -95,12 +95,6 @@ class AreaData {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: listDisplay,
     );
-    return AreaData(
-        areaName: json['userhasactionsreactions']['name'],
-        isEnable: json['userhasactionsreactions']['isEnable'],
-        createdAt: DateTime.parse(json['userhasactionsreactions']['createdAt']),
-        actionId: json['userhasactionsreactions']['actionId'],
-        reactionId: json['userhasactionsreactions']['reactionId']);
   }
 
   /// Function to display area name
@@ -108,7 +102,7 @@ class AreaData {
     if (isEnable) {
       return Column(
         children: <Widget>[
-          Text(areaName),
+          Text(name),
         ],
       );
     } else {
@@ -118,10 +112,10 @@ class AreaData {
 
   /// Function to display area description
   Widget? displayAreaDescription() {
-    if (isEnable && description != null) {
+    if (isEnable) { /// Add ' && description != null ' when is in DB
       return Column(
-        children: <Widget>[
-          Text(description!),
+        children: const <Widget>[
+          Text('This is a description'),
         ],
       );
     } else {
