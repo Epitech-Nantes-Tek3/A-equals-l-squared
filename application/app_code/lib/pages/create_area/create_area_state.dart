@@ -239,8 +239,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             key: const Key('CreateAreaHomeButton'),
             onPressed: () {
               setState(() {
-                createdAreaContent = <ServiceData>[];
-                createdArea = null;
                 goToHomePage(context);
               });
             },
