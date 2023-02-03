@@ -48,9 +48,47 @@ class UpdateAreaPageState extends State<UpdateAreaPage> {
     }
   }
 
-  /// Ask the api to Update an AREA
+  /// Ask the api to update an AREA
   Future<String> apiAskForUpdateArea() async {
-    return 'Not implemented yet';
+    try {
+      List<Map<String, String>> actionParameter = <Map<String, String>>[];
+      List<Map<String, String>> reactionParameter = <Map<String, String>>[];
+
+      for (var temp in updatingArea!.actionParameters) {
+        actionParameter.add(
+            <String, String>{'paramId': temp.paramId, 'value': temp.value});
+      }
+
+      for (var temp in updatingArea!.reactionParameters) {
+        reactionParameter.add(
+            <String, String>{'paramId': temp.paramId, 'value': temp.value});
+      }
+
+      var response =
+          await http.post(Uri.parse('http://$serverIp:8080/api/update/area'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Authorization': 'Bearer ${userInformation!.token}',
+              },
+              body: jsonEncode(<String, dynamic>{
+                'id': updatingArea!.id,
+                'actionId': updatingArea!.actionId,
+                'name': updatingArea!.name,
+                'actionParameters': actionParameter,
+                'reactionId': updatingArea!.reactionId,
+                'reactionParameters': reactionParameter,
+                'isEnable': updatingArea!.isEnable
+              }));
+
+      if (response.statusCode == 200) {
+        return 'AREA successfully updated ! You can go back to home';
+      } else {
+        return response.body.toString();
+      }
+    } catch (err) {
+      debugPrint(err.toString());
+      return 'Error during update process.';
+    }
   }
 
   @override
