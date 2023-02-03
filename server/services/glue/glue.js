@@ -71,19 +71,19 @@ const AreaGlue = async (actionCode, actionParameters) => {
     if (area.isEnable == false || area.Reaction.isEnable == false) {
       return
     }
-    if (area.Reaction.code == 'G-01') {
+    if (area.Reaction.code == 'GML-01') {
       console.log('Send email')
       return
     }
-    if (area.Reaction.code == 'D-01') {
+    if (area.Reaction.code == 'DSC-01') {
       console.log('Send Discord message on channel')
       return
     }
-    if (area.Reaction.code == 'D-02') {
+    if (area.Reaction.code == 'DSC-02') {
       console.log('Send Discord message on user')
       return
     }
-    if (area.Reaction.code == 'D-03') {
+    if (area.Reaction.code == 'DSC-03') {
       console.log('Change Discord activity')
       return
     }

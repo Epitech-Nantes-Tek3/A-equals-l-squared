@@ -15,7 +15,7 @@ client.on('message', message => {
       '<@' + client.user.id.toString() + '> ',
       ''
     )
-    AreaGlue('D-01', ['null'])
+    AreaGlue('DSC-01', ['null'])
   } catch (error) {
     console.error(error)
   }

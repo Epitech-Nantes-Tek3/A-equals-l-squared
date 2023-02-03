@@ -23,7 +23,7 @@ client.on('voiceStateUpdate', (oldChannel, newChannel) => {
       //  If it's the channel that you want
       console.log('Joined the channel wanted')
     else console.log('Joined another channel than the one wanted') //  If it's another channel that the one wanted
-    AreaGlue('D-02', ['null'])
+    AreaGlue('DSC-02', ['null'])
   } catch (error) {
     console.error(error)
   }

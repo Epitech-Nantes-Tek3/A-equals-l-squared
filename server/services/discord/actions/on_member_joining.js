@@ -10,7 +10,7 @@ const { AreaGlue } = require('../../glue/glue.js')
 client.on('guildMemberAdd', user => {
   try {
     console.log('A new user just joined the Discord server: ' + user.tag)
-    AreaGlue('D-04', ['null'])
+    AreaGlue('DSC-04', ['null'])
   } catch (error) {
     console.error(error)
   }
