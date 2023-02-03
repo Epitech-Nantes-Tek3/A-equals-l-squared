@@ -19,7 +19,7 @@ const createGmailService = async () => {
               name: 'get_email',
               description: 'Get email by id',
               isEnable: true,
-              parameters: {
+              Parameters: {
                 create: [
                   {
                     name: 'emailId',
@@ -33,11 +33,12 @@ const createGmailService = async () => {
               name: 'get_emails_by_query',
               description: 'Get emails by query',
               isEnable: true,
-              parameters: {
+              Parameters: {
                 create: [
                   {
                     name: 'query',
-                    description: 'The query to search for'
+                    description: 'The query to search for',
+                    displayName: 'String'
                   }
                 ]
               }
@@ -50,7 +51,7 @@ const createGmailService = async () => {
               name: 'send_email',
               description: 'Send an email',
               isEnable: true,
-              parameters: {
+              Parameters: {
                 create: [
                   {
                     name: 'to',

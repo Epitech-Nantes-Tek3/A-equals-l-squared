@@ -1,5 +1,6 @@
 'use strict'
 
+const database = require('../../database_init')
 const { Client, Intents } = require('discord.js')
 
 const client = new Client({
@@ -50,7 +51,7 @@ const createDiscordService = async () => {
               name: 'onVoiceChannel',
               description: 'When a user join a voice channel',
               isEnable: true,
-              parameters: {
+              Parameters: {
                 create: [
                   {
                     name: 'channelId',
@@ -73,7 +74,7 @@ const createDiscordService = async () => {
               name: 'sendMessageChannel',
               description: 'Send a message on a channel',
               isEnable: true,
-              parameters: {
+              Parameters: {
                 create: [
                   {
                     name: 'messageContent',
@@ -93,7 +94,7 @@ const createDiscordService = async () => {
               name: 'sendMessageUser',
               description: 'Send a message to a user',
               isEnable: true,
-              parameters: {
+              Parameters: {
                 create: [
                   {
                     name: 'messageContent',
@@ -112,7 +113,7 @@ const createDiscordService = async () => {
               name: 'changeActivity',
               description: 'Change the activity of the User',
               isEnable: true,
-              parameters: {
+              Parameters: {
                 create: [
                   {
                     name: 'activity',
