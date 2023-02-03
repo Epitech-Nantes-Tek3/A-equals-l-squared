@@ -148,7 +148,15 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       createVis.add(ElevatedButton(
           onPressed: () {
             setState(() {
-              _state = 6;
+              bool isRequired = true;
+              for (var temp in createdAreaContent[1].reactions[0].parameters) {
+                if (temp.isRequired && temp.matchedContent!.value == "") {
+                  isRequired = false;
+                }
+              }
+              if (isRequired) {
+                _state = 6;
+              }
             });
           },
           child: const Text("Validate")));
@@ -194,7 +202,15 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       createVis.add(ElevatedButton(
           onPressed: () {
             setState(() {
-              _state = 3;
+              bool isRequired = true;
+              for (var temp in createdAreaContent[0].actions[0].parameters) {
+                if (temp.isRequired && temp.matchedContent!.value == "") {
+                  isRequired = false;
+                }
+              }
+              if (isRequired) {
+                _state = 3;
+              }
             });
           },
           child: const Text("Validate")));

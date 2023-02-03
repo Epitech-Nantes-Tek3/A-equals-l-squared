@@ -65,7 +65,7 @@ const createGmailService = async () => {
                 {
                   name: 'body',
                   description: 'The body of the email',
-                  isRequired: true
+                  isRequired: false
                 }
               ]
             }

@@ -6,6 +6,7 @@ class ParameterData {
   String id;
   String name;
   String description;
+  bool isRequired;
   String? actionId;
   String? reactionId;
   ParameterContent? matchedContent;
@@ -15,6 +16,7 @@ class ParameterData {
     required this.id,
     required this.name,
     required this.description,
+    required this.isRequired,
     this.actionId,
     this.reactionId,
   });
@@ -37,6 +39,7 @@ class ParameterData {
         id: json['id'],
         name: json['name'],
         description: json['description'],
+        isRequired: json['isRequired'],
         actionId: actionId,
         reactionId: reactionId);
   }
@@ -62,6 +65,9 @@ class ParameterData {
         initialValue: matchedContent != null ? matchedContent!.value : "",
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (String? value) {
+          if (value == null && isRequired) {
+            return 'Required parameter.';
+          }
           value ??= "";
           if (matchedContent != null) matchedContent!.value = value;
           return null;
