@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:application/flutter_objects/area_data.dart';
+import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/create_area/create_area_page.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   String _name = "";
 
   late Future<String> _futureAnswer;
+
+  List<ParameterContent> actionParameterContent = <ParameterContent>[];
+
+  List<ParameterContent> reactionParameterContent = <ParameterContent>[];
 
   Future<String> apiAskForAreaCreation() async {
     try {
@@ -130,7 +135,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
     if (_state == 5) {
       createVis.add(const Text("Configure your Reaction"));
-      createVis.add(createdAreaContent[1].reactions[0].display(true));
+      createVis.add(createdAreaContent[1]
+          .reactions[0]
+          .display(true, reactionParameterContent));
       createVis.add(ElevatedButton(
           onPressed: () {
             setState(() {
@@ -146,11 +153,15 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         createVis.add(ElevatedButton(
             onPressed: () {
               setState(() {
+                for (var tmp in temp.parameters) {
+                  actionParameterContent
+                      .add(ParameterContent(paramId: tmp.id, value: ""));
+                }
                 createdAreaContent[1].reactions = [temp];
                 _state = 5;
               });
             },
-            child: temp.display(false)));
+            child: temp.display(false, [])));
       }
     }
 
@@ -170,7 +181,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
     if (_state == 2) {
       createVis.add(const Text("Configure your Action"));
-      createVis.add(createdAreaContent[0].actions[0].display(true));
+      createVis.add(createdAreaContent[0]
+          .actions[0]
+          .display(true, actionParameterContent));
       createVis.add(ElevatedButton(
           onPressed: () {
             setState(() {
@@ -186,11 +199,15 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         createVis.add(ElevatedButton(
             onPressed: () {
               setState(() {
+                for (var tmp in temp.parameters) {
+                  actionParameterContent
+                      .add(ParameterContent(paramId: tmp.id, value: ""));
+                }
                 createdAreaContent[0].actions = [temp];
                 _state = 2;
               });
             },
-            child: temp.display(false)));
+            child: temp.display(false, [])));
       }
     }
 

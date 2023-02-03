@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../pages/home/home_functional.dart';
-
 /// This class is the parameter class.
 /// It contains all information about a parameter
 class ParameterData {
@@ -44,24 +42,16 @@ class ParameterData {
   }
 
   /// Function returning a visual representation of a parameter
-  Widget display() {
-
-    for (var temp in areaDataList) {
-      for (var tempParam in temp.reactionParameters) {
-        if (tempParam.paramId == id) {
-          matchedContent ??= tempParam;
-          break;
-        }
-      }
-
-      for (var tempParam in temp.actionParameters) {
-        if (tempParam.paramId == id) {
-          matchedContent ??= tempParam;
-          break;
-        }
+  /// params -> list of all the associated parameter content
+  Widget display(List<ParameterContent> params) {
+    for (var tempParam in params) {
+      if (tempParam.paramId == id) {
+        matchedContent ??= tempParam;
+        break;
       }
     }
-    matchedContent ??= ParameterContent(paramId: id, value: "");
+    matchedContent ??=
+        ParameterContent(paramId: id, value: "");
     return TextFormField(
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(20),
@@ -87,13 +77,13 @@ class ParameterContent {
   String value;
 
   /// Constructor of the parameterContent class
-  ParameterContent({required this.paramId, required this.value});
+  ParameterContent(
+      {required this.paramId, required this.value});
 
   /// Convert a json map into the class
   factory ParameterContent.fromJson(Map<String, dynamic> json) {
     return ParameterContent(
-      paramId: json['parameterId'],
-      value: json['value'],
-    );
+        paramId: json['parameterId'],
+        value: json['value']);
   }
 }

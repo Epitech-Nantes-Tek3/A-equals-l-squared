@@ -57,7 +57,8 @@ class ReactionData {
 
   /// Get a visual representation of a Reaction
   /// mode -> true = params, false = only text and desc
-  Widget display(bool mode) {
+  /// params -> list of all the associated parameter content
+  Widget display(bool mode, List<ParameterContent> params) {
     List<Widget> paramWid = <Widget>[];
     paramWid.add(
       Text(
@@ -70,7 +71,7 @@ class ReactionData {
     );
     if (mode == true) {
       for (var temp in parameters) {
-        paramWid.add(temp.display());
+        paramWid.add(temp.display(params));
       }
     }
     return Column(

@@ -55,7 +55,8 @@ class ActionData {
 
   /// Get a visual representation of an Action
   /// mode -> true = params, false = only name and desc
-  Widget display(bool mode) {
+  /// params -> list of all the associated parameter content
+  Widget display(bool mode, List<ParameterContent> params) {
     List<Widget> paramWid = <Widget>[];
     paramWid.add(
       Text(
@@ -68,7 +69,7 @@ class ActionData {
     );
     if (mode == true) {
       for (var temp in parameters) {
-        paramWid.add(temp.display());
+        paramWid.add(temp.display(params));
       }
     }
     return Column(

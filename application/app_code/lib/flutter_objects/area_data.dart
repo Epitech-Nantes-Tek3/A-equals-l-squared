@@ -79,13 +79,17 @@ class AreaData {
         style: TextStyle(color: isEnable ? Colors.green : Colors.red),
       ));
       listDisplay.add(const Text("Action"));
-      listDisplay.add(action.display(true));
+      listDisplay.add(action.display(true, actionParameters));
       listDisplay.add(const Text("Reaction"));
-      listDisplay.add(reaction.display(true));
+      listDisplay.add(reaction.display(true, reactionParameters));
     } else {
-      listDisplay.add(Text(name));
-      listDisplay.add(Text(action.name));
-      listDisplay.add(Text(reaction.name));
+      try {
+        listDisplay.add(Text(name));
+        listDisplay.add(Text(action.name));
+        listDisplay.add(Text(reaction.name));
+      } catch(err) {
+        listDisplay.add(const Text("Please logout and login."));
+      }
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
