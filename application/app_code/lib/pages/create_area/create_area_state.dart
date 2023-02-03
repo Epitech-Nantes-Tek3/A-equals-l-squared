@@ -63,6 +63,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               }));
 
       if (response.statusCode == 200) {
+        await updateAllFlutterObject();
         return 'Success ! You can go back to home page';
       } else {
         return response.body.toString();

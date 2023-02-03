@@ -15,8 +15,8 @@ List<ServiceData> serviceDataList = <ServiceData>[];
 List<AreaData> areaDataList = <AreaData>[];
 
 /// Navigation function -> Go to Home page
-void goToHomePage(BuildContext context) async {
-  await updateAllFlutterObject();
+void goToHomePage(BuildContext context) {
+  updateAllFlutterObject();
   context.go('/');
 }
 

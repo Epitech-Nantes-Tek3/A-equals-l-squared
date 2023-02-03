@@ -38,6 +38,7 @@ class UpdateAreaPageState extends State<UpdateAreaPage> {
 
       if (response.statusCode == 200) {
         updatingArea = null;
+        await updateAllFlutterObject();
         return 'API successfully deleted. You can go back to home';
       } else {
         return response.body.toString();
@@ -81,6 +82,7 @@ class UpdateAreaPageState extends State<UpdateAreaPage> {
               }));
 
       if (response.statusCode == 200) {
+        await updateAllFlutterObject();
         return 'AREA successfully updated ! You can go back to home';
       } else {
         return response.body.toString();
