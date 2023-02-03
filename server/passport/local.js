@@ -23,11 +23,12 @@ passport.use(
       const existsEmail = await database.prisma.User.findFirst({
         where: { email }
       })
-      if (existsEmail && existsEmail.mailVerification)
+      if (existsEmail && existsEmail.mailVerification) {
         return cb(null, false, {
           message: 'Email already exists.',
           statusCode: 400
         })
+      }
       if (existsEmail) {
         return cb(null, existsEmail)
       }

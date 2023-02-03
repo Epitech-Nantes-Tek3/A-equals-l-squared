@@ -1,6 +1,7 @@
 'use strict'
 
 const { Client, Intents } = require('discord.js')
+const database = require('../../database_init')
 
 const client = new Client({
   intents: [
@@ -46,8 +47,7 @@ const createDiscordService = async () => {
                 {
                   name: 'channelId',
                   description: 'The channel id where the message is sent',
-                  isRequired: true,
-                  type: 'string'
+                  isRequired: true
                 }
               ]
             }
@@ -61,8 +61,7 @@ const createDiscordService = async () => {
                 {
                   name: 'channelId',
                   description: 'The channel id where the user join',
-                  isRequired: true,
-                  type: 'string'
+                  isRequired: true
                 }
               ]
             }
@@ -81,8 +80,7 @@ const createDiscordService = async () => {
                 {
                   name: 'channelId',
                   description: 'The channel id where the message is sent',
-                  isRequired: true,
-                  type: 'string'
+                  isRequired: true
                 }
               ]
             }
@@ -100,14 +98,12 @@ const createDiscordService = async () => {
                 {
                   name: 'messageContent',
                   description: 'The content of the message',
-                  isRequired: true,
-                  type: 'string'
+                  isRequired: true
                 },
                 {
                   name: 'channelId',
                   description: 'The channel id where the message will be send',
-                  isRequired: true,
-                  type: 'string'
+                  isRequired: true
                 }
               ]
             }
@@ -121,14 +117,12 @@ const createDiscordService = async () => {
                 {
                   name: 'messageContent',
                   description: 'The content of the message',
-                  isRequired: true,
-                  type: 'string'
+                  isRequired: true
                 },
                 {
                   name: 'UserId',
                   description: 'The user id where the message will be send',
-                  isRequired: true,
-                  type: 'string'
+                  isRequired: true
                 }
               ]
             }
@@ -142,8 +136,7 @@ const createDiscordService = async () => {
                 {
                   name: 'activity',
                   description: 'The activity of the user',
-                  isRequired: true,
-                  type: 'string'
+                  isRequired: true
                 }
               ]
             }
@@ -152,6 +145,7 @@ const createDiscordService = async () => {
       }
     }
   })
+  console.log('Discord service is now available.')
 }
 
 module.exports = { client, createDiscordService }

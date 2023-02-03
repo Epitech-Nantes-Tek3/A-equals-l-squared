@@ -23,8 +23,7 @@ const createGmailService = async () => {
                 {
                   name: 'emailId',
                   description: 'The id of the email',
-                  isRequired: true,
-                  type: 'String'
+                  isRequired: true
                 }
               ]
             }
@@ -38,8 +37,7 @@ const createGmailService = async () => {
                 {
                   name: 'query',
                   description: 'The query to search for',
-                  isRequired: true,
-                  type: 'String'
+                  isRequired: true
                 }
               ]
             }
@@ -57,20 +55,17 @@ const createGmailService = async () => {
                 {
                   name: 'to',
                   description: 'The email address to send to',
-                  isRequired: true,
-                  type: 'String'
+                  isRequired: true
                 },
                 {
                   name: 'subject',
                   description: 'The subject of the email',
-                  isRequired: true,
-                  type: 'String'
+                  isRequired: true
                 },
                 {
                   name: 'body',
                   description: 'The body of the email',
-                  isRequired: true,
-                  type: 'String'
+                  isRequired: true
                 }
               ]
             }
