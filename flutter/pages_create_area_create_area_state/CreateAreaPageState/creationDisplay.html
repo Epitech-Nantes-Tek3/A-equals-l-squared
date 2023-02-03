@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the CreateAreaPageState constructor from Class CreateAreaPageState from the create_area_state library, for the Dart programming language.">
-  <title>CreateAreaPageState constructor - CreateAreaPageState - create_area_state library - Dart API</title>
+  <meta name="description" content="API docs for the creationDisplay method from the CreateAreaPageState class, for the Dart programming language.">
+  <title>creationDisplay method - CreateAreaPageState class - create_area_state library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">application</a></li>
     <li><a href="../../pages_create_area_create_area_state/pages_create_area_create_area_state-library.html">create_area_state</a></li>
     <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html">CreateAreaPageState</a></li>
-    <li class="self-crumb">CreateAreaPageState constructor</li>
+    <li class="self-crumb">creationDisplay method</li>
   </ol>
-  <div class="self-name">CreateAreaPageState</div>
+  <div class="self-name">creationDisplay</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -50,19 +50,195 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-constructor">CreateAreaPageState</span> constructor 
+<h1><span class="kind-method">creationDisplay</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
     <section class="multi-line-signature">
       
-      <span class="name ">CreateAreaPageState</span>(<wbr>)
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>&gt;</span></span>
+<span class="name ">creationDisplay</span>(<wbr>)
+
+      
+
     </section>
+    
+<section class="desc markdown">
+  <p>A display function useful for creation steps</p>
+</section>
+
 
     
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">List&lt;Widget&gt; creationDisplay() {
+  List&lt;Widget&gt; createVis = &lt;Widget&gt;[];
 
+  if (createdAreaContent.length == 1 &amp;&amp; _state == 0) {
+    _state = 1;
+  }
 
-    
+  if (_state == 6) {
+    createVis.add(const Text(&quot;AREA overview&quot;));
+    createVis.add(
+      TextFormField(
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: &#39;Area Name&#39;,
+        ),
+        initialValue: _name,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: (String? value) {
+          _name = value!;
+          createdArea = AreaData(
+              id: &quot;&quot;,
+              name: _name,
+              userId: &quot;&quot;,
+              actionId: createdAreaContent[0].actions[0].id,
+              reactionId: createdAreaContent[1].reactions[0].id,
+              isEnable: true,
+              actionParameters:
+                  createdAreaContent[0].actions[0].getAllParameterContent(),
+              reactionParameters: createdAreaContent[1]
+                  .reactions[0]
+                  .getAllParameterContent());
+          return null;
+        },
+      ),
+    );
+    if (_name == &quot;&quot;) {
+      createdArea = AreaData(
+          id: &quot;&quot;,
+          name: _name,
+          userId: &quot;&quot;,
+          actionId: createdAreaContent[0].actions[0].id,
+          reactionId: createdAreaContent[1].reactions[0].id,
+          isEnable: true,
+          actionParameters:
+              createdAreaContent[0].actions[0].getAllParameterContent(),
+          reactionParameters:
+              createdAreaContent[1].reactions[0].getAllParameterContent());
+    }
+    createVis.add(createdArea!.display(true));
+    createVis.add(ElevatedButton(
+        onPressed: () {
+          setState(() {
+            _futureAnswer = apiAskForAreaCreation();
+          });
+        },
+        child: const Text(&quot;Create AREA&quot;)));
+    createVis.add(
+      FutureBuilder&lt;String&gt;(
+        future: _futureAnswer,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Text(snapshot.data!);
+          } else if (snapshot.hasError) {
+            return Text(&#39;${snapshot.error}&#39;);
+          }
+          return const CircularProgressIndicator();
+        },
+      ),
+    );
+  }
+
+  if (_state == 5) {
+    createVis.add(const Text(&quot;Configure your Reaction&quot;));
+    createVis.add(createdAreaContent[1]
+        .reactions[0]
+        .display(true, reactionParameterContent));
+    createVis.add(ElevatedButton(
+        onPressed: () {
+          setState(() {
+            _state = 6;
+          });
+        },
+        child: const Text(&quot;Validate&quot;)));
+  }
+
+  if (_state == 4) {
+    createVis.add(const Text(&quot;Choose your Reaction&quot;));
+    for (var temp in createdAreaContent[1].reactions) {
+      createVis.add(ElevatedButton(
+          onPressed: () {
+            setState(() {
+              for (var tmp in temp.parameters) {
+                actionParameterContent
+                    .add(ParameterContent(paramId: tmp.id, value: &quot;&quot;));
+              }
+              createdAreaContent[1].reactions = [temp];
+              _state = 5;
+            });
+          },
+          child: temp.display(false, [])));
+    }
+  }
+
+  if (_state == 3) {
+    createVis.add(const Text(&quot;Choose your Reaction service&quot;));
+    for (var temp in serviceDataList) {
+      createVis.add(ElevatedButton(
+          onPressed: () {
+            setState(() {
+              createdAreaContent.add(temp);
+              _state = 4;
+            });
+          },
+          child: temp.display()));
+    }
+  }
+
+  if (_state == 2) {
+    createVis.add(const Text(&quot;Configure your Action&quot;));
+    createVis.add(createdAreaContent[0]
+        .actions[0]
+        .display(true, actionParameterContent));
+    createVis.add(ElevatedButton(
+        onPressed: () {
+          setState(() {
+            _state = 3;
+          });
+        },
+        child: const Text(&quot;Validate&quot;)));
+  }
+
+  if (_state == 1) {
+    createVis.add(const Text(&quot;Choose your Action&quot;));
+    for (var temp in createdAreaContent[0].actions) {
+      createVis.add(ElevatedButton(
+          onPressed: () {
+            setState(() {
+              for (var tmp in temp.parameters) {
+                actionParameterContent
+                    .add(ParameterContent(paramId: tmp.id, value: &quot;&quot;));
+              }
+              createdAreaContent[0].actions = [temp];
+              _state = 2;
+            });
+          },
+          child: temp.display(false, [])));
+    }
+  }
+
+  if (_state == 0) {
+    createVis.add(const Text(&quot;Choose your Action service&quot;));
+    for (var temp in serviceDataList) {
+      createVis.add(ElevatedButton(
+          onPressed: () {
+            setState(() {
+              createdAreaContent = &lt;ServiceData&gt;[];
+              createdAreaContent.add(temp);
+              _state = 1;
+            });
+          },
+          child: temp.display()));
+    }
+  }
+
+  return createVis;
+}</code></pre>
+</section>
 
 
   </div> <!-- /.main-content -->
@@ -78,7 +254,7 @@
   <li><a href="../../index.html">application</a></li>
   <li><a href="../../pages_create_area_create_area_state/pages_create_area_create_area_state-library.html">create_area_state</a></li>
   <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html">CreateAreaPageState</a></li>
-  <li class="self-crumb">CreateAreaPageState constructor</li>
+  <li class="self-crumb">creationDisplay method</li>
 </ol>
 
 
@@ -127,7 +303,7 @@
 
 </ol>
 
-  </div><!--/.sidebar-offcanvas-left-->
+  </div><!--/.sidebar-offcanvas-->
 
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
   </div><!--/.sidebar-offcanvas-->

@@ -58,21 +58,25 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
-<span class="name ">display</span>(<wbr>)
+<span class="name ">display</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="display-param-mode"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">mode</span>, </span></li>
+<li><span class="parameter" id="display-param-params"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../flutter_objects_parameter_data/ParameterContent-class.html">ParameterContent</a></span>&gt;</span></span> <span class="parameter-name">params</span></span></li>
+</ol>)
 
       
 
     </section>
     
 <section class="desc markdown">
-  <p>Get a visual representation of a Reaction</p>
+  <p>Get a visual representation of a Reaction
+mode -&gt; true = params, false = only text and desc
+params -&gt; list of all the associated parameter content</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Widget display() {
+  <pre class="language-dart"><code class="language-dart">Widget display(bool mode, List&lt;ParameterContent&gt; params) {
   List&lt;Widget&gt; paramWid = &lt;Widget&gt;[];
   paramWid.add(
     Text(
@@ -83,8 +87,10 @@
   paramWid.add(
     Text(description),
   );
-  for (var temp in parameters) {
-    paramWid.add(temp.display());
+  if (mode == true) {
+    for (var temp in parameters) {
+      paramWid.add(temp.display(params));
+    }
   }
   return Column(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -134,6 +140,7 @@
 
         <li class="section-title"><a href="../../flutter_objects_reaction_data/ReactionData-class.html#instance-methods">Methods</a></li>
           <li><a href="../../flutter_objects_reaction_data/ReactionData/display.html">display</a></li>
+          <li><a href="../../flutter_objects_reaction_data/ReactionData/getAllParameterContent.html">getAllParameterContent</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 

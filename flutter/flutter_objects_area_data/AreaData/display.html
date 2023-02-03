@@ -97,19 +97,21 @@ mode -&gt; true = complete representation, false = only area preview</p>
   List&lt;Widget&gt; listDisplay = &lt;Widget&gt;[];
   if (mode) {
     listDisplay.add(Text(
-      &quot;Area&quot;,
+      name,
       style: TextStyle(color: isEnable ? Colors.green : Colors.red),
     ));
     listDisplay.add(const Text(&quot;Action&quot;));
-    listDisplay.add(action.display());
+    listDisplay.add(action.display(true, actionParameters));
     listDisplay.add(const Text(&quot;Reaction&quot;));
-    listDisplay.add(reaction.display());
+    listDisplay.add(reaction.display(true, reactionParameters));
   } else {
-    listDisplay.add(Text(id));
-
-    &#47;&#47;&#47; Replace it later with area name
-    listDisplay.add(Text(action.name));
-    listDisplay.add(Text(reaction.name));
+    try {
+      listDisplay.add(Text(name));
+      listDisplay.add(Text(action.name));
+      listDisplay.add(Text(reaction.name));
+    } catch (err) {
+      listDisplay.add(const Text(&quot;Please logout and login.&quot;));
+    }
   }
   return Column(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -148,12 +150,13 @@ mode -&gt; true = complete representation, false = only area preview</p>
           <a href="../../flutter_objects_area_data/AreaData-class.html#instance-properties">Properties</a>
         </li>
           <li><a href="../../flutter_objects_area_data/AreaData/actionId.html">actionId</a></li>
-          <li><a href="../../flutter_objects_area_data/AreaData/actionParameter.html">actionParameter</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/actionParameters.html">actionParameters</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/id.html">id</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/isEnable.html">isEnable</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/name.html">name</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/reactionId.html">reactionId</a></li>
-          <li><a href="../../flutter_objects_area_data/AreaData/reactionParameter.html">reactionParameter</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/reactionParameters.html">reactionParameters</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/userId.html">userId</a></li>
 

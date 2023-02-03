@@ -196,7 +196,7 @@ It contains all information about a reaction</p>
     <h2>Methods</h2>
     <dl class="callables">
         <dt id="display" class="callable">
-  <span class="name"><a href="../flutter_objects_reaction_data/ReactionData/display.html">display</a></span><span class="signature">(<wbr>)
+  <span class="name"><a href="../flutter_objects_reaction_data/ReactionData/display.html">display</a></span><span class="signature">(<wbr><span class="parameter" id="display-param-mode"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">mode</span>, </span><span class="parameter" id="display-param-params"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../flutter_objects_parameter_data/ParameterContent-class.html">ParameterContent</a></span>&gt;</span></span> <span class="parameter-name">params</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
   </span>
   
@@ -204,6 +204,21 @@ It contains all information about a reaction</p>
 </dt>
 <dd>
   Get a visual representation of a Reaction
+mode -&gt; true = params, false = only text and desc
+params -&gt; list of all the associated parameter content
+  
+
+</dd>
+
+        <dt id="getAllParameterContent" class="callable">
+  <span class="name"><a href="../flutter_objects_reaction_data/ReactionData/getAllParameterContent.html">getAllParameterContent</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../flutter_objects_parameter_data/ParameterContent-class.html">ParameterContent</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Return the list of all the associated param content
   
 
 </dd>
@@ -317,6 +332,7 @@ It contains all information about a reaction</p>
 
         <li class="section-title"><a href="../flutter_objects_reaction_data/ReactionData-class.html#instance-methods">Methods</a></li>
           <li><a href="../flutter_objects_reaction_data/ReactionData/display.html">display</a></li>
+          <li><a href="../flutter_objects_reaction_data/ReactionData/getAllParameterContent.html">getAllParameterContent</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 

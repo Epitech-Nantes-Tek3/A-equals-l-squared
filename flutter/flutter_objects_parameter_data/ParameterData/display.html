@@ -58,38 +58,30 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
-<span class="name ">display</span>(<wbr>)
+<span class="name ">display</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="display-param-params"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../flutter_objects_parameter_data/ParameterContent-class.html">ParameterContent</a></span>&gt;</span></span> <span class="parameter-name">params</span></span></li>
+</ol>)
 
       
 
     </section>
     
 <section class="desc markdown">
-  <p>Function returning a visual representation of a parameter</p>
+  <p>Function returning a visual representation of a parameter
+params -&gt; list of all the associated parameter content</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Widget display() {
-  ParameterContent? matchedContent;
-
-  for (var temp in areaDataList) {
-    for (var tempParam in temp.reactionParameter) {
-      if (tempParam.paramId == id) {
-        matchedContent = tempParam;
-        break;
-      }
-    }
-
-    for (var tempParam in temp.actionParameter) {
-      if (tempParam.paramId == id) {
-        matchedContent = tempParam;
-        break;
-      }
+  <pre class="language-dart"><code class="language-dart">Widget display(List&lt;ParameterContent&gt; params) {
+  for (var tempParam in params) {
+    if (tempParam.paramId == id) {
+      matchedContent ??= tempParam;
+      break;
     }
   }
+  matchedContent ??= ParameterContent(paramId: id, value: &quot;&quot;);
   return TextFormField(
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(20),
@@ -98,11 +90,11 @@
         ),
         labelText: name,
       ),
-      initialValue: matchedContent != null ? matchedContent.content : &quot;&quot;,
+      initialValue: matchedContent != null ? matchedContent!.value : &quot;&quot;,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (String? value) {
         value ??= &quot;&quot;;
-        if (matchedContent != null) matchedContent.content = value;
+        if (matchedContent != null) matchedContent!.value = value;
         return null;
       });
 }</code></pre>
@@ -141,6 +133,7 @@
           <li><a href="../../flutter_objects_parameter_data/ParameterData/description.html">description</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
           <li><a href="../../flutter_objects_parameter_data/ParameterData/id.html">id</a></li>
+          <li><a href="../../flutter_objects_parameter_data/ParameterData/matchedContent.html">matchedContent</a></li>
           <li><a href="../../flutter_objects_parameter_data/ParameterData/name.html">name</a></li>
           <li><a href="../../flutter_objects_parameter_data/ParameterData/reactionId.html">reactionId</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>

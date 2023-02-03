@@ -76,14 +76,19 @@
   if (_email == null || _password == null) {
     return &#39;Please fill all the field !&#39;;
   }
-  var response = await http.post(
-    Uri.parse(&#39;http:&#47;&#47;$serverIp:8080&#47;api&#47;login&#39;),
-    headers: &lt;String, String&gt;{
-      &#39;Content-Type&#39;: &#39;application&#47;json; charset=UTF-8&#39;,
-    },
-    body: jsonEncode(
-        &lt;String, String&gt;{&#39;email&#39;: _email!, &#39;password&#39;: _password!}),
-  );
+  late http.Response response;
+  try {
+    response = await http.post(
+      Uri.parse(&#39;http:&#47;&#47;$serverIp:8080&#47;api&#47;login&#39;),
+      headers: &lt;String, String&gt;{
+        &#39;Content-Type&#39;: &#39;application&#47;json; charset=UTF-8&#39;,
+      },
+      body: jsonEncode(
+          &lt;String, String&gt;{&#39;email&#39;: _email!, &#39;password&#39;: _password!}),
+    );
+  } catch (err) {
+    return &#39;Connection refused.&#39;;
+  }
 
   if (response.statusCode == 201) {
     try {
