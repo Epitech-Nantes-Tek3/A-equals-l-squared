@@ -68,6 +68,8 @@ model Parameter {
   name               String
   description        String?
   isRequired         Boolean             @default(false)
+  ProposalUrl        String?
+  ProposalBody       Boolean?
   Action             Action?             @relation(fields: [actionId], references: [id])
   actionId           String?
   Reaction           Reaction?           @relation(fields: [reactionId], references: [id])
