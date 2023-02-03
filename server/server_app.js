@@ -495,6 +495,27 @@ app.get(
   }
 )
 
+/**
+ * Post function used for deleting an area
+ * body.id -> id of the AREA to delete
+ * Road protected by a JWT token
+ */
+app.post(
+  '/api/delete/area',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      await database.prisma.UsersHasActionsReactions.delete({
+        where: { id: req.body.id }
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('You cannot delete this area.')
+    }
+  }
+)
+
 /*
  * @brief List all available Voice Channels on a given Guild ID.
  * body.id -> Guild ID
