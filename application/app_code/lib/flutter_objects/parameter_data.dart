@@ -7,6 +7,8 @@ class ParameterData {
   String name;
   String description;
   bool isRequired;
+  String? proposalUrl;
+  bool? proposalBody;
   String? actionId;
   String? reactionId;
   ParameterContent? matchedContent;
@@ -17,6 +19,8 @@ class ParameterData {
     required this.name,
     required this.description,
     required this.isRequired,
+    this.proposalUrl,
+    this.proposalBody,
     this.actionId,
     this.reactionId,
   });
@@ -35,11 +39,25 @@ class ParameterData {
     } catch (err) {
       reactionId = null;
     }
+    late String? proposalUrl;
+    try {
+      proposalUrl = json['proposalUrl'];
+    } catch (err) {
+      proposalUrl = null;
+    }
+    late bool? proposalBody;
+    try {
+      proposalBody = json['proposalBody'];
+    } catch (err) {
+      proposalBody = null;
+    }
     return ParameterData(
         id: json['id'],
         name: json['name'],
         description: json['description'],
         isRequired: json['isRequired'],
+        proposalUrl: proposalUrl,
+        proposalBody: proposalBody,
         actionId: actionId,
         reactionId: reactionId);
   }
