@@ -58,4 +58,42 @@ class ActionData {
       children: paramWid,
     );
   }
+
+  /// Function to display the name of a Reaction
+  Widget? displayReactionName() {
+    if (isEnable) {
+      return Column(
+        children: <Widget>[
+          Text(name),
+        ],
+      );
+    } else {
+      return null;
+    }
+  }
+
+  /// Function to display all information about a Reaction
+  Widget? displayReactionWithInfo() {
+    if (isEnable) {
+      return Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  const Icon(Icons.access_alarm),
+                  Text(name),
+                ],
+              ),
+            ],
+          ),
+          Row(children: <Widget>[
+            Text(description),
+          ]),
+        ],
+      );
+    } else {
+      return null;
+    }
+  }
 }

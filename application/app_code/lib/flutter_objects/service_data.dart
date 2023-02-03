@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'action_data.dart';
 
+import 'package:flutter/material.dart';
+
 /// This class is the service class.
 /// It contains all information about a service
 class ServiceData {
@@ -54,6 +56,45 @@ class ServiceData {
           style: TextStyle(color: isEnabled ? Colors.green : Colors.red),
         ),
         Text(description),
+      ],
+    );
+  }
+
+  /// Function to display the name of a Service
+  Widget displayServiceName() {
+    return Column(
+      children: <Widget>[
+        Text(name),
+      ],
+    );
+  }
+
+  /// Function to display the description of a Service
+  Widget displayServiceDescription() {
+    return Column(
+      children: <Widget>[
+        Text(description),
+      ],
+    );
+  }
+
+  /// Function to display all information about a Service
+  Widget displayServiceWithInfo() {
+    return Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                const Icon(Icons.access_alarm),
+                Text('Discord Test : $name!'),
+              ],
+            ),
+          ],
+        ),
+        Row(children: <Widget>[
+          Text('Discord description : $description'),
+        ]),
       ],
     );
   }

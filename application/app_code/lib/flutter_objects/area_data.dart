@@ -90,5 +90,37 @@ class AreaData {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: listDisplay,
     );
+    return AreaData(
+        areaName: json['userhasactionsreactions']['name'],
+        isEnable: json['userhasactionsreactions']['isEnable'],
+        createdAt: DateTime.parse(json['userhasactionsreactions']['createdAt']),
+        actionId: json['userhasactionsreactions']['actionId'],
+        reactionId: json['userhasactionsreactions']['reactionId']);
+  }
+
+  /// Function to display area name
+  Widget? displayAreaName() {
+    if (isEnable) {
+      return Column(
+        children: <Widget>[
+          Text(areaName),
+        ],
+      );
+    } else {
+      return null;
+    }
+  }
+
+  /// Function to display area description
+  Widget? displayAreaDescription() {
+    if (isEnable && description != null) {
+      return Column(
+        children: <Widget>[
+          Text(description!),
+        ],
+      );
+    } else {
+      return null;
+    }
   }
 }

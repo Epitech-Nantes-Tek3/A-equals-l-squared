@@ -60,4 +60,55 @@ class ReactionData {
       children: paramWid,
     );
   }
+
+  /// Function to display reaction name
+  Widget? displayReactionName() {
+    if (isEnable) {
+      return Column(
+        children: <Widget>[
+          Text(name),
+        ],
+      );
+    } else {
+      return null;
+    }
+  }
+
+  /// Function to display reaction description
+  Widget? displayReactionDescription() {
+    if (isEnable) {
+      return Column(
+        children: <Widget>[
+          Text(description),
+        ],
+      );
+    } else {
+      return null;
+    }
+  }
+
+  /// Function to display all reaction information
+  Widget? displayReactionWithInfo() {
+    if (isEnable) {
+      return Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  const Icon(Icons.access_alarm),
+                  Text(name),
+                ],
+              ),
+            ],
+          ),
+          Row(children: <Widget>[
+            Text(description),
+          ]),
+        ],
+      );
+    } else {
+      return null;
+    }
+  }
 }
