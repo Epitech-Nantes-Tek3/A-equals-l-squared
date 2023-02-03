@@ -79,9 +79,9 @@ class AreaData {
         style: TextStyle(color: isEnable ? Colors.green : Colors.red),
       ));
       listDisplay.add(const Text("Action"));
-      listDisplay.add(action.display());
+      listDisplay.add(action.display(true));
       listDisplay.add(const Text("Reaction"));
-      listDisplay.add(reaction.display());
+      listDisplay.add(reaction.display(true));
     } else {
       listDisplay.add(Text(name));
       listDisplay.add(Text(action.name));

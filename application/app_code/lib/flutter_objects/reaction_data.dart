@@ -40,8 +40,24 @@ class ReactionData {
     );
   }
 
+  /// Return the list of all the associated param content
+  List<ParameterContent> getAllParameterContent() {
+    List<ParameterContent> paramList = <ParameterContent>[];
+
+    for (var temp in parameters) {
+      if (temp.matchedContent == null) {
+        paramList.add(ParameterContent(paramId: temp.id, value: ""));
+      } else {
+        paramList.add(temp.matchedContent!);
+      }
+    }
+
+    return paramList;
+  }
+
   /// Get a visual representation of a Reaction
-  Widget display() {
+  /// mode -> true = params, false = only text and desc
+  Widget display(bool mode) {
     List<Widget> paramWid = <Widget>[];
     paramWid.add(
       Text(
@@ -52,8 +68,10 @@ class ReactionData {
     paramWid.add(
       Text(description),
     );
-    for (var temp in parameters) {
-      paramWid.add(temp.display());
+    if (mode == true) {
+      for (var temp in parameters) {
+        paramWid.add(temp.display());
+      }
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

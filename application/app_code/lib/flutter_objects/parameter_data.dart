@@ -10,6 +10,7 @@ class ParameterData {
   String description;
   String? actionId;
   String? reactionId;
+  ParameterContent? matchedContent;
 
   /// Constructor of the reaction class
   ParameterData({
@@ -44,23 +45,23 @@ class ParameterData {
 
   /// Function returning a visual representation of a parameter
   Widget display() {
-    ParameterContent? matchedContent;
 
     for (var temp in areaDataList) {
       for (var tempParam in temp.reactionParameters) {
         if (tempParam.paramId == id) {
-          matchedContent = tempParam;
+          matchedContent ??= tempParam;
           break;
         }
       }
 
       for (var tempParam in temp.actionParameters) {
         if (tempParam.paramId == id) {
-          matchedContent = tempParam;
+          matchedContent ??= tempParam;
           break;
         }
       }
     }
+    matchedContent ??= ParameterContent(paramId: id, value: "");
     return TextFormField(
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(20),
@@ -69,11 +70,11 @@ class ParameterData {
           ),
           labelText: name,
         ),
-        initialValue: matchedContent != null ? matchedContent.value : "",
+        initialValue: matchedContent != null ? matchedContent!.value : "",
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (String? value) {
           value ??= "";
-          if (matchedContent != null) matchedContent.value = value;
+          if (matchedContent != null) matchedContent!.value = value;
           return null;
         });
   }
