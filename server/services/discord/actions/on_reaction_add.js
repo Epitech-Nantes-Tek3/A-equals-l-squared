@@ -1,6 +1,7 @@
 'use strict'
 
 const client = require('../init').client
+const { AreaGlue } = require('../../glue/glue.js')
 
 /**
  * @brief Triggered when a user reacts to a message.
@@ -9,4 +10,5 @@ const client = require('../init').client
  */
 client.on('messageReactionAdd', (reaction, user) => {
   console.log(reaction.emoji.name)
+  AreaGlue("D-03", ["null"])
 })
