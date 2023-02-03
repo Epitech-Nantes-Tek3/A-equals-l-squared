@@ -75,7 +75,7 @@
 <p>The framework calls this method in a number of different situations. For
 example:</p>
 <ul>
-<li>After calling <a href="https://api.flutter.dev/flutter/widgets/State/initState.html">initState</a>.</li>
+<li>After calling <a href="../../pages_home_home_state/HomePageState/initState.html">initState</a>.</li>
 <li>After calling <a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a>.</li>
 <li>After receiving a call to <a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a>.</li>
 <li>After a dependency of this <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> object changes (e.g., an
@@ -188,6 +188,10 @@ Widget build(BuildContext context) {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: &lt;Widget&gt;[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: areasDisplay(),
+          ),
           ElevatedButton(
             key: const Key(&#39;HomeSettingsButton&#39;),
             onPressed: () {
@@ -196,6 +200,24 @@ Widget build(BuildContext context) {
               });
             },
             child: const Text(&#39;Settings&#39;),
+          ),
+          ElevatedButton(
+            key: const Key(&#39;HomeCreateAreaButton&#39;),
+            onPressed: () {
+              setState(() {
+                goToCreateAreaPage(context);
+              });
+            },
+            child: const Text(&#39;Create Area&#39;),
+          ),
+          ElevatedButton(
+            key: const Key(&#39;HomeServiceButton&#39;),
+            onPressed: () {
+              setState(() {
+                goToServiceListPage(context);
+              });
+            },
+            child: const Text(&#39;Service List&#39;),
           ),
           ElevatedButton(
             key: const Key(&#39;HomeLogoutButton&#39;),
@@ -249,13 +271,14 @@ Widget build(BuildContext context) {
 
         <li class="section-title"><a href="../../pages_home_home_state/HomePageState-class.html#instance-methods">Methods</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/activate.html">activate</a></li>
+          <li><a href="../../pages_home_home_state/HomePageState/areasDisplay.html">areasDisplay</a></li>
           <li><a href="../../pages_home_home_state/HomePageState/build.html">build</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
-          <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/initState.html">initState</a></li>
+          <li><a href="../../pages_home_home_state/HomePageState/initState.html">initState</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>
