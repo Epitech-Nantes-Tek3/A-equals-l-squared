@@ -15,13 +15,11 @@ const jwt = require('jwt-simple')
 const { hash } = require('./utils')
 require('dotenv').config({ path: '../database.env' })
 
-const discord = require('./services/discord/init').client
-const onMessage = require('./services/discord/actions/on_message')
-const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
-const onReactionAdd = require('./services/discord/actions/on_reaction_add')
-const onMemberJoining = require('./services/discord/actions/on_member_joining')
-const { createDiscordService } = require('./services/discord/init')
 const { createGmailService } = require('./services/gmail/gmail_init')
+const { createDiscordService } = require('./services/discord/init')
+const getVoiceChannels = require('./services/discord/getters/voice_channels')
+const getTextChannels = require('./services/discord/getters/text_channels')
+const getAvailableGuilds = require('./services/discord/getters/available_guilds')
 
 const app = express()
 
@@ -40,6 +38,14 @@ app.use(passport.session())
 
 const PORT = 8080
 const HOST = '0.0.0.0'
+
+/**
+ * Add here the database operation needed for development testing
+ */
+const createDevelopmentData = async () => {
+  createGmailService()
+  createDiscordService()
+}
 
 /**
  * A basic function to demonstrate the test framework.
@@ -133,7 +139,6 @@ app.post('/api/signup', (req, res, next) => {
       })
     return res.status(201).json({
       status: 'success',
-      data: { message: 'Account created.', user, token },
       statusCode: res.statusCode
     })
   })(req, res, next)
@@ -415,6 +420,115 @@ app.get(
 )
 
 /**
+ * Get request returning all enabled service sorted by creation date.
+ * Need to be authenticated with a token.
+ */
+app.get(
+  '/api/get/Service',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      const services = await database.prisma.Service.findMany({
+        where: {
+          isEnable: true
+        },
+        include: {
+          Actions: { include: { Parameters: true } },
+          Reactions: { include: { Parameters: true } }
+        },
+        orderBy: {
+          createdAt: 'desc'
+        }
+      })
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          services
+        },
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      return res.status(400).send('Service getter temporarily desactivated.')
+    }
+  }
+)
+
+/**
+ * Get request returning all user AREA sorted by creation date.
+ * Need to be authenticated with a token.
+ */
+app.get(
+  '/api/get/area',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      const areas = await database.prisma.UsersHasActionsReactions.findMany({
+        where: {
+          userId: req.user.id
+        },
+        include: {
+          ActionParameters: true,
+          ReactionParameters: true
+        },
+        orderBy: {
+          createdAt: 'desc'
+        }
+      })
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          areas
+        },
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('AREA getter temporarily desactivated.')
+    }
+  }
+)
+
+/*
+ * @brief List all available Voice Channels on a given Guild ID.
+ * body.id -> Guild ID
+ */
+app.post('/api/services/discord/getVoiceChannels', async (req, res) => {
+  const channels = await getVoiceChannels(req.body.id)
+  return res.status(201).json({
+    status: 'success',
+    data: channels,
+    statusCode: res.statusCode
+  })
+})
+
+/**
+ * @brief List all available Text Channels on a given GuildID.
+ * body.id -> Guild ID
+ */
+app.post('/api/services/discord/getTextChannels', async (req, res) => {
+  const channels = await getTextChannels(req.body.id)
+  return res.status(201).json({
+    status: 'success',
+    data: channels,
+    statusCode: res.statusCode
+  })
+})
+
+/**
+ * @brief List all available Guilds where the bot is.
+ */
+app.get('/api/services/discord/getAvailableGuilds', async (req, res) => {
+  const guilds = await getAvailableGuilds()
+  return res.status(201).json({
+    status: 'success',
+    data: guilds,
+    statusCode: res.statusCode
+  })
+})
+
+/**
  * Creating a new user in the database.
  * bodi.username -> User name
  * body.email -> User mail
@@ -556,7 +670,7 @@ app.get('/api/dev/reaction/listall', async (req, res) => {
 /**
  * Creating a new parameter.
  * body.name -> Parameter name
- * body.displayName -> Parameter display name
+ * body.isRequired -> Parameter is required or not
  * body.description -> Parameter description (optionnal)
  * body.actionId -> Action id (optionnal)
  * body.reactionId -> Reaction id (optionnal)
@@ -567,7 +681,7 @@ app.post('/api/dev/parameter/create', async (req, res) => {
       const parameter = await database.prisma.Parameter.create({
         data: {
           name: req.body.name,
-          displayName: req.body.displayName,
+          isRequired: req.body.isRequired,
           description: req.body.description,
           Action: { connect: { id: req.body.actionId } }
         }
@@ -576,7 +690,7 @@ app.post('/api/dev/parameter/create', async (req, res) => {
       const parameter = await database.prisma.Parameter.create({
         data: {
           name: req.body.name,
-          displayName: req.body.displayName,
+          isRequired: req.body.isRequired,
           description: req.body.description,
           Reaction: { connect: { id: req.body.reactionId } }
         }
@@ -606,51 +720,53 @@ app.get('/api/dev/parameter/listall', async (req, res) => {
 
 /**
  * Creating a new area.
- * body.userId -> User id
  * body.actionId -> Action id (optionnal if reactionId is set)
  * body.actionParameters -> Action parameters (optionnal)
  * body.reactionId -> Reaction id (optionnal if actionId is set)
  * body.reactionParameters -> Reaction parameters (optionnal)
+ * Protected by a JWT token
  */
-app.post('/api/area/create', async (req, res) => {
-  try {
-    const ActionParameters = []
+app.post(
+  '/api/area/create',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      const ActionParameters = []
 
-    req.body.actionParameters.forEach(param => {
-      ActionParameters.push({
-        Parameter: {
-          connect: { id: param.paramId }
-        },
-        value: param.value
+      req.body.actionParameters.forEach(param => {
+        ActionParameters.push({
+          Parameter: { connect: { id: param.paramId } },
+          value: param.value
+        })
       })
-    })
 
-    const ReactionParameters = []
+      const ReactionParameters = []
 
-    req.body.reactionParameters.forEach(param => {
-      ReactionParameters.push({
-        Parameter: {
-          connect: { id: param.paramId }
-        },
-        value: param.value
+      req.body.reactionParameters.forEach(param => {
+        ReactionParameters.push({
+          Parameter: { connect: { id: param.paramId } },
+          value: param.value
+        })
       })
-    })
 
-    const areaCreation = await database.prisma.UsersHasActionsReactions.create({
-      data: {
-        User: { connect: { id: req.body.userId } },
-        Action: { connect: { id: req.body.actionId } },
-        ActionParameters: { create: ActionParameters },
-        Reaction: { connect: { id: req.body.reactionId } },
-        ReactionParameters: { create: ReactionParameters }
-      }
-    })
-    return res.json(areaCreation)
-  } catch (err) {
-    console.log(err)
-    return res.status(400).json('Please pass a complete body.')
+      const areaCreation =
+        await database.prisma.UsersHasActionsReactions.create({
+          data: {
+            User: { connect: { id: req.user.id } },
+            Action: { connect: { id: req.body.actionId } },
+            ActionParameters: { create: ActionParameters },
+            Reaction: { connect: { id: req.body.reactionId } },
+            ReactionParameters: { create: ReactionParameters }
+          }
+        })
+      return res.json(areaCreation)
+    } catch (err) {
+      console.log(err)
+      return res.status(400).json('Please pass a complete body.')
+    }
   }
-})
+)
 
 /**
  * List all areas in the database.

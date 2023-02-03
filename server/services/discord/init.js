@@ -24,10 +24,7 @@ client.login(process.env.DISCORD_TOKEN)
  * Called when the Discord bot is ready, here we display all the servers the bot is on.
  */
 client.once('ready', () => {
-  console.log('Available on servers: ')
-  console.log(
-    `${client.guilds.cache.map(guild => `\t'${guild.name}'\n`).join('')}`
-  )
+  console.log('Discord bot ready !')
 })
 
 /**
@@ -44,13 +41,22 @@ const createDiscordService = async () => {
           create: [
             {
               name: 'onMessage',
-              code: "D-01",
+              code: 'D-01',
               description: 'When a message is sent',
-              isEnable: true
+              isEnable: true,
+              Parameters: {
+                create: [
+                  {
+                    name: 'channelId',
+                    description: 'The channel id where the message is sent',
+                    isRequired: true
+                  }
+                ]
+              }
             },
             {
               name: 'onVoiceChannel',
-              code: "D-02",
+              code: 'D-02',
               description: 'When a user join a voice channel',
               isEnable: true,
               Parameters: {
@@ -58,15 +64,21 @@ const createDiscordService = async () => {
                   {
                     name: 'channelId',
                     description: 'The channel id where the user join',
-                    displayName: 'string'
+                    isRequired: true
                   }
                 ]
               }
             },
             {
               name: 'onReactionAdd',
-              code: "D-03",
+              code: 'D-03',
               description: 'When a user add a reaction to a message',
+              isEnable: true
+            },
+            {
+              name: 'onMemberJoining',
+              code: 'D-04',
+              description: 'When a user join a guild',
               isEnable: true
             }
           ]
@@ -75,7 +87,7 @@ const createDiscordService = async () => {
           create: [
             {
               name: 'sendMessageChannel',
-              code: "D-01",
+              code: 'D-01',
               description: 'Send a message on a channel',
               isEnable: true,
               Parameters: {
@@ -89,14 +101,14 @@ const createDiscordService = async () => {
                     name: 'channelId',
                     description:
                       'The channel id where the message will be send',
-                    displayName: 'string'
+                    isRequired: true
                   }
                 ]
               }
             },
             {
               name: 'sendMessageUser',
-              code: "D-02",
+              code: 'D-02',
               description: 'Send a message to a user',
               isEnable: true,
               Parameters: {
@@ -104,19 +116,19 @@ const createDiscordService = async () => {
                   {
                     name: 'messageContent',
                     description: 'The content of the message',
-                    displayName: 'string'
+                    isRequired: true
                   },
                   {
                     name: 'UserId',
                     description: 'The user id where the message will be send',
-                    displayName: 'string'
+                    isRequired: true
                   }
                 ]
               }
             },
             {
               name: 'changeActivity',
-              code: "D-03",
+              code: 'D-03',
               description: 'Change the activity of the User',
               isEnable: true,
               Parameters: {
@@ -124,7 +136,7 @@ const createDiscordService = async () => {
                   {
                     name: 'activity',
                     description: 'The activity of the user',
-                    displayName: 'string'
+                    isRequired: true
                   }
                 ]
               }

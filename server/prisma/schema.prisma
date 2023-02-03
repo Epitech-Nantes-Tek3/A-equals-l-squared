@@ -68,8 +68,8 @@ model Reaction {
 model Parameter {
   id                 String              @id @unique @default(cuid())
   name               String
-  displayName        String
   description        String?
+  isRequired         Boolean             @default(false)
   Action             Action?             @relation(fields: [actionId], references: [id])
   actionId           String?
   Reaction           Reaction?           @relation(fields: [reactionId], references: [id])

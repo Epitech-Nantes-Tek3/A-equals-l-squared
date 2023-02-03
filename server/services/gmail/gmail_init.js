@@ -17,7 +17,7 @@ const createGmailService = async () => {
           create: [
             {
               name: 'get_email',
-              code: "G-01",
+              code: 'G-01',
               description: 'Get email by id',
               isEnable: true,
               Parameters: {
@@ -25,14 +25,14 @@ const createGmailService = async () => {
                   {
                     name: 'emailId',
                     description: 'The id of the email',
-                    displayName: 'String'
+                    isRequired: true
                   }
                 ]
               }
             },
             {
               name: 'get_emails_by_query',
-              code: "G-02",
+              code: 'G-02',
               description: 'Get emails by query',
               isEnable: true,
               Parameters: {
@@ -40,7 +40,7 @@ const createGmailService = async () => {
                   {
                     name: 'query',
                     description: 'The query to search for',
-                    displayName: 'String'
+                    isRequired: true
                   }
                 ]
               }
@@ -51,7 +51,7 @@ const createGmailService = async () => {
           create: [
             {
               name: 'send_email',
-              code: "G-01",
+              code: 'G-01',
               description: 'Send an email',
               isEnable: true,
               Parameters: {
@@ -59,17 +59,17 @@ const createGmailService = async () => {
                   {
                     name: 'to',
                     description: 'The email address to send to',
-                    displayName: 'String'
+                    isRequired: true
                   },
                   {
                     name: 'subject',
                     description: 'The subject of the email',
-                    displayName: 'String'
+                    isRequired: true
                   },
                   {
                     name: 'body',
                     description: 'The body of the email',
-                    displayName: 'String'
+                    isRequired: true
                   }
                 ]
               }
