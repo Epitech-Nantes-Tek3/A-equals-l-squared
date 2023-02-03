@@ -42,30 +42,45 @@ class HomePageState extends State<HomePage> {
     } else {
       return Scaffold(
           body: Center(
+              child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                IconButton(onPressed: () {
+                  setState(() {
+                    goToSettingsPage(context);
+                  });
+                }, icon: const Icon(Icons.settings)),
+                IconButton(onPressed: () {
+                  setState(() {
+                    goToCreateAreaPage(context);
+                  });
+                }, icon: const Icon(Icons.add))
+              ],
+            ),
+
+            Column(children: <Widget>[
+              const Text('All Areas', style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 28,
+                fontFamily: 'Roboto-Bold')),
+              TextFormField(
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Search an Area',
+                  )),
+            ]),
+            /// AllAreas
+
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: areasDisplay(),
-            ),
-            ElevatedButton(
-              key: const Key('HomeSettingsButton'),
-              onPressed: () {
-                setState(() {
-                  goToSettingsPage(context);
-                });
-              },
-              child: const Text('Settings'),
-            ),
-            ElevatedButton(
-              key: const Key('HomeCreateAreaButton'),
-              onPressed: () {
-                setState(() {
-                  goToCreateAreaPage(context);
-                });
-              },
-              child: const Text('Create Area'),
             ),
             ElevatedButton(
               key: const Key('HomeServiceButton'),
@@ -76,18 +91,11 @@ class HomePageState extends State<HomePage> {
               },
               child: const Text('Service List'),
             ),
-            ElevatedButton(
-              key: const Key('HomeLogoutButton'),
-              onPressed: () {
-                setState(() {
-                  _logout = true;
-                });
-              },
-              child: const Text('Logout'),
-            ),
+
+            ///ElevatedButton(key: const Key('HomeLogoutButton'),onPressed: () {  setState(() { _logout = true;});  },  child: const Text('Logout'),),
           ],
         ),
-      ));
+      )));
     }
   }
 }
