@@ -509,6 +509,7 @@ app.post(
       await database.prisma.UsersHasActionsReactions.delete({
         where: { id: req.body.id }
       })
+      return res.status(200).send('AREA succesfully deleted.')
     } catch (err) {
       console.log(err)
       return res.status(400).send('You cannot delete this area.')
