@@ -660,6 +660,7 @@ app.post('/api/dev/parameter/create', async (req, res) => {
 
 /**
  * Creating a new area.
+ * body.name -> Name of the area. (need to be set)
  * body.actionId -> Action id (optionnal if reactionId is set)
  * body.actionParameters -> Action parameters (optionnal)
  * body.reactionId -> Reaction id (optionnal if actionId is set)
@@ -693,6 +694,7 @@ app.post(
       const areaCreation =
         await database.prisma.UsersHasActionsReactions.create({
           data: {
+            name: req.body.name,
             User: { connect: { id: req.user.id } },
             Action: { connect: { id: req.body.actionId } },
             ActionParameters: { create: ActionParameters },
