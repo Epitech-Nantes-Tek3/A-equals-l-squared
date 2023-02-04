@@ -424,6 +424,51 @@ app.get(
 )
 
 /**
+ * Route used for Create/Update auth token
+ * If no token storage is already linked with the user, a new one is created
+ * body.google The Google auth token (Set to '' to remove it)
+ * body.discord The Discord auth token (Set to '' to remove it)
+ * Route protected by a JWT token
+ */
+app.post(
+  '/api/token',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      const TokenList = await database.prisma.Token.findMany({
+        include: { User: true }
+      })
+      let existingToken = null
+      TokenList.forEach(token => {
+        if (token.userId == req.user.id) existingToken = token
+      })
+      if (existingToken == null) {
+        await database.prisma.Token.create({
+          data: {
+            User: { connect: { id: req.user.id } },
+            googleToken: req.body.google != '' ? req.body.google : null,
+            discordToken: req.body.discord != '' ? req.body.discord : null
+          }
+        })
+      } else {
+        await database.prisma.Token.update({
+          where: { id: existingToken.id },
+          data: {
+            googleToken: req.body.google != '' ? req.body.google : null,
+            discordToken: req.body.discord != '' ? req.body.discord : null
+          }
+        })
+      }
+      return res.status(200).send('Token successfully updated.')
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('Token gestionner temporaly desactivated.')
+    }
+  }
+)
+
+/**
  * Get request returning all enabled service sorted by creation date.
  * Need to be authenticated with a token.
  */
