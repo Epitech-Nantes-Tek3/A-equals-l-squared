@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../home/home_functional.dart';
+import 'auth_linker_functional.dart';
 import 'auth_linker_page.dart';
 
 class AuthLinkerPageState extends State<AuthLinkerPage> {
+
+  Widget displayAuthBox(AuthBox auth) {
+    return const Text('An Auth box');
+  }
 
   @override
   Widget build(BuildContext context) {
