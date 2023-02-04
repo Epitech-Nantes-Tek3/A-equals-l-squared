@@ -59,33 +59,25 @@ const getActionFromCode = async code => {
  * @returns
  */
 const AreaGlue = async (actionCode, actionParameters) => {
-  console.log('AreaGlue called')
   const action = await getActionFromCode(actionCode)
-  if (!action) {
+  if (!action || !action.isEnable) {
     return
   }
-  if (!action.isEnable) {
-    throw new Error('Action is not enable')
+
+  const reactions = {
+    'GML-01': () => console.log('Send email'),
+    'DSC-01': () => console.log('Send Discord message on channel'),
+    'DSC-02': () => console.log('Send Discord message on user'),
+    'DSC-03': () => console.log('Change Discord activity')
   }
+
   action.UsersHasActionsReactions.forEach(area => {
     if (area.isEnable == false || area.Reaction.isEnable == false) {
       return
     }
-    if (area.Reaction.code == 'GML-01') {
-      console.log('Send email')
-      return
-    }
-    if (area.Reaction.code == 'DSC-01') {
-      console.log('Send Discord message on channel')
-      return
-    }
-    if (area.Reaction.code == 'DSC-02') {
-      console.log('Send Discord message on user')
-      return
-    }
-    if (area.Reaction.code == 'DSC-03') {
-      console.log('Change Discord activity')
-      return
+    const reaction = reactions[area.Reaction.code]
+    if (reaction) {
+      reaction()
     }
   })
 }
