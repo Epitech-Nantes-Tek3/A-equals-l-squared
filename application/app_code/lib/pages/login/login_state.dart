@@ -51,6 +51,7 @@ class LoginPageState extends State<LoginPage> {
         try {
           userInformation =
               UserData.fromJson(jsonDecode(response.body)['data']);
+          await updateAllFlutterObject();
           return 'Login succeed !';
         } catch (err) {
           return 'Invalid token... Please retry';
