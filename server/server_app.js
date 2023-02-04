@@ -338,7 +338,8 @@ app.post(
 app.post('/api/login/google', async (req, res, next) => {
   try {
     let user = await database.prisma.user.findUnique({
-      where: { googleId: req.body.id }
+      where: { googleId: req.body.id },
+      include: { Token: true }
     })
     if (user) {
       const token = utils.generateToken(user.id)
@@ -352,7 +353,8 @@ app.post('/api/login/google', async (req, res, next) => {
       })
     }
     const oldUser = await database.prisma.user.findUnique({
-      where: { email: req.body.email }
+      where: { email: req.body.email },
+      include: { Token: true }
     })
     if (oldUser) {
       user = await database.prisma.user.update({
@@ -460,7 +462,18 @@ app.post(
           }
         })
       }
-      return res.status(200).send('Token successfully updated.')
+      const user = await database.prisma.User.findUnique({
+        where: {
+          id: req.user.id
+        },
+        include: { Token: true }
+      })
+      const token = utils.generateToken(user.id)
+      return res.status(200).json({
+        status: 'success',
+        data: { message: 'Token updated.', user, token },
+        statusCode: res.statusCode
+      })
     } catch (err) {
       console.log(err)
       return res.status(400).send('Token gestionner temporaly desactivated.')

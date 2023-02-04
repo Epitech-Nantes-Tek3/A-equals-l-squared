@@ -10,7 +10,7 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
   Widget displayAuthBox() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [googleAuthBox.display()],
+      children: [googleAuthBox.display(), discordAuthBox.display()],
     );
   }
 
@@ -20,9 +20,11 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
   }
 
   /// Update state function
-  void update(Function asking) {
+  void update(Function? asking) {
     setState(() {
-      _futureApiResponse = asking();
+      if (asking != null) {
+        _futureApiResponse = asking();
+      }
     });
   }
 
