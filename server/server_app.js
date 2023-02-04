@@ -509,7 +509,7 @@ app.post(
       await database.prisma.UsersHasActionsReactions.delete({
         where: { id: req.body.id }
       })
-      return res.status(200).send('AREA succesfully deleted.')
+      return res.status(200).send('AREA successfully deleted.')
     } catch (err) {
       console.log(err)
       return res.status(400).send('You cannot delete this area.')
@@ -584,7 +584,7 @@ app.post(
           Reaction: { connect: { id: req.body.reactionId } }
         }
       })
-      return res.status(200).send('AREA succesfully updated.')
+      return res.status(200).send('AREA successfully updated.')
     } catch (err) {
       console.log(err)
       return res.status(400).send('You cannot update this area.')
