@@ -7,75 +7,70 @@ const { google } = require('googleapis')
  * @brief create the gmail service in the database
  */
 const createGmailService = async () => {
-  try {
-    const gmail = await database.prisma.Service.create({
-      data: {
-        name: 'gmail',
-        description: 'Gmail service',
-        isEnable: true,
-        Actions: {
-          create: [
-            {
-              name: 'get_email',
-              code: 'GML-01',
-              description: 'Get email by id',
-              isEnable: true,
-              Parameters: {
-                create: [
-                  {
-                    name: 'emailId',
-                    description: 'The id of the email',
-                    isRequired: true
-                  }
-                ]
-              }
-            },
-            {
-              name: 'get_emails_by_query',
-              code: 'GML-02',
-              description: 'Get emails by query',
-              isEnable: true,
-              Parameters: {
-                create: [
-                  {
-                    name: 'query',
-                    description: 'The query to search for',
-                    isRequired: true
-                  }
-                ]
-              }
+  await database.prisma.Service.create({
+    data: {
+      name: 'gmail',
+      description: 'Gmail service',
+      isEnable: true,
+      Actions: {
+        create: [
+          {
+            name: 'get_email',
+            description: 'Get email by id',
+            isEnable: true,
+            Parameters: {
+              create: [
+                {
+                  name: 'emailId',
+                  description: 'The id of the email',
+                  isRequired: true
+                }
+              ]
             }
-          ]
-        },
-        Reactions: {
-          create: [
-            {
-              name: 'send_email',
-              code: 'GML-01',
-              description: 'Send an email',
-              isEnable: true,
-              Parameters: {
-                create: [
-                  {
-                    name: 'to',
-                    description: 'The email address to send to',
-                    isRequired: true
-                  },
-                  {
-                    name: 'subject',
-                    description: 'The subject of the email',
-                    isRequired: true
-                  },
-                  {
-                    name: 'body',
-                    description: 'The body of the email',
-                    isRequired: true
-                  }
-                ]
-              }
+          },
+          {
+            name: 'get_emails_by_query',
+            description: 'Get emails by query',
+            isEnable: true,
+            Parameters: {
+              create: [
+                {
+                  name: 'query',
+                  description: 'The query to search for',
+                  isRequired: true
+                }
+              ]
             }
-          ]
-        }
+          }
+        ]
+      },
+      Reactions: {
+        create: [
+          {
+            name: 'send_email',
+            description: 'Send an email',
+            isEnable: true,
+            Parameters: {
+              create: [
+                {
+                  name: 'to',
+                  description: 'The email address to send to',
+                  isRequired: true
+                },
+                {
+                  name: 'subject',
+                  description: 'The subject of the email',
+                  isRequired: true
+                },
+                {
+                  name: 'body',
+                  description: 'The body of the email',
+                  isRequired: false
+                }
+              ]
+            }
+          }
+        ]
       }
     })
     console.log('Gmail service created : ', gmail)

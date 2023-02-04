@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 
-import '../pages/home/home_functional.dart';
-
 /// This class is the parameter class.
 /// It contains all information about a parameter
 class ParameterData {
   String id;
   String name;
   String description;
+  bool isRequired;
+  String? proposalUrl;
+  bool? proposalBody;
   String? actionId;
   String? reactionId;
+  ParameterContent? matchedContent;
 
   /// Constructor of the reaction class
   ParameterData({
     required this.id,
     required this.name,
     required this.description,
+    required this.isRequired,
+    this.proposalUrl,
+    this.proposalBody,
     this.actionId,
     this.reactionId,
   });
@@ -34,33 +39,39 @@ class ParameterData {
     } catch (err) {
       reactionId = null;
     }
+    late String? proposalUrl;
+    try {
+      proposalUrl = json['proposalUrl'];
+    } catch (err) {
+      proposalUrl = null;
+    }
+    late bool? proposalBody;
+    try {
+      proposalBody = json['proposalBody'];
+    } catch (err) {
+      proposalBody = null;
+    }
     return ParameterData(
         id: json['id'],
         name: json['name'],
         description: json['description'],
+        isRequired: json['isRequired'],
+        proposalUrl: proposalUrl,
+        proposalBody: proposalBody,
         actionId: actionId,
         reactionId: reactionId);
   }
 
   /// Function returning a visual representation of a parameter
-  Widget display() {
-    ParameterContent? matchedContent;
-
-    for (var temp in areaDataList) {
-      for (var tempParam in temp.reactionParameter) {
-        if (tempParam.paramId == id) {
-          matchedContent = tempParam;
-          break;
-        }
-      }
-
-      for (var tempParam in temp.actionParameter) {
-        if (tempParam.paramId == id) {
-          matchedContent = tempParam;
-          break;
-        }
+  /// params -> list of all the associated parameter content
+  Widget display(List<ParameterContent> params) {
+    for (var tempParam in params) {
+      if (tempParam.paramId == id) {
+        matchedContent ??= tempParam;
+        break;
       }
     }
+    matchedContent ??= ParameterContent(paramId: id, value: "");
     return TextFormField(
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(20),
@@ -69,11 +80,14 @@ class ParameterData {
           ),
           labelText: name,
         ),
-        initialValue: matchedContent != null ? matchedContent.content : "",
+        initialValue: matchedContent != null ? matchedContent!.value : "",
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (String? value) {
+          if (value == null && isRequired) {
+            return 'Required parameter.';
+          }
           value ??= "";
-          if (matchedContent != null) matchedContent.content = value;
+          if (matchedContent != null) matchedContent!.value = value;
           return null;
         });
   }
@@ -83,16 +97,13 @@ class ParameterData {
 /// It contains the value of a parameter content.
 class ParameterContent {
   String paramId;
-  String content;
+  String value;
 
   /// Constructor of the parameterContent class
-  ParameterContent({required this.paramId, required this.content});
+  ParameterContent({required this.paramId, required this.value});
 
   /// Convert a json map into the class
   factory ParameterContent.fromJson(Map<String, dynamic> json) {
-    return ParameterContent(
-      paramId: json['parameterId'],
-      content: json['value'],
-    );
+    return ParameterContent(paramId: json['parameterId'], value: json['value']);
   }
 }
