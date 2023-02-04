@@ -1,3 +1,4 @@
+import 'package:application/pages/auth_linker/auth_linker_page.dart';
 import 'package:application/pages/create_area/create_area_page.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:application/pages/home/home_page.dart';
@@ -53,6 +54,11 @@ final GoRouter router = GoRouter(
             path: 'service_list',
             builder: (BuildContext context, GoRouterState state) {
               return const ServiceListPage();
+            }),
+        GoRoute(
+            path: 'auth_linker',
+            builder: (BuildContext context, GoRouterState state) {
+              return const AuthLinkerPage();
             })
       ],
     ),
