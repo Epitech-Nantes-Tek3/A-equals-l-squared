@@ -31,7 +31,7 @@ class UserData {
 
     Token? userToken;
     try {
-      userToken = Token.fromJson(json['user']['Token']);
+      userToken = Token.fromJson(json['user']['Token'][0]);
     } catch (err) {
       userToken = null;
     }

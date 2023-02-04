@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:application/network/informations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
 import '../../flutter_objects/user_data.dart';
@@ -87,9 +88,16 @@ Future<String> getGoogleToken() async {
     googleAuthBox.isEnable = false;
   } else {
     print('Activation !');
-    googleAuthBox.token = "AAAAAA";
-
-    /// CALL THE AUTH METHOD
+    GoogleSignIn googleSignIn = GoogleSignIn(
+      clientId:
+          '770124443966-jh4puirdfde87lb64bansm4flcfs7vq9.apps.googleusercontent.com',
+      scopes: ['email', 'profile'],
+    );
+    googleSignIn.disconnect();
+    var googleUser = await googleSignIn.signIn();
+    var accessTokenPrev = await googleUser!.authentication;
+    print(accessTokenPrev.accessToken);
+    googleAuthBox.token = accessTokenPrev.accessToken;
     String? error = await publishNewToken();
     if (error != null) {
       googleAuthBox.token = null;
