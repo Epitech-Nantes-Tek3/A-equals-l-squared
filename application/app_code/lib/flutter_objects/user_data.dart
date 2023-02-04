@@ -27,8 +27,6 @@ class UserData {
       isToken = false;
     }
 
-    print(json);
-
     Token? userToken;
     try {
       userToken = Token.fromJson(json['user']['Token'][0]);

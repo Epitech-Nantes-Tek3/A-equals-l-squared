@@ -7,6 +7,7 @@ import 'auth_linker_page.dart';
 class AuthLinkerPageState extends State<AuthLinkerPage> {
   late Future<String> _futureApiResponse;
 
+  /// Display all the Auth Box
   Widget displayAuthBox() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
