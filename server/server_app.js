@@ -15,7 +15,6 @@ const jwt = require('jwt-simple')
 const { hash } = require('./utils')
 require('dotenv').config({ path: '../database.env' })
 
-const discord = require('./services/discord/init').client
 const onMessage = require('./services/discord/actions/on_message')
 const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
@@ -645,6 +644,19 @@ app.post('/api/dev/user/create', async (req, res) => {
 })
 
 /**
+ * List all users in the database.
+ */
+app.get('/api/dev/user/listall', async (req, res) => {
+  try {
+    const users = await database.prisma.User.findMany()
+    return res.json(users)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('An error occured.')
+  }
+})
+
+/**
  * Creating a new service in the database.
  * body.name -> Service name
  * body.description -> Service description (optionnal)
@@ -661,6 +673,19 @@ app.post('/api/dev/service/create', async (req, res) => {
   } catch (err) {
     console.log(err)
     return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+/**
+ * List all services in the database.
+ */
+app.get('/api/dev/service/listall', async (req, res) => {
+  try {
+    const services = await database.prisma.Service.findMany()
+    return res.json(services)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('An error occured.')
   }
 })
 
@@ -687,6 +712,19 @@ app.post('/api/dev/action/create', async (req, res) => {
 })
 
 /**
+ * List all actions in the database.
+ */
+app.get('/api/dev/action/listall', async (req, res) => {
+  try {
+    const actions = await database.prisma.Action.findMany()
+    return res.json(actions)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('An error occured.')
+  }
+})
+
+/**
  * Creating a new reaction.
  * body.name -> Reaction name
  * body.description -> Reaction description (optionnal)
@@ -705,6 +743,19 @@ app.post('/api/dev/reaction/create', async (req, res) => {
   } catch (err) {
     console.log(err)
     return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+/**
+ * List all reactions in the database.
+ */
+app.get('/api/dev/reaction/listall', async (req, res) => {
+  try {
+    const reactions = await database.prisma.Reaction.findMany()
+    return res.json(reactions)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('An error occured.')
   }
 })
 
@@ -743,6 +794,19 @@ app.post('/api/dev/parameter/create', async (req, res) => {
   } catch (err) {
     console.log(err)
     return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+/**
+ * List all parameters in the database.
+ */
+app.get('/api/dev/parameter/listall', async (req, res) => {
+  try {
+    const parameters = await database.prisma.Parameter.findMany()
+    return res.json(parameters)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('An error occured.')
   }
 })
 
@@ -797,6 +861,73 @@ app.post(
     }
   }
 )
+
+/**
+ * Creating a new area without protection.
+ * body.actionId -> Action id (optionnal if reactionId is set)
+ * body.actionParameters -> Action parameters (optionnal)
+ * body.reactionId -> Reaction id (optionnal if actionId is set)
+ * body.reactionParameters -> Reaction parameters (optionnal)
+ */
+app.post('/api/dev/area/create', async (req, res) => {
+  try {
+    const ActionParameters = []
+
+    req.body.actionParameters.forEach(param => {
+      ActionParameters.push({
+        Parameter: { connect: { id: param.paramId } },
+        value: param.value
+      })
+    })
+
+    const ReactionParameters = []
+
+    req.body.reactionParameters.forEach(param => {
+      ReactionParameters.push({
+        Parameter: { connect: { id: param.paramId } },
+        value: param.value
+      })
+    })
+
+    const areaCreation = await database.prisma.UsersHasActionsReactions.create({
+      data: {
+        name: req.body.name,
+        User: { connect: { id: req.body.userId } },
+        Action: { connect: { id: req.body.actionId } },
+        ActionParameters: { create: ActionParameters },
+        Reaction: { connect: { id: req.body.reactionId } },
+        ReactionParameters: { create: ReactionParameters }
+      }
+    })
+    return res.json(areaCreation)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+/**
+ * List all areas in the database.
+ */
+app.get('/api/dev/area/listall', async (req, res) => {
+  try {
+    const areas = await database.prisma.UsersHasActionsReactions.findMany()
+    return res.json(areas)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('An error occured.')
+  }
+})
+
+/**
+ * Initialize the database with all services, actions, reactions and parameters.
+ */
+app.get('/api/dev/service/createAll', async (req, res) => {
+  const response = []
+  response.push(await createDiscordService())
+  response.push(await createGmailService())
+  return res.json(response)
+})
 
 /**
  * Start the node.js server at PORT and HOST variable
