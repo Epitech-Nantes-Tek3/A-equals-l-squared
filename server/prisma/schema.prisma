@@ -32,8 +32,8 @@ model User {
 
 model Token {
   id           String  @id @unique @default(cuid())
-  googleToken  String?
-  discordToken String?
+  googleToken  String? @db.VarChar(1000)
+  discordToken String? @db.VarChar(1000)
   User         User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId       String?
 }
