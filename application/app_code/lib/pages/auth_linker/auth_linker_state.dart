@@ -5,9 +5,11 @@ import 'auth_linker_functional.dart';
 import 'auth_linker_page.dart';
 
 class AuthLinkerPageState extends State<AuthLinkerPage> {
-
-  Widget displayAuthBox(AuthBox auth) {
-    return const Text('An Auth box');
+  Widget displayAuthBox() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [googleAuthBox.display()],
+    );
   }
 
   @override
@@ -18,6 +20,7 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           const Text('Welcome to Auth Linker page'),
+          displayAuthBox(),
           ElevatedButton(
             key: const Key('AuthLinkerHomeButton'),
             onPressed: () {

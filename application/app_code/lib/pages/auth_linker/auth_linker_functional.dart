@@ -17,13 +17,32 @@ class AuthBox {
   bool isEnable;
   Function action;
 
-  AuthBox({required this.authName,
-    required this.authDescription,
-    required this.isEnable,
-    required this.action});
+  AuthBox(
+      {required this.authName,
+      required this.authDescription,
+      required this.isEnable,
+      required this.action});
+
+  Widget display() {
+    return ElevatedButton(
+        onPressed: () {
+          action();
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              authName,
+              style: TextStyle(color: isEnable ? Colors.green : Colors.red),
+            ),
+            Text(authDescription)
+          ],
+        ));
+  }
 }
 
-AuthBox googleAuthBox = AuthBox(authName: "Google",
+AuthBox googleAuthBox = AuthBox(
+    authName: "Google",
     authDescription: "Used for all Gmail interaction",
     isEnable: false,
     action: getGoogleToken);
