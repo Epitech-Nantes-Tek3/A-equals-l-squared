@@ -545,8 +545,6 @@ app.post(
           }
         }
       )
-
-      console.log(oldArea)
       req.body.actionParameters.forEach(async param => {
         oldArea.ActionParameters.forEach(async actionParam => {
           if (actionParam.parameterId == param.paramId)
@@ -560,7 +558,6 @@ app.post(
             })
         })
       })
-
       req.body.reactionParameters.forEach(async param => {
         oldArea.ReactionParameters.forEach(async reactionParam => {
           if (reactionParam.parameterId == param.paramId)
@@ -574,7 +571,6 @@ app.post(
             })
         })
       })
-
       await database.prisma.UsersHasActionsReactions.update({
         where: { id: req.body.id },
         data: {
