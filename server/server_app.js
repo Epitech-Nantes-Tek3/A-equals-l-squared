@@ -534,21 +534,44 @@ app.post(
   async (req, res, next) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
-      const ActionParameters = []
+      const oldArea = await database.prisma.UsersHasActionsReactions.findUnique(
+        {
+          where: {
+            id: req.body.id
+          },
+          include: {
+            ActionParameters: true,
+            ReactionParameters: true
+          }
+        }
+      )
 
-      req.body.actionParameters.forEach(param => {
-        ActionParameters.push({
-          Parameter: { connect: { id: param.paramId } },
-          value: param.value
+      console.log(oldArea)
+      req.body.actionParameters.forEach(async param => {
+        oldArea.ActionParameters.forEach(async actionParam => {
+          if (actionParam.parameterId == param.paramId)
+            await database.prisma.ActionParameter.update({
+              where: {
+                id: actionParam.id
+              },
+              data: {
+                value: param.value
+              }
+            })
         })
       })
 
-      const ReactionParameters = []
-
-      req.body.reactionParameters.forEach(param => {
-        ReactionParameters.push({
-          Parameter: { connect: { id: param.paramId } },
-          value: param.value
+      req.body.reactionParameters.forEach(async param => {
+        oldArea.ReactionParameters.forEach(async reactionParam => {
+          if (reactionParam.parameterId == param.paramId)
+            await database.prisma.ReactionParameter.update({
+              where: {
+                id: reactionParam.id
+              },
+              data: {
+                value: param.value
+              }
+            })
         })
       })
 
@@ -558,9 +581,7 @@ app.post(
           name: req.body.name,
           isEnable: req.body.isEnable,
           Action: { connect: { id: req.body.actionId } },
-          ActionParameters: { create: ActionParameters },
-          Reaction: { connect: { id: req.body.reactionId } },
-          ReactionParameters: { create: ReactionParameters }
+          Reaction: { connect: { id: req.body.reactionId } }
         }
       })
       return res.status(200).send('AREA succesfully updated.')
