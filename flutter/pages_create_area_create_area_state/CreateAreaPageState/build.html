@@ -189,15 +189,36 @@ Widget build(BuildContext context) {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: creationDisplay(),
         ),
-        ElevatedButton(
-          key: const Key(&#39;CreateAreaHomeButton&#39;),
-          onPressed: () {
-            setState(() {
-              goToHomePage(context);
-            });
-          },
-          child: const Text(&#39;Go Home&#39;),
-        ),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          if (_state != 0)
+            ElevatedButton(
+              key: const Key(&#39;CreateAreaPreviousButton&#39;),
+              onPressed: () {
+                setState(() {
+                  _state -= 1;
+                  createdAreaContent = List.from(_createdAreaContentSave);
+                  if (_state == 0) {
+                    createdArea = null;
+                    _createdAreaContentSave = &lt;ServiceData&gt;[];
+                    createdAreaContent = &lt;ServiceData&gt;[];
+                  }
+                });
+              },
+              child: const Text(&#39;Previous&#39;),
+            ),
+          ElevatedButton(
+            key: const Key(&#39;CreateAreaHomeButton&#39;),
+            onPressed: () {
+              setState(() {
+                _state = 0;
+                _createdAreaContentSave = &lt;ServiceData&gt;[];
+                createdAreaContent = &lt;ServiceData&gt;[];
+                goToHomePage(context);
+              });
+            },
+            child: const Text(&#39;Go Home&#39;),
+          ),
+        ])
       ],
     ),
   ));

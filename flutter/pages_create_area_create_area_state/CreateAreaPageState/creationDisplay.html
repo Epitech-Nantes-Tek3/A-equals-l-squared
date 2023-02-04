@@ -152,6 +152,7 @@
         onPressed: () {
           setState(() {
             bool isRequired = true;
+            _createdAreaContentSave = List.from(createdAreaContent);
             for (var temp in createdAreaContent[1].reactions[0].parameters) {
               if (temp.isRequired &amp;&amp; temp.matchedContent!.value == &quot;&quot;) {
                 isRequired = false;
@@ -171,11 +172,18 @@
       createVis.add(ElevatedButton(
           onPressed: () {
             setState(() {
+              _createdAreaContentSave = List.from(createdAreaContent);
+              List&lt;ReactionData&gt; tempSave =
+                  List.from(createdAreaContent[1].reactions);
+              if (reactionParameterContent.isNotEmpty) {
+                reactionParameterContent = &lt;ParameterContent&gt;[];
+              }
               for (var tmp in temp.parameters) {
-                actionParameterContent
+                reactionParameterContent
                     .add(ParameterContent(paramId: tmp.id, value: &quot;&quot;));
               }
               createdAreaContent[1].reactions = [temp];
+              _createdAreaContentSave[1].reactions = List.from(tempSave);
               _state = 5;
             });
           },
@@ -189,6 +197,7 @@
       createVis.add(ElevatedButton(
           onPressed: () {
             setState(() {
+              _createdAreaContentSave = List.from(createdAreaContent);
               createdAreaContent.add(temp);
               _state = 4;
             });
@@ -206,6 +215,7 @@
         onPressed: () {
           setState(() {
             bool isRequired = true;
+            _createdAreaContentSave = List.from(createdAreaContent);
             for (var temp in createdAreaContent[0].actions[0].parameters) {
               if (temp.isRequired &amp;&amp; temp.matchedContent!.value == &quot;&quot;) {
                 isRequired = false;
@@ -225,11 +235,18 @@
       createVis.add(ElevatedButton(
           onPressed: () {
             setState(() {
+              _createdAreaContentSave = List.from(createdAreaContent);
+              List&lt;ActionData&gt; tempSave =
+                  List.from(createdAreaContent[0].actions);
+              if (actionParameterContent.isNotEmpty) {
+                actionParameterContent = &lt;ParameterContent&gt;[];
+              }
               for (var tmp in temp.parameters) {
                 actionParameterContent
                     .add(ParameterContent(paramId: tmp.id, value: &quot;&quot;));
               }
               createdAreaContent[0].actions = [temp];
+              _createdAreaContentSave[0].actions = List.from(tempSave);
               _state = 2;
             });
           },

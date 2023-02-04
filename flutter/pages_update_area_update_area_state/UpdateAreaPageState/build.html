@@ -75,7 +75,7 @@
 <p>The framework calls this method in a number of different situations. For
 example:</p>
 <ul>
-<li>After calling <a href="https://api.flutter.dev/flutter/widgets/State/initState.html">initState</a>.</li>
+<li>After calling <a href="../../pages_update_area_update_area_state/UpdateAreaPageState/initState.html">initState</a>.</li>
 <li>After calling <a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a>.</li>
 <li>After receiving a call to <a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a>.</li>
 <li>After a dependency of this <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> object changes (e.g., an
@@ -186,6 +186,53 @@ Widget build(BuildContext context) {
       children: &lt;Widget&gt;[
         const Text(&#39;Welcome to Update Area page&#39;),
         if (updatingArea != null) updatingArea!.display(true),
+        if (updatingArea != null)
+          Switch(
+            value: updatingArea!.isEnable,
+            activeColor: Colors.blue,
+            onChanged: (bool value) {
+              setState(() {
+                updatingArea!.isEnable = value;
+              });
+            },
+          ),
+        FutureBuilder&lt;String&gt;(
+          future: _futureAnswer,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data!);
+            } else if (snapshot.hasError) {
+              return Text(&#39;${snapshot.error}&#39;);
+            }
+            return const CircularProgressIndicator();
+          },
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              key: const Key(&#39;UpdateAreaDeleteButton&#39;),
+              onPressed: () {
+                setState(() {
+                  _futureAnswer = apiAskForDeleteArea();
+                });
+              },
+              child: Text(updatingArea != null
+                  ? &#39;Delete ${updatingArea!.name}&#39;
+                  : &#39;Already deleted.&#39;),
+            ),
+            if (updatingArea != null)
+              ElevatedButton(
+                key: const Key(&#39;UpdateAreaValidateButton&#39;),
+                onPressed: () {
+                  setState(() {
+                    _futureAnswer = apiAskForUpdateArea();
+                  });
+                },
+                child: const Text(&#39;Send modification&#39;),
+              ),
+          ],
+        ),
         ElevatedButton(
           key: const Key(&#39;UpdateAreaHomeButton&#39;),
           onPressed: () {
@@ -237,13 +284,16 @@ Widget build(BuildContext context) {
 
         <li class="section-title"><a href="../../pages_update_area_update_area_state/UpdateAreaPageState-class.html#instance-methods">Methods</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/activate.html">activate</a></li>
+          <li><a href="../../pages_update_area_update_area_state/UpdateAreaPageState/apiAskForDeleteArea.html">apiAskForDeleteArea</a></li>
+          <li><a href="../../pages_update_area_update_area_state/UpdateAreaPageState/apiAskForUpdateArea.html">apiAskForUpdateArea</a></li>
           <li><a href="../../pages_update_area_update_area_state/UpdateAreaPageState/build.html">build</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
-          <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/initState.html">initState</a></li>
+          <li><a href="../../pages_update_area_update_area_state/UpdateAreaPageState/getAFirstApiAnswer.html">getAFirstApiAnswer</a></li>
+          <li><a href="../../pages_update_area_update_area_state/UpdateAreaPageState/initState.html">initState</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>

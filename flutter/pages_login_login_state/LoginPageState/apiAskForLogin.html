@@ -93,6 +93,7 @@
   if (response.statusCode == 201) {
     try {
       userInformation = UserData.fromJson(jsonDecode(response.body)[&#39;data&#39;]);
+      await updateAllFlutterObject();
       return &#39;Login succeed !&#39;;
     } catch (err) {
       return &#39;Invalid token... Please retry&#39;;

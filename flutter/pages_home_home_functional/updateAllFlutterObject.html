@@ -57,9 +57,8 @@
     <section class="multi-line-signature">
         
 
-<span class="returntype">void</span>
-<span class="name ">updateAllFlutterObject</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="updateAllFlutterObject-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span></li>
-</ol>)
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+<span class="name ">updateAllFlutterObject</span>(<wbr>)
 
         
 
@@ -73,7 +72,7 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">void updateAllFlutterObject(BuildContext context) async {
+  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; updateAllFlutterObject() async {
   try {
     var response = await http.get(
       Uri.parse(&#39;http:&#47;&#47;$serverIp:8080&#47;api&#47;get&#47;service&#39;),
@@ -140,6 +139,7 @@
       <li class="section-title"><a href="../pages_home_home_functional/pages_home_home_functional-library.html#properties">Properties</a></li>
         <li><a href="../pages_home_home_functional/areaDataList.html">areaDataList</a></li>
         <li><a href="../pages_home_home_functional/serviceDataList.html">serviceDataList</a></li>
+        <li><a href="../pages_home_home_functional/updatePage.html">updatePage</a></li>
 
       <li class="section-title"><a href="../pages_home_home_functional/pages_home_home_functional-library.html#functions">Functions</a></li>
         <li><a href="../pages_home_home_functional/goToHomePage.html">goToHomePage</a></li>

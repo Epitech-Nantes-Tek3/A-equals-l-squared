@@ -76,6 +76,9 @@ Don't forget to add a goTo**Page function in her _functional file.</p>
     GoRoute(
       path: &#39;&#47;&#39;,
       builder: (BuildContext context, GoRouterState state) {
+        if (updatePage != null) {
+          updatePage!();
+        }
         return const LoginPage();
       },
       routes: &lt;RouteBase&gt;[
