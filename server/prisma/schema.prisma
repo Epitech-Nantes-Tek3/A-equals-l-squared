@@ -42,6 +42,7 @@ model Service {
 model Action {
   id                       String                     @id @unique @default(cuid())
   name                     String
+  code                     String                     @unique
   description              String?
   isEnable                 Boolean                    @default(false)
   createdAt                DateTime                   @default(now())
@@ -54,6 +55,7 @@ model Action {
 model Reaction {
   id                       String                     @id @unique @default(cuid())
   name                     String
+  code                     String                     @unique
   description              String?
   isEnable                 Boolean                    @default(false)
   createdAt                DateTime                   @default(now())
@@ -68,6 +70,8 @@ model Parameter {
   name               String
   description        String?
   isRequired         Boolean             @default(false)
+  ProposalUrl        String?
+  ProposalBody       Boolean?
   Action             Action?             @relation(fields: [actionId], references: [id])
   actionId           String?
   Reaction           Reaction?           @relation(fields: [reactionId], references: [id])
@@ -96,6 +100,7 @@ model ReactionParameter {
 
 model UsersHasActionsReactions {
   id                 String              @id @unique @default(cuid())
+  name               String
   User               User                @relation(fields: [userId], references: [id])
   Action             Action              @relation(fields: [actionId], references: [id])
   Reaction           Reaction            @relation(fields: [reactionId], references: [id])
