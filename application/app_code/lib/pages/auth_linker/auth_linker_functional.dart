@@ -2,6 +2,9 @@ import 'package:application/network/informations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+/// Function pointer needed to update the Auth Page
+Function? updateAuthPage;
+
 /// Navigation function -> Go to AuthLinker page
 void goToAuthLinkerPage(BuildContext context) {
   if (userInformation == null) {
@@ -26,7 +29,9 @@ class AuthBox {
   Widget display() {
     return ElevatedButton(
         onPressed: () {
-          action();
+          if (updateAuthPage != null) {
+            updateAuthPage!(action);
+          }
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

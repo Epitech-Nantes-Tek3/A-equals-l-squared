@@ -5,11 +5,32 @@ import 'auth_linker_functional.dart';
 import 'auth_linker_page.dart';
 
 class AuthLinkerPageState extends State<AuthLinkerPage> {
+  late Future<String> _futureApiResponse;
+
   Widget displayAuthBox() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [googleAuthBox.display()],
     );
+  }
+
+  /// Initialization function for the api answer
+  Future<String> getAFirstApiAnswer() async {
+    return '';
+  }
+
+  /// Update state function
+  void update(Function asking) {
+    setState(() {
+      _futureApiResponse = asking();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _futureApiResponse = getAFirstApiAnswer();
+    updateAuthPage = update;
   }
 
   @override
@@ -21,6 +42,17 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
         children: <Widget>[
           const Text('Welcome to Auth Linker page'),
           displayAuthBox(),
+          FutureBuilder<String>(
+            future: _futureApiResponse,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data!);
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+              return const CircularProgressIndicator();
+            },
+          ),
           ElevatedButton(
             key: const Key('AuthLinkerHomeButton'),
             onPressed: () {
