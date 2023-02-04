@@ -794,43 +794,41 @@ app.post(
  * body.reactionParameters -> Reaction parameters (optionnal)
  */
 app.post('/api/dev/area/create', async (req, res) => {
-    try {
-      const ActionParameters = []
+  try {
+    const ActionParameters = []
 
-      req.body.actionParameters.forEach(param => {
-        ActionParameters.push({
-          Parameter: { connect: { id: param.paramId } },
-          value: param.value
-        })
+    req.body.actionParameters.forEach(param => {
+      ActionParameters.push({
+        Parameter: { connect: { id: param.paramId } },
+        value: param.value
       })
+    })
 
-      const ReactionParameters = []
+    const ReactionParameters = []
 
-      req.body.reactionParameters.forEach(param => {
-        ReactionParameters.push({
-          Parameter: { connect: { id: param.paramId } },
-          value: param.value
-        })
+    req.body.reactionParameters.forEach(param => {
+      ReactionParameters.push({
+        Parameter: { connect: { id: param.paramId } },
+        value: param.value
       })
+    })
 
-      const areaCreation =
-        await database.prisma.UsersHasActionsReactions.create({
-          data: {
-            User: { connect: { id: req.body.userId } },
-            Action: { connect: { id: req.body.actionId } },
-            ActionParameters: { create: ActionParameters },
-            Reaction: { connect: { id: req.body.reactionId } },
-            ReactionParameters: { create: ReactionParameters }
-          }
-        })
-      return res.json(areaCreation)
-    } catch (err) {
-      console.log(err)
-      return res.status(400).json('Please pass a complete body.')
-    }
+    const areaCreation = await database.prisma.UsersHasActionsReactions.create({
+      data: {
+        name: req.body.name,
+        User: { connect: { id: req.body.userId } },
+        Action: { connect: { id: req.body.actionId } },
+        ActionParameters: { create: ActionParameters },
+        Reaction: { connect: { id: req.body.reactionId } },
+        ReactionParameters: { create: ReactionParameters }
+      }
+    })
+    return res.json(areaCreation)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
   }
-)
-
+})
 
 /**
  * List all areas in the database.

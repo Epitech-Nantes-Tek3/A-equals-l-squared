@@ -53,7 +53,7 @@ const getActionFromCode = async code => {
 }
 
 /**
- * Called by actionss, it will call the appropriate reaction
+ * Called by actions, it will call the appropriate reactions
  * @param {String} actionCode
  * @param {JSON} actionParameters
  * @returns
