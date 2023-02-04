@@ -498,7 +498,7 @@ app.get(
 /**
  * Post function used for deleting an area
  * body.id -> id of the AREA to delete
- * Road protected by a JWT token
+ * Route protected by a JWT token
  */
 app.post(
   '/api/delete/area',
@@ -526,7 +526,7 @@ app.post(
  * body.actionParameters -> Action parameters (optional)
  * body.reactionId -> Reaction id (optionnal if actionId is set)
  * body.reactionParameters -> Reaction parameters (optionnal)
- * Road protected by a JWT token
+ * Route protected by a JWT token
  */
 app.post(
   '/api/update/area',
