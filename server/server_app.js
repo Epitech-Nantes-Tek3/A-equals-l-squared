@@ -338,7 +338,7 @@ app.post(
  */
 app.post('/api/login/google', async (req, res, next) => {
   try {
-    const user = await database.prisma.user.findUnique({
+    let user = await database.prisma.user.findUnique({
       where: { googleId: req.body.id }
     })
     if (user) {
@@ -356,21 +356,21 @@ app.post('/api/login/google', async (req, res, next) => {
       where: { email: req.body.email }
     })
     if (oldUser) {
-      const newUser = await database.prisma.user.update({
+      user = await database.prisma.user.update({
         where: { email: req.body.email },
         data: { googleId: req.body.id }
       })
-      const token = utils.generateToken(newUser.id)
+      const token = utils.generateToken(user.id)
       return res.status(201).json({
         status: 'success',
         data: {
-          newUser,
+          user,
           token
         },
         statusCode: res.statusCode
       })
     }
-    const newUser = await database.prisma.user.create({
+    user = await database.prisma.user.create({
       data: {
         username: req.body.displayName,
         email: req.body.email,
@@ -380,11 +380,11 @@ app.post('/api/login/google', async (req, res, next) => {
         mailVerification: true
       }
     })
-    const token = utils.generateToken(newUser.id)
+    const token = utils.generateToken(user.id)
     return res.status(201).json({
       status: 'success',
       data: {
-        newUser,
+        user,
         token
       },
       statusCode: res.statusCode
