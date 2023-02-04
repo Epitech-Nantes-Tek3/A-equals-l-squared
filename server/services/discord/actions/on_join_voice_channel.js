@@ -10,7 +10,6 @@ const { AreaGlue } = require('../../glue/glue.js')
  */
 client.on('voiceStateUpdate', (oldChannel, newChannel) => {
   try {
-    console.log('A new user just joined the Discord server: ' + user.tag)
     var oldUserChannel = oldChannel.channelID
     var newUserChannel = newChannel.channelID
     if (!newUserChannel) {
