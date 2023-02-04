@@ -13,10 +13,15 @@ class HomePageState extends State<HomePage> {
   /// local variable telling if we wanted to logout
   bool _logout = false;
 
+  /// Update state function
+  void update() {
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
-    updateAllFlutterObject(context);
+    updatePage = update;
   }
 
   /// Display all the area

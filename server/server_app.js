@@ -337,7 +337,7 @@ app.post(
  */
 app.post('/api/login/google', async (req, res, next) => {
   try {
-    const user = await database.prisma.user.findUnique({
+    let user = await database.prisma.user.findUnique({
       where: { googleId: req.body.id }
     })
     if (user) {
@@ -355,21 +355,21 @@ app.post('/api/login/google', async (req, res, next) => {
       where: { email: req.body.email }
     })
     if (oldUser) {
-      const newUser = await database.prisma.user.update({
+      user = await database.prisma.user.update({
         where: { email: req.body.email },
         data: { googleId: req.body.id }
       })
-      const token = utils.generateToken(newUser.id)
+      const token = utils.generateToken(user.id)
       return res.status(201).json({
         status: 'success',
         data: {
-          newUser,
+          user,
           token
         },
         statusCode: res.statusCode
       })
     }
-    const newUser = await database.prisma.user.create({
+    user = await database.prisma.user.create({
       data: {
         username: req.body.displayName,
         email: req.body.email,
@@ -379,11 +379,11 @@ app.post('/api/login/google', async (req, res, next) => {
         mailVerification: true
       }
     })
-    const token = utils.generateToken(newUser.id)
+    const token = utils.generateToken(user.id)
     return res.status(201).json({
       status: 'success',
       data: {
-        newUser,
+        user,
         token
       },
       statusCode: res.statusCode
@@ -490,6 +490,99 @@ app.get(
     } catch (err) {
       console.log(err)
       return res.status(400).send('AREA getter temporarily desactivated.')
+    }
+  }
+)
+
+/**
+ * Post function used for deleting an area
+ * body.id -> id of the AREA to delete
+ * Route protected by a JWT token
+ */
+app.post(
+  '/api/delete/area',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      await database.prisma.UsersHasActionsReactions.delete({
+        where: { id: req.body.id }
+      })
+      return res.status(200).send('AREA successfully deleted.')
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('You cannot delete this area.')
+    }
+  }
+)
+
+/**
+ * Post function used for updating an area
+ * body.id -> id of the AREA to update
+ * body.name -> Name of the area
+ * body.isEnable -> Status of the area
+ * body.actionId -> Action id (optionnal if reactionId is set)
+ * body.actionParameters -> Action parameters (optional)
+ * body.reactionId -> Reaction id (optionnal if actionId is set)
+ * body.reactionParameters -> Reaction parameters (optionnal)
+ * Route protected by a JWT token
+ */
+app.post(
+  '/api/update/area',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      const oldArea = await database.prisma.UsersHasActionsReactions.findUnique(
+        {
+          where: {
+            id: req.body.id
+          },
+          include: {
+            ActionParameters: true,
+            ReactionParameters: true
+          }
+        }
+      )
+      req.body.actionParameters.forEach(async param => {
+        oldArea.ActionParameters.forEach(async actionParam => {
+          if (actionParam.parameterId == param.paramId)
+            await database.prisma.ActionParameter.update({
+              where: {
+                id: actionParam.id
+              },
+              data: {
+                value: param.value
+              }
+            })
+        })
+      })
+      req.body.reactionParameters.forEach(async param => {
+        oldArea.ReactionParameters.forEach(async reactionParam => {
+          if (reactionParam.parameterId == param.paramId)
+            await database.prisma.ReactionParameter.update({
+              where: {
+                id: reactionParam.id
+              },
+              data: {
+                value: param.value
+              }
+            })
+        })
+      })
+      await database.prisma.UsersHasActionsReactions.update({
+        where: { id: req.body.id },
+        data: {
+          name: req.body.name,
+          isEnable: req.body.isEnable,
+          Action: { connect: { id: req.body.actionId } },
+          Reaction: { connect: { id: req.body.reactionId } }
+        }
+      })
+      return res.status(200).send('AREA successfully updated.')
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('You cannot update this area.')
     }
   }
 )
