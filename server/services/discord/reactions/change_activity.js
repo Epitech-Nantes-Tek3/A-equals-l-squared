@@ -31,4 +31,4 @@ function changeActivity (string) {
     })
 }
 
-module.exports = {discordchangeActivityFromArea, changeActivity }
+module.exports = { discordchangeActivityFromArea, changeActivity }
