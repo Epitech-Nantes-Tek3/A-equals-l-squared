@@ -116,15 +116,21 @@ class UpdateAreaPageState extends State<UpdateAreaPage> {
           ),
           if (updatingArea != null) updatingArea!.display(true),
           if (updatingArea != null)
-            Switch(
-              value: updatingArea!.isEnable,
-              activeColor: Colors.blue,
-              onChanged: (bool value) {
-                setState(() {
-                  updatingArea!.isEnable = value;
-                });
-              },
-            ),
+            Row(children: <Widget>[
+              if (updatingArea!.isEnable == true)
+                const Text('Deactivate this Area'),
+              if (updatingArea!.isEnable == false)
+                const Text('Activate this Area'),
+              Switch(
+                value: updatingArea!.isEnable,
+                activeColor: Colors.blue,
+                onChanged: (bool value) {
+                  setState(() {
+                    updatingArea!.isEnable = value;
+                  });
+                },
+              ),
+            ],),
           FutureBuilder<String>(
             future: _futureAnswer,
             builder: (context, snapshot) {
