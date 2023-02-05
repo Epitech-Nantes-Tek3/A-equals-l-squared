@@ -78,7 +78,7 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
                             goToSettingsPage(context);
                           });
                         },
-                        child: const Text('Go settings'),
+                        child: const Text('Go back settings'),
                       ),
                     ],
                   ),
