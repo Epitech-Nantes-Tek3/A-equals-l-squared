@@ -15,7 +15,6 @@ const jwt = require('jwt-simple')
 const { hash } = require('./utils')
 require('dotenv').config({ path: '../database.env' })
 
-const discord = require('./services/discord/init').client
 const onMessage = require('./services/discord/actions/on_message')
 const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
@@ -338,7 +337,7 @@ app.post(
  */
 app.post('/api/login/google', async (req, res, next) => {
   try {
-    const user = await database.prisma.user.findUnique({
+    let user = await database.prisma.user.findUnique({
       where: { googleId: req.body.id }
     })
     if (user) {
@@ -356,21 +355,21 @@ app.post('/api/login/google', async (req, res, next) => {
       where: { email: req.body.email }
     })
     if (oldUser) {
-      const newUser = await database.prisma.user.update({
+      user = await database.prisma.user.update({
         where: { email: req.body.email },
         data: { googleId: req.body.id }
       })
-      const token = utils.generateToken(newUser.id)
+      const token = utils.generateToken(user.id)
       return res.status(201).json({
         status: 'success',
         data: {
-          newUser,
+          user,
           token
         },
         statusCode: res.statusCode
       })
     }
-    const newUser = await database.prisma.user.create({
+    user = await database.prisma.user.create({
       data: {
         username: req.body.displayName,
         email: req.body.email,
@@ -380,11 +379,11 @@ app.post('/api/login/google', async (req, res, next) => {
         mailVerification: true
       }
     })
-    const token = utils.generateToken(newUser.id)
+    const token = utils.generateToken(user.id)
     return res.status(201).json({
       status: 'success',
       data: {
-        newUser,
+        user,
         token
       },
       statusCode: res.statusCode
@@ -495,43 +494,148 @@ app.get(
   }
 )
 
+/**
+ * Post function used for deleting an area
+ * body.id -> id of the AREA to delete
+ * Route protected by a JWT token
+ */
+app.post(
+  '/api/delete/area',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      await database.prisma.UsersHasActionsReactions.delete({
+        where: { id: req.body.id }
+      })
+      return res.status(200).send('AREA successfully deleted.')
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('You cannot delete this area.')
+    }
+  }
+)
+
+/**
+ * Post function used for updating an area
+ * body.id -> id of the AREA to update
+ * body.name -> Name of the area
+ * body.isEnable -> Status of the area
+ * body.actionId -> Action id (optionnal if reactionId is set)
+ * body.actionParameters -> Action parameters (optional)
+ * body.reactionId -> Reaction id (optionnal if actionId is set)
+ * body.reactionParameters -> Reaction parameters (optionnal)
+ * Route protected by a JWT token
+ */
+app.post(
+  '/api/update/area',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid token')
+    try {
+      const oldArea = await database.prisma.UsersHasActionsReactions.findUnique(
+        {
+          where: {
+            id: req.body.id
+          },
+          include: {
+            ActionParameters: true,
+            ReactionParameters: true
+          }
+        }
+      )
+      req.body.actionParameters.forEach(async param => {
+        oldArea.ActionParameters.forEach(async actionParam => {
+          if (actionParam.parameterId == param.paramId)
+            await database.prisma.ActionParameter.update({
+              where: {
+                id: actionParam.id
+              },
+              data: {
+                value: param.value
+              }
+            })
+        })
+      })
+      req.body.reactionParameters.forEach(async param => {
+        oldArea.ReactionParameters.forEach(async reactionParam => {
+          if (reactionParam.parameterId == param.paramId)
+            await database.prisma.ReactionParameter.update({
+              where: {
+                id: reactionParam.id
+              },
+              data: {
+                value: param.value
+              }
+            })
+        })
+      })
+      await database.prisma.UsersHasActionsReactions.update({
+        where: { id: req.body.id },
+        data: {
+          name: req.body.name,
+          isEnable: req.body.isEnable,
+          Action: { connect: { id: req.body.actionId } },
+          Reaction: { connect: { id: req.body.reactionId } }
+        }
+      })
+      return res.status(200).send('AREA successfully updated.')
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('You cannot update this area.')
+    }
+  }
+)
+
 /*
  * @brief List all available Voice Channels on a given Guild ID.
  * body.id -> Guild ID
  */
-app.post('/api/services/discord/getVoiceChannels', async (req, res) => {
-  const channels = await getVoiceChannels(req.body.id)
-  return res.status(201).json({
-    status: 'success',
-    data: channels,
-    statusCode: res.statusCode
-  })
-})
+app.post(
+  '/api/services/discord/getVoiceChannels',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const channels = getVoiceChannels(req.body.id)
+    return res.status(201).json({
+      status: 'success',
+      data: channels,
+      statusCode: res.statusCode
+    })
+  }
+)
 
 /**
  * @brief List all available Text Channels on a given GuildID.
  * body.id -> Guild ID
  */
-app.post('/api/services/discord/getTextChannels', async (req, res) => {
-  const channels = await getTextChannels(req.body.id)
-  return res.status(201).json({
-    status: 'success',
-    data: channels,
-    statusCode: res.statusCode
-  })
-})
+app.post(
+  '/api/services/discord/getTextChannels',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const channels = getTextChannels(req.body.id)
+    return res.status(201).json({
+      status: 'success',
+      data: channels,
+      statusCode: res.statusCode
+    })
+  }
+)
 
 /**
  * @brief List all available Guilds where the bot is.
  */
-app.get('/api/services/discord/getAvailableGuilds', async (req, res) => {
-  const guilds = await getAvailableGuilds()
-  return res.status(201).json({
-    status: 'success',
-    data: guilds,
-    statusCode: res.statusCode
-  })
-})
+app.get(
+  '/api/services/discord/getAvailableGuilds',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const guilds = getAvailableGuilds()
+    return res.status(201).json({
+      status: 'success',
+      data: guilds,
+      statusCode: res.statusCode
+    })
+  }
+)
 
 /**
  * Creating a new user in the database.
@@ -557,6 +661,19 @@ app.post('/api/dev/user/create', async (req, res) => {
 })
 
 /**
+ * List all users in the database.
+ */
+app.get('/api/dev/user/listall', async (req, res) => {
+  try {
+    const users = await database.prisma.User.findMany()
+    return res.json(users)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('An error occured.')
+  }
+})
+
+/**
  * Creating a new service in the database.
  * body.name -> Service name
  * body.description -> Service description (optionnal)
@@ -573,6 +690,19 @@ app.post('/api/dev/service/create', async (req, res) => {
   } catch (err) {
     console.log(err)
     return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+/**
+ * List all services in the database.
+ */
+app.get('/api/dev/service/listall', async (req, res) => {
+  try {
+    const services = await database.prisma.Service.findMany()
+    return res.json(services)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('An error occured.')
   }
 })
 
@@ -599,6 +729,19 @@ app.post('/api/dev/action/create', async (req, res) => {
 })
 
 /**
+ * List all actions in the database.
+ */
+app.get('/api/dev/action/listall', async (req, res) => {
+  try {
+    const actions = await database.prisma.Action.findMany()
+    return res.json(actions)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('An error occured.')
+  }
+})
+
+/**
  * Creating a new reaction.
  * body.name -> Reaction name
  * body.description -> Reaction description (optionnal)
@@ -617,6 +760,19 @@ app.post('/api/dev/reaction/create', async (req, res) => {
   } catch (err) {
     console.log(err)
     return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+/**
+ * List all reactions in the database.
+ */
+app.get('/api/dev/reaction/listall', async (req, res) => {
+  try {
+    const reactions = await database.prisma.Reaction.findMany()
+    return res.json(reactions)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('An error occured.')
   }
 })
 
@@ -655,6 +811,19 @@ app.post('/api/dev/parameter/create', async (req, res) => {
   } catch (err) {
     console.log(err)
     return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+/**
+ * List all parameters in the database.
+ */
+app.get('/api/dev/parameter/listall', async (req, res) => {
+  try {
+    const parameters = await database.prisma.Parameter.findMany()
+    return res.json(parameters)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('An error occured.')
   }
 })
 
@@ -709,6 +878,73 @@ app.post(
     }
   }
 )
+
+/**
+ * Creating a new area without protection.
+ * body.actionId -> Action id (optionnal if reactionId is set)
+ * body.actionParameters -> Action parameters (optionnal)
+ * body.reactionId -> Reaction id (optionnal if actionId is set)
+ * body.reactionParameters -> Reaction parameters (optionnal)
+ */
+app.post('/api/dev/area/create', async (req, res) => {
+  try {
+    const ActionParameters = []
+
+    req.body.actionParameters.forEach(param => {
+      ActionParameters.push({
+        Parameter: { connect: { id: param.paramId } },
+        value: param.value
+      })
+    })
+
+    const ReactionParameters = []
+
+    req.body.reactionParameters.forEach(param => {
+      ReactionParameters.push({
+        Parameter: { connect: { id: param.paramId } },
+        value: param.value
+      })
+    })
+
+    const areaCreation = await database.prisma.UsersHasActionsReactions.create({
+      data: {
+        name: req.body.name,
+        User: { connect: { id: req.body.userId } },
+        Action: { connect: { id: req.body.actionId } },
+        ActionParameters: { create: ActionParameters },
+        Reaction: { connect: { id: req.body.reactionId } },
+        ReactionParameters: { create: ReactionParameters }
+      }
+    })
+    return res.json(areaCreation)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('Please pass a complete body.')
+  }
+})
+
+/**
+ * List all areas in the database.
+ */
+app.get('/api/dev/area/listall', async (req, res) => {
+  try {
+    const areas = await database.prisma.UsersHasActionsReactions.findMany()
+    return res.json(areas)
+  } catch (err) {
+    console.log(err)
+    return res.status(400).json('An error occured.')
+  }
+})
+
+/**
+ * Initialize the database with all services, actions, reactions and parameters.
+ */
+app.get('/api/dev/service/createAll', async (req, res) => {
+  const response = []
+  response.push(await createDiscordService())
+  response.push(await createGmailService())
+  return res.json(response)
+})
 
 /**
  * Start the node.js server at PORT and HOST variable
