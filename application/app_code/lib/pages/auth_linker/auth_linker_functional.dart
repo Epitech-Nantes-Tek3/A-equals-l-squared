@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:application/network/informations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -124,9 +125,35 @@ Future<String> getDiscordToken() async {
     }
     discordAuthBox.isEnable = false;
   } else {
-    discordAuthBox.token = "BBBBB";
+    String clientId = "1071440720516354118";
 
-    /// CALL THE AUTH METHOD
+    final url = Uri.https('discord.com', '/api/oauth2/authorize', {
+      'response_type': 'code',
+      'client_id': clientId,
+      'redirect_uri': 'http://localhost:8081/auth.html',
+      'scope': 'identify',
+    });
+
+    final result = await FlutterWebAuth2.authenticate(
+        url: url.toString(), callbackUrlScheme: 'http');
+
+    final code = Uri.parse(result).queryParameters['code'];
+
+    final response = await http
+        .post(Uri.parse('https://discord.com/api/oauth2/token'), body: {
+      'client_id': clientId,
+      'redirect_uri': 'http://localhost:8081/auth.html',
+      'grant_type': 'authorization_code',
+      'code': code,
+      'client_secret': "Qew25p5oA3pDMnOxpX0G2-ZNyTO2mz_n"
+    }, headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    final accessToken = jsonDecode(response.body)['access_token'] as String;
+
+    discordAuthBox.token = accessToken;
+
     String? error = await publishNewToken();
     if (error != null) {
       discordAuthBox.token = null;
