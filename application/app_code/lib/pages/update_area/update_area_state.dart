@@ -100,7 +100,7 @@ class UpdateAreaPageState extends State<UpdateAreaPage> {
             child: Container(
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Row(
             children: <Widget>[
@@ -111,26 +111,32 @@ class UpdateAreaPageState extends State<UpdateAreaPage> {
                     });
                   },
                   icon: const Icon(Icons.home_filled)),
-              const Text('Area settings', style: TextStyle(fontSize: 25),),
+              const Text(
+                'Area settings',
+                style: TextStyle(fontSize: 25),
+              ),
             ],
           ),
           if (updatingArea != null) updatingArea!.display(true),
           if (updatingArea != null)
-            Row(children: <Widget>[
-              if (updatingArea!.isEnable == true)
-                const Text('Deactivate this Area'),
-              if (updatingArea!.isEnable == false)
-                const Text('Activate this Area'),
-              Switch(
-                value: updatingArea!.isEnable,
-                activeColor: Colors.blue,
-                onChanged: (bool value) {
-                  setState(() {
-                    updatingArea!.isEnable = value;
-                  });
-                },
-              ),
-            ],),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                if (updatingArea!.isEnable == true)
+                  const Text('This Area is activated'),
+                if (updatingArea!.isEnable == false)
+                  const Text('This Area is disabled'),
+                Switch(
+                  value: updatingArea!.isEnable,
+                  activeColor: Colors.blue,
+                  onChanged: (bool value) {
+                    setState(() {
+                      updatingArea!.isEnable = value;
+                    });
+                  },
+                ),
+              ],
+            ),
           FutureBuilder<String>(
             future: _futureAnswer,
             builder: (context, snapshot) {
