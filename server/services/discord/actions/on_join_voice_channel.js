@@ -10,19 +10,20 @@ const { AreaGlue } = require('../../glue/glue.js')
  */
 client.on('voiceStateUpdate', (oldChannel, newChannel) => {
   try {
-    var oldUserChannel = oldChannel.channelID
-    var newUserChannel = newChannel.channelID
-    if (!newUserChannel) {
-      //  Leaving a voice channel
-      console.log('User left the channel')
-      return
-    }
+    console.log('Voice channel updated : ', newChannel)
 
-    if (newUserChannel === 'ID of the channel wanted')
-      //  If it's the channel that you want
-      console.log('Joined the channel wanted')
-    else console.log('Joined another channel than the one wanted') //  If it's another channel that the one wanted
-    AreaGlue('DSC-02', ['null'])
+    const parametersList = [
+      { name: 'channelId',
+        value: newChannel.channelID,
+        valid: false },
+      {
+        name: 'guildId',
+        value: newChannel.guild.id,
+        valid: false
+      }
+    ]
+
+    AreaGlue('DSC-02', parametersList)
   } catch (error) {
     console.error(error)
   }
