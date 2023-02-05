@@ -146,9 +146,6 @@ class AreaData {
             /// Put Description when it's in DB
           ],
         ));
-
-        ///        listDisplay.add(Text(action.name));
-        ///        listDisplay.add(Text(reaction.name));
       } catch (err) {
         listDisplay.add(const Text("Please logout and login."));
       }
