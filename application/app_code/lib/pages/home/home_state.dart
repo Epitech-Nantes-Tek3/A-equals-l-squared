@@ -28,8 +28,10 @@ class HomePageState extends State<HomePage> {
       areaVis.add(ElevatedButton(
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-            side: const BorderSide(width: 3, color: Colors.white), /// Change when DB is Up
-              backgroundColor: const Color.fromRGBO(255, 255, 255, 0),
+            side: const BorderSide(width: 3, color: Colors.white),
+
+            /// Change when DB is Up
+            backgroundColor: const Color.fromRGBO(255, 255, 255, 0),
           ),
           onPressed: () {
             updatingArea = temp;
@@ -51,68 +53,69 @@ class HomePageState extends State<HomePage> {
           resizeToAvoidBottomInset: true,
           body: SingleChildScrollView(
               child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Row(
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                IconButton(
-                    iconSize: 30,
-                    onPressed: () {
-                      setState(() {
-                        goToSettingsPage(context);
-                      });
-                    },
-                    icon: const Icon(Icons.settings)),
-                IconButton(
-                  iconSize: 30,
-                    onPressed: () {
-                      setState(() {
-                        goToCreateAreaPage(context);
-                      });
-                    },
-                    icon: const Icon(Icons.add))
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    IconButton(
+                        iconSize: 30,
+                        onPressed: () {
+                          setState(() {
+                            goToSettingsPage(context);
+                          });
+                        },
+                        icon: const Icon(Icons.settings)),
+                    IconButton(
+                        iconSize: 30,
+                        onPressed: () {
+                          setState(() {
+                            goToCreateAreaPage(context);
+                          });
+                        },
+                        icon: const Icon(Icons.add))
+                  ],
+                ),
+                const SizedBox(height: 30),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const Text('All Areas',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 28,
+                              fontFamily: 'Roboto-Bold')),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Search an Area',
+                          )),
+                    ]),
+                const SizedBox(
+                  height: 30,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: areasDisplay(),
+                ),
+                ElevatedButton(
+                  key: const Key('HomeServiceButton'),
+                  onPressed: () {
+                    setState(() {
+                      goToServiceListPage(context);
+                    });
+                  },
+                  child: const Text('Service List'),
+                ),
+
+                ///ElevatedButton(key: const Key('HomeLogoutButton'),onPressed: () {  setState(() { _logout = true;});  },  child: const Text('Logout'),),
               ],
             ),
-            const SizedBox(height: 30),
-            Column(crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-              const Text('All Areas',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28,
-                      fontFamily: 'Roboto-Bold')),
-              const SizedBox(height: 10),
-              TextFormField(
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Search an Area',
-                  )),
-            ]),
-            const SizedBox(
-              height: 30,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: areasDisplay(),
-            ),
-             ElevatedButton(
-              key: const Key('HomeServiceButton'),
-              onPressed: () {
-                setState(() {
-                  goToServiceListPage(context);
-                });
-              },
-              child: const Text('Service List'),
-            ),
-
-            ///ElevatedButton(key: const Key('HomeLogoutButton'),onPressed: () {  setState(() { _logout = true;});  },  child: const Text('Logout'),),
-          ],
-        ),
-      )));
+          )));
     }
   }
 }
