@@ -66,7 +66,6 @@ const checkActionParameters = (Area, parametersList) => {
     if (index >= 0) {
       if (actionParameter.value == parametersList[index].value) {
         parametersList[index].valid = true
-        console.log(`${parametersList[index].name} MATCH`)
       } else {
         parametersList[index].valid = false
       }

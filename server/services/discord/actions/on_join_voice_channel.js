@@ -10,8 +10,6 @@ const { AreaGlue } = require('../../glue/glue.js')
  */
 client.on('voiceStateUpdate', (oldChannel, newChannel) => {
   try {
-    console.log('Voice channel updated : ', newChannel)
-
     const parametersList = [
       { name: 'channelId',
         value: newChannel.channelID,
