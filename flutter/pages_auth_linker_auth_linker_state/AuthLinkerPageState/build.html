@@ -180,35 +180,41 @@ prints green, as expected.</p>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
   return Scaffold(
-      body: Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: &lt;Widget&gt;[
-        const Text(&#39;Welcome to Auth Linker page&#39;),
-        displayAuthBox(),
-        FutureBuilder&lt;String&gt;(
-          future: _futureApiResponse,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data!);
-            } else if (snapshot.hasError) {
-              return Text(&#39;${snapshot.error}&#39;);
-            }
-            return const CircularProgressIndicator();
-          },
-        ),
-        ElevatedButton(
-          key: const Key(&#39;AuthLinkerHomeButton&#39;),
-          onPressed: () {
-            setState(() {
-              goToHomePage(context);
-            });
-          },
-          child: const Text(&#39;Go Home&#39;),
-        ),
-      ],
-    ),
-  ));
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+          child: Container(
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: &lt;Widget&gt;[
+                    const Text(&#39;Welcome to Auth Linker page&#39;),
+                    displayAuthBox(),
+                    FutureBuilder&lt;String&gt;(
+                      future: _futureApiResponse,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(snapshot.data!);
+                        } else if (snapshot.hasError) {
+                          return Text(&#39;${snapshot.error}&#39;);
+                        }
+                        return const CircularProgressIndicator();
+                      },
+                    ),
+                    ElevatedButton(
+                      key: const Key(&#39;AuthLinkerHomeButton&#39;),
+                      onPressed: () {
+                        setState(() {
+                          goToSettingsPage(context);
+                        });
+                      },
+                      child: const Text(&#39;Go back settings&#39;),
+                    ),
+                  ],
+                ),
+              ))));
 }</code></pre>
 </section>
 

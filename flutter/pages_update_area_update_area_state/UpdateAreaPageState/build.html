@@ -180,21 +180,46 @@ prints green, as expected.</p>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
   return Scaffold(
-      body: Center(
+      body: SingleChildScrollView(
+          child: Container(
+    margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
     child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: &lt;Widget&gt;[
-        const Text(&#39;Welcome to Update Area page&#39;),
+        Row(
+          children: &lt;Widget&gt;[
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    goToHomePage(context);
+                  });
+                },
+                icon: const Icon(Icons.home_filled)),
+            const Text(
+              &#39;Area settings&#39;,
+              style: TextStyle(fontSize: 25),
+            ),
+          ],
+        ),
         if (updatingArea != null) updatingArea!.display(true),
         if (updatingArea != null)
-          Switch(
-            value: updatingArea!.isEnable,
-            activeColor: Colors.blue,
-            onChanged: (bool value) {
-              setState(() {
-                updatingArea!.isEnable = value;
-              });
-            },
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: &lt;Widget&gt;[
+              if (updatingArea!.isEnable == true)
+                const Text(&#39;This Area is activated&#39;),
+              if (updatingArea!.isEnable == false)
+                const Text(&#39;This Area is disabled&#39;),
+              Switch(
+                value: updatingArea!.isEnable,
+                activeColor: Colors.blue,
+                onChanged: (bool value) {
+                  setState(() {
+                    updatingArea!.isEnable = value;
+                  });
+                },
+              ),
+            ],
           ),
         FutureBuilder&lt;String&gt;(
           future: _futureAnswer,
@@ -233,18 +258,9 @@ Widget build(BuildContext context) {
               ),
           ],
         ),
-        ElevatedButton(
-          key: const Key(&#39;UpdateAreaHomeButton&#39;),
-          onPressed: () {
-            setState(() {
-              goToHomePage(context);
-            });
-          },
-          child: const Text(&#39;Go Home&#39;),
-        ),
       ],
     ),
-  ));
+  )));
 }</code></pre>
 </section>
 

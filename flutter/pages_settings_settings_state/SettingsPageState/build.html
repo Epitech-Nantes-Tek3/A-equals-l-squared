@@ -180,53 +180,48 @@ prints green, as expected.</p>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
   return Scaffold(
-      body: Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: &lt;Widget&gt;[
-        const Text(&#39;Welcome to Settings page&#39;),
-        userDataVisualization(),
-        ElevatedButton(
-          key: const Key(&#39;AskUpdateButton&#39;),
-          onPressed: () {
-            setState(() {
-              _futureAnswer = apiAskForUpdate();
-            });
-          },
-          child: const Text(&#39;Update account information&#39;),
-        ),
-        ElevatedButton(
-          key: const Key(&#39;AskDeleteButton&#39;),
-          onPressed: () {
-            setState(() {
-              _futureAnswer = apiAskForDelete();
-            });
-          },
-          child: const Text(&#39;Delete account&#39;),
-        ),
-        FutureBuilder&lt;String&gt;(
-          future: _futureAnswer,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data!);
-            } else if (snapshot.hasError) {
-              return Text(&#39;${snapshot.error}&#39;);
-            }
-            return const CircularProgressIndicator();
-          },
-        ),
-        ElevatedButton(
-          key: const Key(&#39;SettingsHomeButton&#39;),
-          onPressed: () {
-            setState(() {
-              goToHomePage(context);
-            });
-          },
-          child: const Text(&#39;Go Home&#39;),
-        ),
-      ],
-    ),
-  ));
+      body: SingleChildScrollView(
+          child: Container(
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: &lt;Widget&gt;[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: &lt;Widget&gt;[
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                if (_settingPage == 0) {
+                                  goToHomePage(context);
+                                } else {
+                                  _settingPage = 0;
+                                }
+                              });
+                            },
+                            icon: const Icon(Icons.arrow_back_ios_sharp),
+                            color: Colors.black),
+                        displaySettingsHeader(),
+                      ],
+                    ),
+                    displaySettingsViews(),
+                    FutureBuilder&lt;String&gt;(
+                      future: _futureAnswer,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(snapshot.data!);
+                        } else if (snapshot.hasError) {
+                          return Text(&#39;${snapshot.error}&#39;);
+                        }
+                        return const CircularProgressIndicator();
+                      },
+                    ),
+                  ],
+                ),
+              ))));
 }</code></pre>
 </section>
 
@@ -273,10 +268,16 @@ Widget build(BuildContext context) {
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/displayAllParameterButtons.html">displayAllParameterButtons</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/displaySettingsHeader.html">displaySettingsHeader</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/displaySettingsViews.html">displaySettingsViews</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
           <li><a href="../../pages_settings_settings_state/SettingsPageState/getAFirstApiAnswer.html">getAFirstApiAnswer</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/goToAuthPage.html">goToAuthPage</a></li>
           <li><a href="../../pages_settings_settings_state/SettingsPageState/initState.html">initState</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/modifierButtons.html">modifierButtons</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/parameterButtonView.html">parameterButtonView</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toDiagnosticsNode.html">toDiagnosticsNode</a></li>

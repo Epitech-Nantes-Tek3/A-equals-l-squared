@@ -77,12 +77,22 @@
 
   for (var temp in serviceDataList) {
     serviceVis.add(ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          side: const BorderSide(width: 3, color: Colors.white),
+
+          &#47;&#47;&#47; Change when DB is Up
+          primary: Colors.white,
+        ),
         onPressed: () {
           createdAreaContent = &lt;ServiceData&gt;[];
           createdAreaContent.add(temp);
           goToCreateAreaPage(context);
         },
         child: temp.display()));
+    serviceVis.add(const SizedBox(
+      height: 10,
+    ));
   }
   return Column(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

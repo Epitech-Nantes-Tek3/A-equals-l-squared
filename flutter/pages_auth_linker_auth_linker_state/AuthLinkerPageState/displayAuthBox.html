@@ -75,7 +75,16 @@
   <pre class="language-dart"><code class="language-dart">Widget displayAuthBox() {
   return Column(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [googleAuthBox.display(), discordAuthBox.display()],
+    children: [
+      const SizedBox(
+        height: 30,
+      ),
+      googleAuthBox.display(),
+      const SizedBox(
+        height: 30,
+      ),
+      discordAuthBox.display()
+    ],
   );
 }</code></pre>
 </section>

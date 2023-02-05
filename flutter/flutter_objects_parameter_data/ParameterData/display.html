@@ -82,24 +82,29 @@ params -&gt; list of all the associated parameter content</p>
     }
   }
   matchedContent ??= ParameterContent(paramId: id, value: &quot;&quot;);
-  return TextFormField(
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(20),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5.0),
+  return Column(children: &lt;Widget&gt;[
+    const SizedBox(
+      height: 10,
+    ),
+    TextFormField(
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(20),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          labelText: name,
         ),
-        labelText: name,
-      ),
-      initialValue: matchedContent != null ? matchedContent!.value : &quot;&quot;,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: (String? value) {
-        if (value == null &amp;&amp; isRequired) {
-          return &#39;Required parameter.&#39;;
-        }
-        value ??= &quot;&quot;;
-        if (matchedContent != null) matchedContent!.value = value;
-        return null;
-      });
+        initialValue: matchedContent != null ? matchedContent!.value : &quot;&quot;,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: (String? value) {
+          if (value == null &amp;&amp; isRequired) {
+            return &#39;Required parameter.&#39;;
+          }
+          value ??= &quot;&quot;;
+          if (matchedContent != null) matchedContent!.value = value;
+          return null;
+        })
+  ]);
 }</code></pre>
 </section>
 

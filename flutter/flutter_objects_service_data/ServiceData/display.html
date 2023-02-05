@@ -74,13 +74,36 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Widget display() {
   return Column(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      Text(
-        name,
-        style: TextStyle(color: isEnabled ? Colors.green : Colors.red),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: &lt;Widget&gt;[
+          const Icon(
+            Icons.square,
+            color: Colors.black,
+          ),
+          const SizedBox(
+            width: 30,
+          ),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: &lt;Widget&gt;[
+                Text(
+                  name,
+                  style:
+                      TextStyle(color: isEnabled ? Colors.green : Colors.red),
+                ),
+                &#47;&#47; Change when icon are in DB
+                Text(
+                  description,
+                  style: const TextStyle(color: Colors.black),
+                ),
+              ]),
+        ],
       ),
-      Text(description),
     ],
   );
 }</code></pre>
@@ -127,6 +150,9 @@
 
         <li class="section-title"><a href="../../flutter_objects_service_data/ServiceData-class.html#instance-methods">Methods</a></li>
           <li><a href="../../flutter_objects_service_data/ServiceData/display.html">display</a></li>
+          <li><a href="../../flutter_objects_service_data/ServiceData/displayServiceDescription.html">displayServiceDescription</a></li>
+          <li><a href="../../flutter_objects_service_data/ServiceData/displayServiceName.html">displayServiceName</a></li>
+          <li><a href="../../flutter_objects_service_data/ServiceData/displayServiceWithInfo.html">displayServiceWithInfo</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 

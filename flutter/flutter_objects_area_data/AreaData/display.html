@@ -96,19 +96,79 @@ mode -&gt; true = complete representation, false = only area preview</p>
   }
   List&lt;Widget&gt; listDisplay = &lt;Widget&gt;[];
   if (mode) {
-    listDisplay.add(Text(
-      name,
-      style: TextStyle(color: isEnable ? Colors.green : Colors.red),
+    listDisplay.add(Column(
+      children: &lt;Widget&gt;[
+        Row(children: &lt;Widget&gt;[
+          Text(
+            (isEnable
+                ? &#39;Area : $name is activated&#39;
+                : &#39;Area : $name is disabled&#39;),
+            style: TextStyle(
+                color: isEnable ? Colors.green : Colors.red, fontSize: 20),
+          ),
+        ]),
+        const SizedBox(
+          height: 10,
+        ),
+        materialShadowForArea(Column(children: &lt;Widget&gt;[
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Column(
+              children: [
+                const Text(&quot;Action&quot;),
+                action.display(true, actionParameters),
+              ],
+            ),
+          )
+        ])),
+        const SizedBox(
+          height: 20,
+        ),
+        materialShadowForArea(Column(children: &lt;Widget&gt;[
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Column(
+              children: [
+                const Text(&quot;Reaction&quot;),
+                reaction.display(true, reactionParameters)
+              ],
+            ),
+          )
+        ])),
+      ],
     ));
-    listDisplay.add(const Text(&quot;Action&quot;));
-    listDisplay.add(action.display(true, actionParameters));
-    listDisplay.add(const Text(&quot;Reaction&quot;));
-    listDisplay.add(reaction.display(true, reactionParameters));
   } else {
     try {
-      listDisplay.add(Text(name));
-      listDisplay.add(Text(action.name));
-      listDisplay.add(Text(reaction.name));
+      listDisplay.add(Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: &lt;Widget&gt;[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: &lt;Widget&gt;[
+              Text(
+                name,
+                style: const TextStyle(color: Colors.black),
+              ),
+              const Icon(
+                Icons.ac_unit,
+                color: Colors.black,
+              )
+
+              &#47;&#47;&#47; change color
+            ],
+          ),
+          const SizedBox(height: 20),
+          Text(
+            &#39;Description : \n\n $description&#39;,
+            style: const TextStyle(color: Colors.black),
+          )
+
+          &#47;&#47;&#47; Put Description when it&#39;s in DB
+        ],
+      ));
+
+      &#47;&#47;&#47;        listDisplay.add(Text(action.name));
+      &#47;&#47;&#47;        listDisplay.add(Text(reaction.name));
     } catch (err) {
       listDisplay.add(const Text(&quot;Please logout and login.&quot;));
     }
@@ -151,6 +211,7 @@ mode -&gt; true = complete representation, false = only area preview</p>
         </li>
           <li><a href="../../flutter_objects_area_data/AreaData/actionId.html">actionId</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/actionParameters.html">actionParameters</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/description.html">description</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/id.html">id</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/isEnable.html">isEnable</a></li>
@@ -161,7 +222,11 @@ mode -&gt; true = complete representation, false = only area preview</p>
           <li><a href="../../flutter_objects_area_data/AreaData/userId.html">userId</a></li>
 
         <li class="section-title"><a href="../../flutter_objects_area_data/AreaData-class.html#instance-methods">Methods</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/changeIfIsEnable.html">changeIfIsEnable</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/display.html">display</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/displayAreaDescription.html">displayAreaDescription</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/displayAreaName.html">displayAreaName</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/displayForCreate.html">displayForCreate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 

@@ -120,7 +120,15 @@
           reactionParameters:
               createdAreaContent[1].reactions[0].getAllParameterContent());
     }
-    createVis.add(createdArea!.display(true));
+    createVis.add(const SizedBox(
+      height: 10,
+    ));
+    createVis.add(createdArea!.displayForCreate(true));
+    createVis.add(
+      const SizedBox(
+        height: 10,
+      ),
+    );
     createVis.add(ElevatedButton(
         onPressed: () {
           setState(() {
@@ -145,9 +153,19 @@
 
   if (_state == 5) {
     createVis.add(const Text(&quot;Configure your Reaction&quot;));
+    createVis.add(
+      const SizedBox(
+        height: 10,
+      ),
+    );
     createVis.add(createdAreaContent[1]
         .reactions[0]
         .display(true, reactionParameterContent));
+    createVis.add(
+      const SizedBox(
+        height: 10,
+      ),
+    );
     createVis.add(ElevatedButton(
         onPressed: () {
           setState(() {
@@ -169,7 +187,18 @@
   if (_state == 4) {
     createVis.add(const Text(&quot;Choose your Reaction&quot;));
     for (var temp in createdAreaContent[1].reactions) {
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
       createVis.add(ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            side: const BorderSide(width: 3, color: Colors.white),
+            &#47;&#47; Change when DB is Up
+            primary: Colors.white,
+          ),
           onPressed: () {
             setState(() {
               _createdAreaContentSave = List.from(createdAreaContent);
@@ -188,13 +217,29 @@
             });
           },
           child: temp.display(false, [])));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
     }
   }
 
   if (_state == 3) {
     createVis.add(const Text(&quot;Choose your Reaction service&quot;));
     for (var temp in serviceDataList) {
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
       createVis.add(ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            side: const BorderSide(width: 3, color: Colors.white),
+            &#47;&#47; Change when DB is Up
+            primary: Colors.white,
+          ),
           onPressed: () {
             setState(() {
               _createdAreaContentSave = List.from(createdAreaContent);
@@ -203,14 +248,29 @@
             });
           },
           child: temp.display()));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
     }
   }
 
   if (_state == 2) {
     createVis.add(const Text(&quot;Configure your Action&quot;));
+    createVis.add(
+      const SizedBox(
+        height: 10,
+      ),
+    );
     createVis.add(createdAreaContent[0]
         .actions[0]
         .display(true, actionParameterContent));
+    createVis.add(
+      const SizedBox(
+        height: 10,
+      ),
+    );
     createVis.add(ElevatedButton(
         onPressed: () {
           setState(() {
@@ -230,9 +290,23 @@
   }
 
   if (_state == 1) {
-    createVis.add(const Text(&quot;Choose your Action&quot;));
+    createVis.add(Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const &lt;Widget&gt;[Text(&quot;Choose your Action&quot;)]));
+    createVis.add(
+      const SizedBox(
+        height: 30,
+      ),
+    );
     for (var temp in createdAreaContent[0].actions) {
       createVis.add(ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            side: const BorderSide(width: 3, color: Colors.white),
+
+            &#47;&#47;&#47; Change when DB is Up
+            primary: Colors.white,
+          ),
           onPressed: () {
             setState(() {
               _createdAreaContentSave = List.from(createdAreaContent);
@@ -251,13 +325,24 @@
             });
           },
           child: temp.display(false, [])));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
     }
   }
 
   if (_state == 0) {
-    createVis.add(const Text(&quot;Choose your Action service&quot;));
     for (var temp in serviceDataList) {
       createVis.add(ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            side: const BorderSide(width: 3, color: Colors.white),
+
+            &#47;&#47;&#47; Change when DB is Up
+            primary: Colors.white,
+          ),
           onPressed: () {
             setState(() {
               createdAreaContent = &lt;ServiceData&gt;[];
@@ -266,6 +351,11 @@
             });
           },
           child: temp.display()));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
     }
   }
 

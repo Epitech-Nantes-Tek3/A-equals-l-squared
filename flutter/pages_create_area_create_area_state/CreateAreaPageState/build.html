@@ -180,13 +180,51 @@ prints green, as expected.</p>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
   return Scaffold(
-      body: Center(
+      body: SingleChildScrollView(
+          child: Container(
+    margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
     child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: &lt;Widget&gt;[
-        const Text(&#39;Welcome to Create Area page&#39;),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: &lt;Widget&gt;[
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    goToHomePage(context);
+                  });
+                },
+                icon: const Icon(Icons.home_filled)),
+            const Text(
+              &#39;Create a new Area&#39;,
+              style: TextStyle(fontFamily: &#39;Roboto-Bold&#39;, fontSize: 25),
+            )
+          ],
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+        if (_state == 0)
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: &lt;Widget&gt;[
+                const Text(&#39;Choose an service for the action&#39;),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: &#39;Search a Service...&#39;,
+                    )),
+              ]),
+        const SizedBox(
+          height: 30,
+        ),
         Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: creationDisplay(),
         ),
         Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -206,22 +244,10 @@ Widget build(BuildContext context) {
               },
               child: const Text(&#39;Previous&#39;),
             ),
-          ElevatedButton(
-            key: const Key(&#39;CreateAreaHomeButton&#39;),
-            onPressed: () {
-              setState(() {
-                _state = 0;
-                _createdAreaContentSave = &lt;ServiceData&gt;[];
-                createdAreaContent = &lt;ServiceData&gt;[];
-                goToHomePage(context);
-              });
-            },
-            child: const Text(&#39;Go Home&#39;),
-          ),
         ])
       ],
     ),
-  ));
+  )));
 }</code></pre>
 </section>
 

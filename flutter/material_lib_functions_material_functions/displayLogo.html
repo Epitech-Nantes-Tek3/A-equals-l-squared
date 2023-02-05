@@ -74,7 +74,9 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Widget displayLogo(double size) {
-  return Icon(Icons.apple, size: size);
+  return Column(
+    children: &lt;Widget&gt;[Image.asset(&#39;assets&#47;icons&#47;Area_Logo.png&#39;)],
+  );
 }</code></pre>
 </section>
 

@@ -180,24 +180,37 @@ prints green, as expected.</p>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
   return Scaffold(
-      body: Center(
+      body: SingleChildScrollView(
+          child: Container(
+    margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
     child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: &lt;Widget&gt;[
-        const Text(&#39;Welcome to Service List page&#39;),
-        displayAllService(),
-        ElevatedButton(
-          key: const Key(&#39;ServiceListHomeButton&#39;),
-          onPressed: () {
-            setState(() {
-              goToHomePage(context);
-            });
-          },
-          child: const Text(&#39;Go Home&#39;),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: &lt;Widget&gt;[
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    goToHomePage(context);
+                  });
+                },
+                icon: const Icon(Icons.home_filled)),
+            const Text(
+              &#39;Service List page&#39;,
+              style: TextStyle(fontFamily: &#39;Roboto-Bold&#39;, fontSize: 25),
+            )
+          ],
         ),
+        const Text(
+            &#39;All our implemented Services, if you want to create something with one of these, click on it !&#39;),
+        const SizedBox(
+          height: 20,
+        ),
+        displayAllService(),
       ],
     ),
-  ));
+  )));
 }</code></pre>
 </section>
 
