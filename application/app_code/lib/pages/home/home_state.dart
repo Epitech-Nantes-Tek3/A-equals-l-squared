@@ -6,6 +6,7 @@ import 'package:application/pages/settings/settings_functional.dart';
 import 'package:application/pages/update_area/update_area_functional.dart';
 import 'package:flutter/material.dart';
 
+import '../auth_linker/auth_linker_functional.dart';
 import '../login/login_page.dart';
 import 'home_page.dart';
 
@@ -80,6 +81,15 @@ class HomePageState extends State<HomePage> {
                 });
               },
               child: const Text('Service List'),
+            ),
+            ElevatedButton(
+              key: const Key('HomeAuthListerButton'),
+              onPressed: () {
+                setState(() {
+                  goToAuthLinkerPage(context);
+                });
+              },
+              child: const Text('Auth Linker'),
             ),
             ElevatedButton(
               key: const Key('HomeLogoutButton'),
