@@ -49,13 +49,36 @@ class ServiceData {
   /// Get a visual representation of a service
   Widget display() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          name,
-          style: TextStyle(color: isEnabled ? Colors.green : Colors.red),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const Icon(
+              Icons.square,
+              color: Colors.black,
+            ),
+            const SizedBox(
+              width: 30,
+            ),
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    name,
+                    style:
+                        TextStyle(color: isEnabled ? Colors.green : Colors.red),
+                  ),
+                  // Change when icon are in DB
+                  Text(
+                    description,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ]),
+          ],
         ),
-        Text(description),
       ],
     );
   }

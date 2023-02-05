@@ -219,9 +219,17 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     }
 
     if (_state == 0) {
-      createVis.add(const Text("Choose your Action service"));
       for (var temp in serviceDataList) {
         createVis.add(ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              side: const BorderSide(width: 3, color: Colors.blue),
+
+              /// Change when DB is Up
+              primary: Colors.white,
+
+              /// Not deprecated
+            ),
             onPressed: () {
               setState(() {
                 createdAreaContent = <ServiceData>[];
@@ -230,6 +238,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               });
             },
             child: temp.display()));
+        createVis.add(const SizedBox(
+          height: 10,
+        ),);
       }
     }
 
@@ -250,26 +261,54 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
+        body: SingleChildScrollView(
+            child: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          const Text('Welcome to Create Area page'),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: creationDisplay(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      goToHomePage(context);
+                    });
+                  },
+                  icon: const Icon(Icons.home_filled)),
+              const Text(
+                'Create a new Area',
+                style: TextStyle(fontFamily: 'Roboto-Bold', fontSize: 25),
+              )
+            ],
           ),
-          ElevatedButton(
-            key: const Key('CreateAreaHomeButton'),
-            onPressed: () {
-              setState(() {
-                goToHomePage(context);
-              });
-            },
-            child: const Text('Go Home'),
+          const SizedBox(
+            height: 30,
+          ),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Text('Choose an application for the action'),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Search a Service...',
+                    )),
+              ]),
+          const SizedBox(
+            height: 30,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: creationDisplay(),
           ),
         ],
       ),
-    ));
+    )));
   }
 }
