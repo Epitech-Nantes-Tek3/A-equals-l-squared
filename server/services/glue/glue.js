@@ -1,6 +1,7 @@
 'use strict'
 
 const database = require('../../database_init')
+const { sendEmailFromArea } = require('../gmail/reactions/send_email.js')
 
 /**
  * Get an action from its code
@@ -86,14 +87,13 @@ const AreaGlue = async (actionCode, actionParameters) => {
     return
   }
 
-  const reactions = {
-    'GML-01': () => console.log('Send email'),
-    'DSC-01': () => console.log('Send Discord message on channel'),
-    'DSC-02': () => console.log('Send Discord message on user'),
-    'DSC-03': () => console.log('Change Discord activity')
-  }
-
   action.UsersHasActionsReactions.forEach(area => {
+    const reactions = {
+      'GML-01': () => sendEmailFromArea(area),
+      'DSC-01': () => console.log('Send Discord message on channel'),
+      'DSC-02': () => console.log('Send Discord message on user'),
+      'DSC-03': () => console.log('Change Discord activity')
+    }
     if (!area.isEnable || !area.Reaction.isEnable) {
       return
     }
