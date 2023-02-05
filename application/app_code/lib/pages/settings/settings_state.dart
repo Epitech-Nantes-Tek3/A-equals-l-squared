@@ -113,8 +113,7 @@ class SettingsPageState extends State<SettingsPage> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (String? value) {
             if (value != null &&
-                !RegExp(
-                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(value)) {
               return 'Must be a valid email.';
             }
@@ -234,47 +233,46 @@ class SettingsPageState extends State<SettingsPage> {
         body: Center(
             child: SingleChildScrollView(
                 child: Container(
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 30, vertical: 30),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (_settingPage == 0) {
-                                    goToHomePage(context);
-                                  } else {
-                                    _settingPage = 0;
-                                  }
-                                });
-                              },
-                              icon: const Icon(Icons.arrow_back_ios_sharp),
-                              color: Colors.black),
-                          displaySettingsHeader(),
-                        ],
-                      ),
-                      displaySettingsViews(),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      if (_settingPage == 0) {
+                        goToHomePage(context);
+                      } else {
+                        _settingPage = 0;
+                      }
+                    });
+                  },
+                  icon: const Icon(Icons.arrow_back_ios_sharp),
+                  color: Colors.black),
+              displaySettingsHeader(),
+            ],
+          ),
+          displaySettingsViews(),
 
-                      /// userDataVisualization(),
-                      /// modifierButtons()
-                      FutureBuilder<String>(
-                        future: _futureAnswer,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Text(snapshot.data!);
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
-                          }
-                          return const CircularProgressIndicator();
-                        },
-                      ),
-                    ],
-                  ),
-                ))));
+          /// userDataVisualization(),
+          /// modifierButtons()
+          FutureBuilder<String>(
+            future: _futureAnswer,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data!);
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+              return const CircularProgressIndicator();
+            },
+          ),
+        ],
+      ),
+    ))));
   }
 
   /// This function display all settings which can manage by users
