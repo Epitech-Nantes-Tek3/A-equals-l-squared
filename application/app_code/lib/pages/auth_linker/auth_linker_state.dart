@@ -11,7 +11,16 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
   Widget displayAuthBox() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [googleAuthBox.display(), discordAuthBox.display()],
+      children: [
+        const SizedBox(
+          height: 30,
+        ),
+        googleAuthBox.display(),
+        const SizedBox(
+          height: 30,
+        ),
+        discordAuthBox.display()
+      ],
     );
   }
 
@@ -39,34 +48,38 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: true,
         body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          const Text('Welcome to Auth Linker page'),
-          displayAuthBox(),
-          FutureBuilder<String>(
-            future: _futureApiResponse,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data!);
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const CircularProgressIndicator();
-            },
+            child: SingleChildScrollView(
+                child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              const Text('Welcome to Auth Linker page'),
+              displayAuthBox(),
+              FutureBuilder<String>(
+                future: _futureApiResponse,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(snapshot.data!);
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+                  return const CircularProgressIndicator();
+                },
+              ),
+              ElevatedButton(
+                key: const Key('AuthLinkerHomeButton'),
+                onPressed: () {
+                  setState(() {
+                    goToHomePage(context);
+                  });
+                },
+                child: const Text('Go Home'),
+              ),
+            ],
           ),
-          ElevatedButton(
-            key: const Key('AuthLinkerHomeButton'),
-            onPressed: () {
-              setState(() {
-                goToHomePage(context);
-              });
-            },
-            child: const Text('Go Home'),
-          ),
-        ],
-      ),
-    ));
+        ))));
   }
 }
