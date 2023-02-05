@@ -1,10 +1,10 @@
 import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:application/flutter_objects/reaction_data.dart';
 import 'package:application/pages/home/home_functional.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'action_data.dart';
-import '../../material_lib_functions/material_functions.dart';
 
 /// This class is the Area class.
 /// It contains all information about an Area
@@ -14,7 +14,8 @@ class AreaData {
   String userId;
   String actionId;
   String reactionId;
-  bool isEnable;
+  bool isEnable = true;
+  String? description;
   List<ParameterContent> actionParameters;
   List<ParameterContent> reactionParameters;
 
@@ -28,6 +29,7 @@ class AreaData {
     required this.isEnable,
     required this.actionParameters,
     required this.reactionParameters,
+    this.description,
   });
 
   /// Convert a json map into the class
@@ -47,6 +49,7 @@ class AreaData {
         actionId: json['actionId'],
         reactionId: json['reactionId'],
         isEnable: json['isEnable'],
+        description: 'It\'s a description',
         actionParameters: actionParameters,
         reactionParameters: reactionParameters);
   }
@@ -85,21 +88,36 @@ class AreaData {
       listDisplay.add(reaction.display(true, reactionParameters));
     } else {
       try {
-        listDisplay.add(
-            Column(
+        listDisplay.add(Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Row(
-                  children: const <Widget>[
-                    Icon(Icons.ac_unit, color: Colors.black,) /// change color
-                  ],
+                Text(
+                  name,
+                  style: const TextStyle(color: Colors.black),
                 ),
-                const SizedBox(height: 20),
-                Text('This area is $name', style: const TextStyle(color: Colors.black),)
+                const Icon(
+                  Icons.ac_unit,
+                  color: Colors.black,
+                )
+
+                /// change color
               ],
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Description : \n\n $description',
+              style: const TextStyle(color: Colors.black),
             )
-        );
-///        listDisplay.add(Text(action.name));
-///        listDisplay.add(Text(reaction.name));
+
+            /// Put Description when it's in DB
+          ],
+        ));
+
+        ///        listDisplay.add(Text(action.name));
+        ///        listDisplay.add(Text(reaction.name));
       } catch (err) {
         listDisplay.add(const Text("Please logout and login."));
       }
@@ -125,7 +143,8 @@ class AreaData {
 
   /// Function to display area description
   Widget? displayAreaDescription() {
-    if (isEnable) { /// Add ' && description != null ' when is in DB
+    if (isEnable) {
+      /// Add ' && description != null ' when is in DB
       return Column(
         children: const <Widget>[
           Text('This is a description'),
@@ -133,6 +152,14 @@ class AreaData {
       );
     } else {
       return null;
+    }
+  }
+
+  bool changeIfIsEnable() {
+    if (isEnable) {
+      return false;
+    } else {
+      return true;
     }
   }
 }

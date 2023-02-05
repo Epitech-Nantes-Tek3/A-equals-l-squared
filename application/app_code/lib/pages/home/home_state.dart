@@ -7,7 +7,6 @@ import 'package:application/pages/update_area/update_area_functional.dart';
 import 'package:flutter/material.dart';
 
 import '../login/login_page.dart';
-import '../../material_lib_functions/material_functions.dart';
 import 'home_page.dart';
 
 class HomePageState extends State<HomePage> {
@@ -28,8 +27,12 @@ class HomePageState extends State<HomePage> {
       areaVis.add(ElevatedButton(
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-            side: const BorderSide(width: 3, color: Colors.blue), /// Change when DB is Up
-            primary: Colors.white, /// Not deprecated
+            side: const BorderSide(width: 3, color: Colors.blue),
+
+            /// Change when DB is Up
+            primary: Colors.white,
+
+            /// Not deprecated
           ),
           onPressed: () {
             updatingArea = temp;
