@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'action_data.dart';
 
-import 'package:flutter/material.dart';
-
 /// This class is the service class.
 /// It contains all information about a service
 class ServiceData {
