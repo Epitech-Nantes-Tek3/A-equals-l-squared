@@ -125,6 +125,12 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       }
       createVis.add(createdArea!.display(true));
       createVis.add(ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            side: const BorderSide(width: 3, color: Colors.white),
+            // Change when DB is Up
+            primary: Colors.white, // Not deprecated
+          ),
           onPressed: () {
             setState(() {
               _futureAnswer = apiAskForAreaCreation();
@@ -173,6 +179,12 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       createVis.add(const Text("Choose your Reaction"));
       for (var temp in createdAreaContent[1].reactions) {
         createVis.add(ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              side: const BorderSide(width: 3, color: Colors.white),
+              // Change when DB is Up
+              primary: Colors.white, // Not deprecated
+            ),
             onPressed: () {
               setState(() {
                 _createdAreaContentSave = List.from(createdAreaContent);
@@ -198,6 +210,12 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       createVis.add(const Text("Choose your Reaction service"));
       for (var temp in serviceDataList) {
         createVis.add(ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              side: const BorderSide(width: 3, color: Colors.white),
+              // Change when DB is Up
+              primary: Colors.white, // Not deprecated
+            ),
             onPressed: () {
               setState(() {
                 _createdAreaContentSave = List.from(createdAreaContent);
@@ -233,9 +251,25 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     }
 
     if (_state == 1) {
-      createVis.add(const Text("Choose your Action"));
+      createVis.add(Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const <Widget>[Text("Choose your Action")]));
+      createVis.add(
+        const SizedBox(
+          height: 30,
+        ),
+      );
       for (var temp in createdAreaContent[0].actions) {
         createVis.add(ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              side: const BorderSide(width: 3, color: Colors.white),
+
+              /// Change when DB is Up
+              primary: Colors.white,
+
+              /// Not deprecated
+            ),
             onPressed: () {
               setState(() {
                 _createdAreaContentSave = List.from(createdAreaContent);
@@ -254,6 +288,11 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               });
             },
             child: temp.display(false, [])));
+        createVis.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
       }
     }
 
@@ -262,7 +301,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         createVis.add(ElevatedButton(
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-              side: const BorderSide(width: 3, color: Colors.blue),
+              side: const BorderSide(width: 3, color: Colors.white),
 
               /// Change when DB is Up
               primary: Colors.white,
@@ -277,9 +316,11 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               });
             },
             child: temp.display()));
-        createVis.add(const SizedBox(
-          height: 10,
-        ),);
+        createVis.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
       }
     }
 
@@ -325,20 +366,21 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           const SizedBox(
             height: 30,
           ),
-          Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Text('Choose an application for the action'),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Search a Service...',
-                    )),
-              ]),
+          if (_state == 0)
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text('Choose an application for the action'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Search a Service...',
+                      )),
+                ]),
           const SizedBox(
             height: 30,
           ),
