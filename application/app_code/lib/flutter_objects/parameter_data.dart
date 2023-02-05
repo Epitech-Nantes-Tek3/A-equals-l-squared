@@ -73,7 +73,9 @@ class ParameterData {
     }
     matchedContent ??= ParameterContent(paramId: id, value: "");
     return Column(children: <Widget>[
-      const SizedBox(height: 10,),
+      const SizedBox(
+        height: 10,
+      ),
       TextFormField(
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(20),
