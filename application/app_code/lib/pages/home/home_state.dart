@@ -48,7 +48,8 @@ class HomePageState extends State<HomePage> {
       return const LoginPage();
     } else {
       return Scaffold(
-          body: Center(
+          resizeToAvoidBottomInset: true,
+          body: SingleChildScrollView(
               child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         child: Column(
@@ -58,6 +59,7 @@ class HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 IconButton(
+                    iconSize: 30,
                     onPressed: () {
                       setState(() {
                         goToSettingsPage(context);
@@ -65,6 +67,7 @@ class HomePageState extends State<HomePage> {
                     },
                     icon: const Icon(Icons.settings)),
                 IconButton(
+                  iconSize: 30,
                     onPressed: () {
                       setState(() {
                         goToCreateAreaPage(context);
@@ -73,13 +76,15 @@ class HomePageState extends State<HomePage> {
                     icon: const Icon(Icons.add))
               ],
             ),
-
-            Column(children: <Widget>[
+            const SizedBox(height: 30),
+            Column(crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
               const Text('All Areas',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 28,
                       fontFamily: 'Roboto-Bold')),
+              const SizedBox(height: 10),
               TextFormField(
                   obscureText: true,
                   decoration: const InputDecoration(
@@ -87,9 +92,9 @@ class HomePageState extends State<HomePage> {
                     labelText: 'Search an Area',
                   )),
             ]),
-
-            /// AllAreas
-
+            const SizedBox(
+              height: 30,
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: areasDisplay(),
