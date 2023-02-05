@@ -1,3 +1,4 @@
+import 'package:application/pages/settings/settings_functional.dart';
 import 'package:flutter/material.dart';
 
 import '../home/home_functional.dart';
@@ -49,37 +50,39 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: true,
-        body: Center(
-            child: SingleChildScrollView(
-                child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              const Text('Welcome to Auth Linker page'),
-              displayAuthBox(),
-              FutureBuilder<String>(
-                future: _futureApiResponse,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(snapshot.data!);
-                  } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
-                  }
-                  return const CircularProgressIndicator();
-                },
-              ),
-              ElevatedButton(
-                key: const Key('AuthLinkerHomeButton'),
-                onPressed: () {
-                  setState(() {
-                    goToHomePage(context);
-                  });
-                },
-                child: const Text('Go Home'),
-              ),
-            ],
-          ),
-        ))));
+        body: SingleChildScrollView(
+            child: Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      const Text('Welcome to Auth Linker page'),
+                      displayAuthBox(),
+                      FutureBuilder<String>(
+                        future: _futureApiResponse,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(snapshot.data!);
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+                          return const CircularProgressIndicator();
+                        },
+                      ),
+                      ElevatedButton(
+                        key: const Key('AuthLinkerHomeButton'),
+                        onPressed: () {
+                          setState(() {
+                            goToSettingsPage(context);
+                          });
+                        },
+                        child: const Text('Go settings'),
+                      ),
+                    ],
+                  ),
+                ))));
   }
 }
