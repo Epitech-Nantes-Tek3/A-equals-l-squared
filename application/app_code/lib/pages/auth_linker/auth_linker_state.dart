@@ -1,7 +1,6 @@
 import 'package:application/pages/settings/settings_functional.dart';
 import 'package:flutter/material.dart';
 
-import '../home/home_functional.dart';
 import 'auth_linker_functional.dart';
 import 'auth_linker_page.dart';
 
