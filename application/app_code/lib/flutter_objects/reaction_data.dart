@@ -60,15 +60,33 @@ class ReactionData {
   /// params -> list of all the associated parameter content
   Widget display(bool mode, List<ParameterContent> params) {
     List<Widget> paramWid = <Widget>[];
-    paramWid.add(
-      Text(
-        name,
-        style: TextStyle(color: isEnable ? Colors.green : Colors.red),
-      ),
-    );
-    paramWid.add(
-      Text(description),
-    );
+    paramWid.add(Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      name,
+                      style: TextStyle(
+                          color: isEnable ? Colors.green : Colors.red),
+                    ), // Change when icon are in DB
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      description,
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                  ]),
+            ],
+          ),
+        ]));
     if (mode == true) {
       for (var temp in parameters) {
         paramWid.add(temp.display(params));

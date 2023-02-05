@@ -124,16 +124,16 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 createdAreaContent[1].reactions[0].getAllParameterContent());
       }
       createVis.add(createdArea!.display(true));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
       createVis.add(ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-            side: const BorderSide(width: 3, color: Colors.white),
-            // Change when DB is Up
-            primary: Colors.white, // Not deprecated
-          ),
           onPressed: () {
             setState(() {
               _futureAnswer = apiAskForAreaCreation();
+              goToHomePage(context);
             });
           },
           child: const Text("Create AREA")));
@@ -154,9 +154,19 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
     if (_state == 5) {
       createVis.add(const Text("Configure your Reaction"));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
       createVis.add(createdAreaContent[1]
           .reactions[0]
           .display(true, reactionParameterContent));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
       createVis.add(ElevatedButton(
           onPressed: () {
             setState(() {
@@ -178,6 +188,11 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     if (_state == 4) {
       createVis.add(const Text("Choose your Reaction"));
       for (var temp in createdAreaContent[1].reactions) {
+        createVis.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
         createVis.add(ElevatedButton(
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
@@ -203,12 +218,22 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               });
             },
             child: temp.display(false, [])));
+        createVis.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
       }
     }
 
     if (_state == 3) {
       createVis.add(const Text("Choose your Reaction service"));
       for (var temp in serviceDataList) {
+        createVis.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
         createVis.add(ElevatedButton(
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
@@ -235,9 +260,19 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
     if (_state == 2) {
       createVis.add(const Text("Configure your Action"));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
       createVis.add(createdAreaContent[0]
           .actions[0]
           .display(true, actionParameterContent));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
       createVis.add(ElevatedButton(
           onPressed: () {
             setState(() {
