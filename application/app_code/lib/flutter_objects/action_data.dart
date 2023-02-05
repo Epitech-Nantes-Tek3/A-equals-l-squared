@@ -70,17 +70,10 @@ class ActionData {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      name,
+                      description,
                       style: TextStyle(
                           color: isEnable ? Colors.green : Colors.red),
                     ), // Change when icon are in DB
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      description,
-                      style: const TextStyle(color: Colors.black),
-                    ),
                   ]),
             ],
           ),
