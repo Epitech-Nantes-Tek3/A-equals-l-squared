@@ -251,46 +251,48 @@ class SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-            child: SingleChildScrollView(
-                child: Container(
-      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      if (_settingPage == 0) {
-                        goToHomePage(context);
-                      } else {
-                        _settingPage = 0;
-                      }
-                    });
-                  },
-                  icon: const Icon(Icons.arrow_back_ios_sharp),
-                  color: Colors.black),
-              displaySettingsHeader(),
-            ],
-          ),
-          displaySettingsViews(),
-          FutureBuilder<String>(
-            future: _futureAnswer,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data!);
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const CircularProgressIndicator();
-            },
-          ),
-        ],
-      ),
-    ))));
+        body: SingleChildScrollView(
+            child: Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (_settingPage == 0) {
+                                    goToHomePage(context);
+                                  } else {
+                                    _settingPage = 0;
+                                  }
+                                });
+                              },
+                              icon: const Icon(Icons.arrow_back_ios_sharp),
+                              color: Colors.black),
+                          displaySettingsHeader(),
+                        ],
+                      ),
+                      displaySettingsViews(),
+                      FutureBuilder<String>(
+                        future: _futureAnswer,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(snapshot.data!);
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+                          return const CircularProgressIndicator();
+                        },
+                      ),
+                    ],
+                  ),
+                ))));
   }
 
   /// This function display all settings which can manage by users
