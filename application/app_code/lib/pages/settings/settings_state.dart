@@ -143,7 +143,7 @@ class SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  /// This funcrt
+  /// This function display buttons to modified an user account
   Widget modifierButtons() {
     return Column(children: <Widget>[
       ElevatedButton(
