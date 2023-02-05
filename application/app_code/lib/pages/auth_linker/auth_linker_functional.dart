@@ -7,7 +7,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
 import '../../flutter_objects/user_data.dart';
-import '../../network/informations.dart';
 
 /// Function pointer needed to update the Auth Page
 Function? updateAuthPage;
@@ -125,7 +124,6 @@ Future<String> getDiscordToken() async {
     }
     discordAuthBox.isEnable = false;
   } else {
-    print('Activation !');
     discordAuthBox.token = "BBBBB";
 
     /// CALL THE AUTH METHOD
