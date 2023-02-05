@@ -338,8 +338,7 @@ app.post(
 app.post('/api/login/google', async (req, res, next) => {
   try {
     let user = await database.prisma.user.findUnique({
-      where: { googleId: req.body.id },
-      include: { Token: true }
+      where: { googleId: req.body.id }
     })
     if (user) {
       const token = utils.generateToken(user.id)
@@ -353,8 +352,7 @@ app.post('/api/login/google', async (req, res, next) => {
       })
     }
     const oldUser = await database.prisma.user.findUnique({
-      where: { email: req.body.email },
-      include: { Token: true }
+      where: { email: req.body.email }
     })
     if (oldUser) {
       user = await database.prisma.user.update({
@@ -438,35 +436,12 @@ app.post(
   async (req, res, next) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
-      const TokenList = await database.prisma.Token.findMany({
-        include: { User: true }
-      })
-      let existingToken = null
-      TokenList.forEach(token => {
-        if (token.userId == req.user.id) existingToken = token
-      })
-      if (existingToken == null) {
-        await database.prisma.Token.create({
-          data: {
-            User: { connect: { id: req.user.id } },
-            googleToken: req.body.google != '' ? req.body.google : null,
-            discordToken: req.body.discord != '' ? req.body.discord : null
-          }
-        })
-      } else {
-        await database.prisma.Token.update({
-          where: { id: existingToken.id },
-          data: {
-            googleToken: req.body.google != '' ? req.body.google : null,
-            discordToken: req.body.discord != '' ? req.body.discord : null
-          }
-        })
-      }
-      const user = await database.prisma.User.findUnique({
-        where: {
-          id: req.user.id
-        },
-        include: { Token: true }
+      const user = await database.prisma.User.update({
+        where: { id: req.user.id },
+        data: {
+          googleToken: req.body.google != '' ? req.body.google : null,
+          discordToken: req.body.discord != '' ? req.body.discord : null
+        }
       })
       const token = utils.generateToken(user.id)
       return res.status(200).json({

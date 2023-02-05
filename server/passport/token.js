@@ -21,7 +21,6 @@ passport.use(
         where: {
           id: jwt_payload.id
         },
-        include: { Token: true }
       })
       if (!user.mailVerification) return done(null, null)
       return done(null, user)

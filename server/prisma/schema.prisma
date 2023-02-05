@@ -26,16 +26,9 @@ model User {
   createdAt                DateTime                   @default(now())
   googleId                 String?                    @unique
   facebookId               String?                    @unique
-  Token                    Token[]
+  googleToken              String?                    @db.VarChar(1000)
+  discordToken             String?                    @db.VarChar(1000)
   UsersHasActionsReactions UsersHasActionsReactions[]
-}
-
-model Token {
-  id           String  @id @unique @default(cuid())
-  googleToken  String? @db.VarChar(1000)
-  discordToken String? @db.VarChar(1000)
-  User         User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId       String?
 }
 
 model Service {

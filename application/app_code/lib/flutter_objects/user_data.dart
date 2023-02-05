@@ -29,7 +29,7 @@ class UserData {
 
     Token? userToken;
     try {
-      userToken = Token.fromJson(json['user']['Token'][0]);
+      userToken = Token.fromJson(json['user']);
     } catch (err) {
       userToken = null;
     }
@@ -47,15 +47,11 @@ class UserData {
 /// This class is the Token class
 /// It contains all information about user Token
 class Token {
-  String id;
   String? googleToken;
   String? discordToken;
-  String userId;
 
   /// Constructor of the Token class
   Token({
-    required this.id,
-    required this.userId,
     this.googleToken,
     this.discordToken,
   });
@@ -77,10 +73,6 @@ class Token {
       discordToken = null;
     }
 
-    return Token(
-        id: json['id'],
-        userId: json['userId'],
-        googleToken: googleToken,
-        discordToken: discordToken);
+    return Token(googleToken: googleToken, discordToken: discordToken);
   }
 }

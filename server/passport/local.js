@@ -59,7 +59,6 @@ passport.use(
     try {
       const user = await database.prisma.User.findFirst({
         where: { email },
-        include: { Token: true }
       })
       if (!user)
         return cb(null, false, {
