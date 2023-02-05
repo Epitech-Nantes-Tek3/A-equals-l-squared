@@ -9,7 +9,7 @@ const { getActionFromCode, AreaGlue, checkActionParameters } = require('../../gl
  * @param {*} reaction Reaction object
  * @param {*} user User that reacted to the message
  */
-client.on('messageReactionAdd', async (reaction, user) => {
+client.on('messageReactionAdd', (reaction, user) => {
   console.log(reaction.emoji.name)
   try {
     const parametersList = [
