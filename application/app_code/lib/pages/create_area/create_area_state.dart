@@ -223,7 +223,13 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _state = 4;
               });
             },
-            child: temp.display()));
+            child: temp.display())
+        );
+        createVis.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
       }
     }
 
