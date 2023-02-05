@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application/flutter_objects/action_data.dart';
 import 'package:application/flutter_objects/area_data.dart';
 import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
@@ -7,6 +8,7 @@ import 'package:application/pages/create_area/create_area_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../flutter_objects/reaction_data.dart';
 import '../../flutter_objects/service_data.dart';
 import '../../network/informations.dart';
 import '../home/home_functional.dart';
@@ -17,6 +19,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
   /// Name of the AREA
   String _name = "";
+
+  /// Save of the creation state
+  List<ServiceData> _createdAreaContentSave = createdAreaContent;
 
   /// Future answer of the api
   late Future<String> _futureAnswer;
@@ -58,9 +63,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               }));
 
       if (response.statusCode == 200) {
+        await updateAllFlutterObject();
         return 'Success ! You can go back to home page';
       } else {
-        return 'Error during creation.';
+        return response.body.toString();
       }
     } catch (err) {
       debugPrint(err.toString());
@@ -149,6 +155,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           onPressed: () {
             setState(() {
               bool isRequired = true;
+              _createdAreaContentSave = List.from(createdAreaContent);
               for (var temp in createdAreaContent[1].reactions[0].parameters) {
                 if (temp.isRequired && temp.matchedContent!.value == "") {
                   isRequired = false;
@@ -168,11 +175,18 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         createVis.add(ElevatedButton(
             onPressed: () {
               setState(() {
+                _createdAreaContentSave = List.from(createdAreaContent);
+                List<ReactionData> tempSave =
+                    List.from(createdAreaContent[1].reactions);
+                if (reactionParameterContent.isNotEmpty) {
+                  reactionParameterContent = <ParameterContent>[];
+                }
                 for (var tmp in temp.parameters) {
-                  actionParameterContent
+                  reactionParameterContent
                       .add(ParameterContent(paramId: tmp.id, value: ""));
                 }
                 createdAreaContent[1].reactions = [temp];
+                _createdAreaContentSave[1].reactions = List.from(tempSave);
                 _state = 5;
               });
             },
@@ -186,6 +200,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         createVis.add(ElevatedButton(
             onPressed: () {
               setState(() {
+                _createdAreaContentSave = List.from(createdAreaContent);
                 createdAreaContent.add(temp);
                 _state = 4;
               });
@@ -203,6 +218,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           onPressed: () {
             setState(() {
               bool isRequired = true;
+              _createdAreaContentSave = List.from(createdAreaContent);
               for (var temp in createdAreaContent[0].actions[0].parameters) {
                 if (temp.isRequired && temp.matchedContent!.value == "") {
                   isRequired = false;
@@ -222,11 +238,18 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         createVis.add(ElevatedButton(
             onPressed: () {
               setState(() {
+                _createdAreaContentSave = List.from(createdAreaContent);
+                List<ActionData> tempSave =
+                    List.from(createdAreaContent[0].actions);
+                if (actionParameterContent.isNotEmpty) {
+                  actionParameterContent = <ParameterContent>[];
+                }
                 for (var tmp in temp.parameters) {
                   actionParameterContent
                       .add(ParameterContent(paramId: tmp.id, value: ""));
                 }
                 createdAreaContent[0].actions = [temp];
+                _createdAreaContentSave[0].actions = List.from(tempSave);
                 _state = 2;
               });
             },
@@ -275,15 +298,36 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: creationDisplay(),
           ),
-          ElevatedButton(
-            key: const Key('CreateAreaHomeButton'),
-            onPressed: () {
-              setState(() {
-                goToHomePage(context);
-              });
-            },
-            child: const Text('Go Home'),
-          ),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            if (_state != 0)
+              ElevatedButton(
+                key: const Key('CreateAreaPreviousButton'),
+                onPressed: () {
+                  setState(() {
+                    _state -= 1;
+                    createdAreaContent = List.from(_createdAreaContentSave);
+                    if (_state == 0) {
+                      createdArea = null;
+                      _createdAreaContentSave = <ServiceData>[];
+                      createdAreaContent = <ServiceData>[];
+                    }
+                  });
+                },
+                child: const Text('Previous'),
+              ),
+            ElevatedButton(
+              key: const Key('CreateAreaHomeButton'),
+              onPressed: () {
+                setState(() {
+                  _state = 0;
+                  _createdAreaContentSave = <ServiceData>[];
+                  createdAreaContent = <ServiceData>[];
+                  goToHomePage(context);
+                });
+              },
+              child: const Text('Go Home'),
+            ),
+          ])
         ],
       ),
     ));

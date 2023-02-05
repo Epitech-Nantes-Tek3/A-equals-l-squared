@@ -1,4 +1,5 @@
 import 'package:application/pages/create_area/create_area_page.dart';
+import 'package:application/pages/home/home_functional.dart';
 import 'package:application/pages/home/home_page.dart';
 import 'package:application/pages/login/login_page.dart';
 import 'package:application/pages/service_list/service_list_page.dart';
@@ -16,6 +17,9 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
+        if (updatePage != null) {
+          updatePage!();
+        }
         return const LoginPage();
       },
       routes: <RouteBase>[
