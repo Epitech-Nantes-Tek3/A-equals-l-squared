@@ -2,7 +2,12 @@
 
 const database = require('../../database_init')
 const { gmailSendEmailFromArea } = require('../gmail/reactions/send_email.js')
-const { discordSendMessageChannelFromArea } = require('../discord/reactions/send_message_channel.js')
+const {
+  discordSendMessageChannelFromArea
+} = require('../discord/reactions/send_message_channel.js')
+const {
+  discordSendPrivateMessageFromArea
+} = require('../discord/reactions/send_private_message.js')
 
 /**
  * Get an action from its code
@@ -92,7 +97,7 @@ const AreaGlue = async (actionCode, actionParameters) => {
     const reactions = {
       'GML-01': () => gmailSendEmailFromArea(area),
       'DSC-01': () => discordSendMessageChannelFromArea(area),
-      'DSC-02': () => console.log('Send Discord message on user'),
+      'DSC-02': () => discordSendPrivateMessageFromArea(area),
       'DSC-03': () => console.log('Change Discord activity')
     }
     if (!area.isEnable || !area.Reaction.isEnable) {
