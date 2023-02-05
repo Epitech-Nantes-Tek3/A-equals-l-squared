@@ -5,6 +5,7 @@ import 'package:application/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../auth_linker/auth_linker_functional.dart';
 import '../home/home_functional.dart';
 
 class SettingsPageState extends State<SettingsPage> {
@@ -177,6 +178,8 @@ class SettingsPageState extends State<SettingsPage> {
       const SizedBox(height: 10),
       parameterButtonView(Icons.notifications_active, 'Notification', 4),
       const SizedBox(height: 10),
+      parameterButtonView(Icons.connect_without_contact, 'Auth', 5),
+      const SizedBox(height: 10),
       parameterButtonView(Icons.logout, 'Logout', 84),
     ]);
   }
@@ -223,7 +226,13 @@ class SettingsPageState extends State<SettingsPage> {
     if (_settingPage == 2) return userDataVisualization();
     if (_settingPage == 3) return userDataVisualization();
     if (_settingPage == 4) return userDataVisualization();
+    if (_settingPage == 5) return goToAuthPage(context);
     if (_settingPage == 84) return userDataVisualization();
+    return const Text('');
+  }
+
+  Widget goToAuthPage(context) {
+    goToAuthLinkerPage(context);
     return const Text('');
   }
 
@@ -283,7 +292,11 @@ class SettingsPageState extends State<SettingsPage> {
         ),
         onPressed: () {
           setState(() {
-            _settingPage = selector;
+            if (selector == 5) {
+              goToAuthPage(context);
+            } else {
+              _settingPage = selector;
+            }
           });
         },
         child: Column(children: <Widget>[
