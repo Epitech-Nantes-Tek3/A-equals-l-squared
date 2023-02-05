@@ -55,6 +55,110 @@ class AreaData {
         reactionParameters: reactionParameters);
   }
 
+  /// Get a visual representation of an Area for create page
+  /// mode -> true = complete representation, false = only area preview
+  Widget displayForCreate(bool mode) {
+    late ActionData action;
+    late ReactionData reaction;
+
+    for (var temp in serviceDataList) {
+      for (var tempAct in temp.actions) {
+        if (tempAct.id == actionId) {
+          action = tempAct;
+          break;
+        }
+      }
+    }
+    for (var temp in serviceDataList) {
+      for (var tempReact in temp.reactions) {
+        if (tempReact.id == reactionId) {
+          reaction = tempReact;
+          break;
+        }
+      }
+    }
+    List<Widget> listDisplay = <Widget>[];
+    if (mode) {
+      listDisplay.add(Column(
+        children: <Widget>[
+          Row(children: <Widget>[
+            Text(
+              name,
+              style: TextStyle(
+                  color: isEnable ? Colors.green : Colors.red, fontSize: 20),
+            ),
+          ]),
+          const SizedBox(height: 10,),
+          materialShadowForArea(Column(children: <Widget>[
+            Container(
+              margin:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Column(
+                children: [
+                  const Text("Action"),
+                  action.display(true, actionParameters),
+                ],
+              ),
+            )
+          ])),
+          const SizedBox(height: 20,),
+          materialShadowForArea(Column(children: <Widget>[
+            Container(
+              margin:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Column(
+                children: [
+                  const Text("Reaction"),
+                  reaction.display(true, reactionParameters)
+                ],
+              ),
+            )
+          ])),
+
+        ],
+      ));
+    } else {
+      try {
+        listDisplay.add(Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  name,
+                  style: const TextStyle(color: Colors.black),
+                ),
+                const Icon(
+                  Icons.ac_unit,
+                  color: Colors.black,
+                )
+
+                /// change color
+              ],
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Description : \n\n $description',
+              style: const TextStyle(color: Colors.black),
+            )
+
+            /// Put Description when it's in DB
+          ],
+        ));
+
+        ///        listDisplay.add(Text(action.name));
+        ///        listDisplay.add(Text(reaction.name));
+      } catch (err) {
+        listDisplay.add(const Text("Please logout and login."));
+      }
+    }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: listDisplay,
+    );
+  }
+
   /// Get a visual representation of an Area
   /// mode -> true = complete representation, false = only area preview
   Widget display(bool mode) {
@@ -83,7 +187,7 @@ class AreaData {
         children: <Widget>[
           Row(children: <Widget>[
             Text(
-              name,
+              (isEnable ? 'Area : $name is activated' : 'Area : $name is disabled'),
               style: TextStyle(
                   color: isEnable ? Colors.green : Colors.red, fontSize: 20),
             ),
