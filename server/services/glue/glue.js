@@ -53,6 +53,29 @@ const getActionFromCode = async code => {
 }
 
 /**
+ * Check if the parameters of an action are valid
+ * @param {JSON} Area
+ * @param {JSON} parametersList
+ * @returns
+ */
+const checkActionParameters = (Area, parametersList) => {
+  Area.ActionParameters.forEach(actionParameter => {
+    let index = parametersList.findIndex(
+      parameter => parameter.name == actionParameter.Parameter.name
+    )
+    if (index >= 0) {
+      if (actionParameter.value == parametersList[index].value) {
+        parametersList[index].valid = true
+        console.log(`${parametersList[index].name} MATCH`)
+      } else {
+        parametersList[index].valid = false
+      }
+    }
+  })
+  return parametersList.every(parameter => parameter.valid)
+}
+
+/**
  * Called by actions, it will call the appropriate reactions
  * @param {String} actionCode
  * @param {JSON} actionParameters
@@ -72,12 +95,14 @@ const AreaGlue = async (actionCode, actionParameters) => {
   }
 
   action.UsersHasActionsReactions.forEach(area => {
-    if (area.isEnable == false || area.Reaction.isEnable == false) {
+    if (!area.isEnable || !area.Reaction.isEnable) {
       return
     }
-    const reaction = reactions[area.Reaction.code]
-    if (reaction) {
-      reaction()
+    if (
+      checkActionParameters(area, actionParameters) &&
+      reactions[area.Reaction.code]
+    ) {
+      reactions[area.Reaction.code]()
     }
   })
 }
