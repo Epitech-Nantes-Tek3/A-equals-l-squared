@@ -133,7 +133,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           onPressed: () {
             setState(() {
               _futureAnswer = apiAskForAreaCreation();
-              goToHomePage(context);
             });
           },
           child: const Text("Create AREA")));
@@ -411,7 +410,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const Text('Choose an application for the action'),
+                  const Text('Choose an service for the action'),
                   const SizedBox(
                     height: 10,
                   ),
