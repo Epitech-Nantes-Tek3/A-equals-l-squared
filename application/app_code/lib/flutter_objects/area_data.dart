@@ -88,6 +88,7 @@ class AreaData {
                   color: isEnable ? Colors.green : Colors.red, fontSize: 20),
             ),
           ]),
+          const SizedBox(height: 10,),
           materialShadowForArea(Column(children: <Widget>[
             Container(
               margin:
