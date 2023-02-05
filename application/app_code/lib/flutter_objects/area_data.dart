@@ -83,8 +83,9 @@ class AreaData {
           Row(children: <Widget>[
             Text(
               name,
-              style: TextStyle(color: isEnable ? Colors.green : Colors.red, fontSize: 20),
-            )
+              style: TextStyle(
+                  color: isEnable ? Colors.green : Colors.red, fontSize: 20),
+            ),
           ]),
           const Text("Action"),
           action.display(true, actionParameters),
