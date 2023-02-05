@@ -88,11 +88,12 @@ class AreaData {
                   color: isEnable ? Colors.green : Colors.red, fontSize: 20),
             ),
           ]),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           materialShadowForArea(Column(children: <Widget>[
             Container(
-              margin:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
                 children: [
                   const Text("Action"),
@@ -101,11 +102,12 @@ class AreaData {
               ),
             )
           ])),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           materialShadowForArea(Column(children: <Widget>[
             Container(
-              margin:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
                 children: [
                   const Text("Reaction"),
@@ -114,7 +116,6 @@ class AreaData {
               ),
             )
           ])),
-
         ],
       ));
     } else {
@@ -187,16 +188,19 @@ class AreaData {
         children: <Widget>[
           Row(children: <Widget>[
             Text(
-              (isEnable ? 'Area : $name is activated' : 'Area : $name is disabled'),
+              (isEnable
+                  ? 'Area : $name is activated'
+                  : 'Area : $name is disabled'),
               style: TextStyle(
                   color: isEnable ? Colors.green : Colors.red, fontSize: 20),
             ),
           ]),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           materialShadowForArea(Column(children: <Widget>[
             Container(
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
                 children: [
                   const Text("Action"),
@@ -205,11 +209,12 @@ class AreaData {
               ),
             )
           ])),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           materialShadowForArea(Column(children: <Widget>[
             Container(
-              margin:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
                 children: [
                   const Text("Reaction"),
@@ -218,7 +223,6 @@ class AreaData {
               ),
             )
           ])),
-
         ],
       ));
     } else {

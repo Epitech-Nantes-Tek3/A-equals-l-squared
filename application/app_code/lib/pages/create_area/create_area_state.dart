@@ -123,8 +123,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             reactionParameters:
                 createdAreaContent[1].reactions[0].getAllParameterContent());
       }
-      createVis.add(
-      const SizedBox(
+      createVis.add(const SizedBox(
         height: 10,
       ));
       createVis.add(createdArea!.displayForCreate(true));
@@ -251,8 +250,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _state = 4;
               });
             },
-            child: temp.display())
-        );
+            child: temp.display()));
         createVis.add(
           const SizedBox(
             height: 10,

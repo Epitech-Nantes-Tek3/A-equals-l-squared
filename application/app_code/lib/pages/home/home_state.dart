@@ -114,8 +114,15 @@ class HomePageState extends State<HomePage> {
                   },
                   child: const Text('Service List'),
                 ),
-
-                ElevatedButton(key: const Key('HomeLogoutButton'),onPressed: () {  setState(() { _logout = true;});  },  child: const Text('Logout'),),
+                ElevatedButton(
+                  key: const Key('HomeLogoutButton'),
+                  onPressed: () {
+                    setState(() {
+                      _logout = true;
+                    });
+                  },
+                  child: const Text('Logout'),
+                ),
               ],
             ),
           )));
