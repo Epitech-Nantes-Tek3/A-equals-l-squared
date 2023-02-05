@@ -17,6 +17,9 @@ class SettingsPageState extends State<SettingsPage> {
   /// password to update
   String? _password = "";
 
+  /// To know what things to display
+  int _settingPage = 0;
+
   /// future api answer
   late Future<String> _futureAnswer;
 
@@ -84,7 +87,7 @@ class SettingsPageState extends State<SettingsPage> {
   /// Display function returning a user data customizable visualization
   Widget userDataVisualization() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextFormField(
           decoration: const InputDecoration(
@@ -110,7 +113,8 @@ class SettingsPageState extends State<SettingsPage> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (String? value) {
             if (value != null &&
-                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                !RegExp(
+                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(value)) {
               return 'Must be a valid email.';
             }
@@ -134,59 +138,179 @@ class SettingsPageState extends State<SettingsPage> {
             return null;
           },
         ),
+        modifierButtons(),
       ],
     );
+  }
+
+  /// This funcrt
+  Widget modifierButtons() {
+    return Column(children: <Widget>[
+      ElevatedButton(
+        key: const Key('AskUpdateButton'),
+        onPressed: () {
+          setState(() {
+            _futureAnswer = apiAskForUpdate();
+          });
+        },
+        child: const Text('Update account information'),
+      ),
+      ElevatedButton(
+        key: const Key('AskDeleteButton'),
+        onPressed: () {
+          setState(() {
+            _futureAnswer = apiAskForDelete();
+          });
+        },
+        child: const Text('Delete account'),
+      ),
+    ]);
+  }
+
+  /// This function display all button to give access at a settings for users
+  Widget displayAllParameterButtons() {
+    return Column(children: <Widget>[
+      parameterButtonView(Icons.manage_accounts_rounded, 'User information', 1),
+      const SizedBox(height: 10),
+      parameterButtonView(Icons.app_settings_alt_sharp, 'Data management', 2),
+      const SizedBox(height: 10),
+      parameterButtonView(Icons.language, 'Language', 3),
+      const SizedBox(height: 10),
+      parameterButtonView(Icons.notifications_active, 'Notification', 4),
+      const SizedBox(height: 10),
+      parameterButtonView(Icons.logout, 'Logout', 5),
+    ]);
+  }
+
+  /// This function display headers for settings views, depends on _settingsPage
+  Widget displaySettingsHeader() {
+    if (_settingPage == 0) {
+      return const Text(
+        'Settings',
+        style: TextStyle(fontSize: 20),
+      );
+    }
+    if (_settingPage == 1) {
+      return const Text(
+        'User information',
+        style: TextStyle(fontSize: 20),
+      );
+    }
+    if (_settingPage == 2) {
+      return const Text(
+        'Data management',
+        style: TextStyle(fontSize: 20),
+      );
+    }
+    if (_settingPage == 3) {
+      return const Text(
+        'Language',
+        style: TextStyle(fontSize: 20),
+      );
+    }
+    if (_settingPage == 4) {
+      return const Text(
+        'Notification',
+        style: TextStyle(fontSize: 20),
+      );
+    }
+    return const Text('');
+  }
+
+  /// This function choose what Settings View display depends on _settingsPage
+  Widget displaySettingsViews() {
+    if (_settingPage == 0) return displayAllParameterButtons();
+    if (_settingPage == 1) return userDataVisualization();
+    if (_settingPage == 2) return userDataVisualization();
+    if (_settingPage == 3) return userDataVisualization();
+    if (_settingPage == 4) return userDataVisualization();
+    if (_settingPage == 5) return userDataVisualization();
+    return const Text('');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          const Text('Welcome to Settings page'),
-          userDataVisualization(),
-          ElevatedButton(
-            key: const Key('AskUpdateButton'),
-            onPressed: () {
-              setState(() {
-                _futureAnswer = apiAskForUpdate();
-              });
-            },
-            child: const Text('Update account information'),
-          ),
-          ElevatedButton(
-            key: const Key('AskDeleteButton'),
-            onPressed: () {
-              setState(() {
-                _futureAnswer = apiAskForDelete();
-              });
-            },
-            child: const Text('Delete account'),
-          ),
-          FutureBuilder<String>(
-            future: _futureAnswer,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data!);
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const CircularProgressIndicator();
-            },
-          ),
-          ElevatedButton(
-            key: const Key('SettingsHomeButton'),
-            onPressed: () {
-              setState(() {
-                goToHomePage(context);
-              });
-            },
-            child: const Text('Go Home'),
-          ),
-        ],
-      ),
-    ));
+            child: SingleChildScrollView(
+                child: Container(
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: 30, vertical: 30),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (_settingPage == 0) {
+                                    goToHomePage(context);
+                                  } else {
+                                    _settingPage = 0;
+                                  }
+                                });
+                              },
+                              icon: const Icon(Icons.arrow_back_ios_sharp),
+                              color: Colors.black),
+                          displaySettingsHeader(),
+                        ],
+                      ),
+                      displaySettingsViews(),
+
+                      /// userDataVisualization(),
+                      /// modifierButtons()
+                      FutureBuilder<String>(
+                        future: _futureAnswer,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(snapshot.data!);
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+                          return const CircularProgressIndicator();
+                        },
+                      ),
+                    ],
+                  ),
+                ))));
+  }
+
+  /// This function display all settings which can manage by users
+  Widget parameterButtonView(IconData icon, String description, int selector) {
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+          side: const BorderSide(width: 3, color: Colors.white),
+          // Change when DB is Up
+          primary: Colors.white, // Not deprecated
+        ),
+        onPressed: () {
+          setState(() {
+            _settingPage = selector;
+          });
+        },
+        child: Column(children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Icon(
+                    icon,
+                    color: Colors.black,
+                  ),
+                  const SizedBox(width: 20),
+                  Text(
+                    description,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+              const Icon(Icons.arrow_forward_ios_sharp, color: Colors.black)
+            ],
+          )
+        ]));
   }
 }
