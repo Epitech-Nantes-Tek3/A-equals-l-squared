@@ -1,5 +1,10 @@
 const gmail = require('../gmail_init').getGmailClient()
 
+/**
+ * @brief send an email with the gmail api from an area
+ * @param {*} Area Area that contains the parameters
+ * @returns the response from the gmail api
+ */
 async function gmailSendEmailFromArea (Area) {
   try {
     const reactionParameters = Area.ReactionParameters

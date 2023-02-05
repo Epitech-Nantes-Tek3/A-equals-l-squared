@@ -2,6 +2,11 @@
 
 const client = require('../init').client
 
+/**
+ * Send a message to a channel from an area
+ * @param {*} Area Area that contains the parameters
+ * @returns True if the message has been sent, false otherwise
+ */
 function discordSendMessageChannelFromArea (Area) {
   const reactionParameters = Area.ReactionParameters
   const messageContent = reactionParameters.find(
