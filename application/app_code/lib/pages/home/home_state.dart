@@ -28,10 +28,8 @@ class HomePageState extends State<HomePage> {
       areaVis.add(ElevatedButton(
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-            side: const BorderSide(width: 3, color: Colors.white),
-
-            /// Change when DB is Up
-            backgroundColor: const Color.fromRGBO(255, 255, 255, 0),
+            side: const BorderSide(width: 3, color: Colors.blue), /// Change when DB is Up
+            primary: Colors.white, /// Not deprecated
           ),
           onPressed: () {
             updatingArea = temp;
