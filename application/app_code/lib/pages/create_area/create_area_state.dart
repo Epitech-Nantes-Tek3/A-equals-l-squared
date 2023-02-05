@@ -200,7 +200,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               side: const BorderSide(width: 3, color: Colors.white),
               // Change when DB is Up
-              primary: Colors.white, // Not deprecated
+              backgroundColor: Colors.white,
             ),
             onPressed: () {
               setState(() {
@@ -241,7 +241,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               side: const BorderSide(width: 3, color: Colors.white),
               // Change when DB is Up
-              primary: Colors.white, // Not deprecated
+              backgroundColor: Colors.white,
             ),
             onPressed: () {
               setState(() {
@@ -308,9 +308,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               side: const BorderSide(width: 3, color: Colors.white),
 
               /// Change when DB is Up
-              primary: Colors.white,
-
-              /// Not deprecated
+              backgroundColor: Colors.white,
             ),
             onPressed: () {
               setState(() {
@@ -346,9 +344,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               side: const BorderSide(width: 3, color: Colors.white),
 
               /// Change when DB is Up
-              primary: Colors.white,
-
-              /// Not deprecated
+              backgroundColor: Colors.white,
             ),
             onPressed: () {
               setState(() {

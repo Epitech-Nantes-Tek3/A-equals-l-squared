@@ -17,9 +17,7 @@ class ServiceListPageState extends State<ServiceListPage> {
             side: const BorderSide(width: 3, color: Colors.white),
 
             /// Change when DB is Up
-            primary: Colors.white,
-
-            /// Not deprecated
+            backgroundColor: Colors.white,
           ),
           onPressed: () {
             createdAreaContent = <ServiceData>[];

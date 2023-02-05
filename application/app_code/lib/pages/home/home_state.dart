@@ -6,7 +6,6 @@ import 'package:application/pages/settings/settings_functional.dart';
 import 'package:application/pages/update_area/update_area_functional.dart';
 import 'package:flutter/material.dart';
 
-import '../auth_linker/auth_linker_functional.dart';
 import '../login/login_page.dart';
 import 'home_page.dart';
 
@@ -35,7 +34,7 @@ class HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
             side: const BorderSide(width: 3, color: Colors.blue),
             // Change when DB is Up
-            primary: Colors.white, // Not deprecated
+            backgroundColor: Colors.white,
           ),
           onPressed: () {
             updatingArea = temp;
