@@ -78,14 +78,20 @@ class AreaData {
     }
     List<Widget> listDisplay = <Widget>[];
     if (mode) {
-      listDisplay.add(Text(
-        name,
-        style: TextStyle(color: isEnable ? Colors.green : Colors.red),
+      listDisplay.add(Column(
+        children: <Widget>[
+          Row(children: <Widget>[
+            Text(
+              name,
+              style: TextStyle(color: isEnable ? Colors.green : Colors.red, fontSize: 20),
+            )
+          ]),
+          const Text("Action"),
+          action.display(true, actionParameters),
+          const Text("Reaction"),
+          reaction.display(true, reactionParameters)
+        ],
       ));
-      listDisplay.add(const Text("Action"));
-      listDisplay.add(action.display(true, actionParameters));
-      listDisplay.add(const Text("Reaction"));
-      listDisplay.add(reaction.display(true, reactionParameters));
     } else {
       try {
         listDisplay.add(Column(
