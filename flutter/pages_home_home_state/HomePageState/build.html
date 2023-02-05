@@ -220,6 +220,15 @@ Widget build(BuildContext context) {
             child: const Text(&#39;Service List&#39;),
           ),
           ElevatedButton(
+            key: const Key(&#39;HomeAuthListerButton&#39;),
+            onPressed: () {
+              setState(() {
+                goToAuthLinkerPage(context);
+              });
+            },
+            child: const Text(&#39;Auth Linker&#39;),
+          ),
+          ElevatedButton(
             key: const Key(&#39;HomeLogoutButton&#39;),
             onPressed: () {
               setState(() {

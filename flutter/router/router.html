@@ -112,6 +112,11 @@ Don't forget to add a goTo**Page function in her _functional file.</p>
             path: &#39;service_list&#39;,
             builder: (BuildContext context, GoRouterState state) {
               return const ServiceListPage();
+            }),
+        GoRoute(
+            path: &#39;auth_linker&#39;,
+            builder: (BuildContext context, GoRouterState state) {
+              return const AuthLinkerPage();
             })
       ],
     ),
