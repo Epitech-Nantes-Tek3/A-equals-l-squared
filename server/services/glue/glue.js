@@ -8,6 +8,9 @@ const {
 const {
   discordSendPrivateMessageFromArea
 } = require('../discord/reactions/send_private_message.js')
+const {
+  discordchangeActivityFromArea
+} = require('../discord/reactions/change_activity.js')
 
 /**
  * Get an action from its code
@@ -98,7 +101,7 @@ const AreaGlue = async (actionCode, actionParameters) => {
       'GML-01': () => gmailSendEmailFromArea(area),
       'DSC-01': () => discordSendMessageChannelFromArea(area),
       'DSC-02': () => discordSendPrivateMessageFromArea(area),
-      'DSC-03': () => console.log('Change Discord activity')
+      'DSC-03': () => discordchangeActivityFromArea(area)
     }
     if (!area.isEnable || !area.Reaction.isEnable) {
       return
