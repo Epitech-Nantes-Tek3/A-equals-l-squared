@@ -1,6 +1,16 @@
 'use strict'
 
 const database = require('../../database_init')
+const { gmailSendEmailFromArea } = require('../gmail/reactions/send_email.js')
+const {
+  discordSendMessageChannelFromArea
+} = require('../discord/reactions/send_message_channel.js')
+const {
+  discordSendPrivateMessageFromArea
+} = require('../discord/reactions/send_private_message.js')
+const {
+  discordchangeActivityFromArea
+} = require('../discord/reactions/change_activity.js')
 
 /**
  * Get an action from its code
@@ -53,6 +63,28 @@ const getActionFromCode = async code => {
 }
 
 /**
+ * Check if the parameters of an action are valid
+ * @param {JSON} Area
+ * @param {JSON} parametersList
+ * @returns
+ */
+const checkActionParameters = (Area, parametersList) => {
+  Area.ActionParameters.forEach(actionParameter => {
+    let index = parametersList.findIndex(
+      parameter => parameter.name == actionParameter.Parameter.name
+    )
+    if (index >= 0) {
+      if (actionParameter.value == parametersList[index].value) {
+        parametersList[index].valid = true
+      } else {
+        parametersList[index].valid = false
+      }
+    }
+  })
+  return parametersList.every(parameter => parameter.valid)
+}
+
+/**
  * Called by actions, it will call the appropriate reactions
  * @param {String} actionCode
  * @param {JSON} actionParameters
@@ -64,20 +96,21 @@ const AreaGlue = async (actionCode, actionParameters) => {
     return
   }
 
-  const reactions = {
-    'GML-01': () => console.log('Send email'),
-    'DSC-01': () => console.log('Send Discord message on channel'),
-    'DSC-02': () => console.log('Send Discord message on user'),
-    'DSC-03': () => console.log('Change Discord activity')
-  }
-
   action.UsersHasActionsReactions.forEach(area => {
-    if (area.isEnable == false || area.Reaction.isEnable == false) {
+    const reactions = {
+      'GML-01': () => gmailSendEmailFromArea(area),
+      'DSC-01': () => discordSendMessageChannelFromArea(area),
+      'DSC-02': () => discordSendPrivateMessageFromArea(area),
+      'DSC-03': () => discordchangeActivityFromArea(area)
+    }
+    if (!area.isEnable || !area.Reaction.isEnable) {
       return
     }
-    const reaction = reactions[area.Reaction.code]
-    if (reaction) {
-      reaction()
+    if (
+      checkActionParameters(area, actionParameters) &&
+      reactions[area.Reaction.code]
+    ) {
+      reactions[area.Reaction.code]()
     }
   })
 }
