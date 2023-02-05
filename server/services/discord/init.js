@@ -141,12 +141,6 @@ const createDiscordService = async () => {
                     isRequired: true
                   },
                   {
-                    name: 'guildId',
-                    description: 'The guild concerned guild id',
-                    isRequired: true,
-                    ProposalUrl: '/api/services/discord/getAvailableGuilds'
-                  },
-                  {
                     name: 'channelId',
                     description:
                       'The channel id where the message will be send',

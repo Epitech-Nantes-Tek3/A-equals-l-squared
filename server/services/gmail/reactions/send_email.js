@@ -1,6 +1,6 @@
 const gmail = require('../gmail_init').getGmailClient()
 
-async function sendEmailFromArea (Area) {
+async function gmailSendEmailFromArea (Area) {
   try {
     const reactionParameters = Area.ReactionParameters
     const to = reactionParameters.find(
@@ -45,4 +45,4 @@ async function sendEmail (to, subject, body) {
   return await gmail.users.messages.send(request)
 }
 
-module.exports = { sendEmail, sendEmailFromArea }
+module.exports = { sendEmail, gmailSendEmailFromArea }
