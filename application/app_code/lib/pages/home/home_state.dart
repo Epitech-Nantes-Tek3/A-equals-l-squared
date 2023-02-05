@@ -6,14 +6,10 @@ import 'package:application/pages/settings/settings_functional.dart';
 import 'package:application/pages/update_area/update_area_functional.dart';
 import 'package:flutter/material.dart';
 
-import '../auth_linker/auth_linker_functional.dart';
 import '../login/login_page.dart';
 import 'home_page.dart';
 
 class HomePageState extends State<HomePage> {
-  /// local variable telling if we wanted to logout
-  bool _logout = false;
-
   /// Update state function
   void update() {
     setState(() {});
@@ -31,78 +27,103 @@ class HomePageState extends State<HomePage> {
 
     for (var temp in areaDataList) {
       areaVis.add(ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            side: const BorderSide(width: 3, color: Colors.blue),
+            // Change when DB is Up
+            primary: Colors.white,
+          ),
           onPressed: () {
             updatingArea = temp;
             goToUpdateAreaPage(context);
           },
           child: temp.display(false)));
+      areaVis.add(const SizedBox(height: 20));
     }
     return areaVis;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_logout) {
+    if (logout) {
       userInformation = null;
       return const LoginPage();
     } else {
       return Scaffold(
-          body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: areasDisplay(),
+          resizeToAvoidBottomInset: true,
+          body: SingleChildScrollView(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      IconButton(
+                          iconSize: 30,
+                          onPressed: () {
+                            setState(() {
+                              goToSettingsPage(context);
+                            });
+                          },
+                          icon: const Icon(Icons.settings)),
+                      IconButton(
+                          iconSize: 30,
+                          onPressed: () {
+                            setState(() {
+                              goToCreateAreaPage(context);
+                            });
+                          },
+                          icon: const Icon(Icons.add))
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const Text('All Areas',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 28,
+                                fontFamily: 'Roboto-Bold')),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Search an Area',
+                            )),
+                      ]),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: areasDisplay(),
+                  ),
+                  ElevatedButton(
+                    key: const Key('HomeServiceButton'),
+                    onPressed: () {
+                      setState(() {
+                        goToServiceListPage(context);
+                      });
+                    },
+                    child: const Text('Service List'),
+                  ),
+                  ElevatedButton(
+                    key: const Key('HomeLogoutButton'),
+                    onPressed: () {
+                      setState(() {
+                        logout = true;
+                      });
+                    },
+                    child: const Text('Logout'),
+                  ),
+                ],
+              ),
             ),
-            ElevatedButton(
-              key: const Key('HomeSettingsButton'),
-              onPressed: () {
-                setState(() {
-                  goToSettingsPage(context);
-                });
-              },
-              child: const Text('Settings'),
-            ),
-            ElevatedButton(
-              key: const Key('HomeCreateAreaButton'),
-              onPressed: () {
-                setState(() {
-                  goToCreateAreaPage(context);
-                });
-              },
-              child: const Text('Create Area'),
-            ),
-            ElevatedButton(
-              key: const Key('HomeServiceButton'),
-              onPressed: () {
-                setState(() {
-                  goToServiceListPage(context);
-                });
-              },
-              child: const Text('Service List'),
-            ),
-            ElevatedButton(
-              key: const Key('HomeAuthListerButton'),
-              onPressed: () {
-                setState(() {
-                  goToAuthLinkerPage(context);
-                });
-              },
-              child: const Text('Auth Linker'),
-            ),
-            ElevatedButton(
-              key: const Key('HomeLogoutButton'),
-              onPressed: () {
-                setState(() {
-                  _logout = true;
-                });
-              },
-              child: const Text('Logout'),
-            ),
-          ],
-        ),
-      ));
+          ));
     }
   }
 }

@@ -49,6 +49,13 @@ class AuthBox {
       isEnable = token == null ? false : true;
     }
     return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          side: const BorderSide(width: 3, color: Colors.white),
+
+          /// Change when DB is Up
+          primary: Colors.white,
+        ),
         onPressed: () {
           if (updateAuthPage != null) {
             updateAuthPage!(action);
@@ -61,7 +68,13 @@ class AuthBox {
               authName,
               style: TextStyle(color: isEnable ? Colors.green : Colors.red),
             ),
-            Text(authDescription)
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              authDescription,
+              style: const TextStyle(color: Colors.black),
+            )
           ],
         ));
   }

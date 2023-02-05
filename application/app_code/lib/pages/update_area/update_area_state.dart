@@ -96,21 +96,46 @@ class UpdateAreaPageState extends State<UpdateAreaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
+        body: SingleChildScrollView(
+            child: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          const Text('Welcome to Update Area page'),
+          Row(
+            children: <Widget>[
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      goToHomePage(context);
+                    });
+                  },
+                  icon: const Icon(Icons.home_filled)),
+              const Text(
+                'Area settings',
+                style: TextStyle(fontSize: 25),
+              ),
+            ],
+          ),
           if (updatingArea != null) updatingArea!.display(true),
           if (updatingArea != null)
-            Switch(
-              value: updatingArea!.isEnable,
-              activeColor: Colors.blue,
-              onChanged: (bool value) {
-                setState(() {
-                  updatingArea!.isEnable = value;
-                });
-              },
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                if (updatingArea!.isEnable == true)
+                  const Text('This Area is activated'),
+                if (updatingArea!.isEnable == false)
+                  const Text('This Area is disabled'),
+                Switch(
+                  value: updatingArea!.isEnable,
+                  activeColor: Colors.blue,
+                  onChanged: (bool value) {
+                    setState(() {
+                      updatingArea!.isEnable = value;
+                    });
+                  },
+                ),
+              ],
             ),
           FutureBuilder<String>(
             future: _futureAnswer,
@@ -149,17 +174,8 @@ class UpdateAreaPageState extends State<UpdateAreaPage> {
                 ),
             ],
           ),
-          ElevatedButton(
-            key: const Key('UpdateAreaHomeButton'),
-            onPressed: () {
-              setState(() {
-                goToHomePage(context);
-              });
-            },
-            child: const Text('Go Home'),
-          ),
         ],
       ),
-    ));
+    )));
   }
 }
