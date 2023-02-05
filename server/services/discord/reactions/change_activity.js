@@ -24,7 +24,6 @@ function changeActivity (string) {
   client.user
     .setActivity(string)
     .then(() => {
-      console.log("Activity set to '" + string + "'")
       return true
     })
     .catch(err => {
