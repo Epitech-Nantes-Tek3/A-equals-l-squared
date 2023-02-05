@@ -1,7 +1,8 @@
 'use strict'
 
 const client = require('../init').client
-const { AreaGlue } = require('../../glue/glue.js')
+const { getActionFromCode, AreaGlue, checkActionParameters } = require('../../glue/glue.js')
+
 
 /**
  * @brief Triggered when a user reacts to a message.
@@ -11,7 +12,18 @@ const { AreaGlue } = require('../../glue/glue.js')
 client.on('messageReactionAdd', (reaction, user) => {
   console.log(reaction.emoji.name)
   try {
-    AreaGlue('DSC-04', ['null'])
+    const parametersList = [
+      { name: 'channelId',
+        value: reaction.message.channel.id,
+        valid: false },
+      {
+        name: 'guildId',
+        value: reaction.message.channel.guild.id,
+        valid: false
+      }
+    ]
+
+    AreaGlue('DSC-04', parametersList)
   } catch (error) {
     console.error(error)
   }
