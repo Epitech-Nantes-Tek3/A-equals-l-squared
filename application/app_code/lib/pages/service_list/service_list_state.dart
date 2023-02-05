@@ -27,7 +27,9 @@ class ServiceListPageState extends State<ServiceListPage> {
             goToCreateAreaPage(context);
           },
           child: temp.display()));
-      serviceVis.add(const SizedBox(height: 10,));
+      serviceVis.add(const SizedBox(
+        height: 10,
+      ));
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -60,8 +62,11 @@ class ServiceListPageState extends State<ServiceListPage> {
               )
             ],
           ),
-          const Text('All our implemented Services, if you want to create something with one of these, click on it !'),
-          const SizedBox(height: 20,),
+          const Text(
+              'All our implemented Services, if you want to create something with one of these, click on it !'),
+          const SizedBox(
+            height: 20,
+          ),
           displayAllService(),
         ],
       ),
