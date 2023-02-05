@@ -11,11 +11,17 @@ const { AreaGlue } = require('../../glue/glue.js')
 client.on('message', message => {
   if (message.author.bot) return
   try {
-    message.content = message.content.replace(
-      '<@' + client.user.id.toString() + '> ',
-      ''
-    )
-    AreaGlue('DSC-01', ['null'])
+    const parametersList = [
+      { name: 'channelId',
+        value: message.channel.id,
+        valid: false },
+      {
+        name: 'guildId',
+        value: message.channel.guild.id,
+        valid: false
+      }
+    ]
+    AreaGlue('DSC-01', parametersList)
   } catch (error) {
     console.error(error)
   }
