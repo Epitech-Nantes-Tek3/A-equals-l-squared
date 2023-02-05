@@ -1,21 +1,39 @@
 'use strict'
 
 const client = require('../init').client
+const axios = require('axios')
 
 /**
  * @brief Get all guilds where the bot is connected.
  * @returns An array of guilds with their ID and name.
  */
-function getAvailableGuilds () {
+async function getAvailableGuilds () {
+  const tokenType = 'Bot'
+  const accessToken = ''
   var guilds = []
-  client.guilds.cache.filter(guild => {
-    guild = {
-      id: guild.id,
-      name: guild.name
-    }
-    guilds.push(guild)
-  })
-  return guilds
+  var curr_guild = {}
+
+  try {
+    const response = await axios.get(
+      'https://discord.com/api/users/@me/guilds',
+      {
+        headers: {
+          authorization: `${tokenType} ${accessToken}`
+        }
+      }
+    )
+    response.data.forEach(guild => {
+      curr_guild = {
+        id: guild.id,
+        name: guild.name
+      }
+      guilds.push(curr_guild)
+    })
+    return guilds
+  } catch (error) {
+    console.error(error)
+    return null
+  }
 }
 
 module.exports = getAvailableGuilds
