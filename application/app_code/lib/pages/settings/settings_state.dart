@@ -90,6 +90,7 @@ class SettingsPageState extends State<SettingsPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        const SizedBox(height: 10,),
         TextFormField(
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
@@ -105,6 +106,7 @@ class SettingsPageState extends State<SettingsPage> {
             return null;
           },
         ),
+        const SizedBox(height: 10,),
         TextFormField(
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
@@ -122,6 +124,7 @@ class SettingsPageState extends State<SettingsPage> {
             return null;
           },
         ),
+        const SizedBox(height: 10,),
         TextFormField(
           obscureText: true,
           decoration: const InputDecoration(
@@ -138,6 +141,7 @@ class SettingsPageState extends State<SettingsPage> {
             return null;
           },
         ),
+        const SizedBox(height: 10,),
         modifierButtons(),
       ],
     );
