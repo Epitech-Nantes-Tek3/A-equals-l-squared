@@ -177,7 +177,7 @@ class SettingsPageState extends State<SettingsPage> {
       const SizedBox(height: 10),
       parameterButtonView(Icons.notifications_active, 'Notification', 4),
       const SizedBox(height: 10),
-      parameterButtonView(Icons.logout, 'Logout', 5),
+      parameterButtonView(Icons.logout, 'Logout', 84),
     ]);
   }
 
@@ -223,7 +223,7 @@ class SettingsPageState extends State<SettingsPage> {
     if (_settingPage == 2) return userDataVisualization();
     if (_settingPage == 3) return userDataVisualization();
     if (_settingPage == 4) return userDataVisualization();
-    if (_settingPage == 5) return userDataVisualization();
+    if (_settingPage == 84) return userDataVisualization();
     return const Text('');
   }
 
@@ -256,9 +256,6 @@ class SettingsPageState extends State<SettingsPage> {
             ],
           ),
           displaySettingsViews(),
-
-          /// userDataVisualization(),
-          /// modifierButtons()
           FutureBuilder<String>(
             future: _futureAnswer,
             builder: (context, snapshot) {
