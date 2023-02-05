@@ -20,7 +20,7 @@ passport.use(
       const user = await database.prisma.User.findUnique({
         where: {
           id: jwt_payload.id
-        },
+        }
       })
       if (!user.mailVerification) return done(null, null)
       return done(null, user)
