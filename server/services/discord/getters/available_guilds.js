@@ -23,11 +23,13 @@ async function getAvailableGuilds () {
       }
     )
     response.data.forEach(guild => {
-      curr_guild = {
-        id: guild.id,
-        name: guild.name
+      if ((guild.permissions & 8) === 8) {
+        curr_guild = {
+          id: guild.id,
+          name: guild.name
+        }
+        guilds.push(curr_guild)
       }
-      guilds.push(curr_guild)
     })
     return guilds
   } catch (error) {
