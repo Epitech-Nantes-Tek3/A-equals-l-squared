@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'action_data.dart';
+import '../../material_lib_functions/material_functions.dart';
 
 /// This class is the Area class.
 /// It contains all information about an Area
@@ -87,10 +88,32 @@ class AreaData {
                   color: isEnable ? Colors.green : Colors.red, fontSize: 20),
             ),
           ]),
-          const Text("Action"),
-          action.display(true, actionParameters),
-          const Text("Reaction"),
-          reaction.display(true, reactionParameters)
+          materialShadowForArea(Column(children: <Widget>[
+            Container(
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Column(
+                children: [
+                  const Text("Action"),
+                  action.display(true, actionParameters),
+                ],
+              ),
+            )
+          ])),
+          const SizedBox(height: 20,),
+          materialShadowForArea(Column(children: <Widget>[
+            Container(
+              margin:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Column(
+                children: [
+                  const Text("Reaction"),
+                  reaction.display(true, reactionParameters)
+                ],
+              ),
+            )
+          ])),
+
         ],
       ));
     } else {
