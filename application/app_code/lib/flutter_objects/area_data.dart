@@ -1,7 +1,6 @@
 import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:application/flutter_objects/reaction_data.dart';
 import 'package:application/pages/home/home_functional.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'action_data.dart';
