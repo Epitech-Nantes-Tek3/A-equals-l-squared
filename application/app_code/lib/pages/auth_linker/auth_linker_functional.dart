@@ -54,7 +54,7 @@ class AuthBox {
           side: const BorderSide(width: 3, color: Colors.white),
 
           /// Change when DB is Up
-          backgroundColor: Colors.white,
+          primary: Colors.white,
         ),
         onPressed: () {
           if (updateAuthPage != null) {

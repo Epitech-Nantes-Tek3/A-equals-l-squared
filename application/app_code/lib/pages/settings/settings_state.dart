@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 import '../auth_linker/auth_linker_functional.dart';
 import '../home/home_functional.dart';
+import '../login/login_functional.dart';
 
 class SettingsPageState extends State<SettingsPage> {
   /// username to update
@@ -300,12 +301,14 @@ class SettingsPageState extends State<SettingsPage> {
           padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
           side: const BorderSide(width: 3, color: Colors.white),
           // Change when DB is Up
-          backgroundColor: Colors.white,
+          primary: Colors.white,
         ),
         onPressed: () {
           setState(() {
             if (selector == 5) {
               goToAuthPage(context);
+            } else if (selector == 84) {
+              goToLoginPage(context);
             } else {
               _settingPage = selector;
             }

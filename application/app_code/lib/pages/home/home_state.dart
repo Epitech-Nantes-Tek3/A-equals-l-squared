@@ -10,9 +10,6 @@ import '../login/login_page.dart';
 import 'home_page.dart';
 
 class HomePageState extends State<HomePage> {
-  /// local variable telling if we wanted to logout
-  bool _logout = false;
-
   /// Update state function
   void update() {
     setState(() {});
@@ -34,7 +31,7 @@ class HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
             side: const BorderSide(width: 3, color: Colors.blue),
             // Change when DB is Up
-            backgroundColor: Colors.white,
+            primary: Colors.white,
           ),
           onPressed: () {
             updatingArea = temp;
@@ -48,7 +45,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_logout) {
+    if (logout) {
       userInformation = null;
       return const LoginPage();
     } else {
@@ -118,7 +115,7 @@ class HomePageState extends State<HomePage> {
                     key: const Key('HomeLogoutButton'),
                     onPressed: () {
                       setState(() {
-                        _logout = true;
+                        logout = true;
                       });
                     },
                     child: const Text('Logout'),

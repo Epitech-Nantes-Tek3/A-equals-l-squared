@@ -324,6 +324,7 @@ class LoginPageState extends State<LoginPage> {
                 if (userInformation != null) {
                   return const HomePage();
                 }
+                logout = false;
                 return Container(
                     margin: const EdgeInsets.symmetric(horizontal: 30),
                     child: Column(
