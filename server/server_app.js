@@ -663,16 +663,21 @@ app.post(
 app.get(
   '/api/services/discord/getAvailableGuilds',
   passport.authenticate('jwt', { session: false }),
-  (req, res) => {
+  async (req, res) => {
     if (req.user.discordToken == null)
       return res.status(400).send('No Discord account linked.')
-    const guilds = getAvailableGuilds(req.user.discordToken)
-    if (guilds == null) return res.status(400).send('An error occured.')
-    return res.status(201).json({
-      status: 'success',
-      data: guilds,
-      statusCode: res.statusCode
-    })
+    try {
+      const guilds = await getAvailableGuilds(req.user.discordToken)
+      if (guilds == null) return res.status(400).send('An error occured.')
+      return res.status(201).json({
+        status: 'success',
+        data: guilds,
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('An error occured.')
+    }
   }
 )
 
