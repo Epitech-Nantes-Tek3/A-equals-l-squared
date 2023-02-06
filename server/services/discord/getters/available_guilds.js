@@ -13,7 +13,6 @@ async function getAvailableGuilds (accessToken) {
   var curr_guild = {}
 
   try {
-    console.log(`${tokenType} ${accessToken}`)
     const response = await axios.get(
       'https://discord.com/api/users/@me/guilds',
       {
