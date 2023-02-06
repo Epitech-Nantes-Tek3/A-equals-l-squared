@@ -37,6 +37,7 @@ model Service {
   description String?
   isEnable    Boolean    @default(false)
   createdAt   DateTime   @default(now())
+  color       String     @default("#000000") @db.VarChar(7)
   Actions     Action[]
   Reactions   Reaction[]
 }
