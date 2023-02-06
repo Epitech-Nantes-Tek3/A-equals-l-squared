@@ -443,7 +443,9 @@ app.post(
           discordToken: req.body.discord != '' ? req.body.discord : null
         }
       })
-      const token = utils.generateToken(user.id)
+      const token = utils
+      if (!req.user)
+        return res.status(401).send('Invalid token').generateToken(user.id)
       return res.status(200).json({
         status: 'success',
         data: { message: 'Token updated.', user, token },
@@ -661,7 +663,10 @@ app.get(
   '/api/services/discord/getAvailableGuilds',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const guilds = getAvailableGuilds()
+    if (req.user.discord == null)
+      return res.status(400).send('No Discord account linked.')
+    const guilds = getAvailableGuilds(req.user.discord)
+    if (guilds == null) return res.status(400).send('An error occured.')
     return res.status(201).json({
       status: 'success',
       data: guilds,
