@@ -144,7 +144,7 @@ Future<String> getDiscordToken() async {
       'response_type': 'code',
       'client_id': clientId,
       'redirect_uri': 'http://localhost:8081/auth.html',
-      'scope': 'identify',
+      'scope': 'identify guilds',
     });
 
     final result = await FlutterWebAuth2.authenticate(
