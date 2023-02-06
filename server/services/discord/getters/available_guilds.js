@@ -7,9 +7,8 @@ const axios = require('axios')
  * @brief Get all guilds where the bot is connected.
  * @returns An array of guilds with their ID and name.
  */
-async function getAvailableGuilds () {
-  const tokenType = 'Bot'
-  const accessToken = ''
+async function getAvailableGuilds (accessToken) {
+  const tokenType = 'Bearer'
   var guilds = []
   var curr_guild = {}
 
@@ -22,6 +21,7 @@ async function getAvailableGuilds () {
         }
       }
     )
+    if (response.status !== 200) return null
     response.data.forEach(guild => {
       if ((guild.permissions & 8) === 8) {
         curr_guild = {
