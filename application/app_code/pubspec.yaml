@@ -56,7 +56,7 @@ dev_dependencies:
 # For fonts, this use a font in assets/fonts/Roboto/ and you can use it in any Text in our app with Textstyle(fontFamily: '[family_you_want]')
 flutter:
   assets:
-    - assets/
+    - assets/icons/
   fonts:
     - family: Roboto-Black
       fonts:
