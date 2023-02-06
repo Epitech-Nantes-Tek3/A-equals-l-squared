@@ -5,7 +5,9 @@ import 'package:application/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../auth_linker/auth_linker_functional.dart';
 import '../home/home_functional.dart';
+import '../login/login_functional.dart';
 
 class SettingsPageState extends State<SettingsPage> {
   /// username to update
@@ -16,6 +18,9 @@ class SettingsPageState extends State<SettingsPage> {
 
   /// password to update
   String? _password = "";
+
+  /// To know what things to display
+  int _settingPage = 0;
 
   /// future api answer
   late Future<String> _futureAnswer;
@@ -84,8 +89,11 @@ class SettingsPageState extends State<SettingsPage> {
   /// Display function returning a user data customizable visualization
   Widget userDataVisualization() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        const SizedBox(
+          height: 10,
+        ),
         TextFormField(
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
@@ -100,6 +108,9 @@ class SettingsPageState extends State<SettingsPage> {
             _username = value;
             return null;
           },
+        ),
+        const SizedBox(
+          height: 10,
         ),
         TextFormField(
           decoration: const InputDecoration(
@@ -118,6 +129,9 @@ class SettingsPageState extends State<SettingsPage> {
             return null;
           },
         ),
+        const SizedBox(
+          height: 10,
+        ),
         TextFormField(
           obscureText: true,
           decoration: const InputDecoration(
@@ -134,59 +148,194 @@ class SettingsPageState extends State<SettingsPage> {
             return null;
           },
         ),
+        const SizedBox(
+          height: 10,
+        ),
+        modifierButtons(),
       ],
     );
+  }
+
+  /// This function display buttons to modified an user account
+  Widget modifierButtons() {
+    return Column(children: <Widget>[
+      ElevatedButton(
+        key: const Key('AskUpdateButton'),
+        onPressed: () {
+          setState(() {
+            _futureAnswer = apiAskForUpdate();
+          });
+        },
+        child: const Text('Update account information'),
+      ),
+      ElevatedButton(
+        key: const Key('AskDeleteButton'),
+        onPressed: () {
+          setState(() {
+            _futureAnswer = apiAskForDelete();
+          });
+        },
+        child: const Text('Delete account'),
+      ),
+    ]);
+  }
+
+  /// This function display all button to give access at a settings for users
+  Widget displayAllParameterButtons() {
+    return Column(children: <Widget>[
+      parameterButtonView(Icons.manage_accounts_rounded, 'User information', 1),
+      const SizedBox(height: 10),
+      parameterButtonView(Icons.app_settings_alt_sharp, 'Data management', 2),
+      const SizedBox(height: 10),
+      parameterButtonView(Icons.language, 'Language', 3),
+      const SizedBox(height: 10),
+      parameterButtonView(Icons.notifications_active, 'Notification', 4),
+      const SizedBox(height: 10),
+      parameterButtonView(Icons.connect_without_contact, 'Auth', 5),
+      const SizedBox(height: 10),
+      parameterButtonView(Icons.logout, 'Logout', 84),
+    ]);
+  }
+
+  /// This function display headers for settings views, depends on _settingsPage
+  Widget displaySettingsHeader() {
+    if (_settingPage == 0) {
+      return const Text(
+        'Settings',
+        style: TextStyle(fontSize: 20),
+      );
+    }
+    if (_settingPage == 1) {
+      return const Text(
+        'User information',
+        style: TextStyle(fontSize: 20),
+      );
+    }
+    if (_settingPage == 2) {
+      return const Text(
+        'Data management',
+        style: TextStyle(fontSize: 20),
+      );
+    }
+    if (_settingPage == 3) {
+      return const Text(
+        'Language',
+        style: TextStyle(fontSize: 20),
+      );
+    }
+    if (_settingPage == 4) {
+      return const Text(
+        'Notification',
+        style: TextStyle(fontSize: 20),
+      );
+    }
+    return const Text('');
+  }
+
+  /// This function choose what Settings View display depends on _settingsPage
+  Widget displaySettingsViews() {
+    if (_settingPage == 0) return displayAllParameterButtons();
+    if (_settingPage == 1) return userDataVisualization();
+    if (_settingPage == 2) return userDataVisualization();
+    if (_settingPage == 3) return userDataVisualization();
+    if (_settingPage == 4) return userDataVisualization();
+    if (_settingPage == 5) return goToAuthPage(context);
+    if (_settingPage == 84) return userDataVisualization();
+    return const Text('');
+  }
+
+  Widget goToAuthPage(context) {
+    goToAuthLinkerPage(context);
+    return const Text('');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          const Text('Welcome to Settings page'),
-          userDataVisualization(),
-          ElevatedButton(
-            key: const Key('AskUpdateButton'),
-            onPressed: () {
-              setState(() {
-                _futureAnswer = apiAskForUpdate();
-              });
-            },
-            child: const Text('Update account information'),
-          ),
-          ElevatedButton(
-            key: const Key('AskDeleteButton'),
-            onPressed: () {
-              setState(() {
-                _futureAnswer = apiAskForDelete();
-              });
-            },
-            child: const Text('Delete account'),
-          ),
-          FutureBuilder<String>(
-            future: _futureAnswer,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data!);
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const CircularProgressIndicator();
-            },
-          ),
-          ElevatedButton(
-            key: const Key('SettingsHomeButton'),
-            onPressed: () {
-              setState(() {
-                goToHomePage(context);
-              });
-            },
-            child: const Text('Go Home'),
-          ),
-        ],
-      ),
-    ));
+        body: SingleChildScrollView(
+            child: Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (_settingPage == 0) {
+                                    goToHomePage(context);
+                                  } else {
+                                    _settingPage = 0;
+                                  }
+                                });
+                              },
+                              icon: const Icon(Icons.arrow_back_ios_sharp),
+                              color: Colors.black),
+                          displaySettingsHeader(),
+                        ],
+                      ),
+                      displaySettingsViews(),
+                      FutureBuilder<String>(
+                        future: _futureAnswer,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(snapshot.data!);
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+                          return const CircularProgressIndicator();
+                        },
+                      ),
+                    ],
+                  ),
+                ))));
+  }
+
+  /// This function display all settings which can manage by users
+  Widget parameterButtonView(IconData icon, String description, int selector) {
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+          side: const BorderSide(width: 3, color: Colors.white),
+          // Change when DB is Up
+          primary: Colors.white,
+        ),
+        onPressed: () {
+          setState(() {
+            if (selector == 5) {
+              goToAuthPage(context);
+            } else if (selector == 84) {
+              goToLoginPage(context);
+            } else {
+              _settingPage = selector;
+            }
+          });
+        },
+        child: Column(children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Icon(
+                    icon,
+                    color: Colors.black,
+                  ),
+                  const SizedBox(width: 20),
+                  Text(
+                    description,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+              const Icon(Icons.arrow_forward_ios_sharp, color: Colors.black)
+            ],
+          )
+        ]));
   }
 }

@@ -58,15 +58,26 @@ class ActionData {
   /// params -> list of all the associated parameter content
   Widget display(bool mode, List<ParameterContent> params) {
     List<Widget> paramWid = <Widget>[];
-    paramWid.add(
-      Text(
-        name,
-        style: TextStyle(color: isEnable ? Colors.green : Colors.red),
-      ),
-    );
-    paramWid.add(
-      Text(description),
-    );
+    paramWid.add(Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      description,
+                      style: TextStyle(
+                          color: isEnable ? Colors.green : Colors.red),
+                    ), // Change when icon are in DB
+                  ]),
+            ],
+          ),
+        ]));
     if (mode == true) {
       for (var temp in parameters) {
         paramWid.add(temp.display(params));
@@ -76,5 +87,43 @@ class ActionData {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: paramWid,
     );
+  }
+
+  /// Function to display the name of a Reaction
+  Widget? displayReactionName() {
+    if (isEnable) {
+      return Column(
+        children: <Widget>[
+          Text(name),
+        ],
+      );
+    } else {
+      return null;
+    }
+  }
+
+  /// Function to display all information about a Reaction
+  Widget? displayReactionWithInfo() {
+    if (isEnable) {
+      return Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  const Icon(Icons.access_alarm),
+                  Text(name),
+                ],
+              ),
+            ],
+          ),
+          Row(children: <Widget>[
+            Text(description),
+          ]),
+        ],
+      );
+    } else {
+      return null;
+    }
   }
 }

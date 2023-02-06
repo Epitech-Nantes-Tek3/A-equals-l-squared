@@ -1,6 +1,6 @@
+import 'package:application/pages/settings/settings_functional.dart';
 import 'package:flutter/material.dart';
 
-import '../home/home_functional.dart';
 import 'auth_linker_functional.dart';
 import 'auth_linker_page.dart';
 
@@ -11,7 +11,16 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
   Widget displayAuthBox() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [googleAuthBox.display(), discordAuthBox.display()],
+      children: [
+        const SizedBox(
+          height: 30,
+        ),
+        googleAuthBox.display(),
+        const SizedBox(
+          height: 30,
+        ),
+        discordAuthBox.display()
+      ],
     );
   }
 
@@ -39,34 +48,40 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          const Text('Welcome to Auth Linker page'),
-          displayAuthBox(),
-          FutureBuilder<String>(
-            future: _futureApiResponse,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data!);
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const CircularProgressIndicator();
-            },
-          ),
-          ElevatedButton(
-            key: const Key('AuthLinkerHomeButton'),
-            onPressed: () {
-              setState(() {
-                goToHomePage(context);
-              });
-            },
-            child: const Text('Go Home'),
-          ),
-        ],
-      ),
-    ));
+        resizeToAvoidBottomInset: true,
+        body: SingleChildScrollView(
+            child: Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      const Text('Welcome to Auth Linker page'),
+                      displayAuthBox(),
+                      FutureBuilder<String>(
+                        future: _futureApiResponse,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(snapshot.data!);
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+                          return const CircularProgressIndicator();
+                        },
+                      ),
+                      ElevatedButton(
+                        key: const Key('AuthLinkerHomeButton'),
+                        onPressed: () {
+                          setState(() {
+                            goToSettingsPage(context);
+                          });
+                        },
+                        child: const Text('Go back settings'),
+                      ),
+                    ],
+                  ),
+                ))));
   }
 }

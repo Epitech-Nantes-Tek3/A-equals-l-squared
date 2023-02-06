@@ -72,24 +72,29 @@ class ParameterData {
       }
     }
     matchedContent ??= ParameterContent(paramId: id, value: "");
-    return TextFormField(
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(20),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5.0),
+    return Column(children: <Widget>[
+      const SizedBox(
+        height: 10,
+      ),
+      TextFormField(
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(20),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            labelText: name,
           ),
-          labelText: name,
-        ),
-        initialValue: matchedContent != null ? matchedContent!.value : "",
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: (String? value) {
-          if (value == null && isRequired) {
-            return 'Required parameter.';
-          }
-          value ??= "";
-          if (matchedContent != null) matchedContent!.value = value;
-          return null;
-        });
+          initialValue: matchedContent != null ? matchedContent!.value : "",
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (String? value) {
+            if (value == null && isRequired) {
+              return 'Required parameter.';
+            }
+            value ??= "";
+            if (matchedContent != null) matchedContent!.value = value;
+            return null;
+          })
+    ]);
   }
 }
 

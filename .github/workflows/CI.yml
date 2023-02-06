@@ -40,7 +40,8 @@ jobs:
       - name: Flutter instal
         uses: subosito/flutter-action@v1
         with:
-          channel: 'beta'
+          flutter-version: '3.0.3'
+          channel: 'stable'
       - name: dependencies
         working-directory: ./application/app_code
         run: flutter pub get

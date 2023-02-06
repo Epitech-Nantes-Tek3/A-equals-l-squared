@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// This class is the UserData class.
 /// It contains all information about an UserData
 class UserData {
@@ -16,6 +18,41 @@ class UserData {
       required this.isAdmin,
       required this.createdAt,
       this.userToken});
+
+  /// Function to display user name
+  Widget? displayUserName() {
+    return Column(
+      children: <Widget>[
+        Text(userName),
+      ],
+    );
+  }
+
+  /// Function to display user email
+  Widget? displayUserEmail() {
+    return Column(
+      children: <Widget>[
+        Text(userName),
+      ],
+    );
+  }
+
+  /// Function to display if an user is admin
+  Widget? displayIsUserIsAdmin() {
+    if (isAdmin) {
+      return Column(
+        children: const <Widget>[
+          Text('Admin'),
+        ],
+      );
+    } else {
+      return Column(
+        children: const <Widget>[
+          Text("Not Admin"),
+        ],
+      );
+    }
+  }
 
   /// Convert a json map into the class
   factory UserData.fromJson(Map<String, dynamic> json) {

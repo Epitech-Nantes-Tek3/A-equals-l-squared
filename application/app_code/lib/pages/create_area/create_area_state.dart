@@ -123,7 +123,15 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             reactionParameters:
                 createdAreaContent[1].reactions[0].getAllParameterContent());
       }
-      createVis.add(createdArea!.display(true));
+      createVis.add(const SizedBox(
+        height: 10,
+      ));
+      createVis.add(createdArea!.displayForCreate(true));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
       createVis.add(ElevatedButton(
           onPressed: () {
             setState(() {
@@ -148,9 +156,19 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
     if (_state == 5) {
       createVis.add(const Text("Configure your Reaction"));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
       createVis.add(createdAreaContent[1]
           .reactions[0]
           .display(true, reactionParameterContent));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
       createVis.add(ElevatedButton(
           onPressed: () {
             setState(() {
@@ -172,7 +190,18 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     if (_state == 4) {
       createVis.add(const Text("Choose your Reaction"));
       for (var temp in createdAreaContent[1].reactions) {
+        createVis.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
         createVis.add(ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              side: const BorderSide(width: 3, color: Colors.white),
+              // Change when DB is Up
+              primary: Colors.white,
+            ),
             onPressed: () {
               setState(() {
                 _createdAreaContentSave = List.from(createdAreaContent);
@@ -191,13 +220,29 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               });
             },
             child: temp.display(false, [])));
+        createVis.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
       }
     }
 
     if (_state == 3) {
       createVis.add(const Text("Choose your Reaction service"));
       for (var temp in serviceDataList) {
+        createVis.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
         createVis.add(ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              side: const BorderSide(width: 3, color: Colors.white),
+              // Change when DB is Up
+              primary: Colors.white,
+            ),
             onPressed: () {
               setState(() {
                 _createdAreaContentSave = List.from(createdAreaContent);
@@ -206,14 +251,29 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               });
             },
             child: temp.display()));
+        createVis.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
       }
     }
 
     if (_state == 2) {
       createVis.add(const Text("Configure your Action"));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
       createVis.add(createdAreaContent[0]
           .actions[0]
           .display(true, actionParameterContent));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
       createVis.add(ElevatedButton(
           onPressed: () {
             setState(() {
@@ -233,9 +293,23 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     }
 
     if (_state == 1) {
-      createVis.add(const Text("Choose your Action"));
+      createVis.add(Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const <Widget>[Text("Choose your Action")]));
+      createVis.add(
+        const SizedBox(
+          height: 30,
+        ),
+      );
       for (var temp in createdAreaContent[0].actions) {
         createVis.add(ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              side: const BorderSide(width: 3, color: Colors.white),
+
+              /// Change when DB is Up
+              primary: Colors.white,
+            ),
             onPressed: () {
               setState(() {
                 _createdAreaContentSave = List.from(createdAreaContent);
@@ -254,13 +328,24 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               });
             },
             child: temp.display(false, [])));
+        createVis.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
       }
     }
 
     if (_state == 0) {
-      createVis.add(const Text("Choose your Action service"));
       for (var temp in serviceDataList) {
         createVis.add(ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              side: const BorderSide(width: 3, color: Colors.white),
+
+              /// Change when DB is Up
+              primary: Colors.white,
+            ),
             onPressed: () {
               setState(() {
                 createdAreaContent = <ServiceData>[];
@@ -269,6 +354,11 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               });
             },
             child: temp.display()));
+        createVis.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
       }
     }
 
@@ -289,13 +379,51 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
+        body: SingleChildScrollView(
+            child: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          const Text('Welcome to Create Area page'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      goToHomePage(context);
+                    });
+                  },
+                  icon: const Icon(Icons.home_filled)),
+              const Text(
+                'Create a new Area',
+                style: TextStyle(fontFamily: 'Roboto-Bold', fontSize: 25),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          if (_state == 0)
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text('Choose an service for the action'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Search a Service...',
+                      )),
+                ]),
+          const SizedBox(
+            height: 30,
+          ),
           Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: creationDisplay(),
           ),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -315,21 +443,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 },
                 child: const Text('Previous'),
               ),
-            ElevatedButton(
-              key: const Key('CreateAreaHomeButton'),
-              onPressed: () {
-                setState(() {
-                  _state = 0;
-                  _createdAreaContentSave = <ServiceData>[];
-                  createdAreaContent = <ServiceData>[];
-                  goToHomePage(context);
-                });
-              },
-              child: const Text('Go Home'),
-            ),
           ])
         ],
       ),
-    ));
+    )));
   }
 }
