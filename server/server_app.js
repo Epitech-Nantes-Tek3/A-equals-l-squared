@@ -683,6 +683,32 @@ app.post(
 )
 
 /**
+ * @brief List available performers, such as bot/user.
+ */
+app.get(
+  '/api/services/discord/getAvailablePerformers',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const performers = []
+    if (discordClient.presence.status == 'online')
+      performers.append({
+        id: discordClient.client.user.id,
+        name: discordClient.client.user.username
+      })
+    if (req.user.discordToken != null)
+      performers.append({
+        id: req.user.discordToken,
+        name: req.user.username
+      })
+    return res.status(200).json({
+      status: 'success',
+      data: performers,
+      statusCode: res.statusCode
+    })
+  }
+)
+
+/**
  * Creating a new user in the database.
  * bodi.username -> User name
  * body.email -> User mail
