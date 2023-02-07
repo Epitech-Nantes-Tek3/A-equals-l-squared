@@ -1,5 +1,7 @@
 'use strict'
 
+/** @module route */
+
 const express = require('express')
 const passport = require('passport')
 const database = require('./database_init')
@@ -62,6 +64,7 @@ function test_example (number) {
 
 /**
  * Set the header protocol to authorize Web connection
+ * @memberof route
  */
 app.use(function (req, res, next) {
   // Allow access request from any computers
@@ -81,6 +84,9 @@ app.use(function (req, res, next) {
 
 /**
  * Welcoming path
+ * @memberof route
+ * @function
+ * @name welcomingPath
  */
 app.get('/', (req, res) => {
   res.send('Hello World')
