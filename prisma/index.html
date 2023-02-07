@@ -68,7 +68,7 @@
                   <div class="mt-1 ml-2">
                     <div class="mb-1 font-medium text-gray-600"><a href="#model-Service-fields">Fields</a></div>
                       <ul class="pl-3 ml-1 border-l-2 border-gray-400">
-                      <li><a href="#model-Service-id">id</a></li><li><a href="#model-Service-name">name</a></li><li><a href="#model-Service-description">description</a></li><li><a href="#model-Service-isEnable">isEnable</a></li><li><a href="#model-Service-createdAt">createdAt</a></li><li><a href="#model-Service-Actions">Actions</a></li><li><a href="#model-Service-Reactions">Reactions</a></li>
+                      <li><a href="#model-Service-id">id</a></li><li><a href="#model-Service-name">name</a></li><li><a href="#model-Service-description">description</a></li><li><a href="#model-Service-isEnable">isEnable</a></li><li><a href="#model-Service-createdAt">createdAt</a></li><li><a href="#model-Service-primaryColor">primaryColor</a></li><li><a href="#model-Service-secondaryColor">secondaryColor</a></li><li><a href="#model-Service-icon">icon</a></li><li><a href="#model-Service-Actions">Actions</a></li><li><a href="#model-Service-Reactions">Reactions</a></li>
                       </ul>
                   </div>
                   <div class="mt-2 ml-2">
@@ -188,7 +188,7 @@
                   <div class="mt-1 ml-2">
                     <div class="mb-1 font-medium text-gray-600"><a href="#model-UsersHasActionsReactions-fields">Fields</a></div>
                       <ul class="pl-3 ml-1 border-l-2 border-gray-400">
-                      <li><a href="#model-UsersHasActionsReactions-id">id</a></li><li><a href="#model-UsersHasActionsReactions-name">name</a></li><li><a href="#model-UsersHasActionsReactions-User">User</a></li><li><a href="#model-UsersHasActionsReactions-Action">Action</a></li><li><a href="#model-UsersHasActionsReactions-Reaction">Reaction</a></li><li><a href="#model-UsersHasActionsReactions-isEnable">isEnable</a></li><li><a href="#model-UsersHasActionsReactions-createdAt">createdAt</a></li><li><a href="#model-UsersHasActionsReactions-userId">userId</a></li><li><a href="#model-UsersHasActionsReactions-actionId">actionId</a></li><li><a href="#model-UsersHasActionsReactions-reactionId">reactionId</a></li><li><a href="#model-UsersHasActionsReactions-ActionParameters">ActionParameters</a></li><li><a href="#model-UsersHasActionsReactions-ReactionParameters">ReactionParameters</a></li>
+                      <li><a href="#model-UsersHasActionsReactions-id">id</a></li><li><a href="#model-UsersHasActionsReactions-name">name</a></li><li><a href="#model-UsersHasActionsReactions-User">User</a></li><li><a href="#model-UsersHasActionsReactions-Action">Action</a></li><li><a href="#model-UsersHasActionsReactions-Reaction">Reaction</a></li><li><a href="#model-UsersHasActionsReactions-isEnable">isEnable</a></li><li><a href="#model-UsersHasActionsReactions-createdAt">createdAt</a></li><li><a href="#model-UsersHasActionsReactions-description">description</a></li><li><a href="#model-UsersHasActionsReactions-userId">userId</a></li><li><a href="#model-UsersHasActionsReactions-actionId">actionId</a></li><li><a href="#model-UsersHasActionsReactions-reactionId">reactionId</a></li><li><a href="#model-UsersHasActionsReactions-ActionParameters">ActionParameters</a></li><li><a href="#model-UsersHasActionsReactions-ReactionParameters">ReactionParameters</a></li>
                       </ul>
                   </div>
                   <div class="mt-2 ml-2">
@@ -1229,6 +1229,66 @@
       </td>
       <td class="px-4 py-2 border">
         <b>Yes</b>
+      </td>
+      <td class="px-4 py-2 border">
+        -
+      </td>
+    </tr>
+    
+    <tr id="model-Service-primaryColor">
+      <td class="px-4 py-2 border">
+       primaryColor 
+      </td>
+      <td class="px-4 py-2 border">
+       String
+      </td>
+      <td class="px-4 py-2 border">
+        <ul>
+          <li><strong>@default(#000000)</strong></li>
+        </ul>
+      </td>
+      <td class="px-4 py-2 border">
+        <b>Yes</b>
+      </td>
+      <td class="px-4 py-2 border">
+        -
+      </td>
+    </tr>
+    
+    <tr id="model-Service-secondaryColor">
+      <td class="px-4 py-2 border">
+       secondaryColor 
+      </td>
+      <td class="px-4 py-2 border">
+       String
+      </td>
+      <td class="px-4 py-2 border">
+        <ul>
+          <li><strong>@default(#000000)</strong></li>
+        </ul>
+      </td>
+      <td class="px-4 py-2 border">
+        <b>Yes</b>
+      </td>
+      <td class="px-4 py-2 border">
+        -
+      </td>
+    </tr>
+    
+    <tr id="model-Service-icon">
+      <td class="px-4 py-2 border">
+       icon 
+      </td>
+      <td class="px-4 py-2 border">
+       String?
+      </td>
+      <td class="px-4 py-2 border">
+        <ul>
+          <li> - </li>
+        </ul>
+      </td>
+      <td class="px-4 py-2 border">
+        No
       </td>
       <td class="px-4 py-2 border">
         -
@@ -6069,6 +6129,26 @@
       </td>
     </tr>
     
+    <tr id="model-UsersHasActionsReactions-description">
+      <td class="px-4 py-2 border">
+       description 
+      </td>
+      <td class="px-4 py-2 border">
+       String?
+      </td>
+      <td class="px-4 py-2 border">
+        <ul>
+          <li> - </li>
+        </ul>
+      </td>
+      <td class="px-4 py-2 border">
+        No
+      </td>
+      <td class="px-4 py-2 border">
+        -
+      </td>
+    </tr>
+    
     <tr id="model-UsersHasActionsReactions-userId">
       <td class="px-4 py-2 border">
        userId 
@@ -7746,6 +7826,42 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-StringFilter">StringFilter</a> | String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-StringFilter">StringFilter</a> | String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-StringNullableFilter">StringNullableFilter</a> | String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         Actions </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionListRelationFilter">ActionListRelationFilter</a>
@@ -7835,6 +7951,42 @@
     <tr>
       <td class="px-4 py-2 border">
         createdAt </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-SortOrder">SortOrder</a>
       </td>
@@ -7975,6 +8127,42 @@
     <tr>
       <td class="px-4 py-2 border">
         createdAt </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-SortOrder">SortOrder</a>
       </td>
@@ -8129,6 +8317,42 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-StringWithAggregatesFilter">StringWithAggregatesFilter</a> | String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-StringWithAggregatesFilter">StringWithAggregatesFilter</a> | String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-StringNullableWithAggregatesFilter">StringNullableWithAggregatesFilter</a> | String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -11070,6 +11294,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-StringNullableFilter">StringNullableFilter</a> | String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         userId </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-StringNullableFilter">StringNullableFilter</a> | String | Null
@@ -11230,6 +11466,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         userId </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-SortOrder">SortOrder</a>
@@ -11371,6 +11619,18 @@
     <tr>
       <td class="px-4 py-2 border">
         createdAt </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-SortOrder">SortOrder</a>
       </td>
@@ -11549,6 +11809,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-StringNullableWithAggregatesFilter">StringNullableWithAggregatesFilter</a> | String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -12834,6 +13106,42 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         Actions </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionCreateNestedManyWithoutServiceInput">ActionCreateNestedManyWithoutServiceInput</a>
@@ -12929,6 +13237,42 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -13034,6 +13378,42 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         Actions </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionUpdateManyWithoutServiceNestedInput">ActionUpdateManyWithoutServiceNestedInput</a>
@@ -13129,6 +13509,42 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -13232,6 +13648,42 @@
       </td>
     </tr>
     
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
           </tbody>
         </table>
       </div>
@@ -13308,6 +13760,42 @@
       </td>
     </tr>
     
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
           </tbody>
         </table>
       </div>
@@ -13381,6 +13869,42 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -16758,6 +17282,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         ActionParameters </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionParameterCreateNestedManyWithoutUsersHasActionsReactionsInput">ActionParameterCreateNestedManyWithoutUsersHasActionsReactionsInput</a>
@@ -16841,6 +17377,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -17006,6 +17554,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         ActionParameters </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionParameterUpdateManyWithoutUsersHasActionsReactionsNestedInput">ActionParameterUpdateManyWithoutUsersHasActionsReactionsNestedInput</a>
@@ -17089,6 +17649,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -17218,6 +17790,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         userId </td>
       <td class="px-4 py-2 border">
         String | Null
@@ -17316,6 +17900,18 @@
       </td>
     </tr>
     
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
           </tbody>
         </table>
       </div>
@@ -17377,6 +17973,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -19252,6 +19860,42 @@
       </td>
     </tr>
     
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
           </tbody>
         </table>
       </div>
@@ -19328,6 +19972,42 @@
       </td>
     </tr>
     
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
           </tbody>
         </table>
       </div>
@@ -19395,6 +20075,42 @@
     <tr>
       <td class="px-4 py-2 border">
         createdAt </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-SortOrder">SortOrder</a>
       </td>
@@ -21386,6 +22102,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         userId </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-SortOrder">SortOrder</a>
@@ -21486,6 +22214,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         userId </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-SortOrder">SortOrder</a>
@@ -21575,6 +22315,18 @@
     <tr>
       <td class="px-4 py-2 border">
         createdAt </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-SortOrder">SortOrder</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-SortOrder">SortOrder</a>
       </td>
@@ -29566,6 +30318,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         ActionParameters </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionParameterCreateNestedManyWithoutUsersHasActionsReactionsInput">ActionParameterCreateNestedManyWithoutUsersHasActionsReactionsInput</a>
@@ -29649,6 +30413,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -30009,6 +30785,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        <a href="#type-inputType-StringNullableFilter">StringNullableFilter</a> | String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -31270,6 +32058,42 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         Reactions </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ReactionCreateNestedManyWithoutServiceInput">ReactionCreateNestedManyWithoutServiceInput</a>
@@ -31353,6 +32177,42 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -31826,6 +32686,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         ActionParameters </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionParameterCreateNestedManyWithoutUsersHasActionsReactionsInput">ActionParameterCreateNestedManyWithoutUsersHasActionsReactionsInput</a>
@@ -31909,6 +32781,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -32158,6 +33042,42 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         Reactions </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ReactionUpdateManyWithoutServiceNestedInput">ReactionUpdateManyWithoutServiceNestedInput</a>
@@ -32241,6 +33161,42 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -32746,6 +33702,42 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         Actions </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionCreateNestedManyWithoutServiceInput">ActionCreateNestedManyWithoutServiceInput</a>
@@ -32829,6 +33821,42 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -33302,6 +34330,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         ActionParameters </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionParameterCreateNestedManyWithoutUsersHasActionsReactionsInput">ActionParameterCreateNestedManyWithoutUsersHasActionsReactionsInput</a>
@@ -33385,6 +34425,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -33634,6 +34686,42 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         Actions </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionUpdateManyWithoutServiceNestedInput">ActionUpdateManyWithoutServiceNestedInput</a>
@@ -33717,6 +34805,42 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-StringFieldUpdateOperationsInput">StringFieldUpdateOperationsInput</a>
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -36274,6 +37398,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         ReactionParameters </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ReactionParameterCreateNestedManyWithoutUsersHasActionsReactionsInput">ReactionParameterCreateNestedManyWithoutUsersHasActionsReactionsInput</a>
@@ -36345,6 +37481,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -36866,6 +38014,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         ReactionParameters </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ReactionParameterUpdateManyWithoutUsersHasActionsReactionsNestedInput">ReactionParameterUpdateManyWithoutUsersHasActionsReactionsNestedInput</a>
@@ -36937,6 +38097,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -37378,6 +38550,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         ActionParameters </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionParameterCreateNestedManyWithoutUsersHasActionsReactionsInput">ActionParameterCreateNestedManyWithoutUsersHasActionsReactionsInput</a>
@@ -37449,6 +38633,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -37970,6 +39166,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         ActionParameters </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionParameterUpdateManyWithoutUsersHasActionsReactionsNestedInput">ActionParameterUpdateManyWithoutUsersHasActionsReactionsNestedInput</a>
@@ -38041,6 +39249,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -40566,6 +41786,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         actionId </td>
       <td class="px-4 py-2 border">
         String | Null
@@ -40678,6 +41910,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         ActionParameters </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionParameterUpdateManyWithoutUsersHasActionsReactionsNestedInput">ActionParameterUpdateManyWithoutUsersHasActionsReactionsNestedInput</a>
@@ -40761,6 +42005,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -40873,6 +42129,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -41866,6 +43134,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         userId </td>
       <td class="px-4 py-2 border">
         String | Null
@@ -42326,6 +43606,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         ActionParameters </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionParameterUpdateManyWithoutUsersHasActionsReactionsNestedInput">ActionParameterUpdateManyWithoutUsersHasActionsReactionsNestedInput</a>
@@ -42409,6 +43701,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -42621,6 +43925,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -42986,6 +44302,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         ActionParameters </td>
       <td class="px-4 py-2 border">
         <a href="#type-inputType-ActionParameterUpdateManyWithoutUsersHasActionsReactionsNestedInput">ActionParameterUpdateManyWithoutUsersHasActionsReactionsNestedInput</a>
@@ -43069,6 +44397,18 @@
 
       <td class="px-4 py-2 border">
         No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String | <a href="#type-inputType-NullableStringFieldUpdateOperationsInput">NullableStringFieldUpdateOperationsInput</a> | Null
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
       </td>
     </tr>
     
@@ -44116,6 +45456,42 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         Actions </td>
       <td class="px-4 py-2 border">
         <a href="#type-outputType-Action">Action[]</a>
@@ -44896,6 +46272,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         userId </td>
       <td class="px-4 py-2 border">
         String
@@ -45339,6 +46727,42 @@
 
       <td class="px-4 py-2 border">
         <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
       </td>
     </tr>
     
@@ -46376,6 +47800,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         userId </td>
       <td class="px-4 py-2 border">
         String
@@ -47112,6 +48548,42 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        Int
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        Int
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        Int
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         _all </td>
       <td class="px-4 py-2 border">
         Int
@@ -47198,6 +48670,42 @@
       </td>
     </tr>
     
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
           </tbody>
         </table>
       </div>
@@ -47267,6 +48775,42 @@
         createdAt </td>
       <td class="px-4 py-2 border">
         DateTime
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        primaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        secondaryColor </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        icon </td>
+      <td class="px-4 py-2 border">
+        String
       </td>
 
       <td class="px-4 py-2 border">
@@ -48880,6 +50424,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        Int
+      </td>
+
+      <td class="px-4 py-2 border">
+        <strong>Yes</strong>
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         userId </td>
       <td class="px-4 py-2 border">
         Int
@@ -48992,6 +50548,18 @@
     
     <tr>
       <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
         userId </td>
       <td class="px-4 py-2 border">
         String
@@ -49083,6 +50651,18 @@
         createdAt </td>
       <td class="px-4 py-2 border">
         DateTime
+      </td>
+
+      <td class="px-4 py-2 border">
+        No
+      </td>
+    </tr>
+    
+    <tr>
+      <td class="px-4 py-2 border">
+        description </td>
+      <td class="px-4 py-2 border">
+        String
       </td>
 
       <td class="px-4 py-2 border">
