@@ -39,6 +39,7 @@ model Service {
   createdAt      DateTime   @default(now())
   primarycolor   String     @default("#000000") @db.VarChar(7)
   secondarycolor String     @default("#000000") @db.VarChar(7)
+  logo           String
   Actions        Action[]
   Reactions      Reaction[]
 }
