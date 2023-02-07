@@ -531,7 +531,7 @@ app.get(
  * Post function used for deleting an area
  * body.id -> id of the AREA to delete
  * Route protected by a JWT token
- */
+ */UsersHasActionsReactions
 app.post(
   '/api/delete/area',
   passport.authenticate('jwt', { session: false }),
@@ -608,6 +608,7 @@ app.post(
         data: {
           name: req.body.name,
           isEnable: req.body.isEnable,
+          description: req.body.description,
           Action: { connect: { id: req.body.actionId } },
           Reaction: { connect: { id: req.body.reactionId } }
         }
@@ -900,6 +901,7 @@ app.post(
         await database.prisma.UsersHasActionsReactions.create({
           data: {
             name: req.body.name,
+            description: req.body.description,
             User: { connect: { id: req.user.id } },
             Action: { connect: { id: req.body.actionId } },
             ActionParameters: { create: ActionParameters },
@@ -945,6 +947,7 @@ app.post('/api/dev/area/create', async (req, res) => {
     const areaCreation = await database.prisma.UsersHasActionsReactions.create({
       data: {
         name: req.body.name,
+        description: req.body.description,
         User: { connect: { id: req.body.userId } },
         Action: { connect: { id: req.body.actionId } },
         ActionParameters: { create: ActionParameters },
