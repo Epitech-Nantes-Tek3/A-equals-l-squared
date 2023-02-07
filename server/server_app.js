@@ -531,7 +531,7 @@ app.get(
  * Post function used for deleting an area
  * body.id -> id of the AREA to delete
  * Route protected by a JWT token
- */UsersHasActionsReactions
+ */
 app.post(
   '/api/delete/area',
   passport.authenticate('jwt', { session: false }),

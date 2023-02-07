@@ -37,8 +37,8 @@ model Service {
   description    String?
   isEnable       Boolean    @default(false)
   createdAt      DateTime   @default(now())
-  primarycolor   String     @default("#000000") @db.VarChar(7)
-  secondarycolor String     @default("#000000") @db.VarChar(7)
+  primaryColor   String     @default("#000000") @db.VarChar(7)
+  secondaryColor String     @default("#000000") @db.VarChar(7)
   icon           String?
   Actions        Action[]
   Reactions      Reaction[]
