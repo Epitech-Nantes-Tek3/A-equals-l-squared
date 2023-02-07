@@ -13,6 +13,9 @@ const createGmailService = async () => {
         name: 'gmail',
         description: 'Gmail service',
         isEnable: true,
+        primaryColor: '#EA4335',
+        secondaryColor: '#FFFFFF',
+        icon: '',
         Actions: {
           create: [
             {
