@@ -716,7 +716,10 @@ app.post('/api/dev/service/create', async (req, res) => {
     const service = await database.prisma.Service.create({
       data: {
         name: req.body.name,
-        description: req.body.description
+        description: req.body.description,
+        primaryColor: req.body.primaryColor,
+        secondaryColor: req.body.secondaryColor,
+        icon: req.body.icon
       }
     })
     return res.json(service)
