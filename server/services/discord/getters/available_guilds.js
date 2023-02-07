@@ -1,6 +1,5 @@
 'use strict'
 
-const client = require('../init').client
 const axios = require('axios')
 
 /**
