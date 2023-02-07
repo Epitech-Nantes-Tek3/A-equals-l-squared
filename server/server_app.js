@@ -554,6 +554,7 @@ app.post(
  * body.id -> id of the AREA to update
  * body.name -> Name of the area
  * body.isEnable -> Status of the area
+ * body.description -> Description of the area (optionnal)
  * body.actionId -> Action id (optionnal if reactionId is set)
  * body.actionParameters -> Action parameters (optional)
  * body.reactionId -> Reaction id (optionnal if actionId is set)
@@ -711,6 +712,8 @@ app.get('/api/dev/user/listall', async (req, res) => {
  * Creating a new service in the database.
  * body.name -> Service name
  * body.description -> Service description (optionnal)
+ * body.primaryColor -> Description of the area (optionnal, set by default #000000)
+ * body.secondaryColor -> Description of the area (optionnal, set by default #000000)
  */
 app.post('/api/dev/service/create', async (req, res) => {
   try {
@@ -867,6 +870,7 @@ app.get('/api/dev/parameter/listall', async (req, res) => {
 /**
  * Creating a new area.
  * body.name -> Name of the area. (need to be set)
+ * body.description -> Description of the area (optionnal)
  * body.actionId -> Action id (optionnal if reactionId is set)
  * body.actionParameters -> Action parameters (optionnal)
  * body.reactionId -> Reaction id (optionnal if actionId is set)
@@ -919,6 +923,8 @@ app.post(
 
 /**
  * Creating a new area without protection.
+ * body.name -> Name of the area. (need to be set)
+ * body.description -> Description of the area (optionnal)
  * body.actionId -> Action id (optionnal if reactionId is set)
  * body.actionParameters -> Action parameters (optionnal)
  * body.reactionId -> Reaction id (optionnal if actionId is set)
