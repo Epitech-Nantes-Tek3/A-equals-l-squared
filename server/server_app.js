@@ -67,12 +67,26 @@ app.use(function (req, res, next) {
   }
 })
 
+
 /**
  * Welcoming path
- */
+*/
 app.get('/', (req, res) => {
   res.send('Hello World')
 })
+
+const fetchNewEmail = require('./services/gmail/actions/fetch_email')
+// const client = require('../gmail_init').getGmailClient();
+app.get('/test-watch', passport.authenticate('jwt', { session: false }), async (req, res) => {
+
+  try {
+    // await fetchNewEmail.quickstart()
+    gmail.sendEmailWithAccessToken(req.user.gmail,'aequallsquared@gmail.com', 'TEEST', '<h1>TEST</h1>')
+    res.send(`Watching for new emails.`)
+  } catch (err) {
+    res.send(err)
+  }
+});
 
 /**
  * Required subject path, send some usefully data about service
