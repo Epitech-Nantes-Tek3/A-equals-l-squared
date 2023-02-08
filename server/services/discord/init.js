@@ -67,20 +67,36 @@ const createDiscordService = async () => {
               DynamicParameters: {
                 create: [
                   {
-                    name: 'message',
-                    description: 'The message sent'
+                    name: 'MESSAGE_ID',
+                    description: 'The id of the message sent'
                   },
                   {
-                    name: 'author',
-                    description: 'The author of the message'
+                    name: 'MESSAGE_CONTENT',
+                    description: 'The content of the message sent'
                   },
                   {
-                    name: 'channel',
-                    description: 'The channel where the message is sent'
+                    name: 'USER_NAME',
+                    description: 'The username of the author of the message'
                   },
                   {
-                    name: 'guild',
-                    description: 'The guild where the message is sent'
+                    name: 'USER_ID',
+                    description: 'The user ID of the author of the message'
+                  },
+                  {
+                    name: 'CHANNEL_NAME',
+                    description: 'The name of the channel where the message is sent'
+                  },
+                  {
+                    name: 'CHANNEL_ID',
+                    description: 'The ID of the channel where the message is sent'
+                  },
+                  {
+                    name: 'GUID_NAME',
+                    description: 'The name of the guild where the message is sent'
+                  },
+                  {
+                    name: 'GUID_ID',
+                    description: 'The ID of the guild where the message is sent'
                   }
                 ]
               }
@@ -110,16 +126,28 @@ const createDiscordService = async () => {
               DynamicParameters: {
                 create: [
                   {
-                    name: 'user',
-                    description: 'The user who join the channel'
+                    name: 'USER_NAME',
+                    description: 'The username of the user who join the channel'
                   },
                   {
-                    name: 'channel',
-                    description: 'The channel where the user join'
+                    name: 'USER_ID',
+                    description: 'The ID of the user who join the channel'
                   },
                   {
-                    name: 'guild',
-                    description: 'The guild where the user join'
+                    name: 'CHANNEL_NAME',
+                    description: 'The name of the channel where the user join'
+                  },
+                  {
+                    name: 'CHANNEL_ID',
+                    description: 'The ID of the channel where the user join'
+                  },
+                  {
+                    name: 'GUILD_NAME',
+                    description: 'The name of the guild where the user join'
+                  },
+                  {
+                    name: 'GUILD_ID',
+                    description: 'The ID of the guild where the user join'
                   }
                 ]
               }
@@ -142,12 +170,20 @@ const createDiscordService = async () => {
               DynamicParameters: {
                 create: [
                   {
-                    name: 'user',
-                    description: 'The user who join the guild'
+                    name: 'USER_NAME',
+                    description: 'The username of the user who join the guild'
                   },
                   {
-                    name: 'guild',
-                    description: 'The guild where the user join'
+                    name: 'USER_ID',
+                    description: 'The ID of the user who join the guild'
+                  },
+                  {
+                    name: 'GUILD_NAME',
+                    description: 'The name of the guild where the user join'
+                  },
+                  {
+                    name: 'GUILD_ID',
+                    description: 'The ID of the guild where the user join'
                   }
                 ]
               }
@@ -177,20 +213,36 @@ const createDiscordService = async () => {
               DynamicParameters: {
                 create: [
                   {
-                    name: 'message',
-                    description: 'The message where the reaction is added'
+                    name: 'REACTION',
+                    description: 'The reaction added'
                   },
                   {
-                    name: 'author',
-                    description: 'The author of the reaction'
+                    name: 'MESSAGE_ID',
+                    description: 'The ID of the message where the reaction is added'
                   },
                   {
-                    name: 'channel',
-                    description: 'The channel where the reaction is added'
+                    name: 'AUTHOR_NAME',
+                    description: 'The name of the author of the reaction'
                   },
                   {
-                    name: 'guild',
-                    description: 'The guild where the reaction is added'
+                    name: 'AUTHOR_ID',
+                    description: 'The ID of the author of the reaction'
+                  },
+                  {
+                    name: 'CHANNEL_NAME',
+                    description: 'The name of the channel where the reaction is added'
+                  },
+                  {
+                    name: 'CHANNEL_ID',
+                    description: 'The ID of the channel where the reaction is added'
+                  },
+                  {
+                    name: 'GUILD_NAME',
+                    description: 'The name of guild where the reaction is added'
+                  },
+                  {
+                    name: 'GUILD_ID',
+                    description: 'The ID of guild where the reaction is added'
                   }
                 ]
               }
