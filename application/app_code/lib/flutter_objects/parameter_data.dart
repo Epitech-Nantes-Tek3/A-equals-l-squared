@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application/pages/home/home_functional.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -63,8 +64,8 @@ class ParameterData {
   /// Function returning a visual representation of a parameter
   /// params -> list of all the associated parameter content
   /// previous -> Previous displayed parameter
-  Widget display(
-      List<ParameterContent> params, ParameterData? previous, Function update) {
+  Widget display(List<ParameterContent> params, ParameterData? previous,
+      Function update) {
     this.previous = previous;
     for (var tempParam in params) {
       if (tempParam.paramId == id) {
@@ -76,14 +77,14 @@ class ParameterData {
     List<String>? tempProposal;
 
     if (getterUrl != null) {
-      tempProposal = <String>["Hey", "Ii"];
+      tempProposal = <String>["No value"];
       if (getterValue != null) {
         for (var temp in getterValue!.keys) {
           tempProposal.add(temp);
         }
       }
       if (matchedContent!.value == "") {
-        matchedContent!.value = tempProposal.first;
+        matchedContent!.value = "No value";
       }
     }
 
@@ -126,7 +127,7 @@ class ParameterData {
             }
             value ??= "";
             if (matchedContent != null) matchedContent!.value = value;
-            update();
+            update(this);
           },
           items: tempProposal!.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
@@ -144,14 +145,14 @@ class ParameterData {
     if (getterUrl == null) {
       return;
     }
-    String? idValue;
+    String idValue = '';
     if (previous != null &&
         previous!.matchedContent != null &&
         previous!.getterValue != null) {
-      idValue = previous!.getterValue![previous!.matchedContent!.value];
+      idValue = previous!.getterValue![previous!.matchedContent!.value]!;
     }
     final response = await http.get(
-      Uri.parse('http://$serverIp:8080$getterUrl?id=${idValue!}'),
+      Uri.parse('http://$serverIp:8080$getterUrl?id=$idValue'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer ${userInformation!.token}',
@@ -187,5 +188,25 @@ class ParameterContent {
   /// Convert a json map into the class
   factory ParameterContent.fromJson(Map<String, dynamic> json) {
     return ParameterContent(paramId: json['parameterId'], value: json['value']);
+  }
+
+  ParameterData? getParameterData() {
+    for (var temp in serviceDataList) {
+      for (var temp2 in temp.reactions) {
+        for (var temp3 in temp2.parameters) {
+          if (temp3.id == paramId) {
+            return temp3;
+          }
+        }
+      }
+      for (var temp2 in temp.actions) {
+        for (var temp3 in temp2.parameters) {
+          if (temp3.id == paramId) {
+            return temp3;
+          }
+        }
+      }
+    }
+    return null;
   }
 }

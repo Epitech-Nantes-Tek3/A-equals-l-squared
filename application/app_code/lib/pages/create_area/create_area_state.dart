@@ -33,7 +33,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   List<ParameterContent> reactionParameterContent = <ParameterContent>[];
 
   /// Useful function updating the state
-  void createUpdate() {
+  /// object -> Object who's calling the function
+  void createUpdate(ParameterData object) async {
+    await object.getProposalValue();
     setState(() {});
   }
 
@@ -44,13 +46,23 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       List<Map<String, String>> reactionParameter = <Map<String, String>>[];
 
       for (var temp in createdArea!.actionParameters) {
-        actionParameter.add(
-            <String, String>{'paramId': temp.paramId, 'value': temp.value});
+        String value = temp.value;
+        ParameterData? associated = temp.getParameterData();
+        if (associated != null && associated.getterValue != null) {
+          value = associated.getterValue![temp.value]!;
+        }
+        actionParameter
+            .add(<String, String>{'paramId': temp.paramId, 'value': value});
       }
 
       for (var temp in createdArea!.reactionParameters) {
-        reactionParameter.add(
-            <String, String>{'paramId': temp.paramId, 'value': temp.value});
+        String value = temp.value;
+        ParameterData? associated = temp.getParameterData();
+        if (associated != null && associated.getterValue != null) {
+          value = associated.getterValue![temp.value]!;
+        }
+        reactionParameter
+            .add(<String, String>{'paramId': temp.paramId, 'value': value});
       }
 
       var response =

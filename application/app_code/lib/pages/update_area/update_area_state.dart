@@ -5,6 +5,7 @@ import 'package:application/pages/update_area/update_area_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../flutter_objects/parameter_data.dart';
 import '../../network/informations.dart';
 import '../home/home_functional.dart';
 
@@ -13,7 +14,9 @@ class UpdateAreaPageState extends State<UpdateAreaPage> {
   late Future<String> _futureAnswer;
 
   /// Useful function used for updating the state
-  void updateUpdate() {
+  /// object -> Object who's calling the function
+  void updateUpdate(ParameterData object) async {
+    await object.getProposalValue();
     setState(() {});
   }
 
@@ -61,13 +64,23 @@ class UpdateAreaPageState extends State<UpdateAreaPage> {
       List<Map<String, String>> reactionParameter = <Map<String, String>>[];
 
       for (var temp in updatingArea!.actionParameters) {
-        actionParameter.add(
-            <String, String>{'paramId': temp.paramId, 'value': temp.value});
+        String value = temp.value;
+        ParameterData? associated = temp.getParameterData();
+        if (associated != null && associated.getterValue != null) {
+          value = associated.getterValue![temp.value]!;
+        }
+        actionParameter
+            .add(<String, String>{'paramId': temp.paramId, 'value': value});
       }
 
       for (var temp in updatingArea!.reactionParameters) {
-        reactionParameter.add(
-            <String, String>{'paramId': temp.paramId, 'value': temp.value});
+        String value = temp.value;
+        ParameterData? associated = temp.getParameterData();
+        if (associated != null && associated.getterValue != null) {
+          value = associated.getterValue![temp.value]!;
+        }
+        reactionParameter
+            .add(<String, String>{'paramId': temp.paramId, 'value': value});
       }
 
       var response =
