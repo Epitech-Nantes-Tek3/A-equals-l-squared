@@ -25,14 +25,15 @@ class ActionData {
   /// Utility function used for cloning the class
   ActionData.clone(ActionData oldAction)
       : this(
-          id: oldAction.id,
-          name: oldAction.name,
-          description: oldAction.description,
-          createdAt: oldAction.createdAt,
-          isEnable: oldAction.isEnable,
-          serviceId: oldAction.serviceId,
-          parameters: oldAction.parameters.map((v) => ParameterData.clone(v)).toList()
-        );
+            id: oldAction.id,
+            name: oldAction.name,
+            description: oldAction.description,
+            createdAt: oldAction.createdAt,
+            isEnable: oldAction.isEnable,
+            serviceId: oldAction.serviceId,
+            parameters: oldAction.parameters
+                .map((v) => ParameterData.clone(v))
+                .toList());
 
   /// Convert a json map into the class
   factory ActionData.fromJson(Map<String, dynamic> json) {
