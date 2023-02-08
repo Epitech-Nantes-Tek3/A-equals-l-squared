@@ -11,6 +11,7 @@ class ParameterData {
   String? actionId;
   String? reactionId;
   ParameterContent? matchedContent;
+  ParameterData? previous;
 
   /// Constructor of the reaction class
   ParameterData({
@@ -57,6 +58,7 @@ class ParameterData {
   /// params -> list of all the associated parameter content
   /// previous -> Previous displayed parameter
   Widget display(List<ParameterContent> params, ParameterData? previous) {
+    this.previous = previous;
     for (var tempParam in params) {
       if (tempParam.paramId == id) {
         matchedContent ??= tempParam;
@@ -87,6 +89,15 @@ class ParameterData {
             return null;
           })
     ]);
+  }
+
+  /// Function asking the server for Proposal value related to this parameter
+  /// Is no getterUrl is set, the function is not run
+  Future<void> getProposalValue() async {
+    if (getterUrl == null) {
+      return;
+    }
+    return;
   }
 }
 
