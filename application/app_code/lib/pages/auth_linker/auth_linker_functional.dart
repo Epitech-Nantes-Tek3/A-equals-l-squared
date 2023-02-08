@@ -35,7 +35,8 @@ class AuthBox {
       {required this.authName,
       required this.authDescription,
       required this.isEnable,
-      required this.action});
+      required this.action,
+      this.token});
 
   /// Return a visual representation of the AuthBox
   Widget display() {
@@ -93,6 +94,14 @@ AuthBox discordAuthBox = AuthBox(
     authDescription: "Used for all Discord interaction",
     isEnable: false,
     action: getDiscordToken);
+
+/// The discord invite service authBox
+AuthBox discordInviteAuthBox = AuthBox(
+    authName: "Invite the discord bot",
+    authDescription: "Add our discord bot in your server",
+    isEnable: true,
+    token: "",
+    action: inviteDiscordBot);
 
 /// Remove / Get the Google API access token
 Future<String> getGoogleToken() async {
@@ -176,6 +185,11 @@ Future<String> getDiscordToken() async {
   }
   updateAuthPage!(null);
   return 'Operation succeed !';
+}
+
+/// Invite the Discord bot to the user server
+Future<String> inviteDiscordBot() async {
+  return 'Thanks for adding our bot to your server !';
 }
 
 /// Publish the updated Auth Token to the server

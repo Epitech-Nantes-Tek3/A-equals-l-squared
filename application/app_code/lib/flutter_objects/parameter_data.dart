@@ -88,6 +88,7 @@ class ParameterData {
     List<String>? tempProposal;
 
     if (getterUrl != null) {
+      update(this);
       tempProposal = <String>["No value"];
       if (getterValue != null) {
         for (var temp in getterValue!.keys) {
