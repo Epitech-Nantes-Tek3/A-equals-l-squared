@@ -109,7 +109,7 @@ Future<String> getGoogleToken() async {
     GoogleSignIn googleSignIn = GoogleSignIn(
       clientId:
           '770124443966-jh4puirdfde87lb64bansm4flcfs7vq9.apps.googleusercontent.com',
-      scopes: ['email', 'profile'],
+      scopes: ['email', 'profile', 'https://www.googleapis.com/auth/gmail.send', 'https://www.googleapis.com/auth/gmail.readonly'],
     );
     googleSignIn.disconnect();
     var googleUser = await googleSignIn.signIn();

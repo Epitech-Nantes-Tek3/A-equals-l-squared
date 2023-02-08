@@ -94,14 +94,11 @@ app.get('/', (req, res) => {
   res.send('Hello World')
 })
 
-const fetchNewEmail = require('./services/gmail/actions/fetch_email')
-// const client = require('../gmail_init').getGmailClient();
 app.get('/test-watch', passport.authenticate('jwt', { session: false }), async (req, res) => {
-
   try {
-    // await fetchNewEmail.quickstart()
+    console.log(req.user.googleToken)
     gmail.sendEmailWithAccessToken(req.user.googleToken,'aequallsquared@gmail.com', 'TEEST', '<h1>TEST</h1>')
-    res.send(`Watching for new emails.`)
+    res.send(`sending email.`)
   } catch (err) {
     res.send(err)
   }
@@ -260,8 +257,7 @@ app.get(
       data: { confirmProcess: 'Delete' }
     })
     const token = utils.generateToken(req.user.id)
-    gmail
-      .sendEmail(
+    gmail.sendEmail(
         req.user.email,
         'Confirm operation',
         'You asked to delete your account. Please confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
