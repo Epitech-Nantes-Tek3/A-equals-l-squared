@@ -94,16 +94,6 @@ app.get('/', (req, res) => {
   res.send('Hello World')
 })
 
-app.get('/test-watch', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  try {
-    console.log(req.user.googleToken)
-    gmail.sendEmailWithAccessToken(req.user.googleToken,'aequallsquared@gmail.com', 'TEEST', '<h1>TEST</h1>')
-    res.send(`sending email.`)
-  } catch (err) {
-    res.send(err)
-  }
-});
-
 /**
  * Required subject path, send some usefully data about service
  */

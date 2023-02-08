@@ -60,6 +60,12 @@ const createGmailService = async () => {
               Parameters: {
                 create: [
                   {
+                    name: 'from',
+                    description: 'The email address to send from',
+                    isRequired: true,
+                    getterUrl: ''
+                  },
+                  {
                     name: 'to',
                     description: 'The email address to send to',
                     isRequired: true
