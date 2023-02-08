@@ -1,5 +1,7 @@
 'use strict'
 
+/** @module route */
+
 const express = require('express')
 const passport = require('passport')
 const database = require('./database_init')
@@ -62,6 +64,7 @@ function test_example (number) {
 
 /**
  * Set the header protocol to authorize Web connection
+ * @memberof route
  */
 app.use(function (req, res, next) {
   // Allow access request from any computers
@@ -81,6 +84,9 @@ app.use(function (req, res, next) {
 
 /**
  * Welcoming path
+ * @memberof route
+ * @function
+ * @name welcomingPath
  */
 app.get('/', (req, res) => {
   res.send('Hello World')
@@ -554,6 +560,7 @@ app.post(
  * body.id -> id of the AREA to update
  * body.name -> Name of the area
  * body.isEnable -> Status of the area
+ * body.description -> Description of the area (optionnal)
  * body.actionId -> Action id (optionnal if reactionId is set)
  * body.actionParameters -> Action parameters (optional)
  * body.reactionId -> Reaction id (optionnal if actionId is set)
@@ -608,6 +615,7 @@ app.post(
         data: {
           name: req.body.name,
           isEnable: req.body.isEnable,
+          description: req.body.description,
           Action: { connect: { id: req.body.actionId } },
           Reaction: { connect: { id: req.body.reactionId } }
         }
@@ -710,13 +718,18 @@ app.get('/api/dev/user/listall', async (req, res) => {
  * Creating a new service in the database.
  * body.name -> Service name
  * body.description -> Service description (optionnal)
+ * body.primaryColor -> Description of the area (optionnal, set by default #000000)
+ * body.secondaryColor -> Description of the area (optionnal, set by default #000000)
  */
 app.post('/api/dev/service/create', async (req, res) => {
   try {
     const service = await database.prisma.Service.create({
       data: {
         name: req.body.name,
-        description: req.body.description
+        description: req.body.description,
+        primaryColor: req.body.primaryColor,
+        secondaryColor: req.body.secondaryColor,
+        icon: req.body.icon
       }
     })
     return res.json(service)
@@ -863,6 +876,7 @@ app.get('/api/dev/parameter/listall', async (req, res) => {
 /**
  * Creating a new area.
  * body.name -> Name of the area. (need to be set)
+ * body.description -> Description of the area (optionnal)
  * body.actionId -> Action id (optionnal if reactionId is set)
  * body.actionParameters -> Action parameters (optionnal)
  * body.reactionId -> Reaction id (optionnal if actionId is set)
@@ -897,6 +911,7 @@ app.post(
         await database.prisma.UsersHasActionsReactions.create({
           data: {
             name: req.body.name,
+            description: req.body.description,
             User: { connect: { id: req.user.id } },
             Action: { connect: { id: req.body.actionId } },
             ActionParameters: { create: ActionParameters },
@@ -914,6 +929,8 @@ app.post(
 
 /**
  * Creating a new area without protection.
+ * body.name -> Name of the area. (need to be set)
+ * body.description -> Description of the area (optionnal)
  * body.actionId -> Action id (optionnal if reactionId is set)
  * body.actionParameters -> Action parameters (optionnal)
  * body.reactionId -> Reaction id (optionnal if actionId is set)
@@ -942,6 +959,7 @@ app.post('/api/dev/area/create', async (req, res) => {
     const areaCreation = await database.prisma.UsersHasActionsReactions.create({
       data: {
         name: req.body.name,
+        description: req.body.description,
         User: { connect: { id: req.body.userId } },
         Action: { connect: { id: req.body.actionId } },
         ActionParameters: { create: ActionParameters },

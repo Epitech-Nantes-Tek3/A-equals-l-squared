@@ -32,13 +32,16 @@ model User {
 }
 
 model Service {
-  id          String     @id @unique @default(cuid())
-  name        String     @unique
-  description String?
-  isEnable    Boolean    @default(false)
-  createdAt   DateTime   @default(now())
-  Actions     Action[]
-  Reactions   Reaction[]
+  id             String     @id @unique @default(cuid())
+  name           String     @unique
+  description    String?
+  isEnable       Boolean    @default(false)
+  createdAt      DateTime   @default(now())
+  primaryColor   String     @default("#000000") @db.VarChar(7)
+  secondaryColor String     @default("#000000") @db.VarChar(7)
+  icon           String?
+  Actions        Action[]
+  Reactions      Reaction[]
 }
 
 model Action {
@@ -108,6 +111,7 @@ model UsersHasActionsReactions {
   Reaction           Reaction?           @relation(fields: [reactionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   isEnable           Boolean             @default(true)
   createdAt          DateTime            @default(now())
+  description        String?
   userId             String?
   actionId           String?
   reactionId         String?
