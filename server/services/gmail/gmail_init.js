@@ -16,40 +16,7 @@ const createGmailService = async () => {
         primaryColor: '#EA4335',
         secondaryColor: '#FFFFFF',
         icon: '',
-        Actions: {
-          create: [
-            {
-              name: 'get_email',
-              code: 'GML-01',
-              description: 'Get email by id',
-              isEnable: true,
-              Parameters: {
-                create: [
-                  {
-                    name: 'emailId',
-                    description: 'The id of the email',
-                    isRequired: true
-                  }
-                ]
-              }
-            },
-            {
-              name: 'get_emails_by_query',
-              code: 'GML-02',
-              description: 'Get emails by query',
-              isEnable: true,
-              Parameters: {
-                create: [
-                  {
-                    name: 'query',
-                    description: 'The query to search for',
-                    isRequired: true
-                  }
-                ]
-              }
-            }
-          ]
-        },
+        Actions: {},
         Reactions: {
           create: [
             {
