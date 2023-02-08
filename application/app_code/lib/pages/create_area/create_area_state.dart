@@ -20,6 +20,12 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Name of the AREA
   String _name = "";
 
+  /// Variable to know if an action has been chosen
+  bool hasAnAction = false;
+
+  /// Variable to know if an action has been chosen
+  bool hasAReaction = false;
+
   /// Save of the creation state
   List<ServiceData> _createdAreaContentSave = createdAreaContent;
 
@@ -407,17 +413,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           if (_state == 0)
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Text('Choose an service for the action'),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Search a Service...',
-                      )),
+                children: const <Widget>[
+                  Text('Choose an service for the action'),
                 ]),
           const SizedBox(
             height: 30,
