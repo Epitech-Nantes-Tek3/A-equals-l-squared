@@ -55,7 +55,8 @@ class ParameterData {
 
   /// Function returning a visual representation of a parameter
   /// params -> list of all the associated parameter content
-  Widget display(List<ParameterContent> params) {
+  /// previous -> Previous displayed parameter
+  Widget display(List<ParameterContent> params, ParameterData? previous) {
     for (var tempParam in params) {
       if (tempParam.paramId == id) {
         matchedContent ??= tempParam;

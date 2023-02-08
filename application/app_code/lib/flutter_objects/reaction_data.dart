@@ -81,8 +81,14 @@ class ReactionData {
           ),
         ]));
     if (mode == true) {
+      ParameterData? previous;
       for (var temp in parameters) {
-        paramWid.add(temp.display(params));
+        paramWid.add(temp.display(params, previous));
+        if (temp.isRequired == true && temp.getterUrl != null) {
+          previous = temp;
+        } else {
+          previous = null;
+        }
       }
     }
     return Column(
