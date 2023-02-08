@@ -444,7 +444,6 @@ app.post(
           discordToken: req.body.discord != '' ? req.body.discord : null
         }
       })
-      console.log(req.body.discord)
       const token = utils.generateToken(user.id)
       return res.status(200).json({
         status: 'success',
