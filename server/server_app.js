@@ -445,9 +445,7 @@ app.post(
         }
       })
       console.log(req.body.discord)
-      const token = utils
-      if (!req.user)
-        return res.status(401).send('Invalid token').generateToken(user.id)
+      const token = utils.generateToken(user.id)
       return res.status(200).json({
         status: 'success',
         data: { message: 'Token updated.', user, token },
