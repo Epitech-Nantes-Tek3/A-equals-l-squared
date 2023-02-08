@@ -85,6 +85,8 @@ class ParameterData {
       }
       if (matchedContent!.value == "") {
         matchedContent!.value = "No value";
+      } else {
+        tempProposal.add(matchedContent!.value);
       }
     }
 
