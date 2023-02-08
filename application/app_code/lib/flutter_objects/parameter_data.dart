@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,6 +17,7 @@ class ParameterData {
   String? reactionId;
   ParameterContent? matchedContent;
   ParameterData? previous;
+  Map<String, String>? getterValue;
 
   /// Constructor of the reaction class
   ParameterData({
@@ -101,10 +104,10 @@ class ParameterData {
       return;
     }
     String? idValue;
-    if (previous != null && previous!.matchedContent != null) {
-      idValue = previous!.matchedContent!.value;
-
-      /// UPDATE TO MAP
+    if (previous != null &&
+        previous!.matchedContent != null &&
+        previous!.getterValue != null) {
+      idValue = previous!.getterValue![previous!.matchedContent!.value];
     }
     final response = await http.get(
       Uri.parse('http://$serverIp:8080$getterUrl?id=${idValue!}'),
@@ -116,7 +119,11 @@ class ParameterData {
 
     try {
       if (response.statusCode == 200) {
-        /// FILL THE MAP
+        var decoded = jsonDecode(response.body)['data'];
+        getterValue = {};
+        for (var temp in decoded) {
+          getterValue![temp["name"]] = temp["id"];
+        }
         return;
       } else {
         return;
