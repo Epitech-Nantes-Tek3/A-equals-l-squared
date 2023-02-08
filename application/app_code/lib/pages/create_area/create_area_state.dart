@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:application/flutter_objects/action_data.dart';
 import 'package:application/flutter_objects/area_data.dart';
 import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
@@ -8,6 +7,7 @@ import 'package:application/pages/create_area/create_area_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../flutter_objects/action_data.dart';
 import '../../flutter_objects/reaction_data.dart';
 import '../../flutter_objects/service_data.dart';
 import '../../network/informations.dart';
@@ -21,7 +21,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   String _name = "";
 
   /// Save of the creation state
-  List<ServiceData> _createdAreaContentSave = createdAreaContent;
+  List<ServiceData> _createdAreaContentSave = <ServiceData>[];
 
   /// Future answer of the api
   late Future<String> _futureAnswer;
@@ -32,6 +32,13 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Parameter value of the reaction
   List<ParameterContent> reactionParameterContent = <ParameterContent>[];
 
+  /// Useful function updating the state
+  /// object -> Object who's calling the function
+  void createUpdate(ParameterData object) async {
+    await object.getProposalValue();
+    setState(() {});
+  }
+
   /// Ask the api to create an area
   Future<String> apiAskForAreaCreation() async {
     try {
@@ -39,13 +46,23 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       List<Map<String, String>> reactionParameter = <Map<String, String>>[];
 
       for (var temp in createdArea!.actionParameters) {
-        actionParameter.add(
-            <String, String>{'paramId': temp.paramId, 'value': temp.value});
+        String value = temp.value;
+        ParameterData? associated = temp.getParameterData();
+        if (associated != null && associated.getterValue != null) {
+          value = associated.getterValue![temp.value]!;
+        }
+        actionParameter
+            .add(<String, String>{'paramId': temp.paramId, 'value': value});
       }
 
       for (var temp in createdArea!.reactionParameters) {
-        reactionParameter.add(
-            <String, String>{'paramId': temp.paramId, 'value': temp.value});
+        String value = temp.value;
+        ParameterData? associated = temp.getParameterData();
+        if (associated != null && associated.getterValue != null) {
+          value = associated.getterValue![temp.value]!;
+        }
+        reactionParameter
+            .add(<String, String>{'paramId': temp.paramId, 'value': value});
       }
 
       var response =
@@ -126,7 +143,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       createVis.add(const SizedBox(
         height: 10,
       ));
-      createVis.add(createdArea!.displayForCreate(true));
+      createVis.add(createdArea!.displayForCreate(true, createUpdate));
       createVis.add(
         const SizedBox(
           height: 10,
@@ -163,7 +180,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       );
       createVis.add(createdAreaContent[1]
           .reactions[0]
-          .display(true, reactionParameterContent));
+          .display(true, reactionParameterContent, createUpdate));
       createVis.add(
         const SizedBox(
           height: 10,
@@ -173,7 +190,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           onPressed: () {
             setState(() {
               bool isRequired = true;
-              _createdAreaContentSave = List.from(createdAreaContent);
+              _createdAreaContentSave =
+                  createdAreaContent.map((v) => ServiceData.clone(v)).toList();
               for (var temp in createdAreaContent[1].reactions[0].parameters) {
                 if (temp.isRequired && temp.matchedContent!.value == "") {
                   isRequired = false;
@@ -204,9 +222,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             ),
             onPressed: () {
               setState(() {
-                _createdAreaContentSave = List.from(createdAreaContent);
-                List<ReactionData> tempSave =
-                    List.from(createdAreaContent[1].reactions);
+                _createdAreaContentSave = createdAreaContent
+                    .map((v) => ServiceData.clone(v))
+                    .toList();
                 if (reactionParameterContent.isNotEmpty) {
                   reactionParameterContent = <ParameterContent>[];
                 }
@@ -214,12 +232,11 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   reactionParameterContent
                       .add(ParameterContent(paramId: tmp.id, value: ""));
                 }
-                createdAreaContent[1].reactions = [temp];
-                _createdAreaContentSave[1].reactions = List.from(tempSave);
+                createdAreaContent[1].reactions = [ReactionData.clone(temp)];
                 _state = 5;
               });
             },
-            child: temp.display(false, [])));
+            child: temp.display(false, [], createUpdate)));
         createVis.add(
           const SizedBox(
             height: 10,
@@ -245,8 +262,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             ),
             onPressed: () {
               setState(() {
-                _createdAreaContentSave = List.from(createdAreaContent);
-                createdAreaContent.add(temp);
+                _createdAreaContentSave = createdAreaContent
+                    .map((v) => ServiceData.clone(v))
+                    .toList();
+                createdAreaContent.add(ServiceData.clone(temp));
                 _state = 4;
               });
             },
@@ -268,7 +287,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       );
       createVis.add(createdAreaContent[0]
           .actions[0]
-          .display(true, actionParameterContent));
+          .display(true, actionParameterContent, createUpdate));
       createVis.add(
         const SizedBox(
           height: 10,
@@ -278,7 +297,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           onPressed: () {
             setState(() {
               bool isRequired = true;
-              _createdAreaContentSave = List.from(createdAreaContent);
+              _createdAreaContentSave =
+                  createdAreaContent.map((v) => ServiceData.clone(v)).toList();
               for (var temp in createdAreaContent[0].actions[0].parameters) {
                 if (temp.isRequired && temp.matchedContent!.value == "") {
                   isRequired = false;
@@ -312,9 +332,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             ),
             onPressed: () {
               setState(() {
-                _createdAreaContentSave = List.from(createdAreaContent);
-                List<ActionData> tempSave =
-                    List.from(createdAreaContent[0].actions);
+                _createdAreaContentSave = createdAreaContent
+                    .map((v) => ServiceData.clone(v))
+                    .toList();
                 if (actionParameterContent.isNotEmpty) {
                   actionParameterContent = <ParameterContent>[];
                 }
@@ -322,12 +342,11 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   actionParameterContent
                       .add(ParameterContent(paramId: tmp.id, value: ""));
                 }
-                createdAreaContent[0].actions = [temp];
-                _createdAreaContentSave[0].actions = List.from(tempSave);
+                createdAreaContent[0].actions = [ActionData.clone(temp)];
                 _state = 2;
               });
             },
-            child: temp.display(false, [])));
+            child: temp.display(false, [], createUpdate)));
         createVis.add(
           const SizedBox(
             height: 10,
@@ -349,7 +368,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             onPressed: () {
               setState(() {
                 createdAreaContent = <ServiceData>[];
-                createdAreaContent.add(temp);
+                createdAreaContent.add(ServiceData.clone(temp));
+                _createdAreaContentSave = <ServiceData>[];
                 _state = 1;
               });
             },
@@ -391,6 +411,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               IconButton(
                   onPressed: () {
                     setState(() {
+                      createdArea = null;
+                      _createdAreaContentSave = <ServiceData>[];
+                      createdAreaContent = <ServiceData>[];
+                      _state = 0;
                       goToHomePage(context);
                     });
                   },
@@ -433,7 +457,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 onPressed: () {
                   setState(() {
                     _state -= 1;
-                    createdAreaContent = List.from(_createdAreaContentSave);
+                    createdAreaContent = _createdAreaContentSave
+                        .map((v) => ServiceData.clone(v))
+                        .toList();
                     if (_state == 0) {
                       createdArea = null;
                       _createdAreaContentSave = <ServiceData>[];

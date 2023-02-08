@@ -23,6 +23,19 @@ class ReactionData {
     required this.parameters,
   });
 
+  /// Utility function used for cloning the class
+  ReactionData.clone(ReactionData oldReaction)
+      : this(
+            id: oldReaction.id,
+            name: oldReaction.name,
+            description: oldReaction.description,
+            createdAt: oldReaction.createdAt,
+            isEnable: oldReaction.isEnable,
+            serviceId: oldReaction.serviceId,
+            parameters: oldReaction.parameters
+                .map((v) => ParameterData.clone(v))
+                .toList());
+
   /// Convert a json map into the class
   factory ReactionData.fromJson(Map<String, dynamic> json) {
     List<ParameterData> parameters = <ParameterData>[];
@@ -58,7 +71,8 @@ class ReactionData {
   /// Get a visual representation of a Reaction
   /// mode -> true = params, false = only text and desc
   /// params -> list of all the associated parameter content
-  Widget display(bool mode, List<ParameterContent> params) {
+  /// update -> Function pointer used for update the state
+  Widget display(bool mode, List<ParameterContent> params, Function? update) {
     List<Widget> paramWid = <Widget>[];
     paramWid.add(Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,8 +95,14 @@ class ReactionData {
           ),
         ]));
     if (mode == true) {
+      ParameterData? previous;
       for (var temp in parameters) {
-        paramWid.add(temp.display(params));
+        paramWid.add(temp.display(params, previous, update!));
+        if (temp.isRequired == true && temp.getterUrl != null) {
+          previous = temp;
+        } else {
+          previous = null;
+        }
       }
     }
     return Column(

@@ -53,14 +53,13 @@ const createDiscordService = async () => {
                     name: 'guildId',
                     description: 'The concerned guild id',
                     isRequired: true,
-                    ProposalUrl: '/api/services/discord/getAvailableGuilds'
+                    GetterUrl: '/api/services/discord/getAvailableGuilds'
                   },
                   {
                     name: 'channelId',
                     description: 'The channel id where the message is sent',
                     isRequired: true,
-                    ProposalUrl: '/api/services/discord/getTextChannels',
-                    ProposalBody: true
+                    GetterUrl: '/api/services/discord/getTextChannels',
                   }
                 ]
               }
@@ -76,14 +75,13 @@ const createDiscordService = async () => {
                     name: 'guildId',
                     description: 'The concerned guild id',
                     isRequired: true,
-                    ProposalUrl: '/api/services/discord/getAvailableGuilds'
+                    GetterUrl: '/api/services/discord/getAvailableGuilds'
                   },
                   {
                     name: 'channelId',
                     description: 'The channel id where the user join',
                     isRequired: true,
-                    ProposalUrl: '/api/services/discord/getVoiceChannels',
-                    ProposalBody: true
+                    GetterUrl: '/api/services/discord/getVoiceChannels',
                   }
                 ]
               }
@@ -99,7 +97,7 @@ const createDiscordService = async () => {
                     name: 'guildId',
                     description: 'The concerned guild id',
                     isRequired: true,
-                    ProposalUrl: '/api/services/discord/getAvailableGuilds'
+                    GetterUrl: '/api/services/discord/getAvailableGuilds'
                   }
                 ]
               }
@@ -115,14 +113,13 @@ const createDiscordService = async () => {
                     name: 'guildId',
                     description: 'The guild concerned guild id',
                     isRequired: true,
-                    ProposalUrl: '/api/services/discord/getAvailableGuilds'
+                    GetterUrl: '/api/services/discord/getAvailableGuilds'
                   },
                   {
                     name: 'channelId',
                     description: 'The channel id where the message is sent',
                     isRequired: true,
-                    ProposalUrl: '/api/services/discord/getTextChannels',
-                    ProposalBody: true
+                    GetterUrl: '/api/services/discord/getTextChannels',
                   }
                 ]
               }
@@ -139,23 +136,22 @@ const createDiscordService = async () => {
               Parameters: {
                 create: [
                   {
-                    name: 'messageContent',
-                    description: 'The content of the message',
-                    isRequired: true
-                  },
-                  {
                     name: 'guildId',
                     description: 'The guild concerned guild id',
                     isRequired: true,
-                    ProposalUrl: '/api/services/discord/getAvailableGuilds'
+                    GetterUrl: '/api/services/discord/getAvailableGuilds'
                   },
                   {
                     name: 'channelId',
                     description:
                       'The channel id where the message will be send',
                     isRequired: true,
-                    ProposalUrl: '/api/services/discord/getTextChannels',
-                    ProposalBody: true
+                    GetterUrl: '/api/services/discord/getTextChannels',
+                  },
+                  {
+                    name: 'messageContent',
+                    description: 'The content of the message',
+                    isRequired: true
                   }
                 ]
               }
@@ -168,13 +164,13 @@ const createDiscordService = async () => {
               Parameters: {
                 create: [
                   {
-                    name: 'messageContent',
-                    description: 'The content of the message',
+                    name: 'UserId',
+                    description: 'The user id where the message will be send',
                     isRequired: true
                   },
                   {
-                    name: 'UserId',
-                    description: 'The user id where the message will be send',
+                    name: 'messageContent',
+                    description: 'The content of the message',
                     isRequired: true
                   }
                 ]
@@ -189,7 +185,7 @@ const createDiscordService = async () => {
                 create: [
                   {
                     name: 'activity',
-                    description: 'The activity of the user',
+                    description: 'The activity of the bot',
                     isRequired: true
                   }
                 ]
