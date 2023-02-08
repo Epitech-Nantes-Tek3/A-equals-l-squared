@@ -708,8 +708,32 @@ app.get(
       data: performers,
       statusCode: res.statusCode
     })
-  }
-)
+  })
+
+/**
+ * @brief List available performers, such as bot/user.
+ */
+app.get(
+  '/api/services/gmail/getAvailablePerformers',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const performers = []
+    if (req != null && req.user != null && req.user.googleToken != null)
+      performers.append({
+        id: req.user.googleToken,
+        name: req.user.username
+      })
+    else
+      performers.append({
+        id: 'aequallsquared@gmail.com',
+        name: 'Default Bot Gmail'
+      })
+    return res.status(200).json({
+      status: 'success',
+      data: performers,
+      statusCode: res.statusCode
+    })
+  })
 
 /**
  * Creating a new user in the database.

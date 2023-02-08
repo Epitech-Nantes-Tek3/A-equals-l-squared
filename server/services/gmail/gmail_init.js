@@ -61,9 +61,9 @@ const createGmailService = async () => {
                 create: [
                   {
                     name: 'from',
-                    description: 'The email address to send from',
+                    description: 'The gmail account to send from ',
                     isRequired: true,
-                    getterUrl: ''
+                    getterUrl: '/api/services/gmail/getAvailablePerformers'
                   },
                   {
                     name: 'to',
