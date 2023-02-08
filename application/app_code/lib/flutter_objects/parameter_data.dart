@@ -46,7 +46,7 @@ class ParameterData {
     }
     late String? getterUrl;
     try {
-      getterUrl = json['getterUrl'];
+      getterUrl = json['GetterUrl'];
     } catch (err) {
       getterUrl = null;
     }
@@ -63,7 +63,8 @@ class ParameterData {
   /// Function returning a visual representation of a parameter
   /// params -> list of all the associated parameter content
   /// previous -> Previous displayed parameter
-  Widget display(List<ParameterContent> params, ParameterData? previous) {
+  Widget display(
+      List<ParameterContent> params, ParameterData? previous, Function update) {
     this.previous = previous;
     for (var tempParam in params) {
       if (tempParam.paramId == id) {
@@ -72,28 +73,68 @@ class ParameterData {
       }
     }
     matchedContent ??= ParameterContent(paramId: id, value: "");
+    List<String>? tempProposal;
+
+    if (getterUrl != null) {
+      tempProposal = <String>["Hey", "Ii"];
+      if (getterValue != null) {
+        for (var temp in getterValue!.keys) {
+          tempProposal.add(temp);
+        }
+      }
+      if (matchedContent!.value == "") {
+        matchedContent!.value = tempProposal.first;
+      }
+    }
+
     return Column(children: <Widget>[
       const SizedBox(
         height: 10,
       ),
-      TextFormField(
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(20),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.0),
+      if (getterUrl == null)
+        TextFormField(
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(20),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              labelText: name,
             ),
-            labelText: name,
+            initialValue: matchedContent != null ? matchedContent!.value : "",
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (String? value) {
+              if (value == null && isRequired) {
+                return 'Required parameter.';
+              }
+              value ??= "";
+              if (matchedContent != null) matchedContent!.value = value;
+              return null;
+            })
+      else
+        DropdownButton<String>(
+          value: matchedContent!.value,
+          icon: const Icon(Icons.arrow_downward),
+          elevation: 16,
+          style: const TextStyle(color: Colors.deepPurple),
+          underline: Container(
+            height: 2,
+            color: Colors.deepPurpleAccent,
           ),
-          initialValue: matchedContent != null ? matchedContent!.value : "",
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (String? value) {
+          onChanged: (String? value) {
             if (value == null && isRequired) {
-              return 'Required parameter.';
+              return;
             }
             value ??= "";
             if (matchedContent != null) matchedContent!.value = value;
-            return null;
-          })
+            update();
+          },
+          items: tempProposal!.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        )
     ]);
   }
 

@@ -32,6 +32,11 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Parameter value of the reaction
   List<ParameterContent> reactionParameterContent = <ParameterContent>[];
 
+  /// Useful function updating the state
+  void createUpdate() {
+    setState(() {});
+  }
+
   /// Ask the api to create an area
   Future<String> apiAskForAreaCreation() async {
     try {
@@ -126,7 +131,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       createVis.add(const SizedBox(
         height: 10,
       ));
-      createVis.add(createdArea!.displayForCreate(true));
+      createVis.add(createdArea!.displayForCreate(true, createUpdate));
       createVis.add(
         const SizedBox(
           height: 10,
@@ -163,7 +168,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       );
       createVis.add(createdAreaContent[1]
           .reactions[0]
-          .display(true, reactionParameterContent));
+          .display(true, reactionParameterContent, createUpdate));
       createVis.add(
         const SizedBox(
           height: 10,
@@ -219,7 +224,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _state = 5;
               });
             },
-            child: temp.display(false, [])));
+            child: temp.display(false, [], createUpdate)));
         createVis.add(
           const SizedBox(
             height: 10,
@@ -268,7 +273,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       );
       createVis.add(createdAreaContent[0]
           .actions[0]
-          .display(true, actionParameterContent));
+          .display(true, actionParameterContent, createUpdate));
       createVis.add(
         const SizedBox(
           height: 10,
@@ -327,7 +332,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _state = 2;
               });
             },
-            child: temp.display(false, [])));
+            child: temp.display(false, [], createUpdate)));
         createVis.add(
           const SizedBox(
             height: 10,

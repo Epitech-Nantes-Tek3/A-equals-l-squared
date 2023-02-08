@@ -56,7 +56,8 @@ class AreaData {
 
   /// Get a visual representation of an Area for create page
   /// mode -> true = complete representation, false = only area preview
-  Widget displayForCreate(bool mode) {
+  /// update -> Function pointer used for update the state
+  Widget displayForCreate(bool mode, Function? update) {
     late ActionData action;
     late ReactionData reaction;
 
@@ -96,7 +97,7 @@ class AreaData {
               child: Column(
                 children: [
                   const Text("Action"),
-                  action.display(true, actionParameters),
+                  action.display(true, actionParameters, update),
                 ],
               ),
             )
@@ -110,7 +111,7 @@ class AreaData {
               child: Column(
                 children: [
                   const Text("Reaction"),
-                  reaction.display(true, reactionParameters)
+                  reaction.display(true, reactionParameters, update)
                 ],
               ),
             )
@@ -158,7 +159,8 @@ class AreaData {
 
   /// Get a visual representation of an Area
   /// mode -> true = complete representation, false = only area preview
-  Widget display(bool mode) {
+  /// update -> Function pointer used for update the state
+  Widget display(bool mode, Function? update) {
     late ActionData action;
     late ReactionData reaction;
 
@@ -200,7 +202,7 @@ class AreaData {
               child: Column(
                 children: [
                   const Text("Action"),
-                  action.display(true, actionParameters),
+                  action.display(true, actionParameters, update),
                 ],
               ),
             )
@@ -214,7 +216,7 @@ class AreaData {
               child: Column(
                 children: [
                   const Text("Reaction"),
-                  reaction.display(true, reactionParameters)
+                  reaction.display(true, reactionParameters, update)
                 ],
               ),
             )

@@ -58,7 +58,8 @@ class ReactionData {
   /// Get a visual representation of a Reaction
   /// mode -> true = params, false = only text and desc
   /// params -> list of all the associated parameter content
-  Widget display(bool mode, List<ParameterContent> params) {
+  /// update -> Function pointer used for update the state
+  Widget display(bool mode, List<ParameterContent> params, Function? update) {
     List<Widget> paramWid = <Widget>[];
     paramWid.add(Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,7 +84,7 @@ class ReactionData {
     if (mode == true) {
       ParameterData? previous;
       for (var temp in parameters) {
-        paramWid.add(temp.display(params, previous));
+        paramWid.add(temp.display(params, previous, update!));
         if (temp.isRequired == true && temp.getterUrl != null) {
           previous = temp;
         } else {

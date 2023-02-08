@@ -12,6 +12,11 @@ class UpdateAreaPageState extends State<UpdateAreaPage> {
   /// Future answer of the api
   late Future<String> _futureAnswer;
 
+  /// Useful function used for updating the state
+  void updateUpdate() {
+    setState(() {});
+  }
+
   /// Initialization function for the api answer
   Future<String> getAFirstApiAnswer() async {
     return '';
@@ -117,7 +122,7 @@ class UpdateAreaPageState extends State<UpdateAreaPage> {
               ),
             ],
           ),
-          if (updatingArea != null) updatingArea!.display(true),
+          if (updatingArea != null) updatingArea!.display(true, updateUpdate),
           if (updatingArea != null)
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
