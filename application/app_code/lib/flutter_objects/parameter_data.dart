@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import '../network/informations.dart';
 
 /// This class is the parameter class.
 /// It contains all information about a parameter
@@ -97,7 +100,30 @@ class ParameterData {
     if (getterUrl == null) {
       return;
     }
-    return;
+    String? idValue;
+    if (previous != null && previous!.matchedContent != null) {
+      idValue = previous!.matchedContent!.value;
+
+      /// UPDATE TO MAP
+    }
+    final response = await http.get(
+      Uri.parse('http://$serverIp:8080$getterUrl?id=${idValue!}'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${userInformation!.token}',
+      },
+    );
+
+    try {
+      if (response.statusCode == 200) {
+        /// FILL THE MAP
+        return;
+      } else {
+        return;
+      }
+    } catch (err) {
+      return;
+    }
   }
 }
 
