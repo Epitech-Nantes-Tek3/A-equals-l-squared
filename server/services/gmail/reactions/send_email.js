@@ -1,4 +1,27 @@
-const gmail = require('../gmail_init').getGmailClient();
+const gmail = require('../gmail_init').getGmailClient()
+
+/**
+ * @brief send an email with the gmail api from an area
+ * @param {*} Area Area that contains the parameters
+ * @returns the response from the gmail api
+ */
+async function gmailSendEmailFromArea (Area) {
+  try {
+    const reactionParameters = Area.ReactionParameters
+    const to = reactionParameters.find(
+      parameter => parameter.Parameter.name == 'to'
+    ).value
+    const subject = reactionParameters.find(
+      parameter => parameter.Parameter.name == 'subject'
+    ).value
+    const body = reactionParameters.find(
+      parameter => parameter.Parameter.name == 'body'
+    ).value
+    return await sendEmail(to, subject, body)
+  } catch (error) {
+    console.log('Error while sending email from area : ', error)
+  }
+}
 
 function getBase64message(from, to, subject, body) {
   const message = [

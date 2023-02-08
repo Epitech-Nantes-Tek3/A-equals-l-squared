@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:application/network/informations.dart';
+import 'package:application/pages/home/home_functional.dart';
 import 'package:application/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -50,6 +51,7 @@ class LoginPageState extends State<LoginPage> {
         try {
           userInformation =
               UserData.fromJson(jsonDecode(response.body)['data']);
+          await updateAllFlutterObject();
           return 'Login succeed !';
         } catch (err) {
           return 'Invalid token... Please retry';
@@ -72,18 +74,24 @@ class LoginPageState extends State<LoginPage> {
     if (_email == null || _password == null) {
       return 'Please fill all the field !';
     }
-    var response = await http.post(
-      Uri.parse('http://$serverIp:8080/api/login'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(
-          <String, String>{'email': _email!, 'password': _password!}),
-    );
+    late http.Response response;
+    try {
+      response = await http.post(
+        Uri.parse('http://$serverIp:8080/api/login'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+            <String, String>{'email': _email!, 'password': _password!}),
+      );
+    } catch (err) {
+      return 'Connection refused.';
+    }
 
     if (response.statusCode == 201) {
       try {
         userInformation = UserData.fromJson(jsonDecode(response.body)['data']);
+        await updateAllFlutterObject();
         return 'Login succeed !';
       } catch (err) {
         return 'Invalid token... Please retry';
@@ -316,8 +324,10 @@ class LoginPageState extends State<LoginPage> {
                 if (userInformation != null) {
                   return const HomePage();
                 }
+                logout = false;
                 return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 30),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 30),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
