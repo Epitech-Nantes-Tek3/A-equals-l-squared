@@ -1,5 +1,6 @@
 'use strict'
 
+const client = require('../init').client
 const axios = require('axios')
 
 /**
@@ -24,6 +25,7 @@ async function getAvailableGuilds (accessToken) {
     if (response.status !== 200) return null
     response.data.forEach(guild => {
       if ((guild.permissions & 8) === 8) {
+        if (client.guilds.cache.get(guild.id) === undefined) return
         curr_guild = {
           id: guild.id,
           name: guild.name
