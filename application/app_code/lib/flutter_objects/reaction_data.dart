@@ -23,6 +23,7 @@ class ReactionData {
     required this.parameters,
   });
 
+  /// Utility function used for cloning the class
   ReactionData.clone(ReactionData oldReaction)
       : this(
       id: oldReaction.id,

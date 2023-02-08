@@ -32,6 +32,7 @@ class AreaData {
     this.description,
   });
 
+  /// Utility function used for cloning the class
   AreaData.clone(AreaData oldArea)
       : this(
             id: oldArea.id,

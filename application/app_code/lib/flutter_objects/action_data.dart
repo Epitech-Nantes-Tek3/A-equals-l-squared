@@ -22,6 +22,7 @@ class ActionData {
       required this.serviceId,
       required this.parameters});
 
+  /// Utility function used for cloning the class
   ActionData.clone(ActionData oldAction)
       : this(
           id: oldAction.id,

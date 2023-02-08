@@ -24,6 +24,7 @@ class ServiceData {
       required this.actions,
       required this.reactions});
 
+  /// Utility function used for cloning the class
   ServiceData.clone(ServiceData oldService)
       : this(
             name: oldService.name,

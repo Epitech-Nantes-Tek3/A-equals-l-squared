@@ -31,6 +31,7 @@ class ParameterData {
     this.reactionId,
   });
 
+  /// Utility function used for cloning the class
   ParameterData.clone(ParameterData oldParameter)
       : this(
             name: oldParameter.name,
