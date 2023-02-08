@@ -179,6 +179,15 @@ class ParameterData {
         for (var temp in decoded) {
           getterValue![temp["name"]] = temp["id"];
         }
+        if (matchedContent != null &&
+            getterValue!.containsValue(matchedContent!.value)) {
+          var key = getterValue!.keys.firstWhere(
+              (k) => getterValue![k] == matchedContent!.value,
+              orElse: () => "");
+          if (key != "") {
+            matchedContent!.value = key;
+          }
+        }
         return;
       } else {
         return;
