@@ -630,7 +630,7 @@ app.post(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const channels = getVoiceChannels(req.body.id)
-    return res.status(201).json({
+    return res.status(200).json({
       status: 'success',
       data: channels,
       statusCode: res.statusCode
@@ -647,7 +647,7 @@ app.post(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const channels = getTextChannels(req.body.id)
-    return res.status(201).json({
+    return res.status(200).json({
       status: 'success',
       data: channels,
       statusCode: res.statusCode
@@ -667,7 +667,7 @@ app.post(
     try {
       const guilds = await getAvailableGuilds(req.user.discordToken)
       if (guilds == null) return res.status(400).send('An error occured.')
-      return res.status(201).json({
+      return res.status(200).json({
         status: 'success',
         data: guilds,
         statusCode: res.statusCode
@@ -682,7 +682,7 @@ app.post(
 /**
  * @brief List available performers, such as bot/user.
  */
-app.get(
+app.post(
   '/api/services/discord/getAvailablePerformers',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
