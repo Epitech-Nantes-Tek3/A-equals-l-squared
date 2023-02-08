@@ -190,9 +190,9 @@ Future<String> getDiscordToken() async {
 
 /// Invite the Discord bot to the user server
 Future<String> inviteDiscordBot() async {
-  await launch(
-    'https://discord.com/api/oauth2/authorize?client_id=1066384923231006741&permissions=8&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&response_type=code&scope=bot%20identify%20guilds%20email%20connections%20messages.read%20guilds.members.read%20guilds.join',
-    forceSafariVC: false,
+  await launchUrl(
+    Uri.parse(
+        'https://discord.com/api/oauth2/authorize?client_id=1066384923231006741&permissions=8&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&response_type=code&scope=bot%20identify%20guilds%20email%20connections%20messages.read%20guilds.members.read%20guilds.join'),
   );
   return 'Thanks for adding our bot to your server !';
 }
