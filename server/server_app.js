@@ -631,13 +631,12 @@ app.post(
 
 /*
  * @brief List all available Voice Channels on a given Guild ID.
- * body.id -> Guild ID
  */
-app.post(
+app.get(
   '/api/services/discord/getVoiceChannels',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const channels = getVoiceChannels(req.body.id)
+    const channels = getVoiceChannels(req.query.id)
     return res.status(200).json({
       status: 'success',
       data: channels,
@@ -648,13 +647,12 @@ app.post(
 
 /**
  * @brief List all available Text Channels on a given GuildID.
- * body.id -> Guild ID
  */
-app.post(
+app.get(
   '/api/services/discord/getTextChannels',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const channels = getTextChannels(req.body.id)
+    const channels = getTextChannels(req.query.id)
     return res.status(200).json({
       status: 'success',
       data: channels,
@@ -666,7 +664,7 @@ app.post(
 /**
  * @brief List all available Guilds where the bot is.
  */
-app.post(
+app.get(
   '/api/services/discord/getAvailableGuilds',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
@@ -690,7 +688,7 @@ app.post(
 /**
  * @brief List available performers, such as bot/user.
  */
-app.post(
+app.get(
   '/api/services/discord/getAvailablePerformers',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
