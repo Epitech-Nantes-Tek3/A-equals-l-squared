@@ -21,6 +21,7 @@ const onMessage = require('./services/discord/actions/on_message')
 const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
+const discordClient = require('./services/discord/init')
 const { createGmailService } = require('./services/gmail/gmail_init')
 const { createDiscordService } = require('./services/discord/init')
 const getVoiceChannels = require('./services/discord/getters/voice_channels')
@@ -637,7 +638,7 @@ app.post(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const channels = getVoiceChannels(req.body.id)
-    return res.status(201).json({
+    return res.status(200).json({
       status: 'success',
       data: channels,
       statusCode: res.statusCode
@@ -654,7 +655,7 @@ app.post(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     const channels = getTextChannels(req.body.id)
-    return res.status(201).json({
+    return res.status(200).json({
       status: 'success',
       data: channels,
       statusCode: res.statusCode
@@ -665,14 +666,48 @@ app.post(
 /**
  * @brief List all available Guilds where the bot is.
  */
-app.get(
+app.post(
   '/api/services/discord/getAvailableGuilds',
   passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    if (req.user.discordToken == null)
+      return res.status(400).send('No Discord account linked.')
+    try {
+      const guilds = await getAvailableGuilds(req.user.discordToken)
+      if (guilds == null) return res.status(400).send('An error occured.')
+      return res.status(200).json({
+        status: 'success',
+        data: guilds,
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('An error occured.')
+    }
+  }
+)
+
+/**
+ * @brief List available performers, such as bot/user.
+ */
+app.post(
+  '/api/services/discord/getAvailablePerformers',
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const guilds = getAvailableGuilds()
-    return res.status(201).json({
+    const performers = []
+    if (discordClient.presence.status == 'online')
+      performers.append({
+        id: discordClient.client.user.id,
+        name: discordClient.client.user.username
+      })
+    if (req.user.discordToken != null)
+      performers.append({
+        id: req.user.discordToken,
+        name: req.user.username
+      })
+    return res.status(200).json({
       status: 'success',
-      data: guilds,
+      data: performers,
       statusCode: res.statusCode
     })
   }

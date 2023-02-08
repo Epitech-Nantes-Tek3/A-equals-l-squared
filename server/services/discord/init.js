@@ -45,7 +45,7 @@ const createDiscordService = async () => {
             {
               name: 'onMessage',
               code: 'DSC-01',
-              description: 'When a message is sent',
+              description: 'When a message is received',
               isEnable: true,
               Parameters: {
                 create: [
