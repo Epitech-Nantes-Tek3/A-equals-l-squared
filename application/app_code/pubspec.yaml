@@ -31,7 +31,7 @@ dependencies:
     sdk: flutter
   http: ^0.13.5
   google_sign_in:
-
+  flutter_web_auth_2: ^2.0.4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -55,6 +55,8 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 # For fonts, this use a font in assets/fonts/Roboto/ and you can use it in any Text in our app with Textstyle(fontFamily: '[family_you_want]')
 flutter:
+  assets:
+    - assets/icons/
   fonts:
     - family: Roboto-Black
       fonts:

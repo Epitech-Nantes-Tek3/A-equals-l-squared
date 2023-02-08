@@ -1,6 +1,7 @@
 'use strict'
 
 const client = require('../init').client
+const { AreaGlue } = require('../../glue/glue.js')
 
 /**
  * @brief Triggered when a user joins a Discord voice channel.
@@ -8,16 +9,20 @@ const client = require('../init').client
  * @param {*} newChannel Current channel object
  */
 client.on('voiceStateUpdate', (oldChannel, newChannel) => {
-  var oldUserChannel = oldChannel.channelID
-  var newUserChannel = newChannel.channelID
-  if (!newUserChannel) {
-    //  Leaving a voice channel
-    console.log('User left the channel')
-    return
-  }
+  try {
+    const parametersList = [
+      { name: 'channelId',
+        value: newChannel.channelID,
+        valid: false },
+      {
+        name: 'guildId',
+        value: newChannel.guild.id,
+        valid: false
+      }
+    ]
 
-  if (newUserChannel === 'ID of the channel wanted')
-    //  If it's the channel that you want
-    console.log('Joined the channel wanted')
-  else console.log('Joined another channel than the one wanted') //  If it's another channel that the one wanted
+    AreaGlue('DSC-02', parametersList)
+  } catch (error) {
+    console.error(error)
+  }
 })
