@@ -631,7 +631,6 @@ app.post(
 
 /*
  * @brief List all available Voice Channels on a given Guild ID.
- * body.id -> Guild ID
  */
 app.get(
   '/api/services/discord/getVoiceChannels',
@@ -648,7 +647,6 @@ app.get(
 
 /**
  * @brief List all available Text Channels on a given GuildID.
- * body.id -> Guild ID
  */
 app.get(
   '/api/services/discord/getTextChannels',
