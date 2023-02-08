@@ -78,13 +78,23 @@
     List&lt;Map&lt;String, String&gt;&gt; reactionParameter = &lt;Map&lt;String, String&gt;&gt;[];
 
     for (var temp in createdArea!.actionParameters) {
-      actionParameter.add(
-          &lt;String, String&gt;{&#39;paramId&#39;: temp.paramId, &#39;value&#39;: temp.value});
+      String value = temp.value;
+      ParameterData? associated = temp.getParameterData();
+      if (associated != null &amp;&amp; associated.getterValue != null) {
+        value = associated.getterValue![temp.value]!;
+      }
+      actionParameter
+          .add(&lt;String, String&gt;{&#39;paramId&#39;: temp.paramId, &#39;value&#39;: value});
     }
 
     for (var temp in createdArea!.reactionParameters) {
-      reactionParameter.add(
-          &lt;String, String&gt;{&#39;paramId&#39;: temp.paramId, &#39;value&#39;: temp.value});
+      String value = temp.value;
+      ParameterData? associated = temp.getParameterData();
+      if (associated != null &amp;&amp; associated.getterValue != null) {
+        value = associated.getterValue![temp.value]!;
+      }
+      reactionParameter
+          .add(&lt;String, String&gt;{&#39;paramId&#39;: temp.paramId, &#39;value&#39;: value});
     }
 
     var response =
@@ -154,6 +164,7 @@
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/activate.html">activate</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/apiAskForAreaCreation.html">apiAskForAreaCreation</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/build.html">build</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/createUpdate.html">createUpdate</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/creationDisplay.html">creationDisplay</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>

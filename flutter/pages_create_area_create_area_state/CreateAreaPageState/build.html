@@ -192,6 +192,10 @@ Widget build(BuildContext context) {
             IconButton(
                 onPressed: () {
                   setState(() {
+                    createdArea = null;
+                    _createdAreaContentSave = &lt;ServiceData&gt;[];
+                    createdAreaContent = &lt;ServiceData&gt;[];
+                    _state = 0;
                     goToHomePage(context);
                   });
                 },
@@ -234,7 +238,9 @@ Widget build(BuildContext context) {
               onPressed: () {
                 setState(() {
                   _state -= 1;
-                  createdAreaContent = List.from(_createdAreaContentSave);
+                  createdAreaContent = _createdAreaContentSave
+                      .map((v) =&gt; ServiceData.clone(v))
+                      .toList();
                   if (_state == 0) {
                     createdArea = null;
                     _createdAreaContentSave = &lt;ServiceData&gt;[];
@@ -291,6 +297,7 @@ Widget build(BuildContext context) {
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/activate.html">activate</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/apiAskForAreaCreation.html">apiAskForAreaCreation</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/build.html">build</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/createUpdate.html">createUpdate</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/creationDisplay.html">creationDisplay</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>

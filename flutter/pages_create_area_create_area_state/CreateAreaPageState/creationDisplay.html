@@ -123,7 +123,7 @@
     createVis.add(const SizedBox(
       height: 10,
     ));
-    createVis.add(createdArea!.displayForCreate(true));
+    createVis.add(createdArea!.displayForCreate(true, createUpdate));
     createVis.add(
       const SizedBox(
         height: 10,
@@ -160,7 +160,7 @@
     );
     createVis.add(createdAreaContent[1]
         .reactions[0]
-        .display(true, reactionParameterContent));
+        .display(true, reactionParameterContent, createUpdate));
     createVis.add(
       const SizedBox(
         height: 10,
@@ -170,7 +170,8 @@
         onPressed: () {
           setState(() {
             bool isRequired = true;
-            _createdAreaContentSave = List.from(createdAreaContent);
+            _createdAreaContentSave =
+                createdAreaContent.map((v) =&gt; ServiceData.clone(v)).toList();
             for (var temp in createdAreaContent[1].reactions[0].parameters) {
               if (temp.isRequired &amp;&amp; temp.matchedContent!.value == &quot;&quot;) {
                 isRequired = false;
@@ -201,9 +202,9 @@
           ),
           onPressed: () {
             setState(() {
-              _createdAreaContentSave = List.from(createdAreaContent);
-              List&lt;ReactionData&gt; tempSave =
-                  List.from(createdAreaContent[1].reactions);
+              _createdAreaContentSave = createdAreaContent
+                  .map((v) =&gt; ServiceData.clone(v))
+                  .toList();
               if (reactionParameterContent.isNotEmpty) {
                 reactionParameterContent = &lt;ParameterContent&gt;[];
               }
@@ -211,12 +212,11 @@
                 reactionParameterContent
                     .add(ParameterContent(paramId: tmp.id, value: &quot;&quot;));
               }
-              createdAreaContent[1].reactions = [temp];
-              _createdAreaContentSave[1].reactions = List.from(tempSave);
+              createdAreaContent[1].reactions = [ReactionData.clone(temp)];
               _state = 5;
             });
           },
-          child: temp.display(false, [])));
+          child: temp.display(false, [], createUpdate)));
       createVis.add(
         const SizedBox(
           height: 10,
@@ -242,8 +242,10 @@
           ),
           onPressed: () {
             setState(() {
-              _createdAreaContentSave = List.from(createdAreaContent);
-              createdAreaContent.add(temp);
+              _createdAreaContentSave = createdAreaContent
+                  .map((v) =&gt; ServiceData.clone(v))
+                  .toList();
+              createdAreaContent.add(ServiceData.clone(temp));
               _state = 4;
             });
           },
@@ -265,7 +267,7 @@
     );
     createVis.add(createdAreaContent[0]
         .actions[0]
-        .display(true, actionParameterContent));
+        .display(true, actionParameterContent, createUpdate));
     createVis.add(
       const SizedBox(
         height: 10,
@@ -275,7 +277,8 @@
         onPressed: () {
           setState(() {
             bool isRequired = true;
-            _createdAreaContentSave = List.from(createdAreaContent);
+            _createdAreaContentSave =
+                createdAreaContent.map((v) =&gt; ServiceData.clone(v)).toList();
             for (var temp in createdAreaContent[0].actions[0].parameters) {
               if (temp.isRequired &amp;&amp; temp.matchedContent!.value == &quot;&quot;) {
                 isRequired = false;
@@ -309,9 +312,9 @@
           ),
           onPressed: () {
             setState(() {
-              _createdAreaContentSave = List.from(createdAreaContent);
-              List&lt;ActionData&gt; tempSave =
-                  List.from(createdAreaContent[0].actions);
+              _createdAreaContentSave = createdAreaContent
+                  .map((v) =&gt; ServiceData.clone(v))
+                  .toList();
               if (actionParameterContent.isNotEmpty) {
                 actionParameterContent = &lt;ParameterContent&gt;[];
               }
@@ -319,12 +322,11 @@
                 actionParameterContent
                     .add(ParameterContent(paramId: tmp.id, value: &quot;&quot;));
               }
-              createdAreaContent[0].actions = [temp];
-              _createdAreaContentSave[0].actions = List.from(tempSave);
+              createdAreaContent[0].actions = [ActionData.clone(temp)];
               _state = 2;
             });
           },
-          child: temp.display(false, [])));
+          child: temp.display(false, [], createUpdate)));
       createVis.add(
         const SizedBox(
           height: 10,
@@ -346,7 +348,8 @@
           onPressed: () {
             setState(() {
               createdAreaContent = &lt;ServiceData&gt;[];
-              createdAreaContent.add(temp);
+              createdAreaContent.add(ServiceData.clone(temp));
+              _createdAreaContentSave = &lt;ServiceData&gt;[];
               _state = 1;
             });
           },
@@ -403,6 +406,7 @@
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/activate.html">activate</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/apiAskForAreaCreation.html">apiAskForAreaCreation</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/build.html">build</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/createUpdate.html">createUpdate</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/creationDisplay.html">creationDisplay</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>

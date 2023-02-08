@@ -59,7 +59,8 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
 <span class="name ">display</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="display-param-mode"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">mode</span>, </span></li>
-<li><span class="parameter" id="display-param-params"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../flutter_objects_parameter_data/ParameterContent-class.html">ParameterContent</a></span>&gt;</span></span> <span class="parameter-name">params</span></span></li>
+<li><span class="parameter" id="display-param-params"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../flutter_objects_parameter_data/ParameterContent-class.html">ParameterContent</a></span>&gt;</span></span> <span class="parameter-name">params</span>, </span></li>
+<li><span class="parameter" id="display-param-update"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Function-class.html">Function</a>?</span> <span class="parameter-name">update</span></span></li>
 </ol>)
 
       
@@ -69,14 +70,15 @@
 <section class="desc markdown">
   <p>Get a visual representation of an Action
 mode -&gt; true = params, false = only name and desc
-params -&gt; list of all the associated parameter content</p>
+params -&gt; list of all the associated parameter content
+update -&gt; Function pointer used for update the state</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Widget display(bool mode, List&lt;ParameterContent&gt; params) {
+  <pre class="language-dart"><code class="language-dart">Widget display(bool mode, List&lt;ParameterContent&gt; params, Function? update) {
   List&lt;Widget&gt; paramWid = &lt;Widget&gt;[];
   paramWid.add(Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,8 +101,14 @@ params -&gt; list of all the associated parameter content</p>
         ),
       ]));
   if (mode == true) {
+    ParameterData? previous;
     for (var temp in parameters) {
-      paramWid.add(temp.display(params));
+      paramWid.add(temp.display(params, previous, update!));
+      if (temp.isRequired == true &amp;&amp; temp.getterUrl != null) {
+        previous = temp;
+      } else {
+        previous = null;
+      }
     }
   }
   return Column(
@@ -133,6 +141,7 @@ params -&gt; list of all the associated parameter content</p>
 
         <li class="section-title"><a href="../../flutter_objects_action_data/ActionData-class.html#constructors">Constructors</a></li>
           <li><a href="../../flutter_objects_action_data/ActionData/ActionData.html">ActionData</a></li>
+          <li><a href="../../flutter_objects_action_data/ActionData/ActionData.clone.html">clone</a></li>
           <li><a href="../../flutter_objects_action_data/ActionData/ActionData.fromJson.html">fromJson</a></li>
 
 
