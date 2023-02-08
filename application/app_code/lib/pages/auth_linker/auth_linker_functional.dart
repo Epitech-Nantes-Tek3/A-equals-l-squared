@@ -6,6 +6,7 @@ import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../flutter_objects/user_data.dart';
 
@@ -189,6 +190,10 @@ Future<String> getDiscordToken() async {
 
 /// Invite the Discord bot to the user server
 Future<String> inviteDiscordBot() async {
+  await launch(
+    'https://discord.com/api/oauth2/authorize?client_id=1066384923231006741&permissions=8&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&response_type=code&scope=bot%20identify%20guilds%20email%20connections%20messages.read%20guilds.members.read%20guilds.join',
+    forceSafariVC: false,
+  );
   return 'Thanks for adding our bot to your server !';
 }
 
