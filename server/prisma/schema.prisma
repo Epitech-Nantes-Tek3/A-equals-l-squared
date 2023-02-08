@@ -87,11 +87,11 @@ model Parameter {
 }
 
 model DynamicParameter {
-  id       String @id @unique @default(cuid())
-  name     String
-  value    String
-  Action   Action @relation(fields: [actionId], references: [id])
-  actionId String
+  id          String  @id @unique @default(cuid())
+  name        String
+  description String?
+  Action      Action  @relation(fields: [actionId], references: [id])
+  actionId    String
 }
 
 model ActionParameter {

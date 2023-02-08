@@ -812,7 +812,12 @@ app.post('/api/dev/action/create', async (req, res) => {
  */
 app.get('/api/dev/action/listall', async (req, res) => {
   try {
-    const actions = await database.prisma.Action.findMany()
+    const actions = await database.prisma.Action.findMany({
+      include: {
+        Parameters: true,
+        DynamicParameters: true
+      }
+    })
     return res.json(actions)
   } catch (err) {
     console.log(err)

@@ -38,7 +38,7 @@ const createDiscordService = async () => {
         description: 'Discord service',
         primaryColor: '#7289DA',
         secondaryColor: '#2C2F33',
-        icon : '',
+        icon: '',
         isEnable: true,
         Actions: {
           create: [
@@ -61,6 +61,26 @@ const createDiscordService = async () => {
                     isRequired: true,
                     ProposalUrl: '/api/services/discord/getTextChannels',
                     ProposalBody: true
+                  }
+                ]
+              },
+              DynamicParameters: {
+                create: [
+                  {
+                    name: 'message',
+                    description: 'The message sent'
+                  },
+                  {
+                    name: 'author',
+                    description: 'The author of the message'
+                  },
+                  {
+                    name: 'channel',
+                    description: 'The channel where the message is sent'
+                  },
+                  {
+                    name: 'guild',
+                    description: 'The guild where the message is sent'
                   }
                 ]
               }
@@ -86,6 +106,22 @@ const createDiscordService = async () => {
                     ProposalBody: true
                   }
                 ]
+              },
+              DynamicParameters: {
+                create: [
+                  {
+                    name: 'user',
+                    description: 'The user who join the channel'
+                  },
+                  {
+                    name: 'channel',
+                    description: 'The channel where the user join'
+                  },
+                  {
+                    name: 'guild',
+                    description: 'The guild where the user join'
+                  }
+                ]
               }
             },
             {
@@ -100,6 +136,18 @@ const createDiscordService = async () => {
                     description: 'The concerned guild id',
                     isRequired: true,
                     ProposalUrl: '/api/services/discord/getAvailableGuilds'
+                  }
+                ]
+              },
+              DynamicParameters: {
+                create: [
+                  {
+                    name: 'user',
+                    description: 'The user who join the guild'
+                  },
+                  {
+                    name: 'guild',
+                    description: 'The guild where the user join'
                   }
                 ]
               }
@@ -123,6 +171,26 @@ const createDiscordService = async () => {
                     isRequired: true,
                     ProposalUrl: '/api/services/discord/getTextChannels',
                     ProposalBody: true
+                  }
+                ]
+              },
+              DynamicParameters: {
+                create: [
+                  {
+                    name: 'message',
+                    description: 'The message where the reaction is added'
+                  },
+                  {
+                    name: 'author',
+                    description: 'The author of the reaction'
+                  },
+                  {
+                    name: 'channel',
+                    description: 'The channel where the reaction is added'
+                  },
+                  {
+                    name: 'guild',
+                    description: 'The guild where the reaction is added'
                   }
                 ]
               }
