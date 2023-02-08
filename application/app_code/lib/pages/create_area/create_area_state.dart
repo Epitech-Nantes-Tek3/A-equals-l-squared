@@ -7,6 +7,8 @@ import 'package:application/pages/create_area/create_area_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../flutter_objects/action_data.dart';
+import '../../flutter_objects/reaction_data.dart';
 import '../../flutter_objects/service_data.dart';
 import '../../network/informations.dart';
 import '../home/home_functional.dart';
@@ -230,7 +232,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   reactionParameterContent
                       .add(ParameterContent(paramId: tmp.id, value: ""));
                 }
-                createdAreaContent[1].reactions = [temp];
+                createdAreaContent[1].reactions = [ReactionData.clone(temp)];
                 _state = 5;
               });
             },
@@ -263,7 +265,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _createdAreaContentSave = createdAreaContent
                     .map((v) => ServiceData.clone(v))
                     .toList();
-                createdAreaContent.add(temp);
+                createdAreaContent.add(ServiceData.clone(temp));
                 _state = 4;
               });
             },
@@ -340,7 +342,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   actionParameterContent
                       .add(ParameterContent(paramId: tmp.id, value: ""));
                 }
-                createdAreaContent[0].actions = [temp];
+                createdAreaContent[0].actions = [ActionData.clone(temp)];
                 _state = 2;
               });
             },
@@ -366,7 +368,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             onPressed: () {
               setState(() {
                 createdAreaContent = <ServiceData>[];
-                createdAreaContent.add(temp);
+                createdAreaContent.add(ServiceData.clone(temp));
                 _createdAreaContentSave = <ServiceData>[];
                 _state = 1;
               });
@@ -409,6 +411,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               IconButton(
                   onPressed: () {
                     setState(() {
+                      createdArea = null;
+                      _createdAreaContentSave = <ServiceData>[];
+                      createdAreaContent = <ServiceData>[];
+                      _state = 0;
                       goToHomePage(context);
                     });
                   },
