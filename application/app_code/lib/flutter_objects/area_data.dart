@@ -3,8 +3,8 @@ import 'package:application/flutter_objects/reaction_data.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:flutter/material.dart';
 
-import 'action_data.dart';
 import '../../material_lib_functions/material_functions.dart';
+import 'action_data.dart';
 
 /// This class is the Area class.
 /// It contains all information about an Area
@@ -31,6 +31,22 @@ class AreaData {
     required this.reactionParameters,
     this.description,
   });
+
+  AreaData.clone(AreaData oldArea)
+      : this(
+            id: oldArea.id,
+            name: oldArea.name,
+            userId: oldArea.userId,
+            actionId: oldArea.actionId,
+            reactionId: oldArea.reactionId,
+            isEnable: oldArea.isEnable,
+            actionParameters: oldArea.actionParameters
+                .map((v) => ParameterContent.clone(v))
+                .toList(),
+            reactionParameters: oldArea.reactionParameters
+                .map((v) => ParameterContent.clone(v))
+                .toList(),
+            description: oldArea.description);
 
   /// Convert a json map into the class
   factory AreaData.fromJson(Map<String, dynamic> json) {

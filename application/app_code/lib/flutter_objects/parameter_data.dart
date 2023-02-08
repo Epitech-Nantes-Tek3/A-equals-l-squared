@@ -31,6 +31,16 @@ class ParameterData {
     this.reactionId,
   });
 
+  ParameterData.clone(ParameterData oldParameter)
+      : this(
+            name: oldParameter.name,
+            id: oldParameter.id,
+            description: oldParameter.description,
+            isRequired: oldParameter.isRequired,
+            getterUrl: oldParameter.getterUrl,
+            actionId: oldParameter.actionId,
+            reactionId: oldParameter.reactionId);
+
   /// Convert a json map into the class
   factory ParameterData.fromJson(Map<String, dynamic> json) {
     late String? actionId;
@@ -64,8 +74,8 @@ class ParameterData {
   /// Function returning a visual representation of a parameter
   /// params -> list of all the associated parameter content
   /// previous -> Previous displayed parameter
-  Widget display(List<ParameterContent> params, ParameterData? previous,
-      Function update) {
+  Widget display(
+      List<ParameterContent> params, ParameterData? previous, Function update) {
     this.previous = previous;
     for (var tempParam in params) {
       if (tempParam.paramId == id) {
@@ -85,7 +95,7 @@ class ParameterData {
       }
       if (matchedContent!.value == "") {
         matchedContent!.value = "No value";
-      } else {
+      } else if (!tempProposal.contains(matchedContent!.value)) {
         tempProposal.add(matchedContent!.value);
       }
     }
@@ -186,6 +196,9 @@ class ParameterContent {
 
   /// Constructor of the parameterContent class
   ParameterContent({required this.paramId, required this.value});
+
+  ParameterContent.clone(ParameterContent oldParameter)
+      : this(paramId: oldParameter.paramId, value: oldParameter.value);
 
   /// Convert a json map into the class
   factory ParameterContent.fromJson(Map<String, dynamic> json) {

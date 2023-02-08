@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:application/flutter_objects/action_data.dart';
 import 'package:application/flutter_objects/area_data.dart';
 import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
@@ -8,7 +7,6 @@ import 'package:application/pages/create_area/create_area_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../../flutter_objects/reaction_data.dart';
 import '../../flutter_objects/service_data.dart';
 import '../../network/informations.dart';
 import '../home/home_functional.dart';
@@ -21,7 +19,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   String _name = "";
 
   /// Save of the creation state
-  List<ServiceData> _createdAreaContentSave = createdAreaContent;
+  List<ServiceData> _createdAreaContentSave = <ServiceData>[];
 
   /// Future answer of the api
   late Future<String> _futureAnswer;
@@ -190,7 +188,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           onPressed: () {
             setState(() {
               bool isRequired = true;
-              _createdAreaContentSave = List.from(createdAreaContent);
+              _createdAreaContentSave =
+                  createdAreaContent.map((v) => ServiceData.clone(v)).toList();
               for (var temp in createdAreaContent[1].reactions[0].parameters) {
                 if (temp.isRequired && temp.matchedContent!.value == "") {
                   isRequired = false;
@@ -221,9 +220,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             ),
             onPressed: () {
               setState(() {
-                _createdAreaContentSave = List.from(createdAreaContent);
-                List<ReactionData> tempSave =
-                    List.from(createdAreaContent[1].reactions);
+                _createdAreaContentSave = createdAreaContent
+                    .map((v) => ServiceData.clone(v))
+                    .toList();
                 if (reactionParameterContent.isNotEmpty) {
                   reactionParameterContent = <ParameterContent>[];
                 }
@@ -232,7 +231,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                       .add(ParameterContent(paramId: tmp.id, value: ""));
                 }
                 createdAreaContent[1].reactions = [temp];
-                _createdAreaContentSave[1].reactions = List.from(tempSave);
                 _state = 5;
               });
             },
@@ -262,7 +260,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             ),
             onPressed: () {
               setState(() {
-                _createdAreaContentSave = List.from(createdAreaContent);
+                _createdAreaContentSave = createdAreaContent
+                    .map((v) => ServiceData.clone(v))
+                    .toList();
                 createdAreaContent.add(temp);
                 _state = 4;
               });
@@ -295,7 +295,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           onPressed: () {
             setState(() {
               bool isRequired = true;
-              _createdAreaContentSave = List.from(createdAreaContent);
+              _createdAreaContentSave =
+                  createdAreaContent.map((v) => ServiceData.clone(v)).toList();
               for (var temp in createdAreaContent[0].actions[0].parameters) {
                 if (temp.isRequired && temp.matchedContent!.value == "") {
                   isRequired = false;
@@ -329,9 +330,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             ),
             onPressed: () {
               setState(() {
-                _createdAreaContentSave = List.from(createdAreaContent);
-                List<ActionData> tempSave =
-                    List.from(createdAreaContent[0].actions);
+                _createdAreaContentSave = createdAreaContent
+                    .map((v) => ServiceData.clone(v))
+                    .toList();
                 if (actionParameterContent.isNotEmpty) {
                   actionParameterContent = <ParameterContent>[];
                 }
@@ -340,7 +341,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                       .add(ParameterContent(paramId: tmp.id, value: ""));
                 }
                 createdAreaContent[0].actions = [temp];
-                _createdAreaContentSave[0].actions = List.from(tempSave);
                 _state = 2;
               });
             },
@@ -367,6 +367,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               setState(() {
                 createdAreaContent = <ServiceData>[];
                 createdAreaContent.add(temp);
+                _createdAreaContentSave = <ServiceData>[];
                 _state = 1;
               });
             },
@@ -450,7 +451,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 onPressed: () {
                   setState(() {
                     _state -= 1;
-                    createdAreaContent = List.from(_createdAreaContentSave);
+                    createdAreaContent = _createdAreaContentSave
+                        .map((v) => ServiceData.clone(v))
+                        .toList();
                     if (_state == 0) {
                       createdArea = null;
                       _createdAreaContentSave = <ServiceData>[];

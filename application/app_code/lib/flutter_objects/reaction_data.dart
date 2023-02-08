@@ -23,6 +23,17 @@ class ReactionData {
     required this.parameters,
   });
 
+  ReactionData.clone(ReactionData oldReaction)
+      : this(
+      id: oldReaction.id,
+      name: oldReaction.name,
+      description: oldReaction.description,
+      createdAt: oldReaction.createdAt,
+      isEnable: oldReaction.isEnable,
+      serviceId: oldReaction.serviceId,
+      parameters: oldReaction.parameters.map((v) => ParameterData.clone(v)).toList()
+  );
+
   /// Convert a json map into the class
   factory ReactionData.fromJson(Map<String, dynamic> json) {
     List<ParameterData> parameters = <ParameterData>[];
