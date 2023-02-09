@@ -124,18 +124,18 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       }
 
       var response =
-      await http.post(Uri.parse('http://$serverIp:8080/api/area/create'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer ${userInformation!.token}',
-          },
-          body: jsonEncode(<String, dynamic>{
-            'actionId': createdArea!.actionId,
-            'name': createdArea!.name,
-            'actionParameters': actionParameter,
-            'reactionId': createdArea!.reactionId,
-            'reactionParameters': reactionParameter
-          }));
+          await http.post(Uri.parse('http://$serverIp:8080/api/area/create'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Authorization': 'Bearer ${userInformation!.token}',
+              },
+              body: jsonEncode(<String, dynamic>{
+                'actionId': createdArea!.actionId,
+                'name': createdArea!.name,
+                'actionParameters': actionParameter,
+                'reactionId': createdArea!.reactionId,
+                'reactionParameters': reactionParameter
+              }));
 
       if (response.statusCode == 200) {
         await updateAllFlutterObject();
@@ -177,7 +177,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 reactionId: createdAreaContent[1].reactions[0].id,
                 isEnable: true,
                 actionParameters:
-                createdAreaContent[0].actions[0].getAllParameterContent(),
+                    createdAreaContent[0].actions[0].getAllParameterContent(),
                 reactionParameters: createdAreaContent[1]
                     .reactions[0]
                     .getAllParameterContent());
@@ -194,9 +194,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             reactionId: createdAreaContent[1].reactions[0].id,
             isEnable: true,
             actionParameters:
-            createdAreaContent[0].actions[0].getAllParameterContent(),
+                createdAreaContent[0].actions[0].getAllParameterContent(),
             reactionParameters:
-            createdAreaContent[1].reactions[0].getAllParameterContent());
+                createdAreaContent[1].reactions[0].getAllParameterContent());
       }
       createVis.add(const SizedBox(
         height: 10,
@@ -742,56 +742,55 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     return Scaffold(
         body: SingleChildScrollView(
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      IconButton(
-                          onPressed: () {
-                            setState(() {
-                              createdArea = null;
-                              _createdAreaContentSave = <ServiceData>[];
-                              _createdActionContentSave = <ServiceData>[];
-                              _createdReactionContentSave = <ServiceData>[];
-                              createdAreaContent = <ServiceData>[];
-                              _state = 0;
-                              goToHomePage(context);
-                            });
-                          },
-                          icon: const Icon(Icons.home_filled)),
-                      const Text(
-                        'Create a new Area',
-                        style: TextStyle(
-                            fontFamily: 'Roboto-Bold', fontSize: 25),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      createdArea = null;
+                      _createdAreaContentSave = <ServiceData>[];
+                      _createdActionContentSave = <ServiceData>[];
+                      _createdReactionContentSave = <ServiceData>[];
+                      createdAreaContent = <ServiceData>[];
+                      _state = 0;
+                      goToHomePage(context);
+                    });
+                  },
+                  icon: const Icon(Icons.home_filled)),
+              const Text(
+                'Create a new Area',
+                style: TextStyle(fontFamily: 'Roboto-Bold', fontSize: 25),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 30,
+          ),
 
-                  /// Block Action
-                  const Text('Action'),
+          /// Block Action
+          const Text('Action'),
 
-                  /// if (_hasAnAction)
-                  /// display all Actions chosen by the User
-                  displayActionViewToCreateAnArea(),
+          /// if (_hasAnAction)
+          /// display all Actions chosen by the User
+          displayActionViewToCreateAnArea(),
 
-                  const SizedBox(
-                    height: 30,
-                  ),
+          const SizedBox(
+            height: 30,
+          ),
 
-                  /// Block Reaction
-                  const Text('Reaction'),
+          /// Block Reaction
+          const Text('Reaction'),
 
-                  /// if (_hasAReaction)
-                  /// display all Reactions chosen by the User
-                  displayReactionViewToCreateAnArea(),
-                ],
-              ),
-            )));
+          /// if (_hasAReaction)
+          /// display all Reactions chosen by the User
+          displayReactionViewToCreateAnArea(),
+        ],
+      ),
+    )));
   }
 }
