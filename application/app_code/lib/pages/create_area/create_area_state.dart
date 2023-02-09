@@ -45,6 +45,33 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     setState(() {});
   }
 
+  void displayServices(List<Widget> createVis) {
+    for (var temp in serviceDataList) {
+      createVis.add(ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            side: const BorderSide(width: 3, color: Colors.white),
+
+            /// Change when DB is Up
+            primary: Colors.white,
+          ),
+          onPressed: () {
+            setState(() {
+              createdAreaContent = <ServiceData>[];
+              createdAreaContent.add(ServiceData.clone(temp));
+              _createdAreaContentSave = <ServiceData>[];
+              _state = 1;
+            });
+          },
+          child: temp.display()));
+      createVis.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
+    }
+  }
+
   /// Ask the api to create an area
   Future<String> apiAskForAreaCreation() async {
     try {
@@ -362,32 +389,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     }
 
     if (_state == 0) {
-      for (var temp in serviceDataList) {
-        createVis.add(ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-              side: const BorderSide(width: 3, color: Colors.white),
-
-              /// Change when DB is Up
-              primary: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                createdAreaContent = <ServiceData>[];
-                createdAreaContent.add(ServiceData.clone(temp));
-                _createdAreaContentSave = <ServiceData>[];
-                _state = 1;
-              });
-            },
-            child: temp.display()));
-        createVis.add(
-          const SizedBox(
-            height: 10,
-          ),
-        );
-      }
+      displayServices(createVis);
     }
-
     return createVis;
   }
 
@@ -444,6 +447,29 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             height: 30,
           ),
 
+          /// Display Actions
+          ///
+          /// Button Add Action
+          ///
+          /// Display Reactions
+          ///
+          /// Button Add reaction
+
+          /// Block Actions
+          Column(children: const <Widget>[
+            Text('Action'),
+
+            /// All Actions
+            /// Button to add action
+          ]),
+
+          Column(children: const <Widget>[
+            Text('Reaction'),
+
+            /// All Reactions
+            /// Button to add a reaction
+          ]),
+
           /// Choose a service (list de service display
           /// ->
           /// Encadrement avec un liste de toutes les possibilité de choix d'actions
@@ -456,13 +482,12 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           /// ->
           /// Pour les reactions la gestion est la meme
 
-
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: creationDisplay(),
           ),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            if (_state != 0)
+          if (_state != 0)
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               ElevatedButton(
                 key: const Key('CreateAreaPreviousButton'),
                 onPressed: () {
@@ -480,7 +505,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 },
                 child: const Text('Previous'),
               ),
-          ])
+            ])
         ],
       ),
     )));
