@@ -21,7 +21,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   int _actionCreationState = 0;
 
   /// Creation of an Reaction state
-  int _ractionCreationState = 0;
+  int _reactionCreationState = 0;
 
   /// Name of the AREA
   String _name = "";
@@ -77,6 +77,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               _createdAreaContentSave = <ServiceData>[];
               _createdActionContentSave = <ServiceData>[];
               _state = 1;
+              _actionCreationState = 1;
             });
           },
           child: temp.display()));
@@ -115,18 +116,18 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       }
 
       var response =
-          await http.post(Uri.parse('http://$serverIp:8080/api/area/create'),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Authorization': 'Bearer ${userInformation!.token}',
-              },
-              body: jsonEncode(<String, dynamic>{
-                'actionId': createdArea!.actionId,
-                'name': createdArea!.name,
-                'actionParameters': actionParameter,
-                'reactionId': createdArea!.reactionId,
-                'reactionParameters': reactionParameter
-              }));
+      await http.post(Uri.parse('http://$serverIp:8080/api/area/create'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ${userInformation!.token}',
+          },
+          body: jsonEncode(<String, dynamic>{
+            'actionId': createdArea!.actionId,
+            'name': createdArea!.name,
+            'actionParameters': actionParameter,
+            'reactionId': createdArea!.reactionId,
+            'reactionParameters': reactionParameter
+          }));
 
       if (response.statusCode == 200) {
         await updateAllFlutterObject();
@@ -168,7 +169,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 reactionId: createdAreaContent[1].reactions[0].id,
                 isEnable: true,
                 actionParameters:
-                    createdAreaContent[0].actions[0].getAllParameterContent(),
+                createdAreaContent[0].actions[0].getAllParameterContent(),
                 reactionParameters: createdAreaContent[1]
                     .reactions[0]
                     .getAllParameterContent());
@@ -185,9 +186,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             reactionId: createdAreaContent[1].reactions[0].id,
             isEnable: true,
             actionParameters:
-                createdAreaContent[0].actions[0].getAllParameterContent(),
+            createdAreaContent[0].actions[0].getAllParameterContent(),
             reactionParameters:
-                createdAreaContent[1].reactions[0].getAllParameterContent());
+            createdAreaContent[1].reactions[0].getAllParameterContent());
       }
       createVis.add(const SizedBox(
         height: 10,
@@ -533,7 +534,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
   Widget displayActionViewToCreateAnArea() {
     return Column(children: <Widget>[
-      const Text('Action'),
       if (!_isChoosingAnAction)
         ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -553,8 +553,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         Column(
           children: <Widget>[
             const Text('Display all services'),
-
-            ///Column(children: creationDisplay()),
             Column(children: chooseAnAction()),
           ],
         )
@@ -563,7 +561,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
   Widget displayReactionViewToCreateAnArea() {
     return Column(children: <Widget>[
-      const Text('Reaction'),
       if (!_isChoosingAReaction)
         ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -575,10 +572,17 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             onPressed: () {
               setState(() {
                 _isChoosingAReaction = true;
+                _reactionCreationState = 0;
               });
             },
             child: const Text('Add a Reaction')),
-      if (_isChoosingAReaction) const Text('Display all services'),
+      if (_isChoosingAReaction)
+        Column(
+          children: <Widget>[
+            const Text('Display all services'),
+            Column(children: chooseAReaction()),
+          ],
+        )
     ]);
   }
 
@@ -593,74 +597,54 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     return Scaffold(
         body: SingleChildScrollView(
             child: Container(
-      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      createdArea = null;
-                      _createdAreaContentSave = <ServiceData>[];
-                      createdAreaContent = <ServiceData>[];
-                      _state = 0;
-                      goToHomePage(context);
-                    });
-                  },
-                  icon: const Icon(Icons.home_filled)),
-              const Text(
-                'Create a new Area',
-                style: TextStyle(fontFamily: 'Roboto-Bold', fontSize: 25),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          if (_state == 0)
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const <Widget>[
-                  Text('Choose a service for the action'),
-                ]),
-          const SizedBox(
-            height: 30,
-          ),
+              margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              createdArea = null;
+                              _createdAreaContentSave = <ServiceData>[];
+                              createdAreaContent = <ServiceData>[];
+                              _state = 0;
+                              goToHomePage(context);
+                            });
+                          },
+                          icon: const Icon(Icons.home_filled)),
+                      const Text(
+                        'Create a new Area',
+                        style: TextStyle(
+                            fontFamily: 'Roboto-Bold', fontSize: 25),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
 
-          /// Display Actions
-          ///
-          /// Button Add Action
-          ///
-          /// Display Reactions
-          ///
-          /// Button Add reaction
+                  /// Block Action
+                  const Text('Action'),
 
-          /// Block Actions
-          displayActionViewToCreateAnArea(),
+                  /// if (_hasAnAction)
+                  /// display all Actions chosen by the User
+                  displayActionViewToCreateAnArea(),
 
-          const SizedBox(
-            height: 30,
-          ),
+                  const SizedBox(
+                    height: 30,
+                  ),
 
-          /// Block Reaction
-          displayReactionViewToCreateAnArea(),
+                  /// Block Reaction
+                  const Text('Reaction'),
 
-          /// Choose a service (list de service display
-          /// ->
-          /// Encadrement avec un liste de toutes les possibilité de choix d'actions
-          /// ->
-          /// Choix des parametre de l'actions
-          /// ->
-          /// Affichage du service choisi avec les parametres
-          /// Possibilité de choisir une autre action
-          /// possibilité de choisir les reaction
-          /// ->
-          /// Pour les reactions la gestion est la meme
-        ],
-      ),
-    )));
+                  /// if (_hasAReaction)
+                  /// display all Reactions chosen by the User
+                  displayReactionViewToCreateAnArea(),
+                ],
+              ),
+            )));
   }
 }
