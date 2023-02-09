@@ -60,7 +60,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     setState(() {});
   }
 
-  void displayServices(List<Widget> createVis) {
+  void displayServices(List<Widget> createVis, int actionOrReaction) {
     for (var temp in serviceDataList) {
       createVis.add(ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -77,7 +77,12 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               _createdAreaContentSave = <ServiceData>[];
               _createdActionContentSave = <ServiceData>[];
               _state = 1;
-              _actionCreationState = 1;
+              if (actionOrReaction == 1) {
+                _actionCreationState = 1;
+              }
+              if (actionOrReaction == 2) {
+                _actionCreationState = 1;
+              }
             });
           },
           child: temp.display()));
@@ -406,7 +411,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     }
 
     if (_state == 0) {
-      displayServices(createVis);
+      displayServices(createVis, 0);
     }
     return createVis;
   }
@@ -420,7 +425,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     List<Widget> createAnAction = <Widget>[];
 
     if (_isChoosingAnAction == true && _actionCreationState == 0) {
-      displayServices(createAnAction);
+      displayServices(createAnAction, 1);
     }
     if (_actionCreationState == 1) {
       createAnAction.add(Column(
@@ -530,7 +535,119 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     return createAnAction;
   }
 
-  chooseAReaction() {}
+  chooseAReaction() {
+    List<Widget> createAReaction = <Widget>[];
+
+    if (_isChoosingAReaction == true && _reactionCreationState == 0) {
+      displayServices(createAReaction, 2);
+    }
+    if (_reactionCreationState == 1) {
+      createAReaction.add(Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const <Widget>[Text("Choose your Action")]));
+      createAReaction.add(
+        const SizedBox(
+          height: 30,
+        ),
+      );
+      for (var temp in createdAreaContent[0].actions) {
+        createAReaction.add(ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              side: const BorderSide(width: 3, color: Colors.white),
+
+              /// Change when DB is Up
+              primary: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                _createdAreaContentSave = createdAreaContent
+                    .map((v) => ServiceData.clone(v))
+                    .toList();
+                if (actionParameterContent.isNotEmpty) {
+                  actionParameterContent = <ParameterContent>[];
+                }
+                for (var tmp in temp.parameters) {
+                  actionParameterContent
+                      .add(ParameterContent(paramId: tmp.id, value: ""));
+                }
+                createdAreaContent[0].actions = [ActionData.clone(temp)];
+                _reactionCreationState = 2;
+              });
+            },
+            child: temp.display(false, [], createUpdate)));
+        createAReaction.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
+      }
+    }
+
+    if (_reactionCreationState == 2) {
+      createAReaction.add(const Text("Configure your Action"));
+      createAReaction.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
+      createAReaction.add(createdAreaContent[0]
+          .actions[0]
+          .display(true, actionParameterContent, createUpdate));
+      createAReaction.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
+      createAReaction.add(ElevatedButton(
+          onPressed: () {
+            setState(() {
+              bool isRequired = true;
+              _createdAreaContentSave =
+                  createdAreaContent.map((v) => ServiceData.clone(v)).toList();
+              for (var temp in createdAreaContent[0].actions[0].parameters) {
+                if (temp.isRequired && temp.matchedContent!.value == "") {
+                  isRequired = false;
+                }
+              }
+              if (isRequired) {
+                _reactionCreationState = 0;
+
+                /// Add this Action in DB
+                _isChoosingAReaction = false;
+              }
+            });
+          },
+          child: const Text("Validate")));
+    }
+
+    if (_isChoosingAReaction) {
+      createAReaction
+          .add(Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        ElevatedButton(
+          key: const Key('CreateActionPreviousButton'),
+          onPressed: () {
+            setState(() {
+              createdAreaContent = _createdActionContentSave
+                  .map((v) => ServiceData.clone(v))
+                  .toList();
+              if (_reactionCreationState == 0) {
+                _isChoosingAReaction = false;
+                _reactionCreationState = 0;
+                createdArea = null;
+                _createdActionContentSave = <ServiceData>[];
+                createdAreaContent = <ServiceData>[];
+              }
+              _reactionCreationState -= 1;
+            });
+          },
+          child: const Text('Previous'),
+        ),
+      ]));
+    }
+
+    return createAReaction;
+  }
 
   Widget displayActionViewToCreateAnArea() {
     return Column(children: <Widget>[
