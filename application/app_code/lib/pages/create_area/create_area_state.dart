@@ -44,6 +44,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Save of the creation of an Action state
   List<ServiceData> _createdActionContentSave = <ServiceData>[];
 
+  /// Save of the creation of an Reaction state
+  List<ServiceData> _createdReactionContentSave = <ServiceData>[];
+
   /// Future answer of the api
   late Future<String> _futureAnswer;
 
@@ -447,7 +450,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             ),
             onPressed: () {
               setState(() {
-                _createdAreaContentSave = createdAreaContent
+                _createdActionContentSave = createdAreaContent
                     .map((v) => ServiceData.clone(v))
                     .toList();
                 if (actionParameterContent.isNotEmpty) {
@@ -489,7 +492,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           onPressed: () {
             setState(() {
               bool isRequired = true;
-              _createdAreaContentSave =
+              _createdActionContentSave =
                   createdAreaContent.map((v) => ServiceData.clone(v)).toList();
               for (var temp in createdAreaContent[0].actions[0].parameters) {
                 if (temp.isRequired && temp.matchedContent!.value == "") {
@@ -539,39 +542,65 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     List<Widget> createAReaction = <Widget>[];
 
     if (_isChoosingAReaction == true && _reactionCreationState == 0) {
-      displayServices(createAReaction, 2);
-    }
-    if (_reactionCreationState == 1) {
-      createAReaction.add(Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const <Widget>[Text("Choose your Action")]));
-      createAReaction.add(
-        const SizedBox(
-          height: 30,
-        ),
-      );
-      for (var temp in createdAreaContent[0].actions) {
+      createAReaction.add(const Text("Choose your Reaction service"));
+      for (var temp in serviceDataList) {
+        createAReaction.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
         createAReaction.add(ElevatedButton(
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               side: const BorderSide(width: 3, color: Colors.white),
-
-              /// Change when DB is Up
+              // Change when DB is Up
               primary: Colors.white,
             ),
             onPressed: () {
               setState(() {
-                _createdAreaContentSave = createdAreaContent
+                _createdReactionContentSave = createdAreaContent
                     .map((v) => ServiceData.clone(v))
                     .toList();
-                if (actionParameterContent.isNotEmpty) {
-                  actionParameterContent = <ParameterContent>[];
+                createdAreaContent.add(ServiceData.clone(temp));
+                _reactionCreationState = 1;
+              });
+            },
+            child: temp.display()));
+        createAReaction.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
+      }
+    }
+    if (_reactionCreationState == 1) {
+      createAReaction.add(const Text("Choose your Reaction"));
+      for (var temp in createdAreaContent[1].reactions) {
+        createAReaction.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
+        createAReaction.add(ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              side: const BorderSide(width: 3, color: Colors.white),
+              // Change when DB is Up
+              primary: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                _createdReactionContentSave = createdAreaContent
+                    .map((v) => ServiceData.clone(v))
+                    .toList();
+                if (reactionParameterContent.isNotEmpty) {
+                  reactionParameterContent = <ParameterContent>[];
                 }
                 for (var tmp in temp.parameters) {
-                  actionParameterContent
+                  reactionParameterContent
                       .add(ParameterContent(paramId: tmp.id, value: ""));
                 }
-                createdAreaContent[0].actions = [ActionData.clone(temp)];
+                createdAreaContent[1].reactions = [ReactionData.clone(temp)];
                 _reactionCreationState = 2;
               });
             },
@@ -585,15 +614,15 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     }
 
     if (_reactionCreationState == 2) {
-      createAReaction.add(const Text("Configure your Action"));
+      createAReaction.add(const Text("Configure your Reaction"));
       createAReaction.add(
         const SizedBox(
           height: 10,
         ),
       );
-      createAReaction.add(createdAreaContent[0]
-          .actions[0]
-          .display(true, actionParameterContent, createUpdate));
+      createAReaction.add(createdAreaContent[1]
+          .reactions[0]
+          .display(true, reactionParameterContent, createUpdate));
       createAReaction.add(
         const SizedBox(
           height: 10,
@@ -603,9 +632,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           onPressed: () {
             setState(() {
               bool isRequired = true;
-              _createdAreaContentSave =
+              _createdReactionContentSave =
                   createdAreaContent.map((v) => ServiceData.clone(v)).toList();
-              for (var temp in createdAreaContent[0].actions[0].parameters) {
+              for (var temp in createdAreaContent[1].reactions[0].parameters) {
                 if (temp.isRequired && temp.matchedContent!.value == "") {
                   isRequired = false;
                 }
@@ -613,8 +642,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               if (isRequired) {
                 _reactionCreationState = 0;
 
-                /// Add this Action in DB
-                _isChoosingAReaction = false;
+                /// Add this Reaction in DB
               }
             });
           },
@@ -628,14 +656,14 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           key: const Key('CreateActionPreviousButton'),
           onPressed: () {
             setState(() {
-              createdAreaContent = _createdActionContentSave
+              createdAreaContent = _createdReactionContentSave
                   .map((v) => ServiceData.clone(v))
                   .toList();
               if (_reactionCreationState == 0) {
                 _isChoosingAReaction = false;
                 _reactionCreationState = 0;
                 createdArea = null;
-                _createdActionContentSave = <ServiceData>[];
+                _createdReactionContentSave = <ServiceData>[];
                 createdAreaContent = <ServiceData>[];
               }
               _reactionCreationState -= 1;
@@ -726,6 +754,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                             setState(() {
                               createdArea = null;
                               _createdAreaContentSave = <ServiceData>[];
+                              _createdActionContentSave = <ServiceData>[];
+                              _createdReactionContentSave = <ServiceData>[];
                               createdAreaContent = <ServiceData>[];
                               _state = 0;
                               goToHomePage(context);
