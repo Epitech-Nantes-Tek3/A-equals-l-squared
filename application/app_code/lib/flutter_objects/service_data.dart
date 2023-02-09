@@ -24,6 +24,20 @@ class ServiceData {
       required this.actions,
       required this.reactions});
 
+  /// Utility function used for cloning the class
+  ServiceData.clone(ServiceData oldService)
+      : this(
+            name: oldService.name,
+            id: oldService.id,
+            description: oldService.description,
+            createdAt: oldService.createdAt,
+            isEnabled: oldService.isEnabled,
+            actions:
+                oldService.actions.map((v) => ActionData.clone(v)).toList(),
+            reactions: oldService.reactions
+                .map((v) => ReactionData.clone(v))
+                .toList());
+
   /// Convert a json map into the class
   factory ServiceData.fromJson(Map<String, dynamic> json) {
     List<ActionData> actions = <ActionData>[];

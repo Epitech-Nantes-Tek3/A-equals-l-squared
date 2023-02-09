@@ -3,8 +3,8 @@ import 'package:application/flutter_objects/reaction_data.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:flutter/material.dart';
 
-import 'action_data.dart';
 import '../../material_lib_functions/material_functions.dart';
+import 'action_data.dart';
 
 /// This class is the Area class.
 /// It contains all information about an Area
@@ -32,6 +32,23 @@ class AreaData {
     this.description,
   });
 
+  /// Utility function used for cloning the class
+  AreaData.clone(AreaData oldArea)
+      : this(
+            id: oldArea.id,
+            name: oldArea.name,
+            userId: oldArea.userId,
+            actionId: oldArea.actionId,
+            reactionId: oldArea.reactionId,
+            isEnable: oldArea.isEnable,
+            actionParameters: oldArea.actionParameters
+                .map((v) => ParameterContent.clone(v))
+                .toList(),
+            reactionParameters: oldArea.reactionParameters
+                .map((v) => ParameterContent.clone(v))
+                .toList(),
+            description: oldArea.description);
+
   /// Convert a json map into the class
   factory AreaData.fromJson(Map<String, dynamic> json) {
     List<ParameterContent> actionParameters = <ParameterContent>[];
@@ -56,7 +73,8 @@ class AreaData {
 
   /// Get a visual representation of an Area for create page
   /// mode -> true = complete representation, false = only area preview
-  Widget displayForCreate(bool mode) {
+  /// update -> Function pointer used for update the state
+  Widget displayForCreate(bool mode, Function? update) {
     late ActionData action;
     late ReactionData reaction;
 
@@ -96,7 +114,7 @@ class AreaData {
               child: Column(
                 children: [
                   const Text("Action"),
-                  action.display(true, actionParameters),
+                  action.display(true, actionParameters, update),
                 ],
               ),
             )
@@ -110,7 +128,7 @@ class AreaData {
               child: Column(
                 children: [
                   const Text("Reaction"),
-                  reaction.display(true, reactionParameters)
+                  reaction.display(true, reactionParameters, update)
                 ],
               ),
             )
@@ -158,7 +176,8 @@ class AreaData {
 
   /// Get a visual representation of an Area
   /// mode -> true = complete representation, false = only area preview
-  Widget display(bool mode) {
+  /// update -> Function pointer used for update the state
+  Widget display(bool mode, Function? update) {
     late ActionData action;
     late ReactionData reaction;
 
@@ -200,7 +219,7 @@ class AreaData {
               child: Column(
                 children: [
                   const Text("Action"),
-                  action.display(true, actionParameters),
+                  action.display(true, actionParameters, update),
                 ],
               ),
             )
@@ -214,7 +233,7 @@ class AreaData {
               child: Column(
                 children: [
                   const Text("Reaction"),
-                  reaction.display(true, reactionParameters)
+                  reaction.display(true, reactionParameters, update)
                 ],
               ),
             )

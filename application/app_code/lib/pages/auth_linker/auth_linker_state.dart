@@ -19,7 +19,11 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
         const SizedBox(
           height: 30,
         ),
-        discordAuthBox.display()
+        discordAuthBox.display(),
+        const SizedBox(
+          height: 30,
+        ),
+        discordInviteAuthBox.display()
       ],
     );
   }
@@ -64,12 +68,20 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
                         future: _futureApiResponse,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            return Text(snapshot.data!);
+                            return Column(children: [
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Text(snapshot.data!)
+                            ]);
                           } else if (snapshot.hasError) {
                             return Text('${snapshot.error}');
                           }
                           return const CircularProgressIndicator();
                         },
+                      ),
+                      const SizedBox(
+                        height: 30,
                       ),
                       ElevatedButton(
                         key: const Key('AuthLinkerHomeButton'),

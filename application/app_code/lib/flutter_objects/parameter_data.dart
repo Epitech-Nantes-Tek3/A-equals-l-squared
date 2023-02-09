@@ -1,4 +1,10 @@
+import 'dart:convert';
+
+import 'package:application/pages/home/home_functional.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import '../network/informations.dart';
 
 /// This class is the parameter class.
 /// It contains all information about a parameter
@@ -7,11 +13,12 @@ class ParameterData {
   String name;
   String description;
   bool isRequired;
-  String? proposalUrl;
-  bool? proposalBody;
+  String? getterUrl;
   String? actionId;
   String? reactionId;
   ParameterContent? matchedContent;
+  ParameterData? previous;
+  Map<String, String>? getterValue;
 
   /// Constructor of the reaction class
   ParameterData({
@@ -19,11 +26,21 @@ class ParameterData {
     required this.name,
     required this.description,
     required this.isRequired,
-    this.proposalUrl,
-    this.proposalBody,
+    this.getterUrl,
     this.actionId,
     this.reactionId,
   });
+
+  /// Utility function used for cloning the class
+  ParameterData.clone(ParameterData oldParameter)
+      : this(
+            name: oldParameter.name,
+            id: oldParameter.id,
+            description: oldParameter.description,
+            isRequired: oldParameter.isRequired,
+            getterUrl: oldParameter.getterUrl,
+            actionId: oldParameter.actionId,
+            reactionId: oldParameter.reactionId);
 
   /// Convert a json map into the class
   factory ParameterData.fromJson(Map<String, dynamic> json) {
@@ -39,32 +56,28 @@ class ParameterData {
     } catch (err) {
       reactionId = null;
     }
-    late String? proposalUrl;
+    late String? getterUrl;
     try {
-      proposalUrl = json['proposalUrl'];
+      getterUrl = json['GetterUrl'];
     } catch (err) {
-      proposalUrl = null;
-    }
-    late bool? proposalBody;
-    try {
-      proposalBody = json['proposalBody'];
-    } catch (err) {
-      proposalBody = null;
+      getterUrl = null;
     }
     return ParameterData(
         id: json['id'],
         name: json['name'],
         description: json['description'],
         isRequired: json['isRequired'],
-        proposalUrl: proposalUrl,
-        proposalBody: proposalBody,
+        getterUrl: getterUrl,
         actionId: actionId,
         reactionId: reactionId);
   }
 
   /// Function returning a visual representation of a parameter
   /// params -> list of all the associated parameter content
-  Widget display(List<ParameterContent> params) {
+  /// previous -> Previous displayed parameter
+  Widget display(
+      List<ParameterContent> params, ParameterData? previous, Function update) {
+    this.previous = previous;
     for (var tempParam in params) {
       if (tempParam.paramId == id) {
         matchedContent ??= tempParam;
@@ -72,29 +85,117 @@ class ParameterData {
       }
     }
     matchedContent ??= ParameterContent(paramId: id, value: "");
+    List<String>? tempProposal;
+
+    if (getterUrl != null) {
+      update(this);
+      tempProposal = <String>["No value"];
+      if (getterValue != null) {
+        for (var temp in getterValue!.keys) {
+          tempProposal.add(temp);
+        }
+      }
+      if (matchedContent!.value == "") {
+        matchedContent!.value = "No value";
+      } else if (!tempProposal.contains(matchedContent!.value)) {
+        tempProposal.add(matchedContent!.value);
+      }
+    }
+
     return Column(children: <Widget>[
       const SizedBox(
         height: 10,
       ),
-      TextFormField(
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(20),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.0),
+      if (getterUrl == null)
+        TextFormField(
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(20),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              labelText: name,
             ),
-            labelText: name,
+            initialValue: matchedContent != null ? matchedContent!.value : "",
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (String? value) {
+              if (value == null && isRequired) {
+                return 'Required parameter.';
+              }
+              value ??= "";
+              if (matchedContent != null) matchedContent!.value = value;
+              return null;
+            })
+      else
+        DropdownButton<String>(
+          value: matchedContent!.value,
+          icon: const Icon(Icons.arrow_downward),
+          elevation: 16,
+          style: const TextStyle(color: Colors.deepPurple),
+          underline: Container(
+            height: 2,
+            color: Colors.deepPurpleAccent,
           ),
-          initialValue: matchedContent != null ? matchedContent!.value : "",
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (String? value) {
+          onChanged: (String? value) {
             if (value == null && isRequired) {
-              return 'Required parameter.';
+              return;
             }
             value ??= "";
             if (matchedContent != null) matchedContent!.value = value;
-            return null;
-          })
+            update(this);
+          },
+          items: tempProposal!.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        )
     ]);
+  }
+
+  /// Function asking the server for Proposal value related to this parameter
+  /// Is no getterUrl is set, the function is not run
+  Future<void> getProposalValue() async {
+    if (getterUrl == null) {
+      return;
+    }
+    String idValue = '';
+    if (previous != null &&
+        previous!.matchedContent != null &&
+        previous!.getterValue != null) {
+      idValue = previous!.getterValue![previous!.matchedContent!.value]!;
+    }
+    final response = await http.get(
+      Uri.parse('http://$serverIp:8080$getterUrl?id=$idValue'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${userInformation!.token}',
+      },
+    );
+
+    try {
+      if (response.statusCode == 200) {
+        var decoded = jsonDecode(response.body)['data'];
+        getterValue = {};
+        for (var temp in decoded) {
+          getterValue![temp["name"]] = temp["id"];
+        }
+        if (matchedContent != null &&
+            getterValue!.containsValue(matchedContent!.value)) {
+          var key = getterValue!.keys.firstWhere(
+              (k) => getterValue![k] == matchedContent!.value,
+              orElse: () => "");
+          if (key != "") {
+            matchedContent!.value = key;
+          }
+        }
+        return;
+      } else {
+        return;
+      }
+    } catch (err) {
+      return;
+    }
   }
 }
 
@@ -107,8 +208,31 @@ class ParameterContent {
   /// Constructor of the parameterContent class
   ParameterContent({required this.paramId, required this.value});
 
+  ParameterContent.clone(ParameterContent oldParameter)
+      : this(paramId: oldParameter.paramId, value: oldParameter.value);
+
   /// Convert a json map into the class
   factory ParameterContent.fromJson(Map<String, dynamic> json) {
     return ParameterContent(paramId: json['parameterId'], value: json['value']);
+  }
+
+  ParameterData? getParameterData() {
+    for (var temp in serviceDataList) {
+      for (var temp2 in temp.reactions) {
+        for (var temp3 in temp2.parameters) {
+          if (temp3.id == paramId) {
+            return temp3;
+          }
+        }
+      }
+      for (var temp2 in temp.actions) {
+        for (var temp3 in temp2.parameters) {
+          if (temp3.id == paramId) {
+            return temp3;
+          }
+        }
+      }
+    }
+    return null;
   }
 }
