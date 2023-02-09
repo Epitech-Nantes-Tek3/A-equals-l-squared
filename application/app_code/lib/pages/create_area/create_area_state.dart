@@ -26,6 +26,12 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Variable to know if an action has been chosen
   bool hasAReaction = false;
 
+  /// Variable to know if an User want to choose an Action
+  bool isChoosingAnAction = false;
+
+  /// Variable to know if an User want to choose a Reaction
+  bool isChoosingAReaction = false;
+
   /// Save of the creation state
   List<ServiceData> _createdAreaContentSave = <ServiceData>[];
 
@@ -456,19 +462,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           /// Button Add reaction
 
           /// Block Actions
-          Column(children: const <Widget>[
-            Text('Action'),
+          displayActionViewToCreateAnArea(),
 
-            /// All Actions
-            /// Button to add action
-          ]),
-
-          Column(children: const <Widget>[
-            Text('Reaction'),
-
-            /// All Reactions
-            /// Button to add a reaction
-          ]),
+          /// Block Reaction
+          displayReactionViewToCreateAnArea(),
 
           /// Choose a service (list de service display
           /// ->
@@ -509,5 +506,47 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         ],
       ),
     )));
+  }
+
+  Widget displayActionViewToCreateAnArea() {
+    return Column(children: <Widget>[
+      const Text('Action'),
+      if (!isChoosingAnAction)
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              side: const BorderSide(width: 3, color: Colors.white),
+              // Change when DB is Up
+              primary: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                isChoosingAnAction = true;
+              });
+            },
+            child: const Text('Add an Action')),
+      if (isChoosingAnAction) const Text('Display all services'),
+    ]);
+  }
+
+  Widget displayReactionViewToCreateAnArea() {
+    return Column(children: <Widget>[
+      const Text('Reaction'),
+      if (!isChoosingAReaction)
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              side: const BorderSide(width: 3, color: Colors.white),
+              // Change when DB is Up
+              primary: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                isChoosingAReaction = true;
+              });
+            },
+            child: const Text('Add a Reaction')),
+      if (isChoosingAReaction) const Text('Display all services'),
+    ]);
   }
 }
