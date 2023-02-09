@@ -414,11 +414,25 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const <Widget>[
-                  Text('Choose an service for the action'),
+                  Text('Choose a service for the action'),
                 ]),
           const SizedBox(
             height: 30,
           ),
+
+          /// Choose a service (list de service display
+          /// ->
+          /// Encadrement avec un liste de toutes les possibilité de choix d'actions
+          /// ->
+          /// Choix des parametre de l'actions
+          /// ->
+          /// Affichage du service choisi avec les parametres
+          /// Possibilité de choisir une autre action
+          /// possibilité de choisir les reaction
+          /// ->
+          /// Pour les reactions la gestion est la meme
+
+
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: creationDisplay(),
