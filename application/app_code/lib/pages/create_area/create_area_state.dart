@@ -502,28 +502,28 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     }
 
     if (_isChoosingAnAction) {
-      createAnAction.add(
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            ElevatedButton(
-              key: const Key('CreateActionPreviousButton'),
-              onPressed: () {
-                setState(() {
-                  createdAreaContent = _createdActionContentSave
-                      .map((v) => ServiceData.clone(v))
-                      .toList();
-                  if (_actionCreationState == 0) {
-                    _isChoosingAnAction = false;
-                    _actionCreationState = 0;
-                    createdArea = null;
-                    _createdActionContentSave = <ServiceData>[];
-                    createdAreaContent = <ServiceData>[];
-                  }
-                  _actionCreationState -= 1;
-                });
-              },
-              child: const Text('Previous'),
-            ),
-          ]));
+      createAnAction
+          .add(Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        ElevatedButton(
+          key: const Key('CreateActionPreviousButton'),
+          onPressed: () {
+            setState(() {
+              createdAreaContent = _createdActionContentSave
+                  .map((v) => ServiceData.clone(v))
+                  .toList();
+              if (_actionCreationState == 0) {
+                _isChoosingAnAction = false;
+                _actionCreationState = 0;
+                createdArea = null;
+                _createdActionContentSave = <ServiceData>[];
+                createdAreaContent = <ServiceData>[];
+              }
+              _actionCreationState -= 1;
+            });
+          },
+          child: const Text('Previous'),
+        ),
+      ]));
     }
 
     return createAnAction;
