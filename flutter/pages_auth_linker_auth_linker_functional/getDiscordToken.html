@@ -88,19 +88,21 @@
     final url = Uri.https(&#39;discord.com&#39;, &#39;&#47;api&#47;oauth2&#47;authorize&#39;, {
       &#39;response_type&#39;: &#39;code&#39;,
       &#39;client_id&#39;: clientId,
-      &#39;redirect_uri&#39;: &#39;http:&#47;&#47;localhost:8081&#47;auth.html&#39;,
+      &#39;redirect_uri&#39;:
+          !kIsWeb ? &#39;https:&#47;&#47;www.test.com&#39; : &#39;http:&#47;&#47;localhost:8081&#47;auth.html&#39;,
       &#39;scope&#39;: &#39;identify guilds&#39;,
     });
 
     final result = await FlutterWebAuth2.authenticate(
-        url: url.toString(), callbackUrlScheme: &#39;http&#39;);
+        url: url.toString(), callbackUrlScheme: !kIsWeb ? &#39;https&#39; : &#39;http&#39;);
 
     final code = Uri.parse(result).queryParameters[&#39;code&#39;];
 
     final response = await http
         .post(Uri.parse(&#39;https:&#47;&#47;discord.com&#47;api&#47;oauth2&#47;token&#39;), body: {
       &#39;client_id&#39;: clientId,
-      &#39;redirect_uri&#39;: &#39;http:&#47;&#47;localhost:8081&#47;auth.html&#39;,
+      &#39;redirect_uri&#39;:
+          !kIsWeb ? &#39;https:&#47;&#47;www.test.com&#39; : &#39;http:&#47;&#47;localhost:8081&#47;auth.html&#39;,
       &#39;grant_type&#39;: &#39;authorization_code&#39;,
       &#39;code&#39;: code,
       &#39;client_secret&#39;: &quot;Qew25p5oA3pDMnOxpX0G2-ZNyTO2mz_n&quot;
