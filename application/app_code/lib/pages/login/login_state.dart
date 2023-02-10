@@ -296,7 +296,7 @@ class LoginPageState extends State<LoginPage> {
             },
           ),
         const SizedBox(
-          height: 20,
+          height: 10,
         ),
         if (_isConnexionWithEmail == true && snapshot.hasError)
           Text('{$snapshot.error}')
@@ -333,7 +333,7 @@ class LoginPageState extends State<LoginPage> {
                         children: <Widget>[
                           displayLogoAndName(),
                           const SizedBox(
-                            height: 50,
+                            height: 30,
                           ),
                           materialShadowForArea(getHostConfigField()),
                           const SizedBox(
