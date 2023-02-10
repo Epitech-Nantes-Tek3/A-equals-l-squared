@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:io' show Platform;
 
 import 'package:application/network/informations.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:go_router/go_router.dart';
@@ -154,24 +154,21 @@ Future<String> getDiscordToken() async {
     final url = Uri.https('discord.com', '/api/oauth2/authorize', {
       'response_type': 'code',
       'client_id': clientId,
-      'redirect_uri': Platform.isAndroid
-          ? 'https://www.test.com'
-          : 'http://localhost:8081/auth.html',
+      'redirect_uri':
+          !kIsWeb ? 'https://www.test.com' : 'http://localhost:8081/auth.html',
       'scope': 'identify guilds',
     });
 
     final result = await FlutterWebAuth2.authenticate(
-        url: url.toString(),
-        callbackUrlScheme: Platform.isAndroid ? 'https' : 'http');
+        url: url.toString(), callbackUrlScheme: !kIsWeb ? 'https' : 'http');
 
     final code = Uri.parse(result).queryParameters['code'];
 
     final response = await http
         .post(Uri.parse('https://discord.com/api/oauth2/token'), body: {
       'client_id': clientId,
-      'redirect_uri': Platform.isAndroid
-          ? 'https://www.test.com'
-          : 'http://localhost:8081/auth.html',
+      'redirect_uri':
+          !kIsWeb ? 'https://www.test.com' : 'http://localhost:8081/auth.html',
       'grant_type': 'authorization_code',
       'code': code,
       'client_secret': "Qew25p5oA3pDMnOxpX0G2-ZNyTO2mz_n"
