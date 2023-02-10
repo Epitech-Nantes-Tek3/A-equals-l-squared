@@ -1,5 +1,6 @@
 import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:application/flutter_objects/reaction_data.dart';
+import 'package:application/flutter_objects/service_data.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:flutter/material.dart';
 
@@ -69,6 +70,15 @@ class AreaData {
         description: 'It\'s a description',
         actionParameters: actionParameters,
         reactionParameters: reactionParameters);
+  }
+
+  ServiceData? getAssociatedService(String id) {
+    for (var temp in serviceDataList) {
+      if (temp.id == id) {
+        return temp;
+      }
+    }
+    return null;
   }
 
   /// Get a visual representation of an Area for create page
