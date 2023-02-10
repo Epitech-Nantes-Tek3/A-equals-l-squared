@@ -13,6 +13,8 @@ class ServiceData {
   bool isEnabled;
   List<ActionData> actions;
   List<ReactionData> reactions;
+  String primaryColor;
+  String secondaryColor;
 
   /// Constructor of the service class
   ServiceData(
@@ -22,7 +24,9 @@ class ServiceData {
       required this.createdAt,
       required this.isEnabled,
       required this.actions,
-      required this.reactions});
+      required this.reactions,
+      required this.primaryColor,
+      required this.secondaryColor});
 
   /// Utility function used for cloning the class
   ServiceData.clone(ServiceData oldService)
@@ -32,6 +36,8 @@ class ServiceData {
             description: oldService.description,
             createdAt: oldService.createdAt,
             isEnabled: oldService.isEnabled,
+            primaryColor: oldService.primaryColor,
+            secondaryColor: oldService.secondaryColor,
             actions:
                 oldService.actions.map((v) => ActionData.clone(v)).toList(),
             reactions: oldService.reactions
@@ -55,6 +61,8 @@ class ServiceData {
         isEnabled: json['isEnable'],
         id: json['id'],
         actions: actions,
+        primaryColor: json['primaryColor'],
+        secondaryColor: json['secondaryColor'],
         reactions: reactions);
   }
 
