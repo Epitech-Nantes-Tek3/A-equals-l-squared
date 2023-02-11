@@ -83,7 +83,6 @@ app.use(function (req, res, next) {
   }
 })
 
-
 /**
  * Welcoming path
  * @memberof route
@@ -247,7 +246,8 @@ app.get(
       data: { confirmProcess: 'Delete' }
     })
     const token = utils.generateToken(req.user.id)
-    gmail.sendEmail(
+    gmail
+      .sendEmail(
         req.user.email,
         'Confirm operation',
         'You asked to delete your account. Please confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
@@ -670,7 +670,6 @@ app.get(
   async (req, res) => {
     if (req.user.discordToken == null)
       return res.status(400).send('No Discord account linked.')
-    console.log('GET GUILD WTF')
     try {
       const guilds = await getAvailableGuilds(req.user.discordToken)
       if (guilds == null) return res.status(400).send('An error occured.')
@@ -709,7 +708,8 @@ app.get(
       data: performers,
       statusCode: res.statusCode
     })
-  })
+  }
+)
 
 /**
  * @brief List available performers, such as bot/user.
@@ -724,17 +724,17 @@ app.get(
         id: req.user.googleToken,
         name: req.user.username
       })
-    else
-      performers.push({
-        id: 'aequallsquared@gmail.com',
-        name: 'Default Bot Gmail'
-      })
+    performers.push({
+      id: 'aequallsquared@gmail.com',
+      name: 'Default Bot Gmail'
+    })
     return res.status(200).json({
       status: 'success',
       data: performers,
       statusCode: res.statusCode
     })
-  })
+  }
+)
 
 /**
  * Creating a new user in the database.
