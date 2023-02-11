@@ -670,6 +670,7 @@ app.get(
   async (req, res) => {
     if (req.user.discordToken == null)
       return res.status(400).send('No Discord account linked.')
+    console.log('GET GUILD WTF')
     try {
       const guilds = await getAvailableGuilds(req.user.discordToken)
       if (guilds == null) return res.status(400).send('An error occured.')
@@ -694,12 +695,12 @@ app.get(
   (req, res) => {
     const performers = []
     if (discordClient.presence.status == 'online')
-      performers.append({
+      performers.push({
         id: discordClient.client.user.id,
         name: discordClient.client.user.username
       })
     if (req.user.discordToken != null)
-      performers.append({
+      performers.push({
         id: req.user.discordToken,
         name: req.user.username
       })
@@ -719,12 +720,12 @@ app.get(
   (req, res) => {
     const performers = []
     if (req != null && req.user != null && req.user.googleToken != null)
-      performers.append({
+      performers.push({
         id: req.user.googleToken,
         name: req.user.username
       })
     else
-      performers.append({
+      performers.push({
         id: 'aequallsquared@gmail.com',
         name: 'Default Bot Gmail'
       })
