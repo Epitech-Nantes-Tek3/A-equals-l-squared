@@ -1,5 +1,4 @@
 const gmail = require('../gmail_init').getGmailClient();
-// Imports the Google Cloud client library
 
 /**
  * @brief fetch any new mail received
@@ -17,6 +16,9 @@ const fetchNewEmail =
   console.log(`New email received: ${JSON.stringify(res)}`);
 }
 
+/**
+ * @brief Create a new watch action with Google Cloud
+ */
 async function watchNewEmails() {
   try {
     const res = await gmail.users.watch({
@@ -35,6 +37,9 @@ async function watchNewEmails() {
   }
 }
 
+/**
+ * @brief Get the last E-mail received by a specific user
+ */
 async function getNewEmail() {
   try {
     const res = await gmail.users.history.list({
