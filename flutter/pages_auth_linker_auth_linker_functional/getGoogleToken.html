@@ -86,7 +86,12 @@
     GoogleSignIn googleSignIn = GoogleSignIn(
       clientId:
           &#39;770124443966-jh4puirdfde87lb64bansm4flcfs7vq9.apps.googleusercontent.com&#39;,
-      scopes: [&#39;email&#39;, &#39;profile&#39;],
+      scopes: [
+        &#39;email&#39;,
+        &#39;profile&#39;,
+        &#39;https:&#47;&#47;www.googleapis.com&#47;auth&#47;gmail.send&#39;,
+        &#39;https:&#47;&#47;www.googleapis.com&#47;auth&#47;gmail.readonly&#39;
+      ],
     );
     googleSignIn.disconnect();
     var googleUser = await googleSignIn.signIn();
