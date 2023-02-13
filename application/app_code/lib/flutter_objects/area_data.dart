@@ -113,7 +113,7 @@ class AreaData {
           return Column(
             children: <Widget>[
               Image.asset(
-                'assets/icons/gmail.png',
+                serviceData.icon,
                 height: 50,
                 width: 50,
               )
