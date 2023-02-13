@@ -594,6 +594,7 @@ app.post(
             id: req.body.id
           },
           include: {
+            Action: true,
             ActionParameters: true,
             ReactionParameters: true
           }

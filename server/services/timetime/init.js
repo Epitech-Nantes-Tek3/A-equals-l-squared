@@ -14,14 +14,14 @@ const createTimeTimeService = async () => {
         primaryColor: '#BCBCBC',
         secondaryColor: '#FFFFFF',
         icon: '',
-        isEnable: false,
+        isEnable: true,
         Actions: {
           create: [
             {
               name: 'atADate',
               code: 'TMT-01',
               description: 'Do something at a custom Date',
-              isEnable: false,
+              isEnable: true,
               Parameters: {
                 create: [
                   {
@@ -61,7 +61,7 @@ const createTimeTimeService = async () => {
               name: 'everyXTime',
               code: 'TMT-02',
               description: 'Do something every X time',
-              isEnable: false,
+              isEnable: true,
               Parameters: {
                 create: [
                   {
