@@ -72,6 +72,7 @@ class AreaData {
         reactionParameters: reactionParameters);
   }
 
+  /// This function return the first associated service of an Area
   ServiceData? getAssociatedService(String id) {
     for (var temp in serviceDataList) {
       if (temp.id == id) {
