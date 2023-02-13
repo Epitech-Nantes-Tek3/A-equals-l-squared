@@ -88,28 +88,15 @@ class AreaData {
   Widget? getServiceIcon() {
     ServiceData? serviceData = getAssociatedService();
     if (serviceData != null) {
-      switch (serviceData.name) {
-        case 'Discord':
-          return Column(
-            children: <Widget>[
-              Image.asset(
-                serviceData.icon,
-                height: 50,
-                width: 50,
-              )
-            ],
-          );
-        case 'gmail':
-          return Column(
-            children: <Widget>[
-              Image.asset(
-                serviceData.icon,
-                height: 50,
-                width: 50,
-              )
-            ],
-          );
-      }
+      return Column(
+        children: <Widget>[
+          Image.asset(
+            serviceData.icon,
+            height: 50,
+            width: 50,
+          )
+        ],
+      );
     }
     return null;
   }
