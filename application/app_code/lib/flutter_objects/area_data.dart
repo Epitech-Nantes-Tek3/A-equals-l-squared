@@ -99,16 +99,6 @@ class AreaData {
               )
             ],
           );
-        case 'timetime':
-          return Column(
-            children: <Widget>[
-              Image.asset(
-                'assets/icons/timetime.png',
-                height: 50,
-                width: 50,
-              )
-            ],
-          );
         case 'gmail':
           return Column(
             children: <Widget>[
