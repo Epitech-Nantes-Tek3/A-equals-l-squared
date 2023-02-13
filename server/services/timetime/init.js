@@ -2,6 +2,17 @@
 
 const database = require('../../database_init')
 
+var TimeTimeJobList = []
+
+function getATimeTimeJobById (id) {
+  for (var temp of TimeTimeJobList) {
+    if (temp.areaId == id) {
+      return temp
+    }
+  }
+  return null
+}
+
 /**
  * @brief Create the TimeTime service in the database.
  */
@@ -88,4 +99,4 @@ const createTimeTimeService = async () => {
   }
 }
 
-module.exports = { createTimeTimeService }
+module.exports = { createTimeTimeService, TimeTimeJobList, getATimeTimeJobById }

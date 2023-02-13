@@ -551,6 +551,7 @@ app.post(
         {
           where: { id: req.body.id },
           select: {
+            id: true,
             User: true,
             ActionParameters: true,
             Action: true
@@ -594,6 +595,7 @@ app.post(
             id: req.body.id
           },
           include: {
+            id: true,
             Action: true,
             ActionParameters: true,
             ReactionParameters: true
@@ -639,6 +641,7 @@ app.post(
             Reaction: { connect: { id: req.body.reactionId } }
           },
           select: {
+            id: true,
             User: true,
             ActionParameters: true,
             Action: true
@@ -1002,6 +1005,7 @@ app.post(
             ReactionParameters: { create: ReactionParameters }
           },
           select: {
+            id: true,
             User: true,
             ActionParameters: true,
             Action: true
