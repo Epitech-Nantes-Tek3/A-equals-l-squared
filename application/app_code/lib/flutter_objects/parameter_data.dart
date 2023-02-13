@@ -19,6 +19,7 @@ class ParameterData {
   ParameterContent? matchedContent;
   ParameterData? previous;
   Map<String, String>? getterValue;
+  bool needToUpdate = true;
 
   /// Constructor of the reaction class
   ParameterData({
@@ -88,7 +89,10 @@ class ParameterData {
     List<String>? tempProposal;
 
     if (getterUrl != null) {
-      update(this);
+      if (needToUpdate == true) {
+        needToUpdate = false;
+        update(this);
+      }
       tempProposal = <String>["No value"];
       if (getterValue != null) {
         for (var temp in getterValue!.keys) {

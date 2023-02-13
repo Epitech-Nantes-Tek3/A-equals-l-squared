@@ -86,7 +86,7 @@ model Parameter {
 
 model ActionParameter {
   id                         String                    @id @unique @default(cuid())
-  value                      String
+  value                      String                    @db.VarChar(1000)
   Parameter                  Parameter?                @relation(fields: [parameterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   parameterId                String?
   UsersHasActionsReactions   UsersHasActionsReactions? @relation(fields: [usersHasActionsReactionsId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -95,7 +95,7 @@ model ActionParameter {
 
 model ReactionParameter {
   id                         String                    @id @unique @default(cuid())
-  value                      String
+  value                      String                    @db.VarChar(1000)
   Parameter                  Parameter?                @relation(fields: [parameterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   parameterId                String?
   UsersHasActionsReactions   UsersHasActionsReactions? @relation(fields: [usersHasActionsReactionsId], references: [id], onDelete: Cascade, onUpdate: Cascade)

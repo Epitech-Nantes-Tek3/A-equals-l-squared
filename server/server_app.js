@@ -694,15 +694,40 @@ app.get(
   (req, res) => {
     const performers = []
     if (discordClient.presence.status == 'online')
-      performers.append({
+      performers.push({
         id: discordClient.client.user.id,
         name: discordClient.client.user.username
       })
     if (req.user.discordToken != null)
-      performers.append({
+      performers.push({
         id: req.user.discordToken,
         name: req.user.username
       })
+    return res.status(200).json({
+      status: 'success',
+      data: performers,
+      statusCode: res.statusCode
+    })
+  }
+)
+
+/**
+ * @brief List available performers, such as bot/user.
+ */
+app.get(
+  '/api/services/gmail/getAvailablePerformers',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const performers = []
+    if (req != null && req.user != null && req.user.googleToken != null)
+      performers.push({
+        id: req.user.googleToken,
+        name: req.user.username
+      })
+    performers.push({
+      id: 'aequallsquared@gmail.com',
+      name: 'Default Bot Gmail'
+    })
     return res.status(200).json({
       status: 'success',
       data: performers,
