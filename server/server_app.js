@@ -22,6 +22,7 @@ const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
 const discordClient = require('./services/discord/init')
+const deezerClient = require('./services/deezer/init')
 const { createGmailService } = require('./services/gmail/gmail_init')
 const { createDiscordService } = require('./services/discord/init')
 const getVoiceChannels = require('./services/discord/getters/voice_channels')
@@ -435,6 +436,7 @@ app.get(
  * If no token storage is already linked with the user, a new one is created
  * body.google The Google auth token (Set to '' to remove it)
  * body.discord The Discord auth token (Set to '' to remove it)
+ * body.deezer The Discord auth token (Set to '' to remove it)
  * Route protected by a JWT token
  */
 app.post(
@@ -447,7 +449,8 @@ app.post(
         where: { id: req.user.id },
         data: {
           googleToken: req.body.google != '' ? req.body.google : null,
-          discordToken: req.body.discord != '' ? req.body.discord : null
+          discordToken: req.body.discord != '' ? req.body.discord : null,
+          deezerToken: req.body.deezer != '' ? req.body.deezer : null
         }
       })
       const token = utils.generateToken(user.id)
