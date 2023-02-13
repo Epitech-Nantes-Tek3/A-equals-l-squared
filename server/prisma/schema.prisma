@@ -17,7 +17,7 @@ datasource db {
 
 model User {
   id                       String                     @id @unique @default(cuid())
-  username                 String                     @unique
+  username                 String
   email                    String                     @unique
   password                 String
   isAdmin                  Boolean                    @default(false)
