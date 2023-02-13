@@ -47,14 +47,6 @@ const PORT = 8080
 const HOST = '0.0.0.0'
 
 /**
- * Add here the database operation needed for development testing
- */
-const createDevelopmentData = async () => {
-  createGmailService()
-  createDiscordService()
-}
-
-/**
  * A basic function to demonstrate the test framework.
  * @param {*} number A basic number
  * @returns The passed number
