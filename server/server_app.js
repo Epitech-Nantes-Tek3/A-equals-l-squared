@@ -27,6 +27,7 @@ const { createDiscordService } = require('./services/discord/init')
 const getVoiceChannels = require('./services/discord/getters/voice_channels')
 const getTextChannels = require('./services/discord/getters/text_channels')
 const getAvailableGuilds = require('./services/discord/getters/available_guilds')
+const { createTimeTimeService } = require('./services/timetime/init')
 
 const app = express()
 
@@ -1052,6 +1053,7 @@ app.get('/api/dev/service/createAll', async (req, res) => {
   const response = []
   response.push(await createDiscordService())
   response.push(await createGmailService())
+  response.push(await createTimeTimeService())
   return res.json(response)
 })
 
