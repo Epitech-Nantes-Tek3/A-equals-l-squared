@@ -2,6 +2,9 @@
 
 const database = require('../../database_init')
 
+/**
+ * @brief Create the TimeTime service in the database.
+ */
 const createTimeTimeService = async () => {
   try {
     const timetime = await database.prisma.Service.create({
@@ -84,3 +87,5 @@ const createTimeTimeService = async () => {
     console.log('Error while creating TimeTime service : ', error)
   }
 }
+
+module.exports = { createTimeTimeService }
