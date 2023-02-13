@@ -11,6 +11,7 @@ class ServiceData {
   String description;
   DateTime createdAt;
   bool isEnabled;
+  String icon;
   List<ActionData> actions;
   List<ReactionData> reactions;
   String primaryColor;
@@ -26,6 +27,7 @@ class ServiceData {
       required this.actions,
       required this.reactions,
       required this.primaryColor,
+      required this.icon,
       required this.secondaryColor});
 
   /// Utility function used for cloning the class
@@ -33,6 +35,7 @@ class ServiceData {
       : this(
             name: oldService.name,
             id: oldService.id,
+            icon: oldService.icon,
             description: oldService.description,
             createdAt: oldService.createdAt,
             isEnabled: oldService.isEnabled,
@@ -60,6 +63,7 @@ class ServiceData {
         createdAt: DateTime.parse(json['createdAt']),
         isEnabled: json['isEnable'],
         id: json['id'],
+        icon: json['icon'],
         actions: actions,
         primaryColor: json['primaryColor'],
         secondaryColor: json['secondaryColor'],

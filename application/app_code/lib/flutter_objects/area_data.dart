@@ -84,6 +84,23 @@ class AreaData {
     return null;
   }
 
+  /// This function return the good icon with the serviceName
+  Widget? getServiceIcon() {
+    ServiceData? serviceData = getAssociatedService();
+    if (serviceData != null) {
+      return Column(
+        children: <Widget>[
+          Image.asset(
+            serviceData.icon,
+            height: 50,
+            width: 50,
+          )
+        ],
+      );
+    }
+    return null;
+  }
+
   /// Get a visual representation of an Area for create page
   /// mode -> true = complete representation, false = only area preview
   /// update -> Function pointer used for update the state
@@ -265,12 +282,7 @@ class AreaData {
                   name,
                   style: const TextStyle(color: Colors.black),
                 ),
-                const Icon(
-                  Icons.ac_unit,
-                  color: Colors.black,
-                )
-
-                /// change color
+                getServiceIcon()!,
               ],
             ),
             const SizedBox(height: 20),
@@ -282,9 +294,6 @@ class AreaData {
             /// Put Description when it's in DB
           ],
         ));
-
-        ///        listDisplay.add(Text(action.name));
-        ///        listDisplay.add(Text(reaction.name));
       } catch (err) {
         listDisplay.add(const Text("Please logout and login."));
       }

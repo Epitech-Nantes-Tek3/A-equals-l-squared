@@ -15,7 +15,7 @@ const createGmailService = async () => {
         isEnable: true,
         primaryColor: '#EA4335',
         secondaryColor: '#FFFFFF',
-        icon: '',
+        icon: './assets/icons/gmail.png',
         Actions: {
           create: [
             {
