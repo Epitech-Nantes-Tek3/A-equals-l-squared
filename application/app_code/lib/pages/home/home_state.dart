@@ -29,7 +29,7 @@ class HomePageState extends State<HomePage> {
       areaVis.add(ElevatedButton(
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-            side: const BorderSide(width: 3, color: Colors.blue),
+            side: const BorderSide(width: 3, color: Color(Color(int.parse(temp.getAssociatedService(temp.id)!.primaryColor.replaceFirst("#", "0xff"))))),
             // Change when DB is Up
             primary: Colors.white,
           ),
