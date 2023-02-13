@@ -28,6 +28,7 @@ const getVoiceChannels = require('./services/discord/getters/voice_channels')
 const getTextChannels = require('./services/discord/getters/text_channels')
 const getAvailableGuilds = require('./services/discord/getters/available_guilds')
 const { createTimeTimeService } = require('./services/timetime/init')
+const { TriggerInitMap, TriggerDestroyMap } = require('./services/glue/glue')
 
 const app = express()
 
@@ -546,6 +547,18 @@ app.post(
   async (req, res, next) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
+      const oldArea = await database.prisma.UsersHasActionsReactions.findUnique(
+        {
+          where: { id: req.body.id },
+          select: {
+            User: true,
+            ActionParameters: true,
+            Action: true
+          }
+        }
+      )
+      if (TriggerDestroyMap[oldArea.Action.code])
+        await TriggerDestroyMap[oldArea.Action.code](oldArea)
       await database.prisma.UsersHasActionsReactions.delete({
         where: { id: req.body.id }
       })
@@ -586,6 +599,8 @@ app.post(
           }
         }
       )
+      if (TriggerDestroyMap[oldArea.Action.code])
+        await TriggerDestroyMap[oldArea.Action.code](oldArea)
       req.body.actionParameters.forEach(async param => {
         oldArea.ActionParameters.forEach(async actionParam => {
           if (actionParam.parameterId == param.paramId)
@@ -612,16 +627,24 @@ app.post(
             })
         })
       })
-      await database.prisma.UsersHasActionsReactions.update({
-        where: { id: req.body.id },
-        data: {
-          name: req.body.name,
-          isEnable: req.body.isEnable,
-          description: req.body.description,
-          Action: { connect: { id: req.body.actionId } },
-          Reaction: { connect: { id: req.body.reactionId } }
-        }
-      })
+      const areaCreation =
+        await database.prisma.UsersHasActionsReactions.update({
+          where: { id: req.body.id },
+          data: {
+            name: req.body.name,
+            isEnable: req.body.isEnable,
+            description: req.body.description,
+            Action: { connect: { id: req.body.actionId } },
+            Reaction: { connect: { id: req.body.reactionId } }
+          },
+          select: {
+            User: true,
+            ActionParameters: true,
+            Action: true
+          }
+        })
+      if (TriggerInitMap[areaCreation.Action.code])
+        TriggerInitMap[areaCreation.Action.code](areaCreation)
       return res.status(200).send('AREA successfully updated.')
     } catch (err) {
       console.log(err)

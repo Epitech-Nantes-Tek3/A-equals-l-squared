@@ -3,7 +3,11 @@
 const { AreaGlue } = require('../../glue/glue.js')
 
 async function setATimeTimeAtADate (area) {
-  console.log('A TimeTime trigger have been setteld')
+  console.log('A TimeTime trigger have been set')
 }
 
-module.exports = { setATimeTimeAtADate }
+async function destroyATimeTimeAtADate (area) {
+  console.log('A TimeTime trigger have been deleted')
+}
+
+module.exports = { setATimeTimeAtADate, destroyATimeTimeAtADate }
