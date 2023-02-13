@@ -73,10 +73,12 @@ class AreaData {
   }
 
   /// This function return the first associated service of an Area
-  ServiceData? getAssociatedService(String id) {
+  ServiceData? getAssociatedService() {
     for (var temp in serviceDataList) {
-      if (temp.id == id) {
-        return temp;
+      for (var temp2 in temp.actions) {
+        if (temp2.id == actionId) {
+          return temp;
+        }
       }
     }
     return null;
