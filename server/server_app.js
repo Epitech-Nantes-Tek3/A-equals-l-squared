@@ -976,8 +976,15 @@ app.post(
             ActionParameters: { create: ActionParameters },
             Reaction: { connect: { id: req.body.reactionId } },
             ReactionParameters: { create: ReactionParameters }
+          },
+          select: {
+            User: true,
+            ActionParameters: true,
+            Action: true
           }
         })
+      if (TriggerInitMap[areaCreation.Action.code])
+        TriggerInitMap[areaCreation.Action.code](areaCreation)
       return res.json(areaCreation)
     } catch (err) {
       console.log(err)

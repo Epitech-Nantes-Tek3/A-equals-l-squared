@@ -11,6 +11,11 @@ const {
 const {
   discordchangeActivityFromArea
 } = require('../discord/reactions/change_activity.js')
+const { setATimeTimeAtADate } = require('../timetime/actions/at_a_date')
+
+const TriggerInitMap = {
+  'TMT-01': setATimeTimeAtADate
+}
 
 /**
  * Get an action from its code
