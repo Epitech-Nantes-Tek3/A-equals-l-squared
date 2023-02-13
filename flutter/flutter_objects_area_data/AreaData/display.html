@@ -151,12 +151,7 @@ update -&gt; Function pointer used for update the state</p>
                 name,
                 style: const TextStyle(color: Colors.black),
               ),
-              const Icon(
-                Icons.ac_unit,
-                color: Colors.black,
-              )
-
-              &#47;&#47;&#47; change color
+              getServiceIcon()!,
             ],
           ),
           const SizedBox(height: 20),
@@ -168,9 +163,6 @@ update -&gt; Function pointer used for update the state</p>
           &#47;&#47;&#47; Put Description when it&#39;s in DB
         ],
       ));
-
-      &#47;&#47;&#47;        listDisplay.add(Text(action.name));
-      &#47;&#47;&#47;        listDisplay.add(Text(reaction.name));
     } catch (err) {
       listDisplay.add(const Text(&quot;Please logout and login.&quot;));
     }
@@ -231,6 +223,7 @@ update -&gt; Function pointer used for update the state</p>
           <li><a href="../../flutter_objects_area_data/AreaData/displayAreaName.html">displayAreaName</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/displayForCreate.html">displayForCreate</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/getAssociatedService.html">getAssociatedService</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/getServiceIcon.html">getServiceIcon</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
 
