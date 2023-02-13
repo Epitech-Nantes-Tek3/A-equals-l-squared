@@ -26,15 +26,13 @@ class HomePageState extends State<HomePage> {
     List<Widget> areaVis = <Widget>[];
 
     for (var temp in areaDataList) {
-      Color tempColor = Color(int.parse(temp
-          .getAssociatedService(temp.id)!
-          .primaryColor
-          .replaceFirst("#", "0xff")));
+      String str =
+          temp.getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
+      Color tempColor = Color(int.parse(str));
       areaVis.add(ElevatedButton(
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-            side: BorderSide(
-                color: tempColor != null ? tempColor : Colors.black, width: 3),
+            side: BorderSide(color: tempColor, width: 3),
             // Change when DB is Up
             primary: Colors.white,
           ),
