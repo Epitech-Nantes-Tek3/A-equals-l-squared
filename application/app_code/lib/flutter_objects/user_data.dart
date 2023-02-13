@@ -86,17 +86,20 @@ class UserData {
 class Token {
   String? googleToken;
   String? discordToken;
+  String? deezerToken;
 
   /// Constructor of the Token class
   Token({
     this.googleToken,
     this.discordToken,
+    this.deezerToken,
   });
 
   /// Convert a json map into a Token class
   factory Token.fromJson(Map<String, dynamic> json) {
     String? googleToken;
     String? discordToken;
+    String? deezerToken;
 
     try {
       googleToken = json['googleToken'];
@@ -110,6 +113,12 @@ class Token {
       discordToken = null;
     }
 
-    return Token(googleToken: googleToken, discordToken: discordToken);
+    try {
+      deezerToken = json['deezerToken'];
+    } catch (err) {
+      deezerToken = null;
+    }
+
+    return Token(googleToken: googleToken, discordToken: discordToken, deezerToken: deezerToken);
   }
 }
