@@ -91,15 +91,15 @@ class AreaData {
       switch (serviceData.name) {
         case 'Discord':
           return Column(
-            children: <Widget>[Image.asset('assets/icons/discorde.png')],
+            children: <Widget>[Image.asset('assets/icons/discorde.png', height: 50, width: 50,)],
           );
         case 'timetime':
           return Column(
-            children: <Widget>[Image.asset('assets/icons/timetime.png')],
+            children: <Widget>[Image.asset('assets/icons/timetime.png', height: 50, width: 50,)],
           );
         case 'gmail':
           return Column(
-            children: <Widget>[Image.asset('assets/icons/gmail.png')],
+            children: <Widget>[Image.asset('assets/icons/gmail.png', height: 50, width: 50,)],
           );
       }
     }
