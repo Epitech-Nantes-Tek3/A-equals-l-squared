@@ -54,8 +54,6 @@ const createDevelopmentData = async () => {
   createDiscordService()
 }
 
-createDevelopmentData()
-
 /**
  * A basic function to demonstrate the test framework.
  * @param {*} number A basic number
