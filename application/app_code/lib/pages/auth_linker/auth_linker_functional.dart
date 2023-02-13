@@ -48,6 +48,9 @@ class AuthBox {
       if (authName == 'Discord') {
         token = userInformation!.userToken!.discordToken;
       }
+      if (authName == 'Deezer') {
+        token = userInformation!.userToken!.deezerToken;
+      }
       isEnable = token == null ? false : true;
     }
     return ElevatedButton(
@@ -103,6 +106,13 @@ AuthBox discordInviteAuthBox = AuthBox(
     isEnable: true,
     token: "",
     action: inviteDiscordBot);
+
+/// The deezer service authBox
+AuthBox deezerAuthBox = AuthBox(
+    authName: "Deezer",
+    authDescription: "Used for all Deezer interaction",
+    isEnable: false,
+    action: getDeezerToken);
 
 /// Remove / Get the Google API access token
 Future<String> getGoogleToken() async {
@@ -207,7 +217,8 @@ Future<String?> publishNewToken() async {
         },
         body: jsonEncode(<String, dynamic>{
           'google': googleAuthBox.token != null ? googleAuthBox.token! : '',
-          'discord': discordAuthBox.token != null ? discordAuthBox.token! : ''
+          'discord': discordAuthBox.token != null ? discordAuthBox.token! : '',
+          'deezer': deezerAuthBox.token != null ? deezerAuthBox.token! : ''
         }));
 
     if (response.statusCode == 200) {
