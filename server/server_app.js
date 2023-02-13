@@ -461,7 +461,7 @@ app.post(
       })
     } catch (err) {
       console.log(err)
-      return res.status(400).send('Token gestionner temporaly desactivated.')
+      return res.status(400).send('Token manager temporarily desactivated.')
     }
   }
 )
