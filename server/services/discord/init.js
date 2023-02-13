@@ -38,7 +38,7 @@ const createDiscordService = async () => {
         description: 'Discord service',
         primaryColor: '#7289DA',
         secondaryColor: '#2C2F33',
-        icon : './assets/icons/discorde.png',
+        icon : './assets/icons/discord.png',
         isEnable: true,
         Actions: {
           create: [
