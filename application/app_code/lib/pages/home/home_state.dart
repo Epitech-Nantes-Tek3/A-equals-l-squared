@@ -26,7 +26,10 @@ class HomePageState extends State<HomePage> {
     List<Widget> areaVis = <Widget>[];
 
     for (var temp in areaDataList) {
-      Color tempColor = Color(int.parse(temp.getAssociatedService(temp.id)!.primaryColor.replaceFirst("#", "0xff")));
+      Color tempColor = Color(int.parse(temp
+          .getAssociatedService(temp.id)!
+          .primaryColor
+          .replaceFirst("#", "0xff")));
       areaVis.add(ElevatedButton(
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
