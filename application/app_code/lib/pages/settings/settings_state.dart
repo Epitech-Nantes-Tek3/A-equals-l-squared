@@ -276,7 +276,9 @@ class SettingsPageState extends State<SettingsPage> {
                               },
                               icon: const Icon(Icons.home_filled),
                               color: Colors.black),
-                          const SizedBox(width: 30,),
+                          const SizedBox(
+                            width: 30,
+                          ),
                           displaySettingsHeader(),
                         ],
                       ),
