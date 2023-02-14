@@ -47,19 +47,11 @@ const PORT = 8080
 const HOST = '0.0.0.0'
 
 /**
- * Add here the database operation needed for development testing
- */
-const createDevelopmentData = async () => {
-  createGmailService()
-  createDiscordService()
-}
-
-/**
  * A basic function to demonstrate the test framework.
  * @param {*} number A basic number
  * @returns The passed number
  */
-function test_example (number) {
+function test_example(number) {
   return number
 }
 
@@ -139,11 +131,11 @@ app.post('/api/signup', (req, res, next) => {
     if (user == false) return res.json(info)
     const token = utils.generateToken(user.id)
     gmail
-      .sendEmail(
+      .sendEmail('aequallsquared@gmail.com',
         user.email,
         'Email Verification',
         'Thank you for you registration to our service !\nPlease go to the following link to confirm your mail : http://localhost:8080/api/mail/verification?token=' +
-          token
+        token
       )
       .catch(_error => {
         return res.status(401).send('Invalid e-mail address.')
@@ -247,11 +239,11 @@ app.get(
     })
     const token = utils.generateToken(req.user.id)
     gmail
-      .sendEmail(
+      .sendEmail('aequallsquared@gmail.com',
         req.user.email,
         'Confirm operation',
         'You asked to delete your account. Please confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
-          token
+        token
       )
       .catch(_error => {
         return res.status(401).send('Invalid e-mail address.')
@@ -278,11 +270,11 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
   })
   const token = utils.generateToken(user.id)
   gmail
-    .sendEmail(
+    .sendEmail('aequallsquared@gmail.com',
       user.email,
       'Confirm operation',
       'You asked to regenerate your password. It will be set to : password\nPlease confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
-        token
+      token
     )
     .catch(_error => {
       return res.status(401).send('Invalid e-mail address.')
@@ -307,11 +299,11 @@ app.post(
       if (req.user.email != req.body.email) {
         const token = utils.generateToken(req.user.id)
         gmail
-          .sendEmail(
+          .sendEmail('aequallsquared@gmail.com',
             req.body.email,
             'Email Verification',
             'You have updated your e-mail, please go to the following link to confirm your new mail address : http://localhost:8080/api/mail/verification?token=' +
-              token
+            token
           )
           .catch(_error => {
             return res.status(401).send('Invalid new e-mail address.')
@@ -694,15 +686,40 @@ app.get(
   (req, res) => {
     const performers = []
     if (discordClient.presence.status == 'online')
-      performers.append({
+      performers.push({
         id: discordClient.client.user.id,
         name: discordClient.client.user.username
       })
     if (req.user.discordToken != null)
-      performers.append({
+      performers.push({
         id: req.user.discordToken,
         name: req.user.username
       })
+    return res.status(200).json({
+      status: 'success',
+      data: performers,
+      statusCode: res.statusCode
+    })
+  }
+)
+
+/**
+ * @brief List available performers, such as bot/user.
+ */
+app.get(
+  '/api/services/gmail/getAvailablePerformers',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const performers = []
+    if (req != null && req.user != null && req.user.googleToken != null)
+      performers.push({
+        id: req.user.googleToken,
+        name: req.user.username
+      })
+    performers.push({
+      id: 'aequallsquared@gmail.com',
+      name: 'Default Bot Gmail'
+    })
     return res.status(200).json({
       status: 'success',
       data: performers,
