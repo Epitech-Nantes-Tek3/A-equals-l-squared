@@ -23,6 +23,14 @@ client.on('message', message => {
     ]
 
     const dynamicParameters = [
+      { name: "MESSAGE_ID", value: message.id },
+      { name: "MESSAGE_CONTENT", value: message.content },
+      { name: "USER_NAME", value: message.author.username },
+      { name: "USER_ID", value: message.author.id },
+      { name: "CHANNEL_ID", value: message.channel.id },
+      { name: "CHANNEL_NAME", value: message.channel.name},
+      { name: "GUILD_ID", value: message.channel.guild.id },
+      { name: "GUILD_NAME", value: message.channel.guild.name }
     ]
 
     AreaGlue('DSC-01', parametersList, dynamicParameters)
