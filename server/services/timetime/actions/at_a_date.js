@@ -93,4 +93,4 @@ function destroyATimeTimeAtADate (area) {
   area.isEnable = false
 }
 
-module.exports = { setATimeTimeAtADate, destroyATimeTimeAtADate }
+module.exports = { setATimeTimeAtADate, destroyATimeTimeAtADate, getATimeTimeJobById }

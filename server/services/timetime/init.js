@@ -5,15 +5,21 @@ const {
   setATimeTimeAtADate,
   destroyATimeTimeAtADate
 } = require('./actions/at_a_date')
+const {
+  setATimeTimeAtX,
+  destroyATimeTimeAtX
+} = require('./actions/every_x_time')
 
 global.TimeTimeJobList = []
 
 const TriggerInitMap = {
-  'TMT-01': setATimeTimeAtADate
+  'TMT-01': setATimeTimeAtADate,
+  'TMT-02': setATimeTimeAtX
 }
 
 const TriggerDestroyMap = {
-  'TMT-01': destroyATimeTimeAtADate
+  'TMT-01': destroyATimeTimeAtADate,
+  'TMT-02': destroyATimeTimeAtX
 }
 
 /**
