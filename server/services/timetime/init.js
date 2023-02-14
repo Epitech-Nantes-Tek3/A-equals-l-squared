@@ -16,15 +16,6 @@ const TriggerDestroyMap = {
   'TMT-01': destroyATimeTimeAtADate
 }
 
-function getATimeTimeJobById (id) {
-  for (var temp of TimeTimeJobList) {
-    if (temp.areaId == id) {
-      return temp
-    }
-  }
-  return null
-}
-
 /**
  * @brief Create the TimeTime service in the database.
  */

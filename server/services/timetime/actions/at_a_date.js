@@ -1,8 +1,16 @@
 'use strict'
 
 const { AreaGlue } = require('../../glue/glue.js')
-var { getATimeTimeJobById } = require('../init.js')
 const schedule = require('node-schedule')
+
+function getATimeTimeJobById (id) {
+  for (var temp of TimeTimeJobList) {
+    if (temp.areaId == id) {
+      return temp
+    }
+  }
+  return null
+}
 
 function parseAreaParameterToGetDate (paramsList) {
   try {
