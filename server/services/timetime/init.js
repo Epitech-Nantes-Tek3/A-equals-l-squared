@@ -94,7 +94,6 @@ const createTimeTimeService = async () => {
 
 module.exports = {
   createTimeTimeService,
-  getATimeTimeJobById,
   TriggerInitMap,
   TriggerDestroyMap
 }

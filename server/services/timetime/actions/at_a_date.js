@@ -46,14 +46,12 @@ function parseAreaParameterToGetDate (paramsList) {
 
 function setATimeTimeAtADate (area) {
   const rule = parseAreaParameterToGetDate(area.ActionParameters)
-  console.log(rule)
   if (rule == null) return false
   const job = schedule.scheduleJob(
     rule,
     function (area) {
       var currentJob = getATimeTimeJobById(area.id)
       if (currentJob != null) currentJob.occurence -= 1
-      console.log(currentJob)
       if (currentJob != null && currentJob.occurence <= 0)
         destroyATimeTimeAtADate(area)
       const parametersList = [
@@ -78,7 +76,6 @@ function setATimeTimeAtADate (area) {
           valid: false
         }
       ]
-      console.log('Send to glue.')
       AreaGlue('TMT-01', parametersList)
     }.bind(null, area)
   )
@@ -88,12 +85,12 @@ function setATimeTimeAtADate (area) {
 
 function destroyATimeTimeAtADate (area) {
   var currentJob = getATimeTimeJobById(area.id)
-  if (currentJob != null) currentJob.jobObject.cancel()
+  if (currentJob != null && currentJob.jobObject != null)
+    currentJob.jobObject.cancel()
   TimeTimeJobList = TimeTimeJobList.filter(function (item) {
     return item !== currentJob
   })
   area.isEnable = false
-  console.log('A TimeTime trigger have been deleted')
 }
 
 module.exports = { setATimeTimeAtADate, destroyATimeTimeAtADate }
