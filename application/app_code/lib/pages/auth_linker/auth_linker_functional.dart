@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:application/network/informations.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../flutter_objects/user_data.dart';
 
@@ -35,7 +37,8 @@ class AuthBox {
       {required this.authName,
       required this.authDescription,
       required this.isEnable,
-      required this.action});
+      required this.action,
+      this.token});
 
   /// Return a visual representation of the AuthBox
   Widget display() {
@@ -94,6 +97,14 @@ AuthBox discordAuthBox = AuthBox(
     isEnable: false,
     action: getDiscordToken);
 
+/// The discord invite service authBox
+AuthBox discordInviteAuthBox = AuthBox(
+    authName: "Invite the discord bot",
+    authDescription: "Add our discord bot in your server",
+    isEnable: true,
+    token: "",
+    action: inviteDiscordBot);
+
 /// Remove / Get the Google API access token
 Future<String> getGoogleToken() async {
   if (googleAuthBox.isEnable) {
@@ -143,19 +154,21 @@ Future<String> getDiscordToken() async {
     final url = Uri.https('discord.com', '/api/oauth2/authorize', {
       'response_type': 'code',
       'client_id': clientId,
-      'redirect_uri': 'http://localhost:8081/auth.html',
+      'redirect_uri':
+          !kIsWeb ? 'https://www.test.com' : 'http://localhost:8081/auth.html',
       'scope': 'identify guilds',
     });
 
     final result = await FlutterWebAuth2.authenticate(
-        url: url.toString(), callbackUrlScheme: 'http');
+        url: url.toString(), callbackUrlScheme: !kIsWeb ? 'https' : 'http');
 
     final code = Uri.parse(result).queryParameters['code'];
 
     final response = await http
         .post(Uri.parse('https://discord.com/api/oauth2/token'), body: {
       'client_id': clientId,
-      'redirect_uri': 'http://localhost:8081/auth.html',
+      'redirect_uri':
+          !kIsWeb ? 'https://www.test.com' : 'http://localhost:8081/auth.html',
       'grant_type': 'authorization_code',
       'code': code,
       'client_secret': "Qew25p5oA3pDMnOxpX0G2-ZNyTO2mz_n"
@@ -176,6 +189,13 @@ Future<String> getDiscordToken() async {
   }
   updateAuthPage!(null);
   return 'Operation succeed !';
+}
+
+/// Invite the Discord bot to the user server
+Future<String> inviteDiscordBot() async {
+  await launchUrl(Uri.parse('https://www.test.com'),
+      mode: LaunchMode.externalApplication);
+  return 'Thanks for adding our bot to your server !';
 }
 
 /// Publish the updated Auth Token to the server

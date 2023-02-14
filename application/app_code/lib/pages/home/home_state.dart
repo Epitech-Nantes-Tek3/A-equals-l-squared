@@ -37,7 +37,7 @@ class HomePageState extends State<HomePage> {
             updatingArea = temp;
             goToUpdateAreaPage(context);
           },
-          child: temp.display(false)));
+          child: temp.display(false, null)));
       areaVis.add(const SizedBox(height: 20));
     }
     return areaVis;
