@@ -1,20 +1,25 @@
 'use strict'
 
 const client = require('../init').client
+const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 
 /**
  * Send a message to a channel from an area
  * @param {*} Area Area that contains the parameters
  * @returns True if the message has been sent, false otherwise
  */
-function discordSendMessageChannelFromArea (Area) {
+function discordSendMessageChannelFromArea (Area, dynamicParameters) {
   const reactionParameters = Area.ReactionParameters
-  const messageContent = replaceDynamicParameters(reactionParameters.find(
+  let messageContent = reactionParameters.find(
     parameter => parameter.Parameter.name == 'messageContent'
-  ).value)
-  const channelId = replaceDynamicParameters(reactionParameters.find(
+  ).value
+  messageContent = replaceDynamicParameters(messageContent, dynamicParameters)
+
+  let channelId = reactionParameters.find(
     parameter => parameter.Parameter.name == 'channelId'
-  ).value)
+  ).value
+  channelId = replaceDynamicParameters(channelId, dynamicParameters)
+
   return sendMessageChannel(channelId, messageContent)
 }
 

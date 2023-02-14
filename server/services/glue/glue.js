@@ -100,8 +100,10 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
   action.UsersHasActionsReactions.forEach(area => {
     const reactions = {
       'GML-01': () => gmailSendEmailFromArea(area, dynamicParameters),
-      'DSC-01': () => discordSendMessageChannelFromArea(area, dynamicParameters),
-      'DSC-02': () => discordSendPrivateMessageFromArea(area, dynamicParameters),
+      'DSC-01': () =>
+        discordSendMessageChannelFromArea(area, dynamicParameters),
+      'DSC-02': () =>
+        discordSendPrivateMessageFromArea(area, dynamicParameters),
       'DSC-03': () => discordchangeActivityFromArea(area, dynamicParameters)
     }
     if (!area.isEnable || !area.Reaction.isEnable) {
@@ -116,25 +118,6 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
   })
 }
 
-/**
- * Replace dynamic parameters in a string
- * @param {String} string
- * @param {JSON} dynamicParameters
- * @returns {String} newString - The string with the dynamic parameters replaced
- */
-const replaceDynamicParameters = (string, dynamicParameters) => {
-  let newString = string
-
-  dynamicParameters.forEach(dynamicParameter => {
-    newString = newString.replace(
-      "$" + dynamicParameter.name ,
-      dynamicParameter.value
-    )
-  })
-  return newString
-}
-
 module.exports = {
-  AreaGlue,
-  replaceDynamicParameters
+  AreaGlue
 }
