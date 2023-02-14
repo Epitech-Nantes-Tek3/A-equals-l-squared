@@ -1,8 +1,20 @@
 'use strict'
 
 const database = require('../../database_init')
+const {
+  setATimeTimeAtADate,
+  destroyATimeTimeAtADate
+} = require('./actions/at_a_date')
 
 global.TimeTimeJobList = []
+
+const TriggerInitMap = {
+  'TMT-01': setATimeTimeAtADate
+}
+
+const TriggerDestroyMap = {
+  'TMT-01': destroyATimeTimeAtADate
+}
 
 function getATimeTimeJobById (id) {
   for (var temp of TimeTimeJobList) {
@@ -36,7 +48,7 @@ const createTimeTimeService = async () => {
               Parameters: {
                 create: [
                   {
-                    name: 'Date',
+                    name: 'date',
                     description: 'The wanted date (YEAR/MM/DD)',
                     isRequired: true
                   },
@@ -89,4 +101,9 @@ const createTimeTimeService = async () => {
   }
 }
 
-module.exports = { createTimeTimeService, getATimeTimeJobById }
+module.exports = {
+  createTimeTimeService,
+  getATimeTimeJobById,
+  TriggerInitMap,
+  TriggerDestroyMap
+}

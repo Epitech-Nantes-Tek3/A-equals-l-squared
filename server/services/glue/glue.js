@@ -11,18 +11,6 @@ const {
 const {
   discordchangeActivityFromArea
 } = require('../discord/reactions/change_activity.js')
-const {
-  setATimeTimeAtADate,
-  destroyATimeTimeAtADate
-} = require('../timetime/actions/at_a_date')
-
-const TriggerInitMap = {
-  'TMT-01': setATimeTimeAtADate
-}
-
-const TriggerDestroyMap = {
-  'TMT-01': destroyATimeTimeAtADate
-}
 
 /**
  * Get an action from its code
@@ -128,7 +116,5 @@ const AreaGlue = async (actionCode, actionParameters) => {
 }
 
 module.exports = {
-  AreaGlue,
-  TriggerInitMap,
-  TriggerDestroyMap
+  AreaGlue
 }
