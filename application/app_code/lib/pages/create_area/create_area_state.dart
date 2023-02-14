@@ -682,8 +682,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       if (!_isChoosingAnAction)
         ElevatedButton(
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-              side: const BorderSide(width: 3, color: Colors.white),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               // Change when DB is Up
               primary: Colors.white,
             ),
@@ -693,7 +692,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _actionCreationState = 0;
               });
             },
-            child: const Text('Add an Action')),
+            child: const Text('Add an Action',)),
       if (_isChoosingAnAction)
         Column(
           children: <Widget>[
@@ -709,7 +708,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       if (!_isChoosingAReaction)
         ElevatedButton(
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               side: const BorderSide(width: 3, color: Colors.white),
               // Change when DB is Up
               primary: Colors.white,
@@ -774,6 +773,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
           /// Block Action
           const Text('Action'),
+          const SizedBox(
+            height: 20,
+          ),
 
           /// if (_hasAnAction)
           /// display all Actions chosen by the User
@@ -785,6 +787,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
           /// Block Reaction
           const Text('Reaction'),
+          const SizedBox(
+            height: 20,
+          ),
 
           /// if (_hasAReaction)
           /// display all Reactions chosen by the User
