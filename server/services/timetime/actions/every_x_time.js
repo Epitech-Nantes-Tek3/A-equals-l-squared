@@ -50,7 +50,6 @@ function destroyATimeTimeAtX (area) {
   TimeTimeJobList = TimeTimeJobList.filter(function (item) {
     return item !== currentJob
   })
-  area.isEnable = false
 }
 
 module.exports = { setATimeTimeAtX, destroyATimeTimeAtX }
