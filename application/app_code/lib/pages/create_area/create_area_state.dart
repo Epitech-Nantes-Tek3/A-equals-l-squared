@@ -692,7 +692,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _actionCreationState = 0;
               });
             },
-            child: const Text('Add an Action',)),
+            child: const Text('Add an Action', style: TextStyle(color: Colors.black),)),
       if (_isChoosingAnAction)
         Column(
           children: <Widget>[
@@ -718,7 +718,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _reactionCreationState = 0;
               });
             },
-            child: const Text('Add a Reaction')),
+            child: const Text('Add a Reaction', style: TextStyle(color: Colors.black),)),
       if (_isChoosingAReaction)
         Column(
           children: <Widget>[
@@ -771,7 +771,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           ),
 
           /// Block Action
-          const Text('Action'),
+          const Text('Action', style: TextStyle(fontSize: 20),),
           const SizedBox(
             height: 20,
           ),
@@ -785,7 +785,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           ),
 
           /// Block Reaction
-          const Text('Reaction'),
+          const Text('Reaction', style: TextStyle(fontSize: 20),),
           const SizedBox(
             height: 20,
           ),
