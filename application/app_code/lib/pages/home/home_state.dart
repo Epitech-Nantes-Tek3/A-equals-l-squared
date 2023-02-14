@@ -73,31 +73,6 @@ class HomePageState extends State<HomePage> {
     return areaVis;
   }
 
-  /// Display all the area
-  List<Widget> areasDisplay() {
-    List<Widget> areaVis = <Widget>[];
-
-    for (var temp in areaDataList) {
-      String str =
-          temp.getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
-      Color tempColor = Color(int.parse(str));
-      areaVis.add(ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-            side: BorderSide(color: tempColor, width: 3),
-            // Change when DB is Up
-            primary: Colors.white,
-          ),
-          onPressed: () {
-            updatingArea = temp;
-            goToUpdateAreaPage(context);
-          },
-          child: temp.display(false, null)));
-      areaVis.add(const SizedBox(height: 20));
-    }
-    return areaVis;
-  }
-
   @override
   Widget build(BuildContext context) {
     if (logout) {
@@ -155,8 +130,6 @@ class HomePageState extends State<HomePage> {
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-                    /// children: areasDisplay(),
                     children: createTabOfAreas(),
                   ),
                   ElevatedButton(
