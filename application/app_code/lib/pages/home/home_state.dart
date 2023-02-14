@@ -23,12 +23,14 @@ class HomePageState extends State<HomePage> {
   }
 
   /// This function create a Row of two Areas
-  Widget createRowOfAreas(Widget firstArea, Widget secondArea) {
+  Widget createRowOfAreas(Widget firstArea, Widget? secondArea) {
     Widget rowArea = Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: secondArea != null
+            ? MainAxisAlignment.spaceBetween
+            : MainAxisAlignment.start,
         children: <Widget>[
           firstArea,
-          secondArea,
+          if (secondArea != null) secondArea,
         ]);
     return rowArea;
   }
@@ -61,13 +63,16 @@ class HomePageState extends State<HomePage> {
         areaVis.add(createRowOfAreas(
             areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor()),
             areaDataToElevatedButton(temp, temp.getPrimaryColor())));
+        areaVis.add(const SizedBox(
+          height: 30,
+        ));
       }
       tempArea = temp;
       count++;
     }
     if (count % 2 == 0) {
       areaVis.add(createRowOfAreas(
-          areaDataToElevatedButton(tempArea, Colors.deepOrange), Row()));
+          areaDataToElevatedButton(tempArea, Colors.deepOrange), null));
     }
     return areaVis;
   }
