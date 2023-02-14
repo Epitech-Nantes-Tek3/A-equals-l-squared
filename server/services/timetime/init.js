@@ -10,13 +10,22 @@ const {
   destroyATimeTimeAtX
 } = require('./actions/every_x_time')
 
+/**
+ * Global variable storing all the Time Time Job
+ */
 global.TimeTimeJobList = []
 
+/**
+ * Map containing all the Trigger init function
+ */
 const TriggerInitMap = {
   'TMT-01': setATimeTimeAtADate,
   'TMT-02': setATimeTimeAtX
 }
 
+/**
+ * Map containing all the Trigger destroy function
+ */
 const TriggerDestroyMap = {
   'TMT-01': destroyATimeTimeAtADate,
   'TMT-02': destroyATimeTimeAtX

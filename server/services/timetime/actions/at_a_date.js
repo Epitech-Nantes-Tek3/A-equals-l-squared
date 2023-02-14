@@ -3,6 +3,11 @@
 const { AreaGlue } = require('../../glue/glue.js')
 const schedule = require('node-schedule')
 
+/**
+ * Return a time time job by the area id
+ * @param {*} id area id
+ * @returns the time time job
+ */
 function getATimeTimeJobById (id) {
   for (var temp of TimeTimeJobList) {
     if (temp.areaId == id) {
@@ -12,6 +17,11 @@ function getATimeTimeJobById (id) {
   return null
 }
 
+/**
+ * Parse all parameters and return a valid date object
+ * @param {*} paramsList the parameters list
+ * @returns the date object if paramsList is valid, false otherwise
+ */
 function parseAreaParameterToGetDate (paramsList) {
   try {
     const year = paramsList[0].value.split('/')[0]
@@ -44,6 +54,11 @@ function parseAreaParameterToGetDate (paramsList) {
   }
 }
 
+/**
+ * Set a trigger of the Time Time action at Date
+ * @param {*} area parent area
+ * @returns true if the operation succeed, false otherwise
+ */
 function setATimeTimeAtADate (area) {
   const rule = parseAreaParameterToGetDate(area.ActionParameters)
   if (rule == null) return false
@@ -83,6 +98,10 @@ function setATimeTimeAtADate (area) {
   return true
 }
 
+/**
+ * Destroy a Time Time job at Date
+ * @param {} area parent area
+ */
 function destroyATimeTimeAtADate (area) {
   var currentJob = getATimeTimeJobById(area.id)
   if (currentJob != null && currentJob.jobObject != null)

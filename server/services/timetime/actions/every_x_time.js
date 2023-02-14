@@ -4,12 +4,22 @@ const { AreaGlue } = require('../../glue/glue.js')
 const schedule = require('node-schedule')
 const { getATimeTimeJobById } = require('./at_a_date.js')
 
+/**
+ * Parse all parameters and return the date rule
+ * @param {*} parameters the parameters list
+ * @returns the date rule object if paramsList is valid, false otherwise
+ */
 function createFrequencyRule (parameters) {
   if (parseInt(parameters[0].value) < 1) return null
   if (parseInt(parameters[1].value) < 1) return null
   return '*/' + parameters[0].value + ' * * * * *'
 }
 
+/**
+ * Set a trigger of the Time Time action at X
+ * @param {*} area parent area
+ * @returns true if the operation succeed, false otherwise
+ */
 function setATimeTimeAtX (area) {
   const rule = createFrequencyRule(area.ActionParameters)
   if (rule == null) return false
@@ -43,6 +53,10 @@ function setATimeTimeAtX (area) {
   return true
 }
 
+/**
+ * Destroy a Time Time job at X
+ * @param {*} area parent area
+ */
 function destroyATimeTimeAtX (area) {
   var currentJob = getATimeTimeJobById(area.id)
   if (currentJob != null && currentJob.jobObject != null)
