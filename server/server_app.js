@@ -28,7 +28,7 @@ const getVoiceChannels = require('./services/discord/getters/voice_channels')
 const getTextChannels = require('./services/discord/getters/text_channels')
 const getAvailableGuilds = require('./services/discord/getters/available_guilds')
 const { createTimeTimeService } = require('./services/timetime/init')
-const { TriggerInitMap, TriggerDestroyMap } = require('./services/glue/glue')
+const { TriggerInitMap, TriggerDestroyMap } = require('./services/timetime/init')
 
 const app = express()
 
