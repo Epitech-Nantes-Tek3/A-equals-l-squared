@@ -11,8 +11,6 @@ const { AreaGlue } = require('../../glue/glue.js')
 client.on('message', message => {
   if (message.author.bot) return
   try {
-    console.log('Message object received from Discord : ', message)
-    console.log('Message content : ', message.content)
     const parametersList = [
       { name: 'channelId',
         value: message.channel.id,
