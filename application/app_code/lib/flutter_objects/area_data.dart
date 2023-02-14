@@ -36,19 +36,19 @@ class AreaData {
   /// Utility function used for cloning the class
   AreaData.clone(AreaData oldArea)
       : this(
-            id: oldArea.id,
-            name: oldArea.name,
-            userId: oldArea.userId,
-            actionId: oldArea.actionId,
-            reactionId: oldArea.reactionId,
-            isEnable: oldArea.isEnable,
-            actionParameters: oldArea.actionParameters
-                .map((v) => ParameterContent.clone(v))
-                .toList(),
-            reactionParameters: oldArea.reactionParameters
-                .map((v) => ParameterContent.clone(v))
-                .toList(),
-            description: oldArea.description);
+      id: oldArea.id,
+      name: oldArea.name,
+      userId: oldArea.userId,
+      actionId: oldArea.actionId,
+      reactionId: oldArea.reactionId,
+      isEnable: oldArea.isEnable,
+      actionParameters: oldArea.actionParameters
+          .map((v) => ParameterContent.clone(v))
+          .toList(),
+      reactionParameters: oldArea.reactionParameters
+          .map((v) => ParameterContent.clone(v))
+          .toList(),
+      description: oldArea.description);
 
   /// Convert a json map into the class
   factory AreaData.fromJson(Map<String, dynamic> json) {
@@ -70,6 +70,20 @@ class AreaData {
         description: 'It\'s a description',
         actionParameters: actionParameters,
         reactionParameters: reactionParameters);
+  }
+
+  /// Get the first color of hit first service
+  Color getPrimaryColor() {
+    String str = getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
+    Color tempColor = Color(int.parse(str));
+    return tempColor;
+  }
+
+  Color getSecondaryColor() {
+    String str = getAssociatedService()!.secondaryColor.replaceFirst(
+        "#", "0xff");
+    Color tempColor = Color(int.parse(str));
+    return tempColor;
   }
 
   /// This function return the first associated service of an Area
