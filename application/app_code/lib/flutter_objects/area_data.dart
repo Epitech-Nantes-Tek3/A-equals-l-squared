@@ -1,5 +1,6 @@
 import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:application/flutter_objects/reaction_data.dart';
+import 'package:application/flutter_objects/service_data.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:flutter/material.dart';
 
@@ -69,6 +70,35 @@ class AreaData {
         description: 'It\'s a description',
         actionParameters: actionParameters,
         reactionParameters: reactionParameters);
+  }
+
+  /// This function return the first associated service of an Area
+  ServiceData? getAssociatedService() {
+    for (var temp in serviceDataList) {
+      for (var temp2 in temp.actions) {
+        if (temp2.id == actionId) {
+          return temp;
+        }
+      }
+    }
+    return null;
+  }
+
+  /// This function return the good icon with the serviceName
+  Widget? getServiceIcon() {
+    ServiceData? serviceData = getAssociatedService();
+    if (serviceData != null) {
+      return Column(
+        children: <Widget>[
+          Image.asset(
+            serviceData.icon,
+            height: 50,
+            width: 50,
+          )
+        ],
+      );
+    }
+    return null;
   }
 
   /// Get a visual representation of an Area for create page
@@ -252,12 +282,7 @@ class AreaData {
                   name,
                   style: const TextStyle(color: Colors.black),
                 ),
-                const Icon(
-                  Icons.ac_unit,
-                  color: Colors.black,
-                )
-
-                /// change color
+                getServiceIcon()!,
               ],
             ),
             const SizedBox(height: 20),
@@ -269,9 +294,6 @@ class AreaData {
             /// Put Description when it's in DB
           ],
         ));
-
-        ///        listDisplay.add(Text(action.name));
-        ///        listDisplay.add(Text(reaction.name));
       } catch (err) {
         listDisplay.add(const Text("Please logout and login."));
       }

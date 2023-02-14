@@ -15,7 +15,7 @@ const createGmailService = async () => {
         isEnable: true,
         primaryColor: '#EA4335',
         secondaryColor: '#FFFFFF',
-        icon: '',
+        icon: './assets/icons/gmail.png',
         Actions: {},
         Reactions: {
           create: [
@@ -26,6 +26,12 @@ const createGmailService = async () => {
               isEnable: true,
               Parameters: {
                 create: [
+                  {
+                    name: 'from',
+                    description: 'The gmail account to send from ',
+                    isRequired: true,
+                    GetterUrl: '/api/services/gmail/getAvailablePerformers'
+                  },
                   {
                     name: 'to',
                     description: 'The email address to send to',
