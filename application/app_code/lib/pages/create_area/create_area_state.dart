@@ -709,7 +709,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         ElevatedButton(
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              side: const BorderSide(width: 3, color: Colors.white),
               // Change when DB is Up
               primary: Colors.white,
             ),
