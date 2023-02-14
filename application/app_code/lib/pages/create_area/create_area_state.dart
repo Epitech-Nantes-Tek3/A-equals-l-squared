@@ -764,7 +764,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   icon: const Icon(Icons.home_filled)),
               const Text(
                 'Create a new Area',
-                style: TextStyle(fontFamily: 'Roboto-Bold', fontSize: 25),
+                style: TextStyle(fontFamily: 'Roboto-Bold', fontSize: 20),
               )
             ],
           ),
