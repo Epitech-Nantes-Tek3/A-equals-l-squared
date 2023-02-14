@@ -22,9 +22,7 @@ class HomePageState extends State<HomePage> {
     updatePage = update;
   }
 
-  /// Function to add two areas into a row (return list<widget>)
-  /// function to add these row into column (return list<widget>)
-
+  /// This function create a Row of two Areas
   Widget createRowOfAreas(Widget firstArea, Widget secondArea) {
     Widget rowArea = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -35,6 +33,7 @@ class HomePageState extends State<HomePage> {
     return rowArea;
   }
 
+  /// This function Create an Elevated Button thanks to an Area
   Widget areaDataToElevatedButton(AreaData areaData, Color areaColor) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
