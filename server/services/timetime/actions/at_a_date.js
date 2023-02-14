@@ -92,4 +92,8 @@ function destroyATimeTimeAtADate (area) {
   })
 }
 
-module.exports = { setATimeTimeAtADate, destroyATimeTimeAtADate, getATimeTimeJobById }
+module.exports = {
+  setATimeTimeAtADate,
+  destroyATimeTimeAtADate,
+  getATimeTimeJobById
+}
