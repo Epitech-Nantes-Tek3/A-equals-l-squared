@@ -595,7 +595,6 @@ app.post(
             id: req.body.id
           },
           include: {
-            id: true,
             Action: true,
             ActionParameters: true,
             ReactionParameters: true
@@ -648,7 +647,9 @@ app.post(
           }
         })
       if (TriggerInitMap[areaCreation.Action.code])
-        TriggerInitMap[areaCreation.Action.code](areaCreation)
+        if (!TriggerInitMap[areaCreation.Action.code](areaCreation)) {
+          return res.status(400).send('Please pass a valid parameter list !')
+        }
       return res.status(200).send('AREA successfully updated.')
     } catch (err) {
       console.log(err)
@@ -1012,7 +1013,12 @@ app.post(
           }
         })
       if (TriggerInitMap[areaCreation.Action.code])
-        TriggerInitMap[areaCreation.Action.code](areaCreation)
+        if (!TriggerInitMap[areaCreation.Action.code](areaCreation)) {
+          await database.prisma.UsersHasActionsReactions.delete({
+            where: { id: areaCreation.id }
+          })
+          return res.status(400).send('Please pass a valid parameter list !')
+        }
       return res.json(areaCreation)
     } catch (err) {
       console.log(err)

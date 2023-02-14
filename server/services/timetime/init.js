@@ -2,7 +2,7 @@
 
 const database = require('../../database_init')
 
-var TimeTimeJobList = []
+global.TimeTimeJobList = []
 
 function getATimeTimeJobById (id) {
   for (var temp of TimeTimeJobList) {
@@ -36,18 +36,8 @@ const createTimeTimeService = async () => {
               Parameters: {
                 create: [
                   {
-                    name: 'year',
-                    description: 'The wanted year',
-                    isRequired: true
-                  },
-                  {
-                    name: 'month',
-                    description: 'The wanted month',
-                    isRequired: true
-                  },
-                  {
-                    name: 'day',
-                    description: 'The wanted day',
+                    name: 'Date',
+                    description: 'The wanted date (YEAR/MM/DD)',
                     isRequired: true
                   },
                   {
@@ -99,4 +89,4 @@ const createTimeTimeService = async () => {
   }
 }
 
-module.exports = { createTimeTimeService, TimeTimeJobList, getATimeTimeJobById }
+module.exports = { createTimeTimeService, getATimeTimeJobById }
