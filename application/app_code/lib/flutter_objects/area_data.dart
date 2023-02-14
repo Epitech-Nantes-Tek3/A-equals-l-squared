@@ -79,6 +79,7 @@ class AreaData {
     return tempColor;
   }
 
+  /// Get the secondary color of hit first service
   Color getSecondaryColor() {
     String str = getAssociatedService()!.secondaryColor.replaceFirst(
         "#", "0xff");
