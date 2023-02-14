@@ -28,10 +28,10 @@ class HomePageState extends State<HomePage> {
   Widget createRowOfAreas(Widget firstArea, Widget secondArea) {
     Widget rowArea = Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children : <Widget>[
-      firstArea,
-      secondArea,
-    ]);
+        children: <Widget>[
+          firstArea,
+          secondArea,
+        ]);
     return rowArea;
   }
 
@@ -59,13 +59,16 @@ class HomePageState extends State<HomePage> {
 
     for (var temp in areaDataList) {
       if (count % 2 == 0 && count != 0) {
-        areaVis.add(createRowOfAreas(areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor()), areaDataToElevatedButton(temp, temp.getPrimaryColor())));
+        areaVis.add(createRowOfAreas(
+            areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor()),
+            areaDataToElevatedButton(temp, temp.getPrimaryColor())));
       }
       tempArea = temp;
       count++;
     }
     if (count % 2 == 0) {
-      areaVis.add(createRowOfAreas(areaDataToElevatedButton(tempArea, Colors.deepOrange), Row()));
+      areaVis.add(createRowOfAreas(
+          areaDataToElevatedButton(tempArea, Colors.deepOrange), Row()));
     }
     return areaVis;
   }
@@ -76,7 +79,7 @@ class HomePageState extends State<HomePage> {
 
     for (var temp in areaDataList) {
       String str =
-      temp.getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
+          temp.getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
       Color tempColor = Color(int.parse(str));
       areaVis.add(ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -152,6 +155,7 @@ class HomePageState extends State<HomePage> {
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
                     /// children: areasDisplay(),
                     children: createTabOfAreas(),
                   ),
