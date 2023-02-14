@@ -9,12 +9,12 @@ const client = require('../init').client
  */
 function discordSendMessageChannelFromArea (Area) {
   const reactionParameters = Area.ReactionParameters
-  const messageContent = reactionParameters.find(
+  const messageContent = replaceDynamicParameters(reactionParameters.find(
     parameter => parameter.Parameter.name == 'messageContent'
-  ).value
-  const channelId = reactionParameters.find(
+  ).value)
+  const channelId = replaceDynamicParameters(reactionParameters.find(
     parameter => parameter.Parameter.name == 'channelId'
-  ).value
+  ).value)
   return sendMessageChannel(channelId, messageContent)
 }
 

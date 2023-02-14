@@ -88,9 +88,10 @@ const checkActionParameters = (Area, parametersList) => {
  * Called by actions, it will call the appropriate reactions
  * @param {String} actionCode
  * @param {JSON} actionParameters
+ * @param {JSON} dynamicParameters
  * @returns
  */
-const AreaGlue = async (actionCode, actionParameters) => {
+const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
   const action = await getActionFromCode(actionCode)
   if (!action || !action.isEnable) {
     return
@@ -98,10 +99,10 @@ const AreaGlue = async (actionCode, actionParameters) => {
 
   action.UsersHasActionsReactions.forEach(area => {
     const reactions = {
-      'GML-01': () => gmailSendEmailFromArea(area),
-      'DSC-01': () => discordSendMessageChannelFromArea(area),
-      'DSC-02': () => discordSendPrivateMessageFromArea(area),
-      'DSC-03': () => discordchangeActivityFromArea(area)
+      'GML-01': () => gmailSendEmailFromArea(area, dynamicParameters),
+      'DSC-01': () => discordSendMessageChannelFromArea(area, dynamicParameters),
+      'DSC-02': () => discordSendPrivateMessageFromArea(area, dynamicParameters),
+      'DSC-03': () => discordchangeActivityFromArea(area, dynamicParameters)
     }
     if (!area.isEnable || !area.Reaction.isEnable) {
       return
@@ -115,6 +116,25 @@ const AreaGlue = async (actionCode, actionParameters) => {
   })
 }
 
+/**
+ * Replace dynamic parameters in a string
+ * @param {String} string
+ * @param {JSON} dynamicParameters
+ * @returns {String} newString - The string with the dynamic parameters replaced
+ */
+const replaceDynamicParameters = (string, dynamicParameters) => {
+  let newString = string
+
+  dynamicParameters.forEach(dynamicParameter => {
+    newString = newString.replace(
+      "$" + dynamicParameter.name ,
+      dynamicParameter.value
+    )
+  })
+  return newString
+}
+
 module.exports = {
-  AreaGlue
+  AreaGlue,
+  replaceDynamicParameters
 }

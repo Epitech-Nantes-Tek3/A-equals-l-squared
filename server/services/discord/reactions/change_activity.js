@@ -9,9 +9,9 @@ const client = require('../init').client
  */
 function discordchangeActivityFromArea (Area) {
   const reactionParameters = Area.ReactionParameters
-  const activity = reactionParameters.find(
+  const activity = replaceDynamicParameters(reactionParameters.find(
     parameter => parameter.Parameter.name == 'activity'
-  ).value
+  ).value)
   return changeActivity(activity)
 }
 

@@ -1,4 +1,5 @@
 const gmail = require('../gmail_init').getGmailClient()
+const { replaceDynamicParameters } = require('../../glue/glue.js')
 
 /**
  * @brief send an email with the gmail api from an area
@@ -8,15 +9,15 @@ const gmail = require('../gmail_init').getGmailClient()
 async function gmailSendEmailFromArea (Area) {
   try {
     const reactionParameters = Area.ReactionParameters
-    const to = reactionParameters.find(
+    const to = replaceDynamicParameters(reactionParameters.find(
       parameter => parameter.Parameter.name == 'to'
-    ).value
-    const subject = reactionParameters.find(
+    ).value)
+    const subject = replaceDynamicParameters(reactionParameters.find(
       parameter => parameter.Parameter.name == 'subject'
-    ).value
-    const body = reactionParameters.find(
+    ).value)
+    const body = replaceDynamicParameters(reactionParameters.find(
       parameter => parameter.Parameter.name == 'body'
-    ).value
+    ).value)
     return await sendEmail(to, subject, body)
   } catch (error) {
     console.log('Error while sending email from area : ', error)

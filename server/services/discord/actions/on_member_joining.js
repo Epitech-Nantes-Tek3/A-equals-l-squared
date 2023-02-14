@@ -10,7 +10,10 @@ const { AreaGlue } = require('../../glue/glue.js')
 client.on('guildMemberAdd', user => {
   try {
     console.log('A new user just joined the Discord server: ' + user.tag)
-    AreaGlue('DSC-03', ['null'])
+
+    const dynamicParameters = [
+    ]
+    AreaGlue('DSC-03', [], dynamicParameters)
   } catch (error) {
     console.error(error)
   }

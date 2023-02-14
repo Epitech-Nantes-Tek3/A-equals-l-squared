@@ -23,7 +23,10 @@ client.on('messageReactionAdd', (reaction, user) => {
       }
     ]
 
-    AreaGlue('DSC-04', parametersList)
+    const dynamicParameters = [
+    ]
+
+    AreaGlue('DSC-04', parametersList, dynamicParameters)
   } catch (error) {
     console.error(error)
   }

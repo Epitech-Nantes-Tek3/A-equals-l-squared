@@ -9,12 +9,12 @@ const client = require('../init').client
  */
 function discordSendPrivateMessageFromArea (Area) {
   const reactionParameters = Area.ReactionParameters
-  const messageContent = reactionParameters.find(
+  const messageContent = replaceDynamicParameters(reactionParameters.find(
     parameter => parameter.Parameter.name == 'messageContent'
-  ).value
-  const userId = reactionParameters.find(
+  ).value)
+  const userId = replaceDynamicParameters(reactionParameters.find(
     parameter => parameter.Parameter.name == 'UserId'
-  ).value
+  ).value)
   return sendPrivateMessage(userId, messageContent)
 }
 

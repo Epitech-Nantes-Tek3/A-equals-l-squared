@@ -21,7 +21,10 @@ client.on('voiceStateUpdate', (oldChannel, newChannel) => {
       }
     ]
 
-    AreaGlue('DSC-02', parametersList)
+    const dynamicParameters = [
+    ]
+
+    AreaGlue('DSC-02', parametersList, dynamicParameters)
   } catch (error) {
     console.error(error)
   }

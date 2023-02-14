@@ -21,7 +21,11 @@ client.on('message', message => {
         valid: false
       }
     ]
-    AreaGlue('DSC-01', parametersList)
+
+    const dynamicParameters = [
+    ]
+
+    AreaGlue('DSC-01', parametersList, dynamicParameters)
   } catch (error) {
     console.error(error)
   }

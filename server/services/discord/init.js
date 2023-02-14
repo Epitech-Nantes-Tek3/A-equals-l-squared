@@ -221,12 +221,12 @@ const createDiscordService = async () => {
                     description: 'The ID of the message where the reaction is added'
                   },
                   {
-                    name: 'AUTHOR_NAME',
-                    description: 'The name of the author of the reaction'
+                    name: 'USER_NAME',
+                    description: 'The username of the author of the reaction'
                   },
                   {
-                    name: 'AUTHOR_ID',
-                    description: 'The ID of the author of the reaction'
+                    name: 'USER_ID',
+                    description: 'The user ID of the author of the reaction'
                   },
                   {
                     name: 'CHANNEL_NAME',
