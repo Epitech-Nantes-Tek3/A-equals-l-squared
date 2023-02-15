@@ -55,6 +55,12 @@ function parseAreaParameterToGetDate (paramsList) {
   }
 }
 
+/**
+ * Find a parameter value by his name
+ * @param {*} paramsList The parameters list
+ * @param {*} name the parameter name
+ * @returns the parameter value
+ */
 function getParameterValueByName (paramsList, name) {
   let found = ''
   paramsList.forEach(actionParameter => {
