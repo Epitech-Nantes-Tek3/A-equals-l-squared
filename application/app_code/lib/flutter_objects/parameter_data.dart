@@ -93,14 +93,14 @@ class ParameterData {
         needToUpdate = false;
         update(this);
       }
-      tempProposal = <String>["No value"];
+      tempProposal = <String>["Click To Update"];
       if (getterValue != null) {
         for (var temp in getterValue!.keys) {
           tempProposal.add(temp);
         }
       }
       if (matchedContent!.value == "") {
-        matchedContent!.value = "No value";
+        matchedContent!.value = "Click To Update";
       } else if (!tempProposal.contains(matchedContent!.value)) {
         tempProposal.add(matchedContent!.value);
       }
@@ -164,10 +164,21 @@ class ParameterData {
       return;
     }
     String idValue = '';
+    if (previous != null) {
+      if (previous!.getterValue == null) {
+        needToUpdate = true;
+        return;
+      }
+    }
+
     if (previous != null &&
         previous!.matchedContent != null &&
         previous!.getterValue != null) {
       idValue = previous!.getterValue![previous!.matchedContent!.value]!;
+      if (idValue == "Click To Update") {
+        needToUpdate = true;
+        return;
+      }
     }
     final response = await http.get(
       Uri.parse('http://$serverIp:8080$getterUrl?id=$idValue'),
