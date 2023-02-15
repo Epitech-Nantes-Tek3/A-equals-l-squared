@@ -30,14 +30,14 @@ class HomePageState extends State<HomePage> {
       String str =
           temp.getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
       Color tempColor = Color(int.parse(str));
-      areaVis.add(elevatedButtonArea(ElevatedButton(
+      areaVis.add(materialElevatedButtonArea(ElevatedButton(
           style: ElevatedButton.styleFrom(
           ),
           onPressed: () {
             updatingArea = temp;
             goToUpdateAreaPage(context);
           },
-          child: temp.display(false, null)), true));
+          child: temp.display(false, null)), false , borderColor: tempColor, borderWith: 3));
       areaVis.add(const SizedBox(height: 20));
     }
     return areaVis;
@@ -102,7 +102,8 @@ class HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: areasDisplay(),
                   ),
-                  ElevatedButton(
+
+                  materialElevatedButtonArea(ElevatedButton(
                     key: const Key('HomeServiceButton'),
                     onPressed: () {
                       setState(() {
@@ -110,15 +111,7 @@ class HomePageState extends State<HomePage> {
                       });
                     },
                     child: const Text('Service List'),
-                  ),
-                  ElevatedButton(
-                    key: const Key('HomeLogoutButton'),
-                    onPressed: () {
-                      setState(() {
-                        logout = true;
-                      });
-                    },
-                    child: const Text('Logout'),
+                  ), true, primaryColor: getOurBlueAreaColor(100)),
                   ),
                 ],
               ),
