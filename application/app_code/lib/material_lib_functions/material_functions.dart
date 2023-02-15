@@ -7,11 +7,6 @@ Widget displayLogo(double size) {
   );
 }
 
-/// Add our shadow on a Widget
-Widget materialShadowForArea(Widget widget) {
-  return Material(elevation: 5, shadowColor: Colors.black, child: widget);
-}
-
 /// Return our blue color Hex : 06A1E4
 Color getOurBlueAreaColor(double opacity) {
   return Color.fromRGBO(6, 161, 228, opacity);
