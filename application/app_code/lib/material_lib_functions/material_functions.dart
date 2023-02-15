@@ -17,8 +17,8 @@ Color getOurGreenAreaColor(double opacity) {
   return Color.fromRGBO(22, 252, 188, opacity);
 }
 
-/// This function create a new ElevatedButton with the content of buttonContent (only this param is needed)
-/// This function can take many parameter to modified the style of the ElevatedButton
+/// This function create a new ElevatedButton with the content of buttonContent
+/// This function can take many parameter to modified the style of the ElevatedButton but by it used default values of front design
 Widget materialElevatedButtonArea(ElevatedButton buttonContent, bool isShadowNeeded,
     {borderColor = Colors.white,
     primaryColor = Colors.white,
