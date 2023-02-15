@@ -261,7 +261,7 @@ class LoginPageState extends State<LoginPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         /// Put Login with Gmail or an other login
-        materialShadowForArea(TextFormField(
+        (TextFormField(
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(20),
             border: OutlineInputBorder(
@@ -340,7 +340,7 @@ class LoginPageState extends State<LoginPage> {
                           const SizedBox(
                             height: 30,
                           ),
-                          materialShadowForArea(getHostConfigField()),
+                          (getHostConfigField()),
                           const SizedBox(
                             height: 20,
                           ),

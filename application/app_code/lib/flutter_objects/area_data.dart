@@ -138,7 +138,7 @@ class AreaData {
           const SizedBox(
             height: 10,
           ),
-          materialShadowForArea(Column(children: <Widget>[
+          (Column(children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
@@ -152,7 +152,7 @@ class AreaData {
           const SizedBox(
             height: 20,
           ),
-          materialShadowForArea(Column(children: <Widget>[
+          (Column(children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
@@ -243,7 +243,7 @@ class AreaData {
           const SizedBox(
             height: 10,
           ),
-          materialShadowForArea(Column(children: <Widget>[
+          (Column(children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
@@ -257,7 +257,7 @@ class AreaData {
           const SizedBox(
             height: 20,
           ),
-          materialShadowForArea(Column(children: <Widget>[
+          (Column(children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(

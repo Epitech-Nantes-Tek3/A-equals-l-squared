@@ -88,8 +88,8 @@ class SignupPageState extends State<SignupPage> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 22),
                         ),
-                        materialShadowForArea(getHostConfigField()),
-                        materialShadowForArea(TextFormField(
+                        (getHostConfigField()),
+                        (TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'Username',
@@ -103,7 +103,7 @@ class SignupPageState extends State<SignupPage> {
                             return null;
                           },
                         )),
-                        materialShadowForArea(TextFormField(
+                        (TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'E-mail',
@@ -119,7 +119,7 @@ class SignupPageState extends State<SignupPage> {
                             return null;
                           },
                         )),
-                        materialShadowForArea(TextFormField(
+                        (TextFormField(
                           obscureText: true,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
