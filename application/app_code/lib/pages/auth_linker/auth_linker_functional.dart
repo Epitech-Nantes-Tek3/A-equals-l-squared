@@ -250,7 +250,8 @@ Future<String> getDeezerToken() async {
     final url = Uri.https('connect.deezer.com', '/oauth/auth.php', {
       'app_id': appId,
       'redirect_uri': 'http://localhost:8081/auth.html',
-      'perms': 'basic_access, email, offline_access, manage_library, manage_community, delete_library, listening_history',
+      'perms':
+          'basic_access, email, offline_access, manage_library, manage_community, delete_library, listening_history',
     });
 
     final result = await FlutterWebAuth2.authenticate(
@@ -278,18 +279,20 @@ Future<String> getDeezerToken() async {
   return 'Operation succeed !';
 }
 
-Future<String> getDeezerTokenWithCode(String app_id, String secret, String code) async {
+Future<String> getDeezerTokenWithCode(
+    String app_id, String secret, String code) async {
   try {
-    var response = await http.post(Uri.parse('http://$serverIp:8080/api/code/deezer'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer ${userInformation!.token}',
-        },
-        body: jsonEncode(<String, dynamic>{
-          'app_id': app_id != null ? app_id! : '',
-          'secret': secret != null ? secret! : '',
-          'code': code != null ? code! : '',
-        }));
+    var response =
+        await http.post(Uri.parse('http://$serverIp:8080/api/code/deezer'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer ${userInformation!.token}',
+            },
+            body: jsonEncode(<String, dynamic>{
+              'app_id': app_id != null ? app_id! : '',
+              'secret': secret != null ? secret! : '',
+              'code': code != null ? code! : '',
+            }));
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body)['data']['access_token'];

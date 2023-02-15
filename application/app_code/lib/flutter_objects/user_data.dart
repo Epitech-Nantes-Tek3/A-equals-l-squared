@@ -119,6 +119,9 @@ class Token {
       deezerToken = null;
     }
 
-    return Token(googleToken: googleToken, discordToken: discordToken, deezerToken: deezerToken);
+    return Token(
+        googleToken: googleToken,
+        discordToken: discordToken,
+        deezerToken: deezerToken);
   }
 }
