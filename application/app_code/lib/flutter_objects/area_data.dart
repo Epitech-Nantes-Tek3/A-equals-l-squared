@@ -90,7 +90,9 @@ class AreaData {
       return Column(
         children: <Widget>[
           Image.asset(
-            serviceData.icon,
+            serviceData.icon != ''
+                ? serviceData.icon
+                : 'assets/icons/Area_Logo.png',
             height: 50,
             width: 50,
           )

@@ -127,19 +127,18 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           },
         ),
       );
-      if (_name == "") {
-        createdArea = AreaData(
-            id: "",
-            name: _name,
-            userId: "",
-            actionId: createdAreaContent[0].actions[0].id,
-            reactionId: createdAreaContent[1].reactions[0].id,
-            isEnable: true,
-            actionParameters:
-                createdAreaContent[0].actions[0].getAllParameterContent(),
-            reactionParameters:
-                createdAreaContent[1].reactions[0].getAllParameterContent());
-      }
+      createdArea = AreaData(
+          id: "",
+          name: _name,
+          userId: "",
+          actionId: createdAreaContent[0].actions[0].id,
+          reactionId: createdAreaContent[1].reactions[0].id,
+          isEnable: true,
+          actionParameters:
+              createdAreaContent[0].actions[0].getAllParameterContent(),
+          reactionParameters:
+              createdAreaContent[1].reactions[0].getAllParameterContent());
+
       createVis.add(const SizedBox(
         height: 10,
       ));
