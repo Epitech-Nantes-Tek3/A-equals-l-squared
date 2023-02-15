@@ -24,9 +24,9 @@ Widget materialElevatedButtonArea(ElevatedButton buttonContent, bool isShadowNee
     primaryColor = Colors.white,
     double borderRadius = 30,
     double borderWith = 0,
-    double paddingVertical = 20,
-    double paddingHorizontal = 20}) {
-  ElevatedButton newButton = ElevatedButton(
+    double paddingVertical = 10,
+    double paddingHorizontal = 10}) {
+  Widget newButton = ElevatedButton(
       onPressed: buttonContent.onPressed,
       style: ElevatedButton.styleFrom(
           primary: primaryColor,
