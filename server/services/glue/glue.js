@@ -9,7 +9,7 @@ const {
   discordSendPrivateMessageFromArea
 } = require('../discord/reactions/send_private_message.js')
 const {
-  discordchangeActivityFromArea
+  discordChangeActivityFromArea
 } = require('../discord/reactions/change_activity.js')
 
 /**
@@ -88,9 +88,10 @@ const checkActionParameters = (Area, parametersList) => {
  * Called by actions, it will call the appropriate reactions
  * @param {String} actionCode
  * @param {JSON} actionParameters
+ * @param {JSON} dynamicParameters
  * @returns
  */
-const AreaGlue = async (actionCode, actionParameters) => {
+const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
   const action = await getActionFromCode(actionCode)
   if (!action || !action.isEnable) {
     return
@@ -98,10 +99,12 @@ const AreaGlue = async (actionCode, actionParameters) => {
 
   action.UsersHasActionsReactions.forEach(area => {
     const reactions = {
-      'GML-01': () => gmailSendEmailFromArea(area),
-      'DSC-01': () => discordSendMessageChannelFromArea(area),
-      'DSC-02': () => discordSendPrivateMessageFromArea(area),
-      'DSC-03': () => discordchangeActivityFromArea(area)
+      'GML-01': () => gmailSendEmailFromArea(area, dynamicParameters),
+      'DSC-01': () =>
+        discordSendMessageChannelFromArea(area, dynamicParameters),
+      'DSC-02': () =>
+        discordSendPrivateMessageFromArea(area, dynamicParameters),
+      'DSC-03': () => discordChangeActivityFromArea(area, dynamicParameters)
     }
     if (!area.isEnable || !area.Reaction.isEnable) {
       return
