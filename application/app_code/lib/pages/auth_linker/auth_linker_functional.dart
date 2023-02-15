@@ -232,3 +232,72 @@ Future<String?> publishNewToken() async {
     return 'Error during auth process.';
   }
 }
+
+Future<String> getDeezerToken() async {
+  if (deezerAuthBox.isEnable) {
+    String? tokenSave = '${deezerAuthBox.token}';
+    deezerAuthBox.token = null;
+    String? error = await publishNewToken();
+    if (error != null) {
+      deezerAuthBox.token = tokenSave;
+      return error;
+    }
+    deezerAuthBox.isEnable = false;
+  } else {
+    String appId = "581644";
+    String secret = "2cf8a215785c22ac97469d251cef7667";
+
+    final url = Uri.https('connect.deezer.com', '/oauth/auth.php', {
+      'app_id': appId,
+      'redirect_uri': 'http://localhost:8081/auth.html',
+      'perms': 'basic_access, email, offline_access, manage_library, manage_community, delete_library, listening_history',
+    });
+
+    final result = await FlutterWebAuth2.authenticate(
+        url: url.toString(), callbackUrlScheme: 'http');
+
+    String code = Uri.parse(result).queryParameters['code']!;
+
+    final response = await getDeezerTokenWithCode(appId, secret, code);
+    if (response == null) {
+      deezerAuthBox.token = null;
+      return response;
+    }
+    final accessToken = response as String;
+
+    deezerAuthBox.token = accessToken;
+
+    String? error = await publishNewToken();
+    if (error != null) {
+      deezerAuthBox.token = null;
+      return error;
+    }
+    deezerAuthBox.isEnable = true;
+  }
+  updateAuthPage!(null);
+  return 'Operation succeed !';
+}
+
+Future<String> getDeezerTokenWithCode(String app_id, String secret, String code) async {
+  try {
+    var response = await http.post(Uri.parse('http://$serverIp:8080/api/code/deezer'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer ${userInformation!.token}',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'app_id': app_id != null ? app_id! : '',
+          'secret': secret != null ? secret! : '',
+          'code': code != null ? code! : '',
+        }));
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body)['data']['access_token'];
+    } else {
+      return response.body.toString();
+    }
+  } catch (err) {
+    debugPrint(err.toString());
+    return 'Error during auth process.';
+  }
+}
