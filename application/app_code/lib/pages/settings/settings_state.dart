@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application/material_lib_functions/material_functions.dart';
 import 'package:application/network/informations.dart';
 import 'package:application/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -159,7 +160,7 @@ class SettingsPageState extends State<SettingsPage> {
   /// This function display buttons to modified an user account
   Widget modifierButtons() {
     return Column(children: <Widget>[
-      ElevatedButton(
+      materialElevatedButtonArea(ElevatedButton(
         key: const Key('AskUpdateButton'),
         onPressed: () {
           setState(() {
@@ -167,8 +168,8 @@ class SettingsPageState extends State<SettingsPage> {
           });
         },
         child: const Text('Update account information'),
-      ),
-      ElevatedButton(
+      ), false, primaryColor: getOurBlueAreaColor(100)),
+      materialElevatedButtonArea(ElevatedButton(
         key: const Key('AskDeleteButton'),
         onPressed: () {
           setState(() {
@@ -176,7 +177,7 @@ class SettingsPageState extends State<SettingsPage> {
           });
         },
         child: const Text('Delete account'),
-      ),
+      ), false, primaryColor: getOurBlueAreaColor(100)),
     ]);
   }
 
