@@ -260,11 +260,7 @@ Future<String> getDeezerToken() async {
     String code = Uri.parse(result).queryParameters['code']!;
 
     final response = await getDeezerTokenWithCode(appId, secret, code);
-    if (response == null) {
-      deezerAuthBox.token = null;
-      return response;
-    }
-    final accessToken = response as String;
+    final accessToken = response;
 
     deezerAuthBox.token = accessToken;
 
@@ -280,7 +276,7 @@ Future<String> getDeezerToken() async {
 }
 
 Future<String> getDeezerTokenWithCode(
-    String app_id, String secret, String code) async {
+    String appId, String secret, String code) async {
   try {
     var response =
         await http.post(Uri.parse('http://$serverIp:8080/api/code/deezer'),
@@ -289,9 +285,9 @@ Future<String> getDeezerTokenWithCode(
               'Authorization': 'Bearer ${userInformation!.token}',
             },
             body: jsonEncode(<String, dynamic>{
-              'app_id': app_id != null ? app_id! : '',
-              'secret': secret != null ? secret! : '',
-              'code': code != null ? code! : '',
+              'app_id': appId,
+              'secret': secret,
+              'code': code,
             }));
 
     if (response.statusCode == 200) {
