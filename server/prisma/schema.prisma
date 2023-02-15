@@ -89,7 +89,7 @@ model DynamicParameter {
   id          String  @id @unique @default(cuid())
   name        String
   description String?
-  Action      Action  @relation(fields: [actionId], references: [id])
+  Action      Action  @relation(fields: [actionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   actionId    String
 }
 
