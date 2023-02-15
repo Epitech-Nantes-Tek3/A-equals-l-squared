@@ -4,7 +4,6 @@ import 'package:application/flutter_objects/service_data.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:flutter/material.dart';
 
-import '../../material_lib_functions/material_functions.dart';
 import 'action_data.dart';
 
 /// This class is the Area class.
