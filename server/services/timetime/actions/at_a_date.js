@@ -54,45 +54,52 @@ function parseAreaParameterToGetDate (paramsList) {
   }
 }
 
+function getParameterValueByName (paramsList, name) {
+  paramsList.forEach(actionParameter => {
+    if (actionParameter.Parameter.name == name) return actionParameter.value
+  })
+  return ''
+}
+
 /**
  * Set a trigger of the Time Time action at Date
  * @param {*} area parent area
  * @returns true if the operation succeed, false otherwise
  */
 function setATimeTimeAtADate (area) {
-  const rule = parseAreaParameterToGetDate(area.ActionParameters)
+  const parametersList = [
+    {
+      name: 'date',
+      value: getParameterValueByName(area.ActionParameters, 'date'),
+      valid: false
+    },
+    {
+      name: 'hour',
+      value: getParameterValueByName(area.ActionParameters, 'hour'),
+      valid: false
+    },
+    {
+      name: 'minute',
+      value: getParameterValueByName(area.ActionParameters, 'minute'),
+      valid: false
+    },
+    {
+      name: 'second',
+      value: getParameterValueByName(area.ActionParameters, 'second'),
+      valid: false
+    }
+  ]
+  const rule = parseAreaParameterToGetDate(parametersList)
   if (rule == null) return false
   const job = schedule.scheduleJob(
     rule,
-    function (area) {
+    function (area, parametersList) {
       var currentJob = getATimeTimeJobById(area.id)
       if (currentJob != null) currentJob.occurence -= 1
       if (currentJob != null && currentJob.occurence <= 0)
         destroyATimeTimeAtADate(area)
-      const parametersList = [
-        {
-          name: 'date',
-          value: area.ActionParameters[0].value,
-          valid: false
-        },
-        {
-          name: 'hour',
-          value: area.ActionParameters[1].value,
-          valid: false
-        },
-        {
-          name: 'minute',
-          value: area.ActionParameters[2].value,
-          valid: false
-        },
-        {
-          name: 'second',
-          value: area.ActionParameters[3].value,
-          valid: false
-        }
-      ]
       AreaGlue('TMT-01', parametersList)
-    }.bind(null, area)
+    }.bind(null, area, parametersList)
   )
   TimeTimeJobList.push({ areaId: area.id, jobObject: job, occurence: 1 })
   return true
