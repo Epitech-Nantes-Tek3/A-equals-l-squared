@@ -23,7 +23,6 @@ const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
 const discordClient = require('./services/discord/init')
-const deezerClient = require('./services/deezer/init')
 const { createGmailService } = require('./services/gmail/gmail_init')
 const { createDiscordService } = require('./services/discord/init')
 const getVoiceChannels = require('./services/discord/getters/voice_channels')
