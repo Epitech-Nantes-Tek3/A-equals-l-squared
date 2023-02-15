@@ -12,10 +12,10 @@ client.on('guildMemberAdd', user => {
     console.log('A new user just joined the Discord server: ' + user.tag)
 
     const dynamicParameters = [
-      { name: USER_NAME, value: user.username },
-      { name: USER_ID, value: user.id },
-      { name: GUILD_NAME, value: user.guild.name },
-      { name: GUILD_ID, value: user.guild.id }
+      { name: 'USER_NAME', value: user.username },
+      { name: 'USER_ID', value: user.id },
+      { name: 'GUILD_NAME', value: user.guild.name },
+      { name: 'GUILD_ID', value: user.guild.id }
     ]
     AreaGlue('DSC-03', [], dynamicParameters)
   } catch (error) {
