@@ -38,8 +38,5 @@ Widget materialElevatedButtonArea(ElevatedButton buttonContent, bool isShadowNee
           shadowColor: isShadowNeeded ? Colors.black : Colors.transparent,
           elevation: isShadowNeeded ? 5 : 0),
       child: buttonContent.child);
-  if (isShadowNeeded) {
-    return materialShadowForArea(newButton);
-  }
   return newButton;
 }
