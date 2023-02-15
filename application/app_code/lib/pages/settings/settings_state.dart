@@ -305,38 +305,40 @@ class SettingsPageState extends State<SettingsPage> {
 
   /// This function display all settings which can manage by users
   Widget parameterButtonView(IconData icon, String description, int selector) {
-    return materialElevatedButtonArea(ElevatedButton(
-        onPressed: () {
-          setState(() {
-            if (selector == 5) {
-              goToAuthPage(context);
-            } else if (selector == 84) {
-              goToLoginPage(context);
-            } else {
-              _settingPage = selector;
-            }
-          });
-        },
-        child: Column(children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
+    return materialElevatedButtonArea(
+        ElevatedButton(
+            onPressed: () {
+              setState(() {
+                if (selector == 5) {
+                  goToAuthPage(context);
+                } else if (selector == 84) {
+                  goToLoginPage(context);
+                } else {
+                  _settingPage = selector;
+                }
+              });
+            },
+            child: Column(children: <Widget>[
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Icon(
-                    icon,
-                    color: Colors.black,
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        icon,
+                        color: Colors.black,
+                      ),
+                      const SizedBox(width: 20),
+                      Text(
+                        description,
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 20),
-                  Text(
-                    description,
-                    style: const TextStyle(color: Colors.black),
-                  ),
+                  const Icon(Icons.arrow_forward_ios_sharp, color: Colors.black)
                 ],
-              ),
-              const Icon(Icons.arrow_forward_ios_sharp, color: Colors.black)
-            ],
-          )
-        ])), true);
+              )
+            ])),
+        true);
   }
 }
