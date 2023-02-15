@@ -5,6 +5,7 @@ const { google } = require('googleapis')
 /**
  * @brief send an email with the gmail api from an area
  * @param {*} Area Area that contains the parameters
+ * @param {*} dynamicParameters the dynamic parameters to replace in the email
  * @returns the response from the gmail api
  */
 async function gmailSendEmailFromArea (Area, dynamicParameters) {

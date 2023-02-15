@@ -6,6 +6,7 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 /**
  * @brief Send a private message to a user from an area
  * @param {*} Area Area that contains the parameters
+ * @param {*} dynamicParameters Dynamic parameters that will be replaced in the message
  * @returns True if the message has been sent, false otherwise
  */
 function discordSendPrivateMessageFromArea (Area, dynamicParameters) {

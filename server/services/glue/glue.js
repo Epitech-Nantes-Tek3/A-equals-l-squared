@@ -9,7 +9,7 @@ const {
   discordSendPrivateMessageFromArea
 } = require('../discord/reactions/send_private_message.js')
 const {
-  discordchangeActivityFromArea
+  discordChangeActivityFromArea
 } = require('../discord/reactions/change_activity.js')
 
 /**
@@ -104,7 +104,7 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
         discordSendMessageChannelFromArea(area, dynamicParameters),
       'DSC-02': () =>
         discordSendPrivateMessageFromArea(area, dynamicParameters),
-      'DSC-03': () => discordchangeActivityFromArea(area, dynamicParameters)
+      'DSC-03': () => discordChangeActivityFromArea(area, dynamicParameters)
     }
     if (!area.isEnable || !area.Reaction.isEnable) {
       return

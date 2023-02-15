@@ -6,9 +6,10 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 /**
  * @brief Change the activity of the bot from an area
  * @param {*} Area Area that contains the parameters
+ * @param {*} dynamicParameters Dynamic parameters
  * @returns True if the message has been sent, false otherwise
  */
-function discordchangeActivityFromArea (Area, dynamicParameters) {
+function discordChangeActivityFromArea (Area, dynamicParameters) {
   const reactionParameters = Area.ReactionParameters
   let activity = reactionParameters.find(
     parameter => parameter.Parameter.name == 'activity'
@@ -33,4 +34,4 @@ function changeActivity (string) {
     })
 }
 
-module.exports = { discordchangeActivityFromArea, changeActivity }
+module.exports = { discordChangeActivityFromArea, changeActivity }
