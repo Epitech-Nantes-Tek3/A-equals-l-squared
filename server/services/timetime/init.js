@@ -74,6 +74,14 @@ const createTimeTimeService = async () => {
                     isRequired: false
                   }
                 ]
+              },
+              DynamicParameters: {
+                create: [
+                  {
+                    name: 'CURRENT_DATE',
+                    description: 'The current date'
+                  }
+                ]
               }
             },
             {
@@ -92,6 +100,18 @@ const createTimeTimeService = async () => {
                     name: 'occurence',
                     description: 'How many time you wanted to repeat it ?',
                     isRequired: true
+                  }
+                ]
+              },
+              DynamicParameters: {
+                create: [
+                  {
+                    name: 'CURRENT_DATE',
+                    description: 'The current date'
+                  },
+                  {
+                    name: 'REMAINING_OCCURENCE',
+                    description: 'Number of remaining occurence'
                   }
                 ]
               }

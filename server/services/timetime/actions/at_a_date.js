@@ -106,7 +106,10 @@ function setATimeTimeAtADate (area) {
       if (currentJob != null) currentJob.occurence -= 1
       if (currentJob != null && currentJob.occurence <= 0)
         destroyATimeTimeAtADate(area)
-      AreaGlue('TMT-01', parametersList)
+      const dynamicParameters = [
+        {name: 'CURRENT_DATE', value: new Date().toString()}
+      ]
+      AreaGlue('TMT-01', parametersList, dynamicParameters)
     }.bind(null, area, parametersList)
   )
   TimeTimeJobList.push({ areaId: area.id, jobObject: job, occurence: 1 })
