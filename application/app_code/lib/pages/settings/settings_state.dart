@@ -160,24 +160,30 @@ class SettingsPageState extends State<SettingsPage> {
   /// This function display buttons to modified an user account
   Widget modifierButtons() {
     return Column(children: <Widget>[
-      materialElevatedButtonArea(ElevatedButton(
-        key: const Key('AskUpdateButton'),
-        onPressed: () {
-          setState(() {
-            _futureAnswer = apiAskForUpdate();
-          });
-        },
-        child: const Text('Update account information'),
-      ), false, primaryColor: getOurBlueAreaColor(100)),
-      materialElevatedButtonArea(ElevatedButton(
-        key: const Key('AskDeleteButton'),
-        onPressed: () {
-          setState(() {
-            _futureAnswer = apiAskForDelete();
-          });
-        },
-        child: const Text('Delete account'),
-      ), false, primaryColor: getOurBlueAreaColor(100)),
+      materialElevatedButtonArea(
+          ElevatedButton(
+            key: const Key('AskUpdateButton'),
+            onPressed: () {
+              setState(() {
+                _futureAnswer = apiAskForUpdate();
+              });
+            },
+            child: const Text('Update account information'),
+          ),
+          false,
+          primaryColor: getOurBlueAreaColor(100)),
+      materialElevatedButtonArea(
+          ElevatedButton(
+            key: const Key('AskDeleteButton'),
+            onPressed: () {
+              setState(() {
+                _futureAnswer = apiAskForDelete();
+              });
+            },
+            child: const Text('Delete account'),
+          ),
+          false,
+          primaryColor: getOurBlueAreaColor(100)),
     ]);
   }
 

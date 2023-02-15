@@ -30,14 +30,19 @@ class HomePageState extends State<HomePage> {
       String str =
           temp.getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
       Color tempColor = Color(int.parse(str));
-      areaVis.add(materialElevatedButtonArea(ElevatedButton(
-          style: ElevatedButton.styleFrom(
-          ),
-          onPressed: () {
-            updatingArea = temp;
-            goToUpdateAreaPage(context);
-          },
-          child: temp.display(false, null)), true , borderColor: tempColor, borderWith: 3, paddingVertical: 30, paddingHorizontal: 30));
+      areaVis.add(materialElevatedButtonArea(
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(),
+              onPressed: () {
+                updatingArea = temp;
+                goToUpdateAreaPage(context);
+              },
+              child: temp.display(false, null)),
+          true,
+          borderColor: tempColor,
+          borderWith: 3,
+          paddingVertical: 30,
+          paddingHorizontal: 30));
       areaVis.add(const SizedBox(height: 20));
     }
     return areaVis;
@@ -102,16 +107,18 @@ class HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: areasDisplay(),
                   ),
-
-                  materialElevatedButtonArea(ElevatedButton(
-                    key: const Key('HomeServiceButton'),
-                    onPressed: () {
-                      setState(() {
-                        goToServiceListPage(context);
-                      });
-                    },
-                    child: const Text('Service List'),
-                  ), false, primaryColor: getOurBlueAreaColor(100)),
+                  materialElevatedButtonArea(
+                      ElevatedButton(
+                        key: const Key('HomeServiceButton'),
+                        onPressed: () {
+                          setState(() {
+                            goToServiceListPage(context);
+                          });
+                        },
+                        child: const Text('Service List'),
+                      ),
+                      false,
+                      primaryColor: getOurBlueAreaColor(100)),
                 ],
               ),
             ),
