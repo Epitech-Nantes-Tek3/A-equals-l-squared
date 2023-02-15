@@ -81,7 +81,7 @@ class ParameterData {
     this.previous = previous;
     for (var tempParam in params) {
       if (tempParam.paramId == id) {
-        matchedContent ??= tempParam;
+        matchedContent = tempParam;
         break;
       }
     }
@@ -102,7 +102,14 @@ class ParameterData {
       if (matchedContent!.value == "") {
         matchedContent!.value = "Click To Update";
       } else if (!tempProposal.contains(matchedContent!.value)) {
-        tempProposal.add(matchedContent!.value);
+        if (getterValue != null &&
+            getterValue!.containsValue(matchedContent!.value)) {
+          matchedContent!.value = getterValue!.keys.firstWhere(
+              (k) => getterValue![k] == matchedContent!.value,
+              orElse: () => matchedContent!.value);
+        } else {
+          tempProposal.add(matchedContent!.value);
+        }
       }
     }
 
