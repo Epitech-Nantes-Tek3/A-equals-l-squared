@@ -25,12 +25,12 @@ Color getOurGreenAreaColor(double opacity) {
 /// This function create a new ElevatedButton with the content of buttonContent (only this param is needed)
 /// This function can take many parameter to modified the style of the ElevatedButton
 Widget elevatedButtonArea(ElevatedButton buttonContent, bool isShadowNeeded,
-    {primaryColor = Colors.white,
-    double borderRadius = 0,
-    borderColor = Colors.white,
+    {borderColor = Colors.white,
+    primaryColor = Colors.white,
+    double borderRadius = 30,
     double borderWith = 0,
-    double paddingVertical = 0,
-    double paddingHorizontal = 0}) {
+    double paddingVertical = 20,
+    double paddingHorizontal = 20}) {
   ElevatedButton newButton = ElevatedButton(
       onPressed: buttonContent.onPressed,
       style: ElevatedButton.styleFrom(
@@ -39,7 +39,9 @@ Widget elevatedButtonArea(ElevatedButton buttonContent, bool isShadowNeeded,
               vertical: paddingVertical, horizontal: paddingHorizontal),
           side: BorderSide(color: borderColor, width: borderWith),
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius))),
+              borderRadius: BorderRadius.circular(borderRadius)),
+          shadowColor: isShadowNeeded ? Colors.black : Colors.transparent,
+          elevation: isShadowNeeded ? 5 : 0),
       child: buttonContent.child);
   if (isShadowNeeded) {
     return materialShadowForArea(newButton);
