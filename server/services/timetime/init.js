@@ -42,7 +42,7 @@ const createTimeTimeService = async () => {
         description: 'Time scheduler service',
         primaryColor: '#BCBCBC',
         secondaryColor: '#FFFFFF',
-        icon: '',
+        icon: 'assets/icons/timetime.png',
         isEnable: true,
         Actions: {
           create: [
