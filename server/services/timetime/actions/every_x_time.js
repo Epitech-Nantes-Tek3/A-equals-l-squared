@@ -2,7 +2,10 @@
 
 const { AreaGlue } = require('../../glue/glue.js')
 const schedule = require('node-schedule')
-const { getATimeTimeJobById } = require('./at_a_date.js')
+const {
+  getATimeTimeJobById,
+  getParameterValueByName
+} = require('./at_a_date.js')
 
 /**
  * Parse all parameters and return the date rule
@@ -21,34 +24,34 @@ function createFrequencyRule (parameters) {
  * @returns true if the operation succeed, false otherwise
  */
 function setATimeTimeAtX (area) {
-  const rule = createFrequencyRule(area.ActionParameters)
+  const parametersList = [
+    {
+      name: 'every',
+      value: getParameterValueByName(area.ActionParameters, 'every'),
+      valid: false
+    },
+    {
+      name: 'occurence',
+      value: getParameterValueByName(area.ActionParameters, 'occurence'),
+      valid: false
+    }
+  ]
+  const rule = createFrequencyRule(parametersList)
   if (rule == null) return false
   const job = schedule.scheduleJob(
     rule,
-    function (area) {
+    function (area, parametersList) {
       var currentJob = getATimeTimeJobById(area.id)
       if (currentJob != null) currentJob.occurence -= 1
       if (currentJob != null && currentJob.occurence <= 0)
         destroyATimeTimeAtX(area)
-      const parametersList = [
-        {
-          name: 'every',
-          value: area.ActionParameters[0].value,
-          valid: false
-        },
-        {
-          name: 'occurence',
-          value: area.ActionParameters[1].value,
-          valid: false
-        }
-      ]
       AreaGlue('TMT-02', parametersList)
-    }.bind(null, area)
+    }.bind(null, area, parametersList)
   )
   TimeTimeJobList.push({
     areaId: area.id,
     jobObject: job,
-    occurence: parseInt(area.ActionParameters[1].value)
+    occurence: parseInt(parametersList[1].value)
   })
   return true
 }

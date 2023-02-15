@@ -58,7 +58,6 @@ function parseAreaParameterToGetDate (paramsList) {
 function getParameterValueByName (paramsList, name) {
   let found = ''
   paramsList.forEach(actionParameter => {
-    console.log('Search : ', actionParameter.Parameter.name, ' got : ', name)
     if (actionParameter.Parameter.name == name) found = actionParameter.value
   })
   return found
@@ -92,7 +91,6 @@ function setATimeTimeAtADate (area) {
       valid: false
     }
   ]
-  console.log(parametersList)
   const rule = parseAreaParameterToGetDate(parametersList)
   if (rule == null) return false
   const job = schedule.scheduleJob(
@@ -125,5 +123,6 @@ function destroyATimeTimeAtADate (area) {
 module.exports = {
   setATimeTimeAtADate,
   destroyATimeTimeAtADate,
-  getATimeTimeJobById
+  getATimeTimeJobById,
+  getParameterValueByName
 }
