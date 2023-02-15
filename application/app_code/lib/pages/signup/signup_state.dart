@@ -88,8 +88,8 @@ class SignupPageState extends State<SignupPage> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 22),
                         ),
-                        (getHostConfigField()),
-                        (TextFormField(
+                        getHostConfigField(),
+                        TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'Username',
@@ -102,8 +102,8 @@ class SignupPageState extends State<SignupPage> {
                             _username = value;
                             return null;
                           },
-                        )),
-                        (TextFormField(
+                        ),
+                        TextFormField(
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'E-mail',
@@ -118,8 +118,8 @@ class SignupPageState extends State<SignupPage> {
                             _email = value;
                             return null;
                           },
-                        )),
-                        (TextFormField(
+                        ),
+                        TextFormField(
                           obscureText: true,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -133,7 +133,7 @@ class SignupPageState extends State<SignupPage> {
                             _password = value;
                             return null;
                           },
-                        )),
+                        ),
                         FutureBuilder<String>(
                           future: _futureSignup,
                           builder: (context, snapshot) {
