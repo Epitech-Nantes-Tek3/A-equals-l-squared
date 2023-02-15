@@ -36,19 +36,19 @@ class AreaData {
   /// Utility function used for cloning the class
   AreaData.clone(AreaData oldArea)
       : this(
-      id: oldArea.id,
-      name: oldArea.name,
-      userId: oldArea.userId,
-      actionId: oldArea.actionId,
-      reactionId: oldArea.reactionId,
-      isEnable: oldArea.isEnable,
-      actionParameters: oldArea.actionParameters
-          .map((v) => ParameterContent.clone(v))
-          .toList(),
-      reactionParameters: oldArea.reactionParameters
-          .map((v) => ParameterContent.clone(v))
-          .toList(),
-      description: oldArea.description);
+            id: oldArea.id,
+            name: oldArea.name,
+            userId: oldArea.userId,
+            actionId: oldArea.actionId,
+            reactionId: oldArea.reactionId,
+            isEnable: oldArea.isEnable,
+            actionParameters: oldArea.actionParameters
+                .map((v) => ParameterContent.clone(v))
+                .toList(),
+            reactionParameters: oldArea.reactionParameters
+                .map((v) => ParameterContent.clone(v))
+                .toList(),
+            description: oldArea.description);
 
   /// Convert a json map into the class
   factory AreaData.fromJson(Map<String, dynamic> json) {
@@ -67,7 +67,7 @@ class AreaData {
         actionId: json['actionId'],
         reactionId: json['reactionId'],
         isEnable: json['isEnable'],
-        description: 'It\'s a description',
+        description: json['description'],
         actionParameters: actionParameters,
         reactionParameters: reactionParameters);
   }
@@ -81,8 +81,8 @@ class AreaData {
 
   /// Get the secondary color of hit first service
   Color getSecondaryColor() {
-    String str = getAssociatedService()!.secondaryColor.replaceFirst(
-        "#", "0xff");
+    String str =
+        getAssociatedService()!.secondaryColor.replaceFirst("#", "0xff");
     Color tempColor = Color(int.parse(str));
     return tempColor;
   }
@@ -103,14 +103,10 @@ class AreaData {
   Widget? getServiceIcon() {
     ServiceData? serviceData = getAssociatedService();
     if (serviceData != null) {
-      return Column(
-        children: <Widget>[
-          Image.asset(
-            serviceData.icon,
-            height: 50,
-            width: 50,
-          )
-        ],
+      return Image.asset(
+        serviceData.icon,
+        height: 30,
+        width: 30,
       );
     }
     return null;
@@ -219,6 +215,32 @@ class AreaData {
     );
   }
 
+  /// This function display an Area preview with the logo, the name and the description
+  Widget displayAreaPreview() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            getServiceIcon()!,
+            Text(
+              name,
+              style: const TextStyle(color: Colors.black),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        Text(
+          'Description : \n\n $description',
+          style: const TextStyle(color: Colors.black),
+        )
+
+        /// Put Description when it's in DB
+      ],
+    );
+  }
+
   /// Get a visual representation of an Area
   /// mode -> true = complete representation, false = only area preview
   /// update -> Function pointer used for update the state
@@ -287,28 +309,7 @@ class AreaData {
       ));
     } else {
       try {
-        listDisplay.add(Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  name,
-                  style: const TextStyle(color: Colors.black),
-                ),
-                getServiceIcon()!,
-              ],
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Description : \n\n $description',
-              style: const TextStyle(color: Colors.black),
-            )
-
-            /// Put Description when it's in DB
-          ],
-        ));
+        listDisplay.add(displayAreaPreview());
       } catch (err) {
         listDisplay.add(const Text("Please logout and login."));
       }
