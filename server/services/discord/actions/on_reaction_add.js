@@ -23,7 +23,18 @@ client.on('messageReactionAdd', (reaction, user) => {
       }
     ]
 
-    AreaGlue('DSC-04', parametersList)
+    const dynamicParameters = [
+      { name: 'REACTION', value: reaction.emoji.name},
+      { name: 'MESSAGE_ID', value: reaction.message.id},
+      { name: 'USER_ID', value: user.id},
+      { name: "USER_NAME", value: user.username},
+      { name: "CHANNEL_ID", value: reaction.message.channel.id},
+      { name: "CHANNEL_NAME", value: reaction.message.channel.name},
+      { name: "GUILD_ID", value: reaction.message.channel.guild.id},
+      { name: "GUILD_NAME", value: reaction.message.channel.guild.name}
+    ]
+
+    AreaGlue('DSC-04', parametersList, dynamicParameters)
   } catch (error) {
     console.error(error)
   }

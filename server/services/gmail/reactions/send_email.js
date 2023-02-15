@@ -1,26 +1,34 @@
 const gmail = require('../gmail_init').getGmailClient()
+const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 const { google } = require('googleapis')
 
 /**
  * @brief send an email with the gmail api from an area
  * @param {*} Area Area that contains the parameters
+ * @param {*} dynamicParameters the dynamic parameters to replace in the email
  * @returns the response from the gmail api
  */
-async function gmailSendEmailFromArea (Area) {
+async function gmailSendEmailFromArea (Area, dynamicParameters) {
   try {
     const reactionParameters = Area.ReactionParameters
-    const from = reactionParameters.find(
+    let from = reactionParameters.find(
       parameter => parameter.Parameter.name == 'from'
     ).value
-    const to = reactionParameters.find(
+    let to = reactionParameters.find(
       parameter => parameter.Parameter.name == 'to'
     ).value
-    const subject = reactionParameters.find(
+    to = replaceDynamicParameters(to, dynamicParameters)
+
+    let subject = reactionParameters.find(
       parameter => parameter.Parameter.name == 'subject'
     ).value
-    const body = reactionParameters.find(
+    subject = replaceDynamicParameters(subject, dynamicParameters)
+
+    let body = reactionParameters.find(
       parameter => parameter.Parameter.name == 'body'
     ).value
+    body = replaceDynamicParameters(body, dynamicParameters)
+
     return await sendEmail(from, to, subject, body)
   } catch (error) {
     console.log('Error while sending email from area : ', error)

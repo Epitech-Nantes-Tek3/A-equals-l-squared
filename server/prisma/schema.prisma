@@ -17,7 +17,7 @@ datasource db {
 
 model User {
   id                       String                     @id @unique @default(cuid())
-  username                 String                     @unique
+  username                 String
   email                    String                     @unique
   password                 String
   isAdmin                  Boolean                    @default(false)
@@ -51,10 +51,11 @@ model Action {
   description              String?
   isEnable                 Boolean                    @default(false)
   createdAt                DateTime                   @default(now())
-  Service                  Service?                   @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  serviceId                String?
-  Parameters               Parameter[]
+  Service                  Service                    @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  serviceId                String
+  DynamicParameters        DynamicParameter[]
   UsersHasActionsReactions UsersHasActionsReactions[]
+  Parameters               Parameter[]
 }
 
 model Reaction {
@@ -64,8 +65,8 @@ model Reaction {
   description              String?
   isEnable                 Boolean                    @default(false)
   createdAt                DateTime                   @default(now())
-  Service                  Service?                   @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  serviceId                String?
+  Service                  Service                    @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  serviceId                String
   Parameters               Parameter[]
   UsersHasActionsReactions UsersHasActionsReactions[]
 }
@@ -84,22 +85,30 @@ model Parameter {
   ReactionParameters ReactionParameter[]
 }
 
+model DynamicParameter {
+  id          String  @id @unique @default(cuid())
+  name        String
+  description String?
+  Action      Action  @relation(fields: [actionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  actionId    String
+}
+
 model ActionParameter {
   id                         String                    @id @unique @default(cuid())
   value                      String                    @db.VarChar(1000)
-  Parameter                  Parameter?                @relation(fields: [parameterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  parameterId                String?
+  Parameter                  Parameter                 @relation(fields: [parameterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  parameterId                String
   UsersHasActionsReactions   UsersHasActionsReactions? @relation(fields: [usersHasActionsReactionsId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  usersHasActionsReactionsId String?
+  usersHasActionsReactionsId String
 }
 
 model ReactionParameter {
   id                         String                    @id @unique @default(cuid())
   value                      String                    @db.VarChar(1000)
-  Parameter                  Parameter?                @relation(fields: [parameterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  parameterId                String?
+  Parameter                  Parameter                 @relation(fields: [parameterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  parameterId                String
   UsersHasActionsReactions   UsersHasActionsReactions? @relation(fields: [usersHasActionsReactionsId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  usersHasActionsReactionsId String?
+  usersHasActionsReactionsId String
 }
 
 model UsersHasActionsReactions {
@@ -111,9 +120,9 @@ model UsersHasActionsReactions {
   isEnable           Boolean             @default(true)
   createdAt          DateTime            @default(now())
   description        String?
-  userId             String?
-  actionId           String?
-  reactionId         String?
+  userId             String
+  actionId           String
+  reactionId         String
   ActionParameters   ActionParameter[]
   ReactionParameters ReactionParameter[]
 }
