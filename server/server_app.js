@@ -518,7 +518,11 @@ app.get(
           userId: req.user.id
         },
         include: {
-          ActionParameters: true,
+          ActionParameters: {
+            include: {
+              Parameter: true
+            }
+          },
           ReactionParameters: true
         },
         orderBy: {
@@ -556,7 +560,11 @@ app.post(
           select: {
             id: true,
             User: true,
-            ActionParameters: true,
+            ActionParameters: {
+              include: {
+                Parameter: true
+              }
+            },
             Action: true
           }
         }
@@ -599,7 +607,11 @@ app.post(
           },
           include: {
             Action: true,
-            ActionParameters: true,
+            ActionParameters: {
+              include: {
+                Parameter: true
+              }
+            },
             ReactionParameters: true
           }
         }
@@ -645,7 +657,11 @@ app.post(
           select: {
             id: true,
             User: true,
-            ActionParameters: true,
+            ActionParameters: {
+              include: {
+                Parameter: true
+              }
+            },
             Action: true
           }
         })
@@ -1011,7 +1027,11 @@ app.post(
           select: {
             id: true,
             User: true,
-            ActionParameters: true,
+            ActionParameters: {
+              include: {
+                Parameter: true
+              }
+            },
             Action: true
           }
         })

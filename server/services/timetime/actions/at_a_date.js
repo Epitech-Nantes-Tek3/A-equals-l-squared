@@ -30,6 +30,7 @@ function parseAreaParameterToGetDate (paramsList) {
     const hour = paramsList[1].value != '' ? paramsList[1].value : '0'
     const min = paramsList[2].value != '' ? paramsList[2].value : '0'
     const sec = paramsList[3].value != '' ? paramsList[3].value : '0'
+    console.log(year + month + day + hour + min + sec)
     if (isNaN(parseInt(year)) || isNaN(parseInt(month)) || isNaN(parseInt(day)))
       return null
     if (
@@ -55,10 +56,12 @@ function parseAreaParameterToGetDate (paramsList) {
 }
 
 function getParameterValueByName (paramsList, name) {
+  let found = ''
   paramsList.forEach(actionParameter => {
-    if (actionParameter.Parameter.name == name) return actionParameter.value
+    console.log('Search : ', actionParameter.Parameter.name, ' got : ', name)
+    if (actionParameter.Parameter.name == name) found = actionParameter.value
   })
-  return ''
+  return found
 }
 
 /**
@@ -89,6 +92,7 @@ function setATimeTimeAtADate (area) {
       valid: false
     }
   ]
+  console.log(parametersList)
   const rule = parseAreaParameterToGetDate(parametersList)
   if (rule == null) return false
   const job = schedule.scheduleJob(
