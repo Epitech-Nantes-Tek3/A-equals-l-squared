@@ -37,7 +37,7 @@ class HomePageState extends State<HomePage> {
             updatingArea = temp;
             goToUpdateAreaPage(context);
           },
-          child: temp.display(false, null)), false , borderColor: tempColor, borderWith: 3, paddingVertical: 30, paddingHorizontal: 30));
+          child: temp.display(false, null)), true , borderColor: tempColor, borderWith: 3, paddingVertical: 30, paddingHorizontal: 30));
       areaVis.add(const SizedBox(height: 20));
     }
     return areaVis;
@@ -111,7 +111,7 @@ class HomePageState extends State<HomePage> {
                       });
                     },
                     child: const Text('Service List'),
-                  ), true, primaryColor: getOurBlueAreaColor(100)),
+                  ), false, primaryColor: getOurBlueAreaColor(100)),
                 ],
               ),
             ),
