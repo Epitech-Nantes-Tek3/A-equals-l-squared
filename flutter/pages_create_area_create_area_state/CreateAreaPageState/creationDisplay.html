@@ -107,19 +107,18 @@
         },
       ),
     );
-    if (_name == &quot;&quot;) {
-      createdArea = AreaData(
-          id: &quot;&quot;,
-          name: _name,
-          userId: &quot;&quot;,
-          actionId: createdAreaContent[0].actions[0].id,
-          reactionId: createdAreaContent[1].reactions[0].id,
-          isEnable: true,
-          actionParameters:
-              createdAreaContent[0].actions[0].getAllParameterContent(),
-          reactionParameters:
-              createdAreaContent[1].reactions[0].getAllParameterContent());
-    }
+    createdArea = AreaData(
+        id: &quot;&quot;,
+        name: _name,
+        userId: &quot;&quot;,
+        actionId: createdAreaContent[0].actions[0].id,
+        reactionId: createdAreaContent[1].reactions[0].id,
+        isEnable: true,
+        actionParameters:
+            createdAreaContent[0].actions[0].getAllParameterContent(),
+        reactionParameters:
+            createdAreaContent[1].reactions[0].getAllParameterContent());
+
     createVis.add(const SizedBox(
       height: 10,
     ));

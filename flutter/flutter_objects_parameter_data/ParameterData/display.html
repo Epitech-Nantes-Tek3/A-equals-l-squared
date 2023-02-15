@@ -82,7 +82,7 @@ previous -&gt; Previous displayed parameter</p>
   this.previous = previous;
   for (var tempParam in params) {
     if (tempParam.paramId == id) {
-      matchedContent ??= tempParam;
+      matchedContent = tempParam;
       break;
     }
   }
@@ -94,16 +94,23 @@ previous -&gt; Previous displayed parameter</p>
       needToUpdate = false;
       update(this);
     }
-    tempProposal = &lt;String&gt;[&quot;No value&quot;];
+    tempProposal = &lt;String&gt;[&quot;Click To Update&quot;];
     if (getterValue != null) {
       for (var temp in getterValue!.keys) {
         tempProposal.add(temp);
       }
     }
     if (matchedContent!.value == &quot;&quot;) {
-      matchedContent!.value = &quot;No value&quot;;
+      matchedContent!.value = &quot;Click To Update&quot;;
     } else if (!tempProposal.contains(matchedContent!.value)) {
-      tempProposal.add(matchedContent!.value);
+      if (getterValue != null &amp;&amp;
+          getterValue!.containsValue(matchedContent!.value)) {
+        matchedContent!.value = getterValue!.keys.firstWhere(
+            (k) =&gt; getterValue![k] == matchedContent!.value,
+            orElse: () =&gt; matchedContent!.value);
+      } else {
+        tempProposal.add(matchedContent!.value);
+      }
     }
   }
 

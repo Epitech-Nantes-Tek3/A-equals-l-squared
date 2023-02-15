@@ -78,10 +78,21 @@ Is no getterUrl is set, the function is not run</p>
     return;
   }
   String idValue = &#39;&#39;;
+  if (previous != null) {
+    if (previous!.getterValue == null) {
+      needToUpdate = true;
+      return;
+    }
+  }
+
   if (previous != null &amp;&amp;
       previous!.matchedContent != null &amp;&amp;
       previous!.getterValue != null) {
     idValue = previous!.getterValue![previous!.matchedContent!.value]!;
+    if (idValue == &quot;Click To Update&quot;) {
+      needToUpdate = true;
+      return;
+    }
   }
   final response = await http.get(
     Uri.parse(&#39;http:&#47;&#47;$serverIp:8080$getterUrl?id=$idValue&#39;),

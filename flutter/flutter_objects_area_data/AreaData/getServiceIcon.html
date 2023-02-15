@@ -78,7 +78,9 @@
     return Column(
       children: &lt;Widget&gt;[
         Image.asset(
-          serviceData.icon,
+          serviceData.icon != &#39;&#39;
+              ? serviceData.icon
+              : &#39;assets&#47;icons&#47;Area_Logo.png&#39;,
           height: 50,
           width: 50,
         )
