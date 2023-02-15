@@ -15,6 +15,7 @@ const utils = require('./utils')
 const gmail = require('./services/gmail/reactions/send_email')
 const jwt = require('jwt-simple')
 const { hash } = require('./utils')
+const axios = require('axios')
 require('dotenv').config({ path: '../database.env' })
 
 const onMessage = require('./services/discord/actions/on_message')
@@ -462,6 +463,43 @@ app.post(
     } catch (err) {
       console.log(err)
       return res.status(400).send('Token manager temporarily desactivated.')
+    }
+  }
+)
+
+/**
+ * Route used for Create/Update auth token
+ * If no token storage is already linked with the user, a new one is created
+ * body.google The Google auth token (Set to '' to remove it)
+ * body.discord The Discord auth token (Set to '' to remove it)
+ * Route protected by a JWT token
+ */
+app.post(
+  '/api/code/deezer',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid code')
+    try {
+      const ret = await axios.post(
+        'https://connect.deezer.com/oauth/access_token.php?app_id=' +
+          req.body.app_id +
+          '&secret=' +
+          req.body.secret +
+          '&code=' +
+          req.body.code
+      )
+      const arr = ret.data.split('=')
+      const accessToken = arr[1].split('&')[0]
+
+      console.log(accessToken)
+      return res.status(200).json({
+        status: 'success',
+        data: { access_token: accessToken },
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('Code generation has failed.')
     }
   }
 )
