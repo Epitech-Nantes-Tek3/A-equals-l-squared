@@ -637,9 +637,12 @@ app.post(
         return res.status(400).send('Please give a non existent area name.')
       if (TriggerDestroyMap[oldArea.Action.code])
         await TriggerDestroyMap[oldArea.Action.code](oldArea)
+
+      const ActionParameters = []
+
       req.body.actionParameters.forEach(async param => {
         oldArea.ActionParameters.forEach(async actionParam => {
-          if (actionParam.parameterId == param.paramId)
+          if (actionParam.parameterId == param.paramId) {
             await database.prisma.ActionParameter.update({
               where: {
                 id: actionParam.id
@@ -648,11 +651,16 @@ app.post(
                 value: param.value
               }
             })
+            ActionParameters.push({ id: actionParam.id })
+          }
         })
       })
+
+      const ReactionParameters = []
+
       req.body.reactionParameters.forEach(async param => {
         oldArea.ReactionParameters.forEach(async reactionParam => {
-          if (reactionParam.parameterId == param.paramId)
+          if (reactionParam.parameterId == param.paramId) {
             await database.prisma.ReactionParameter.update({
               where: {
                 id: reactionParam.id
@@ -661,6 +669,8 @@ app.post(
                 value: param.value
               }
             })
+            ReactionParameters.push({ id: reactionParam.id })
+          }
         })
       })
       const areaCreation =
@@ -671,7 +681,9 @@ app.post(
             isEnable: req.body.isEnable,
             description: req.body.description,
             Action: { connect: { id: req.body.actionId } },
-            Reaction: { connect: { id: req.body.reactionId } }
+            Reaction: { connect: { id: req.body.reactionId } },
+            ActionParameters: { connect: ActionParameters },
+            ReactionParameters: { connect: ReactionParameters }
           },
           select: {
             id: true,
