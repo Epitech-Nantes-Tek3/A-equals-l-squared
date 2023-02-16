@@ -12,7 +12,7 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
  */
 async function reaaaaaaaChangeAreaStatus (Area, dynamicParameters) {
   try {
-    const reactionParameters = Area.reactionParameters
+    const reactionParameters = Area.ReactionParameters
     let changingAreaId = reactionParameters.find(
       parameter => parameter.Parameter.name == 'areaId'
     ).value
@@ -21,12 +21,24 @@ async function reaaaaaaaChangeAreaStatus (Area, dynamicParameters) {
     ).value
     changingAreaId = replaceDynamicParameters(changingAreaId, dynamicParameters)
     newStatus = replaceDynamicParameters(newStatus, dynamicParameters)
-    await database.prisma.UsersHasActionsReactions.update({
+    const changingArea = await database.prisma.UsersHasActionsReactions.update({
       where: { id: changingAreaId },
       data: {
         isEnable: newStatus == 'True' ? true : false
+      },
+      select: {
+        id: true,
+        User: true,
+        ActionParameters: {
+          include: {
+            Parameter: true
+          }
+        },
+        Action: true
       }
     })
+    if (TriggerInitMap[changingArea.Action.code])
+      TriggerInitMap[changingArea.Action.code](changingArea)
     return true
   } catch (err) {
     console.log(err)

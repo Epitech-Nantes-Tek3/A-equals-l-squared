@@ -812,8 +812,7 @@ app.get(
   async (req, res) => {
     const area = []
     const areas = await database.prisma.UsersHasActionsReactions.findMany({
-      where: { userId: req.user.id },
-      include: { id: true, name: true }
+      where: { userId: req.user.id }
     })
     areas.forEach(areaContent => {
       area.push({
