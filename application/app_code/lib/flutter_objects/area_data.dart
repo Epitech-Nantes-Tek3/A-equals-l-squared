@@ -35,19 +35,19 @@ class AreaData {
   /// Utility function used for cloning the class
   AreaData.clone(AreaData oldArea)
       : this(
-            id: oldArea.id,
-            name: oldArea.name,
-            userId: oldArea.userId,
-            actionId: oldArea.actionId,
-            reactionId: oldArea.reactionId,
-            isEnable: oldArea.isEnable,
-            actionParameters: oldArea.actionParameters
-                .map((v) => ParameterContent.clone(v))
-                .toList(),
-            reactionParameters: oldArea.reactionParameters
-                .map((v) => ParameterContent.clone(v))
-                .toList(),
-            description: oldArea.description);
+      id: oldArea.id,
+      name: oldArea.name,
+      userId: oldArea.userId,
+      actionId: oldArea.actionId,
+      reactionId: oldArea.reactionId,
+      isEnable: oldArea.isEnable,
+      actionParameters: oldArea.actionParameters
+          .map((v) => ParameterContent.clone(v))
+          .toList(),
+      reactionParameters: oldArea.reactionParameters
+          .map((v) => ParameterContent.clone(v))
+          .toList(),
+      description: oldArea.description);
 
   /// Convert a json map into the class
   factory AreaData.fromJson(Map<String, dynamic> json) {
@@ -81,7 +81,7 @@ class AreaData {
   /// Get the secondary color of hit first service
   Color getSecondaryColor() {
     String str =
-        getAssociatedService()!.secondaryColor.replaceFirst("#", "0xff");
+    getAssociatedService()!.secondaryColor.replaceFirst("#", "0xff");
     Color tempColor = Color(int.parse(str));
     return tempColor;
   }
@@ -102,14 +102,14 @@ class AreaData {
   Widget? getServiceIcon() {
     ServiceData? serviceData = getAssociatedService();
     if (serviceData != null) {
-      return 
-          Image.asset(
-            serviceData.icon != ''
-                ? serviceData.icon
-                : 'assets/icons/Area_Logo.png',
-            height: 30,
-            width: 30,
-          ),
+      return
+        Image.asset(
+          serviceData.icon != ''
+              ? serviceData.icon
+              : 'assets/icons/Area_Logo.png',
+          height: 30,
+          width: 30,
+        )
     }
     return null;
   }
