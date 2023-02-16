@@ -1,9 +1,15 @@
 'use strict'
 
-const database = require('../../database_init')
+const database = require('../../../database_init')
 
 const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 
+/**
+ * Change the status of a specified area
+ * @param {*} Area Area that contains the parameters
+ * @param {*} dynamicParameters Dynamic parameters
+ * @returns True if the status have been updated, false otherwise
+ */
 async function reaaaaaaaChangeAreaStatus (Area, dynamicParameters) {
   try {
     const reactionParameters = Area.reactionParameters
@@ -21,6 +27,7 @@ async function reaaaaaaaChangeAreaStatus (Area, dynamicParameters) {
         isEnable: newStatus == 'True' ? true : false
       }
     })
+    return true
   } catch (err) {
     console.log(err)
     return false

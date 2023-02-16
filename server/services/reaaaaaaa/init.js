@@ -2,6 +2,9 @@
 
 const database = require('../../database_init')
 
+/**
+ * Create the Reaaaaaaa service in the Database.
+ */
 const createReaaaaaaaService = async () => {
   try {
     const rea = await database.prisma.Service.create({
