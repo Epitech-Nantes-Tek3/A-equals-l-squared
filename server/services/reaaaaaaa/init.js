@@ -50,4 +50,4 @@ const createReaaaaaaaService = async () => {
   }
 }
 
-module.exports(createReaaaaaaaService)
+module.exports = { createReaaaaaaaService }

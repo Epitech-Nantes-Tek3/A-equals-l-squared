@@ -34,4 +34,4 @@ async function reaaaaaaaChangeAreaStatus (Area, dynamicParameters) {
   }
 }
 
-module.exports(reaaaaaaaChangeAreaStatus)
+module.exports = { reaaaaaaaChangeAreaStatus }

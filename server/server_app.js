@@ -32,6 +32,7 @@ const {
   TriggerInitMap,
   TriggerDestroyMap
 } = require('./services/timetime/init')
+const { createReaaaaaaaService } = require('./services/reaaaaaaa/init')
 
 const app = express()
 
