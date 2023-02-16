@@ -24,7 +24,7 @@ async function reaaaaaaaChangeAreaStatus (Area, dynamicParameters) {
     const changingArea = await database.prisma.UsersHasActionsReactions.update({
       where: { id: changingAreaId },
       data: {
-        isEnable: newStatus == 'True' ? true : false
+        isEnable: newStatus == 'True'
       },
       select: {
         id: true,
