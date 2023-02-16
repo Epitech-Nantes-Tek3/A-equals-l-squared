@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-route.html">route</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-route.html#~test_example">test_example</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#compare">compare</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#connection">connection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#generateToken">generateToken</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#hash">hash</a></span></li>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-route.html">route</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-route.html#~checkAreaNameAlreadyExistForGivenUser">checkAreaNameAlreadyExistForGivenUser</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-route.html#~test_example">test_example</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#compare">compare</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#connection">connection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#generateToken">generateToken</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#hash">hash</a></span></li>
 </nav>
 
 <div id="main">
@@ -75,6 +75,180 @@
 
     
 
+    <h4 class="name" id="~checkAreaNameAlreadyExistForGivenUser"><span class="type-signature">(async, inner) </span>checkAreaNameAlreadyExistForGivenUser<span class="signature">(userId, newName)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Cross all the User area and check the Name validity
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_app.js.html">server_app.js</a>, <a href="server_app.js.html#line588">line 588</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>userId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>*</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                the user Id
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>newName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>*</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                the wanted name
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+
+<div class="param-desc">
+    True if the new name is valid, false otherwise
+</div>
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
     <h4 class="name" id="~test_example"><span class="type-signature">(inner) </span>test_example<span class="signature">(number)</span><span class="type-signature"></span></h4>
 
     
@@ -118,7 +292,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_app.js.html">server_app.js</a>, <a href="server_app.js.html#line59">line 59</a>
+        <a href="server_app.js.html">server_app.js</a>, <a href="server_app.js.html#line60">line 60</a>
     </li></ul></dd>
     
 
@@ -235,7 +409,7 @@
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Feb 16 2023 15:50:24 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Feb 16 2023 23:02:55 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
