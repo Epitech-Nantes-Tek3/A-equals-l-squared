@@ -1,16 +1,20 @@
 'use strict'
 
 const database = require('../../database_init')
-const { gmailSendEmailFromArea } = require('../gmail/reactions/send_email.js')
+const { gmailSendEmailFromArea } = require('../gmail/reactions/send_email')
 const {
   discordSendMessageChannelFromArea
-} = require('../discord/reactions/send_message_channel.js')
+} = require('../discord/reactions/send_message_channel')
 const {
   discordSendPrivateMessageFromArea
-} = require('../discord/reactions/send_private_message.js')
+} = require('../discord/reactions/send_private_message')
 const {
   discordChangeActivityFromArea
-} = require('../discord/reactions/change_activity.js')
+} = require('../discord/reactions/change_activity')
+
+const {
+  reaaaaaaaChangeAreaStatus
+} = require('../reaaaaaaa/reactions/change_area_status')
 
 /**
  * Get an action from its code
@@ -104,7 +108,8 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
         discordSendMessageChannelFromArea(area, dynamicParameters),
       'DSC-02': () =>
         discordSendPrivateMessageFromArea(area, dynamicParameters),
-      'DSC-03': () => discordChangeActivityFromArea(area, dynamicParameters)
+      'DSC-03': () => discordChangeActivityFromArea(area, dynamicParameters),
+      'REA-01': () => reaaaaaaaChangeAreaStatus(area, dynamicParameters)
     }
     if (!area.isEnable || !area.Reaction.isEnable) {
       return

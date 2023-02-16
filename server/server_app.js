@@ -27,6 +27,12 @@ const { createDiscordService } = require('./services/discord/init')
 const getVoiceChannels = require('./services/discord/getters/voice_channels')
 const getTextChannels = require('./services/discord/getters/text_channels')
 const getAvailableGuilds = require('./services/discord/getters/available_guilds')
+const { createTimeTimeService } = require('./services/timetime/init')
+const {
+  TriggerInitMap,
+  TriggerDestroyMap
+} = require('./services/timetime/init')
+const { createReaaaaaaaService } = require('./services/reaaaaaaa/init')
 
 const app = express()
 
@@ -509,7 +515,11 @@ app.get(
           userId: req.user.id
         },
         include: {
-          ActionParameters: true,
+          ActionParameters: {
+            include: {
+              Parameter: true
+            }
+          },
           ReactionParameters: true
         },
         orderBy: {
@@ -541,6 +551,23 @@ app.post(
   async (req, res, next) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
+      const oldArea = await database.prisma.AREA.findUnique(
+        {
+          where: { id: req.body.id },
+          select: {
+            id: true,
+            User: true,
+            ActionParameters: {
+              include: {
+                Parameter: true
+              }
+            },
+            Action: true
+          }
+        }
+      )
+      if (TriggerDestroyMap[oldArea.Action.code])
+        await TriggerDestroyMap[oldArea.Action.code](oldArea)
       await database.prisma.AREA.delete({
         where: { id: req.body.id }
       })
@@ -551,6 +578,23 @@ app.post(
     }
   }
 )
+
+/**
+ * Cross all the User area and check the Name validity
+ * @param {*} userId the user Id
+ * @param {*} newName the wanted name
+ * @returns True if the new name is valid, false otherwise
+ */
+async function checkAreaNameAlreadyExistForGivenUser (userId, newName) {
+  let integrity = true
+  const userAreas = await database.prisma.AREA.findMany({
+    where: { userId: userId }
+  })
+  userAreas.forEach(areaContent => {
+    if (areaContent.name == newName) integrity = false
+  })
+  return integrity
+}
 
 /**
  * Post function used for updating an area
@@ -570,6 +614,7 @@ app.post(
   async (req, res, next) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
+<<<<<<< HEAD
       const oldArea = await database.prisma.AREA.findUnique({
         where: {
           id: req.body.id
@@ -582,6 +627,35 @@ app.post(
       req.body.actionParameters.forEach(async param => {
         oldArea.ActionParameters.forEach(async actionParam => {
           if (actionParam.parameterId == param.paramId)
+=======
+      const oldArea = await database.prisma.AREA.findUnique(
+        {
+          where: {
+            id: req.body.id
+          },
+          include: {
+            Action: true,
+            ActionParameters: {
+              include: {
+                Parameter: true
+              }
+            },
+            ReactionParameters: true
+          }
+        }
+      )
+      if (
+        req.body.name != oldArea.name &&
+        !checkAreaNameAlreadyExistForGivenUser(req.user.id, req.body.name)
+      )
+        return res.status(400).send('Please give a non existent area name.')
+      if (TriggerDestroyMap[oldArea.Action.code])
+        await TriggerDestroyMap[oldArea.Action.code](oldArea)
+
+      for await (let param of req.body.actionParameters) {
+        for await (let actionParam of oldArea.ActionParameters) {
+          if (actionParam.parameterId == param.paramId) {
+>>>>>>> 132-create-the-service-reaaaaaaa
             await database.prisma.ActionParameter.update({
               where: {
                 id: actionParam.id
@@ -590,11 +664,13 @@ app.post(
                 value: param.value
               }
             })
-        })
-      })
-      req.body.reactionParameters.forEach(async param => {
-        oldArea.ReactionParameters.forEach(async reactionParam => {
-          if (reactionParam.parameterId == param.paramId)
+          }
+        }
+      }
+
+      for await (let param of req.body.reactionParameters) {
+        for await (let reactionParam of oldArea.ReactionParameters) {
+          if (reactionParam.parameterId == param.paramId) {
             await database.prisma.ReactionParameter.update({
               where: {
                 id: reactionParam.id
@@ -603,6 +679,7 @@ app.post(
                 value: param.value
               }
             })
+<<<<<<< HEAD
         })
       })
       await database.prisma.AREA.update({
@@ -613,8 +690,37 @@ app.post(
           description: req.body.description,
           Action: { connect: { id: req.body.actionId } },
           Reaction: { connect: { id: req.body.reactionId } }
+=======
+          }
         }
-      })
+      }
+      const areaCreation =
+        await database.prisma.AREA.update({
+          where: { id: req.body.id },
+          data: {
+            name: req.body.name,
+            isEnable: req.body.isEnable,
+            description: req.body.description,
+            Action: { connect: { id: req.body.actionId } },
+            Reaction: { connect: { id: req.body.reactionId } }
+          },
+          select: {
+            id: true,
+            isEnable: true,
+            User: true,
+            ActionParameters: {
+              include: {
+                Parameter: true
+              }
+            },
+            Action: true
+          }
+        })
+      if (areaCreation.isEnable && TriggerInitMap[areaCreation.Action.code])
+        if (!TriggerInitMap[areaCreation.Action.code](areaCreation)) {
+          return res.status(400).send('Please pass a valid parameter list !')
+>>>>>>> 132-create-the-service-reaaaaaaa
+        }
       return res.status(200).send('AREA successfully updated.')
     } catch (err) {
       console.log(err)
@@ -725,6 +831,55 @@ app.get(
     return res.status(200).json({
       status: 'success',
       data: performers,
+      statusCode: res.statusCode
+    })
+  }
+)
+
+/**
+ * @brief List available area for rea service.
+ */
+app.get(
+  '/api/services/rea/getAvailableArea',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const area = []
+    const areas = await database.prisma.AREA.findMany({
+      where: { userId: req.user.id }
+    })
+    areas.forEach(areaContent => {
+      area.push({
+        id: areaContent.id,
+        name: areaContent.name
+      })
+    })
+    return res.status(200).json({
+      status: 'success',
+      data: area,
+      statusCode: res.statusCode
+    })
+  }
+)
+
+/**
+ * @brief List available status for rea service.
+ */
+app.get(
+  '/api/services/rea/getAvailableStatus',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const status = []
+    status.push({
+      id: 'True',
+      name: 'On'
+    })
+    status.push({
+      id: 'False',
+      name: 'Off'
+    })
+    return res.status(200).json({
+      status: 'success',
+      data: status,
       statusCode: res.statusCode
     })
   }
@@ -946,6 +1101,8 @@ app.post(
   async (req, res) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
+      if (!checkAreaNameAlreadyExistForGivenUser(req.user.id, req.body.name))
+        return res.status(400).send('Please give a non existent area name.')
       const ActionParameters = []
 
       req.body.actionParameters.forEach(param => {
@@ -964,6 +1121,7 @@ app.post(
         })
       })
 
+<<<<<<< HEAD
       const areaCreation = await database.prisma.AREA.create({
         data: {
           name: req.body.name,
@@ -975,6 +1133,38 @@ app.post(
           ReactionParameters: { create: ReactionParameters }
         }
       })
+=======
+      const areaCreation =
+        await database.prisma.AREA.create({
+          data: {
+            name: req.body.name,
+            description: req.body.description,
+            User: { connect: { id: req.user.id } },
+            Action: { connect: { id: req.body.actionId } },
+            ActionParameters: { create: ActionParameters },
+            Reaction: { connect: { id: req.body.reactionId } },
+            ReactionParameters: { create: ReactionParameters }
+          },
+          select: {
+            id: true,
+            isEnable: true,
+            User: true,
+            ActionParameters: {
+              include: {
+                Parameter: true
+              }
+            },
+            Action: true
+          }
+        })
+      if (areaCreation.isEnable && TriggerInitMap[areaCreation.Action.code])
+        if (!TriggerInitMap[areaCreation.Action.code](areaCreation)) {
+          await database.prisma.AREA.delete({
+            where: { id: areaCreation.id }
+          })
+          return res.status(400).send('Please pass a valid parameter list !')
+        }
+>>>>>>> 132-create-the-service-reaaaaaaa
       return res.json(areaCreation)
     } catch (err) {
       console.log(err)
@@ -1050,6 +1240,8 @@ app.get('/api/dev/service/createAll', async (req, res) => {
   const response = []
   response.push(await createDiscordService())
   response.push(await createGmailService())
+  response.push(await createTimeTimeService())
+  response.push(await createReaaaaaaaService())
   return res.json(response)
 })
 
