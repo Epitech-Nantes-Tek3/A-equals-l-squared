@@ -480,7 +480,7 @@ app.get(
           isEnable: true
         },
         include: {
-          Actions: { include: { Parameters: true } },
+          Actions: { include: { Parameters: true, DynamicParameters: true } },
           Reactions: { include: { Parameters: true } }
         },
         orderBy: {
