@@ -32,6 +32,7 @@ const {
   TriggerInitMap,
   TriggerDestroyMap
 } = require('./services/timetime/init')
+const { createReaaaaaaaService } = require('./services/reaaaaaaa/init')
 
 const app = express()
 
@@ -56,7 +57,7 @@ const HOST = '0.0.0.0'
  * @param {*} number A basic number
  * @returns The passed number
  */
-function test_example(number) {
+function test_example (number) {
   return number
 }
 
@@ -136,11 +137,12 @@ app.post('/api/signup', (req, res, next) => {
     if (user == false) return res.json(info)
     const token = utils.generateToken(user.id)
     gmail
-      .sendEmail('aequallsquared@gmail.com',
+      .sendEmail(
+        'aequallsquared@gmail.com',
         user.email,
         'Email Verification',
         'Thank you for you registration to our service !\nPlease go to the following link to confirm your mail : http://localhost:8080/api/mail/verification?token=' +
-        token
+          token
       )
       .catch(_error => {
         return res.status(401).send('Invalid e-mail address.')
@@ -244,11 +246,12 @@ app.get(
     })
     const token = utils.generateToken(req.user.id)
     gmail
-      .sendEmail('aequallsquared@gmail.com',
+      .sendEmail(
+        'aequallsquared@gmail.com',
         req.user.email,
         'Confirm operation',
         'You asked to delete your account. Please confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
-        token
+          token
       )
       .catch(_error => {
         return res.status(401).send('Invalid e-mail address.')
@@ -275,11 +278,12 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
   })
   const token = utils.generateToken(user.id)
   gmail
-    .sendEmail('aequallsquared@gmail.com',
+    .sendEmail(
+      'aequallsquared@gmail.com',
       user.email,
       'Confirm operation',
       'You asked to regenerate your password. It will be set to : password\nPlease confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
-      token
+        token
     )
     .catch(_error => {
       return res.status(401).send('Invalid e-mail address.')
@@ -304,11 +308,12 @@ app.post(
       if (req.user.email != req.body.email) {
         const token = utils.generateToken(req.user.id)
         gmail
-          .sendEmail('aequallsquared@gmail.com',
+          .sendEmail(
+            'aequallsquared@gmail.com',
             req.body.email,
             'Email Verification',
             'You have updated your e-mail, please go to the following link to confirm your new mail address : http://localhost:8080/api/mail/verification?token=' +
-            token
+              token
           )
           .catch(_error => {
             return res.status(401).send('Invalid new e-mail address.')
@@ -575,6 +580,23 @@ app.post(
 )
 
 /**
+ * Cross all the User area and check the Name validity
+ * @param {*} userId the user Id
+ * @param {*} newName the wanted name
+ * @returns True if the new name is valid, false otherwise
+ */
+async function checkAreaNameAlreadyExistForGivenUser (userId, newName) {
+  let notExisting = true
+  const userAreas = await database.prisma.UsersHasActionsReactions.findMany({
+    where: { userId: userId }
+  })
+  userAreas.forEach(areaContent => {
+    if (areaContent.name == newName) notExisting = false
+  })
+  return notExisting
+}
+
+/**
  * Post function used for updating an area
  * body.id -> id of the AREA to update
  * body.name -> Name of the area
@@ -608,11 +630,17 @@ app.post(
           }
         }
       )
+      if (
+        req.body.name != oldArea.name &&
+        !checkAreaNameAlreadyExistForGivenUser(req.user.id, req.body.name)
+      )
+        return res.status(400).send('Please give a non existent area name.')
       if (TriggerDestroyMap[oldArea.Action.code])
         await TriggerDestroyMap[oldArea.Action.code](oldArea)
-      req.body.actionParameters.forEach(async param => {
-        oldArea.ActionParameters.forEach(async actionParam => {
-          if (actionParam.parameterId == param.paramId)
+
+      for await (let param of req.body.actionParameters) {
+        for await (let actionParam of oldArea.ActionParameters) {
+          if (actionParam.parameterId == param.paramId) {
             await database.prisma.ActionParameter.update({
               where: {
                 id: actionParam.id
@@ -621,11 +649,13 @@ app.post(
                 value: param.value
               }
             })
-        })
-      })
-      req.body.reactionParameters.forEach(async param => {
-        oldArea.ReactionParameters.forEach(async reactionParam => {
-          if (reactionParam.parameterId == param.paramId)
+          }
+        }
+      }
+
+      for await (let param of req.body.reactionParameters) {
+        for await (let reactionParam of oldArea.ReactionParameters) {
+          if (reactionParam.parameterId == param.paramId) {
             await database.prisma.ReactionParameter.update({
               where: {
                 id: reactionParam.id
@@ -634,8 +664,9 @@ app.post(
                 value: param.value
               }
             })
-        })
-      })
+          }
+        }
+      }
       const areaCreation =
         await database.prisma.UsersHasActionsReactions.update({
           where: { id: req.body.id },
@@ -648,6 +679,7 @@ app.post(
           },
           select: {
             id: true,
+            isEnable: true,
             User: true,
             ActionParameters: {
               include: {
@@ -657,7 +689,7 @@ app.post(
             Action: true
           }
         })
-      if (TriggerInitMap[areaCreation.Action.code])
+      if (areaCreation.isEnable && TriggerInitMap[areaCreation.Action.code])
         if (!TriggerInitMap[areaCreation.Action.code](areaCreation)) {
           return res.status(400).send('Please pass a valid parameter list !')
         }
@@ -771,6 +803,55 @@ app.get(
     return res.status(200).json({
       status: 'success',
       data: performers,
+      statusCode: res.statusCode
+    })
+  }
+)
+
+/**
+ * @brief List available area for rea service.
+ */
+app.get(
+  '/api/services/rea/getAvailableArea',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const area = []
+    const areas = await database.prisma.UsersHasActionsReactions.findMany({
+      where: { userId: req.user.id }
+    })
+    areas.forEach(areaContent => {
+      area.push({
+        id: areaContent.id,
+        name: areaContent.name
+      })
+    })
+    return res.status(200).json({
+      status: 'success',
+      data: area,
+      statusCode: res.statusCode
+    })
+  }
+)
+
+/**
+ * @brief List available status for rea service.
+ */
+app.get(
+  '/api/services/rea/getAvailableStatus',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const status = []
+    status.push({
+      id: 'True',
+      name: 'On'
+    })
+    status.push({
+      id: 'False',
+      name: 'Off'
+    })
+    return res.status(200).json({
+      status: 'success',
+      data: status,
       statusCode: res.statusCode
     })
   }
@@ -992,6 +1073,8 @@ app.post(
   async (req, res) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
+      if (!checkAreaNameAlreadyExistForGivenUser(req.user.id, req.body.name))
+        return res.status(400).send('Please give a non existent area name.')
       const ActionParameters = []
 
       req.body.actionParameters.forEach(param => {
@@ -1023,6 +1106,7 @@ app.post(
           },
           select: {
             id: true,
+            isEnable: true,
             User: true,
             ActionParameters: {
               include: {
@@ -1032,7 +1116,7 @@ app.post(
             Action: true
           }
         })
-      if (TriggerInitMap[areaCreation.Action.code])
+      if (areaCreation.isEnable && TriggerInitMap[areaCreation.Action.code])
         if (!TriggerInitMap[areaCreation.Action.code](areaCreation)) {
           await database.prisma.UsersHasActionsReactions.delete({
             where: { id: areaCreation.id }
@@ -1115,6 +1199,7 @@ app.get('/api/dev/service/createAll', async (req, res) => {
   response.push(await createDiscordService())
   response.push(await createGmailService())
   response.push(await createTimeTimeService())
+  response.push(await createReaaaaaaaService())
   return res.json(response)
 })
 

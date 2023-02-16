@@ -22,6 +22,12 @@ class HomePageState extends State<HomePage> {
     updatePage = update;
   }
 
+  /// Re sync all flutter object
+  void homeSync() async {
+    await updateAllFlutterObject();
+    update();
+  }
+
   /// Display all the area
   List<Widget> areasDisplay() {
     List<Widget> areaVis = <Widget>[];
@@ -73,6 +79,12 @@ class HomePageState extends State<HomePage> {
                             });
                           },
                           icon: const Icon(Icons.settings)),
+                      IconButton(
+                          iconSize: 30,
+                          onPressed: () {
+                            homeSync();
+                          },
+                          icon: const Icon(Icons.sync)),
                       IconButton(
                           iconSize: 30,
                           onPressed: () {
