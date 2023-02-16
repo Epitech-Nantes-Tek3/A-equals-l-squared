@@ -638,10 +638,8 @@ app.post(
       if (TriggerDestroyMap[oldArea.Action.code])
         await TriggerDestroyMap[oldArea.Action.code](oldArea)
 
-      const ActionParameters = []
-
-      await req.body.actionParameters.forEach(async param => {
-        await oldArea.ActionParameters.forEach(async actionParam => {
+      for await (let param of req.body.actionParameters) {
+        for await (let actionParam of oldArea.ActionParameters) {
           if (actionParam.parameterId == param.paramId) {
             await database.prisma.ActionParameter.update({
               where: {
@@ -651,16 +649,12 @@ app.post(
                 value: param.value
               }
             })
-            console.log(param.value)
-            ActionParameters.push({ id: actionParam.id })
           }
-        })
-      })
+        }
+      }
 
-      const ReactionParameters = []
-
-      await req.body.reactionParameters.forEach(async param => {
-        await oldArea.ReactionParameters.forEach(async reactionParam => {
+      for await (let param of req.body.reactionParameters) {
+        for await (let reactionParam of oldArea.ReactionParameters) {
           if (reactionParam.parameterId == param.paramId) {
             await database.prisma.ReactionParameter.update({
               where: {
@@ -670,10 +664,9 @@ app.post(
                 value: param.value
               }
             })
-            ReactionParameters.push({ id: reactionParam.id })
           }
-        })
-      })
+        }
+      }
       const areaCreation =
         await database.prisma.UsersHasActionsReactions.update({
           where: { id: req.body.id },
@@ -682,12 +675,11 @@ app.post(
             isEnable: req.body.isEnable,
             description: req.body.description,
             Action: { connect: { id: req.body.actionId } },
-            Reaction: { connect: { id: req.body.reactionId } },
-            ActionParameters: { connect: ActionParameters },
-            ReactionParameters: { connect: ReactionParameters }
+            Reaction: { connect: { id: req.body.reactionId } }
           },
           select: {
             id: true,
+            isEnable: true,
             User: true,
             ActionParameters: {
               include: {
@@ -1114,6 +1106,7 @@ app.post(
           },
           select: {
             id: true,
+            isEnable: true,
             User: true,
             ActionParameters: {
               include: {
