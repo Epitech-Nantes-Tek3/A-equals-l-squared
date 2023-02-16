@@ -114,6 +114,14 @@ class ActionData {
           previous = null;
         }
       }
+      List<Widget> dynamicParams = <Widget>[];
+      for (var temp in dynamicParameters) {
+        dynamicParams.add(temp.display());
+      }
+      paramWid.add(Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: dynamicParams,
+      ));
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
