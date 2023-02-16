@@ -586,14 +586,14 @@ app.post(
  * @returns True if the new name is valid, false otherwise
  */
 async function checkAreaNameAlreadyExistForGivenUser (userId, newName) {
-  let integrity = true
+  let notExisting = true
   const userAreas = await database.prisma.UsersHasActionsReactions.findMany({
     where: { userId: userId }
   })
   userAreas.forEach(areaContent => {
-    if (areaContent.name == newName) integrity = false
+    if (areaContent.name == newName) notExisting = false
   })
-  return integrity
+  return notExisting
 }
 
 /**
