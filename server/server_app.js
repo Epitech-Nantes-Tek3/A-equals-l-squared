@@ -584,7 +584,7 @@ app.post(
  * @param {*} newName the wanted name
  * @returns True if the new name is valid, false otherwise
  */
-async function checkAreaNameIntegrity (userId, newName) {
+async function checkAreaNameAlreadyExistForGivenUser (userId, newName) {
   let integrity = true
   const userAreas = await database.prisma.UsersHasActionsReactions.findMany({
     where: { userId: userId }
@@ -631,7 +631,7 @@ app.post(
       )
       if (
         req.body.name != oldArea.name &&
-        !checkAreaNameIntegrity(req.user.id, req.body.name)
+        !checkAreaNameAlreadyExistForGivenUser(req.user.id, req.body.name)
       )
         return res.status(400).send('Please give a non existent area name.')
       if (TriggerDestroyMap[oldArea.Action.code])
@@ -1068,7 +1068,7 @@ app.post(
   async (req, res) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
-      if (!checkAreaNameIntegrity(req.user.id, req.body.name))
+      if (!checkAreaNameAlreadyExistForGivenUser(req.user.id, req.body.name))
         return res.status(400).send('Please give a non existent area name.')
       const ActionParameters = []
 

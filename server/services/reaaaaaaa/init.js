@@ -1,5 +1,7 @@
 'use strict'
 
+const database = require('../../database_init')
+
 const createReaaaaaaaService = async () => {
   try {
     const rea = await database.prisma.Service.create({
