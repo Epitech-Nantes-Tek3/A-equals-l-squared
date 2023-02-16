@@ -579,6 +579,23 @@ app.post(
 )
 
 /**
+ * Cross all the User area and check the Name validity
+ * @param {*} userId the user Id
+ * @param {*} newName the wanted name
+ * @returns True if the new name is valid, false otherwise
+ */
+async function checkAreaNameIntegrity (userId, newName) {
+  let integrity = true
+  const userAreas = await database.prisma.UsersHasActionsReactions.findMany({
+    where: { userId: userId }
+  })
+  userAreas.forEach(areaContent => {
+    if (areaContent.name == newName) integrity = false
+  })
+  return integrity
+}
+
+/**
  * Post function used for updating an area
  * body.id -> id of the AREA to update
  * body.name -> Name of the area
@@ -612,6 +629,11 @@ app.post(
           }
         }
       )
+      if (
+        req.body.name != oldArea.name &&
+        !checkAreaNameIntegrity(req.user.id, req.body.name)
+      )
+        return res.status(400).send('Please give a non existent area name.')
       if (TriggerDestroyMap[oldArea.Action.code])
         await TriggerDestroyMap[oldArea.Action.code](oldArea)
       req.body.actionParameters.forEach(async param => {
@@ -807,7 +829,7 @@ app.get(
 )
 
 /**
- * @brief List available area for rea service.
+ * @brief List available status for rea service.
  */
 app.get(
   '/api/services/rea/getAvailableStatus',
@@ -1046,6 +1068,8 @@ app.post(
   async (req, res) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
+      if (!checkAreaNameIntegrity(req.user.id, req.body.name))
+        return res.status(400).send('Please give a non existent area name.')
       const ActionParameters = []
 
       req.body.actionParameters.forEach(param => {
