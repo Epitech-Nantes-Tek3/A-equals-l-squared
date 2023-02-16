@@ -640,8 +640,8 @@ app.post(
 
       const ActionParameters = []
 
-      req.body.actionParameters.forEach(async param => {
-        oldArea.ActionParameters.forEach(async actionParam => {
+      await req.body.actionParameters.forEach(async param => {
+        await oldArea.ActionParameters.forEach(async actionParam => {
           if (actionParam.parameterId == param.paramId) {
             await database.prisma.ActionParameter.update({
               where: {
@@ -651,6 +651,7 @@ app.post(
                 value: param.value
               }
             })
+            console.log(param.value)
             ActionParameters.push({ id: actionParam.id })
           }
         })
@@ -658,8 +659,8 @@ app.post(
 
       const ReactionParameters = []
 
-      req.body.reactionParameters.forEach(async param => {
-        oldArea.ReactionParameters.forEach(async reactionParam => {
+      await req.body.reactionParameters.forEach(async param => {
+        await oldArea.ReactionParameters.forEach(async reactionParam => {
           if (reactionParam.parameterId == param.paramId) {
             await database.prisma.ReactionParameter.update({
               where: {
@@ -696,7 +697,7 @@ app.post(
             Action: true
           }
         })
-      if (TriggerInitMap[areaCreation.Action.code])
+      if (areaCreation.isEnable && TriggerInitMap[areaCreation.Action.code])
         if (!TriggerInitMap[areaCreation.Action.code](areaCreation)) {
           return res.status(400).send('Please pass a valid parameter list !')
         }
@@ -1122,7 +1123,7 @@ app.post(
             Action: true
           }
         })
-      if (TriggerInitMap[areaCreation.Action.code])
+      if (areaCreation.isEnable && TriggerInitMap[areaCreation.Action.code])
         if (!TriggerInitMap[areaCreation.Action.code](areaCreation)) {
           await database.prisma.UsersHasActionsReactions.delete({
             where: { id: areaCreation.id }
