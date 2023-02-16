@@ -781,6 +781,32 @@ app.get(
 )
 
 /**
+ * @brief List available area for rea service.
+ */
+app.get(
+  '/api/services/rea/getAvailableArea',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const area = []
+    const areas = await database.prisma.UsersHasActionsReactions.findMany({
+      where: { userId: req.user.id },
+      include: { id: true, name: true }
+    })
+    areas.forEach(areaContent => {
+      area.push({
+        id: areaContent.id,
+        name: areaContent.name
+      })
+    })
+    return res.status(200).json({
+      status: 'success',
+      data: area,
+      statusCode: res.statusCode
+    })
+  }
+)
+
+/**
  * Creating a new user in the database.
  * bodi.username -> User name
  * body.email -> User mail
