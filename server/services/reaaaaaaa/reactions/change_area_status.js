@@ -26,3 +26,5 @@ async function reaaaaaaaChangeAreaStatus (Area, dynamicParameters) {
     return false
   }
 }
+
+module.exports(reaaaaaaaChangeAreaStatus)
