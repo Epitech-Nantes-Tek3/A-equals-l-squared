@@ -4,7 +4,6 @@ import 'package:application/flutter_objects/service_data.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:flutter/material.dart';
 
-import '../../material_lib_functions/material_functions.dart';
 import 'action_data.dart';
 
 /// This class is the Area class.
@@ -99,15 +98,18 @@ class AreaData {
     return null;
   }
 
-  /// This function return the good icon with the serviceName
+  /// This function return the good icon thanks to the serviceName
   Widget? getServiceIcon() {
     ServiceData? serviceData = getAssociatedService();
     if (serviceData != null) {
-      return Image.asset(
-        serviceData.icon,
-        height: 30,
-        width: 30,
-      );
+      return 
+          Image.asset(
+            serviceData.icon != ''
+                ? serviceData.icon
+                : 'assets/icons/Area_Logo.png',
+            height: 30,
+            width: 30,
+          ),
     }
     return null;
   }
@@ -149,7 +151,7 @@ class AreaData {
           const SizedBox(
             height: 10,
           ),
-          materialShadowForArea(Column(children: <Widget>[
+          (Column(children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
@@ -163,7 +165,7 @@ class AreaData {
           const SizedBox(
             height: 20,
           ),
-          materialShadowForArea(Column(children: <Widget>[
+          (Column(children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
@@ -280,7 +282,7 @@ class AreaData {
           const SizedBox(
             height: 10,
           ),
-          materialShadowForArea(Column(children: <Widget>[
+          (Column(children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
@@ -294,7 +296,7 @@ class AreaData {
           const SizedBox(
             height: 20,
           ),
-          materialShadowForArea(Column(children: <Widget>[
+          (Column(children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(

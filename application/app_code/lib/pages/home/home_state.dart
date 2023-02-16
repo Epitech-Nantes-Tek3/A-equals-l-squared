@@ -7,6 +7,7 @@ import 'package:application/pages/settings/settings_functional.dart';
 import 'package:application/pages/update_area/update_area_functional.dart';
 import 'package:flutter/material.dart';
 
+import '../../material_lib_functions/material_functions.dart';
 import '../login/login_page.dart';
 import 'home_page.dart';
 
@@ -136,24 +137,18 @@ class HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: createTabOfAreas(),
                   ),
-                  ElevatedButton(
-                    key: const Key('HomeServiceButton'),
-                    onPressed: () {
-                      setState(() {
-                        goToServiceListPage(context);
-                      });
-                    },
-                    child: const Text('Service List'),
-                  ),
-                  ElevatedButton(
-                    key: const Key('HomeLogoutButton'),
-                    onPressed: () {
-                      setState(() {
-                        logout = true;
-                      });
-                    },
-                    child: const Text('Logout'),
-                  ),
+                  materialElevatedButtonArea(
+                      ElevatedButton(
+                        key: const Key('HomeServiceButton'),
+                        onPressed: () {
+                          setState(() {
+                            goToServiceListPage(context);
+                          });
+                        },
+                        child: const Text('Service List'),
+                      ),
+                      false,
+                      primaryColor: getOurBlueAreaColor(100)),
                 ],
               ),
             ),
