@@ -807,6 +807,30 @@ app.get(
 )
 
 /**
+ * @brief List available area for rea service.
+ */
+app.get(
+  '/api/services/rea/getAvailableStatus',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const status = []
+    status.push({
+      id: 'True',
+      name: 'On'
+    })
+    status.push({
+      id: 'False',
+      name: 'Off'
+    })
+    return res.status(200).json({
+      status: 'success',
+      data: status,
+      statusCode: res.statusCode
+    })
+  }
+)
+
+/**
  * Creating a new user in the database.
  * bodi.username -> User name
  * body.email -> User mail
