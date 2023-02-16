@@ -236,24 +236,18 @@ Widget build(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: areasDisplay(),
                 ),
-                ElevatedButton(
-                  key: const Key(&#39;HomeServiceButton&#39;),
-                  onPressed: () {
-                    setState(() {
-                      goToServiceListPage(context);
-                    });
-                  },
-                  child: const Text(&#39;Service List&#39;),
-                ),
-                ElevatedButton(
-                  key: const Key(&#39;HomeLogoutButton&#39;),
-                  onPressed: () {
-                    setState(() {
-                      logout = true;
-                    });
-                  },
-                  child: const Text(&#39;Logout&#39;),
-                ),
+                materialElevatedButtonArea(
+                    ElevatedButton(
+                      key: const Key(&#39;HomeServiceButton&#39;),
+                      onPressed: () {
+                        setState(() {
+                          goToServiceListPage(context);
+                        });
+                      },
+                      child: const Text(&#39;Service List&#39;),
+                    ),
+                    false,
+                    primaryColor: getOurBlueAreaColor(100)),
               ],
             ),
           ),

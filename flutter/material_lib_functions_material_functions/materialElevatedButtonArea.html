@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the displayLogo function from the material_functions library, for the Dart programming language.">
-  <title>displayLogo function - material_functions library - Dart API</title>
+  <meta name="description" content="API docs for the materialElevatedButtonArea function from the material_functions library, for the Dart programming language.">
+  <title>materialElevatedButtonArea function - material_functions library - Dart API</title>
 
 
   
@@ -30,9 +30,9 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">application</a></li>
     <li><a href="../material_lib_functions_material_functions/material_lib_functions_material_functions-library.html">material_functions</a></li>
-    <li class="self-crumb">displayLogo function</li>
+    <li class="self-crumb">materialElevatedButtonArea function</li>
   </ol>
-  <div class="self-name">displayLogo</div>
+  <div class="self-name">materialElevatedButtonArea</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -49,7 +49,7 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-function">displayLogo</span> function 
+<h1><span class="kind-function">materialElevatedButtonArea</span> function 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
  
 </h1></div>
@@ -58,7 +58,14 @@
         
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
-<span class="name ">displayLogo</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="displayLogo-param-size"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">size</span></span></li>
+<span class="name ">materialElevatedButtonArea</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="materialElevatedButtonArea-param-buttonContent"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/material/ElevatedButton-class.html">ElevatedButton</a></span> <span class="parameter-name">buttonContent</span>, </span></li>
+<li><span class="parameter" id="materialElevatedButtonArea-param-isShadowNeeded"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">isShadowNeeded</span>, </span></li>
+<li><span class="parameter" id="materialElevatedButtonArea-param-borderColor">{<span class="type-annotation">dynamic</span> <span class="parameter-name">borderColor</span> = <span class="default-value">Colors.white</span>, </span></li>
+<li><span class="parameter" id="materialElevatedButtonArea-param-primaryColor"><span class="type-annotation">dynamic</span> <span class="parameter-name">primaryColor</span> = <span class="default-value">Colors.white</span>, </span></li>
+<li><span class="parameter" id="materialElevatedButtonArea-param-borderRadius"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">borderRadius</span> = <span class="default-value">30</span>, </span></li>
+<li><span class="parameter" id="materialElevatedButtonArea-param-borderWith"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">borderWith</span> = <span class="default-value">0</span>, </span></li>
+<li><span class="parameter" id="materialElevatedButtonArea-param-paddingVertical"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">paddingVertical</span> = <span class="default-value">10</span>, </span></li>
+<li><span class="parameter" id="materialElevatedButtonArea-param-paddingHorizontal"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">paddingHorizontal</span> = <span class="default-value">10</span>}</span></li>
 </ol>)
 
         
@@ -66,17 +73,35 @@
     </section>
     
 <section class="desc markdown">
-  <p>This function display our logo</p>
+  <p>This function create a new ElevatedButton with the content of buttonContent
+This function can take many parameter to modified the style of the ElevatedButton but by it used default values of front design</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Widget displayLogo(double size) {
-  return Column(
-    children: &lt;Widget&gt;[Image.asset(&#39;assets&#47;icons&#47;Area_Logo.png&#39;)],
-  );
+  <pre class="language-dart"><code class="language-dart">Widget materialElevatedButtonArea(
+    ElevatedButton buttonContent, bool isShadowNeeded,
+    {borderColor = Colors.white,
+    primaryColor = Colors.white,
+    double borderRadius = 30,
+    double borderWith = 0,
+    double paddingVertical = 10,
+    double paddingHorizontal = 10}) {
+  Widget newButton = ElevatedButton(
+      onPressed: buttonContent.onPressed,
+      style: ElevatedButton.styleFrom(
+          primary: primaryColor,
+          padding: EdgeInsets.symmetric(
+              vertical: paddingVertical, horizontal: paddingHorizontal),
+          side: BorderSide(color: borderColor, width: borderWith),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(borderRadius)),
+          shadowColor: isShadowNeeded ? Colors.black : Colors.transparent,
+          elevation: isShadowNeeded ? 5 : 0),
+      child: buttonContent.child);
+  return newButton;
 }</code></pre>
 </section>
 
@@ -93,7 +118,7 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../index.html">application</a></li>
   <li><a href="../material_lib_functions_material_functions/material_lib_functions_material_functions-library.html">material_functions</a></li>
-  <li class="self-crumb">displayLogo function</li>
+  <li class="self-crumb">materialElevatedButtonArea function</li>
 </ol>
 
 

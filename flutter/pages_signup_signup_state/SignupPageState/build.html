@@ -195,8 +195,8 @@ Widget build(BuildContext context) {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 22),
                       ),
-                      materialShadowForArea(getHostConfigField()),
-                      materialShadowForArea(TextFormField(
+                      getHostConfigField(),
+                      TextFormField(
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: &#39;Username&#39;,
@@ -209,8 +209,8 @@ Widget build(BuildContext context) {
                           _username = value;
                           return null;
                         },
-                      )),
-                      materialShadowForArea(TextFormField(
+                      ),
+                      TextFormField(
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: &#39;E-mail&#39;,
@@ -225,8 +225,8 @@ Widget build(BuildContext context) {
                           _email = value;
                           return null;
                         },
-                      )),
-                      materialShadowForArea(TextFormField(
+                      ),
+                      TextFormField(
                         obscureText: true,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
@@ -240,7 +240,7 @@ Widget build(BuildContext context) {
                           _password = value;
                           return null;
                         },
-                      )),
+                      ),
                       FutureBuilder&lt;String&gt;(
                         future: _futureSignup,
                         builder: (context, snapshot) {

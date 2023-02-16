@@ -78,7 +78,7 @@
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: &lt;Widget&gt;[
       &#47;&#47;&#47; Put Login with Gmail or an other login
-      materialShadowForArea(TextFormField(
+      TextFormField(
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(20),
           border: OutlineInputBorder(
@@ -97,7 +97,7 @@
           _email = value;
           return null;
         },
-      )),
+      ),
       const SizedBox(
         height: 20,
       ),

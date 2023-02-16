@@ -79,18 +79,19 @@
     String str =
         temp.getAssociatedService()!.primaryColor.replaceFirst(&quot;#&quot;, &quot;0xff&quot;);
     Color tempColor = Color(int.parse(str));
-    areaVis.add(ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-          side: BorderSide(color: tempColor, width: 3),
-          &#47;&#47; Change when DB is Up
-          primary: Colors.white,
-        ),
-        onPressed: () {
-          updatingArea = temp;
-          goToUpdateAreaPage(context);
-        },
-        child: temp.display(false, null)));
+    areaVis.add(materialElevatedButtonArea(
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(),
+            onPressed: () {
+              updatingArea = temp;
+              goToUpdateAreaPage(context);
+            },
+            child: temp.display(false, null)),
+        true,
+        borderColor: tempColor,
+        borderWith: 3,
+        paddingVertical: 30,
+        paddingHorizontal: 30));
     areaVis.add(const SizedBox(height: 20));
   }
   return areaVis;

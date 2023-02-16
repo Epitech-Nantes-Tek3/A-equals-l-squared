@@ -74,24 +74,30 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Widget modifierButtons() {
   return Column(children: &lt;Widget&gt;[
-    ElevatedButton(
-      key: const Key(&#39;AskUpdateButton&#39;),
-      onPressed: () {
-        setState(() {
-          _futureAnswer = apiAskForUpdate();
-        });
-      },
-      child: const Text(&#39;Update account information&#39;),
-    ),
-    ElevatedButton(
-      key: const Key(&#39;AskDeleteButton&#39;),
-      onPressed: () {
-        setState(() {
-          _futureAnswer = apiAskForDelete();
-        });
-      },
-      child: const Text(&#39;Delete account&#39;),
-    ),
+    materialElevatedButtonArea(
+        ElevatedButton(
+          key: const Key(&#39;AskUpdateButton&#39;),
+          onPressed: () {
+            setState(() {
+              _futureAnswer = apiAskForUpdate();
+            });
+          },
+          child: const Text(&#39;Update account information&#39;),
+        ),
+        false,
+        primaryColor: getOurBlueAreaColor(100)),
+    materialElevatedButtonArea(
+        ElevatedButton(
+          key: const Key(&#39;AskDeleteButton&#39;),
+          onPressed: () {
+            setState(() {
+              _futureAnswer = apiAskForDelete();
+            });
+          },
+          child: const Text(&#39;Delete account&#39;),
+        ),
+        false,
+        primaryColor: getOurBlueAreaColor(100)),
   ]);
 }</code></pre>
 </section>
