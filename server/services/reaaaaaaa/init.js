@@ -44,3 +44,5 @@ const createReaaaaaaaService = async () => {
     console.log('Error while creating Reaaaaaaa service : ', err)
   }
 }
+
+module.exports(createReaaaaaaaService)
