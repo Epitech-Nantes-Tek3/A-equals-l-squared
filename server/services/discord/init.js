@@ -90,11 +90,11 @@ const createDiscordService = async () => {
                     description: 'The ID of the channel where the message is sent'
                   },
                   {
-                    name: 'GUID_NAME',
+                    name: 'GUILD_NAME',
                     description: 'The name of the guild where the message is sent'
                   },
                   {
-                    name: 'GUID_ID',
+                    name: 'GUILD_ID',
                     description: 'The ID of the guild where the message is sent'
                   }
                 ]

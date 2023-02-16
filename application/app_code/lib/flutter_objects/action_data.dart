@@ -1,6 +1,8 @@
 import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:flutter/material.dart';
 
+import 'dynamic_parameter_data.dart';
+
 /// This class is the action class.
 /// It contains all information about an action
 class ActionData {
@@ -11,6 +13,7 @@ class ActionData {
   bool isEnable;
   String serviceId;
   List<ParameterData> parameters;
+  List<DynamicParameterData> dynamicParameters;
 
   /// Constructor of the action class
   ActionData(
@@ -20,7 +23,8 @@ class ActionData {
       required this.createdAt,
       required this.isEnable,
       required this.serviceId,
-      required this.parameters});
+      required this.parameters,
+      required this.dynamicParameters});
 
   /// Utility function used for cloning the class
   ActionData.clone(ActionData oldAction)
@@ -33,6 +37,9 @@ class ActionData {
             serviceId: oldAction.serviceId,
             parameters: oldAction.parameters
                 .map((v) => ParameterData.clone(v))
+                .toList(),
+            dynamicParameters: oldAction.dynamicParameters
+                .map((v) => DynamicParameterData.clone(v))
                 .toList());
 
   /// Convert a json map into the class
@@ -41,6 +48,10 @@ class ActionData {
     for (var temp in json['Parameters']) {
       parameters.add(ParameterData.fromJson(temp));
     }
+    List<DynamicParameterData> dynamicParameters = <DynamicParameterData>[];
+    for (var temp in json['DynamicParameters']) {
+      dynamicParameters.add(DynamicParameterData.fromJson(temp));
+    }
     return ActionData(
         id: json['id'],
         name: json['name'],
@@ -48,7 +59,8 @@ class ActionData {
         createdAt: DateTime.parse(json['createdAt']),
         isEnable: json['isEnable'],
         serviceId: json['serviceId'],
-        parameters: parameters);
+        parameters: parameters,
+        dynamicParameters: dynamicParameters);
   }
 
   /// Return the list of all the associated param content
@@ -102,6 +114,14 @@ class ActionData {
           previous = null;
         }
       }
+      List<Widget> dynamicParams = <Widget>[];
+      for (var temp in dynamicParameters) {
+        dynamicParams.add(temp.display());
+      }
+      paramWid.add(Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: dynamicParams,
+      ));
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
