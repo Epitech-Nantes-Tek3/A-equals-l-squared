@@ -614,20 +614,6 @@ app.post(
   async (req, res, next) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
-<<<<<<< HEAD
-      const oldArea = await database.prisma.AREA.findUnique({
-        where: {
-          id: req.body.id
-        },
-        include: {
-          ActionParameters: true,
-          ReactionParameters: true
-        }
-      })
-      req.body.actionParameters.forEach(async param => {
-        oldArea.ActionParameters.forEach(async actionParam => {
-          if (actionParam.parameterId == param.paramId)
-=======
       const oldArea = await database.prisma.AREA.findUnique(
         {
           where: {
@@ -655,7 +641,6 @@ app.post(
       for await (let param of req.body.actionParameters) {
         for await (let actionParam of oldArea.ActionParameters) {
           if (actionParam.parameterId == param.paramId) {
->>>>>>> 132-create-the-service-reaaaaaaa
             await database.prisma.ActionParameter.update({
               where: {
                 id: actionParam.id
@@ -679,18 +664,6 @@ app.post(
                 value: param.value
               }
             })
-<<<<<<< HEAD
-        })
-      })
-      await database.prisma.AREA.update({
-        where: { id: req.body.id },
-        data: {
-          name: req.body.name,
-          isEnable: req.body.isEnable,
-          description: req.body.description,
-          Action: { connect: { id: req.body.actionId } },
-          Reaction: { connect: { id: req.body.reactionId } }
-=======
           }
         }
       }
@@ -719,7 +692,6 @@ app.post(
       if (areaCreation.isEnable && TriggerInitMap[areaCreation.Action.code])
         if (!TriggerInitMap[areaCreation.Action.code](areaCreation)) {
           return res.status(400).send('Please pass a valid parameter list !')
->>>>>>> 132-create-the-service-reaaaaaaa
         }
       return res.status(200).send('AREA successfully updated.')
     } catch (err) {
@@ -1121,19 +1093,6 @@ app.post(
         })
       })
 
-<<<<<<< HEAD
-      const areaCreation = await database.prisma.AREA.create({
-        data: {
-          name: req.body.name,
-          description: req.body.description,
-          User: { connect: { id: req.user.id } },
-          Action: { connect: { id: req.body.actionId } },
-          ActionParameters: { create: ActionParameters },
-          Reaction: { connect: { id: req.body.reactionId } },
-          ReactionParameters: { create: ReactionParameters }
-        }
-      })
-=======
       const areaCreation =
         await database.prisma.AREA.create({
           data: {
@@ -1164,7 +1123,6 @@ app.post(
           })
           return res.status(400).send('Please pass a valid parameter list !')
         }
->>>>>>> 132-create-the-service-reaaaaaaa
       return res.json(areaCreation)
     } catch (err) {
       console.log(err)
