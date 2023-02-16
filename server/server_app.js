@@ -51,7 +51,7 @@ const HOST = '0.0.0.0'
  * @param {*} number A basic number
  * @returns The passed number
  */
-function test_example(number) {
+function test_example (number) {
   return number
 }
 
@@ -131,11 +131,12 @@ app.post('/api/signup', (req, res, next) => {
     if (user == false) return res.json(info)
     const token = utils.generateToken(user.id)
     gmail
-      .sendEmail('aequallsquared@gmail.com',
+      .sendEmail(
+        'aequallsquared@gmail.com',
         user.email,
         'Email Verification',
         'Thank you for you registration to our service !\nPlease go to the following link to confirm your mail : http://localhost:8080/api/mail/verification?token=' +
-        token
+          token
       )
       .catch(_error => {
         return res.status(401).send('Invalid e-mail address.')
@@ -239,11 +240,12 @@ app.get(
     })
     const token = utils.generateToken(req.user.id)
     gmail
-      .sendEmail('aequallsquared@gmail.com',
+      .sendEmail(
+        'aequallsquared@gmail.com',
         req.user.email,
         'Confirm operation',
         'You asked to delete your account. Please confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
-        token
+          token
       )
       .catch(_error => {
         return res.status(401).send('Invalid e-mail address.')
@@ -270,11 +272,12 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
   })
   const token = utils.generateToken(user.id)
   gmail
-    .sendEmail('aequallsquared@gmail.com',
+    .sendEmail(
+      'aequallsquared@gmail.com',
       user.email,
       'Confirm operation',
       'You asked to regenerate your password. It will be set to : password\nPlease confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
-      token
+        token
     )
     .catch(_error => {
       return res.status(401).send('Invalid e-mail address.')
@@ -299,11 +302,12 @@ app.post(
       if (req.user.email != req.body.email) {
         const token = utils.generateToken(req.user.id)
         gmail
-          .sendEmail('aequallsquared@gmail.com',
+          .sendEmail(
+            'aequallsquared@gmail.com',
             req.body.email,
             'Email Verification',
             'You have updated your e-mail, please go to the following link to confirm your new mail address : http://localhost:8080/api/mail/verification?token=' +
-            token
+              token
           )
           .catch(_error => {
             return res.status(401).send('Invalid new e-mail address.')
@@ -500,7 +504,7 @@ app.get(
   async (req, res) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
-      const areas = await database.prisma.UsersHasActionsReactions.findMany({
+      const areas = await database.prisma.AREA.findMany({
         where: {
           userId: req.user.id
         },
@@ -537,7 +541,7 @@ app.post(
   async (req, res, next) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
-      await database.prisma.UsersHasActionsReactions.delete({
+      await database.prisma.AREA.delete({
         where: { id: req.body.id }
       })
       return res.status(200).send('AREA successfully deleted.')
@@ -566,17 +570,15 @@ app.post(
   async (req, res, next) => {
     if (!req.user) return res.status(401).send('Invalid token')
     try {
-      const oldArea = await database.prisma.UsersHasActionsReactions.findUnique(
-        {
-          where: {
-            id: req.body.id
-          },
-          include: {
-            ActionParameters: true,
-            ReactionParameters: true
-          }
+      const oldArea = await database.prisma.AREA.findUnique({
+        where: {
+          id: req.body.id
+        },
+        include: {
+          ActionParameters: true,
+          ReactionParameters: true
         }
-      )
+      })
       req.body.actionParameters.forEach(async param => {
         oldArea.ActionParameters.forEach(async actionParam => {
           if (actionParam.parameterId == param.paramId)
@@ -603,7 +605,7 @@ app.post(
             })
         })
       })
-      await database.prisma.UsersHasActionsReactions.update({
+      await database.prisma.AREA.update({
         where: { id: req.body.id },
         data: {
           name: req.body.name,
@@ -962,18 +964,17 @@ app.post(
         })
       })
 
-      const areaCreation =
-        await database.prisma.UsersHasActionsReactions.create({
-          data: {
-            name: req.body.name,
-            description: req.body.description,
-            User: { connect: { id: req.user.id } },
-            Action: { connect: { id: req.body.actionId } },
-            ActionParameters: { create: ActionParameters },
-            Reaction: { connect: { id: req.body.reactionId } },
-            ReactionParameters: { create: ReactionParameters }
-          }
-        })
+      const areaCreation = await database.prisma.AREA.create({
+        data: {
+          name: req.body.name,
+          description: req.body.description,
+          User: { connect: { id: req.user.id } },
+          Action: { connect: { id: req.body.actionId } },
+          ActionParameters: { create: ActionParameters },
+          Reaction: { connect: { id: req.body.reactionId } },
+          ReactionParameters: { create: ReactionParameters }
+        }
+      })
       return res.json(areaCreation)
     } catch (err) {
       console.log(err)
@@ -1011,7 +1012,7 @@ app.post('/api/dev/area/create', async (req, res) => {
       })
     })
 
-    const areaCreation = await database.prisma.UsersHasActionsReactions.create({
+    const areaCreation = await database.prisma.AREA.create({
       data: {
         name: req.body.name,
         description: req.body.description,
@@ -1034,7 +1035,7 @@ app.post('/api/dev/area/create', async (req, res) => {
  */
 app.get('/api/dev/area/listall', async (req, res) => {
   try {
-    const areas = await database.prisma.UsersHasActionsReactions.findMany()
+    const areas = await database.prisma.AREA.findMany()
     return res.json(areas)
   } catch (err) {
     console.log(err)

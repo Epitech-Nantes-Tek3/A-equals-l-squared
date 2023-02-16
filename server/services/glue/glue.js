@@ -25,7 +25,7 @@ const getActionFromCode = async code => {
     select: {
       isEnable: true,
       Parameters: true,
-      UsersHasActionsReactions: {
+      AREAs: {
         select: {
           isEnable: true,
           User: {
@@ -97,7 +97,7 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
     return
   }
 
-  action.UsersHasActionsReactions.forEach(area => {
+  action.AREAs.forEach(area => {
     const reactions = {
       'GML-01': () => gmailSendEmailFromArea(area, dynamicParameters),
       'DSC-01': () =>
