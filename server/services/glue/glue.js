@@ -46,17 +46,21 @@ const getActionFromCode = async code => {
               value: true
             }
           },
-          Reaction: {
+          Reactions: {
             select: {
-              code: true,
-              Parameters: true,
-              isEnable: true
-            }
-          },
-          ReactionParameters: {
-            select: {
-              Parameter: true,
-              value: true
+              Reaction: {
+                select: {
+                  code: true,
+                  Parameters: true,
+                  isEnable: true
+                }
+              },
+              ReactionParameters: {
+                select: {
+                  Parameter: true,
+                  value: true
+                }
+              }
             }
           }
         }
@@ -111,15 +115,17 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
       'DSC-03': () => discordChangeActivityFromArea(area, dynamicParameters),
       'REA-01': () => reaaaaaaaChangeAreaStatus(area, dynamicParameters)
     }
-    if (!area.isEnable || !area.Reaction.isEnable) {
+    if (area.isEnable || !checkActionParameters(area, actionParameters)) {
       return
     }
-    if (
-      checkActionParameters(area, actionParameters) &&
-      reactions[area.Reaction.code]
-    ) {
-      reactions[area.Reaction.code]()
-    }
+    area.reactions.forEach(reaction => {
+      if (!reaction.Reaction.isEnable) {
+        return
+      }
+      if (reactions[reaction.Reaction.code]) {
+        reactions[reaction.Reaction.code]()
+      }
+    })
   })
 }
 
