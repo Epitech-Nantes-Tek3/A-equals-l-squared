@@ -1,7 +1,7 @@
 'use strict'
 
-const app = require('../server_app')
-const database = require('../database_init')
+const app = require('../../server_app')
+const database = require('../../database_init')
 
 app.get('/api/area', async (req, res) => {
   try {
