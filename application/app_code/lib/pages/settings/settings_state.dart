@@ -170,7 +170,7 @@ class SettingsPageState extends State<SettingsPage> {
             },
             child: const Text('Update account information'),
           ),
-          isShadowNeeded: false,
+          isShadowNeeded: true,
           primaryColor: getOurBlueAreaColor(100)),
       materialElevatedButtonArea(
           ElevatedButton(
@@ -182,7 +182,7 @@ class SettingsPageState extends State<SettingsPage> {
             },
             child: const Text('Delete account'),
           ),
-          isShadowNeeded: false,
+          isShadowNeeded: true,
           primaryColor: getOurBlueAreaColor(100)),
     ]);
   }
@@ -340,7 +340,7 @@ class SettingsPageState extends State<SettingsPage> {
                 ],
               )
             ])),
-        isShadowNeeded: false,
+        isShadowNeeded: true,
         borderRadius: 10,
         paddingHorizontal: 20,
         paddingVertical: 20);
