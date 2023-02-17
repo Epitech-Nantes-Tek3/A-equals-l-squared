@@ -56,6 +56,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     if (_isChoosingAnAction == true && _actionCreationState == 0) {
       createAnAction.add(const Text("Choose your Action service"));
       for (var temp in serviceDataList) {
+        if (temp.actions.isEmpty) {
+          continue;
+        }
         createAnAction.add(
           const SizedBox(
             height: 10,
@@ -185,6 +188,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     if (_isChoosingAReaction == true && _reactionCreationState == 0) {
       createAReaction.add(const Text("Choose your Reaction service"));
       for (var temp in serviceDataList) {
+        if (temp.reactions.isEmpty) {
+          continue;
+        }
         createAReaction.add(
           const SizedBox(
             height: 10,
@@ -491,6 +497,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 ),
                 ElevatedButton(
                     onPressed: (() {
+                      _createdAreaSave = AreaData.clone(createdArea!);
                       apiAskForAreaChange();
                       setState(() {
                         actionSetting = true;
