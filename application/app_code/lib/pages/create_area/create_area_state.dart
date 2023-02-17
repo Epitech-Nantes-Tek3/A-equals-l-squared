@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:application/flutter_objects/area_data.dart';
 import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/create_area/create_area_page.dart';
@@ -14,9 +13,6 @@ import '../../network/informations.dart';
 import '../home/home_functional.dart';
 
 class CreateAreaPageState extends State<CreateAreaPage> {
-  /// Creation state
-  int _state = 0;
-
   /// Creation of an Action state
   int _actionCreationState = 0;
 
@@ -25,12 +21,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
   /// Name of the AREA
   String _name = "";
-
-  /// Variable to know if an action has been chosen
-  bool _hasAnAction = false;
-
-  /// Variable to know if an action has been chosen
-  bool _hasAReaction = false;
 
   /// Variable to know if an User want to choose an Action
   bool _isChoosingAnAction = false;
@@ -64,40 +54,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   void createUpdate(ParameterData object) async {
     await object.getProposalValue();
     setState(() {});
-  }
-
-  void displayServices(List<Widget> createVis, int actionOrReaction) {
-    for (var temp in serviceDataList) {
-      createVis.add(ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-            side: const BorderSide(width: 3, color: Colors.white),
-
-            /// Change when DB is Up
-            primary: Colors.white,
-          ),
-          onPressed: () {
-            setState(() {
-              createdAreaContent = <ServiceData>[];
-              createdAreaContent.add(ServiceData.clone(temp));
-              _createdAreaContentSave = <ServiceData>[];
-              _createdActionContentSave = <ServiceData>[];
-              _state = 1;
-              if (actionOrReaction == 1) {
-                _actionCreationState = 1;
-              }
-              if (actionOrReaction == 2) {
-                _actionCreationState = 1;
-              }
-            });
-          },
-          child: temp.display()));
-      createVis.add(
-        const SizedBox(
-          height: 10,
-        ),
-      );
-    }
   }
 
   /// Ask the api to create an area
@@ -153,289 +109,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     }
   }
 
-  /// A display function useful for creation steps
-  List<Widget> creationDisplay() {
-    List<Widget> createVis = <Widget>[];
-
-    if (createdAreaContent.length == 1 && _state == 0) {
-      _state = 1;
-    }
-
-    if (_state == 6) {
-      createVis.add(const Text("AREA overview"));
-      createVis.add(
-        TextFormField(
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Area Name',
-          ),
-          initialValue: _name,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (String? value) {
-            _name = value!;
-            createdArea = AreaData(
-                id: "",
-                name: _name,
-                userId: "",
-                actionId: createdAreaContent[0].actions[0].id,
-                reactionId: createdAreaContent[1].reactions[0].id,
-                isEnable: _isEnable,
-                actionParameters:
-                    createdAreaContent[0].actions[0].getAllParameterContent(),
-                reactionParameters: createdAreaContent[1]
-                    .reactions[0]
-                    .getAllParameterContent());
-            return null;
-          },
-        ),
-      );
-      createdArea = AreaData(
-          id: "",
-          name: _name,
-          userId: "",
-          actionId: createdAreaContent[0].actions[0].id,
-          reactionId: createdAreaContent[1].reactions[0].id,
-          isEnable: _isEnable,
-          actionParameters:
-              createdAreaContent[0].actions[0].getAllParameterContent(),
-          reactionParameters:
-              createdAreaContent[1].reactions[0].getAllParameterContent());
-
-      createVis.add(const SizedBox(
-        height: 10,
-      ));
-      createVis.add(createdArea!.displayForCreate(true, createUpdate));
-      createVis.add(
-        const SizedBox(
-          height: 10,
-        ),
-      );
-      createVis.add(
-        Switch(
-          value: _isEnable,
-          activeColor: Colors.blue,
-          onChanged: (bool value) {
-            setState(() {
-              _isEnable = value;
-              if (createdArea != null) {
-                createdArea!.isEnable = _isEnable;
-              }
-            });
-          },
-        ),
-      );
-      createVis.add(ElevatedButton(
-          onPressed: () {
-            setState(() {
-              _futureAnswer = apiAskForAreaCreation();
-            });
-          },
-          child: const Text("Create AREA")));
-      createVis.add(
-        FutureBuilder<String>(
-          future: _futureAnswer,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data!);
-            } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
-            return const CircularProgressIndicator();
-          },
-        ),
-      );
-    }
-
-    if (_state == 5) {
-      createVis.add(const Text("Configure your Reaction"));
-      createVis.add(
-        const SizedBox(
-          height: 10,
-        ),
-      );
-      createVis.add(createdAreaContent[1]
-          .reactions[0]
-          .display(true, reactionParameterContent, createUpdate));
-      createVis.add(
-        const SizedBox(
-          height: 10,
-        ),
-      );
-      createVis.add(ElevatedButton(
-          onPressed: () {
-            setState(() {
-              bool isRequired = true;
-              _createdAreaContentSave =
-                  createdAreaContent.map((v) => ServiceData.clone(v)).toList();
-              for (var temp in createdAreaContent[1].reactions[0].parameters) {
-                if (temp.isRequired && temp.matchedContent!.value == "") {
-                  isRequired = false;
-                }
-              }
-              if (isRequired) {
-                _state = 6;
-              }
-            });
-          },
-          child: const Text("Validate")));
-    }
-
-    if (_state == 4) {
-      createVis.add(const Text("Choose your Reaction"));
-      for (var temp in createdAreaContent[1].reactions) {
-        createVis.add(
-          const SizedBox(
-            height: 10,
-          ),
-        );
-        createVis.add(ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-              side: const BorderSide(width: 3, color: Colors.white),
-              // Change when DB is Up
-              primary: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                _createdAreaContentSave = createdAreaContent
-                    .map((v) => ServiceData.clone(v))
-                    .toList();
-                if (reactionParameterContent.isNotEmpty) {
-                  reactionParameterContent = <ParameterContent>[];
-                }
-                for (var tmp in temp.parameters) {
-                  reactionParameterContent
-                      .add(ParameterContent(paramId: tmp.id, value: ""));
-                }
-                createdAreaContent[1].reactions = [ReactionData.clone(temp)];
-                _state = 5;
-              });
-            },
-            child: temp.display(false, [], createUpdate)));
-        createVis.add(
-          const SizedBox(
-            height: 10,
-          ),
-        );
-      }
-    }
-
-    if (_state == 3) {
-      createVis.add(const Text("Choose your Reaction service"));
-      for (var temp in serviceDataList) {
-        createVis.add(
-          const SizedBox(
-            height: 10,
-          ),
-        );
-        createVis.add(ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-              side: const BorderSide(width: 3, color: Colors.white),
-              // Change when DB is Up
-              primary: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                _createdAreaContentSave = createdAreaContent
-                    .map((v) => ServiceData.clone(v))
-                    .toList();
-                createdAreaContent.add(ServiceData.clone(temp));
-                _state = 4;
-              });
-            },
-            child: temp.display()));
-        createVis.add(
-          const SizedBox(
-            height: 10,
-          ),
-        );
-      }
-    }
-
-    if (_state == 2) {
-      createVis.add(const Text("Configure your Action"));
-      createVis.add(
-        const SizedBox(
-          height: 10,
-        ),
-      );
-      createVis.add(createdAreaContent[0]
-          .actions[0]
-          .display(true, actionParameterContent, createUpdate));
-      createVis.add(
-        const SizedBox(
-          height: 10,
-        ),
-      );
-      createVis.add(ElevatedButton(
-          onPressed: () {
-            setState(() {
-              bool isRequired = true;
-              _createdAreaContentSave =
-                  createdAreaContent.map((v) => ServiceData.clone(v)).toList();
-              for (var temp in createdAreaContent[0].actions[0].parameters) {
-                if (temp.isRequired && temp.matchedContent!.value == "") {
-                  isRequired = false;
-                }
-              }
-              if (isRequired) {
-                _state = 3;
-              }
-            });
-          },
-          child: const Text("Validate")));
-    }
-
-    if (_state == 1) {
-      createVis.add(Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const <Widget>[Text("Choose your Action")]));
-      createVis.add(
-        const SizedBox(
-          height: 30,
-        ),
-      );
-      for (var temp in createdAreaContent[0].actions) {
-        createVis.add(ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              side: const BorderSide(width: 3, color: Colors.white),
-
-              /// Change when DB is Up
-              primary: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                _createdAreaContentSave = createdAreaContent
-                    .map((v) => ServiceData.clone(v))
-                    .toList();
-                if (actionParameterContent.isNotEmpty) {
-                  actionParameterContent = <ParameterContent>[];
-                }
-                for (var tmp in temp.parameters) {
-                  actionParameterContent
-                      .add(ParameterContent(paramId: tmp.id, value: ""));
-                }
-                createdAreaContent[0].actions = [ActionData.clone(temp)];
-                _state = 2;
-              });
-            },
-            child: temp.display(false, [], createUpdate)));
-        createVis.add(
-          const SizedBox(
-            height: 10,
-          ),
-        );
-      }
-    }
-
-    if (_state == 0) {
-      displayServices(createVis, 0);
-    }
-    return createVis;
-  }
-
   /// Initialization function for the api answer
   Future<String> getAFirstApiAnswer() async {
     return '';
@@ -445,7 +118,36 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     List<Widget> createAnAction = <Widget>[];
 
     if (_isChoosingAnAction == true && _actionCreationState == 0) {
-      displayServices(createAnAction, 1);
+      createAnAction.add(const Text("Choose your Action service"));
+      for (var temp in serviceDataList) {
+        createAnAction.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
+        createAnAction.add(ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              side: const BorderSide(width: 3, color: Colors.white),
+              // Change when DB is Up
+              primary: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                _createdActionContentSave = createdAreaContent
+                    .map((v) => ServiceData.clone(v))
+                    .toList();
+                createdAreaContent.add(ServiceData.clone(temp));
+                _reactionCreationState = 1;
+              });
+            },
+            child: temp.display()));
+        createAnAction.add(
+          const SizedBox(
+            height: 10,
+          ),
+        );
+      }
     }
     if (_actionCreationState == 1) {
       createAnAction.add(Column(
@@ -709,7 +411,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _actionCreationState = 0;
               });
             },
-            child: const Text('Add an Action', style: TextStyle(color: Colors.black),)),
+            child: const Text(
+              'Add an Action',
+              style: TextStyle(color: Colors.black),
+            )),
       if (_isChoosingAnAction)
         Column(
           children: <Widget>[
@@ -735,7 +440,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _reactionCreationState = 0;
               });
             },
-            child: const Text('Add a Reaction', style: TextStyle(color: Colors.black),)),
+            child: const Text(
+              'Add a Reaction',
+              style: TextStyle(color: Colors.black),
+            )),
       if (_isChoosingAReaction)
         Column(
           children: <Widget>[
@@ -772,7 +480,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                       _createdActionContentSave = <ServiceData>[];
                       _createdReactionContentSave = <ServiceData>[];
                       createdAreaContent = <ServiceData>[];
-                      _state = 0;
                       goToHomePage(context);
                     });
                   },
@@ -788,7 +495,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           ),
 
           /// Block Action
-          const Text('Action', style: TextStyle(fontSize: 20),),
+          const Text(
+            'Action',
+            style: TextStyle(fontSize: 20),
+          ),
           const SizedBox(
             height: 20,
           ),
@@ -802,7 +512,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           ),
 
           /// Block Reaction
-          const Text('Reaction', style: TextStyle(fontSize: 20),),
+          const Text(
+            'Reaction',
+            style: TextStyle(fontSize: 20),
+          ),
           const SizedBox(
             height: 20,
           ),
