@@ -16,17 +16,18 @@ class AreaData {
   List<ReactionData> reactionId;
   bool isEnable = true;
   String? description;
+  ServiceData? serviceId;
 
   /// Constructor of the Area class
-  AreaData({
-    required this.id,
-    required this.name,
-    required this.userId,
-    required this.actionId,
-    required this.reactionId,
-    required this.isEnable,
-    this.description,
-  });
+  AreaData(
+      {required this.id,
+      required this.name,
+      required this.userId,
+      required this.actionId,
+      required this.reactionId,
+      required this.isEnable,
+      this.description,
+      this.serviceId});
 
   /// Utility function used for cloning the class
   AreaData.clone(AreaData oldArea)
@@ -38,7 +39,8 @@ class AreaData {
             reactionId:
                 oldArea.reactionId.map((v) => ReactionData.clone(v)).toList(),
             isEnable: oldArea.isEnable,
-            description: oldArea.description);
+            description: oldArea.description,
+            serviceId: oldArea.serviceId);
 
   /// Convert a json map into the class
   factory AreaData.fromJson(Map<String, dynamic> json) {
@@ -71,7 +73,6 @@ class AreaData {
 
   /// This function return the first associated service of an Area
   ServiceData? getAssociatedService() {
-    /// HOLD THE NULL CASE
     if (actionId.isEmpty) {
       return null;
     }
@@ -84,8 +85,7 @@ class AreaData {
   }
 
   /// This function return the good icon with the serviceName
-  Widget? getServiceIcon() {
-    /// REMOVE NULL
+  Widget getServiceIcon() {
     ServiceData? serviceData = getAssociatedService();
     return Column(
       children: <Widget>[
@@ -163,7 +163,7 @@ class AreaData {
                   name,
                   style: const TextStyle(color: Colors.black),
                 ),
-                getServiceIcon()!,
+                getServiceIcon(),
               ],
             ),
             const SizedBox(height: 20),

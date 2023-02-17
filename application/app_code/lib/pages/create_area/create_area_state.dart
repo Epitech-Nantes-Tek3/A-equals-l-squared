@@ -1,26 +1,23 @@
-import 'dart:convert';
-
 import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/create_area/create_area_page.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import '../../flutter_objects/action_data.dart';
+import '../../flutter_objects/area_data.dart';
 import '../../flutter_objects/reaction_data.dart';
 import '../../flutter_objects/service_data.dart';
-import '../../network/informations.dart';
 import '../home/home_functional.dart';
 
 class CreateAreaPageState extends State<CreateAreaPage> {
+  /// Setting of the action set ?
+  bool actionSetting = false;
+
   /// Creation of an Action state
   int _actionCreationState = 0;
 
   /// Creation of an Reaction state
   int _reactionCreationState = 0;
-
-  /// Name of the AREA
-  String _name = "";
 
   /// Variable to know if an User want to choose an Action
   bool _isChoosingAnAction = false;
@@ -28,26 +25,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Variable to know if an User want to choose a Reaction
   bool _isChoosingAReaction = false;
 
-  /// Status of the AREA
-  bool _isEnable = true;
-
   /// Save of the creation state
-  List<ServiceData> _createdAreaContentSave = <ServiceData>[];
-
-  /// Save of the creation of an Action state
-  List<ServiceData> _createdActionContentSave = <ServiceData>[];
-
-  /// Save of the creation of an Reaction state
-  List<ServiceData> _createdReactionContentSave = <ServiceData>[];
-
-  /// Future answer of the api
-  late Future<String> _futureAnswer;
-
-  /// Parameter value of the action
-  List<ParameterContent> actionParameterContent = <ParameterContent>[];
-
-  /// Parameter value of the reaction
-  List<ParameterContent> reactionParameterContent = <ParameterContent>[];
+  AreaData? _createdAreaSave;
 
   /// Useful function updating the state
   /// object -> Object who's calling the function
@@ -56,62 +35,19 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     setState(() {});
   }
 
-  /// Ask the api to create an area
-  Future<String> apiAskForAreaCreation() async {
-    try {
-      List<Map<String, String>> actionParameter = <Map<String, String>>[];
-      List<Map<String, String>> reactionParameter = <Map<String, String>>[];
-
-      for (var temp in createdArea!.actionParameters) {
-        String value = temp.value;
-        ParameterData? associated = temp.getParameterData();
-        if (associated != null && associated.getterValue != null) {
-          value = associated.getterValue![temp.value]!;
-        }
-        actionParameter
-            .add(<String, String>{'paramId': temp.paramId, 'value': value});
-      }
-
-      for (var temp in createdArea!.reactionParameters) {
-        String value = temp.value;
-        ParameterData? associated = temp.getParameterData();
-        if (associated != null && associated.getterValue != null) {
-          value = associated.getterValue![temp.value]!;
-        }
-        reactionParameter
-            .add(<String, String>{'paramId': temp.paramId, 'value': value});
-      }
-
-      var response =
-          await http.post(Uri.parse('http://$serverIp:8080/api/area/create'),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Authorization': 'Bearer ${userInformation!.token}',
-              },
-              body: jsonEncode(<String, dynamic>{
-                'actionId': createdArea!.actionId,
-                'name': createdArea!.name,
-                'actionParameters': actionParameter,
-                'reactionId': createdArea!.reactionId,
-                'reactionParameters': reactionParameter,
-                'isEnable': _isEnable
-              }));
-
-      if (response.statusCode == 200) {
-        await updateAllFlutterObject();
-        return 'Success ! You can go back to home page';
-      } else {
-        return response.body.toString();
-      }
-    } catch (err) {
-      debugPrint(err.toString());
-      return 'Error during creation.';
-    }
+  /// Ask the api to change an area
+  Future<String> apiAskForAreaChange() async {
+    return 'TO REBASE WITH DB UPDATE';
   }
 
-  /// Initialization function for the api answer
-  Future<String> getAFirstApiAnswer() async {
-    return '';
+  /// Ask the api to change an action
+  Future<String> apiAskForActionChange(ActionData action) async {
+    return 'TO REBASE WITH DB UPDATE';
+  }
+
+  /// Ask the api to change a reaction
+  Future<String> apiAskForReactionChange(ReactionData reaction) async {
+    return 'TO REBASE WITH DB UPDATE';
   }
 
   List<Widget> chooseAnAction() {
@@ -129,16 +65,15 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               side: const BorderSide(width: 3, color: Colors.white),
-              // Change when DB is Up
+
+              /// Change when DB is Up
               primary: Colors.white,
             ),
             onPressed: () {
               setState(() {
-                _createdActionContentSave = createdAreaContent
-                    .map((v) => ServiceData.clone(v))
-                    .toList();
-                createdAreaContent.add(ServiceData.clone(temp));
-                _reactionCreationState = 1;
+                _createdAreaSave = AreaData.clone(createdArea!);
+                createdArea!.serviceId = ServiceData.clone(temp);
+                _actionCreationState = 1;
               });
             },
             child: temp.display()));
@@ -158,7 +93,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           height: 30,
         ),
       );
-      for (var temp in createdAreaContent[0].actions) {
+      for (var temp in createdArea!.serviceId!.actions) {
         createAnAction.add(ElevatedButton(
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -169,21 +104,16 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             ),
             onPressed: () {
               setState(() {
-                _createdActionContentSave = createdAreaContent
-                    .map((v) => ServiceData.clone(v))
-                    .toList();
-                if (actionParameterContent.isNotEmpty) {
-                  actionParameterContent = <ParameterContent>[];
-                }
+                _createdAreaSave = AreaData.clone(createdArea!);
+                createdArea!.actionId.add(ActionData.clone(temp));
                 for (var tmp in temp.parameters) {
-                  actionParameterContent
+                  createdArea!.actionId.last.parametersContent
                       .add(ParameterContent(paramId: tmp.id, value: ""));
                 }
-                createdAreaContent[0].actions = [ActionData.clone(temp)];
                 _actionCreationState = 2;
               });
             },
-            child: temp.display(false, [], createUpdate)));
+            child: temp.display(false, createUpdate)));
         createAnAction.add(
           const SizedBox(
             height: 10,
@@ -199,9 +129,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           height: 10,
         ),
       );
-      createAnAction.add(createdAreaContent[0]
-          .actions[0]
-          .display(true, actionParameterContent, createUpdate));
+      createAnAction
+          .add(createdArea!.actionId.last.display(true, createUpdate));
       createAnAction.add(
         const SizedBox(
           height: 10,
@@ -211,9 +140,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           onPressed: () {
             setState(() {
               bool isRequired = true;
-              _createdActionContentSave =
-                  createdAreaContent.map((v) => ServiceData.clone(v)).toList();
-              for (var temp in createdAreaContent[0].actions[0].parameters) {
+              _createdAreaSave = AreaData.clone(createdArea!);
+              for (var temp in createdArea!.actionId.last.parameters) {
                 if (temp.isRequired && temp.matchedContent!.value == "") {
                   isRequired = false;
                 }
@@ -221,7 +149,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               if (isRequired) {
                 _actionCreationState = 0;
 
-                /// Add this Action in DB
+                apiAskForActionChange(createdArea!.actionId.last);
                 _isChoosingAnAction = false;
               }
             });
@@ -236,15 +164,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           key: const Key('CreateActionPreviousButton'),
           onPressed: () {
             setState(() {
-              createdAreaContent = _createdActionContentSave
-                  .map((v) => ServiceData.clone(v))
-                  .toList();
+              createdArea = AreaData.clone(_createdAreaSave!);
               if (_actionCreationState == 0) {
                 _isChoosingAnAction = false;
                 _actionCreationState = 0;
-                createdArea = null;
-                _createdActionContentSave = <ServiceData>[];
-                createdAreaContent = <ServiceData>[];
               }
               _actionCreationState -= 1;
             });
@@ -253,7 +176,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         ),
       ]));
     }
-
     return createAnAction;
   }
 
@@ -272,15 +194,14 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               side: const BorderSide(width: 3, color: Colors.white),
-              // Change when DB is Up
+
+              /// Change when DB is Up
               primary: Colors.white,
             ),
             onPressed: () {
               setState(() {
-                _createdReactionContentSave = createdAreaContent
-                    .map((v) => ServiceData.clone(v))
-                    .toList();
-                createdAreaContent.add(ServiceData.clone(temp));
+                _createdAreaSave = AreaData.clone(createdArea!);
+                createdArea!.serviceId = ServiceData.clone(temp);
                 _reactionCreationState = 1;
               });
             },
@@ -293,37 +214,35 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       }
     }
     if (_reactionCreationState == 1) {
-      createAReaction.add(const Text("Choose your Reaction"));
-      for (var temp in createdAreaContent[1].reactions) {
-        createAReaction.add(
-          const SizedBox(
-            height: 10,
-          ),
-        );
+      createAReaction.add(Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const <Widget>[Text("Choose your Reaction")]));
+      createAReaction.add(
+        const SizedBox(
+          height: 30,
+        ),
+      );
+      for (var temp in createdArea!.serviceId!.reactions) {
         createAReaction.add(ElevatedButton(
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               side: const BorderSide(width: 3, color: Colors.white),
-              // Change when DB is Up
+
+              /// Change when DB is Up
               primary: Colors.white,
             ),
             onPressed: () {
               setState(() {
-                _createdReactionContentSave = createdAreaContent
-                    .map((v) => ServiceData.clone(v))
-                    .toList();
-                if (reactionParameterContent.isNotEmpty) {
-                  reactionParameterContent = <ParameterContent>[];
-                }
+                _createdAreaSave = AreaData.clone(createdArea!);
+                createdArea!.reactionId.add(ReactionData.clone(temp));
                 for (var tmp in temp.parameters) {
-                  reactionParameterContent
+                  createdArea!.reactionId.last.parametersContent
                       .add(ParameterContent(paramId: tmp.id, value: ""));
                 }
-                createdAreaContent[1].reactions = [ReactionData.clone(temp)];
                 _reactionCreationState = 2;
               });
             },
-            child: temp.display(false, [], createUpdate)));
+            child: temp.display(false, createUpdate)));
         createAReaction.add(
           const SizedBox(
             height: 10,
@@ -339,9 +258,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           height: 10,
         ),
       );
-      createAReaction.add(createdAreaContent[1]
-          .reactions[0]
-          .display(true, reactionParameterContent, createUpdate));
+      createAReaction
+          .add(createdArea!.reactionId.last.display(true, createUpdate));
       createAReaction.add(
         const SizedBox(
           height: 10,
@@ -351,9 +269,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           onPressed: () {
             setState(() {
               bool isRequired = true;
-              _createdReactionContentSave =
-                  createdAreaContent.map((v) => ServiceData.clone(v)).toList();
-              for (var temp in createdAreaContent[1].reactions[0].parameters) {
+              _createdAreaSave = AreaData.clone(createdArea!);
+              for (var temp in createdArea!.reactionId.last.parameters) {
                 if (temp.isRequired && temp.matchedContent!.value == "") {
                   isRequired = false;
                 }
@@ -361,7 +278,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               if (isRequired) {
                 _reactionCreationState = 0;
 
-                /// Add this Reaction in DB
+                apiAskForReactionChange(createdArea!.reactionId.last);
+                _isChoosingAReaction = false;
               }
             });
           },
@@ -372,18 +290,13 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       createAReaction
           .add(Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         ElevatedButton(
-          key: const Key('CreateActionPreviousButton'),
+          key: const Key('CreateReactionPreviousButton'),
           onPressed: () {
             setState(() {
-              createdAreaContent = _createdReactionContentSave
-                  .map((v) => ServiceData.clone(v))
-                  .toList();
+              createdArea = AreaData.clone(_createdAreaSave!);
               if (_reactionCreationState == 0) {
                 _isChoosingAReaction = false;
                 _reactionCreationState = 0;
-                createdArea = null;
-                _createdReactionContentSave = <ServiceData>[];
-                createdAreaContent = <ServiceData>[];
               }
               _reactionCreationState -= 1;
             });
@@ -392,7 +305,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         ),
       ]));
     }
-
     return createAReaction;
   }
 
@@ -402,7 +314,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         ElevatedButton(
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              // Change when DB is Up
+
+              /// Change when DB is Up
               primary: Colors.white,
             ),
             onPressed: () {
@@ -418,7 +331,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       if (_isChoosingAnAction)
         Column(
           children: <Widget>[
-            const Text('Display all services'),
             Column(children: chooseAnAction()),
           ],
         )
@@ -431,7 +343,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         ElevatedButton(
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              // Change when DB is Up
+
+              /// Change when DB is Up
               primary: Colors.white,
             ),
             onPressed: () {
@@ -447,7 +360,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       if (_isChoosingAReaction)
         Column(
           children: <Widget>[
-            const Text('Display all services'),
             Column(children: chooseAReaction()),
           ],
         )
@@ -457,11 +369,30 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   @override
   void initState() {
     super.initState();
-    _futureAnswer = getAFirstApiAnswer();
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> actionListDisplay = <Widget>[];
+    List<Widget> reactionListDisplay = <Widget>[];
+
+    if (createdArea != null && createdArea!.actionId.isNotEmpty) {
+      for (var temp in createdArea!.actionId) {
+        if (_actionCreationState != 2 || temp != createdArea!.actionId.last) {
+          actionListDisplay.add(temp.display(true, createUpdate));
+        }
+      }
+    }
+
+    if (createdArea != null && createdArea!.reactionId.isNotEmpty) {
+      for (var temp in createdArea!.reactionId) {
+        if (_reactionCreationState != 2 ||
+            temp != createdArea!.reactionId.last) {
+          reactionListDisplay.add(temp.display(true, createUpdate));
+        }
+      }
+    }
+
     return Scaffold(
         body: SingleChildScrollView(
             child: Container(
@@ -476,10 +407,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   onPressed: () {
                     setState(() {
                       createdArea = null;
-                      _createdAreaContentSave = <ServiceData>[];
-                      _createdActionContentSave = <ServiceData>[];
-                      _createdReactionContentSave = <ServiceData>[];
-                      createdAreaContent = <ServiceData>[];
+                      _createdAreaSave = null;
+                      actionSetting = false;
                       goToHomePage(context);
                     });
                   },
@@ -493,36 +422,84 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           const SizedBox(
             height: 30,
           ),
+          if (actionSetting)
+            Column(children: [
+              /// Block Action
+              const Text(
+                'Action',
+                style: TextStyle(fontSize: 20),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
 
-          /// Block Action
-          const Text(
-            'Action',
-            style: TextStyle(fontSize: 20),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
+              Column(children: actionListDisplay),
+              displayActionViewToCreateAnArea(),
 
-          /// if (_hasAnAction)
-          /// display all Actions chosen by the User
-          displayActionViewToCreateAnArea(),
+              const SizedBox(
+                height: 30,
+              ),
 
-          const SizedBox(
-            height: 30,
-          ),
+              /// Block Reaction
+              const Text(
+                'Reaction',
+                style: TextStyle(fontSize: 20),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
 
-          /// Block Reaction
-          const Text(
-            'Reaction',
-            style: TextStyle(fontSize: 20),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-
-          /// if (_hasAReaction)
-          /// display all Reactions chosen by the User
-          displayReactionViewToCreateAnArea(),
+              Column(children: reactionListDisplay),
+              displayReactionViewToCreateAnArea()
+            ])
+          else
+            Column(
+              children: [
+                TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Area Name',
+                  ),
+                  initialValue: createdArea != null ? createdArea!.name : '',
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (String? value) {
+                    createdArea!.name = value!;
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Area Description',
+                  ),
+                  initialValue:
+                      createdArea != null ? createdArea!.description : '',
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (String? value) {
+                    createdArea!.description = value!;
+                    return null;
+                  },
+                ),
+                Switch(
+                  value: createdArea != null ? createdArea!.isEnable : true,
+                  activeColor: Colors.blue,
+                  onChanged: (bool value) {
+                    setState(() {
+                      createdArea!.isEnable = value;
+                    });
+                  },
+                ),
+                ElevatedButton(
+                    onPressed: (() {
+                      apiAskForAreaChange();
+                      setState(() {
+                        actionSetting = true;
+                      });
+                    }),
+                    child: Text(
+                        "$changeType ${createdArea != null ? createdArea!.name : ''}"))
+              ],
+            )
         ],
       ),
     )));

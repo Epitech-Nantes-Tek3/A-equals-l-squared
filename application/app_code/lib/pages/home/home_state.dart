@@ -6,6 +6,7 @@ import 'package:application/pages/settings/settings_functional.dart';
 import 'package:application/pages/update_area/update_area_functional.dart';
 import 'package:flutter/material.dart';
 
+import '../../flutter_objects/area_data.dart';
 import '../../material_lib_functions/material_functions.dart';
 import '../login/login_page.dart';
 import 'home_page.dart';
@@ -33,14 +34,17 @@ class HomePageState extends State<HomePage> {
     List<Widget> areaVis = <Widget>[];
 
     for (var temp in areaDataList) {
-      String str =
-          temp.getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
+      late String str;
+      if (temp.getAssociatedService() == null) {
+        str = "0xffFFFFFF";
+      }
+      str = temp.getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
       Color tempColor = Color(int.parse(str));
       areaVis.add(materialElevatedButtonArea(
           ElevatedButton(
               style: ElevatedButton.styleFrom(),
               onPressed: () {
-                updatingArea = temp;
+                createdArea = AreaData.clone(temp);
                 goToUpdateAreaPage(context);
               },
               child: temp.display(false, null)),
