@@ -37,7 +37,7 @@ Widget materialElevatedButtonArea(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius)),
           shadowColor: isShadowNeeded ? Colors.black : Colors.transparent,
-          elevation: isShadowNeeded ? 5 : 0),
+          elevation: isShadowNeeded ? 3 : 0),
       child: buttonContent.child);
   return newButton;
 }
