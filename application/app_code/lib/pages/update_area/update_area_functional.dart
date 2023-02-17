@@ -10,6 +10,6 @@ void goToUpdateAreaPage(BuildContext context) {
     context.go('/');
     return;
   }
-  changeType = 'Update';
+  changeType = 'update';
   context.go('/create_area');
 }
