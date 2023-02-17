@@ -25,7 +25,7 @@ const database = require('../../database_init')
  * @apiSuccess {String} Reactions.ReactionParameters.value Reaction parameter value.
  * @apiFailure {String} error Error message.
  */
-app.get('/api/area', async (req, res) => {
+app.get('/api/areas', async (req, res) => {
   try {
     const areas = await database.prisma.AREA.findMany({
       select: {
