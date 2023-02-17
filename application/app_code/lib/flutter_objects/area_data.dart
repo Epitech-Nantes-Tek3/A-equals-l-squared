@@ -12,25 +12,22 @@ class AreaData {
   String id;
   String name;
   String userId;
-  String actionId;
-  String reactionId;
+  List<ActionData> actionList;
+  List<ReactionData> reactionList;
   bool isEnable = true;
   String? description;
-  List<ParameterContent> actionParameters;
-  List<ParameterContent> reactionParameters;
+  ServiceData? serviceId;
 
   /// Constructor of the Area class
-  AreaData({
-    required this.id,
-    required this.name,
-    required this.userId,
-    required this.actionId,
-    required this.reactionId,
-    required this.isEnable,
-    required this.actionParameters,
-    required this.reactionParameters,
-    this.description,
-  });
+  AreaData(
+      {required this.id,
+      required this.name,
+      required this.userId,
+      required this.actionList,
+      required this.reactionList,
+      required this.isEnable,
+      this.description,
+      this.serviceId});
 
   /// Utility function used for cloning the class
   AreaData.clone(AreaData oldArea)
@@ -38,170 +35,119 @@ class AreaData {
             id: oldArea.id,
             name: oldArea.name,
             userId: oldArea.userId,
-            actionId: oldArea.actionId,
-            reactionId: oldArea.reactionId,
+            actionList:
+                oldArea.actionList.map((v) => ActionData.clone(v)).toList(),
+      reactionList:
+                oldArea.reactionList.map((v) => ReactionData.clone(v)).toList(),
             isEnable: oldArea.isEnable,
-            actionParameters: oldArea.actionParameters
-                .map((v) => ParameterContent.clone(v))
-                .toList(),
-            reactionParameters: oldArea.reactionParameters
-                .map((v) => ParameterContent.clone(v))
-                .toList(),
-            description: oldArea.description);
+            description: oldArea.description,
+            serviceId: oldArea.serviceId);
 
   /// Convert a json map into the class
   factory AreaData.fromJson(Map<String, dynamic> json) {
-    List<ParameterContent> actionParameters = <ParameterContent>[];
-    for (var temp in json['ActionParameters']) {
-      actionParameters.add(ParameterContent.fromJson(temp));
+    List<ActionData> actionList = <ActionData>[];
+    for (var temp in json['actionId']) {
+      /// REBASE IT WITH DB UPDATE
+      actionList.add(getActionDataById(temp)!);
+      for (var temp2 in temp['ActionParameters']) {
+        actionList.last.parametersContent.add(ParameterContent.fromJson(temp2));
+      }
     }
-    List<ParameterContent> reactionParameters = <ParameterContent>[];
-    for (var temp in json['ReactionParameters']) {
-      reactionParameters.add(ParameterContent.fromJson(temp));
+    List<ReactionData> reactionList = <ReactionData>[];
+    for (var temp in json['reactionId']) {
+      /// REBASE IT WITH DB UPDATE
+      reactionList.add(getReactionDataById(temp)!);
+      for (var temp2 in temp['ReactionParameters']) {
+        reactionList.last.parametersContent
+            .add(ParameterContent.fromJson(temp2));
+      }
     }
     return AreaData(
-        id: json['id'],
-        name: json['name'],
-        userId: json['userId'],
-        actionId: json['actionId'],
-        reactionId: json['reactionId'],
-        isEnable: json['isEnable'],
-        description: 'It\'s a description',
-        actionParameters: actionParameters,
-        reactionParameters: reactionParameters);
+      id: json['id'],
+      name: json['name'],
+      userId: json['userId'],
+      actionList: actionList,
+      reactionList: reactionList,
+      isEnable: json['isEnable'],
+      description: json['description'],
+    );
+  }
+
+  /// Get the first color of hit first service
+  Color getPrimaryColor() {
+    if (getAssociatedService() == null) {
+      return Colors.white;
+    }
+    String str = getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
+    Color tempColor = Color(int.parse(str));
+    return tempColor;
+  }
+
+  /// Get the secondary color of hit first service
+  Color getSecondaryColor() {
+    if (getAssociatedService() == null) {
+      return Colors.white;
+    }
+    String str =
+        getAssociatedService()!.secondaryColor.replaceFirst("#", "0xff");
+    Color tempColor = Color(int.parse(str));
+    return tempColor;
   }
 
   /// This function return the first associated service of an Area
   ServiceData? getAssociatedService() {
+    if (actionList.isEmpty) {
+      return null;
+    }
     for (var temp in serviceDataList) {
-      for (var temp2 in temp.actions) {
-        if (temp2.id == actionId) {
-          return temp;
-        }
+      if (temp.id == actionList[0].serviceId) {
+        return temp;
       }
     }
     return null;
   }
 
   /// This function return the good icon with the serviceName
-  Widget? getServiceIcon() {
+  Widget getServiceIcon() {
     ServiceData? serviceData = getAssociatedService();
-    if (serviceData != null) {
-      return Column(
-        children: <Widget>[
-          Image.asset(
-            serviceData.icon != ''
-                ? serviceData.icon
-                : 'assets/icons/Area_Logo.png',
-            height: 50,
-            width: 50,
-          )
-        ],
-      );
-    }
-    return null;
+    return Column(
+      children: <Widget>[
+        Image.asset(
+          serviceData != null
+              ? (serviceData.icon != ''
+                  ? serviceData.icon
+                  : 'assets/icons/Area_Logo.png')
+              : 'assets/icons/Area_Logo.png',
+          height: 50,
+          width: 50,
+        )
+      ],
+    );
   }
 
-  /// Get a visual representation of an Area for create page
-  /// mode -> true = complete representation, false = only area preview
-  /// update -> Function pointer used for update the state
-  Widget displayForCreate(bool mode, Function? update) {
-    late ActionData action;
-    late ReactionData reaction;
-
-    for (var temp in serviceDataList) {
-      for (var tempAct in temp.actions) {
-        if (tempAct.id == actionId) {
-          action = tempAct;
-          break;
-        }
-      }
-    }
-    for (var temp in serviceDataList) {
-      for (var tempReact in temp.reactions) {
-        if (tempReact.id == reactionId) {
-          reaction = tempReact;
-          break;
-        }
-      }
-    }
-    List<Widget> listDisplay = <Widget>[];
-    if (mode) {
-      listDisplay.add(Column(
-        children: <Widget>[
-          Row(children: <Widget>[
+  /// This function display an Area preview with the logo, the name and the description
+  Widget displayAreaPreview() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            getServiceIcon(),
             Text(
               name,
-              style: TextStyle(
-                  color: isEnable ? Colors.green : Colors.red, fontSize: 20),
-            ),
-          ]),
-          const SizedBox(
-            height: 10,
-          ),
-          (Column(children: <Widget>[
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: Column(
-                children: [
-                  const Text("Action"),
-                  action.display(true, actionParameters, update),
-                ],
-              ),
-            )
-          ])),
-          const SizedBox(
-            height: 20,
-          ),
-          (Column(children: <Widget>[
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: Column(
-                children: [
-                  const Text("Reaction"),
-                  reaction.display(true, reactionParameters, update)
-                ],
-              ),
-            )
-          ])),
-        ],
-      ));
-    } else {
-      try {
-        listDisplay.add(Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  name,
-                  style: const TextStyle(color: Colors.black),
-                ),
-                const Icon(
-                  Icons.ac_unit,
-                  color: Colors.black,
-                )
-
-                /// change color
-              ],
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Description : \n\n $description',
               style: const TextStyle(color: Colors.black),
-            )
-
-            /// Put Description when it's in DB
+            ),
           ],
-        ));
-      } catch (err) {
-        listDisplay.add(const Text("Please logout and login."));
-      }
-    }
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: listDisplay,
+        ),
+        const SizedBox(height: 20),
+        Text(
+          'Description : \n\n $description',
+          style: const TextStyle(color: Colors.black),
+        )
+
+        /// Put Description when it's in DB
+      ],
     );
   }
 
@@ -209,26 +155,19 @@ class AreaData {
   /// mode -> true = complete representation, false = only area preview
   /// update -> Function pointer used for update the state
   Widget display(bool mode, Function? update) {
-    late ActionData action;
-    late ReactionData reaction;
-
-    for (var temp in serviceDataList) {
-      for (var tempAct in temp.actions) {
-        if (tempAct.id == actionId) {
-          action = tempAct;
-          break;
-        }
-      }
-    }
-    for (var temp in serviceDataList) {
-      for (var tempReact in temp.reactions) {
-        if (tempReact.id == reactionId) {
-          reaction = tempReact;
-          break;
-        }
-      }
-    }
     List<Widget> listDisplay = <Widget>[];
+    List<Widget> actionListDisplay = <Widget>[const Text("Actions")];
+    List<Widget> reactionListDisplay = <Widget>[const Text("Reactions")];
+    for (var temp in actionList) {
+      actionListDisplay.add(
+        temp.display(true, update),
+      );
+    }
+    for (var temp in reactionList) {
+      reactionListDisplay.add(
+        temp.display(true, update),
+      );
+    }
     if (mode) {
       listDisplay.add(Column(
         children: <Widget>[
@@ -247,12 +186,7 @@ class AreaData {
           (Column(children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: Column(
-                children: [
-                  const Text("Action"),
-                  action.display(true, actionParameters, update),
-                ],
-              ),
+              child: Column(children: actionListDisplay),
             )
           ])),
           const SizedBox(
@@ -261,40 +195,14 @@ class AreaData {
           (Column(children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: Column(
-                children: [
-                  const Text("Reaction"),
-                  reaction.display(true, reactionParameters, update)
-                ],
-              ),
+              child: Column(children: reactionListDisplay),
             )
           ])),
         ],
       ));
     } else {
       try {
-        listDisplay.add(Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  name,
-                  style: const TextStyle(color: Colors.black),
-                ),
-                getServiceIcon()!,
-              ],
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Description : \n\n $description',
-              style: const TextStyle(color: Colors.black),
-            )
-
-            /// Put Description when it's in DB
-          ],
-        ));
+        listDisplay.add(displayAreaPreview());
       } catch (err) {
         listDisplay.add(const Text("Please logout and login."));
       }
@@ -323,8 +231,8 @@ class AreaData {
     if (isEnable) {
       /// Add ' && description != null ' when is in DB
       return Column(
-        children: const <Widget>[
-          Text('This is a description'),
+        children: <Widget>[
+          Text(description != null ? description! : 'No description'),
         ],
       );
     } else {
@@ -339,4 +247,28 @@ class AreaData {
       return true;
     }
   }
+}
+
+/// Find an action by her id
+ActionData? getActionDataById(action) {
+  for (var temp in serviceDataList) {
+    for (var actions in temp.actions) {
+      if (actions.id == action) {
+        return ActionData.clone(actions);
+      }
+    }
+  }
+  return null;
+}
+
+/// Find a reaction by her id
+ReactionData? getReactionDataById(reaction) {
+  for (var temp in serviceDataList) {
+    for (var reactions in temp.reactions) {
+      if (reactions.id == reaction) {
+        return ReactionData.clone(reactions);
+      }
+    }
+  }
+  return null;
 }
