@@ -138,17 +138,18 @@ class HomePageState extends State<HomePage> {
                     children: createTabOfAreas(),
                   ),
                   materialElevatedButtonArea(
-                      ElevatedButton(
-                        key: const Key('HomeServiceButton'),
-                        onPressed: () {
-                          setState(() {
-                            goToServiceListPage(context);
-                          });
-                        },
-                        child: const Text('Service List'),
-                      ),
-                      false,
-                      primaryColor: getOurBlueAreaColor(100)),
+                    ElevatedButton(
+                      key: const Key('HomeServiceButton'),
+                      onPressed: () {
+                        setState(() {
+                          goToServiceListPage(context);
+                        });
+                      },
+                      child: const Text('Service List'),
+                    ),
+                    false,
+                    primaryColor: getOurBlueAreaColor(100),
+                  ),
                 ],
               ),
             ),
