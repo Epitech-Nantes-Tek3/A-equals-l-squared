@@ -62,13 +62,35 @@ class AreaData {
       }
     }
     return AreaData(
-        id: json['id'],
-        name: json['name'],
-        userId: json['userId'],
-        actionId: actionList,
-        reactionId: reactionList,
-        isEnable: json['isEnable'],
-        description: 'It\'s a description');
+      id: json['id'],
+      name: json['name'],
+      userId: json['userId'],
+      actionId: actionList,
+      reactionId: reactionList,
+      isEnable: json['isEnable'],
+      description: json['description'],
+    );
+  }
+
+  /// Get the first color of hit first service
+  Color getPrimaryColor() {
+    if (getAssociatedService() == null) {
+      return Colors.white;
+    }
+    String str = getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
+    Color tempColor = Color(int.parse(str));
+    return tempColor;
+  }
+
+  /// Get the secondary color of hit first service
+  Color getSecondaryColor() {
+    if (getAssociatedService() == null) {
+      return Colors.white;
+    }
+    String str =
+        getAssociatedService()!.secondaryColor.replaceFirst("#", "0xff");
+    Color tempColor = Color(int.parse(str));
+    return tempColor;
   }
 
   /// This function return the first associated service of an Area
@@ -98,6 +120,32 @@ class AreaData {
           height: 50,
           width: 50,
         )
+      ],
+    );
+  }
+
+  /// This function display an Area preview with the logo, the name and the description
+  Widget displayAreaPreview() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            getServiceIcon(),
+            Text(
+              name,
+              style: const TextStyle(color: Colors.black),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        Text(
+          'Description : \n\n $description',
+          style: const TextStyle(color: Colors.black),
+        )
+
+        /// Put Description when it's in DB
       ],
     );
   }
@@ -153,26 +201,7 @@ class AreaData {
       ));
     } else {
       try {
-        listDisplay.add(Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  name,
-                  style: const TextStyle(color: Colors.black),
-                ),
-                getServiceIcon(),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Description : \n\n $description',
-              style: const TextStyle(color: Colors.black),
-            )
-          ],
-        ));
+        listDisplay.add(displayAreaPreview());
       } catch (err) {
         listDisplay.add(const Text("Please logout and login."));
       }

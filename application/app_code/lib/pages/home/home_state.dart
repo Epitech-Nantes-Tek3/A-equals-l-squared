@@ -1,3 +1,4 @@
+import 'package:application/flutter_objects/area_data.dart';
 import 'package:application/network/informations.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/home/home_functional.dart';
@@ -29,31 +30,59 @@ class HomePageState extends State<HomePage> {
     update();
   }
 
-  /// Display all the area
-  List<Widget> areasDisplay() {
+  /// This function create a Row of two Areas
+  Widget createRowOfAreas(Widget firstArea, Widget? secondArea) {
+    Widget rowArea = Row(
+        mainAxisAlignment: secondArea != null
+            ? MainAxisAlignment.spaceBetween
+            : MainAxisAlignment.center,
+        children: <Widget>[
+          firstArea,
+          if (secondArea != null) secondArea,
+        ]);
+    return rowArea;
+  }
+
+  /// This function Create an Elevated Button thanks to an Area
+  Widget areaDataToElevatedButton(AreaData areaData, Color areaBorderColor) {
+    return materialElevatedButtonArea(
+      ElevatedButton(
+          onPressed: () {
+            createdArea = AreaData.clone(areaData);
+            goToUpdateAreaPage(context);
+          },
+          child: areaData.display(false, null)),
+      isShadowNeeded: true,
+      paddingHorizontal: 30,
+      paddingVertical: 30,
+      borderRadius: 10,
+      borderWith: 3,
+      borderColor: areaBorderColor,
+    );
+  }
+
+  /// THis function display all Areas in Tab
+  List<Widget> createTabOfAreas() {
     List<Widget> areaVis = <Widget>[];
+    late AreaData tempArea;
+
+    var count = 1;
 
     for (var temp in areaDataList) {
-      late String str;
-      if (temp.getAssociatedService() == null) {
-        str = "0xffFFFFFF";
+      if (count % 2 == 0 && count != 0) {
+        areaVis.add(createRowOfAreas(
+            areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor()),
+            areaDataToElevatedButton(temp, temp.getPrimaryColor())));
+        areaVis.add(const SizedBox(
+          height: 30,
+        ));
       }
-      str = temp.getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
-      Color tempColor = Color(int.parse(str));
-      areaVis.add(materialElevatedButtonArea(
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(),
-              onPressed: () {
-                createdArea = AreaData.clone(temp);
-                goToUpdateAreaPage(context);
-              },
-              child: temp.display(false, null)),
-          true,
-          borderColor: tempColor,
-          borderWith: 3,
-          paddingVertical: 30,
-          paddingHorizontal: 30));
-      areaVis.add(const SizedBox(height: 20));
+      tempArea = temp;
+      count++;
+    }
+    if (count % 2 == 0) {
+      areaVis.add(createRowOfAreas(
+          areaDataToElevatedButton(tempArea, Colors.deepOrange), null));
     }
     return areaVis;
   }
@@ -121,20 +150,20 @@ class HomePageState extends State<HomePage> {
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: areasDisplay(),
+                    children: createTabOfAreas(),
                   ),
                   materialElevatedButtonArea(
-                      ElevatedButton(
-                        key: const Key('HomeServiceButton'),
-                        onPressed: () {
-                          setState(() {
-                            goToServiceListPage(context);
-                          });
-                        },
-                        child: const Text('Service List'),
-                      ),
-                      false,
-                      primaryColor: getOurBlueAreaColor(100)),
+                    ElevatedButton(
+                      key: const Key('HomeServiceButton'),
+                      onPressed: () {
+                        setState(() {
+                          goToServiceListPage(context);
+                        });
+                      },
+                      child: const Text('Service List'),
+                    ),
+                    primaryColor: getOurBlueAreaColor(100),
+                  ),
                 ],
               ),
             ),
