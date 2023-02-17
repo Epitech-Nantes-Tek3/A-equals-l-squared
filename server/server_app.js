@@ -1317,4 +1317,4 @@ app.listen(PORT, HOST, () => {
   console.log(`Server running...`)
 })
 
-module.exports = { test_example }
+module.exports = { test_example, app }

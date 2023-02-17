@@ -127,9 +127,9 @@ model AREA {
   createdAt        DateTime           @default(now())
   description      String?
   User             User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Action           Action             @relation(fields: [actionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Action           Action?             @relation(fields: [actionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId           String
-  actionId         String
+  actionId         String?
   ActionParameters ActionParameter[]
   Reactions        AREAhasReactions[]
 }
