@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/create_area/create_area_page.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import '../../flutter_objects/action_data.dart';
 import '../../flutter_objects/area_data.dart';
 import '../../flutter_objects/reaction_data.dart';
 import '../../flutter_objects/service_data.dart';
+import '../../network/informations.dart';
 import '../home/home_functional.dart';
 
 class CreateAreaPageState extends State<CreateAreaPage> {
@@ -37,17 +41,68 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
   /// Ask the api to change an area
   Future<String> apiAskForAreaChange() async {
-    return 'TO REBASE WITH DB UPDATE';
+    try {
+      final response = await http.post(
+        Uri.parse('http://$serverIp:8080/api/area/$changeType'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer ${userInformation!.token}',
+        },
+        body: jsonEncode(<String, String>{}),
+
+        /// UPDATE WHEN DB IS UP
+      );
+      if (response.statusCode != 200) {
+        return 'Error during area $changeType';
+      }
+      return 'Area successfully $changeType !';
+    } catch (err) {
+      return 'Error during area $changeType';
+    }
   }
 
   /// Ask the api to change an action
   Future<String> apiAskForActionChange(ActionData action) async {
-    return 'TO REBASE WITH DB UPDATE';
+    try {
+      final response = await http.post(
+        Uri.parse('http://$serverIp:8080/api/area/$changeType/action'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer ${userInformation!.token}',
+        },
+        body: jsonEncode(<String, String>{}),
+
+        /// UPDATE WHEN DB IS UP
+      );
+      if (response.statusCode != 200) {
+        return 'Error during action $changeType';
+      }
+      return 'Action successfully $changeType !';
+    } catch (err) {
+      return 'Error during area $changeType';
+    }
   }
 
   /// Ask the api to change a reaction
   Future<String> apiAskForReactionChange(ReactionData reaction) async {
-    return 'TO REBASE WITH DB UPDATE';
+    try {
+      final response = await http.post(
+        Uri.parse('http://$serverIp:8080/api/area/$changeType/reaction'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer ${userInformation!.token}',
+        },
+        body: jsonEncode(<String, String>{}),
+
+        /// UPDATE WHEN DB IS UP
+      );
+      if (response.statusCode != 200) {
+        return 'Error during action $changeType';
+      }
+      return 'Reaction successfully $changeType !';
+    } catch (err) {
+      return 'Error during area $changeType';
+    }
   }
 
   List<Widget> chooseAnAction() {
