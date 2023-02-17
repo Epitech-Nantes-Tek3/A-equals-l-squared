@@ -38,6 +38,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Variable to know if an User want to choose a Reaction
   bool _isChoosingAReaction = false;
 
+  /// Status of the AREA
+  bool _isEnable = true;
+
   /// Save of the creation state
   List<ServiceData> _createdAreaContentSave = <ServiceData>[];
 
@@ -134,7 +137,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 'name': createdArea!.name,
                 'actionParameters': actionParameter,
                 'reactionId': createdArea!.reactionId,
-                'reactionParameters': reactionParameter
+                'reactionParameters': reactionParameter,
+                'isEnable': _isEnable
               }));
 
       if (response.statusCode == 200) {
@@ -175,7 +179,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 userId: "",
                 actionId: createdAreaContent[0].actions[0].id,
                 reactionId: createdAreaContent[1].reactions[0].id,
-                isEnable: true,
+                isEnable: _isEnable,
                 actionParameters:
                     createdAreaContent[0].actions[0].getAllParameterContent(),
                 reactionParameters: createdAreaContent[1]
@@ -191,7 +195,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           userId: "",
           actionId: createdAreaContent[0].actions[0].id,
           reactionId: createdAreaContent[1].reactions[0].id,
-          isEnable: true,
+          isEnable: _isEnable,
           actionParameters:
               createdAreaContent[0].actions[0].getAllParameterContent(),
           reactionParameters:
@@ -204,6 +208,20 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       createVis.add(
         const SizedBox(
           height: 10,
+        ),
+      );
+      createVis.add(
+        Switch(
+          value: _isEnable,
+          activeColor: Colors.blue,
+          onChanged: (bool value) {
+            setState(() {
+              _isEnable = value;
+              if (createdArea != null) {
+                createdArea!.isEnable = _isEnable;
+              }
+            });
+          },
         ),
       );
       createVis.add(ElevatedButton(
