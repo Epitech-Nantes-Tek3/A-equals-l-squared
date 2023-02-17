@@ -1065,6 +1065,7 @@ app.get('/api/dev/parameter/listall', async (req, res) => {
  * body.actionParameters -> Action parameters (optionnal)
  * body.reactionId -> Reaction id (optionnal if actionId is set)
  * body.reactionParameters -> Reaction parameters (optionnal)
+ * body.isEnable -> Status of the area. (need to be set)
  * Protected by a JWT token
  */
 app.post(
@@ -1102,7 +1103,8 @@ app.post(
             Action: { connect: { id: req.body.actionId } },
             ActionParameters: { create: ActionParameters },
             Reaction: { connect: { id: req.body.reactionId } },
-            ReactionParameters: { create: ReactionParameters }
+            ReactionParameters: { create: ReactionParameters },
+            isEnable: req.body.isEnable
           },
           select: {
             id: true,
