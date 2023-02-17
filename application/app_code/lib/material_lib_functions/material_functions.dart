@@ -19,8 +19,7 @@ Color getOurGreenAreaColor(double opacity) {
 
 /// This function create a new ElevatedButton with the content of buttonContent
 /// This function can take many parameter to modified the style of the ElevatedButton but by it used default values of front design
-Widget materialElevatedButtonArea(ElevatedButton buttonContent, double maxWidth,
-    double minWidth, double maxHeight, double minHeight,
+Widget materialElevatedButtonArea(ElevatedButton buttonContent,
     {bool isShadowNeeded = false,
     borderColor = Colors.white,
     primaryColor = Colors.white,
@@ -28,14 +27,7 @@ Widget materialElevatedButtonArea(ElevatedButton buttonContent, double maxWidth,
     double borderWith = 0,
     double paddingVertical = 10,
     double paddingHorizontal = 10}) {
-  Widget newButton = Container(
-      color: Colors.blueAccent,
-      constraints: BoxConstraints(
-          maxWidth: maxWidth,
-          minWidth: minWidth,
-          maxHeight: maxHeight,
-          minHeight: minHeight),
-      child: ElevatedButton(
+  Widget newButton = ElevatedButton(
           onPressed: buttonContent.onPressed,
           style: ElevatedButton.styleFrom(
               primary: primaryColor,
@@ -46,6 +38,6 @@ Widget materialElevatedButtonArea(ElevatedButton buttonContent, double maxWidth,
                   borderRadius: BorderRadius.circular(borderRadius)),
               shadowColor: isShadowNeeded ? Colors.black : Colors.transparent,
               elevation: isShadowNeeded ? 3 : 0),
-          child: buttonContent.child));
+          child: buttonContent.child);
   return newButton;
 }
