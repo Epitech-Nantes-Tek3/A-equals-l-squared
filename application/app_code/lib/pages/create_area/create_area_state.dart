@@ -105,9 +105,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             onPressed: () {
               setState(() {
                 _createdAreaSave = AreaData.clone(createdArea!);
-                createdArea!.actionId.add(ActionData.clone(temp));
+                createdArea!.actionList.add(ActionData.clone(temp));
                 for (var tmp in temp.parameters) {
-                  createdArea!.actionId.last.parametersContent
+                  createdArea!.actionList.last.parametersContent
                       .add(ParameterContent(paramId: tmp.id, value: ""));
                 }
                 _actionCreationState = 2;
@@ -130,7 +130,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         ),
       );
       createAnAction
-          .add(createdArea!.actionId.last.display(true, createUpdate));
+          .add(createdArea!.actionList.last.display(true, createUpdate));
       createAnAction.add(
         const SizedBox(
           height: 10,
@@ -141,7 +141,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             setState(() {
               bool isRequired = true;
               _createdAreaSave = AreaData.clone(createdArea!);
-              for (var temp in createdArea!.actionId.last.parameters) {
+              for (var temp in createdArea!.actionList.last.parameters) {
                 if (temp.isRequired && temp.matchedContent!.value == "") {
                   isRequired = false;
                 }
@@ -149,7 +149,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               if (isRequired) {
                 _actionCreationState = 0;
 
-                apiAskForActionChange(createdArea!.actionId.last);
+                apiAskForActionChange(createdArea!.actionList.last);
                 _isChoosingAnAction = false;
               }
             });
@@ -234,9 +234,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             onPressed: () {
               setState(() {
                 _createdAreaSave = AreaData.clone(createdArea!);
-                createdArea!.reactionId.add(ReactionData.clone(temp));
+                createdArea!.reactionList.add(ReactionData.clone(temp));
                 for (var tmp in temp.parameters) {
-                  createdArea!.reactionId.last.parametersContent
+                  createdArea!.reactionList.last.parametersContent
                       .add(ParameterContent(paramId: tmp.id, value: ""));
                 }
                 _reactionCreationState = 2;
@@ -259,7 +259,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         ),
       );
       createAReaction
-          .add(createdArea!.reactionId.last.display(true, createUpdate));
+          .add(createdArea!.reactionList.last.display(true, createUpdate));
       createAReaction.add(
         const SizedBox(
           height: 10,
@@ -270,7 +270,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             setState(() {
               bool isRequired = true;
               _createdAreaSave = AreaData.clone(createdArea!);
-              for (var temp in createdArea!.reactionId.last.parameters) {
+              for (var temp in createdArea!.reactionList.last.parameters) {
                 if (temp.isRequired && temp.matchedContent!.value == "") {
                   isRequired = false;
                 }
@@ -278,7 +278,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               if (isRequired) {
                 _reactionCreationState = 0;
 
-                apiAskForReactionChange(createdArea!.reactionId.last);
+                apiAskForReactionChange(createdArea!.reactionList.last);
                 _isChoosingAReaction = false;
               }
             });
@@ -376,18 +376,18 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     List<Widget> actionListDisplay = <Widget>[];
     List<Widget> reactionListDisplay = <Widget>[];
 
-    if (createdArea != null && createdArea!.actionId.isNotEmpty) {
-      for (var temp in createdArea!.actionId) {
-        if (_actionCreationState != 2 || temp != createdArea!.actionId.last) {
+    if (createdArea != null && createdArea!.actionList.isNotEmpty) {
+      for (var temp in createdArea!.actionList) {
+        if (_actionCreationState != 2 || temp != createdArea!.actionList.last) {
           actionListDisplay.add(temp.display(true, createUpdate));
         }
       }
     }
 
-    if (createdArea != null && createdArea!.reactionId.isNotEmpty) {
-      for (var temp in createdArea!.reactionId) {
+    if (createdArea != null && createdArea!.reactionList.isNotEmpty) {
+      for (var temp in createdArea!.reactionList) {
         if (_reactionCreationState != 2 ||
-            temp != createdArea!.reactionId.last) {
+            temp != createdArea!.reactionList.last) {
           reactionListDisplay.add(temp.display(true, createUpdate));
         }
       }

@@ -19,8 +19,8 @@ void goToCreateAreaPage(BuildContext context) {
       id: '',
       name: 'Default',
       userId: '',
-      actionId: [],
-      reactionId: [],
+      actionList: [],
+      reactionList: [],
       isEnable: true);
   changeType = 'Create';
   context.go('/create_area');

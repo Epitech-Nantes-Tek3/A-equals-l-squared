@@ -12,8 +12,8 @@ class AreaData {
   String id;
   String name;
   String userId;
-  List<ActionData> actionId;
-  List<ReactionData> reactionId;
+  List<ActionData> actionList;
+  List<ReactionData> reactionList;
   bool isEnable = true;
   String? description;
   ServiceData? serviceId;
@@ -23,8 +23,8 @@ class AreaData {
       {required this.id,
       required this.name,
       required this.userId,
-      required this.actionId,
-      required this.reactionId,
+      required this.actionList,
+      required this.reactionList,
       required this.isEnable,
       this.description,
       this.serviceId});
@@ -35,9 +35,10 @@ class AreaData {
             id: oldArea.id,
             name: oldArea.name,
             userId: oldArea.userId,
-            actionId: oldArea.actionId.map((v) => ActionData.clone(v)).toList(),
-            reactionId:
-                oldArea.reactionId.map((v) => ReactionData.clone(v)).toList(),
+            actionList:
+                oldArea.actionList.map((v) => ActionData.clone(v)).toList(),
+      reactionList:
+                oldArea.reactionList.map((v) => ReactionData.clone(v)).toList(),
             isEnable: oldArea.isEnable,
             description: oldArea.description,
             serviceId: oldArea.serviceId);
@@ -65,8 +66,8 @@ class AreaData {
       id: json['id'],
       name: json['name'],
       userId: json['userId'],
-      actionId: actionList,
-      reactionId: reactionList,
+      actionList: actionList,
+      reactionList: reactionList,
       isEnable: json['isEnable'],
       description: json['description'],
     );
@@ -95,11 +96,11 @@ class AreaData {
 
   /// This function return the first associated service of an Area
   ServiceData? getAssociatedService() {
-    if (actionId.isEmpty) {
+    if (actionList.isEmpty) {
       return null;
     }
     for (var temp in serviceDataList) {
-      if (temp.id == actionId[0].serviceId) {
+      if (temp.id == actionList[0].serviceId) {
         return temp;
       }
     }
@@ -157,12 +158,12 @@ class AreaData {
     List<Widget> listDisplay = <Widget>[];
     List<Widget> actionListDisplay = <Widget>[const Text("Actions")];
     List<Widget> reactionListDisplay = <Widget>[const Text("Reactions")];
-    for (var temp in actionId) {
+    for (var temp in actionList) {
       actionListDisplay.add(
         temp.display(true, update),
       );
     }
-    for (var temp in reactionId) {
+    for (var temp in reactionList) {
       reactionListDisplay.add(
         temp.display(true, update),
       );
