@@ -23,6 +23,12 @@ class HomePageState extends State<HomePage> {
     updatePage = update;
   }
 
+  /// Re sync all flutter object
+  void homeSync() async {
+    await updateAllFlutterObject();
+    update();
+  }
+
   /// This function create a Row of two Areas
   Widget createRowOfAreas(Widget firstArea, Widget? secondArea) {
     Widget rowArea = Row(
@@ -105,6 +111,12 @@ class HomePageState extends State<HomePage> {
                             });
                           },
                           icon: const Icon(Icons.settings)),
+                      IconButton(
+                          iconSize: 30,
+                          onPressed: () {
+                            homeSync();
+                          },
+                          icon: const Icon(Icons.sync)),
                       IconButton(
                           iconSize: 30,
                           onPressed: () {
