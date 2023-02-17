@@ -28,7 +28,7 @@ class HomePageState extends State<HomePage> {
     Widget rowArea = Row(
         mainAxisAlignment: secondArea != null
             ? MainAxisAlignment.spaceBetween
-            : MainAxisAlignment.start,
+            : MainAxisAlignment.center,
         children: <Widget>[
           firstArea,
           if (secondArea != null) secondArea,
@@ -45,7 +45,7 @@ class HomePageState extends State<HomePage> {
             goToUpdateAreaPage(context);
           },
           child: areaData.display(false, null)),
-      isShadowNeeded: false,
+      isShadowNeeded: true,
       paddingHorizontal: 30,
       paddingVertical: 30,
       borderRadius: 10,
@@ -149,7 +149,6 @@ class HomePageState extends State<HomePage> {
                       },
                       child: const Text('Service List'),
                     ),
-                    isShadowNeeded: false,
                     primaryColor: getOurBlueAreaColor(100),
                   ),
                 ],
