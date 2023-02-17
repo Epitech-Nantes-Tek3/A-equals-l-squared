@@ -145,7 +145,7 @@ app.post('/api/signup', (req, res, next) => {
           token
       )
       .catch(_error => {
-        return res.status(401).send('Invalid e-mail address.')
+        return
       })
     return res.status(201).json({
       status: 'success',
@@ -254,7 +254,7 @@ app.get(
           token
       )
       .catch(_error => {
-        return res.status(401).send('Invalid e-mail address.')
+        return
       })
     return res.json('Verification e-mail sended')
   }
@@ -286,7 +286,7 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
         token
     )
     .catch(_error => {
-      return res.status(401).send('Invalid e-mail address.')
+      return
     })
   return res.json('Verification e-mail sent.')
 })
@@ -316,7 +316,7 @@ app.post(
               token
           )
           .catch(_error => {
-            return res.status(401).send('Invalid new e-mail address.')
+            return
           })
         await database.prisma.User.update({
           where: { id: req.user.id },
