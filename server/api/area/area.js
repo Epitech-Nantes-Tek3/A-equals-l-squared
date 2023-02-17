@@ -121,11 +121,11 @@ app.post('/api/area/create', async (req, res) => {
     }
 })
 
-app.post('/api/area/delete', async (req, res) => {
+app.post('/api/area/:id/delete', async (req, res) => {
     try {
         const deletedArea = await database.prisma.AREA.delete({
             where: {
-                id: Number(req.body.id)
+                id: Number(req.params.id)
             }
         })
         res.status(200).json(deletedArea)
@@ -134,11 +134,11 @@ app.post('/api/area/delete', async (req, res) => {
     }
 })
 
-app.post('/api/area/update', async (req, res) => {
+app.post('/api/area/:id/update', async (req, res) => {
     try {
         const updatedArea = await database.prisma.AREA.update({
             where: {
-                id: Number(req.body.id)
+                id: Number(req.params.id)
             },
             data: {
                 name: req.body.name,
