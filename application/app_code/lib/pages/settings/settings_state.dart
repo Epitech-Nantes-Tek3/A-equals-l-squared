@@ -190,6 +190,7 @@ class SettingsPageState extends State<SettingsPage> {
   /// This function display all button to give access at a settings for users
   Widget displayAllParameterButtons() {
     return Column(children: <Widget>[
+      const SizedBox(height: 30),
       parameterButtonView(Icons.manage_accounts_rounded, 'User information', 1),
       const SizedBox(height: 10),
       parameterButtonView(Icons.app_settings_alt_sharp, 'Data management', 2),
@@ -339,6 +340,9 @@ class SettingsPageState extends State<SettingsPage> {
                 ],
               )
             ])),
-        true);
+        true,
+        borderRadius: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 20);
   }
 }
