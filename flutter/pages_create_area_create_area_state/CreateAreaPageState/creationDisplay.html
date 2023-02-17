@@ -97,7 +97,7 @@
               userId: &quot;&quot;,
               actionId: createdAreaContent[0].actions[0].id,
               reactionId: createdAreaContent[1].reactions[0].id,
-              isEnable: true,
+              isEnable: _isEnable,
               actionParameters:
                   createdAreaContent[0].actions[0].getAllParameterContent(),
               reactionParameters: createdAreaContent[1]
@@ -113,7 +113,7 @@
         userId: &quot;&quot;,
         actionId: createdAreaContent[0].actions[0].id,
         reactionId: createdAreaContent[1].reactions[0].id,
-        isEnable: true,
+        isEnable: _isEnable,
         actionParameters:
             createdAreaContent[0].actions[0].getAllParameterContent(),
         reactionParameters:
@@ -126,6 +126,20 @@
     createVis.add(
       const SizedBox(
         height: 10,
+      ),
+    );
+    createVis.add(
+      Switch(
+        value: _isEnable,
+        activeColor: Colors.blue,
+        onChanged: (bool value) {
+          setState(() {
+            _isEnable = value;
+            if (createdArea != null) {
+              createdArea!.isEnable = _isEnable;
+            }
+          });
+        },
       ),
     );
     createVis.add(ElevatedButton(
