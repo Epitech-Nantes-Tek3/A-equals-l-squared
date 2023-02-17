@@ -11,17 +11,18 @@ class ReactionData {
   bool isEnable;
   String serviceId;
   List<ParameterData> parameters;
+  List<ParameterContent> parametersContent;
 
   /// Constructor of the reaction class
-  ReactionData({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.createdAt,
-    required this.isEnable,
-    required this.serviceId,
-    required this.parameters,
-  });
+  ReactionData(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.createdAt,
+      required this.isEnable,
+      required this.serviceId,
+      required this.parameters,
+      required this.parametersContent});
 
   /// Utility function used for cloning the class
   ReactionData.clone(ReactionData oldReaction)
@@ -34,6 +35,9 @@ class ReactionData {
             serviceId: oldReaction.serviceId,
             parameters: oldReaction.parameters
                 .map((v) => ParameterData.clone(v))
+                .toList(),
+            parametersContent: oldReaction.parametersContent
+                .map((v) => ParameterContent.clone(v))
                 .toList());
 
   /// Convert a json map into the class
@@ -43,36 +47,26 @@ class ReactionData {
       parameters.add(ParameterData.fromJson(temp));
     }
     return ReactionData(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      createdAt: DateTime.parse(json['createdAt']),
-      isEnable: json['isEnable'],
-      serviceId: json['serviceId'],
-      parameters: parameters,
-    );
+        id: json['id'],
+        name: json['name'],
+        description: json['description'],
+        createdAt: DateTime.parse(json['createdAt']),
+        isEnable: json['isEnable'],
+        serviceId: json['serviceId'],
+        parameters: parameters,
+        parametersContent: <ParameterContent>[]);
   }
 
   /// Return the list of all the associated param content
   List<ParameterContent> getAllParameterContent() {
-    List<ParameterContent> paramList = <ParameterContent>[];
-
-    for (var temp in parameters) {
-      if (temp.matchedContent == null) {
-        paramList.add(ParameterContent(paramId: temp.id, value: ""));
-      } else {
-        paramList.add(temp.matchedContent!);
-      }
-    }
-
-    return paramList;
+    return parametersContent;
   }
 
   /// Get a visual representation of a Reaction
   /// mode -> true = params, false = only text and desc
   /// params -> list of all the associated parameter content
   /// update -> Function pointer used for update the state
-  Widget display(bool mode, List<ParameterContent> params, Function? update) {
+  Widget display(bool mode, Function? update) {
     List<Widget> paramWid = <Widget>[];
     paramWid.add(Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,7 +91,7 @@ class ReactionData {
     if (mode == true) {
       ParameterData? previous;
       for (var temp in parameters) {
-        paramWid.add(temp.display(params, previous, update!));
+        paramWid.add(temp.display(parametersContent, previous, update!));
         if (temp.isRequired == true && temp.getterUrl != null) {
           previous = temp;
         } else {
