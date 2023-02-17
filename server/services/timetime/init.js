@@ -18,7 +18,7 @@ global.TimeTimeJobList = []
 /**
  * Map containing all the Trigger init function
  */
-const TriggerInitMap = {
+global.TriggerInitMap = {
   'TMT-01': setATimeTimeAtADate,
   'TMT-02': setATimeTimeAtX
 }
@@ -26,7 +26,7 @@ const TriggerInitMap = {
 /**
  * Map containing all the Trigger destroy function
  */
-const TriggerDestroyMap = {
+global.TriggerDestroyMap = {
   'TMT-01': destroyATimeTimeAtADate,
   'TMT-02': destroyATimeTimeAtX
 }
