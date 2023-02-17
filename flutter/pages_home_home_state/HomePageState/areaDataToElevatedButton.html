@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the initState method from the HomePageState class, for the Dart programming language.">
-  <title>initState method - HomePageState class - home_state library - Dart API</title>
+  <meta name="description" content="API docs for the areaDataToElevatedButton method from the HomePageState class, for the Dart programming language.">
+  <title>areaDataToElevatedButton method - HomePageState class - home_state library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">application</a></li>
     <li><a href="../../pages_home_home_state/pages_home_home_state-library.html">home_state</a></li>
     <li><a href="../../pages_home_home_state/HomePageState-class.html">HomePageState</a></li>
-    <li class="self-crumb">initState method</li>
+    <li class="self-crumb">areaDataToElevatedButton method</li>
   </ol>
-  <div class="self-name">initState</div>
+  <div class="self-name">areaDataToElevatedButton</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -50,60 +50,45 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">initState</span> method 
+<h1><span class="kind-method">areaDataToElevatedButton</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
     <section class="multi-line-signature">
       
-  <div>
-    <ol class="annotation-list">
-        <li>@<a href="https://api.flutter.dev/flutter/dart-core/override-constant.html">override</a></li>
-    </ol>
-  </div>
 
-<span class="returntype">void</span>
-<span class="name ">initState</span>(<wbr>)
+<span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
+<span class="name ">areaDataToElevatedButton</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="areaDataToElevatedButton-param-areaData"><span class="type-annotation"><a href="../../flutter_objects_area_data/AreaData-class.html">AreaData</a></span> <span class="parameter-name">areaData</span>, </span></li>
+<li><span class="parameter" id="areaDataToElevatedButton-param-areaBorderColor"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-ui/Color-class.html">Color</a></span> <span class="parameter-name">areaBorderColor</span></span></li>
+</ol>)
 
-      <div class="features"><span class="feature">override</span></div>
+      
 
     </section>
     
 <section class="desc markdown">
-  <p>Called when this object is inserted into the tree.</p>
-<p>The framework will call this method exactly once for each <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> object
-it creates.</p>
-<p>Override this method to perform initialization that depends on the
-location at which this object was inserted into the tree (i.e., <a href="https://api.flutter.dev/flutter/widgets/State/context.html">context</a>)
-or on the widget used to configure this object (i.e., <a href="https://api.flutter.dev/flutter/widgets/State/widget.html">widget</a>).</p>
-<p>If a <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a>'s <a href="../../pages_home_home_state/HomePageState/build.html">build</a> method depends on an object that can itself
-change state, for example a <a href="https://api.flutter.dev/flutter/foundation/ChangeNotifier-class.html">ChangeNotifier</a> or <a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a>, or some
-other object to which one can subscribe to receive notifications, then
-be sure to subscribe and unsubscribe properly in <a href="../../pages_home_home_state/HomePageState/initState.html">initState</a>,
-<a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a>, and <a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a>:</p>
-<ul>
-<li>In <a href="../../pages_home_home_state/HomePageState/initState.html">initState</a>, subscribe to the object.</li>
-<li>In <a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a> unsubscribe from the old object and subscribe
-to the new one if the updated widget configuration requires
-replacing the object.</li>
-<li>In <a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a>, unsubscribe from the object.</li>
-</ul>
-<p>You cannot use <a href="https://api.flutter.dev/flutter/widgets/BuildContext/dependOnInheritedWidgetOfExactType.html">BuildContext.dependOnInheritedWidgetOfExactType</a> from this
-method. However, <a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a> will be called immediately
-following this method, and <a href="https://api.flutter.dev/flutter/widgets/BuildContext/dependOnInheritedWidgetOfExactType.html">BuildContext.dependOnInheritedWidgetOfExactType</a> can
-be used there.</p>
-<p>Implementations of this method should start with a call to the inherited
-method, as in <code>super.initState()</code>.</p>
+  <p>This function Create an Elevated Button thanks to an Area</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">@override
-void initState() {
-  super.initState();
-  updatePage = update;
+  <pre class="language-dart"><code class="language-dart">Widget areaDataToElevatedButton(AreaData areaData, Color areaBorderColor) {
+  return materialElevatedButtonArea(
+    ElevatedButton(
+        onPressed: () {
+          updatingArea = areaData;
+          goToUpdateAreaPage(context);
+        },
+        child: areaData.display(false, null)),
+    isShadowNeeded: true,
+    paddingHorizontal: 30,
+    paddingVertical: 30,
+    borderRadius: 10,
+    borderWith: 3,
+    borderColor: areaBorderColor,
+  );
 }</code></pre>
 </section>
 
@@ -121,7 +106,7 @@ void initState() {
   <li><a href="../../index.html">application</a></li>
   <li><a href="../../pages_home_home_state/pages_home_home_state-library.html">home_state</a></li>
   <li><a href="../../pages_home_home_state/HomePageState-class.html">HomePageState</a></li>
-  <li class="self-crumb">initState method</li>
+  <li class="self-crumb">areaDataToElevatedButton method</li>
 </ol>
 
 

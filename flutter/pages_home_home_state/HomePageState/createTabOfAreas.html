@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the areasDisplay method from the HomePageState class, for the Dart programming language.">
-  <title>areasDisplay method - HomePageState class - home_state library - Dart API</title>
+  <meta name="description" content="API docs for the createTabOfAreas method from the HomePageState class, for the Dart programming language.">
+  <title>createTabOfAreas method - HomePageState class - home_state library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">application</a></li>
     <li><a href="../../pages_home_home_state/pages_home_home_state-library.html">home_state</a></li>
     <li><a href="../../pages_home_home_state/HomePageState-class.html">HomePageState</a></li>
-    <li class="self-crumb">areasDisplay method</li>
+    <li class="self-crumb">createTabOfAreas method</li>
   </ol>
-  <div class="self-name">areasDisplay</div>
+  <div class="self-name">createTabOfAreas</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -50,7 +50,7 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">areasDisplay</span> method 
+<h1><span class="kind-method">createTabOfAreas</span> method 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
 </h1></div>
 
@@ -58,41 +58,41 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>&gt;</span></span>
-<span class="name ">areasDisplay</span>(<wbr>)
+<span class="name ">createTabOfAreas</span>(<wbr>)
 
       
 
     </section>
     
 <section class="desc markdown">
-  <p>Display all the area</p>
+  <p>THis function display all Areas in Tab</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">List&lt;Widget&gt; areasDisplay() {
+  <pre class="language-dart"><code class="language-dart">List&lt;Widget&gt; createTabOfAreas() {
   List&lt;Widget&gt; areaVis = &lt;Widget&gt;[];
+  late AreaData tempArea;
+
+  var count = 1;
 
   for (var temp in areaDataList) {
-    String str =
-        temp.getAssociatedService()!.primaryColor.replaceFirst(&quot;#&quot;, &quot;0xff&quot;);
-    Color tempColor = Color(int.parse(str));
-    areaVis.add(materialElevatedButtonArea(
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(),
-            onPressed: () {
-              updatingArea = temp;
-              goToUpdateAreaPage(context);
-            },
-            child: temp.display(false, null)),
-        true,
-        borderColor: tempColor,
-        borderWith: 3,
-        paddingVertical: 30,
-        paddingHorizontal: 30));
-    areaVis.add(const SizedBox(height: 20));
+    if (count % 2 == 0 &amp;&amp; count != 0) {
+      areaVis.add(createRowOfAreas(
+          areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor()),
+          areaDataToElevatedButton(temp, temp.getPrimaryColor())));
+      areaVis.add(const SizedBox(
+        height: 30,
+      ));
+    }
+    tempArea = temp;
+    count++;
+  }
+  if (count % 2 == 0) {
+    areaVis.add(createRowOfAreas(
+        areaDataToElevatedButton(tempArea, Colors.deepOrange), null));
   }
   return areaVis;
 }</code></pre>
@@ -112,7 +112,7 @@
   <li><a href="../../index.html">application</a></li>
   <li><a href="../../pages_home_home_state/pages_home_home_state-library.html">home_state</a></li>
   <li><a href="../../pages_home_home_state/HomePageState-class.html">HomePageState</a></li>
-  <li class="self-crumb">areasDisplay method</li>
+  <li class="self-crumb">createTabOfAreas method</li>
 </ol>
 
 
@@ -134,8 +134,10 @@
 
         <li class="section-title"><a href="../../pages_home_home_state/HomePageState-class.html#instance-methods">Methods</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/activate.html">activate</a></li>
-          <li><a href="../../pages_home_home_state/HomePageState/areasDisplay.html">areasDisplay</a></li>
+          <li><a href="../../pages_home_home_state/HomePageState/areaDataToElevatedButton.html">areaDataToElevatedButton</a></li>
           <li><a href="../../pages_home_home_state/HomePageState/build.html">build</a></li>
+          <li><a href="../../pages_home_home_state/HomePageState/createRowOfAreas.html">createRowOfAreas</a></li>
+          <li><a href="../../pages_home_home_state/HomePageState/createTabOfAreas.html">createTabOfAreas</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a></li>

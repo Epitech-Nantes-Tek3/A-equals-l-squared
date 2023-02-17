@@ -141,28 +141,7 @@ update -&gt; Function pointer used for update the state</p>
     ));
   } else {
     try {
-      listDisplay.add(Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: &lt;Widget&gt;[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: &lt;Widget&gt;[
-              Text(
-                name,
-                style: const TextStyle(color: Colors.black),
-              ),
-              getServiceIcon()!,
-            ],
-          ),
-          const SizedBox(height: 20),
-          Text(
-            &#39;Description : \n\n $description&#39;,
-            style: const TextStyle(color: Colors.black),
-          )
-
-          &#47;&#47;&#47; Put Description when it&#39;s in DB
-        ],
-      ));
+      listDisplay.add(displayAreaPreview());
     } catch (err) {
       listDisplay.add(const Text(&quot;Please logout and login.&quot;));
     }
@@ -221,8 +200,11 @@ update -&gt; Function pointer used for update the state</p>
           <li><a href="../../flutter_objects_area_data/AreaData/display.html">display</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/displayAreaDescription.html">displayAreaDescription</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/displayAreaName.html">displayAreaName</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/displayAreaPreview.html">displayAreaPreview</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/displayForCreate.html">displayForCreate</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/getAssociatedService.html">getAssociatedService</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/getPrimaryColor.html">getPrimaryColor</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/getSecondaryColor.html">getSecondaryColor</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/getServiceIcon.html">getServiceIcon</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>

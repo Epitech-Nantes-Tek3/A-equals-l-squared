@@ -59,8 +59,8 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
 <span class="name ">materialElevatedButtonArea</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="materialElevatedButtonArea-param-buttonContent"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/material/ElevatedButton-class.html">ElevatedButton</a></span> <span class="parameter-name">buttonContent</span>, </span></li>
-<li><span class="parameter" id="materialElevatedButtonArea-param-isShadowNeeded"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">isShadowNeeded</span>, </span></li>
-<li><span class="parameter" id="materialElevatedButtonArea-param-borderColor">{<span class="type-annotation">dynamic</span> <span class="parameter-name">borderColor</span> = <span class="default-value">Colors.white</span>, </span></li>
+<li><span class="parameter" id="materialElevatedButtonArea-param-isShadowNeeded">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">isShadowNeeded</span> = <span class="default-value">false</span>, </span></li>
+<li><span class="parameter" id="materialElevatedButtonArea-param-borderColor"><span class="type-annotation">dynamic</span> <span class="parameter-name">borderColor</span> = <span class="default-value">Colors.white</span>, </span></li>
 <li><span class="parameter" id="materialElevatedButtonArea-param-primaryColor"><span class="type-annotation">dynamic</span> <span class="parameter-name">primaryColor</span> = <span class="default-value">Colors.white</span>, </span></li>
 <li><span class="parameter" id="materialElevatedButtonArea-param-borderRadius"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">borderRadius</span> = <span class="default-value">30</span>, </span></li>
 <li><span class="parameter" id="materialElevatedButtonArea-param-borderWith"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">borderWith</span> = <span class="default-value">0</span>, </span></li>
@@ -81,9 +81,9 @@ This function can take many parameter to modified the style of the ElevatedButto
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Widget materialElevatedButtonArea(
-    ElevatedButton buttonContent, bool isShadowNeeded,
-    {borderColor = Colors.white,
+  <pre class="language-dart"><code class="language-dart">Widget materialElevatedButtonArea(ElevatedButton buttonContent,
+    {bool isShadowNeeded = false,
+    borderColor = Colors.white,
     primaryColor = Colors.white,
     double borderRadius = 30,
     double borderWith = 0,
@@ -99,7 +99,7 @@ This function can take many parameter to modified the style of the ElevatedButto
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius)),
           shadowColor: isShadowNeeded ? Colors.black : Colors.transparent,
-          elevation: isShadowNeeded ? 5 : 0),
+          elevation: isShadowNeeded ? 3 : 0),
       child: buttonContent.child);
   return newButton;
 }</code></pre>
