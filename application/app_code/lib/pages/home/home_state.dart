@@ -37,19 +37,21 @@ class HomePageState extends State<HomePage> {
   }
 
   /// This function Create an Elevated Button thanks to an Area
-  Widget areaDataToElevatedButton(AreaData areaData, Color areaColor) {
-    return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-          side: BorderSide(color: areaColor, width: 3),
-          // Change when DB is Up
-          primary: Colors.white,
-        ),
-        onPressed: () {
-          updatingArea = areaData;
-          goToUpdateAreaPage(context);
-        },
-        child: areaData.display(false, null));
+  Widget areaDataToElevatedButton(AreaData areaData, Color areaBorderColor) {
+    return materialElevatedButtonArea(
+      ElevatedButton(
+          onPressed: () {
+            updatingArea = areaData;
+            goToUpdateAreaPage(context);
+          },
+          child: areaData.display(false, null)),
+      isShadowNeeded: false,
+      paddingHorizontal: 30,
+      paddingVertical: 30,
+      borderRadius: 10,
+      borderWith: 3,
+      borderColor: areaBorderColor,
+    );
   }
 
   /// THis function display all Areas in Tab
@@ -147,7 +149,7 @@ class HomePageState extends State<HomePage> {
                       },
                       child: const Text('Service List'),
                     ),
-                    false,
+                    isShadowNeeded: false,
                     primaryColor: getOurBlueAreaColor(100),
                   ),
                 ],
