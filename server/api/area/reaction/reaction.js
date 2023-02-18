@@ -1,22 +1,8 @@
 'use strict'
 
 module.exports = function (app, passport, database) {
-  /**
-   * @api {get} /api/area/:areaId/reactions Get reactions by area id
-   * @apiParam {Number} areaId Area unique ID.
-   * @apiSuccess {Object[]} Reactions Reactions object.
-   * @apiSuccess {Object} Reactions.Reaction Reaction object.
-   * @apiSuccess {Number} Reactions.Reaction.id Reaction unique ID.
-   * @apiSuccess {String} Reactions.Reaction.name Reaction name.
-   * @apiSuccess {Boolean} Reactions.Reaction.isEnable Reaction is enable.
-   * @apiSuccess {Object[]} Reactions.ReactionParameters Reaction parameters.
-   * @apiSuccess {Object} Reactions.ReactionParameters.Parameter Reaction parameter.
-   * @apiSuccess {String} Reactions.ReactionParameters.Parameter.name Reaction parameter name.
-   * @apiSuccess {String} Reactions.ReactionParameters.value Reaction parameter value.
-   * @apiFailure {String} error Error message.
-   */
   app.get(
-    '/api/area/:areaId/reactions',
+    '/api/area/:areaId/reaction',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
@@ -54,21 +40,6 @@ module.exports = function (app, passport, database) {
     }
   )
 
-  /**
-   * @api {get} /api/area/:areaId/reaction/:id:id Get reaction by id
-   * @apiParam {Number} areaId AREA unique ID.
-   * @apiParam {Number} id Reaction unique ID.
-   * @apiSuccess {Object} Reaction Reaction object.
-   * @apiSuccess {Object} Reaction.Reaction Reaction object.
-   * @apiSuccess {Number} Reaction.Reaction.id Reaction unique ID.
-   * @apiSuccess {String} Reaction.Reaction.name Reaction name.
-   * @apiSuccess {Boolean} Reaction.Reaction.isEnable Reaction is enable.
-   * @apiSuccess {Object[]} Reaction.ReactionParameters Reaction parameters.
-   * @apiSuccess {Object} Reaction.ReactionParameters.Parameter Reaction parameter.
-   * @apiSuccess {String} Reaction.ReactionParameters.Parameter.name Reaction parameter name.
-   * @apiSuccess {String} Reaction.ReactionParameters.value Reaction parameter value.
-   * @apiFailure {String} error Error message.
-   */
   app.get(
     '/api/area/:areaId/reaction/:id',
     passport.authenticate('jwt', { session: false }),
@@ -106,19 +77,8 @@ module.exports = function (app, passport, database) {
     }
   )
 
-  /**
-   * @api {post} /api/area/:areaId/reaction/create Create reaction
-   * @apiParam {Number} areaId Area unique ID.
-   * @apiParam {Number} reactionId Reaction unique ID.
-   * @apiParam {Object[]} reactionParameters Reaction parameters.
-   * @apiParam {Number} reactionParameters.id Reaction parameter unique ID.
-   * @apiParam {String} reactionParameters.value Reaction parameter value.
-   * @apiSuccess {Object} Reaction Reaction object.
-   * @apiSuccess {Number} Reaction.id Reaction unique ID.
-   * @apiFailure {String} error Error message.
-   */
   app.post(
-    '/api/area/:areaId/reaction/create',
+    '/api/area/:areaId/reaction',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
@@ -154,15 +114,8 @@ module.exports = function (app, passport, database) {
     }
   )
 
-  /**
-   * @api {post} /api/area/:areaId/reaction/:id/delete Delete reaction
-   * @apiParam {Number} id Reaction unique ID.
-   * @apiSuccess {Object} Reaction Reaction object.
-   * @apiSuccess {Number} Reaction.id Reaction unique ID.
-   * @apiFailure {String} error Error message.
-   */
-  app.post(
-    '/api/area/:areaId/reaction/:id/delete',
+  app.delete(
+    '/api/area/:areaId/reaction/:id',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
@@ -178,19 +131,8 @@ module.exports = function (app, passport, database) {
     }
   )
 
-  /**
-   * @api {post} /api/area/:areaId/reaction/:id/update Update reaction
-   * @apiParam {Number} id Reaction unique ID.
-   * @apiParam {Object[]} reactionParameters Reaction parameters.
-   * @apiParam {Number} reactionParameters.id Reaction parameter unique ID.
-   * @apiParam {String} reactionParameters.value Reaction parameter value.
-   * @apiSuccess {Object[]} ReactionParameters Reaction parameters.
-   * @apiSuccess {Number} ReactionParameters.id Reaction parameter unique ID.
-   * @apiSuccess {String} ReactionParameters.value Reaction parameter value.
-   * @apiFailure {String} error Error message.
-   */
-  app.post(
-    '/api/area/:areaId/reaction/:id/update',
+  app.put(
+    '/api/area/:areaId/reaction/:id',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
