@@ -485,15 +485,13 @@ app.post(
           '&secret=' +
           req.body.secret +
           '&code=' +
-          req.body.code
+          req.body.code +
+          '&output=json'
       )
-      const arr = ret.data.split('=')
-      const accessToken = arr[1].split('&')[0]
-
-      console.log(accessToken)
+      console.log(ret.data)
       return res.status(200).json({
         status: 'success',
-        data: { access_token: accessToken },
+        data: { access_token: ret.data.access_token },
         statusCode: res.statusCode
       })
     } catch (err) {
@@ -773,6 +771,39 @@ app.post('/api/dev/user/create', async (req, res) => {
     return res.status(400).json('Please pass a complete body.')
   }
 })
+
+/**
+ * @brief Add the Deezer ID to the user in the database.
+ */
+app.post(
+  '/api/services/deezer/fillUserId',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    if (req.user.deezerToken == null)
+      return res.status(400).send('No Deezer account linked.')
+    try {
+      const response = await axios.get(
+        'https://api.deezer.com/user/me?access_token=' + req.user.deezerToken,
+        {
+          headers: {
+            Authorization: `Bearer ${req.user.deezerToken}`,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        }
+      )
+      const user = await database.prisma.User.update({
+        where: { id: req.user.id },
+        data: {
+          deezerId: response.data.id.toString()
+        }
+      })
+      return res.status(200).send('Deezer ID successfully updated.')
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('An error occured.')
+    }
+  }
+)
 
 /**
  * List all users in the database.
