@@ -22,6 +22,7 @@ module.exports = function (app, passport, database) {
    * @apiSuccess {String} Reactions.ReactionParameters.Parameter.name Reaction parameter name.
    * @apiSuccess {String} Reactions.ReactionParameters.value Reaction parameter value.
    * @apiFailure {String} error Error message.
+   * Route protected by a JWT token
    */
   app.get(
     '/api/area',
@@ -103,6 +104,7 @@ module.exports = function (app, passport, database) {
    * @apiSuccess {String} Reactions.ReactionParameters.Parameter.name Reaction parameter name.
    * @apiSuccess {String} Reactions.ReactionParameters.value Reaction parameter value.
    * @apiFailure {String} error Error message.
+   * Route protected by a JWT token
    */
   app.get(
     '/api/area/:id',
@@ -174,6 +176,7 @@ module.exports = function (app, passport, database) {
    * @apiSuccess {String} description Area description.
    * @apiSuccess {Boolean} isEnable Area is enable.
    * @apiFailure {String} error Error message.
+   * Route protected by a JWT token
    */
   app.post(
     '/api/area',
@@ -203,6 +206,7 @@ module.exports = function (app, passport, database) {
    * @apiSuccess {String} description Area description.
    * @apiSuccess {Boolean} isEnable Area is enable.
    * @apiFailure {String} error Error message.
+   * Route protected by a JWT token
    */
   app.delete(
     '/api/area/:id',
@@ -240,6 +244,7 @@ module.exports = function (app, passport, database) {
    * @apiSuccess {String} description Area description.
    * @apiSuccess {Boolean} isEnable Area is enable.
    * @apiFailure {String} error Error message.
+   * Route protected by a JWT token
    */
   app.put(
     '/api/area/:id',
