@@ -4,8 +4,8 @@ const app = require('../../../server_app')
 const database = require('../../../database_init')
 
 /**
- * @api {get} /api/area/:id/reactions Get reactions by area id
- * @apiParam {Number} id Area unique ID.
+ * @api {get} /api/area/:areaId/reactions Get reactions by area id
+ * @apiParam {Number} areaId Area unique ID.
  * @apiSuccess {Object[]} Reactions Reactions object.
  * @apiSuccess {Object} Reactions.Reaction Reaction object.
  * @apiSuccess {Number} Reactions.Reaction.id Reaction unique ID.
@@ -17,12 +17,12 @@ const database = require('../../../database_init')
  * @apiSuccess {String} Reactions.ReactionParameters.value Reaction parameter value.
  * @apiFailure {String} error Error message.
  */
-app.get('/api/area/:id/reactions', async (req, res) => {
+app.get('/api/area/:areaId/reactions', async (req, res) => {
   try {
     const reactions = await database.prisma.AREAhasReactions.findMany({
       where: {
         AREA: {
-          id: Number(req.params.id)
+          id: Number(req.params.areaId)
         }
       },
       select: {
@@ -53,7 +53,8 @@ app.get('/api/area/:id/reactions', async (req, res) => {
 })
 
 /**
- * @api {get} /api/area/reaction/:id Get reaction by id
+ * @api {get} /api/area/:areaId/reaction/:id:id Get reaction by id
+ * @apiParam {Number} areaId AREA unique ID.
  * @apiParam {Number} id Reaction unique ID.
  * @apiSuccess {Object} Reaction Reaction object.
  * @apiSuccess {Object} Reaction.Reaction Reaction object.
@@ -66,7 +67,7 @@ app.get('/api/area/:id/reactions', async (req, res) => {
  * @apiSuccess {String} Reaction.ReactionParameters.value Reaction parameter value.
  * @apiFailure {String} error Error message.
  */
-app.get('/api/area/reaction/:id', async (req, res) => {
+app.get('/api/area/:areaId/reaction/:id', async (req, res) => {
   try {
     const reaction = await database.prisma.AREAhasReactions.findUnique({
       where: {
@@ -100,7 +101,7 @@ app.get('/api/area/reaction/:id', async (req, res) => {
 })
 
 /**
- * @api {post} /api/area/reaction/create Create reaction
+ * @api {post} /api/area/:areaId/reaction/create Create reaction
  * @apiParam {Number} areaId Area unique ID.
  * @apiParam {Number} reactionId Reaction unique ID.
  * @apiParam {Object[]} reactionParameters Reaction parameters.
@@ -110,7 +111,7 @@ app.get('/api/area/reaction/:id', async (req, res) => {
  * @apiSuccess {Number} Reaction.id Reaction unique ID.
  * @apiFailure {String} error Error message.
  */
-app.post('/api/area/reaction/create', async (req, res) => {
+app.post('/api/area/:areaId/reaction/create', async (req, res) => {
   try {
     const ReactionParameters = []
     req.body.reactionParameters.forEach(param => {
@@ -124,7 +125,7 @@ app.post('/api/area/reaction/create', async (req, res) => {
       data: {
         AREA: {
           connect: {
-            id: Number(req.body.areaId)
+            id: Number(req.params.areaId)
           }
         },
         Reaction: {
@@ -144,13 +145,13 @@ app.post('/api/area/reaction/create', async (req, res) => {
 })
 
 /**
- * @api {post} /api/area/reaction/:id/delete Delete reaction
+ * @api {post} /api/area/:areaId/reaction/:id/delete Delete reaction
  * @apiParam {Number} id Reaction unique ID.
  * @apiSuccess {Object} Reaction Reaction object.
  * @apiSuccess {Number} Reaction.id Reaction unique ID.
  * @apiFailure {String} error Error message.
  */
-app.post('/api/area/reaction/:id/delete', async (req, res) => {
+app.post('/api/area/:areaId/reaction/:id/delete', async (req, res) => {
   try {
     const reaction = await database.prisma.AREAhasReactions.delete({
       where: {
@@ -164,7 +165,7 @@ app.post('/api/area/reaction/:id/delete', async (req, res) => {
 })
 
 /**
- * @api {post} /api/area/reaction/:id/update Update reaction
+ * @api {post} /api/area/:areaId/reaction/:id/update Update reaction
  * @apiParam {Number} id Reaction unique ID.
  * @apiParam {Object[]} reactionParameters Reaction parameters.
  * @apiParam {Number} reactionParameters.id Reaction parameter unique ID.
@@ -174,7 +175,7 @@ app.post('/api/area/reaction/:id/delete', async (req, res) => {
  * @apiSuccess {String} ReactionParameters.value Reaction parameter value.
  * @apiFailure {String} error Error message.
  */
-app.post('/api/area/reaction/:id/update', async (req, res) => {
+app.post('/api/area/:areaId/reaction/:id/update', async (req, res) => {
   try {
     const updatedParams = []
 
