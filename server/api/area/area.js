@@ -24,7 +24,7 @@ module.exports = function (app, passport, database) {
    * @apiFailure {String} error Error message.
    */
   app.get(
-    '/api/areas',
+    '/api/area',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
