@@ -171,7 +171,7 @@ module.exports = function (app, passport, database) {
    * @apiFailure {String} error Error message.
    */
   app.post(
-    '/api/area/create',
+    '/api/area',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
@@ -191,7 +191,7 @@ module.exports = function (app, passport, database) {
   )
 
   /**
-   * @api {post} /api/area/:id/delete Delete area
+   * @api {post} /api/area/:id Delete area
    * @apiParam {Number} id Area unique ID.
    * @apiSuccess {Number} id Area unique ID.
    * @apiSuccess {String} name Area name.
@@ -199,7 +199,7 @@ module.exports = function (app, passport, database) {
    * @apiSuccess {Boolean} isEnable Area is enable.
    * @apiFailure {String} error Error message.
    */
-  app.post('/api/area/:id/delete', async (req, res) => {
+  app.delete('/api/area/:id', async (req, res) => {
     try {
       const deletedArea = await database.prisma.AREA.delete({
         where: {
@@ -213,7 +213,7 @@ module.exports = function (app, passport, database) {
   })
 
   /**
-   * @api {post} /api/area/:id/update Update area
+   * @api {post} /api/area/:id Update area
    * @apiParam {Number} id Area unique ID.
    * @apiParam {String} name Area name.
    * @apiParam {Boolean} isEnable Area is enable.
@@ -224,8 +224,8 @@ module.exports = function (app, passport, database) {
    * @apiSuccess {Boolean} isEnable Area is enable.
    * @apiFailure {String} error Error message.
    */
-  app.post(
-    '/api/area/:id/update',
+  app.put(
+    '/api/area/:id',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
