@@ -40,22 +40,24 @@ module.exports = function (app, passport, database) {
             }
           },
           select: {
+            id: true,
             Reaction: {
               select: {
                 id: true,
                 name: true,
-                isEnable: true,
-                ReactionParameters: {
+                isEnable: true
+              }
+            },
+            ReactionParameters: {
+              select: {
+                id: true,
+                Parameter: {
                   select: {
-                    Parameter: {
-                      select: {
-                        id: true,
-                        name: true
-                      }
-                    },
-                    value: true
+                    id: true,
+                    name: true
                   }
-                }
+                },
+                value: true
               }
             }
           }
@@ -70,7 +72,7 @@ module.exports = function (app, passport, database) {
   /**
    * @api {get} /api/area/:areaId/reaction/:id Get reaction
    * @apiParam {String} areaId Area id
-   * @apiParam {String} id Reaction id
+   * @apiParam {String} id id of a Reaction/Parameter set
    * @apiSuccess {Object} reaction Reaction
    * @apiSuccess {String} reaction.id Reaction id
    * @apiSuccess {String} reaction.name Reaction name
@@ -110,18 +112,19 @@ module.exports = function (app, passport, database) {
               select: {
                 id: true,
                 name: true,
-                isEnable: true,
-                ReactionParameters: {
+                isEnable: true
+              }
+            },
+            ReactionParameters: {
+              select: {
+                id: true,
+                Parameter: {
                   select: {
-                    Parameter: {
-                      select: {
-                        id: true,
-                        name: true
-                      }
-                    },
-                    value: true
+                    id: true,
+                    name: true
                   }
-                }
+                },
+                value: true
               }
             }
           }
@@ -207,7 +210,7 @@ module.exports = function (app, passport, database) {
   /**
    * @api {delete} /api/area/:areaId/reaction/:id Delete reaction
    * @apiParam {String} areaId Area id
-   * @apiParam {String} id Reaction id
+   * @apiParam {String} id id of a Reaction/Parameter set
    * @apiSuccess {Object} reaction Deleted reaction
    * @apiSuccess {String} reaction.id Reaction id
    * @apiSuccess {String} reaction.name Reaction name
@@ -240,9 +243,10 @@ module.exports = function (app, passport, database) {
         })
         if (!area || area.userId !== req.user.id)
           return res.status(404).json({ error: 'Area not found' })
-        if (!area.Reactions.find(reaction => reaction.id === req.params.id))
+        console.log(area.Reactions)
+        /*if (!area.Reactions.find(reaction => reaction.id === req.params.id))
           return res.status(404).json({ error: 'Reaction not found' })
-
+*/
         const reaction = await database.prisma.AREAhasReactions.delete({
           where: {
             id: req.params.id
@@ -250,6 +254,7 @@ module.exports = function (app, passport, database) {
         })
         res.status(200).json(reaction)
       } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message })
       }
     }
@@ -258,7 +263,7 @@ module.exports = function (app, passport, database) {
   /**
    * @api {put} /api/area/:areaId/reaction/:id Update reaction
    * @apiParam {String} areaId Area id
-   * @apiParam {String} id Reaction id
+   * @apiParam {String} id id of a Reaction/Parameter set
    * @apiParam {Object[]} reactionParameters Reaction parameters
    * @apiParam {String} reactionParameters.id Parameter id
    * @apiParam {String} reactionParameters.value Parameter value
@@ -297,23 +302,25 @@ module.exports = function (app, passport, database) {
         if (!area.Reactions.find(reaction => reaction.id === req.params.id))
           return res.status(404).json({ error: 'Reaction not found' })
 
-        const updatedParams = []
-        await Promise.all(
-          req.body.reactionParameters.map(async param => {
-            const updatedParam =
-              await database.prisma.ReactionParameters.update({
-                where: {
-                  id: param.id
-                },
-                data: {
-                  value: param.value
-                }
-              })
-            updatedParams.push(updatedParam)
+        const response = new Promise((resolve, reject) => {
+          let updatedReactionParameters = []
+          req.body.reactionParameters.forEach(async param => {
+            console.log(param)
+            const a = await database.prisma.ReactionParameter.update({
+              where: {
+                id: param.id
+              },
+              data: {
+                value: param.value
+              }
+            })
+            updatedReactionParameters.push(a)
           })
-        )
-        res.status(200).json(updatedParams)
+          resolve(updatedReactionParameters)
+        })
+        res.status(200).json(response)
       } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message })
       }
     }
