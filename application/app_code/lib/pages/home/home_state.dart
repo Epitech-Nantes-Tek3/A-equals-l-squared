@@ -1,3 +1,4 @@
+import 'package:application/flutter_objects/area_data.dart';
 import 'package:application/network/informations.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/home/home_functional.dart';
@@ -6,6 +7,7 @@ import 'package:application/pages/settings/settings_functional.dart';
 import 'package:application/pages/update_area/update_area_functional.dart';
 import 'package:flutter/material.dart';
 
+import '../../material_lib_functions/material_functions.dart';
 import '../login/login_page.dart';
 import 'home_page.dart';
 
@@ -27,27 +29,59 @@ class HomePageState extends State<HomePage> {
     update();
   }
 
-  /// Display all the area
-  List<Widget> areasDisplay() {
-    List<Widget> areaVis = <Widget>[];
+  /// This function create a Row of two Areas
+  Widget createRowOfAreas(Widget firstArea, Widget? secondArea) {
+    Widget rowArea = Row(
+        mainAxisAlignment: secondArea != null
+            ? MainAxisAlignment.spaceBetween
+            : MainAxisAlignment.center,
+        children: <Widget>[
+          firstArea,
+          if (secondArea != null) secondArea,
+        ]);
+    return rowArea;
+  }
 
-    for (var temp in areaDataList) {
-      String str =
-          temp.getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
-      Color tempColor = Color(int.parse(str));
-      areaVis.add(ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-            side: BorderSide(color: tempColor, width: 3),
-            // Change when DB is Up
-            primary: Colors.white,
-          ),
+  /// This function Create an Elevated Button thanks to an Area
+  Widget areaDataToElevatedButton(AreaData areaData, Color areaBorderColor) {
+    return materialElevatedButtonArea(
+      ElevatedButton(
           onPressed: () {
-            updatingArea = temp;
+            updatingArea = areaData;
             goToUpdateAreaPage(context);
           },
-          child: temp.display(false, null)));
-      areaVis.add(const SizedBox(height: 20));
+          child: areaData.display(false, null)),
+      isShadowNeeded: true,
+      paddingHorizontal: 30,
+      paddingVertical: 30,
+      borderRadius: 10,
+      borderWith: 3,
+      borderColor: areaBorderColor,
+    );
+  }
+
+  /// THis function display all Areas in Tab
+  List<Widget> createTabOfAreas() {
+    List<Widget> areaVis = <Widget>[];
+    late AreaData tempArea;
+
+    var count = 1;
+
+    for (var temp in areaDataList) {
+      if (count % 2 == 0 && count != 0) {
+        areaVis.add(createRowOfAreas(
+            areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor()),
+            areaDataToElevatedButton(temp, temp.getPrimaryColor())));
+        areaVis.add(const SizedBox(
+          height: 30,
+        ));
+      }
+      tempArea = temp;
+      count++;
+    }
+    if (count % 2 == 0) {
+      areaVis.add(createRowOfAreas(
+          areaDataToElevatedButton(tempArea, Colors.deepOrange), null));
     }
     return areaVis;
   }
@@ -115,25 +149,19 @@ class HomePageState extends State<HomePage> {
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: areasDisplay(),
+                    children: createTabOfAreas(),
                   ),
-                  ElevatedButton(
-                    key: const Key('HomeServiceButton'),
-                    onPressed: () {
-                      setState(() {
-                        goToServiceListPage(context);
-                      });
-                    },
-                    child: const Text('Service List'),
-                  ),
-                  ElevatedButton(
-                    key: const Key('HomeLogoutButton'),
-                    onPressed: () {
-                      setState(() {
-                        logout = true;
-                      });
-                    },
-                    child: const Text('Logout'),
+                  materialElevatedButtonArea(
+                    ElevatedButton(
+                      key: const Key('HomeServiceButton'),
+                      onPressed: () {
+                        setState(() {
+                          goToServiceListPage(context);
+                        });
+                      },
+                      child: const Text('Service List'),
+                    ),
+                    primaryColor: getOurBlueAreaColor(100),
                   ),
                 ],
               ),

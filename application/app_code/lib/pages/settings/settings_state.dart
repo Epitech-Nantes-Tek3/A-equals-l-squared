@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application/material_lib_functions/material_functions.dart';
 import 'package:application/network/informations.dart';
 import 'package:application/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -159,30 +160,37 @@ class SettingsPageState extends State<SettingsPage> {
   /// This function display buttons to modified an user account
   Widget modifierButtons() {
     return Column(children: <Widget>[
-      ElevatedButton(
-        key: const Key('AskUpdateButton'),
-        onPressed: () {
-          setState(() {
-            _futureAnswer = apiAskForUpdate();
-          });
-        },
-        child: const Text('Update account information'),
-      ),
-      ElevatedButton(
-        key: const Key('AskDeleteButton'),
-        onPressed: () {
-          setState(() {
-            _futureAnswer = apiAskForDelete();
-          });
-        },
-        child: const Text('Delete account'),
-      ),
+      materialElevatedButtonArea(
+          ElevatedButton(
+            key: const Key('AskUpdateButton'),
+            onPressed: () {
+              setState(() {
+                _futureAnswer = apiAskForUpdate();
+              });
+            },
+            child: const Text('Update account information'),
+          ),
+          isShadowNeeded: true,
+          primaryColor: getOurBlueAreaColor(100)),
+      materialElevatedButtonArea(
+          ElevatedButton(
+            key: const Key('AskDeleteButton'),
+            onPressed: () {
+              setState(() {
+                _futureAnswer = apiAskForDelete();
+              });
+            },
+            child: const Text('Delete account'),
+          ),
+          isShadowNeeded: true,
+          primaryColor: getOurBlueAreaColor(100)),
     ]);
   }
 
   /// This function display all button to give access at a settings for users
   Widget displayAllParameterButtons() {
     return Column(children: <Widget>[
+      const SizedBox(height: 30),
       parameterButtonView(Icons.manage_accounts_rounded, 'User information', 1),
       const SizedBox(height: 10),
       parameterButtonView(Icons.app_settings_alt_sharp, 'Data management', 2),
@@ -298,44 +306,43 @@ class SettingsPageState extends State<SettingsPage> {
 
   /// This function display all settings which can manage by users
   Widget parameterButtonView(IconData icon, String description, int selector) {
-    return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-          side: const BorderSide(width: 3, color: Colors.white),
-          // Change when DB is Up
-          primary: Colors.white,
-        ),
-        onPressed: () {
-          setState(() {
-            if (selector == 5) {
-              goToAuthPage(context);
-            } else if (selector == 84) {
-              goToLoginPage(context);
-            } else {
-              _settingPage = selector;
-            }
-          });
-        },
-        child: Column(children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
+    return materialElevatedButtonArea(
+        ElevatedButton(
+            onPressed: () {
+              setState(() {
+                if (selector == 5) {
+                  goToAuthPage(context);
+                } else if (selector == 84) {
+                  goToLoginPage(context);
+                } else {
+                  _settingPage = selector;
+                }
+              });
+            },
+            child: Column(children: <Widget>[
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Icon(
-                    icon,
-                    color: Colors.black,
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        icon,
+                        color: Colors.black,
+                      ),
+                      const SizedBox(width: 20),
+                      Text(
+                        description,
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 20),
-                  Text(
-                    description,
-                    style: const TextStyle(color: Colors.black),
-                  ),
+                  const Icon(Icons.arrow_forward_ios_sharp, color: Colors.black)
                 ],
-              ),
-              const Icon(Icons.arrow_forward_ios_sharp, color: Colors.black)
-            ],
-          )
-        ]));
+              )
+            ])),
+        isShadowNeeded: true,
+        borderRadius: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 20);
   }
 }
