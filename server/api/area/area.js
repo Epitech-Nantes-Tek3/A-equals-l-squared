@@ -29,6 +29,9 @@ module.exports = function (app, passport, database) {
     async (req, res) => {
       try {
         const areas = await database.prisma.AREA.findMany({
+          where: {
+            userId: req.user.id
+          },
           select: {
             id: true,
             name: true,
@@ -152,6 +155,8 @@ module.exports = function (app, passport, database) {
             }
           }
         })
+        if (!area && area.userId !== req.user.id)
+          return res.status(404).json({ error: 'Area not found' })
         res.status(200).json(area)
       } catch (error) {
         res.status(500).json({ error: error.message })
@@ -199,18 +204,30 @@ module.exports = function (app, passport, database) {
    * @apiSuccess {Boolean} isEnable Area is enable.
    * @apiFailure {String} error Error message.
    */
-  app.delete('/api/area/:id', async (req, res) => {
-    try {
-      const deletedArea = await database.prisma.AREA.delete({
-        where: {
-          id: req.params.id
-        }
-      })
-      res.status(200).json(deletedArea)
-    } catch (error) {
-      res.status(500).json({ error: error.message })
+  app.delete(
+    '/api/area/:id',
+    passport.authenticate('jwt', { session: false }),
+    async (req, res) => {
+      try {
+        let deletedArea = await database.prisma.AREA.findUnique({
+          where: {
+            id: req.params.id
+          }
+        })
+        if (!deletedArea || req.user.id != deletedArea.userId)
+          return res.status(404).json({ error: 'Area not found' })
+
+        await database.prisma.AREA.delete({
+          where: {
+            id: req.params.id
+          }
+        })
+        res.status(200).json(deletedArea)
+      } catch (error) {
+        res.status(500).json({ error: error.message })
+      }
     }
-  })
+  )
 
   /**
    * @api {post} /api/area/:id Update area
@@ -229,7 +246,15 @@ module.exports = function (app, passport, database) {
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
-        const updatedArea = await database.prisma.AREA.update({
+        let updatedArea = await database.prisma.AREA.findUnique({
+          where: {
+            id: req.params.id
+          }
+        })
+        if (!updatedArea || req.user.id != updatedArea.userId)
+          return res.status(404).json({ error: 'Area not found' })
+
+        updatedArea = await database.prisma.AREA.update({
           where: {
             id: req.params.id
           },
