@@ -6,10 +6,21 @@ module.exports = function (app, passport, database) {
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
+        const area = await database.prisma.AREA.findUnique({
+          where: {
+            id: req.params.areaId
+          },
+          select: {
+            userId: true
+          }
+        })
+        if (!area || area.userId !== req.user.id)
+          return res.status(404).json({ error: 'Area not found' })
+
         const reactions = await database.prisma.AREAhasReactions.findMany({
           where: {
             AREA: {
-              id: Number(req.params.areaId)
+              id: req.params.areaId
             }
           },
           select: {
