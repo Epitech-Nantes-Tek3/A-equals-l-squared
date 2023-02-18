@@ -1125,91 +1125,6 @@ app.get('/api/dev/parameter/listall', async (req, res) => {
 })
 
 /**
- * Creating a new area.
- * body.name -> Name of the area. (need to be set)
- * body.description -> Description of the area (optionnal)
- * body.actionId -> Action id
- * body.actionParameters -> Action parameters (optionnal)
- * body.reactions -> Array of reactions
- * body.reactions[].id -> Reaction id
- * body.reactions[].reactionParameters[] -> Array of reaction parameters (optionnal)
- * body.reactions[].reactionParameters[].paramId -> Reaction parameter id (need to be set for each reaction parameter)
- * body.reactions[].reactionParameters[].value -> Reaction parameter value (need to be set for each reaction parameter)
- * Protected by a JWT token
- */
-app.post(
-  '/api/area/create',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res) => {
-    if (!req.user) return res.status(401).send('Invalid token')
-    try {
-      if (!checkAreaNameAlreadyExistForGivenUser(req.user.id, req.body.name))
-        return res.status(400).send('Please give a non existent area name.')
-
-      //Create each action parameter
-      const ActionParameters = []
-      req.body.actionParameters.forEach(param => {
-        ActionParameters.push({
-          Parameter: { connect: { id: param.paramId } },
-          value: param.value
-        })
-      })
-
-      //Create each reaction with its parameters
-      const Reactions = []
-      req.body.reactions.forEach(reaction => {
-        //Create each reaction parameter
-        const ReactionParameters = []
-        reaction.reactionParameters.forEach(param => {
-          ReactionParameters.push({
-            Parameter: { connect: { id: param.paramId } },
-            value: param.value
-          })
-        })
-        Reactions.push({
-          Reaction: { connect: { id: reaction.id } },
-          ReactionParameters: { create: ReactionParameters }
-        })
-      })
-
-      //Create the area
-      const areaCreation = await database.prisma.AREA.create({
-        data: {
-          name: req.body.name,
-          description: req.body.description,
-          User: { connect: { id: req.user.id } },
-          Action: { connect: { id: req.body.actionId } },
-          ActionParameters: { create: ActionParameters },
-          Reactions: { create: Reactions }
-        },
-        select: {
-          id: true,
-          isEnable: true,
-          User: true,
-          ActionParameters: {
-            include: {
-              Parameter: true
-            }
-          },
-          Action: true
-        }
-      })
-      if (areaCreation.isEnable && TriggerInitMap[areaCreation.Action.code])
-        if (!TriggerInitMap[areaCreation.Action.code](areaCreation)) {
-          await database.prisma.AREA.delete({
-            where: { id: areaCreation.id }
-          })
-          return res.status(400).send('Please pass a valid parameter list !')
-        }
-      return res.json(areaCreation)
-    } catch (err) {
-      console.log(err)
-      return res.status(400).json('Please pass a complete body.')
-    }
-  }
-)
-
-/**
  * Creating a new area without protection.
  * body.name -> Name of the area. (need to be set)
  * body.description -> Description of the area (optionnal)
@@ -1301,14 +1216,16 @@ app.get('/api/dev/area/listall', async (req, res) => {
 /**
  * Initialize the database with all services, actions, reactions and parameters.
  */
-app.get('/api/dev/service/createAll', async (req, res) => {
-  const response = []
-  response.push(await createDiscordService())
-  response.push(await createGmailService())
-  response.push(await createTimeTimeService())
-  response.push(await createReaaaaaaaService())
-  return res.json(response)
+app.post('/api/dev/service/createAll', async (req, res) => {
+  const discordService = await createDiscordService()
+  const gmailService = await createGmailService()
+  const timeService = await createTimeTimeService()
+  const reaaaaaaaService = await createReaaaaaaaService()
+  return res.json([discordService, gmailService, timeService, reaaaaaaaService])
 })
+
+require('./api/area/area.js')(app, passport, database)
+require('./api/area/reaction/reaction.js')(app, passport, database)
 
 /**
  * Start the node.js server at PORT and HOST variable
