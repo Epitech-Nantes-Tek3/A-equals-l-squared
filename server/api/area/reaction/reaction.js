@@ -132,7 +132,7 @@ module.exports = function (app, passport, database) {
             },
             Reaction: {
               connect: {
-                id: Number(req.body.reactionId)
+                id: req.body.reactionId
               }
             },
             ReactionParameters: {
@@ -187,14 +187,31 @@ module.exports = function (app, passport, database) {
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
-        const updatedParams = []
+        const area = await database.prisma.AREA.findUnique({
+          where: {
+            id: req.params.areaId
+          },
+          select: {
+            userId: true,
+            Reactions: {
+              select: {
+                id: true
+              }
+            }
+          }
+        })
+        if (!area || area.userId !== req.user.id)
+          return res.status(404).json({ error: 'Area not found' })
+        if (!area.Reactions.find(reaction => reaction.id === req.params.id))
+          return res.status(404).json({ error: 'Reaction not found' })
 
+        const updatedParams = []
         await Promise.all(
           req.body.reactionParameters.map(async param => {
             const updatedParam =
               await database.prisma.ReactionParameters.update({
                 where: {
-                  id: Number(param.id)
+                  id: param.id
                 },
                 data: {
                   value: param.value
