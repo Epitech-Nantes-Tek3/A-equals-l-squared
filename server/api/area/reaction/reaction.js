@@ -1,6 +1,22 @@
 'use strict'
 
 module.exports = function (app, passport, database) {
+  /**
+   * @api {get} /api/area/:areaId/reaction Get all reactions
+   * @apiParam {String} areaId Area id
+   * @apiSuccess {Object[]} reactions Reactions
+   * @apiSuccess {String} reactions.id Reaction id
+   * @apiSuccess {String} reactions.name Reaction name
+   * @apiSuccess {Boolean} reactions.isEnable Reaction isEnable
+   * @apiSuccess {Object[]} reactions.ReactionParameters Reaction parameters
+   * @apiSuccess {Object} reactions.ReactionParameters.Parameter Reaction parameter
+   * @apiSuccess {String} reactions.ReactionParameters.Parameter.id Parameter id
+   * @apiSuccess {String} reactions.ReactionParameters.Parameter.name Parameter name
+   * @apiSuccess {String} reactions.ReactionParameters.value Parameter value
+   * @apiFailure {String} error Error message
+   * @apiFailure {500} error Internal server error
+   * @apiFailure {404} error Area not found
+   */
   app.get(
     '/api/area/:areaId/reaction',
     passport.authenticate('jwt', { session: false }),
@@ -51,6 +67,24 @@ module.exports = function (app, passport, database) {
     }
   )
 
+  /**
+   * @api {get} /api/area/:areaId/reaction/:id Get reaction
+   * @apiParam {String} areaId Area id
+   * @apiParam {String} id Reaction id
+   * @apiSuccess {Object} reaction Reaction
+   * @apiSuccess {String} reaction.id Reaction id
+   * @apiSuccess {String} reaction.name Reaction name
+   * @apiSuccess {Boolean} reaction.isEnable Reaction isEnable
+   * @apiSuccess {Object[]} reaction.ReactionParameters Reaction parameters
+   * @apiSuccess {Object} reaction.ReactionParameters.Parameter Reaction parameter
+   * @apiSuccess {String} reaction.ReactionParameters.Parameter.id Parameter id
+   * @apiSuccess {String} reaction.ReactionParameters.Parameter.name Parameter name
+   * @apiSuccess {String} reaction.ReactionParameters.value Parameter value
+   * @apiFailure {String} error Error message
+   * @apiFailure {500} error Internal server error
+   * @apiFailure {404} error Area not found
+   * @apiFailure {404} error Reaction not found
+   */
   app.get(
     '/api/area/:areaId/reaction/:id',
     passport.authenticate('jwt', { session: false }),
@@ -92,6 +126,8 @@ module.exports = function (app, passport, database) {
             }
           }
         })
+        if (!reaction)
+          return res.status(404).json({ error: 'Reaction not found' })
         res.status(200).json(reaction)
       } catch (error) {
         res.status(500).json({ error: error.message })
@@ -99,6 +135,27 @@ module.exports = function (app, passport, database) {
     }
   )
 
+  /**
+   * @api {post} /api/area/:areaId/reaction Create reaction
+   * @apiParam {String} areaId Area id
+   * @apiParam {String} reactionId Reaction id
+   * @apiParam {Object[]} reactionParameters Reaction parameters
+   * @apiParam {String} reactionParameters.id Parameter id
+   * @apiParam {String} reactionParameters.value Parameter value
+   * @apiSuccess {Object} reaction Reaction
+   * @apiSuccess {String} reaction.id Reaction id
+   * @apiSuccess {String} reaction.name Reaction name
+   * @apiSuccess {Boolean} reaction.isEnable Reaction isEnable
+   * @apiSuccess {Object[]} reaction.ReactionParameters Reaction parameters
+   * @apiSuccess {Object} reaction.ReactionParameters.Parameter Reaction parameter
+   * @apiSuccess {String} reaction.ReactionParameters.Parameter.id Parameter id
+   * @apiSuccess {String} reaction.ReactionParameters.Parameter.name Parameter name
+   * @apiSuccess {String} reaction.ReactionParameters.value Parameter value
+   * @apiFailure {String} error Error message
+   * @apiFailure {404} Area not found
+   * @apiFailure {404} Reaction not found
+   * @apiFailure {500} Internal server error
+   */
   app.post(
     '/api/area/:areaId/reaction',
     passport.authenticate('jwt', { session: false }),
@@ -147,6 +204,22 @@ module.exports = function (app, passport, database) {
     }
   )
 
+  /**
+   * @api {delete} /api/area/:areaId/reaction/:id Delete reaction
+   * @apiParam {String} areaId Area id
+   * @apiParam {String} id Reaction id
+   * @apiSuccess {Object} reaction Deleted reaction
+   * @apiSuccess {String} reaction.id Reaction id
+   * @apiSuccess {String} reaction.name Reaction name
+   * @apiSuccess {Boolean} reaction.isEnable Reaction isEnable
+   * @apiSuccess {Object[]} reaction.reactionParameters Reaction parameters
+   * @apiSuccess {String} reaction.reactionParameters.id Parameter id
+   * @apiSuccess {String} reaction.reactionParameters.name Parameter name
+   * @apiSuccess {String} reaction.reactionParameters.value Parameter value
+   * @apiFailure {404} Area not found
+   * @apiFailure {404} Reaction not found
+   * @apiFailure {500} Internal server error
+   */
   app.delete(
     '/api/area/:areaId/reaction/:id',
     passport.authenticate('jwt', { session: false }),
@@ -182,6 +255,25 @@ module.exports = function (app, passport, database) {
     }
   )
 
+  /**
+   * @api {put} /api/area/:areaId/reaction/:id Update reaction
+   * @apiParam {String} areaId Area id
+   * @apiParam {String} id Reaction id
+   * @apiParam {Object[]} reactionParameters Reaction parameters
+   * @apiParam {String} reactionParameters.id Parameter id
+   * @apiParam {String} reactionParameters.value Parameter value
+   * @apiSuccess {Object} reaction Updated reaction
+   * @apiSuccess {String} reaction.id Reaction id
+   * @apiSuccess {String} reaction.name Reaction name
+   * @apiSuccess {Boolean} reaction.isEnable Reaction isEnable
+   * @apiSuccess {Object[]} reaction.reactionParameters Reaction parameters
+   * @apiSuccess {String} reaction.reactionParameters.id Parameter id
+   * @apiSuccess {String} reaction.reactionParameters.name Parameter name
+   * @apiSuccess {String} reaction.reactionParameters.value Parameter value
+   * @apiFailure {404} Area not found
+   * @apiFailure {404} Reaction not found
+   * @apiFailure {500} Internal server error
+   */
   app.put(
     '/api/area/:areaId/reaction/:id',
     passport.authenticate('jwt', { session: false }),
