@@ -251,7 +251,7 @@ Future<String> getDeezerToken() async {
       'app_id': appId,
       'redirect_uri': 'http://localhost:8081/auth.html',
       'perms':
-          'basic_access, email, offline_access, manage_library, manage_community, delete_library, listening_history',
+          'basic_access,email,offline_access,manage_library,manage_community,delete_library,listening_history',
     });
 
     final result = await FlutterWebAuth2.authenticate(
@@ -270,17 +270,15 @@ Future<String> getDeezerToken() async {
       return error;
     }
     deezerAuthBox.isEnable = true;
-    final response = await http.post(Uri.parse('http://$serverIp:8080/api/services/deezer/fillUserId'),
+    var responseId = await http.post(Uri.parse('http://$serverIp:8080/api/services/deezer/fillUserId'),
             headers: <String, String>{
               'Authorization': 'Bearer ${userInformation!.token}',
               'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: jsonEncode(<String, dynamic>{
             }));
-    if (response.statusCode == 200) {
-      return null;
-    } else {
-      return response.body.toString();
+    if (responseId.statusCode != 200) {
+      return responseId.body.toString();
     }
   }
   updateAuthPage!(null);
