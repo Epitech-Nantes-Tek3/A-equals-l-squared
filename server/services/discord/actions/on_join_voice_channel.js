@@ -11,9 +11,7 @@ const { AreaGlue } = require('../../glue/glue.js')
 client.on('voiceStateUpdate', (oldChannel, newChannel) => {
   try {
     const parametersList = [
-      { name: 'channelId',
-        value: newChannel.channelID,
-        valid: false },
+      { name: 'channelId', value: newChannel.channelID, valid: false },
       {
         name: 'guildId',
         value: newChannel.guild.id,
@@ -21,7 +19,9 @@ client.on('voiceStateUpdate', (oldChannel, newChannel) => {
       }
     ]
 
-    AreaGlue('DSC-02', parametersList)
+    const dynamicParameters = []
+
+    AreaGlue('DSC-02', parametersList, dynamicParameters)
   } catch (error) {
     console.error(error)
   }

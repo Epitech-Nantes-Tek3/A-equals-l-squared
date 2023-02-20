@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:application/network/informations.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:go_router/go_router.dart';
@@ -129,7 +130,12 @@ Future<String> getGoogleToken() async {
     GoogleSignIn googleSignIn = GoogleSignIn(
       clientId:
           '770124443966-jh4puirdfde87lb64bansm4flcfs7vq9.apps.googleusercontent.com',
-      scopes: ['email', 'profile'],
+      scopes: [
+        'email',
+        'profile',
+        'https://www.googleapis.com/auth/gmail.send',
+        'https://www.googleapis.com/auth/gmail.readonly'
+      ],
     );
     googleSignIn.disconnect();
     var googleUser = await googleSignIn.signIn();
@@ -163,19 +169,21 @@ Future<String> getDiscordToken() async {
     final url = Uri.https('discord.com', '/api/oauth2/authorize', {
       'response_type': 'code',
       'client_id': clientId,
-      'redirect_uri': 'http://localhost:8081/auth.html',
+      'redirect_uri':
+          !kIsWeb ? 'https://www.test.com' : 'http://localhost:8081/auth.html',
       'scope': 'identify guilds',
     });
 
     final result = await FlutterWebAuth2.authenticate(
-        url: url.toString(), callbackUrlScheme: 'http');
+        url: url.toString(), callbackUrlScheme: !kIsWeb ? 'https' : 'http');
 
     final code = Uri.parse(result).queryParameters['code'];
 
     final response = await http
         .post(Uri.parse('https://discord.com/api/oauth2/token'), body: {
       'client_id': clientId,
-      'redirect_uri': 'http://localhost:8081/auth.html',
+      'redirect_uri':
+          !kIsWeb ? 'https://www.test.com' : 'http://localhost:8081/auth.html',
       'grant_type': 'authorization_code',
       'code': code,
       'client_secret': "Qew25p5oA3pDMnOxpX0G2-ZNyTO2mz_n"
@@ -200,9 +208,7 @@ Future<String> getDiscordToken() async {
 
 /// Invite the Discord bot to the user server
 Future<String> inviteDiscordBot() async {
-  await launchUrl(
-      Uri.parse(
-          'https://discord.com/api/oauth2/authorize?client_id=1066384923231006741&permissions=8&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2F&response_type=code&scope=bot%20identify%20guilds%20email%20connections%20messages.read%20guilds.members.read%20guilds.join'),
+  await launchUrl(Uri.parse('https://www.test.com'),
       mode: LaunchMode.externalApplication);
   return 'Thanks for adding our bot to your server !';
 }

@@ -1,9 +1,9 @@
 import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:application/flutter_objects/reaction_data.dart';
+import 'package:application/flutter_objects/service_data.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:flutter/material.dart';
 
-import '../../material_lib_functions/material_functions.dart';
 import 'action_data.dart';
 
 /// This class is the Area class.
@@ -66,9 +66,51 @@ class AreaData {
         actionId: json['actionId'],
         reactionId: json['reactionId'],
         isEnable: json['isEnable'],
-        description: 'It\'s a description',
+        description: json['description'],
         actionParameters: actionParameters,
         reactionParameters: reactionParameters);
+  }
+
+  /// Get the first color of hit first service
+  Color getPrimaryColor() {
+    String str = getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
+    Color tempColor = Color(int.parse(str));
+    return tempColor;
+  }
+
+  /// Get the secondary color of hit first service
+  Color getSecondaryColor() {
+    String str =
+        getAssociatedService()!.secondaryColor.replaceFirst("#", "0xff");
+    Color tempColor = Color(int.parse(str));
+    return tempColor;
+  }
+
+  /// This function return the first associated service of an Area
+  ServiceData? getAssociatedService() {
+    for (var temp in serviceDataList) {
+      for (var temp2 in temp.actions) {
+        if (temp2.id == actionId) {
+          return temp;
+        }
+      }
+    }
+    return null;
+  }
+
+  /// This function return the good icon thanks to the serviceName
+  Widget? getServiceIcon() {
+    ServiceData? serviceData = getAssociatedService();
+    if (serviceData != null) {
+      return Image.asset(
+        serviceData.icon != ''
+            ? serviceData.icon
+            : 'assets/icons/Area_Logo.png',
+        height: 30,
+        width: 30,
+      );
+    }
+    return null;
   }
 
   /// Get a visual representation of an Area for create page
@@ -108,7 +150,7 @@ class AreaData {
           const SizedBox(
             height: 10,
           ),
-          materialShadowForArea(Column(children: <Widget>[
+          (Column(children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
@@ -122,7 +164,7 @@ class AreaData {
           const SizedBox(
             height: 20,
           ),
-          materialShadowForArea(Column(children: <Widget>[
+          (Column(children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
@@ -174,6 +216,32 @@ class AreaData {
     );
   }
 
+  /// This function display an Area preview with the logo, the name and the description
+  Widget displayAreaPreview() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            getServiceIcon()!,
+            Text(
+              name,
+              style: const TextStyle(color: Colors.black),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        Text(
+          'Description : \n\n $description',
+          style: const TextStyle(color: Colors.black),
+        )
+
+        /// Put Description when it's in DB
+      ],
+    );
+  }
+
   /// Get a visual representation of an Area
   /// mode -> true = complete representation, false = only area preview
   /// update -> Function pointer used for update the state
@@ -213,7 +281,7 @@ class AreaData {
           const SizedBox(
             height: 10,
           ),
-          materialShadowForArea(Column(children: <Widget>[
+          (Column(children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
@@ -227,7 +295,7 @@ class AreaData {
           const SizedBox(
             height: 20,
           ),
-          materialShadowForArea(Column(children: <Widget>[
+          (Column(children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Column(
@@ -242,36 +310,7 @@ class AreaData {
       ));
     } else {
       try {
-        listDisplay.add(Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  name,
-                  style: const TextStyle(color: Colors.black),
-                ),
-                const Icon(
-                  Icons.ac_unit,
-                  color: Colors.black,
-                )
-
-                /// change color
-              ],
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Description : \n\n $description',
-              style: const TextStyle(color: Colors.black),
-            )
-
-            /// Put Description when it's in DB
-          ],
-        ));
-
-        ///        listDisplay.add(Text(action.name));
-        ///        listDisplay.add(Text(reaction.name));
+        listDisplay.add(displayAreaPreview());
       } catch (err) {
         listDisplay.add(const Text("Please logout and login."));
       }

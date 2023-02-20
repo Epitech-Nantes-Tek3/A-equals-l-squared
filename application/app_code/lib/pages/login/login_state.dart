@@ -31,7 +31,12 @@ class LoginPageState extends State<LoginPage> {
       GoogleSignIn googleSignIn = GoogleSignIn(
         clientId:
             '770124443966-jh4puirdfde87lb64bansm4flcfs7vq9.apps.googleusercontent.com',
-        scopes: ['email', 'profile'],
+        scopes: [
+          'email',
+          'profile',
+          'https://www.googleapis.com/auth/gmail.send',
+          'https://www.googleapis.com/auth/gmail.readonly'
+        ],
       );
       var googleUser =
           await googleSignIn.signInSilently() ?? await googleSignIn.signIn();
@@ -256,7 +261,7 @@ class LoginPageState extends State<LoginPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         /// Put Login with Gmail or an other login
-        materialShadowForArea(TextFormField(
+        TextFormField(
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(20),
             border: OutlineInputBorder(
@@ -275,7 +280,7 @@ class LoginPageState extends State<LoginPage> {
             _email = value;
             return null;
           },
-        )),
+        ),
         const SizedBox(
           height: 20,
         ),
@@ -296,7 +301,7 @@ class LoginPageState extends State<LoginPage> {
             },
           ),
         const SizedBox(
-          height: 20,
+          height: 10,
         ),
         if (_isConnexionWithEmail == true && snapshot.hasError)
           Text('{$snapshot.error}')
@@ -333,9 +338,9 @@ class LoginPageState extends State<LoginPage> {
                         children: <Widget>[
                           displayLogoAndName(),
                           const SizedBox(
-                            height: 50,
+                            height: 30,
                           ),
-                          materialShadowForArea(getHostConfigField()),
+                          getHostConfigField(),
                           const SizedBox(
                             height: 20,
                           ),
