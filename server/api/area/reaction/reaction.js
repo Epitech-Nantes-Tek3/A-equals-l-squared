@@ -53,7 +53,6 @@ module.exports = function (app, passport, database) {
                 id: true,
                 Parameter: {
                   select: {
-                    id: true,
                     name: true
                   }
                 },
@@ -64,6 +63,7 @@ module.exports = function (app, passport, database) {
         })
         res.status(200).json(reactions)
       } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message })
       }
     }
@@ -120,7 +120,6 @@ module.exports = function (app, passport, database) {
                 id: true,
                 Parameter: {
                   select: {
-                    id: true,
                     name: true
                   }
                 },
@@ -133,6 +132,7 @@ module.exports = function (app, passport, database) {
           return res.status(404).json({ error: 'Reaction not found' })
         res.status(200).json(reaction)
       } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message })
       }
     }
@@ -164,6 +164,8 @@ module.exports = function (app, passport, database) {
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
+        if (!req.body || !('reactionParameters' in req.body) || !('reactionId' in req.body))
+          return res.status(400).json({ error: 'Imcomplete body' })
         const area = await database.prisma.AREA.findUnique({
           where: {
             id: req.params.areaId
@@ -202,6 +204,7 @@ module.exports = function (app, passport, database) {
         })
         res.status(200).json(reaction)
       } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message })
       }
     }
@@ -243,10 +246,9 @@ module.exports = function (app, passport, database) {
         })
         if (!area || area.userId !== req.user.id)
           return res.status(404).json({ error: 'Area not found' })
-        console.log(area.Reactions)
-        /*if (!area.Reactions.find(reaction => reaction.id === req.params.id))
+        if (!area.Reactions.find(reaction => reaction.id === req.params.id))
           return res.status(404).json({ error: 'Reaction not found' })
-*/
+
         const reaction = await database.prisma.AREAhasReactions.delete({
           where: {
             id: req.params.id
@@ -284,6 +286,8 @@ module.exports = function (app, passport, database) {
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
+        if (!req.body || !('reactionParameters' in req.body))
+          return res.status(400).json({ error: 'Imcomplete body' })
         const area = await database.prisma.AREA.findUnique({
           where: {
             id: req.params.areaId
@@ -305,7 +309,6 @@ module.exports = function (app, passport, database) {
         const response = new Promise((resolve, reject) => {
           let updatedReactionParameters = []
           req.body.reactionParameters.forEach(async param => {
-            console.log(param)
             const a = await database.prisma.ReactionParameter.update({
               where: {
                 id: param.id

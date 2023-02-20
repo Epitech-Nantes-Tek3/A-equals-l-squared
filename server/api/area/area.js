@@ -55,6 +55,7 @@ module.exports = function (app, passport, database) {
               }
             },
             Reactions: {
+              id: true,
               select: {
                 Reaction: {
                   select: {
@@ -68,7 +69,8 @@ module.exports = function (app, passport, database) {
                       select: {
                         name: true
                       }
-                    }
+                    },
+                    value: true
                   }
                 }
               }
@@ -77,6 +79,7 @@ module.exports = function (app, passport, database) {
         })
         res.status(200).json(areas)
       } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message })
       }
     }
@@ -137,6 +140,7 @@ module.exports = function (app, passport, database) {
               }
             },
             Reactions: {
+              id: true,
               select: {
                 Reaction: {
                   select: {
@@ -150,7 +154,8 @@ module.exports = function (app, passport, database) {
                       select: {
                         name: true
                       }
-                    }
+                    },
+                    value: true
                   }
                 }
               }
@@ -161,6 +166,7 @@ module.exports = function (app, passport, database) {
           return res.status(404).json({ error: 'Area not found' })
         res.status(200).json(area)
       } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message })
       }
     }
@@ -183,6 +189,8 @@ module.exports = function (app, passport, database) {
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
+        if (!req.body || !('name' in req.body) || !('isEnable' in req.body))
+          return res.status(400).json({ error: 'Imcomplete body' })
         const newArea = await database.prisma.AREA.create({
           data: {
             name: req.body.name,
@@ -193,6 +201,7 @@ module.exports = function (app, passport, database) {
         })
         res.status(200).json(newArea)
       } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message })
       }
     }
@@ -228,6 +237,7 @@ module.exports = function (app, passport, database) {
         })
         res.status(200).json(deletedArea)
       } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message })
       }
     }
@@ -251,6 +261,8 @@ module.exports = function (app, passport, database) {
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
+        if (!req.body || !('name' in req.body) || !('isEnable' in req.body))
+          return res.status(400).json({ error: 'Imcomplete body' })
         let updatedArea = await database.prisma.AREA.findUnique({
           where: {
             id: req.params.id
@@ -271,6 +283,7 @@ module.exports = function (app, passport, database) {
         })
         res.status(200).json(updatedArea)
       } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message })
       }
     }

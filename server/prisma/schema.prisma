@@ -105,17 +105,17 @@ model ActionParameter {
 model ReactionParameter {
   id                 String           @id @unique @default(cuid())
   value              String           @db.VarChar(1000)
-  Parameter          Parameter        @relation(fields: [parameterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Parameter          Parameter        @relation(fields: [parameterId], references: [id], onDelete: Cascade)
   parameterId        String
-  AREAhasReactions   AREAhasReactions @relation(fields: [AREAhasReactionsId], references: [id])
+  AREAhasReactions   AREAhasReactions @relation(fields: [AREAhasReactionsId], references: [id], onDelete: Cascade)
   AREAhasReactionsId String
 }
 
 model AREAhasReactions {
   id                 String              @id @unique @default(cuid())
-  Reaction           Reaction            @relation(fields: [reactionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Reaction           Reaction            @relation(fields: [reactionId], references: [id], onDelete: Cascade)
   reactionId         String
-  AREA               AREA                @relation(fields: [AREAId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  AREA               AREA                @relation(fields: [AREAId], references: [id], onDelete: Cascade)
   AREAId             String
   ReactionParameters ReactionParameter[]
 }
@@ -127,7 +127,7 @@ model AREA {
   createdAt        DateTime           @default(now())
   description      String?
   User             User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Action           Action?             @relation(fields: [actionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Action           Action?            @relation(fields: [actionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId           String
   actionId         String?
   ActionParameters ActionParameter[]
