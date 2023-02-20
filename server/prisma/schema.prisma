@@ -54,8 +54,8 @@ model Action {
   Service           Service            @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   serviceId         String
   DynamicParameters DynamicParameter[]
-  AREAs             AREA[]
   Parameters        Parameter[]
+  AREAsLink         AREAhasActions[]
 }
 
 model Reaction {
@@ -94,12 +94,12 @@ model DynamicParameter {
 }
 
 model ActionParameter {
-  id          String    @id @unique @default(cuid())
-  value       String    @db.VarChar(1000)
-  Parameter   Parameter @relation(fields: [parameterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  parameterId String
-  AREA        AREA      @relation(fields: [AREAId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  AREAId      String
+  id               String         @id @unique @default(cuid())
+  value            String         @db.VarChar(1000)
+  Parameter        Parameter      @relation(fields: [parameterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  parameterId      String
+  AREAhasActions   AREAhasActions @relation(fields: [AREAhasActionsId], references: [id], onDelete: Cascade)
+  AREAhasActionsId String
 }
 
 model ReactionParameter {
@@ -120,16 +120,23 @@ model AREAhasReactions {
   ReactionParameters ReactionParameter[]
 }
 
-model AREA {
-  id               String             @id @unique @default(cuid())
-  name             String
-  isEnable         Boolean            @default(true)
-  createdAt        DateTime           @default(now())
-  description      String?
-  User             User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  Action           Action?            @relation(fields: [actionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId           String
-  actionId         String?
+model AREAhasActions {
+  id               String            @id @unique @default(cuid())
+  Action           Action            @relation(fields: [actionId], references: [id], onDelete: Cascade)
+  actionId         String
+  AREA             AREA              @relation(fields: [AREAId], references: [id], onDelete: Cascade)
+  AREAId           String
   ActionParameters ActionParameter[]
-  Reactions        AREAhasReactions[]
+}
+
+model AREA {
+  id          String             @id @unique @default(cuid())
+  name        String
+  isEnable    Boolean            @default(true)
+  createdAt   DateTime           @default(now())
+  description String?
+  User        User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId      String
+  Actions     AREAhasActions[]
+  Reactions   AREAhasReactions[]
 }
