@@ -13,6 +13,22 @@ const {
 } = require('../discord/reactions/change_activity')
 
 const {
+  deezerCreatePlaylistFromArea
+} = require('../deezer/reactions/create_playlist')
+const {
+  deezerDeletePlaylistFromArea
+} = require('../deezer/reactions/delete_playlist')
+const {
+  deezerClearPlaylistFromArea
+} = require('../deezer/reactions/clear_playlist')
+const {
+  deezerAddHistoryToPlaylistFromArea
+} = require('../deezer/reactions/add_history_to_playlist')
+const {
+  deezerAddRecommendationsToPlaylistFromArea
+} = require('../deezer/reactions/add_recommendations_to_playlist')
+
+const {
   reaaaaaaaChangeAreaStatus
 } = require('../reaaaaaaa/reactions/change_area_status')
 
@@ -109,6 +125,13 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
       'DSC-02': () =>
         discordSendPrivateMessageFromArea(area, dynamicParameters),
       'DSC-03': () => discordChangeActivityFromArea(area, dynamicParameters),
+      'DZR-01': () => deezerCreatePlaylistFromArea(area, dynamicParameters),
+      'DZR-02': () => deezerDeletePlaylistFromArea(area, dynamicParameters),
+      'DZR-03': () => deezerClearPlaylistFromArea(area, dynamicParameters),
+      'DZR-04': () =>
+        deezerAddHistoryToPlaylistFromArea(area, dynamicParameters),
+      'DZR-05': () =>
+        deezerAddRecommendationsToPlaylistFromArea(area, dynamicParameters),
       'REA-01': () => reaaaaaaaChangeAreaStatus(area, dynamicParameters)
     }
     if (!area.isEnable || !area.Reaction.isEnable) {
