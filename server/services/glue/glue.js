@@ -53,7 +53,9 @@ const getActionFromCode = async code => {
               id: true,
               email: true,
               googleId: true,
-              facebookId: true
+              facebookId: true,
+              deezerId: true,
+              deezerToken: true
             }
           },
           ActionParameters: {
