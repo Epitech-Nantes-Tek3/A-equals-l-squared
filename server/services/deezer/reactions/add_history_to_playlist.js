@@ -1,5 +1,7 @@
 'use strict'
 
+const axios = require('axios')
+
 const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 const { addTracksToPlaylist } = require('../common/add_tracks_to_playlist.js')
 

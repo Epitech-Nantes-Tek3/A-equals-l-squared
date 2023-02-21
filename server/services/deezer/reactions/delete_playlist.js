@@ -1,5 +1,7 @@
 'use strict'
 
+const axios = require('axios')
+
 const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 
 function deezerDeletePlaylistFromArea (Area, dynamicParameters) {
