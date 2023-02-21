@@ -63,8 +63,7 @@ const createDeezerService = async () => {
                     name: 'playlistId',
                     description: 'The playlist id',
                     isRequired: true,
-                    GetterUrl:
-                      '/api/services/deezer/getUserPlaylists?owned=true'
+                    GetterUrl: '/api/services/deezer/getUserPlaylists'
                   }
                 ]
               }
@@ -80,8 +79,7 @@ const createDeezerService = async () => {
                     name: 'playlistId',
                     description: 'The playlist id',
                     isRequired: true,
-                    GetterUrl:
-                      '/api/services/deezer/getUserPlaylists?owned=true'
+                    GetterUrl: '/api/services/deezer/getUserPlaylists'
                   }
                 ]
               }
@@ -89,7 +87,8 @@ const createDeezerService = async () => {
             {
               name: 'addHistoryToPlaylist',
               code: 'DZR-04',
-              description: 'Add a few tracks of your history to a playlist',
+              description:
+                'Add a few tracks of your history to a owned playlist',
               isEnable: true,
               Parameters: {
                 create: [
@@ -97,8 +96,7 @@ const createDeezerService = async () => {
                     name: 'playlistId',
                     description: 'The playlist id',
                     isRequired: true,
-                    GetterUrl:
-                      '/api/services/deezer/getUserPlaylists?owned=true'
+                    GetterUrl: '/api/services/deezer/getUserPlaylists'
                   }
                 ]
               }
@@ -107,7 +105,7 @@ const createDeezerService = async () => {
               name: 'addRecommendationsToPlaylist',
               code: 'DZR-05',
               description:
-                'Add a few tracks of your recommendations to a playlist',
+                'Add a few tracks of your recommendations to a owned playlist',
               isEnable: true,
               Parameters: {
                 create: [
@@ -115,8 +113,7 @@ const createDeezerService = async () => {
                     name: 'playlistId',
                     description: 'The playlist id',
                     isRequired: true,
-                    GetterUrl:
-                      '/api/services/deezer/getUserPlaylists?owned=true'
+                    GetterUrl: '/api/services/deezer/getUserPlaylists'
                   }
                 ]
               }
