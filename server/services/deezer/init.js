@@ -45,8 +45,8 @@ const createDeezerService = async () => {
               Parameters: {
                 create: [
                   {
-                    name: 'name',
-                    description: 'The name of the playlist',
+                    name: 'title',
+                    description: 'The title of the playlist',
                     isRequired: false
                   }
                 ]
