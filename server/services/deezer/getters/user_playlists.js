@@ -13,7 +13,7 @@ async function getUserPlaylists (deezerId, deezerToken) {
   const playlists = []
   data.map(playlist => {
     if (playlist.creator.id == deezerId)
-      playlists.push({ id: playlist.id, name: playlist.title })
+      playlists.push({ id: playlist.id.toString(), name: playlist.title })
   })
   return playlists
 }
