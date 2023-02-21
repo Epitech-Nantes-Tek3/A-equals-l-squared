@@ -14,12 +14,16 @@ async function deezerAddRecommendationsToPlaylistFromArea (
     parameter => parameter.Parameter.name == 'playlistId'
   ).value
   playlistId = replaceDynamicParameters(playlistId, dynamicParameters)
-  return addRecommendationsToPlaylist(playlistId, Area.User.deezerId, Area.User.deezerToken)
+  return addRecommendationsToPlaylist(
+    playlistId,
+    Area.User.deezerId,
+    Area.User.deezerToken
+  )
 }
 
 async function addRecommendationsToPlaylist (playlistId, deezerId, deezerToken) {
   try {
-    const url = `https://api.deezer.com/user/${deezerId}/history&access_token=${deezerToken}`
+    const url = `https://api.deezer.com/user/${deezerId}/recommendations/tracks&access_token=${deezerToken}`
     const response = await axios.get(url, {
       headers: {
         'Content-Type': 'application/json'
