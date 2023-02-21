@@ -18,7 +18,7 @@ const createCalendarService = async () => {
                 Reactions: {
                     create: [
                         {
-                            name: 'create_event',
+                            name: 'CreateEvent',
                             code: 'CAL-01',
                             description: 'Create an event',
                             isEnable: true,

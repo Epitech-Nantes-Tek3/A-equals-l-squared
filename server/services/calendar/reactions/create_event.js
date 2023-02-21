@@ -2,6 +2,12 @@ const calendar = require('../calendar_init').getCalendarClient()
 const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 const { google } = require('googleapis')
 
+/**
+ *
+ * @param {*} Area the area
+ * @param {*} dynamicParameters the dynamic parameters
+ * @returns
+ */
 const calendarCreateEventFromArea = async (Area, dynamicParameters) => {
   try {
     const reactionParameters = Area.ReactionParameters
@@ -74,6 +80,16 @@ const createEvent =
   }
 }
 
+/**
+ *
+ * @param {*} accessToken the access token
+ * @param {*} calendarId the calendar id
+ * @param {*} summary the summary of the event
+ * @param {*} description the description of the event
+ * @param {*} start the start date of the event
+ * @param {*} end the end date of the event
+ * @returns
+ */
 const createEventWithAccessToken = async (accessToken, calendarId, summary, description, start, end) => {
   const auth = new google.auth.OAuth2()
   auth.setCredentials({ access_token: accessToken })
