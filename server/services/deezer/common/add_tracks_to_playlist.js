@@ -1,5 +1,7 @@
 'use strict'
 
+const axios = require('axios')
+
 async function addTracksToPlaylist (playlistId, tracksId, deezerToken) {
   try {
     const url = `https://api.deezer.com/playlist/${playlistId}/tracks&songs=${tracksId.join(
