@@ -11,7 +11,7 @@ async function deezerAddHistoryToPlaylistFromArea (Area, dynamicParameters) {
     parameter => parameter.Parameter.name == 'playlistId'
   ).value
   playlistId = replaceDynamicParameters(playlistId, dynamicParameters)
-  return addHistoryToPlaylist(playlistId, Area.User.deezerToken)
+  return addHistoryToPlaylist(playlistId, Area.User.deezerId, Area.User.deezerToken)
 }
 
 async function addHistoryToPlaylist (playlistId, deezerId, deezerToken) {
@@ -23,6 +23,10 @@ async function addHistoryToPlaylist (playlistId, deezerId, deezerToken) {
       }
     })
     const tracks = response.data.data
+    if (tracks == undefined) {
+      console.log('No history')
+      return false
+    }
     const tracksId = []
     tracks.map(track => tracksId.push(track.id))
     addTracksToPlaylist(playlistId, tracksId, deezerToken)

@@ -14,7 +14,7 @@ async function deezerAddRecommendationsToPlaylistFromArea (
     parameter => parameter.Parameter.name == 'playlistId'
   ).value
   playlistId = replaceDynamicParameters(playlistId, dynamicParameters)
-  return addRecommendationsToPlaylist(playlistId, Area.User.deezerToken)
+  return addRecommendationsToPlaylist(playlistId, Area.User.deezerId, Area.User.deezerToken)
 }
 
 async function addRecommendationsToPlaylist (playlistId, deezerId, deezerToken) {
@@ -26,6 +26,10 @@ async function addRecommendationsToPlaylist (playlistId, deezerId, deezerToken) 
       }
     })
     const tracks = response.data.data
+    if (tracks == undefined) {
+      console.log('No recommendations')
+      return false
+    }
     const tracksId = []
     tracks.map(track => tracksId.push(track.id))
     addTracksToPlaylist(playlistId, tracksId, deezerToken)
