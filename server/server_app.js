@@ -493,7 +493,6 @@ app.post(
           req.body.code +
           '&output=json'
       )
-      console.log(ret.data)
       return res.status(200).json({
         status: 'success',
         data: { access_token: ret.data.access_token },
