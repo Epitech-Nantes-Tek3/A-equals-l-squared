@@ -1,4 +1,5 @@
 const calendar = require('../calendar_init').getCalendarClient()
+const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 const { google } = require('googleapis')
 
 const calendarCreateEventFromArea = async (Area, dynamicParameters) => {
@@ -50,7 +51,7 @@ const calendarCreateEventFromArea = async (Area, dynamicParameters) => {
  * @see https://developers.google.com/calendar/v3/reference/events/insert
  */
 const createEvent =
-    async (from = null, calendarId, summary, description, start, end) => {
+    async (from = null, calendarId='primary', summary, description, start, end) => {
   try {
     if (from)
       createEventWithAccessToken(from, calendarId, summary, description, start, end)
@@ -65,8 +66,8 @@ const createEvent =
           end: {dateTime: end, timeZone: 'Europe/Paris'}
         }
       })
+      return response.data
     }
-    return response.data
   } catch (err) {
     console.log(`An error occurred: ${err}`)
     throw err

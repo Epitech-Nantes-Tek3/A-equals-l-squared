@@ -19,7 +19,7 @@ const createCalendarService = async () => {
                     create: [
                         {
                             name: 'create_event',
-                            code: 'CAL-02',
+                            code: 'CAL-01',
                             description: 'Create an event',
                             isEnable: true,
                             Parameters: {
@@ -33,7 +33,7 @@ const createCalendarService = async () => {
                                     {
                                         name: 'calendarId',
                                         description: 'The calendar id, by default the primary calendar',
-                                        isRequired: true,
+                                        isRequired: false,
                                     },
                                     {
                                         name: 'summary',
