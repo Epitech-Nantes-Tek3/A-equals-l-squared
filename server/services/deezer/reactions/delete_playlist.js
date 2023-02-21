@@ -10,7 +10,7 @@ function deezerDeletePlaylistFromArea (Area, dynamicParameters) {
     parameter => parameter.Parameter.name == 'playlistId'
   ).value
   playlistId = replaceDynamicParameters(playlistId, dynamicParameters)
-  return createPlaylist(playlistId, Area.User.deezerToken)
+  return deletePlaylist(playlistId, Area.User.deezerToken)
 }
 
 async function deletePlaylist (playlistId, deezerToken) {
