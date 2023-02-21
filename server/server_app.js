@@ -24,6 +24,8 @@ const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
 const discordClient = require('./services/discord/init')
 const deezer = require('./services/deezer/init')
+const { createDeezerService } = require('./services/deezer/init')
+const getUserPlaylists = require('./services/deezer/getters/user_playlists')
 const { createGmailService } = require('./services/gmail/gmail_init')
 const { createDiscordService } = require('./services/discord/init')
 const getVoiceChannels = require('./services/discord/getters/voice_channels')
@@ -847,6 +849,30 @@ app.get(
   }
 )
 
+app.get(
+  '/api/services/deezer/getUserPlaylists',
+  passport.authenticate('jwt', { sessions: false }),
+  async (req, res) => {
+    if (req.user.deezerToken == null)
+      return res.status(400).send('No Deezer account linked.')
+    try {
+      const playlists = await getUserPlaylists(
+        req.user.deezerId,
+        req.user.deezerToken
+      )
+      if (playlists == null) return res.status(400).send('No playlist found.')
+      return res.status(200).json({
+        status: 'success',
+        data: playlists,
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('An error occured.')
+    }
+  }
+)
+
 /**
  * @brief List available area for rea service.
  */
@@ -1274,6 +1300,7 @@ app.get('/api/dev/service/createAll', async (req, res) => {
   response.push(await createGmailService())
   response.push(await createTimeTimeService())
   response.push(await createReaaaaaaaService())
+  response.push(await createDeezerService())
   return res.json(response)
 })
 
