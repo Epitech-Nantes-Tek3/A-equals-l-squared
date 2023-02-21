@@ -46,8 +46,77 @@ const createDeezerService = async () => {
                 create: [
                   {
                     name: 'name',
-                    description: 'The guild concerned guild id',
-                    isRequired: true
+                    description: 'The name of the playlist',
+                    isRequired: false
+                  }
+                ]
+              }
+            },
+            {
+              name: 'deletePlaylist',
+              code: 'DZR-02',
+              description: 'Delete a owned playlist',
+              isEnable: true,
+              Parameters: {
+                create: [
+                  {
+                    name: 'playlistId',
+                    description: 'The playlist id',
+                    isRequired: true,
+                    GetterUrl:
+                      '/api/services/deezer/getUserPlaylists?owned=true'
+                  }
+                ]
+              }
+            },
+            {
+              name: 'clearPlaylist',
+              code: 'DZR-03',
+              description: 'Clear a owned playlist',
+              isEnable: true,
+              Parameters: {
+                create: [
+                  {
+                    name: 'playlistId',
+                    description: 'The playlist id',
+                    isRequired: true,
+                    GetterUrl:
+                      '/api/services/deezer/getUserPlaylists?owned=true'
+                  }
+                ]
+              }
+            },
+            {
+              name: 'addHistoryToPlaylist',
+              code: 'DZR-04',
+              description: 'Add a few tracks of your history to a playlist',
+              isEnable: true,
+              Parameters: {
+                create: [
+                  {
+                    name: 'playlistId',
+                    description: 'The playlist id',
+                    isRequired: true,
+                    GetterUrl:
+                      '/api/services/deezer/getUserPlaylists?owned=true'
+                  }
+                ]
+              }
+            },
+            {
+              name: 'addRecommendationsToPlaylist',
+              code: 'DZR-05',
+              description:
+                'Add a few tracks of your recommendations to a playlist',
+              isEnable: true,
+              Parameters: {
+                create: [
+                  {
+                    name: 'playlistId',
+                    description: 'The playlist id',
+                    isRequired: true,
+                    GetterUrl:
+                      '/api/services/deezer/getUserPlaylists?owned=true'
                   }
                 ]
               }
@@ -61,3 +130,5 @@ const createDeezerService = async () => {
     console.log('Error while creating Deezer service : ', error)
   }
 }
+
+module.exports = { createDeezerService }
