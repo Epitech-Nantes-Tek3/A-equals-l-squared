@@ -276,13 +276,13 @@ Future<String> getDeezerToken() async {
       return error;
     }
     deezerAuthBox.isEnable = true;
-    var responseId = await http.post(Uri.parse('http://$serverIp:8080/api/services/deezer/fillUserId'),
-            headers: <String, String>{
-              'Authorization': 'Bearer ${userInformation!.token}',
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: jsonEncode(<String, dynamic>{
-            }));
+    var responseId = await http.post(
+        Uri.parse('http://$serverIp:8080/api/services/deezer/fillUserId'),
+        headers: <String, String>{
+          'Authorization': 'Bearer ${userInformation!.token}',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: jsonEncode(<String, dynamic>{}));
     if (responseId.statusCode != 200) {
       return responseId.body.toString();
     }
