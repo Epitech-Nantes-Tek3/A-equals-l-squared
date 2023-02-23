@@ -1,19 +1,21 @@
 'use strict'
 
 const database = require('../../database_init')
-const { gmailSendEmailFromArea } = require('../gmail/reactions/send_email')
 const {
-  discordSendMessageChannelFromArea
+  gmailSendEmailFromAreaParameters
+} = require('../gmail/reactions/send_email')
+const {
+  discordSendMessageChannelFromAreaParameters
 } = require('../discord/reactions/send_message_channel')
 const {
-  discordSendPrivateMessageFromArea
+  discordSendPrivateMessageFromAreaParameters
 } = require('../discord/reactions/send_private_message')
 const {
-  discordChangeActivityFromArea
+  discordChangeActivityFromAreaParameters
 } = require('../discord/reactions/change_activity')
 
 const {
-  reaaaaaaaChangeAreaStatus
+  reaaaaaaaChangeAreaStatusFromAreaParameters
 } = require('../reaaaaaaa/reactions/change_area_status')
 
 /**
@@ -29,38 +31,57 @@ const getActionFromCode = async code => {
     select: {
       isEnable: true,
       Parameters: true,
-      AREAs: {
+      AREAsLink: {
         select: {
-          isEnable: true,
-          User: {
+          AREA: {
             select: {
-              id: true,
-              email: true,
-              googleId: true,
-              facebookId: true
+              isEnable: true,
+              User: {
+                select: {
+                  id: true,
+                  email: true,
+                  googleId: true,
+                  facebookId: true
+                }
+              },
+              Actions: {
+                select: {
+                  Action: {
+                    select: {
+                      code: true,
+                      isEnable: true
+                    }
+                  },
+                  ActionParameters: {
+                    select: {
+                      Parameter: true,
+                      value: true
+                    }
+                  }
+                }
+              },
+              Reactions: {
+                select: {
+                  Reaction: {
+                    select: {
+                      code: true,
+                      isEnable: true
+                    }
+                  },
+                  ReactionParameters: {
+                    select: {
+                      Parameter: true,
+                      value: true
+                    }
+                  }
+                }
+              }
             }
           },
           ActionParameters: {
             select: {
               Parameter: true,
               value: true
-            }
-          },
-          Reactions: {
-            select: {
-              Reaction: {
-                select: {
-                  code: true,
-                  Parameters: true,
-                  isEnable: true
-                }
-              },
-              ReactionParameters: {
-                select: {
-                  Parameter: true,
-                  value: true
-                }
-              }
             }
           }
         }
@@ -72,12 +93,12 @@ const getActionFromCode = async code => {
 
 /**
  * Check if the parameters of an action are valid
- * @param {JSON} Area
- * @param {JSON} parametersList
+ * @param {JSON} ActionParameters The parameters of the action
+ * @param {JSON} parametersList The given parameters
  * @returns
  */
-const checkActionParameters = (Area, parametersList) => {
-  Area.ActionParameters.forEach(actionParameter => {
+const checkActionParameters = (ActionParameters, parametersList) => {
+  ActionParameters.forEach(actionParameter => {
     let index = parametersList.findIndex(
       parameter => parameter.name == actionParameter.Parameter.name
     )
@@ -105,25 +126,44 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
     return
   }
 
-  action.AREAs.forEach(area => {
-    const reactions = {
-      'GML-01': () => gmailSendEmailFromArea(area, dynamicParameters),
-      'DSC-01': () =>
-        discordSendMessageChannelFromArea(area, dynamicParameters),
-      'DSC-02': () =>
-        discordSendPrivateMessageFromArea(area, dynamicParameters),
-      'DSC-03': () => discordChangeActivityFromArea(area, dynamicParameters),
-      'REA-01': () => reaaaaaaaChangeAreaStatus(area, dynamicParameters)
+  action.AREAsLink.forEach(link => {
+    // List of reactions to call
+    const reactionsList = {
+      'GML-01': ReactionParameters =>
+        gmailSendEmailFromAreaParameters(ReactionParameters, dynamicParameters),
+      'DSC-01': ReactionParameters =>
+        discordSendMessageChannelFromAreaParameters(
+          ReactionParameters,
+          dynamicParameters
+        ),
+      'DSC-02': ReactionParameters =>
+        discordSendPrivateMessageFromAreaParameters(
+          ReactionParameters,
+          dynamicParameters
+        ),
+      'DSC-03': ReactionParameters =>
+        discordChangeActivityFromAreaParameters(
+          ReactionParameters,
+          dynamicParameters
+        ),
+      'REA-01': ReactionParameters =>
+        reaaaaaaaChangeAreaStatusFromAreaParameters(
+          ReactionParameters,
+          dynamicParameters
+        )
     }
-    if (area.isEnable || !checkActionParameters(area, actionParameters)) {
+    if (
+      !link.AREA.isEnable ||
+      !checkActionParameters(link.ActionParameters, actionParameters)
+    ) {
       return
     }
-    area.reactions.forEach(reaction => {
+    link.AREA.Reactions.forEach(reaction => {
       if (!reaction.Reaction.isEnable) {
         return
       }
-      if (reactions[reaction.Reaction.code]) {
-        reactions[reaction.Reaction.code]()
+      if (reactionsList[reaction.Reaction.code]) {
+        reactionsList[reaction.Reaction.code](reaction.ReactionParameters)
       }
     })
   })

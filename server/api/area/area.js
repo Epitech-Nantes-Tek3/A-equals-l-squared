@@ -38,27 +38,35 @@ module.exports = function (app, passport, database) {
             name: true,
             isEnable: true,
             description: true,
-            Action: {
+            Actions: {
               select: {
-                name: true,
-                isEnable: true
-              }
-            },
-            ActionParameters: {
-              select: {
-                Parameter: {
+                id: true,
+                Action: {
                   select: {
-                    name: true
+                    id: true,
+                    name: true,
+                    isEnable: true
                   }
                 },
-                value: true
+                ActionParameters: {
+                  select: {
+                    Parameter: {
+                      select: {
+                        id: true,
+                        name: true
+                      }
+                    },
+                    value: true
+                  }
+                }
               }
             },
             Reactions: {
-              id: true,
               select: {
+                id: true,
                 Reaction: {
                   select: {
+                    id: true,
                     name: true,
                     isEnable: true
                   }
@@ -67,6 +75,7 @@ module.exports = function (app, passport, database) {
                   select: {
                     Parameter: {
                       select: {
+                        id: true,
                         name: true
                       }
                     },
@@ -123,27 +132,35 @@ module.exports = function (app, passport, database) {
             name: true,
             isEnable: true,
             description: true,
-            Action: {
+            Actions: {
               select: {
-                name: true,
-                isEnable: true
-              }
-            },
-            ActionParameters: {
-              select: {
-                Parameter: {
+                id: true,
+                Action: {
                   select: {
-                    name: true
+                    id: true,
+                    name: true,
+                    isEnable: true
                   }
                 },
-                value: true
+                ActionParameters: {
+                  select: {
+                    Parameter: {
+                      select: {
+                        id: true,
+                        name: true
+                      }
+                    },
+                    value: true
+                  }
+                }
               }
             },
             Reactions: {
-              id: true,
               select: {
+                id: true,
                 Reaction: {
                   select: {
+                    id: true,
                     name: true,
                     isEnable: true
                   }
@@ -152,6 +169,7 @@ module.exports = function (app, passport, database) {
                   select: {
                     Parameter: {
                       select: {
+                        id: true,
                         name: true
                       }
                     },

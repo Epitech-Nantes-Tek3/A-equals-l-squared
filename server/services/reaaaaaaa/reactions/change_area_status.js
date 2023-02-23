@@ -6,17 +6,16 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 
 /**
  * Change the status of a specified area
- * @param {*} Area Area that contains the parameters
+ * @param {*} ReactionParameters The parameters
  * @param {*} dynamicParameters Dynamic parameters
  * @returns True if the status have been updated, false otherwise
  */
-async function reaaaaaaaChangeAreaStatus (Area, dynamicParameters) {
+async function reaaaaaaaChangeAreaStatusFromAreaParameters (ReactionParameters, dynamicParameters) {
   try {
-    const reactionParameters = Area.ReactionParameters
-    let changingAreaId = reactionParameters.find(
+    let changingAreaId = ReactionParameters.find(
       parameter => parameter.Parameter.name == 'areaId'
     ).value
-    let newStatus = reactionParameters.find(
+    let newStatus = ReactionParameters.find(
       parameter => parameter.Parameter.name == 'newStatus'
     ).value
     changingAreaId = replaceDynamicParameters(changingAreaId, dynamicParameters)
@@ -46,4 +45,4 @@ async function reaaaaaaaChangeAreaStatus (Area, dynamicParameters) {
   }
 }
 
-module.exports = { reaaaaaaaChangeAreaStatus }
+module.exports = { reaaaaaaaChangeAreaStatusFromAreaParameters }

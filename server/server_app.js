@@ -1065,7 +1065,11 @@ app.post('/api/dev/reaction/create', async (req, res) => {
  */
 app.get('/api/dev/reaction/listall', async (req, res) => {
   try {
-    const reactions = await database.prisma.Reaction.findMany()
+    const reactions = await database.prisma.Reaction.findMany({
+      include: {
+        Parameters: true
+      }
+    })
     return res.json(reactions)
   } catch (err) {
     console.log(err)
@@ -1226,6 +1230,7 @@ app.post('/api/dev/service/createAll', async (req, res) => {
 
 require('./api/area/area.js')(app, passport, database)
 require('./api/area/reaction/reaction.js')(app, passport, database)
+require('./api/area/action/action.js')(app, passport, database)
 
 /**
  * Start the node.js server at PORT and HOST variable
