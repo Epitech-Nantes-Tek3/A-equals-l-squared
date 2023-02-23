@@ -191,6 +191,36 @@ module.exports = function (app, passport, database) {
   )
 
   /**
+ * Cross all the User area and check the Name validity
+ * @param {*} userId the user Id
+ * @param {*} newName the wanted name
+ * @returns True if the new name is valid, false otherwise
+ */
+async function checkAreaNameAlreadyExistForGivenUser (
+  userId,
+  newName,
+  actualAreaId
+) {
+  let existing = false
+  let where
+
+  if (actualAreaId) {
+    where = {
+      userId: userId,
+      name: newName,
+      NOT: { id: actualAreaId }
+    }
+  } else {
+    where = {
+      userId: userId,
+      name: newName
+    }
+  }
+  const areas = await database.prisma.AREA.findMany({ where: where })
+  return areas.length > 0
+}
+
+  /**
    * @api {post} /api/area/create Create area
    * @apiParam {String} name Area name.
    * @apiParam {String} [description] Area description.
@@ -209,6 +239,17 @@ module.exports = function (app, passport, database) {
       try {
         if (!req.body || !('name' in req.body) || !('isEnable' in req.body))
           return res.status(400).json({ error: 'Imcomplete body' })
+        if (
+          await checkAreaNameAlreadyExistForGivenUser(
+            req.user.id,
+            req.body.name,
+            null
+          )
+        ) {
+          return res
+            .status(400)
+            .json({ error: 'An other AREA already have this name.' })
+        }
         const newArea = await database.prisma.AREA.create({
           data: {
             name: req.body.name,
@@ -224,6 +265,63 @@ module.exports = function (app, passport, database) {
       }
     }
   )
+
+  /**
+   * @api {post} /api/area/:id Update area
+   * @apiParam {Number} id Area unique ID.
+   * @apiParam {String} name Area name.
+   * @apiParam {Boolean} isEnable Area is enable.
+   * @apiParam {String} [description] Area description.
+   * @apiSuccess {Number} id Area unique ID.
+   * @apiSuccess {String} name Area name.
+   * @apiSuccess {String} description Area description.
+   * @apiSuccess {Boolean} isEnable Area is enable.
+   * @apiFailure {String} error Error message.
+   * Route protected by a JWT token
+   */
+  app.put(
+    '/api/area/:id',
+    passport.authenticate('jwt', { session: false }),
+    async (req, res) => {
+      try {
+        if (!req.body || !('name' in req.body) || !('isEnable' in req.body))
+          return res.status(400).json({ error: 'Imcomplete body' })
+        if (
+          await checkAreaNameAlreadyExistForGivenUser(
+            req.user.id,
+            req.body.name,
+            req.params.id
+          )
+        )
+          return res
+            .status(400)
+            .json({ error: 'An other AREA already have this name.' })
+        let updatedArea = await database.prisma.AREA.findUnique({
+          where: {
+            id: req.params.id
+          }
+        })
+        if (!updatedArea || req.user.id != updatedArea.userId)
+          return res.status(404).json({ error: 'Area not found' })
+
+        updatedArea = await database.prisma.AREA.update({
+          where: {
+            id: req.params.id
+          },
+          data: {
+            name: req.body.name,
+            isEnable: req.body.isEnable,
+            description: 'description' in req.body ? req.body.description : ''
+          }
+        })
+        res.status(200).json(updatedArea)
+      } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error.message })
+      }
+    }
+  )
+
 
   /**
    * @api {post} /api/area/:id Delete area
@@ -254,52 +352,6 @@ module.exports = function (app, passport, database) {
           }
         })
         res.status(200).json(deletedArea)
-      } catch (error) {
-        console.log(error)
-        res.status(500).json({ error: error.message })
-      }
-    }
-  )
-
-  /**
-   * @api {post} /api/area/:id Update area
-   * @apiParam {Number} id Area unique ID.
-   * @apiParam {String} name Area name.
-   * @apiParam {Boolean} isEnable Area is enable.
-   * @apiParam {String} [description] Area description.
-   * @apiSuccess {Number} id Area unique ID.
-   * @apiSuccess {String} name Area name.
-   * @apiSuccess {String} description Area description.
-   * @apiSuccess {Boolean} isEnable Area is enable.
-   * @apiFailure {String} error Error message.
-   * Route protected by a JWT token
-   */
-  app.put(
-    '/api/area/:id',
-    passport.authenticate('jwt', { session: false }),
-    async (req, res) => {
-      try {
-        if (!req.body || !('name' in req.body) || !('isEnable' in req.body))
-          return res.status(400).json({ error: 'Imcomplete body' })
-        let updatedArea = await database.prisma.AREA.findUnique({
-          where: {
-            id: req.params.id
-          }
-        })
-        if (!updatedArea || req.user.id != updatedArea.userId)
-          return res.status(404).json({ error: 'Area not found' })
-
-        updatedArea = await database.prisma.AREA.update({
-          where: {
-            id: req.params.id
-          },
-          data: {
-            name: req.body.name,
-            isEnable: req.body.isEnable,
-            description: 'description' in req.body ? req.body.description : ''
-          }
-        })
-        res.status(200).json(updatedArea)
       } catch (error) {
         console.log(error)
         res.status(500).json({ error: error.message })
