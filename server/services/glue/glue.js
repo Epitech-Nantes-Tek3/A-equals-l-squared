@@ -13,11 +13,12 @@ const {
 const {
   discordChangeActivityFromAreaParameters
 } = require('../discord/reactions/change_activity')
-
 const {
   reaaaaaaaChangeAreaStatusFromAreaParameters
 } = require('../reaaaaaaa/reactions/change_area_status')
-
+const {
+  calendarCreateEventFromAreaParameters
+} = require('../calendar/reactions/create_event')
 /**
  * Get an action from its code
  * @param {String} code
@@ -148,6 +149,11 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
         ),
       'REA-01': ReactionParameters =>
         reaaaaaaaChangeAreaStatusFromAreaParameters(
+          ReactionParameters,
+          dynamicParameters
+        ),
+      'CAL-01': ReactionParameters =>
+        calendarCreateEventFromAreaParameters(
           ReactionParameters,
           dynamicParameters
         )
