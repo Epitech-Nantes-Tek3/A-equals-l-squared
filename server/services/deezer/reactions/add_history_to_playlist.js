@@ -5,15 +5,32 @@ const axios = require('axios')
 const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 const { addTracksToPlaylist } = require('../common/add_tracks_to_playlist.js')
 
+/**
+ * Add history tracks to a playlist from an area
+ * @param {*} Area The Area
+ * @param {*} dynamicParameters The dynamic parameters
+ * @returns True if the tracks were added to the playlist, false otherwise
+ */
 async function deezerAddHistoryToPlaylistFromArea (Area, dynamicParameters) {
   const reactionParameters = Area.ReactionParameters
   let playlistId = reactionParameters.find(
     parameter => parameter.Parameter.name == 'playlistId'
   ).value
   playlistId = replaceDynamicParameters(playlistId, dynamicParameters)
-  return addHistoryToPlaylist(playlistId, Area.User.deezerId, Area.User.deezerToken)
+  return addHistoryToPlaylist(
+    playlistId,
+    Area.User.deezerId,
+    Area.User.deezerToken
+  )
 }
 
+/**
+ * Add the user's history to a playlist
+ * @param {*} playlistId The playlist ID to add tracks to
+ * @param {*} deezerId The user's Deezer ID
+ * @param {*} deezerToken The user's Deezer token
+ * @returns True if the tracks were added to the playlist, false otherwise
+ */
 async function addHistoryToPlaylist (playlistId, deezerId, deezerToken) {
   try {
     const url = `https://api.deezer.com/user/${deezerId}/history&access_token=${deezerToken}`

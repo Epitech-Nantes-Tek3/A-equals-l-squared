@@ -5,6 +5,12 @@ const axios = require('axios')
 const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 const { addTracksToPlaylist } = require('../common/add_tracks_to_playlist.js')
 
+/**
+ * Add recommendations tracks to a playlist from an area
+ * @param {*} Area The Area
+ * @param {*} dynamicParameters The dynamic parameters
+ * @returns True if the tracks were added to the playlist, false otherwise
+ */
 async function deezerAddRecommendationsToPlaylistFromArea (
   Area,
   dynamicParameters
@@ -21,6 +27,13 @@ async function deezerAddRecommendationsToPlaylistFromArea (
   )
 }
 
+/**
+ * Add the user's recommendations to a playlist
+ * @param {*} playlistId The playlist ID to add tracks to
+ * @param {*} deezerId The user's Deezer ID
+ * @param {*} deezerToken The user's Deezer token
+ * @returns True if the tracks were added to the playlist, false otherwise
+ */
 async function addRecommendationsToPlaylist (playlistId, deezerId, deezerToken) {
   try {
     const url = `https://api.deezer.com/user/${deezerId}/recommendations/tracks&access_token=${deezerToken}`

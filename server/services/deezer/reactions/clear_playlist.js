@@ -4,6 +4,12 @@ const axios = require('axios')
 
 const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 
+/**
+ * Clear a playlist from an area
+ * @param {*} Area The Area
+ * @param {*} dynamicParameters The dynamic parameters
+ * @returns True if the tracks were cleared in the playlist, false otherwise
+ */
 function deezerClearPlaylistFromArea (Area, dynamicParameters) {
   const reactionParameters = Area.ReactionParameters
   let playlistId = reactionParameters.find(
@@ -13,6 +19,12 @@ function deezerClearPlaylistFromArea (Area, dynamicParameters) {
   return clearPlaylist(playlistId, Area.User.deezerToken)
 }
 
+/**
+ * Clear a playlist
+ * @param {*} playlistId The playlist ID to clear
+ * @param {*} deezerToken The user's Deezer token
+ * @returns True if the tracks were cleared in the playlist, false otherwise
+ */
 async function clearPlaylist (playlistId, deezerToken) {
   try {
     var url = `https://api.deezer.com/playlist/${playlistId}&access_token=${deezerToken}`
