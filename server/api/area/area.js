@@ -38,6 +38,7 @@ module.exports = function (app, passport, database) {
             name: true,
             isEnable: true,
             description: true,
+            logicalGate: true,
             Actions: {
               select: {
                 id: true,
@@ -132,6 +133,7 @@ module.exports = function (app, passport, database) {
             name: true,
             isEnable: true,
             description: true,
+            logicalGate: true,
             Actions: {
               select: {
                 id: true,
@@ -224,6 +226,7 @@ async function checkAreaNameAlreadyExistForGivenUser (
    * @api {post} /api/area/create Create area
    * @apiParam {String} name Area name.
    * @apiParam {String} [description] Area description.
+   * @apiParam {String} [logicalGate] Area logical gate.
    * @apiParam {Boolean} isEnable Area is enable.
    * @apiSuccess {Number} id Area unique ID.
    * @apiSuccess {String} name Area name.
@@ -255,6 +258,7 @@ async function checkAreaNameAlreadyExistForGivenUser (
             name: req.body.name,
             description: 'description' in req.body ? req.body.description : '',
             isEnable: req.body.isEnable,
+            logicalGate: 'logicalGate' in req.body ? req.body.logicalGate : 'OR',
             User: { connect: { id: req.user.id } }
           }
         })
@@ -272,6 +276,7 @@ async function checkAreaNameAlreadyExistForGivenUser (
    * @apiParam {String} name Area name.
    * @apiParam {Boolean} isEnable Area is enable.
    * @apiParam {String} [description] Area description.
+   * @apiParam {String} [logicalGate] Area logical gate.
    * @apiSuccess {Number} id Area unique ID.
    * @apiSuccess {String} name Area name.
    * @apiSuccess {String} description Area description.
@@ -311,7 +316,8 @@ async function checkAreaNameAlreadyExistForGivenUser (
           data: {
             name: req.body.name,
             isEnable: req.body.isEnable,
-            description: 'description' in req.body ? req.body.description : ''
+            description: 'description' in req.body ? req.body.description : '',
+            logicalGate: 'logicalGate' in req.body ? req.body.logicalGate : 'OR'
           }
         })
         res.status(200).json(updatedArea)

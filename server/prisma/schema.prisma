@@ -136,6 +136,7 @@ model AREA {
   isEnable    Boolean            @default(true)
   createdAt   DateTime           @default(now())
   description String?
+  logicalGate String             @default("OR")
   User        User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId      String
   Actions     AREAhasActions[]
