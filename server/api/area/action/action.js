@@ -128,8 +128,7 @@ module.exports = function (app, passport, database) {
             }
           }
         })
-        if (!action)
-          return res.status(404).json({ error: 'Action not found' })
+        if (!action) return res.status(404).json({ error: 'Action not found' })
         res.status(200).json(action)
       } catch (error) {
         console.log(error)
@@ -164,7 +163,11 @@ module.exports = function (app, passport, database) {
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
-        if (!req.body || !('actionParameters' in req.body) || !('actionId' in req.body))
+        if (
+          !req.body ||
+          !('actionParameters' in req.body) ||
+          !('actionId' in req.body)
+        )
           return res.status(400).json({ error: 'Imcomplete body' })
         const area = await database.prisma.AREA.findUnique({
           where: {
@@ -199,6 +202,27 @@ module.exports = function (app, passport, database) {
             },
             ActionParameters: {
               create: ActionParameters
+            }
+          },
+          select: {
+            id: true,
+            Action: {
+              select: {
+                id: true,
+                name: true,
+                isEnable: true
+              }
+            },
+            ActionParameters: {
+              select: {
+                id: true,
+                Parameter: {
+                  select: {
+                    name: true
+                  }
+                },
+                value: true
+              }
             }
           }
         })

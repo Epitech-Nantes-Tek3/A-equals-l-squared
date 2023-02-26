@@ -164,7 +164,11 @@ module.exports = function (app, passport, database) {
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
-        if (!req.body || !('reactionParameters' in req.body) || !('reactionId' in req.body))
+        if (
+          !req.body ||
+          !('reactionParameters' in req.body) ||
+          !('reactionId' in req.body)
+        )
           return res.status(400).json({ error: 'Imcomplete body' })
         const area = await database.prisma.AREA.findUnique({
           where: {
@@ -199,6 +203,26 @@ module.exports = function (app, passport, database) {
             },
             ReactionParameters: {
               create: ReactionParameters
+            }
+          },
+          select: {
+            Reaction: {
+              select: {
+                id: true,
+                name: true,
+                isEnable: true
+              }
+            },
+            ReactionParameters: {
+              select: {
+                id: true,
+                Parameter: {
+                  select: {
+                    name: true
+                  }
+                },
+                value: true
+              }
             }
           }
         })

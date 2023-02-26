@@ -52,6 +52,7 @@ module.exports = function (app, passport, database) {
                 },
                 ActionParameters: {
                   select: {
+                    id: true,
                     Parameter: {
                       select: {
                         id: true,
@@ -75,6 +76,7 @@ module.exports = function (app, passport, database) {
                 },
                 ReactionParameters: {
                   select: {
+                    id: true,
                     Parameter: {
                       select: {
                         id: true,
@@ -148,6 +150,7 @@ module.exports = function (app, passport, database) {
                 },
                 ActionParameters: {
                   select: {
+                    id: true,
                     Parameter: {
                       select: {
                         id: true,
@@ -171,6 +174,7 @@ module.exports = function (app, passport, database) {
                 },
                 ReactionParameters: {
                   select: {
+                    id: true,
                     Parameter: {
                       select: {
                         id: true,
