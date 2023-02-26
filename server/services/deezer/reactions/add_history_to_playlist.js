@@ -51,7 +51,7 @@ async function addHistoryToPlaylist (playlistId, limit, deezerId, deezerToken) {
       console.log('No history')
       return false
     }
-    const tracksId = []
+    var tracksId = []
     tracks.map(track => tracksId.push(track.id))
     tracksId = tracksId.slice(0, limit)
     addTracksToPlaylist(playlistId, tracksId, deezerToken)
