@@ -11,7 +11,6 @@ const {
 const {
   discordChangeActivityFromArea
 } = require('../discord/reactions/change_activity')
-
 const {
   deezerCreatePlaylistFromArea
 } = require('../deezer/reactions/create_playlist')
@@ -31,12 +30,15 @@ const {
 const {
   reaaaaaaaChangeAreaStatus
 } = require('../reaaaaaaa/reactions/change_area_status')
-
+const {
+  calendarCreateEventFromArea
+} = require('../calendar/reactions/create_event')
 /**
  * Get an action from its code
  * @param {String} code
  * @returns
- */
+ */ const axios = require('axios')
+
 const getActionFromCode = async code => {
   const action = await database.prisma.Action.findUnique({
     where: {
@@ -134,7 +136,8 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
         deezerAddHistoryToPlaylistFromArea(area, dynamicParameters),
       'DZR-05': () =>
         deezerAddRecommendationsToPlaylistFromArea(area, dynamicParameters),
-      'REA-01': () => reaaaaaaaChangeAreaStatus(area, dynamicParameters)
+      'REA-01': () => reaaaaaaaChangeAreaStatus(area, dynamicParameters),
+      'CAL-01': () => calendarCreateEventFromArea(area, dynamicParameters)
     }
     if (!area.isEnable || !area.Reaction.isEnable) {
       return
