@@ -28,6 +28,7 @@ model User {
   facebookId               String?                    @unique
   googleToken              String?                    @db.VarChar(1000)
   discordToken             String?                    @db.VarChar(1000)
+  redditToken              String?                    @db.VarChar(1000)
   UsersHasActionsReactions UsersHasActionsReactions[]
 }
 
