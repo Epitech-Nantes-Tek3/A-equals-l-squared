@@ -34,6 +34,8 @@ const getActionFromCode = async code => {
       Parameters: true,
       AREAsLink: {
         select: {
+          id: true,
+          triggered: true,
           AREA: {
             select: {
               isEnable: true,
@@ -127,50 +129,65 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
     return
   }
 
-  action.AREAsLink.forEach(link => {
-    // List of reactions to call
-    const reactionsList = {
-      'GML-01': ReactionParameters =>
-        gmailSendEmailFromAreaParameters(ReactionParameters, dynamicParameters),
-      'DSC-01': ReactionParameters =>
-        discordSendMessageChannelFromAreaParameters(
-          ReactionParameters,
-          dynamicParameters
-        ),
-      'DSC-02': ReactionParameters =>
-        discordSendPrivateMessageFromAreaParameters(
-          ReactionParameters,
-          dynamicParameters
-        ),
-      'DSC-03': ReactionParameters =>
-        discordChangeActivityFromAreaParameters(
-          ReactionParameters,
-          dynamicParameters
-        ),
-      'REA-01': ReactionParameters =>
-        reaaaaaaaChangeAreaStatusFromAreaParameters(
-          ReactionParameters,
-          dynamicParameters
-        ),
-      'CAL-01': ReactionParameters =>
-        calendarCreateEventFromAreaParameters(
-          ReactionParameters,
-          dynamicParameters
-        )
-    }
-    if (
-      !link.AREA.isEnable ||
-      !checkActionParameters(link.ActionParameters, actionParameters)
-    ) {
-      return
-    }
-    link.AREA.Reactions.forEach(reaction => {
-      if (!reaction.Reaction.isEnable) {
+  new Promise((resolve, reject) => {
+    action.AREAsLink.forEach(async link => {
+      console.log("Link", link)
+      // List of reactions to call
+      const reactionsList = {
+        'GML-01': ReactionParameters =>
+          gmailSendEmailFromAreaParameters(
+            ReactionParameters,
+            dynamicParameters
+          ),
+        'DSC-01': ReactionParameters =>
+          discordSendMessageChannelFromAreaParameters(
+            ReactionParameters,
+            dynamicParameters
+          ),
+        'DSC-02': ReactionParameters =>
+          discordSendPrivateMessageFromAreaParameters(
+            ReactionParameters,
+            dynamicParameters
+          ),
+        'DSC-03': ReactionParameters =>
+          discordChangeActivityFromAreaParameters(
+            ReactionParameters,
+            dynamicParameters
+          ),
+        'REA-01': ReactionParameters =>
+          reaaaaaaaChangeAreaStatusFromAreaParameters(
+            ReactionParameters,
+            dynamicParameters
+          ),
+        'CAL-01': ReactionParameters =>
+          calendarCreateEventFromAreaParameters(
+            ReactionParameters,
+            dynamicParameters
+          )
+      }
+      if (
+        !link.AREA.isEnable ||
+        !checkActionParameters(link.ActionParameters, actionParameters)
+      ) {
         return
       }
-      if (reactionsList[reaction.Reaction.code]) {
-        reactionsList[reaction.Reaction.code](reaction.ReactionParameters)
-      }
+      link.AREA.Reactions.forEach(reaction => {
+        if (!reaction.Reaction.isEnable) {
+          return
+        }
+        if (reactionsList[reaction.Reaction.code]) {
+          reactionsList[reaction.Reaction.code](reaction.ReactionParameters)
+        }
+      })
+      const response = await database.prisma.AREAhasActions.update({
+        where: {
+          id: link.id
+        },
+        data: {
+          triggered: true
+        }
+      })
+      console.log("Response", response)
     })
   })
 }
