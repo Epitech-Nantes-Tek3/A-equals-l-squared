@@ -78,6 +78,11 @@ const createDeezerService = async () => {
                     description: 'The playlist id',
                     isRequired: true,
                     GetterUrl: '/api/services/deezer/getUserPlaylists'
+                  },
+                  {
+                    name: 'limit',
+                    description: 'The number of tracks to add',
+                    isRequired: false
                   }
                 ]
               }
@@ -95,6 +100,11 @@ const createDeezerService = async () => {
                     description: 'The playlist id',
                     isRequired: true,
                     GetterUrl: '/api/services/deezer/getUserPlaylists'
+                  },
+                  {
+                    name: 'limit',
+                    description: 'The number of tracks to add',
+                    isRequired: false
                   }
                 ]
               }
