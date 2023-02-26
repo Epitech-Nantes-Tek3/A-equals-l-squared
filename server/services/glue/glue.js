@@ -146,17 +146,22 @@ const reactionsList = {
     calendarCreateEventFromAreaParameters(ReactionParameters, dynamicParameters)
 }
 
-const updateTriggeredLink = async linkId => {
+const updateTriggeredLink = async (linkId, triggered) => {
   await database.prisma.AREAhasActions.update({
     where: {
       id: linkId
     },
     data: {
-      triggered: true
+      triggered: triggered
     }
   })
 }
 
+/**
+ * Call the reactions
+ * @param {*} Reactions The reactions to call
+ * @param {*} dynamicParameters The dynamic parameters
+ */
 const callReactions = async (Reactions, dynamicParameters) => {
   Reactions.forEach(reaction => {
     if (!reaction.Reaction.isEnable) {
@@ -171,20 +176,39 @@ const callReactions = async (Reactions, dynamicParameters) => {
   })
 }
 
+
+/**
+ * Handle the AND gate
+ * @param {*} link The link object
+ * @param {*} dynamicParameters The dynamic parameters
+ */
 const handleANDGate = async (link, dynamicParameters) => {
-  await updateTriggeredLink(link.id)
+  await updateTriggeredLink(link.id, true)
   let allActionsTriggered = true
   link.AREA.Actions.forEach(action => {
-    if (!action.Action.isEnable || (action.id != link.id && action.triggered == false)) {
+    if (
+      !action.Action.isEnable ||
+      (action.id != link.id && action.triggered == false)
+    ) {
       allActionsTriggered = false
       return
     }
   })
-  if (allActionsTriggered) callReactions(link.AREA.Reactions, dynamicParameters)
+  if (allActionsTriggered) {
+    callReactions(link.AREA.Reactions, dynamicParameters)
+    link.AREA.Actions.forEach(action => {
+      updateTriggeredLink(action.id, false)
+    })
+  }
 }
 
+/**
+ * Handle the OR gate
+ * @param {*} link The link object
+ * @param {*} dynamicParameters The dynamic parameters
+ */
 const handleORGate = async (link, dynamicParameters) => {
-  await updateTriggeredLink(link.id)
+  await updateTriggeredLink(link.id, true)
   callReactions(link.AREA.Reactions, dynamicParameters)
 }
 
@@ -203,7 +227,6 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
 
   new Promise((resolve, reject) => {
     action.AREAsLink.forEach(async link => {
-      // List of reactions to call
       if (
         !link.AREA.isEnable ||
         !checkActionParameters(link.ActionParameters, actionParameters)
