@@ -42,6 +42,7 @@ module.exports = function (app, passport, database) {
             Actions: {
               select: {
                 id: true,
+                triggered: true,
                 Action: {
                   select: {
                     id: true,
@@ -137,6 +138,7 @@ module.exports = function (app, passport, database) {
             Actions: {
               select: {
                 id: true,
+                triggered: true,
                 Action: {
                   select: {
                     id: true,
