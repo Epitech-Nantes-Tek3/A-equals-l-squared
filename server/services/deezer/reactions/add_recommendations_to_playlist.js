@@ -20,8 +20,14 @@ async function deezerAddRecommendationsToPlaylistFromArea (
     parameter => parameter.Parameter.name == 'playlistId'
   ).value
   playlistId = replaceDynamicParameters(playlistId, dynamicParameters)
+
+  let limit = reactionParameters.find(
+    parameter => parameter.Parameter.name == 'limit'
+  ).value
+  limit = replaceDynamicParameters(limit, dynamicParameters)
   return addRecommendationsToPlaylist(
     playlistId,
+    limit,
     Area.User.deezerId,
     Area.User.deezerToken
   )
@@ -30,11 +36,17 @@ async function deezerAddRecommendationsToPlaylistFromArea (
 /**
  * Add the user's recommendations to a playlist
  * @param {*} playlistId The playlist ID to add tracks to
+ * @param {*} limit The limit number of tracks to add
  * @param {*} deezerId The user's Deezer ID
  * @param {*} deezerToken The user's Deezer token
  * @returns True if the tracks were added to the playlist, false otherwise
  */
-async function addRecommendationsToPlaylist (playlistId, deezerId, deezerToken) {
+async function addRecommendationsToPlaylist (
+  playlistId,
+  limit,
+  deezerId,
+  deezerToken
+) {
   try {
     const url = `https://api.deezer.com/user/${deezerId}/recommendations/tracks&access_token=${deezerToken}`
     const response = await axios.get(url, {
@@ -49,6 +61,7 @@ async function addRecommendationsToPlaylist (playlistId, deezerId, deezerToken) 
     }
     const tracksId = []
     tracks.map(track => tracksId.push(track.id))
+    tracksId = tracksId.slice(0, limit)
     addTracksToPlaylist(playlistId, tracksId, deezerToken)
     return tracksId
   } catch (err) {
