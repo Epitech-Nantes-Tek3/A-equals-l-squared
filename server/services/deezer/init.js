@@ -15,26 +15,7 @@ const createDeezerService = async () => {
         secondaryColor: '#EF5466',
         icon: '',
         isEnable: true,
-        Actions: {
-          create: [
-            {
-              name: '',
-              code: 'DZR-01',
-              description: '',
-              isEnable: false,
-              Parameters: {
-                create: [
-                  {
-                    name: '',
-                    description: '',
-                    isRequired: true,
-                    GetterUrl: ''
-                  }
-                ]
-              }
-            }
-          ]
-        },
+        Actions: {},
         Reactions: {
           create: [
             {
