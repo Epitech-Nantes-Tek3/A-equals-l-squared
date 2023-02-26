@@ -23,7 +23,11 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
         const SizedBox(
           height: 30,
         ),
-        discordInviteAuthBox.display()
+        discordInviteAuthBox.display(),
+        const SizedBox(
+          height: 30,
+        ),
+        redditAuthBox.display(),
       ],
     );
   }
