@@ -13,7 +13,7 @@ const createDeezerService = async () => {
         description: 'Deezer service',
         primaryColor: '#323232',
         secondaryColor: '#EF5466',
-        icon: '',
+        icon: './assets/icon/deezer.png',
         isEnable: true,
         Actions: {},
         Reactions: {
