@@ -449,7 +449,8 @@ app.post(
         where: { id: req.user.id },
         data: {
           googleToken: req.body.google != '' ? req.body.google : null,
-          discordToken: req.body.discord != '' ? req.body.discord : null
+          discordToken: req.body.discord != '' ? req.body.discord : null,
+          redditToken: req.body.reddit != '' ? req.body.reddit : null
         }
       })
       const token = utils.generateToken(user.id)
