@@ -45,6 +45,7 @@ const createReaaaaaaaService = async () => {
       }
     })
     console.log('Reaaaaaaa service created : ', rea)
+    return rea
   } catch (err) {
     console.log('Error while creating Reaaaaaaa service : ', err)
   }
