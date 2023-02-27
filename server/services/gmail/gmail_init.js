@@ -20,7 +20,7 @@ const createGmailService = async () => {
         Reactions: {
           create: [
             {
-              name: 'send_email',
+              name: 'SendEmail',
               code: 'GML-01',
               description: 'Send an email',
               isEnable: true,
@@ -28,7 +28,7 @@ const createGmailService = async () => {
                 create: [
                   {
                     name: 'from',
-                    description: 'The gmail account to send from ',
+                    description: 'The gmail account to send from',
                     isRequired: true,
                     GetterUrl: '/api/services/gmail/getAvailablePerformers'
                   },
@@ -70,7 +70,7 @@ const getGmailClient = () => {
     process.env.GMAIL_CLIENT_SECRET
   )
   auth.setCredentials({ refresh_token: process.env.GMAIL_REFRESH_TOKEN })
-  auth.scopes = ['https://www.googleapis.com/auth/gmail.send']
+  auth.scopes = ['https://www.googleapis.com/auth/gmail.send', 'https://www.googleapis.com/auth/pubsub']
 
   return google.gmail({ version: 'v1', auth })
 }

@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/create_area/create_area_page.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import '../../flutter_objects/action_data.dart';
 import '../../flutter_objects/area_data.dart';
 import '../../flutter_objects/reaction_data.dart';
 import '../../flutter_objects/service_data.dart';
+import '../../network/informations.dart';
 import '../home/home_functional.dart';
 
 class CreateAreaPageState extends State<CreateAreaPage> {
@@ -39,24 +43,205 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
   /// Useful function updating the state
   /// object -> Object who's calling the function
-  void createUpdate(ParameterData object) async {
-    await object.getProposalValue();
+  void createUpdate(ParameterData? object) async {
+    if (object != null) {
+      await object.getProposalValue();
+    }
     setState(() {});
   }
 
   /// Ask the api to change an area
   Future<String> apiAskForAreaChange() async {
-    return 'TO REBASE WITH DB UPDATE';
+    try {
+      late http.Response response;
+      if (changeType == 'create') {
+        response = await http.post(
+          Uri.parse('http://$serverIp:8080/api/area'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ${userInformation!.token}',
+          },
+          body: jsonEncode(<String, dynamic>{
+            "name": createdArea!.name,
+            "description": createdArea!.description,
+            "isEnable": createdArea!.isEnable,
+            "logicalGate": createdArea!.logicalGate
+          }),
+        );
+      } else if (changeType == 'update') {
+        response = await http.put(
+          Uri.parse('http://$serverIp:8080/api/area/${createdArea!.id}'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ${userInformation!.token}',
+          },
+          body: jsonEncode(<String, dynamic>{
+            "name": createdArea!.name,
+            "description": createdArea!.description,
+            "isEnable": createdArea!.isEnable,
+            "logicalGate": createdArea!.logicalGate
+          }),
+        );
+      } else if (changeType == 'delete') {
+        response = await http.delete(
+          Uri.parse('http://$serverIp:8080/api/area/${createdArea!.id}'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ${userInformation!.token}',
+          },
+        );
+      } else {
+        return 'Error during $changeType process';
+      }
+
+      if (response.statusCode != 200) {
+        return 'Error during area $changeType';
+      }
+      if (changeType == 'create') {
+        createdArea = AreaData.fromJson(jsonDecode(response.body));
+      }
+      await updateAllFlutterObject();
+      return 'Area successfully $changeType !';
+    } catch (err) {
+      return 'Error during area $changeType';
+    }
   }
 
   /// Ask the api to change an action
   Future<String> apiAskForActionChange(ActionData action) async {
-    return 'TO REBASE WITH DB UPDATE';
+    try {
+      late http.Response response;
+      List<dynamic> parametersContent = [];
+
+      for (var temp in action.parametersContent) {
+        parametersContent.add({
+          "id": changeType == 'create' ? temp.paramId : temp.id,
+          "value": temp.value
+        });
+      }
+
+      if (changeType == 'create') {
+        response = await http.post(
+          Uri.parse('http://$serverIp:8080/api/area/${createdArea!.id}/action'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ${userInformation!.token}',
+          },
+          body: jsonEncode(<String, dynamic>{
+            "actionId": action.id,
+            "actionParameters": parametersContent
+          }),
+        );
+      } else if (changeType == 'update') {
+        response = await http.put(
+          Uri.parse(
+              'http://$serverIp:8080/api/area/${createdArea!.id}/action/${action.id}'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ${userInformation!.token}',
+          },
+          body: jsonEncode(
+              <String, dynamic>{"actionParameters": parametersContent}),
+        );
+      } else if (changeType == 'delete') {
+        response = await http.delete(
+          Uri.parse(
+              'http://$serverIp:8080/api/area/${createdArea!.id}/action/${action.id}'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ${userInformation!.token}',
+          },
+        );
+      } else {
+        return 'Error during $changeType process';
+      }
+      if (response.statusCode != 200) {
+        return 'Error during action $changeType';
+      }
+      if (changeType == 'create') {
+        response = await http.get(
+            Uri.parse('http://$serverIp:8080/api/area/${createdArea!.id}'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer ${userInformation!.token}',
+            });
+        createdArea = AreaData.fromJson(jsonDecode(response.body));
+        createUpdate(null);
+      }
+      await updateAllFlutterObject();
+      return 'Action successfully $changeType !';
+    } catch (err) {
+      return 'Error during area $changeType';
+    }
   }
 
   /// Ask the api to change a reaction
   Future<String> apiAskForReactionChange(ReactionData reaction) async {
-    return 'TO REBASE WITH DB UPDATE';
+    try {
+      late http.Response response;
+      List<dynamic> parametersContent = [];
+
+      for (var temp in reaction.parametersContent) {
+        parametersContent.add({
+          "id": changeType == 'create' ? temp.paramId : temp.id,
+          "value": temp.value
+        });
+      }
+
+      if (changeType == 'create') {
+        response = await http.post(
+          Uri.parse(
+              'http://$serverIp:8080/api/area/${createdArea!.id}/reaction'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ${userInformation!.token}',
+          },
+          body: jsonEncode(<String, dynamic>{
+            "reactionId": reaction.id,
+            "reactionParameters": parametersContent
+          }),
+        );
+      } else if (changeType == 'update') {
+        response = await http.put(
+          Uri.parse(
+              'http://$serverIp:8080/api/area/${createdArea!.id}/reaction/${reaction.id}'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ${userInformation!.token}',
+          },
+          body: jsonEncode(
+              <String, dynamic>{"reactionParameters": parametersContent}),
+        );
+      } else if (changeType == 'delete') {
+        response = await http.delete(
+          Uri.parse(
+              'http://$serverIp:8080/api/area/${createdArea!.id}/reaction/${reaction.id}'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer ${userInformation!.token}',
+          },
+        );
+      } else {
+        return 'Error during $changeType process';
+      }
+      if (response.statusCode != 200) {
+        return 'Error during reaction $changeType';
+      }
+      if (changeType == 'create') {
+        response = await http.get(
+            Uri.parse('http://$serverIp:8080/api/area/${createdArea!.id}'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer ${userInformation!.token}',
+            });
+        createdArea = AreaData.fromJson(jsonDecode(response.body));
+        createUpdate(null);
+      }
+      await updateAllFlutterObject();
+      return 'Reaction successfully $changeType !';
+    } catch (err) {
+      return 'Error during area $changeType';
+    }
   }
 
   List<Widget> chooseAnAction() {
@@ -119,8 +304,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _createdAreaSave = AreaData.clone(createdArea!);
                 createdArea!.actionList.add(ActionData.clone(temp));
                 for (var tmp in temp.parameters) {
-                  createdArea!.actionList.last.parametersContent
-                      .add(ParameterContent(paramId: tmp.id, value: ""));
+                  createdArea!.actionList.last.parametersContent.add(
+                      ParameterContent(paramId: tmp.id, value: "", id: ''));
                 }
                 _actionCreationState = 2;
               });
@@ -161,6 +346,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               if (isRequired) {
                 _actionCreationState = 0;
 
+                changeType = 'create';
                 apiAskForActionChange(createdArea!.actionList.last);
                 _isChoosingAnAction = false;
               }
@@ -251,8 +437,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _createdAreaSave = AreaData.clone(createdArea!);
                 createdArea!.reactionList.add(ReactionData.clone(temp));
                 for (var tmp in temp.parameters) {
-                  createdArea!.reactionList.last.parametersContent
-                      .add(ParameterContent(paramId: tmp.id, value: ""));
+                  createdArea!.reactionList.last.parametersContent.add(
+                      ParameterContent(paramId: tmp.id, value: "", id: ''));
                 }
                 _reactionCreationState = 2;
               });
@@ -293,6 +479,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               if (isRequired) {
                 _reactionCreationState = 0;
 
+                changeType = 'create';
                 apiAskForReactionChange(createdArea!.reactionList.last);
                 _isChoosingAReaction = false;
               }
@@ -394,7 +581,29 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     if (createdArea != null && createdArea!.actionList.isNotEmpty) {
       for (var temp in createdArea!.actionList) {
         if (_actionCreationState != 2 || temp != createdArea!.actionList.last) {
-          actionListDisplay.add(temp.display(true, createUpdate));
+          actionListDisplay.add(Column(children: [
+            temp.display(true, createUpdate),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      changeType = 'update';
+                      apiAskForActionChange(temp);
+                    },
+                    child: const Text('Update')),
+                ElevatedButton(
+                    onPressed: () {
+                      changeType = 'delete';
+                      apiAskForActionChange(temp);
+                      setState(() {
+                        createdArea!.actionList.remove(temp);
+                      });
+                    },
+                    child: const Text('Delete'))
+              ],
+            )
+          ]));
         }
       }
     }
@@ -403,7 +612,29 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       for (var temp in createdArea!.reactionList) {
         if (_reactionCreationState != 2 ||
             temp != createdArea!.reactionList.last) {
-          reactionListDisplay.add(temp.display(true, createUpdate));
+          reactionListDisplay.add(Column(children: [
+            temp.display(true, createUpdate),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      changeType = 'update';
+                      apiAskForReactionChange(temp);
+                    },
+                    child: const Text('Update')),
+                ElevatedButton(
+                    onPressed: () {
+                      changeType = 'delete';
+                      apiAskForReactionChange(temp);
+                      setState(() {
+                        createdArea!.reactionList.remove(temp);
+                      });
+                    },
+                    child: const Text('Delete'))
+              ],
+            )
+          ]));
         }
       }
     }
@@ -428,9 +659,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     });
                   },
                   icon: const Icon(Icons.home_filled)),
-              const Text(
-                'Create a new Area',
-                style: TextStyle(fontFamily: 'Roboto-Bold', fontSize: 20),
+              Text(
+                createdArea != null ? createdArea!.name : '',
+                style: const TextStyle(fontFamily: 'Roboto-Bold', fontSize: 20),
               )
             ],
           ),
@@ -468,54 +699,98 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               displayReactionViewToCreateAnArea()
             ])
           else
-            Column(
-              children: [
-                TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Area Name',
-                  ),
-                  initialValue: createdArea != null ? createdArea!.name : '',
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (String? value) {
-                    createdArea!.name = value!;
-                    return null;
-                  },
+            Column(children: [
+              TextFormField(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Area Name',
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Area Description',
-                  ),
-                  initialValue:
-                      createdArea != null ? createdArea!.description : '',
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (String? value) {
-                    createdArea!.description = value!;
-                    return null;
-                  },
+                initialValue: createdArea != null ? createdArea!.name : '',
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (String? value) {
+                  createdArea!.name = value!;
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Area Description',
                 ),
-                Switch(
-                  value: createdArea != null ? createdArea!.isEnable : true,
-                  activeColor: Colors.blue,
-                  onChanged: (bool value) {
-                    setState(() {
-                      createdArea!.isEnable = value;
-                    });
-                  },
-                ),
-                ElevatedButton(
-                    onPressed: (() {
-                      _createdAreaSave = AreaData.clone(createdArea!);
-                      apiAskForAreaChange();
+                initialValue:
+                    createdArea != null ? createdArea!.description : '',
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (String? value) {
+                  createdArea!.description = value!;
+                  return null;
+                },
+              ),
+              Switch(
+                value: createdArea != null ? createdArea!.isEnable : true,
+                activeColor: Colors.blue,
+                onChanged: (bool value) {
+                  setState(() {
+                    createdArea!.isEnable = value;
+                  });
+                },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Text("OR"),
+                  Switch(
+                    value: createdArea != null
+                        ? createdArea!.logicalGate == 'OR'
+                            ? false
+                            : true
+                        : false,
+                    activeColor: Colors.green,
+                    onChanged: (bool value) {
                       setState(() {
-                        actionSetting = true;
+                        createdArea!.logicalGate = value == true ? 'AND' : 'OR';
                       });
-                    }),
-                    child: Text(
-                        "$changeType ${createdArea != null ? createdArea!.name : ''}"))
-              ],
-            )
+                    },
+                  ),
+                  const Text("AND"),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                      onPressed: (() {
+                        _createdAreaSave = AreaData.clone(createdArea!);
+                        apiAskForAreaChange();
+                        setState(() {
+                          actionSetting = true;
+                        });
+                      }),
+                      child: Text(
+                          "$changeType ${createdArea != null ? createdArea!.name : ''}")),
+                  if (changeType != 'create')
+                    ElevatedButton(
+                        onPressed: (() {
+                          changeType = 'delete';
+                          apiAskForAreaChange();
+                          setState(() {
+                            createdArea = AreaData(
+                                id: '',
+                                name: 'Deleted',
+                                description: 'You can now go home !',
+                                userId: '',
+                                actionList: [],
+                                reactionList: [],
+                                isEnable: true,
+                                logicalGate: 'OR');
+                          });
+
+                          /// UPDATE IT WITH FRAME GESTION
+                        }),
+                        child: Text(
+                            "Delete ${createdArea != null ? createdArea!.name : ''}"))
+                ],
+              )
+            ])
         ],
       ),
     )));

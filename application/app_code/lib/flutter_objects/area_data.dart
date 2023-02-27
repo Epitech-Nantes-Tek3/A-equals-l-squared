@@ -17,17 +17,20 @@ class AreaData {
   bool isEnable = true;
   String? description;
   ServiceData? serviceId;
+  String logicalGate;
 
   /// Constructor of the Area class
-  AreaData(
-      {required this.id,
-      required this.name,
-      required this.userId,
-      required this.actionList,
-      required this.reactionList,
-      required this.isEnable,
-      this.description,
-      this.serviceId});
+  AreaData({
+    required this.id,
+    required this.name,
+    required this.userId,
+    required this.actionList,
+    required this.reactionList,
+    required this.isEnable,
+    required this.logicalGate,
+    this.description,
+    this.serviceId,
+  });
 
   /// Utility function used for cloning the class
   AreaData.clone(AreaData oldArea)
@@ -37,40 +40,51 @@ class AreaData {
             userId: oldArea.userId,
             actionList:
                 oldArea.actionList.map((v) => ActionData.clone(v)).toList(),
-      reactionList:
+            reactionList:
                 oldArea.reactionList.map((v) => ReactionData.clone(v)).toList(),
             isEnable: oldArea.isEnable,
             description: oldArea.description,
-            serviceId: oldArea.serviceId);
+            serviceId: oldArea.serviceId,
+            logicalGate: oldArea.logicalGate);
 
   /// Convert a json map into the class
   factory AreaData.fromJson(Map<String, dynamic> json) {
     List<ActionData> actionList = <ActionData>[];
-    for (var temp in json['actionId']) {
-      /// REBASE IT WITH DB UPDATE
-      actionList.add(getActionDataById(temp)!);
+    for (var temp in json['Actions']) {
+      actionList.add(getActionDataById(temp['Action']['id'])!);
+      actionList.last.id = temp['id'];
       for (var temp2 in temp['ActionParameters']) {
         actionList.last.parametersContent.add(ParameterContent.fromJson(temp2));
+        try {
+          actionList.last.parametersContent.last.id = temp2['id'];
+        } catch (err) {
+          debugPrint(err.toString());
+        }
       }
     }
     List<ReactionData> reactionList = <ReactionData>[];
-    for (var temp in json['reactionId']) {
-      /// REBASE IT WITH DB UPDATE
-      reactionList.add(getReactionDataById(temp)!);
+    for (var temp in json['Reactions']) {
+      reactionList.add(getReactionDataById(temp['Reaction']['id'])!);
+      reactionList.last.id = temp['id'];
       for (var temp2 in temp['ReactionParameters']) {
         reactionList.last.parametersContent
             .add(ParameterContent.fromJson(temp2));
+        try {
+          reactionList.last.parametersContent.last.id = temp2['id'];
+        } catch (err) {
+          debugPrint(err.toString());
+        }
       }
     }
     return AreaData(
-      id: json['id'],
-      name: json['name'],
-      userId: json['userId'],
-      actionList: actionList,
-      reactionList: reactionList,
-      isEnable: json['isEnable'],
-      description: json['description'],
-    );
+        id: json['id'],
+        name: json['name'],
+        userId: '',
+        actionList: actionList,
+        reactionList: reactionList,
+        isEnable: json['isEnable'],
+        description: json['description'],
+        logicalGate: json['logicalGate']);
   }
 
   /// Get the first color of hit first service
@@ -158,17 +172,17 @@ class AreaData {
     List<Widget> listDisplay = <Widget>[];
     List<Widget> actionListDisplay = <Widget>[const Text("Actions")];
     List<Widget> reactionListDisplay = <Widget>[const Text("Reactions")];
-    for (var temp in actionList) {
-      actionListDisplay.add(
-        temp.display(true, update),
-      );
-    }
-    for (var temp in reactionList) {
-      reactionListDisplay.add(
-        temp.display(true, update),
-      );
-    }
     if (mode) {
+      for (var temp in actionList) {
+        actionListDisplay.add(
+          temp.display(true, update),
+        );
+      }
+      for (var temp in reactionList) {
+        reactionListDisplay.add(
+          temp.display(true, update),
+        );
+      }
       listDisplay.add(Column(
         children: <Widget>[
           Row(children: <Widget>[
