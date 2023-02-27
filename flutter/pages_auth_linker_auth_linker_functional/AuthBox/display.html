@@ -82,6 +82,9 @@
     if (authName == &#39;Discord&#39;) {
       token = userInformation!.userToken!.discordToken;
     }
+    if (authName == &#39;Deezer&#39;) {
+      token = userInformation!.userToken!.deezerToken;
+    }
     isEnable = token == null ? false : true;
   }
   return ElevatedButton(

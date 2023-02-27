@@ -74,6 +74,7 @@
   <pre class="language-dart"><code class="language-dart">factory Token.fromJson(Map&lt;String, dynamic&gt; json) {
   String? googleToken;
   String? discordToken;
+  String? deezerToken;
 
   try {
     googleToken = json[&#39;googleToken&#39;];
@@ -87,7 +88,16 @@
     discordToken = null;
   }
 
-  return Token(googleToken: googleToken, discordToken: discordToken);
+  try {
+    deezerToken = json[&#39;deezerToken&#39;];
+  } catch (err) {
+    deezerToken = null;
+  }
+
+  return Token(
+      googleToken: googleToken,
+      discordToken: discordToken,
+      deezerToken: deezerToken);
 }</code></pre>
 </section>
 
@@ -120,6 +130,7 @@
         <li class="section-title">
           <a href="../../flutter_objects_user_data/Token-class.html#instance-properties">Properties</a>
         </li>
+          <li><a href="../../flutter_objects_user_data/Token/deezerToken.html">deezerToken</a></li>
           <li><a href="../../flutter_objects_user_data/Token/discordToken.html">discordToken</a></li>
           <li><a href="../../flutter_objects_user_data/Token/googleToken.html">googleToken</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>

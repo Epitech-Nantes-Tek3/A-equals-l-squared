@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the discordInviteAuthBox property from the auth_linker_functional library, for the Dart programming language.">
-  <title>discordInviteAuthBox property - auth_linker_functional library - Dart API</title>
+  <meta name="description" content="API docs for the getDeezerToken function from the auth_linker_functional library, for the Dart programming language.">
+  <title>getDeezerToken function - auth_linker_functional library - Dart API</title>
 
 
   
@@ -30,9 +30,9 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">application</a></li>
     <li><a href="../pages_auth_linker_auth_linker_functional/pages_auth_linker_auth_linker_functional-library.html">auth_linker_functional</a></li>
-    <li class="self-crumb">discordInviteAuthBox property</li>
+    <li class="self-crumb">getDeezerToken function</li>
   </ol>
-  <div class="self-name">discordInviteAuthBox</div>
+  <div class="self-name">getDeezerToken</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -52,33 +52,77 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-top-level-property">discordInviteAuthBox</span> top-level property 
+<h1><span class="kind-function">getDeezerToken</span> function 
  
 </h1></div>
 
-        <section class="multi-line-signature">
-          
-          <a href="../pages_auth_linker_auth_linker_functional/AuthBox-class.html">AuthBox</a>
-          <span class="name ">discordInviteAuthBox</span>
-          <div class="features"><span class="feature">read / write</span></div>
-
-        </section>
+    <section class="multi-line-signature">
         
-<section class="desc markdown">
-  <p>The discord invite service authBox</p>
-</section>
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+<span class="name ">getDeezerToken</span>(<wbr>)
 
         
+
+    </section>
+    
+
+
+    
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">AuthBox discordInviteAuthBox = AuthBox(
-    authName: &quot;Invite the discord bot&quot;,
-    authDescription: &quot;Add our discord bot in your server&quot;,
-    isEnable: true,
-    token: &quot;&quot;,
-    action: inviteDiscordBot);</code></pre>
-</section>
+  <pre class="language-dart"><code class="language-dart">Future&lt;String&gt; getDeezerToken() async {
+  if (deezerAuthBox.isEnable) {
+    String? tokenSave = &#39;${deezerAuthBox.token}&#39;;
+    deezerAuthBox.token = null;
+    String? error = await publishNewToken();
+    if (error != null) {
+      deezerAuthBox.token = tokenSave;
+      return error;
+    }
+    deezerAuthBox.isEnable = false;
+  } else {
+    String appId = &quot;581644&quot;;
+    String secret = &quot;2cf8a215785c22ac97469d251cef7667&quot;;
 
+    final url = Uri.https(&#39;connect.deezer.com&#39;, &#39;&#47;oauth&#47;auth.php&#39;, {
+      &#39;app_id&#39;: appId,
+      &#39;redirect_uri&#39;: &#39;http:&#47;&#47;localhost:8081&#47;auth.html&#39;,
+      &#39;perms&#39;:
+          &#39;basic_access,email,offline_access,manage_library,manage_community,delete_library,listening_history&#39;,
+    });
+
+    final result = await FlutterWebAuth2.authenticate(
+        url: url.toString(), callbackUrlScheme: &#39;http&#39;);
+
+    String code = Uri.parse(result).queryParameters[&#39;code&#39;]!;
+
+    final response = await getDeezerTokenWithCode(appId, secret, code);
+    final accessToken = response;
+
+    deezerAuthBox.token = accessToken;
+
+    String? error = await publishNewToken();
+    if (error != null) {
+      deezerAuthBox.token = null;
+      return error;
+    }
+    deezerAuthBox.isEnable = true;
+    var responseId = await http.post(
+        Uri.parse(&#39;http:&#47;&#47;$serverIp:8080&#47;api&#47;services&#47;deezer&#47;fillUserId&#39;),
+        headers: &lt;String, String&gt;{
+          &#39;Authorization&#39;: &#39;Bearer ${userInformation!.token}&#39;,
+          &#39;Content-Type&#39;: &#39;application&#47;x-www-form-urlencoded&#39;,
+        },
+        body: jsonEncode(&lt;String, dynamic&gt;{}));
+    if (responseId.statusCode != 200) {
+      return responseId.body.toString();
+    }
+  }
+  updateAuthPage!(null);
+  return &#39;Operation succeed !&#39;;
+}</code></pre>
+</section>
 
 
   </div> <!-- /.main-content -->
@@ -93,7 +137,7 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
   <li><a href="../index.html">application</a></li>
   <li><a href="../pages_auth_linker_auth_linker_functional/pages_auth_linker_auth_linker_functional-library.html">auth_linker_functional</a></li>
-  <li class="self-crumb">discordInviteAuthBox property</li>
+  <li class="self-crumb">getDeezerToken function</li>
 </ol>
 
 
