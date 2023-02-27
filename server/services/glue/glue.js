@@ -143,7 +143,11 @@ const checkActionParameters = (ActionParameters, parametersList) => {
 
 const reactionsList = {
   'GML-01': (ReactionParameters, dynamicParameters, User) =>
-    gmailSendEmailFromAreaParameters(ReactionParameters, dynamicParameters, User),
+    gmailSendEmailFromAreaParameters(
+      ReactionParameters,
+      dynamicParameters,
+      User
+    ),
   'DSC-01': (ReactionParameters, dynamicParameters, User) =>
     discordSendMessageChannelFromAreaParameters(
       ReactionParameters,
@@ -169,15 +173,47 @@ const reactionsList = {
       User
     ),
   'CAL-01': (ReactionParameters, dynamicParameters, User) =>
-    calendarCreateEventFromAreaParameters(ReactionParameters, dynamicParameters, User),
-    'CAL-02': (ReactionParameters, dynamicParameters, User) => calendarCreateCalendarFromAreaParameters(ReactionParameters, dynamicParameters, User),
-    'DZR-01': (ReactionParameters, dynamicParameters, User) => deezerCreatePlaylistFromAreaParameters(ReactionParameters, dynamicParameters, User),
-      'DZR-02': (ReactionParameters, dynamicParameters, User) => deezerDeletePlaylistFromAreaParameters(ReactionParameters, dynamicParameters, User),
-      'DZR-03': (ReactionParameters, dynamicParameters, User) => deezerClearPlaylistFromAreaParameters(ReactionParameters, dynamicParameters, User),
-      'DZR-04': (ReactionParameters, dynamicParameters, User) =>
-        deezerAddHistoryToPlaylistFromAreaParameters(ReactionParameters, dynamicParameters, User),
-      'DZR-05': (ReactionParameters, dynamicParameters, User) =>
-        deezerAddRecommendationsToPlaylistFromAreaParameters(ReactionParameters, dynamicParameters, User)
+    calendarCreateEventFromAreaParameters(
+      ReactionParameters,
+      dynamicParameters,
+      User
+    ),
+  'CAL-02': (ReactionParameters, dynamicParameters, User) =>
+    calendarCreateCalendarFromAreaParameters(
+      ReactionParameters,
+      dynamicParameters,
+      User
+    ),
+  'DZR-01': (ReactionParameters, dynamicParameters, User) =>
+    deezerCreatePlaylistFromAreaParameters(
+      ReactionParameters,
+      dynamicParameters,
+      User
+    ),
+  'DZR-02': (ReactionParameters, dynamicParameters, User) =>
+    deezerDeletePlaylistFromAreaParameters(
+      ReactionParameters,
+      dynamicParameters,
+      User
+    ),
+  'DZR-03': (ReactionParameters, dynamicParameters, User) =>
+    deezerClearPlaylistFromAreaParameters(
+      ReactionParameters,
+      dynamicParameters,
+      User
+    ),
+  'DZR-04': (ReactionParameters, dynamicParameters, User) =>
+    deezerAddHistoryToPlaylistFromAreaParameters(
+      ReactionParameters,
+      dynamicParameters,
+      User
+    ),
+  'DZR-05': (ReactionParameters, dynamicParameters, User) =>
+    deezerAddRecommendationsToPlaylistFromAreaParameters(
+      ReactionParameters,
+      dynamicParameters,
+      User
+    )
 }
 
 const updateTriggeredLink = async (linkId, triggered) => {
@@ -196,7 +232,7 @@ const updateTriggeredLink = async (linkId, triggered) => {
  * @param {*} Reactions The reactions to call
  * @param {*} dynamicParameters The dynamic parameters
  */
-const callReactions = async (Reactions, dynamicParameters) => {
+const callReactions = async (Reactions, dynamicParameters, User) => {
   Reactions.forEach(reaction => {
     if (!reaction.Reaction.isEnable) {
       return
@@ -204,12 +240,12 @@ const callReactions = async (Reactions, dynamicParameters) => {
     if (reactionsList[reaction.Reaction.code]) {
       reactionsList[reaction.Reaction.code](
         reaction.ReactionParameters,
-        dynamicParameters
+        dynamicParameters,
+        User
       )
     }
   })
 }
-
 
 /**
  * Handle the AND gate
@@ -229,7 +265,7 @@ const handleANDGate = async (link, dynamicParameters) => {
     }
   })
   if (allActionsTriggered) {
-    callReactions(link.AREA.Reactions, dynamicParameters)
+    callReactions(link.AREA.Reactions, dynamicParameters, link.AREA.User)
     link.AREA.Actions.forEach(action => {
       updateTriggeredLink(action.id, false)
     })
@@ -243,7 +279,7 @@ const handleANDGate = async (link, dynamicParameters) => {
  */
 const handleORGate = async (link, dynamicParameters) => {
   await updateTriggeredLink(link.id, true)
-  callReactions(link.AREA.Reactions, dynamicParameters)
+  callReactions(link.AREA.Reactions, dynamicParameters, link.AREA.User)
 }
 
 /**
