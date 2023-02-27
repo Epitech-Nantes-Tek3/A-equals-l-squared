@@ -35,7 +35,9 @@ const {
 const {
   calendarCreateEventFromAreaParameters
 } = require('../calendar/reactions/create_event')
-
+const {
+  calendarCreateCalendarFromAreaParameters
+} = require('../calendar/reactions/create_calendar')
 /**
  * Get an action from its code
  * @param {String} code
@@ -62,6 +64,7 @@ const getActionFromCode = async code => {
                   id: true,
                   email: true,
                   googleId: true,
+                  googleToken: true,
                   facebookId: true,
                   deezerId: true,
                   deezerToken: true
@@ -167,6 +170,7 @@ const reactionsList = {
     ),
   'CAL-01': (ReactionParameters, dynamicParameters, User) =>
     calendarCreateEventFromAreaParameters(ReactionParameters, dynamicParameters, User),
+    'CAL-02': (ReactionParameters, dynamicParameters, User) => calendarCreateCalendarFromAreaParameters(ReactionParameters, dynamicParameters, User),
     'DZR-01': (ReactionParameters, dynamicParameters, User) => deezerCreatePlaylistFromAreaParameters(ReactionParameters, dynamicParameters, User),
       'DZR-02': (ReactionParameters, dynamicParameters, User) => deezerDeletePlaylistFromAreaParameters(ReactionParameters, dynamicParameters, User),
       'DZR-03': (ReactionParameters, dynamicParameters, User) => deezerClearPlaylistFromAreaParameters(ReactionParameters, dynamicParameters, User),

@@ -27,10 +27,12 @@ const deezer = require('./services/deezer/init')
 const { createDeezerService } = require('./services/deezer/init')
 const getUserPlaylists = require('./services/deezer/getters/user_playlists')
 const { createGmailService } = require('./services/gmail/gmail_init')
+const { createCalendarService } = require('./services/calendar/calendar_init')
 const { createDiscordService } = require('./services/discord/init')
 const getVoiceChannels = require('./services/discord/getters/voice_channels')
 const getTextChannels = require('./services/discord/getters/text_channels')
 const getAvailableGuilds = require('./services/discord/getters/available_guilds')
+const getAvailableCalendars = require('./services/calendar/getters/get_available_calendars')
 const { createTimeTimeService } = require('./services/timetime/init')
 const {
   TriggerInitMap,
@@ -600,6 +602,31 @@ app.get(
 )
 
 /**
+ * List all available calendars where the user is.
+ * Route protected by a JWT token
+ */
+app.get(
+  '/api/services/calendar/getAvailableCalendars',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    if (req.user.googleToken == null)
+      return res.status(400).send('No Google account linked.')
+    try {
+      const calendars = await getAvailableCalendars(req.user.googleToken)
+      if (calendars == null) return res.status(400).send('An error occured.')
+      return res.status(200).json({
+        status: 'success',
+        data: calendars,
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('An error occured.')
+    }
+  }
+)
+
+/**
  * List available performers, such as bot/user.
  * Route protected by a JWT token
  */
@@ -1065,6 +1092,7 @@ app.get('/api/dev/service/createAll', async (req, res) => {
   const response = []
   response.push(await createDiscordService())
   response.push(await createGmailService())
+  response.push(await createCalendarService())
   response.push(await createTimeTimeService())
   response.push(await createReaaaaaaaService())
   response.push(await createDeezerService())

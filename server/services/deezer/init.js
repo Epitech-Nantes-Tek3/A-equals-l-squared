@@ -114,6 +114,7 @@ const createDeezerService = async () => {
       }
     })
     console.log('Deezer service created : ', deezer)
+    return deezer
   } catch (error) {
     console.log('Error while creating Deezer service : ', error)
   }

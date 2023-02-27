@@ -316,6 +316,7 @@ const createDiscordService = async () => {
       }
     })
     console.log('Discord service created : ', discord)
+    return discord
   } catch (error) {
     console.log('Error while creating Discord service : ', error)
   }
