@@ -266,7 +266,7 @@ app.get(
 
 /**
  * Post request to reset current password
- * Send a confirmation e-mail before reseting.
+ * Send a confirmation e-mail before resetting.
  * body.email -> User mail
  */
 app.post('/api/user/resetPassword', async (req, res, next) => {
@@ -641,11 +641,11 @@ async function checkAreaNameAlreadyExistForGivenUser (userId, newName) {
  * body.id -> id of the AREA to update
  * body.name -> Name of the area
  * body.isEnable -> Status of the area
- * body.description -> Description of the area (optionnal)
- * body.actionId -> Action id (optionnal if reactionId is set)
+ * body.description -> Description of the area (optional)
+ * body.actionId -> Action id (optional if reactionId is set)
  * body.actionParameters -> Action parameters (optional)
- * body.reactionId -> Reaction id (optionnal if actionId is set)
- * body.reactionParameters -> Reaction parameters (optionnal)
+ * body.reactionId -> Reaction id (optional if actionId is set)
+ * body.reactionParameters -> Reaction parameters (optional)
  * Route protected by a JWT token
  */
 app.post(
@@ -742,7 +742,8 @@ app.post(
 )
 
 /*
- * @brief List all available Voice Channels on a given Guild ID.
+ * List all available Voice Channels on a given Guild ID.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/discord/getVoiceChannels',
@@ -758,7 +759,8 @@ app.get(
 )
 
 /**
- * @brief List all available Text Channels on a given GuildID.
+ * List all available Text Channels on a given GuildID.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/discord/getTextChannels',
@@ -774,7 +776,8 @@ app.get(
 )
 
 /**
- * @brief List all available Guilds where the bot is.
+ * List all available Guilds where the bot is.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/discord/getAvailableGuilds',
@@ -798,7 +801,8 @@ app.get(
 )
 
 /**
- * @brief List available performers, such as bot/user.
+ * List available performers, such as bot/user.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/discord/getAvailablePerformers',
@@ -824,7 +828,8 @@ app.get(
 )
 
 /**
- * @brief List available performers, such as bot/user.
+ * List available performers, such as bot/user.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/gmail/getAvailablePerformers',
@@ -849,7 +854,8 @@ app.get(
 )
 
 /**
- * @brief List all user's playlist on Deezer.
+ * List all user's playlist on Deezer.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/deezer/getUserPlaylists',
@@ -876,7 +882,8 @@ app.get(
 )
 
 /**
- * @brief List available area for rea service.
+ * List available area for rea service.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/rea/getAvailableArea',
@@ -901,7 +908,8 @@ app.get(
 )
 
 /**
- * @brief List available status for rea service.
+ * List available status for rea service.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/rea/getAvailableStatus',
@@ -926,7 +934,7 @@ app.get(
 
 /**
  * Creating a new user in the database.
- * bodi.username -> User name
+ * body.username -> User name
  * body.email -> User mail
  * body.password -> User password
  */
@@ -948,7 +956,8 @@ app.post('/api/dev/user/create', async (req, res) => {
 })
 
 /**
- * @brief Add the Deezer ID to the user in the database.
+ * Add the Deezer ID to the user in the database.
+ * Route protected by a JWT token
  */
 app.post(
   '/api/services/deezer/fillUserId',
@@ -996,9 +1005,9 @@ app.get('/api/dev/user/listall', async (req, res) => {
 /**
  * Creating a new service in the database.
  * body.name -> Service name
- * body.description -> Service description (optionnal)
- * body.primaryColor -> Description of the area (optionnal, set by default #000000)
- * body.secondaryColor -> Description of the area (optionnal, set by default #000000)
+ * body.description -> Service description (optional)
+ * body.primaryColor -> Description of the area (optional, set by default #000000)
+ * body.secondaryColor -> Description of the area (optional, set by default #000000)
  */
 app.post('/api/dev/service/create', async (req, res) => {
   try {
@@ -1034,7 +1043,7 @@ app.get('/api/dev/service/listall', async (req, res) => {
 /**
  * Creating a new action.
  * body.name -> Action name
- * body.description -> Action description (optionnal)
+ * body.description -> Action description (optional)
  * body.serviceId -> Service id
  */
 app.post('/api/dev/action/create', async (req, res) => {
@@ -1074,7 +1083,7 @@ app.get('/api/dev/action/listall', async (req, res) => {
 /**
  * Creating a new reaction.
  * body.name -> Reaction name
- * body.description -> Reaction description (optionnal)
+ * body.description -> Reaction description (optional)
  * body.serviceId -> Service id
  */
 app.post('/api/dev/reaction/create', async (req, res) => {
@@ -1110,9 +1119,9 @@ app.get('/api/dev/reaction/listall', async (req, res) => {
  * Creating a new parameter.
  * body.name -> Parameter name
  * body.isRequired -> Parameter is required or not
- * body.description -> Parameter description (optionnal)
- * body.actionId -> Action id (optionnal)
- * body.reactionId -> Reaction id (optionnal)
+ * body.description -> Parameter description (optional)
+ * body.actionId -> Action id (optional)
+ * body.reactionId -> Reaction id (optional)
  */
 app.post('/api/dev/parameter/create', async (req, res) => {
   try {
@@ -1160,11 +1169,11 @@ app.get('/api/dev/parameter/listall', async (req, res) => {
 /**
  * Creating a new area.
  * body.name -> Name of the area. (need to be set)
- * body.description -> Description of the area (optionnal)
- * body.actionId -> Action id (optionnal if reactionId is set)
- * body.actionParameters -> Action parameters (optionnal)
- * body.reactionId -> Reaction id (optionnal if actionId is set)
- * body.reactionParameters -> Reaction parameters (optionnal)
+ * body.description -> Description of the area (optional)
+ * body.actionId -> Action id (optional if reactionId is set)
+ * body.actionParameters -> Action parameters (optional)
+ * body.reactionId -> Reaction id (optional if actionId is set)
+ * body.reactionParameters -> Reaction parameters (optional)
  * body.isEnable -> Status of the area. (need to be set)
  * Protected by a JWT token
  */
@@ -1236,11 +1245,11 @@ app.post(
 /**
  * Creating a new area without protection.
  * body.name -> Name of the area. (need to be set)
- * body.description -> Description of the area (optionnal)
- * body.actionId -> Action id (optionnal if reactionId is set)
- * body.actionParameters -> Action parameters (optionnal)
- * body.reactionId -> Reaction id (optionnal if actionId is set)
- * body.reactionParameters -> Reaction parameters (optionnal)
+ * body.description -> Description of the area (optional)
+ * body.actionId -> Action id (optional if reactionId is set)
+ * body.actionParameters -> Action parameters (optional)
+ * body.reactionId -> Reaction id (optional if actionId is set)
+ * body.reactionParameters -> Reaction parameters (optional)
  */
 app.post('/api/dev/area/create', async (req, res) => {
   try {
