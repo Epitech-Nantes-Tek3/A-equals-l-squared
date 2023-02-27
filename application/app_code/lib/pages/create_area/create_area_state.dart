@@ -712,6 +712,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   return null;
                 },
               ),
+              const SizedBox(height: 20),
               TextFormField(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -725,6 +726,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   return null;
                 },
               ),
+              const Text("Choose if your Area is available or not : "),
               Switch(
                 value: createdArea != null ? createdArea!.isEnable : true,
                 activeColor: Colors.blue,
@@ -734,6 +736,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   });
                 },
               ),
+              const Text(
+                  "Choose if your action will be if they are all successful (and) or if only one of them is (or) : "),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
