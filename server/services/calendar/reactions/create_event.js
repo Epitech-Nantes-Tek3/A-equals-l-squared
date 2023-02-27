@@ -4,38 +4,37 @@ const { google } = require('googleapis')
 
 /**
  *
- * @param {*} Area the area
+ * @param {*} ReactionParameters the parameters
  * @param {*} dynamicParameters the dynamic parameters
  * @returns
  */
-const calendarCreateEventFromArea = async (Area, dynamicParameters) => {
+const calendarCreateEventFromAreaParameters = async (ReactionParameters, dynamicParameters) => {
   try {
-    const reactionParameters = Area.ReactionParameters
-    let from = reactionParameters
+    let from = ReactionParameters
                   .find(parameter => parameter.Parameter.name == 'from')
                   .value
     let calendarId =
-        reactionParameters
+        ReactionParameters
             .find(parameter => parameter.Parameter.name == 'calendarId')
             .value
-    let summary = reactionParameters
+    let summary = ReactionParameters
                       .find(parameter => parameter.Parameter.name == 'summary')
                       .value
     summary = replaceDynamicParameters(summary, dynamicParameters)
 
     let description =
-        reactionParameters
+        ReactionParameters
             .find(parameter => parameter.Parameter.name == 'description')
             .value
     description = replaceDynamicParameters(description, dynamicParameters)
 
-    let start = reactionParameters
+    let start = ReactionParameters
                     .find(parameter => parameter.Parameter.name == 'start')
                     .value
     start = replaceDynamicParameters(start, dynamicParameters)
 
     let end =
-        reactionParameters.find(parameter => parameter.Parameter.name == 'end')
+        ReactionParameters.find(parameter => parameter.Parameter.name == 'end')
             .value
     end = replaceDynamicParameters(end, dynamicParameters)
 
@@ -118,6 +117,6 @@ const createEventWithAccessToken = async (accessToken, calendarId, summary, desc
 
 module.exports = {
   createEvent,
-  calendarCreateEventFromArea,
+  calendarCreateEventFromAreaParameters,
   createEventWithAccessToken
 }
