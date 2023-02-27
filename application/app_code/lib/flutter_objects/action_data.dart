@@ -74,80 +74,10 @@ class ActionData {
     return parametersContent;
   }
 
-  /// Get a visual representation of an Action
-  /// mode -> true = params, false = only name and desc
-  /// params -> list of all the associated parameter content
-  /// update -> Function pointer used for update the state
-  Widget display(bool mode, Function? update) {
-    List<Widget> paramWid = <Widget>[];
-    paramWid.add(Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      description,
-                      style: TextStyle(
-                          color: isEnable ? Colors.green : Colors.red),
-                    ), // Change when icon are in DB
-                  ]),
-            ],
-          ),
-        ]));
-    if (mode == true) {
-      ParameterData? previous;
-      for (var temp in parameters) {
-        paramWid.add(temp.display(parametersContent, previous, update!));
-        if (temp.isRequired == true && temp.getterUrl != null) {
-          previous = temp;
-        } else {
-          previous = null;
-        }
-      }
-      List<Widget> dynamicParams = <Widget>[];
-      for (var temp in dynamicParameters) {
-        dynamicParams.add(temp.display());
-      }
-      paramWid.add(Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: dynamicParams,
-      ));
-    }
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: paramWid,
-    );
-  }
-
-  Widget displayActionModification(Function? update) {
+  Widget displayActionModificationView(Function? update) {
     List<Widget> actionPreview = <Widget>[];
 
-    actionPreview.add(Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      description,
-                      style: TextStyle(
-                          color: isEnable ? Colors.green : Colors.red),
-                    ), // Change when icon are in DB
-                  ]),
-            ],
-          ),
-        ]));
+    actionPreview.add(displayActionDescription());
     ParameterData? previous;
     for (var temp in parameters) {
       actionPreview.add(temp.display(parametersContent, previous, update!));
@@ -185,7 +115,7 @@ class ActionData {
   }
 
   /// Function to display description information about an Action
-  Widget? displayActionDescription() {
+  Widget displayActionDescription() {
     List<Widget> actionDescription = <Widget>[];
     actionDescription.add(
       Row(
