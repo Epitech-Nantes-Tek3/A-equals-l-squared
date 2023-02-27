@@ -6,9 +6,10 @@ const { google } = require('googleapis')
  * @brief send an email with the gmail api from an area
  * @param {*} ReactionParameters The parameters
  * @param {*} dynamicParameters the dynamic parameters to replace in the email
+ * @param {*} User the user
  * @returns the response from the gmail api
  */
-async function gmailSendEmailFromAreaParameters (ReactionParameters, dynamicParameters) {
+async function gmailSendEmailFromAreaParameters (ReactionParameters, dynamicParameters, User) {
   try {
     let from = ReactionParameters.find(
       parameter => parameter.Parameter.name == 'from'

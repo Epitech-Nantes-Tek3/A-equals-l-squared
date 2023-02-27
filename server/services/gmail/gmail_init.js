@@ -55,6 +55,7 @@ const createGmailService = async () => {
       }
     })
     console.log('Gmail service created : ', gmail)
+    return gmail
   } catch (error) {
     console.log('Error while creating Gmail service : ', error)
   }

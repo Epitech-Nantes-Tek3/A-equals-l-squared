@@ -122,9 +122,14 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       List<dynamic> parametersContent = [];
 
       for (var temp in action.parametersContent) {
+        ParameterData paramData = temp.getParameterData()!;
         parametersContent.add({
           "id": changeType == 'create' ? temp.paramId : temp.id,
-          "value": temp.value
+          "value": paramData.getterUrl == null
+              ? temp.value
+              : paramData.getterValue != null
+                  ? paramData.getterValue![temp.value]
+                  : ''
         });
       }
 
@@ -194,9 +199,14 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       List<dynamic> parametersContent = [];
 
       for (var temp in reaction.parametersContent) {
+        ParameterData paramData = temp.getParameterData()!;
         parametersContent.add({
           "id": changeType == 'create' ? temp.paramId : temp.id,
-          "value": temp.value
+          "value": paramData.getterUrl == null
+              ? temp.value
+              : paramData.getterValue != null
+                  ? paramData.getterValue![temp.value]
+                  : ''
         });
       }
 
