@@ -125,6 +125,52 @@ class ActionData {
     );
   }
 
+  Widget displayActionModification(Function? update) {
+    List<Widget> actionPreview = <Widget>[];
+
+    actionPreview.add(Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      description,
+                      style: TextStyle(
+                          color: isEnable ? Colors.green : Colors.red),
+                    ), // Change when icon are in DB
+                  ]),
+            ],
+          ),
+        ]));
+    ParameterData? previous;
+    for (var temp in parameters) {
+      actionPreview.add(temp.display(parametersContent, previous, update!));
+      if (temp.isRequired == true && temp.getterUrl != null) {
+        previous = temp;
+      } else {
+        previous = null;
+      }
+    }
+    List<Widget> dynamicParams = <Widget>[];
+    for (var temp in dynamicParameters) {
+      dynamicParams.add(temp.display());
+    }
+    actionPreview.add(Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: dynamicParams,
+    ));
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: actionPreview,
+    );
+  }
+
   /// Function to display the name of an Action
   Widget? displayActionName() {
     if (isEnable) {
@@ -138,28 +184,28 @@ class ActionData {
     }
   }
 
-  /// Function to display all information about an Action
-  Widget? displayActionWithInfo() {
-    if (isEnable) {
-      return Column(
+  /// Function to display description information about an Action
+  Widget? displayActionDescription() {
+    List<Widget> actionDescription = <Widget>[];
+    actionDescription.add(
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  const Icon(Icons.access_alarm),
-                  Text(name),
-                ],
-              ),
-            ],
-          ),
-          Row(children: <Widget>[
-            Text(description),
-          ]),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  description,
+                  style: TextStyle(color: isEnable ? Colors.green : Colors.red),
+                ), // Change when icon are in DB
+              ]),
         ],
-      );
-    } else {
-      return null;
-    }
+      ),
+    );
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: actionDescription);
   }
 }
