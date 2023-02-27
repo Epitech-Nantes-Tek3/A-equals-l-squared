@@ -825,6 +825,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                               ),
                             ]),
                       ])),
+                /// Update and delete Area
+                if (changeType == 'update' && !actionSetting)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
