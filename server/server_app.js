@@ -27,6 +27,7 @@ const deezer = require('./services/deezer/init')
 const { createDeezerService } = require('./services/deezer/init')
 const getUserPlaylists = require('./services/deezer/getters/user_playlists')
 const { createGmailService } = require('./services/gmail/gmail_init')
+const { createCalendarService } = require('./services/calendar/calendar_init')
 const { createDiscordService } = require('./services/discord/init')
 const getVoiceChannels = require('./services/discord/getters/voice_channels')
 const getTextChannels = require('./services/discord/getters/text_channels')
@@ -802,7 +803,8 @@ app.get(
 )
 
 /**
- * @brief List all available calendars where the user is.
+ * List all available calendars where the user is.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/calendar/getAvailableCalendars',
@@ -826,7 +828,8 @@ app.get(
 )
 
 /**
- * @brief List available performers, such as bot/user.
+ * List available performers, such as bot/user.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/discord/getAvailablePerformers',

@@ -3,7 +3,7 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 const { google } = require('googleapis')
 
 /**
- *
+ * @brief create an event
  * @param {*} Area the area
  * @param {*} dynamicParameters the dynamic parameters
  * @returns

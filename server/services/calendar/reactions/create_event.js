@@ -3,7 +3,7 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 const { google } = require('googleapis')
 
 /**
- *
+ * @brief create an event from an area
  * @param {*} Area the area
  * @param {*} dynamicParameters the dynamic parameters
  * @returns
@@ -44,7 +44,7 @@ const calendarCreateEventFromArea = async (Area, dynamicParameters) => {
 }
 
 /**
- *
+ * @brief create an event
  * @param {*} accessToken the access token
  * @param {*} calendarId the calendar id
  * @param {*} summary the summary of the event
@@ -58,6 +58,16 @@ const createEvent = async (accessToken, calendarId='primary', summary, descripti
   auth.setCredentials({ access_token: accessToken })
   auth.scopes = ['https://www.googleapis.com/auth/calendar']
   const client = google.calendar({ version: 'v3', auth })
+  const isValidISODate = (dateStr) => {
+    return !isNaN(Date.parse(dateStr));
+  };
+
+  if (!isValidISODate(start)) {
+    throw new Error('Invalid start date format. Must be in ISO 8601 format.');
+  }
+  if (!isValidISODate(end)) {
+    throw new Error('Invalid end date format. Must be in ISO 8601 format.');
+  }
   try {
     const response = await client.events.insert({
       calendarId: calendarId,
