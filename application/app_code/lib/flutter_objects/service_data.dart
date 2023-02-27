@@ -79,7 +79,11 @@ class ServiceData {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Image.asset(icon, height: 30, width: 30,),
+            Image.asset(
+              icon,
+              height: 30,
+              width: 30,
+            ),
             const SizedBox(
               width: 30,
             ),
