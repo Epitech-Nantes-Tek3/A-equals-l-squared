@@ -6,9 +6,10 @@ const { google } = require('googleapis')
  *
  * @param {*} ReactionParameters the parameters
  * @param {*} dynamicParameters the dynamic parameters
+ * @param {*} User the user
  * @returns
  */
-const calendarCreateEventFromAreaParameters = async (ReactionParameters, dynamicParameters) => {
+const calendarCreateEventFromAreaParameters = async (ReactionParameters, dynamicParameters, User) => {
   try {
     let from = ReactionParameters
                   .find(parameter => parameter.Parameter.name == 'from')
