@@ -27,6 +27,7 @@ const { createDiscordService } = require('./services/discord/init')
 const getVoiceChannels = require('./services/discord/getters/voice_channels')
 const getTextChannels = require('./services/discord/getters/text_channels')
 const getAvailableGuilds = require('./services/discord/getters/available_guilds')
+const getAvailableCalendars = require('./services/calendar/getters/get_available_calendars')
 const { createTimeTimeService } = require('./services/timetime/init')
 const {
   TriggerInitMap,
@@ -758,6 +759,30 @@ app.get(
 )
 
 /**
+ * @brief List all available calendars where the user is.
+ */
+app.get(
+  '/api/services/calendar/getAvailableCalendars',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    if (req.user.googleToken == null)
+      return res.status(400).send('No Google account linked.')
+    try {
+      const calendars = await getAvailableCalendars(req.user.googleToken)
+      if (calendars == null) return res.status(400).send('An error occured.')
+      return res.status(200).json({
+        status: 'success',
+        data: calendars,
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('An error occured.')
+    }
+  }
+)
+
+/**
  * @brief List available performers, such as bot/user.
  */
 app.get(
@@ -1200,6 +1225,7 @@ app.get('/api/dev/service/createAll', async (req, res) => {
   const response = []
   response.push(await createDiscordService())
   response.push(await createGmailService())
+  response.push(await createCalendarService())
   response.push(await createTimeTimeService())
   response.push(await createReaaaaaaaService())
   return res.json(response)

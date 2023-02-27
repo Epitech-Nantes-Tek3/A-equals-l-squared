@@ -17,9 +17,7 @@ const getAvailableCalendars = async (accessToken) => {
             var curr_calendar = {}
             var available_calendars = []
             if (res.data.items.length) {
-                console.log('Calendars:');
                 res.data.items.forEach((calendar) => {
-                    console.log(`${calendar.summary} (${calendar.id})`);
                     curr_calendar = {
                         id: calendar.id,
                         name: calendar.summary

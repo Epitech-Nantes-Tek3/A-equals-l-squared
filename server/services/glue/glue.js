@@ -41,6 +41,7 @@ const getActionFromCode = async code => {
               id: true,
               email: true,
               googleId: true,
+              googleToken: true,
               facebookId: true
             }
           },
