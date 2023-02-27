@@ -339,18 +339,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           height: 10,
         ),
       );
-      createAnAction.add(Container(
-          padding: const EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-              color: Colors.transparent,
-              border: Border.all(color: Colors.black),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10.0),
-                topRight: Radius.circular(10.0),
-                bottomLeft: Radius.circular(10.0),
-                bottomRight: Radius.circular(10.0),
-              )),
-          child: createdArea!.actionList.last.display(true, createUpdate)));
+      createAnAction.add(createdArea!.actionList.last.display(true, createUpdate));
       createAnAction.add(
         const SizedBox(
           height: 10,
@@ -826,7 +815,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                             ]),
                       ])),
                 /// Update and delete Area
-                if (changeType == 'update' && !actionSetting)
+                if ((changeType == 'update' && !actionSetting) || changeType == 'create')
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
