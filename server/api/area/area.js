@@ -1,5 +1,7 @@
 'use strict'
 
+const { TriggerDestroyMap } = require('../../services/timetime/init')
+
 module.exports = function (app, passport, database) {
   /**
    * @api {get} /api/area Get all areas
@@ -199,34 +201,34 @@ module.exports = function (app, passport, database) {
   )
 
   /**
- * Cross all the User area and check the Name validity
- * @param {*} userId the user Id
- * @param {*} newName the wanted name
- * @returns True if the new name is valid, false otherwise
- */
-async function checkAreaNameAlreadyExistForGivenUser (
-  userId,
-  newName,
-  actualAreaId
-) {
-  let existing = false
-  let where
+   * Cross all the User area and check the Name validity
+   * @param {*} userId the user Id
+   * @param {*} newName the wanted name
+   * @returns True if the new name is valid, false otherwise
+   */
+  async function checkAreaNameAlreadyExistForGivenUser (
+    userId,
+    newName,
+    actualAreaId
+  ) {
+    let existing = false
+    let where
 
-  if (actualAreaId) {
-    where = {
-      userId: userId,
-      name: newName,
-      NOT: { id: actualAreaId }
+    if (actualAreaId) {
+      where = {
+        userId: userId,
+        name: newName,
+        NOT: { id: actualAreaId }
+      }
+    } else {
+      where = {
+        userId: userId,
+        name: newName
+      }
     }
-  } else {
-    where = {
-      userId: userId,
-      name: newName
-    }
+    const areas = await database.prisma.AREA.findMany({ where: where })
+    return areas.length > 0
   }
-  const areas = await database.prisma.AREA.findMany({ where: where })
-  return areas.length > 0
-}
 
   /**
    * @api {post} /api/area/create Create area
@@ -264,7 +266,8 @@ async function checkAreaNameAlreadyExistForGivenUser (
             name: req.body.name,
             description: 'description' in req.body ? req.body.description : '',
             isEnable: req.body.isEnable,
-            logicalGate: 'logicalGate' in req.body ? req.body.logicalGate : 'OR',
+            logicalGate:
+              'logicalGate' in req.body ? req.body.logicalGate : 'OR',
             User: { connect: { id: req.user.id } }
           }
         })
@@ -334,7 +337,6 @@ async function checkAreaNameAlreadyExistForGivenUser (
     }
   )
 
-
   /**
    * @api {post} /api/area/:id Delete area
    * @apiParam {Number} id Area unique ID.
@@ -358,10 +360,26 @@ async function checkAreaNameAlreadyExistForGivenUser (
         if (!deletedArea || req.user.id != deletedArea.userId)
           return res.status(404).json({ error: 'Area not found' })
 
-        await database.prisma.AREA.delete({
+        const oldArea = await database.prisma.AREA.delete({
           where: {
             id: req.params.id
+          },
+          select: {
+            Actions: {
+              select: {
+                id: true,
+                Action: {
+                  select: {
+                    code: true
+                  }
+                }
+              }
+            }
           }
+        })
+        oldArea.Actions.forEach(action => {
+          if (TriggerDestroyMap[action.Action.code])
+            TriggerDestroyMap[action.Action.code](action)
         })
         res.status(200).json(deletedArea)
       } catch (error) {
