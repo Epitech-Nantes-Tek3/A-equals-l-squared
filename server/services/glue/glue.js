@@ -33,12 +33,12 @@ const {
 const {
   calendarCreateEventFromArea
 } = require('../calendar/reactions/create_event')
+
 /**
  * Get an action from its code
  * @param {String} code
  * @returns
- */ const axios = require('axios')
-
+ */
 const getActionFromCode = async code => {
   const action = await database.prisma.Action.findUnique({
     where: {
