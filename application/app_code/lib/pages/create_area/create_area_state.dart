@@ -17,8 +17,17 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Setting of the action set ?
   bool actionSetting = false;
 
+  static const List<Widget> listActionCondition = <Widget>[
+    Text('Or'),
+    Text('And')
+  ];
+
   /// Creation of an Action state
   int _actionCreationState = 0;
+
+  bool isSelected = false;
+
+  List<bool> _selectedActionCondition = <bool>[true, false];
 
   /// Creation of an Reaction state
   int _reactionCreationState = 0;
@@ -700,64 +709,124 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             ])
           else
             Column(children: [
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Area Name',
-                ),
-                initialValue: createdArea != null ? createdArea!.name : '',
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (String? value) {
-                  createdArea!.name = value!;
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Area Description',
-                ),
-                initialValue:
-                    createdArea != null ? createdArea!.description : '',
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (String? value) {
-                  createdArea!.description = value!;
-                  return null;
-                },
-              ),
-              const Text("Choose if your Area is available or not : "),
-              Switch(
-                value: createdArea != null ? createdArea!.isEnable : true,
-                activeColor: Colors.blue,
-                onChanged: (bool value) {
-                  setState(() {
-                    createdArea!.isEnable = value;
-                  });
-                },
-              ),
-              const Text(
-                  "Choose if your action will be if they are all successful (and) or if only one of them is (or) : "),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Text("OR"),
-                  Switch(
-                    value: createdArea != null
-                        ? createdArea!.logicalGate == 'OR'
-                            ? false
-                            : true
-                        : false,
-                    activeColor: Colors.green,
-                    onChanged: (bool value) {
-                      setState(() {
-                        createdArea!.logicalGate = value == true ? 'AND' : 'OR';
-                      });
-                    },
-                  ),
-                  const Text("AND"),
-                ],
-              ),
+              Container(
+                  padding: const EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(color: Colors.black),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        topRight: Radius.circular(10.0),
+                        bottomLeft: Radius.circular(10.0),
+                        bottomRight: Radius.circular(10.0),
+                      )),
+                  child: Column(children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Available"),
+                        Switch(
+                          value: createdArea != null
+                              ? createdArea!.isEnable
+                              : true,
+                          activeColor: Colors.blue,
+                          onChanged: (bool value) {
+                            setState(() {
+                              createdArea!.isEnable = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Area Name',
+                      ),
+                      initialValue:
+                          createdArea != null ? createdArea!.name : '',
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (String? value) {
+                        createdArea!.name = value!;
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Area Description',
+                      ),
+                      initialValue:
+                          createdArea != null ? createdArea!.description : '',
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (String? value) {
+                        createdArea!.description = value!;
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    if (false)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          const Text("OR"),
+                          Switch(
+                            value: createdArea != null
+                                ? createdArea!.logicalGate == 'OR'
+                                    ? false
+                                    : true
+                                : false,
+                            activeColor: Colors.green,
+                            onChanged: (bool value) {
+                              setState(() {
+                                createdArea!.logicalGate =
+                                    value == true ? 'AND' : 'OR';
+                              });
+                            },
+                          ),
+                          const Text("AND"),
+                        ],
+                      ),
+                    Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          // ToggleButtons with a single selection.
+                          const Text(
+                              "Condition to activate this Area with many Actions : "),
+                          const SizedBox(height: 5),
+                          ToggleButtons(
+                            direction:
+                                isSelected ? Axis.vertical : Axis.horizontal,
+                            onPressed: (int index) {
+                              setState(() {
+                                // The button that is tapped is set to true, and the others to false.
+                                for (int i = 0;
+                                    i < _selectedActionCondition.length;
+                                    i++) {
+                                  _selectedActionCondition[i] = i == index;
+                                }
+                              });
+                            },
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8)),
+                            selectedBorderColor: Colors.blue[700],
+                            selectedColor: Colors.white,
+                            fillColor: Colors.blue[200],
+                            color: Colors.blue[400],
+                            constraints: const BoxConstraints(
+                              minHeight: 40.0,
+                              minWidth: 80.0,
+                            ),
+                            isSelected: _selectedActionCondition,
+                            children: listActionCondition,
+                          ),
+                        ]),
+                  ])),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
