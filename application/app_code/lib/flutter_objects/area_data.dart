@@ -175,12 +175,12 @@ class AreaData {
     if (mode) {
       for (var temp in actionList) {
         actionListDisplay.add(
-          temp.display(true, update),
+          temp.displayActionModificationView(update),
         );
       }
       for (var temp in reactionList) {
         reactionListDisplay.add(
-          temp.display(true, update),
+          temp.displayReactionModificationView(update),
         );
       }
       listDisplay.add(Column(
