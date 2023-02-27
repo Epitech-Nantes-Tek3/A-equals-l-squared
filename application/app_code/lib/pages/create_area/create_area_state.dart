@@ -257,96 +257,125 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     }
   }
 
+  Widget selectAServiceActionDisplay() {
+    List<Widget> selectAServiceAction = <Widget>[];
+
+    selectAServiceAction.add(const Text("Choose your Action service"));
+    for (var temp in serviceDataList) {
+      if (temp.actions.isEmpty) {
+        continue;
+      }
+      selectAServiceAction.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
+      selectAServiceAction.add(ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            side: const BorderSide(width: 3, color: Colors.white),
+            primary: Colors.white,
+          ),
+          onPressed: () {
+            setState(() {
+              _createdAreaSave = AreaData.clone(createdArea!);
+              createdArea!.serviceId = ServiceData.clone(temp);
+              _actionCreationState = 1;
+            });
+          },
+          child: temp.display()));
+      selectAServiceAction.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
+    }
+    return Column(
+      children: selectAServiceAction,
+    );
+  }
+
+  Widget selectAnActionDisplay() {
+    List<Widget> selectAnAction = <Widget>[];
+    selectAnAction.add(Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[Text("Choose your Action")]));
+    selectAnAction.add(
+      const SizedBox(
+        height: 30,
+      ),
+    );
+    for (var temp in createdArea!.serviceId!.actions) {
+      selectAnAction.add(ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            side: const BorderSide(width: 3, color: Colors.white),
+
+            /// Change when DB is Up
+            primary: Colors.white,
+          ),
+          onPressed: () {
+            setState(() {
+              _createdAreaSave = AreaData.clone(createdArea!);
+              createdArea!.actionList.add(ActionData.clone(temp));
+              for (var tmp in temp.parameters) {
+                createdArea!.actionList.last.parametersContent
+                    .add(ParameterContent(paramId: tmp.id, value: "", id: ''));
+              }
+              _actionCreationState = 2;
+            });
+          },
+          child: temp.displayActionDescription()));
+      selectAnAction.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
+    }
+    return Column(
+      children: selectAnAction,
+    );
+  }
+
+  Widget configureAnActionDisplay() {
+    List<Widget> modifyAnAction = <Widget>[];
+    modifyAnAction.add(const Text("Configure your Action"));
+    modifyAnAction.add(
+      const SizedBox(
+        height: 10,
+      ),
+    );
+    modifyAnAction.add(
+        createdArea!.actionList.last.displayActionModification(createUpdate));
+    modifyAnAction.add(
+      const SizedBox(
+        height: 10,
+      ),
+    );
+    return Column(
+      children: modifyAnAction,
+    );
+  }
+
   List<Widget> chooseAnAction() {
     List<Widget> createAnAction = <Widget>[];
 
+    /// Select a Service
     if (_isChoosingAnAction == true && _actionCreationState == 0) {
-      createAnAction.add(const Text("Choose your Action service"));
-      for (var temp in serviceDataList) {
-        if (temp.actions.isEmpty) {
-          continue;
-        }
-        createAnAction.add(
-          const SizedBox(
-            height: 10,
-          ),
-        );
-        createAnAction.add(ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-              side: const BorderSide(width: 3, color: Colors.white),
-
-              /// Change when DB is Up
-              primary: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                _createdAreaSave = AreaData.clone(createdArea!);
-                createdArea!.serviceId = ServiceData.clone(temp);
-                _actionCreationState = 1;
-              });
-            },
-            child: temp.display()));
-        createAnAction.add(
-          const SizedBox(
-            height: 10,
-          ),
-        );
-      }
+      createAnAction.add(selectAServiceActionDisplay());
     }
+
+    ///Select an action
     if (_actionCreationState == 1) {
-      createAnAction.add(Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const <Widget>[Text("Choose your Action")]));
-      createAnAction.add(
-        const SizedBox(
-          height: 30,
-        ),
-      );
-      for (var temp in createdArea!.serviceId!.actions) {
-        createAnAction.add(ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              side: const BorderSide(width: 3, color: Colors.white),
-
-              /// Change when DB is Up
-              primary: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                _createdAreaSave = AreaData.clone(createdArea!);
-                createdArea!.actionList.add(ActionData.clone(temp));
-                for (var tmp in temp.parameters) {
-                  createdArea!.actionList.last.parametersContent.add(
-                      ParameterContent(paramId: tmp.id, value: "", id: ''));
-                }
-                _actionCreationState = 2;
-              });
-            },
-            child: temp.display(false, createUpdate)));
-        createAnAction.add(
-          const SizedBox(
-            height: 10,
-          ),
-        );
-      }
+      createAnAction.add(selectAnActionDisplay());
     }
 
+    /// Configure the chosen Action
     if (_actionCreationState == 2) {
-      createAnAction.add(const Text("Configure your Action"));
-      createAnAction.add(
-        const SizedBox(
-          height: 10,
-        ),
-      );
-      createAnAction.add(createdArea!.actionList.last.display(true, createUpdate));
-      createAnAction.add(
-        const SizedBox(
-          height: 10,
-        ),
-      );
+      createAnAction.add(configureAnActionDisplay());
     }
 
+    /// Buttons
     if (_isChoosingAnAction) {
       createAnAction
           .add(Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -814,44 +843,46 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                               ),
                             ]),
                       ])),
+
                 /// Update and delete Area
-                if ((changeType == 'update' && !actionSetting) || changeType == 'create')
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                        onPressed: (() {
-                          _createdAreaSave = AreaData.clone(createdArea!);
-                          apiAskForAreaChange();
-                          setState(() {
-                            actionSetting = true;
-                          });
-                        }),
-                        child: Text(
-                            "$changeType ${createdArea != null ? createdArea!.name : ''}")),
-                    if (changeType != 'create')
+                if ((changeType == 'update' && !actionSetting) ||
+                    changeType == 'create')
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
                       ElevatedButton(
                           onPressed: (() {
-                            changeType = 'delete';
+                            _createdAreaSave = AreaData.clone(createdArea!);
                             apiAskForAreaChange();
                             setState(() {
-                              createdArea = AreaData(
-                                  id: '',
-                                  name: 'Deleted',
-                                  description: 'You can now go home !',
-                                  userId: '',
-                                  actionList: [],
-                                  reactionList: [],
-                                  isEnable: true,
-                                  logicalGate: 'OR');
+                              actionSetting = true;
                             });
-
-                            /// UPDATE IT WITH FRAME GESTION
                           }),
                           child: Text(
-                              "Delete ${createdArea != null ? createdArea!.name : ''}"))
-                  ],
-                )
+                              "$changeType ${createdArea != null ? createdArea!.name : ''}")),
+                      if (changeType != 'create')
+                        ElevatedButton(
+                            onPressed: (() {
+                              changeType = 'delete';
+                              apiAskForAreaChange();
+                              setState(() {
+                                createdArea = AreaData(
+                                    id: '',
+                                    name: 'Deleted',
+                                    description: 'You can now go home !',
+                                    userId: '',
+                                    actionList: [],
+                                    reactionList: [],
+                                    isEnable: true,
+                                    logicalGate: 'OR');
+                              });
+
+                              /// UPDATE IT WITH FRAME GESTION
+                            }),
+                            child: Text(
+                                "Delete ${createdArea != null ? createdArea!.name : ''}"))
+                    ],
+                  )
               ])),
     ));
   }
