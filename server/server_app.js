@@ -848,6 +848,9 @@ app.get(
   }
 )
 
+/**
+ * @brief List all user's playlist on Deezer.
+ */
 app.get(
   '/api/services/deezer/getUserPlaylists',
   passport.authenticate('jwt', { sessions: false }),
