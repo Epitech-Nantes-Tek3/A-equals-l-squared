@@ -115,7 +115,7 @@ class ActionData {
         dynamicParams.add(temp.display());
       }
       paramWid.add(Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: dynamicParams,
       ));
     }
@@ -125,8 +125,8 @@ class ActionData {
     );
   }
 
-  /// Function to display the name of a Reaction
-  Widget? displayReactionName() {
+  /// Function to display the name of an Action
+  Widget? displayActionName() {
     if (isEnable) {
       return Column(
         children: <Widget>[
@@ -138,8 +138,8 @@ class ActionData {
     }
   }
 
-  /// Function to display all information about a Reaction
-  Widget? displayReactionWithInfo() {
+  /// Function to display all information about an Action
+  Widget? displayActionWithInfo() {
     if (isEnable) {
       return Column(
         children: <Widget>[
