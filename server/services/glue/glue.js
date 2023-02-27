@@ -33,7 +33,9 @@ const {
 const {
   calendarCreateEventFromArea
 } = require('../calendar/reactions/create_event')
-
+const {
+  calendarCreateCalendarFromArea
+} = require('../calendar/reactions/create_calendar')
 /**
  * Get an action from its code
  * @param {String} code
@@ -55,6 +57,7 @@ const getActionFromCode = async code => {
               id: true,
               email: true,
               googleId: true,
+              googleToken: true,
               facebookId: true,
               deezerId: true,
               deezerToken: true
@@ -137,7 +140,8 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
       'DZR-05': () =>
         deezerAddRecommendationsToPlaylistFromArea(area, dynamicParameters),
       'REA-01': () => reaaaaaaaChangeAreaStatus(area, dynamicParameters),
-      'CAL-01': () => calendarCreateEventFromArea(area, dynamicParameters)
+      'CAL-01': () => calendarCreateEventFromArea(area, dynamicParameters),
+      'CAL-02': () => calendarCreateCalendarFromArea(area, dynamicParameters),
     }
     if (!area.isEnable || !area.Reaction.isEnable) {
       return
