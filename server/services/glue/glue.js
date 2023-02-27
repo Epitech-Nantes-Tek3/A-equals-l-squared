@@ -14,11 +14,28 @@ const {
   discordChangeActivityFromAreaParameters
 } = require('../discord/reactions/change_activity')
 const {
+  deezerCreatePlaylistFromAreaParameters
+} = require('../deezer/reactions/create_playlist')
+const {
+  deezerDeletePlaylistFromAreaParameters
+} = require('../deezer/reactions/delete_playlist')
+const {
+  deezerClearPlaylistFromAreaParameters
+} = require('../deezer/reactions/clear_playlist')
+const {
+  deezerAddHistoryToPlaylistFromAreaParameters
+} = require('../deezer/reactions/add_history_to_playlist')
+const {
+  deezerAddRecommendationsToPlaylistFromAreaParameters
+} = require('../deezer/reactions/add_recommendations_to_playlist')
+
+const {
   reaaaaaaaChangeAreaStatusFromAreaParameters
 } = require('../reaaaaaaa/reactions/change_area_status')
 const {
   calendarCreateEventFromAreaParameters
 } = require('../calendar/reactions/create_event')
+
 /**
  * Get an action from its code
  * @param {String} code
@@ -45,7 +62,9 @@ const getActionFromCode = async code => {
                   id: true,
                   email: true,
                   googleId: true,
-                  facebookId: true
+                  facebookId: true,
+                  deezerId: true,
+                  deezerToken: true
                 }
               },
               Actions: {
@@ -120,30 +139,41 @@ const checkActionParameters = (ActionParameters, parametersList) => {
 }
 
 const reactionsList = {
-  'GML-01': (ReactionParameters, dynamicParameters) =>
-    gmailSendEmailFromAreaParameters(ReactionParameters, dynamicParameters),
-  'DSC-01': (ReactionParameters, dynamicParameters) =>
+  'GML-01': (ReactionParameters, dynamicParameters, User) =>
+    gmailSendEmailFromAreaParameters(ReactionParameters, dynamicParameters, User),
+  'DSC-01': (ReactionParameters, dynamicParameters, User) =>
     discordSendMessageChannelFromAreaParameters(
       ReactionParameters,
-      dynamicParameters
+      dynamicParameters,
+      User
     ),
-  'DSC-02': (ReactionParameters, dynamicParameters) =>
+  'DSC-02': (ReactionParameters, dynamicParameters, User) =>
     discordSendPrivateMessageFromAreaParameters(
       ReactionParameters,
-      dynamicParameters
+      dynamicParameters,
+      User
     ),
-  'DSC-03': (ReactionParameters, dynamicParameters) =>
+  'DSC-03': (ReactionParameters, dynamicParameters, User) =>
     discordChangeActivityFromAreaParameters(
       ReactionParameters,
-      dynamicParameters
+      dynamicParameters,
+      User
     ),
-  'REA-01': (ReactionParameters, dynamicParameters) =>
+  'REA-01': (ReactionParameters, dynamicParameters, User) =>
     reaaaaaaaChangeAreaStatusFromAreaParameters(
       ReactionParameters,
-      dynamicParameters
+      dynamicParameters,
+      User
     ),
-  'CAL-01': (ReactionParameters, dynamicParameters) =>
-    calendarCreateEventFromAreaParameters(ReactionParameters, dynamicParameters)
+  'CAL-01': (ReactionParameters, dynamicParameters, User) =>
+    calendarCreateEventFromAreaParameters(ReactionParameters, dynamicParameters, User),
+    'DZR-01': (ReactionParameters, dynamicParameters, User) => deezerCreatePlaylistFromAreaParameters(ReactionParameters, dynamicParameters, User),
+      'DZR-02': (ReactionParameters, dynamicParameters, User) => deezerDeletePlaylistFromAreaParameters(ReactionParameters, dynamicParameters, User),
+      'DZR-03': (ReactionParameters, dynamicParameters, User) => deezerClearPlaylistFromAreaParameters(ReactionParameters, dynamicParameters, User),
+      'DZR-04': (ReactionParameters, dynamicParameters, User) =>
+        deezerAddHistoryToPlaylistFromAreaParameters(ReactionParameters, dynamicParameters, User),
+      'DZR-05': (ReactionParameters, dynamicParameters, User) =>
+        deezerAddRecommendationsToPlaylistFromAreaParameters(ReactionParameters, dynamicParameters, User)
 }
 
 const updateTriggeredLink = async (linkId, triggered) => {
