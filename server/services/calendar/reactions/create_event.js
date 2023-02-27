@@ -59,7 +59,7 @@ const calendarCreateEventFromArea = async (Area, dynamicParameters) => {
 const createEvent =
     async (from = null, calendarId='primary', summary, description, start, end) => {
   try {
-    if (from)
+    if (from && from != 'aequallsquared@gmail.com')
       createEventWithAccessToken(from, calendarId, summary, description, start, end)
     else {
       const response = await calendar.events.insert({

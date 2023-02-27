@@ -73,9 +73,7 @@ const createCalendar =
 const createCalendarWithAccessToken = async (accessToken, summary, description) => {
   const auth = new google.auth.OAuth2()
   auth.setCredentials({ access_token: accessToken })
-  auth.scopes = [
-    'https://www.googleapis.com/auth/calendar',
-  ]
+  auth.scopes = ['https://www.googleapis.com/auth/calendar']
   const client = google.calendar({ version: 'v3', auth })
   try {
     const response = await client.calendars.insert({
