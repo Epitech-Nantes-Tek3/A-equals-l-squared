@@ -419,6 +419,35 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     return createAnAction;
   }
 
+  Widget displayActionViewToCreateAnArea() {
+    return Column(children: <Widget>[
+      if (!_isChoosingAnAction)
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+
+              /// Change when DB is Up
+              primary: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                _isChoosingAnAction = true;
+                _actionCreationState = 0;
+              });
+            },
+            child: const Text(
+              'Add an Action',
+              style: TextStyle(color: Colors.black),
+            )),
+      if (_isChoosingAnAction)
+        Column(
+          children: <Widget>[
+            Column(children: chooseAnAction()),
+          ],
+        )
+    ]);
+  }
+
   chooseAReaction() {
     List<Widget> createAReaction = <Widget>[];
 
@@ -552,35 +581,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     return createAReaction;
   }
 
-  Widget displayActionViewToCreateAnArea() {
-    return Column(children: <Widget>[
-      if (!_isChoosingAnAction)
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-
-              /// Change when DB is Up
-              primary: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                _isChoosingAnAction = true;
-                _actionCreationState = 0;
-              });
-            },
-            child: const Text(
-              'Add an Action',
-              style: TextStyle(color: Colors.black),
-            )),
-      if (_isChoosingAnAction)
-        Column(
-          children: <Widget>[
-            Column(children: chooseAnAction()),
-          ],
-        )
-    ]);
-  }
-
   Widget displayReactionViewToCreateAnArea() {
     return Column(children: <Widget>[
       if (!_isChoosingAReaction)
@@ -620,11 +620,24 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     List<Widget> actionListDisplay = <Widget>[];
     List<Widget> reactionListDisplay = <Widget>[];
 
+    /// Actions chosen display
     if (createdArea != null && createdArea!.actionList.isNotEmpty) {
       for (var temp in createdArea!.actionList) {
         if (_actionCreationState != 2 || temp != createdArea!.actionList.last) {
-          actionListDisplay.add(Column(children: [
-            temp.display(true, createUpdate),
+          actionListDisplay.add(
+              Container(
+                  padding: const EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(color: Colors.black),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        topRight: Radius.circular(10.0),
+                        bottomLeft: Radius.circular(10.0),
+                        bottomRight: Radius.circular(10.0),
+                      )),
+                  child: Column(children: [
+            temp.displayActionModification(createUpdate),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -645,11 +658,12 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     child: const Text('Delete'))
               ],
             )
-          ]));
+          ])));
         }
       }
     }
 
+    /// Reaction chosen display
     if (createdArea != null && createdArea!.reactionList.isNotEmpty) {
       for (var temp in createdArea!.reactionList) {
         if (_reactionCreationState != 2 ||
@@ -713,6 +727,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 ),
                 if (actionSetting)
                   Column(children: [
+
                     /// Block Action
                     const Text(
                       'Action',
