@@ -156,6 +156,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         return 'Error during $changeType process';
       }
       if (response.statusCode != 200) {
+        _apiErrorMessage = response.body;
+        _isChoosingAnAction = true;
+        createUpdate(null);
         return 'Error during action $changeType';
       }
       if (changeType == 'create') {
@@ -166,8 +169,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               'Authorization': 'Bearer ${userInformation!.token}',
             });
         createdArea = AreaData.fromJson(jsonDecode(response.body));
-        createUpdate(null);
       }
+      _apiErrorMessage = null;
+      createUpdate(null);
       await updateAllFlutterObject();
       return 'Action successfully $changeType !';
     } catch (err) {
@@ -225,6 +229,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         return 'Error during $changeType process';
       }
       if (response.statusCode != 200) {
+        _apiErrorMessage = response.body;
+        _isChoosingAReaction = true;
+        createUpdate(null);
         return 'Error during reaction $changeType';
       }
       if (changeType == 'create') {
@@ -235,8 +242,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               'Authorization': 'Bearer ${userInformation!.token}',
             });
         createdArea = AreaData.fromJson(jsonDecode(response.body));
-        createUpdate(null);
       }
+      _apiErrorMessage = null;
+      createUpdate(null);
       await updateAllFlutterObject();
       return 'Reaction successfully $changeType !';
     } catch (err) {
