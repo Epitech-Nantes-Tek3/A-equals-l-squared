@@ -381,6 +381,17 @@ module.exports = function (app, passport, database) {
               select: {
                 code: true
               }
+            },
+            ActionParameters: {
+              select: {
+                id: true,
+                Parameter: {
+                  select: {
+                    name: true
+                  }
+                },
+                value: true
+              }
             }
           }
         })
