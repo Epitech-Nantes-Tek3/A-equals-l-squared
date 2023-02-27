@@ -50,31 +50,36 @@ class AreaData {
   /// Convert a json map into the class
   factory AreaData.fromJson(Map<String, dynamic> json) {
     List<ActionData> actionList = <ActionData>[];
-    for (var temp in json['Actions']) {
-      actionList.add(getActionDataById(temp['Action']['id'])!);
-      actionList.last.id = temp['id'];
-      for (var temp2 in temp['ActionParameters']) {
-        actionList.last.parametersContent.add(ParameterContent.fromJson(temp2));
-        try {
-          actionList.last.parametersContent.last.id = temp2['id'];
-        } catch (err) {
-          debugPrint(err.toString());
-        }
-      }
-    }
     List<ReactionData> reactionList = <ReactionData>[];
-    for (var temp in json['Reactions']) {
-      reactionList.add(getReactionDataById(temp['Reaction']['id'])!);
-      reactionList.last.id = temp['id'];
-      for (var temp2 in temp['ReactionParameters']) {
-        reactionList.last.parametersContent
-            .add(ParameterContent.fromJson(temp2));
-        try {
-          reactionList.last.parametersContent.last.id = temp2['id'];
-        } catch (err) {
-          debugPrint(err.toString());
+    try {
+      for (var temp in json['Actions']) {
+        actionList.add(getActionDataById(temp['Action']['id'])!);
+        actionList.last.id = temp['id'];
+        for (var temp2 in temp['ActionParameters']) {
+          actionList.last.parametersContent
+              .add(ParameterContent.fromJson(temp2));
+          try {
+            actionList.last.parametersContent.last.id = temp2['id'];
+          } catch (err) {
+            debugPrint(err.toString());
+          }
         }
       }
+      for (var temp in json['Reactions']) {
+        reactionList.add(getReactionDataById(temp['Reaction']['id'])!);
+        reactionList.last.id = temp['id'];
+        for (var temp2 in temp['ReactionParameters']) {
+          reactionList.last.parametersContent
+              .add(ParameterContent.fromJson(temp2));
+          try {
+            reactionList.last.parametersContent.last.id = temp2['id'];
+          } catch (err) {
+            debugPrint(err.toString());
+          }
+        }
+      }
+    } catch (err) {
+      err;
     }
     return AreaData(
         id: json['id'],
