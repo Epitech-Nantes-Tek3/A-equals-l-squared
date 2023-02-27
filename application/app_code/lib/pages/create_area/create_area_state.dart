@@ -44,6 +44,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     setState(() {});
   }
 
+  void leavePage() {
+    goToHomePage(context);
+  }
+
   /// Ask the api to change an area
   Future<String> apiAskForAreaChange() async {
     try {
@@ -100,6 +104,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         createdArea = AreaData.fromJson(jsonDecode(response.body));
       }
       await updateAllFlutterObject();
+      if (changeType == 'delete') {
+        leavePage();
+        return 'Area successfully $changeType !';
+      }
       createUpdate(null);
       return 'Area successfully $changeType !';
     } catch (err) {
@@ -780,19 +788,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                         onPressed: (() {
                           changeType = 'delete';
                           apiAskForAreaChange();
-                          setState(() {
-                            createdArea = AreaData(
-                                id: '',
-                                name: 'Deleted',
-                                description: 'You can now go home !',
-                                userId: '',
-                                actionList: [],
-                                reactionList: [],
-                                isEnable: true,
-                                logicalGate: 'OR');
-                          });
-
-                          /// UPDATE IT WITH FRAME GESTION
                         }),
                         child: Text(
                             "Delete ${createdArea != null ? createdArea!.name : ''}"))
