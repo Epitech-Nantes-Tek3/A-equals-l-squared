@@ -26,8 +26,10 @@ model User {
   createdAt                DateTime                   @default(now())
   googleId                 String?                    @unique
   facebookId               String?                    @unique
+  deezerId                 String?                    @unique
   googleToken              String?                    @db.VarChar(1000)
   discordToken             String?                    @db.VarChar(1000)
+  deezerToken              String?                    @db.VarChar(1000)
   UsersHasActionsReactions UsersHasActionsReactions[]
 }
 
