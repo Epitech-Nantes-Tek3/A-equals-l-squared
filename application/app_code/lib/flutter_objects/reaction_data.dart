@@ -14,30 +14,31 @@ class ReactionData {
   List<ParameterContent> parametersContent;
 
   /// Constructor of the reaction class
-  ReactionData({required this.id,
-    required this.name,
-    required this.description,
-    required this.createdAt,
-    required this.isEnable,
-    required this.serviceId,
-    required this.parameters,
-    required this.parametersContent});
+  ReactionData(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.createdAt,
+      required this.isEnable,
+      required this.serviceId,
+      required this.parameters,
+      required this.parametersContent});
 
   /// Utility function used for cloning the class
   ReactionData.clone(ReactionData oldReaction)
       : this(
-      id: oldReaction.id,
-      name: oldReaction.name,
-      description: oldReaction.description,
-      createdAt: oldReaction.createdAt,
-      isEnable: oldReaction.isEnable,
-      serviceId: oldReaction.serviceId,
-      parameters: oldReaction.parameters
-          .map((v) => ParameterData.clone(v))
-          .toList(),
-      parametersContent: oldReaction.parametersContent
-          .map((v) => ParameterContent.clone(v))
-          .toList());
+            id: oldReaction.id,
+            name: oldReaction.name,
+            description: oldReaction.description,
+            createdAt: oldReaction.createdAt,
+            isEnable: oldReaction.isEnable,
+            serviceId: oldReaction.serviceId,
+            parameters: oldReaction.parameters
+                .map((v) => ParameterData.clone(v))
+                .toList(),
+            parametersContent: oldReaction.parametersContent
+                .map((v) => ParameterContent.clone(v))
+                .toList());
 
   /// Convert a json map into the class
   factory ReactionData.fromJson(Map<String, dynamic> json) {
@@ -61,41 +62,16 @@ class ReactionData {
     return parametersContent;
   }
 
-  /// Get a visual representation of a Reaction
-  /// mode -> true = params, false = only text and desc
-  /// params -> list of all the associated parameter content
-  /// update -> Function pointer used for update the state
-  Widget display(bool mode, Function? update) {
+  Widget displayReactionModificationView(Function? update) {
     List<Widget> paramWid = <Widget>[];
-    paramWid.add(Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      description,
-                      style: TextStyle(
-                          color: isEnable ? Colors.green : Colors.red),
-                    ), // Change when icon are in DB
-                  ]),
-            ],
-          ),
-        ]));
-    if (mode == true) {
-      ParameterData? previous;
-      for (var temp in parameters) {
-        paramWid.add(temp.display(parametersContent, previous, update!));
-        if (temp.isRequired == true && temp.getterUrl != null) {
-          previous = temp;
-        } else {
-          previous = null;
-        }
+    paramWid.add(displayReactionDescription());
+    ParameterData? previous;
+    for (var temp in parameters) {
+      paramWid.add(temp.display(parametersContent, previous, update!));
+      if (temp.isRequired == true && temp.getterUrl != null) {
+        previous = temp;
+      } else {
+        previous = null;
       }
     }
     return Column(
@@ -104,7 +80,7 @@ class ReactionData {
     );
   }
 
-  Widget? displayReactionDescription() {
+  Widget displayReactionDescription() {
     List<Widget> paramWid = <Widget>[];
     paramWid.add(
       Row(
@@ -116,14 +92,14 @@ class ReactionData {
               children: <Widget>[
                 Text(
                   description,
-                  style: TextStyle(
-                      color: isEnable ? Colors.green : Colors.red),
+                  style: TextStyle(color: isEnable ? Colors.green : Colors.red),
                 ), // Change when icon are in DB
               ]),
         ],
       ),
     );
-    return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: paramWid);
   }
@@ -134,19 +110,6 @@ class ReactionData {
       return Column(
         children: <Widget>[
           Text(name),
-        ],
-      );
-    } else {
-      return null;
-    }
-  }
-
-  /// Function to display reaction description
-  Widget? displayReactionDescription() {
-    if (isEnable) {
-      return Column(
-        children: <Widget>[
-          Text(description),
         ],
       );
     } else {
