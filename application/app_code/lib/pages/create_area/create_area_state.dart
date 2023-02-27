@@ -659,6 +659,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               ],
             )
           ])));
+          actionListDisplay.add(const SizedBox(height: 20,));
         }
       }
     }
