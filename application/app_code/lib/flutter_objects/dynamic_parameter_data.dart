@@ -26,9 +26,9 @@ class DynamicParameterData {
 
   /// Function returning a visual representation of a dynamicParameter
   Widget display() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [Text("\$$name"), Text(description)],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [Text("\$$name : \n"), Text("$description \n")],
     );
   }
 }
