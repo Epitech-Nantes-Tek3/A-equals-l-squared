@@ -2,6 +2,7 @@
 
 /** @module route */
 
+const axios = require('axios')
 const express = require('express')
 const passport = require('passport')
 const database = require('./database_init')
@@ -1205,6 +1206,46 @@ app.get('/api/dev/service/createAll', async (req, res) => {
   response.push(await createReaaaaaaaService())
   return res.json(response)
 })
+
+/**
+ * Generate token thanks to a code in Reddit
+ */
+app.post(
+  '/api/code/reddit',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid code')
+    try {
+      const postData = {
+        grant_type: 'authorization_code',
+        code: req.body.code,
+        redirect_uri: 'http://localhost:8081/auth.html'
+      }
+      const authString = `7P3NMqftCBgr7H-XaPUbNg:gPFD-f_P2DNz8WVjm-Qwj21G8hS9KA`
+      const authHeader = `Basic ${Buffer.from(authString).toString('base64')}`
+
+      const ret = await axios.post(
+        'https://www.reddit.com/api/v1/access_token',
+        postData,
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: authHeader,
+            'User-Agent': 'MyBot/1.0.0'
+          }
+        }
+      )
+      return res.status(200).json({
+        status: 'success',
+        data: { access_token: ret.data.access_token },
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('Code generation has failed.')
+    }
+  }
+)
 
 /**
  * Start the node.js server at PORT and HOST variable
