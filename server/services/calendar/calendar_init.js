@@ -58,6 +58,34 @@ const createCalendarService = async () => {
                                 ]
                             }
                         }
+                    ],
+                    create: [
+                        {
+                            name: 'CreateCalendar',
+                            code: 'CAL-02',
+                            description: 'Create a calendar',
+                            isEnable: true,
+                            Parameters: {
+                                create: [
+                                    {
+                                        name: 'from',
+                                        description: 'The google account which will create the calendar',
+                                        isRequired: true,
+                                        GetterUrl: '/api/services/calendar/getAvailablePerformers'
+                                    },
+                                    {
+                                        name: 'summary',
+                                        description: 'The summary of the calendar',
+                                        isRequired: true
+                                    },
+                                    {
+                                        name: 'description',
+                                        description: 'The description of the calendar',
+                                        isRequired: false
+                                    }
+                                ]
+                            }
+                        }
                     ]
                 }
             }
