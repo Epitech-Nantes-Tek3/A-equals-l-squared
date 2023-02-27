@@ -785,28 +785,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                           },
                         ),
                         const SizedBox(height: 20),
-                        if (false)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              const Text("OR"),
-                              Switch(
-                                value: createdArea != null
-                                    ? createdArea!.logicalGate == 'OR'
-                                        ? false
-                                        : true
-                                    : false,
-                                activeColor: Colors.green,
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    createdArea!.logicalGate =
-                                        value == true ? 'AND' : 'OR';
-                                  });
-                                },
-                              ),
-                              const Text("AND"),
-                            ],
-                          ),
                         Column(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,
