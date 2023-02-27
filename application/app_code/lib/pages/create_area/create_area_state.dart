@@ -27,7 +27,11 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
   bool isSelected = false;
 
-  List<bool> _selectedActionCondition = <bool>[true, false];
+  final List<bool> _selectedActionCondition = createdArea != null
+      ? createdArea!.logicalGate == 'OR'
+          ? <bool>[true, false]
+          : <bool>[false, true]
+      : <bool>[true, false];
 
   /// Creation of an Reaction state
   int _reactionCreationState = 0;
@@ -352,26 +356,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           height: 10,
         ),
       );
-      createAnAction.add(ElevatedButton(
-          onPressed: () {
-            setState(() {
-              bool isRequired = true;
-              _createdAreaSave = AreaData.clone(createdArea!);
-              for (var temp in createdArea!.actionList.last.parameters) {
-                if (temp.isRequired && temp.matchedContent!.value == "") {
-                  isRequired = false;
-                }
-              }
-              if (isRequired) {
-                _actionCreationState = 0;
-
-                changeType = 'create';
-                apiAskForActionChange(createdArea!.actionList.last);
-                _isChoosingAnAction = false;
-              }
-            });
-          },
-          child: const Text("Validate")));
     }
 
     if (_isChoosingAnAction) {
@@ -391,6 +375,27 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           },
           child: const Text('Previous'),
         ),
+        if (_actionCreationState == 2)
+          ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  bool isRequired = true;
+                  _createdAreaSave = AreaData.clone(createdArea!);
+                  for (var temp in createdArea!.actionList.last.parameters) {
+                    if (temp.isRequired && temp.matchedContent!.value == "") {
+                      isRequired = false;
+                    }
+                  }
+                  if (isRequired) {
+                    _actionCreationState = 0;
+
+                    changeType = 'create';
+                    apiAskForActionChange(createdArea!.actionList.last);
+                    _isChoosingAnAction = false;
+                  }
+                });
+              },
+              child: const Text("Validate")),
       ]));
     }
     return createAnAction;
@@ -822,6 +827,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                         i++) {
                                       _selectedActionCondition[i] = i == index;
                                     }
+                                    createdArea!.logicalGate =
+                                        index == 0 ? 'OR' : 'AND';
+                                    print(createdArea!.logicalGate);
                                   });
                                 },
                                 borderRadius:
