@@ -266,8 +266,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         height: 10,
       ),
     );
-    modifyAnAction.add(
-        createdArea!.actionList.last.displayActionModification(createUpdate));
+    modifyAnAction.add(createdArea!.actionList.last
+        .displayActionModificationView(createUpdate));
     modifyAnAction.add(
       const SizedBox(
         height: 10,
@@ -463,8 +463,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         height: 10,
       ),
     );
-    modifyAReaction
-        .add(createdArea!.reactionList.last.display(true, createUpdate));
+    modifyAReaction.add(createdArea!.reactionList.last
+        .displayReactionModificationView(createUpdate));
     modifyAReaction.add(
       const SizedBox(
         height: 10,
@@ -565,6 +565,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           ),
           onPressed: () {
             setState(() {
+              print(_isChoosingAReaction);
+              print(_reactionCreationState);
               _createdAreaSave = AreaData.clone(createdArea!);
               createdArea!.serviceId = ServiceData.clone(temp);
               _reactionCreationState = 1;
@@ -588,7 +590,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
     /// Select a Service Reaction
     if (_isChoosingAReaction == true && _reactionCreationState == 0) {
-      createAReaction.add(selectAServiceActionDisplay());
+      createAReaction.add(selectAServiceReactionDisplay());
     }
 
     /// Select a Reaction
@@ -680,7 +682,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     bottomRight: Radius.circular(10.0),
                   )),
               child: Column(children: [
-                temp.displayActionModification(createUpdate),
+                temp.displayActionModificationView(createUpdate),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -714,29 +716,40 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       for (var temp in createdArea!.reactionList) {
         if (_reactionCreationState != 2 ||
             temp != createdArea!.reactionList.last) {
-          reactionListDisplay.add(Column(children: [
-            temp.display(true, createUpdate),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-                      changeType = 'update';
-                      apiAskForReactionChange(temp);
-                    },
-                    child: const Text('Update')),
-                ElevatedButton(
-                    onPressed: () {
-                      changeType = 'delete';
-                      apiAskForReactionChange(temp);
-                      setState(() {
-                        createdArea!.reactionList.remove(temp);
-                      });
-                    },
-                    child: const Text('Delete'))
-              ],
-            )
-          ]));
+          reactionListDisplay.add(Container(
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  border: Border.all(color: Colors.black),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0),
+                    bottomLeft: Radius.circular(10.0),
+                    bottomRight: Radius.circular(10.0),
+                  )),
+              child: Column(children: [
+                temp.displayReactionModificationView(createUpdate),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          changeType = 'update';
+                          apiAskForReactionChange(temp);
+                        },
+                        child: const Text('Update')),
+                    ElevatedButton(
+                        onPressed: () {
+                          changeType = 'delete';
+                          apiAskForReactionChange(temp);
+                          setState(() {
+                            createdArea!.reactionList.remove(temp);
+                          });
+                        },
+                        child: const Text('Delete'))
+                  ],
+                )
+              ])));
         }
       }
     }
