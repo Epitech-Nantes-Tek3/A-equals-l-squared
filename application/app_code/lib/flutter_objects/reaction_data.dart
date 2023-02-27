@@ -14,31 +14,30 @@ class ReactionData {
   List<ParameterContent> parametersContent;
 
   /// Constructor of the reaction class
-  ReactionData(
-      {required this.id,
-      required this.name,
-      required this.description,
-      required this.createdAt,
-      required this.isEnable,
-      required this.serviceId,
-      required this.parameters,
-      required this.parametersContent});
+  ReactionData({required this.id,
+    required this.name,
+    required this.description,
+    required this.createdAt,
+    required this.isEnable,
+    required this.serviceId,
+    required this.parameters,
+    required this.parametersContent});
 
   /// Utility function used for cloning the class
   ReactionData.clone(ReactionData oldReaction)
       : this(
-            id: oldReaction.id,
-            name: oldReaction.name,
-            description: oldReaction.description,
-            createdAt: oldReaction.createdAt,
-            isEnable: oldReaction.isEnable,
-            serviceId: oldReaction.serviceId,
-            parameters: oldReaction.parameters
-                .map((v) => ParameterData.clone(v))
-                .toList(),
-            parametersContent: oldReaction.parametersContent
-                .map((v) => ParameterContent.clone(v))
-                .toList());
+      id: oldReaction.id,
+      name: oldReaction.name,
+      description: oldReaction.description,
+      createdAt: oldReaction.createdAt,
+      isEnable: oldReaction.isEnable,
+      serviceId: oldReaction.serviceId,
+      parameters: oldReaction.parameters
+          .map((v) => ParameterData.clone(v))
+          .toList(),
+      parametersContent: oldReaction.parametersContent
+          .map((v) => ParameterContent.clone(v))
+          .toList());
 
   /// Convert a json map into the class
   factory ReactionData.fromJson(Map<String, dynamic> json) {
@@ -103,6 +102,30 @@ class ReactionData {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: paramWid,
     );
+  }
+
+  Widget? displayReactionDescription() {
+    List<Widget> paramWid = <Widget>[];
+    paramWid.add(
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  description,
+                  style: TextStyle(
+                      color: isEnable ? Colors.green : Colors.red),
+                ), // Change when icon are in DB
+              ]),
+        ],
+      ),
+    );
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: paramWid);
   }
 
   /// Function to display reaction name

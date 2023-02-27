@@ -528,7 +528,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               _reactionCreationState = 2;
             });
           },
-          child: temp.display(false, createUpdate)));
+          child: temp.displayReactionDescription()));
       selectAReaction.add(
         const SizedBox(
           height: 10,
