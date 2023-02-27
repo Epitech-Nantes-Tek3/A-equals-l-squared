@@ -32,6 +32,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Save of the creation state
   AreaData? _createdAreaSave;
 
+  /// An api error message
+  String? _apiErrorMessage;
+
   /// Useful function updating the state
   /// object -> Object who's calling the function
   void createUpdate(ParameterData? object) async {
@@ -86,12 +89,18 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       }
 
       if (response.statusCode != 200) {
+        actionSetting = false;
+        createdArea!.isEnable = false;
+        _apiErrorMessage = response.body;
+        createUpdate(null);
         return 'Error during area $changeType';
       }
+      _apiErrorMessage = null;
       if (changeType == 'create') {
         createdArea = AreaData.fromJson(jsonDecode(response.body));
       }
       await updateAllFlutterObject();
+      createUpdate(null);
       return 'Area successfully $changeType !';
     } catch (err) {
       return 'Error during area $changeType';
@@ -781,7 +790,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                             "Delete ${createdArea != null ? createdArea!.name : ''}"))
                 ],
               )
-            ])
+            ]),
+          Text(_apiErrorMessage != null ? _apiErrorMessage! : '')
         ],
       ),
     )));
