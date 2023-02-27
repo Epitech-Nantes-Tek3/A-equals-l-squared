@@ -40,12 +40,11 @@ const calendarCreateCalendarFromArea = async (Area, dynamicParameters) => {
  * @throws error if the calendar is not created
  */
 const createCalendar =
-    async (from = null, summary, description) => {
+    async (from, summary, description) => {
   try {
-    if (from)
+    if (from && from != 'aequallsquared@gmail.com')
       createCalendarWithAccessToken(from, summary, description)
     else {
-        console.log('calendar: ', calendar)
       const response = await calendar.calendars.insert({
         requestBody: {
           summary: summary,

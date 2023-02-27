@@ -17,6 +17,9 @@ const {
 const {
   calendarCreateEventFromArea
 } = require('../calendar/reactions/create_event')
+const {
+  calendarCreateCalendarFromArea
+} = require('../calendar/reactions/create_calendar')
 /**
  * Get an action from its code
  * @param {String} code
@@ -112,6 +115,7 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
       'DSC-03': () => discordChangeActivityFromArea(area, dynamicParameters),
       'REA-01': () => reaaaaaaaChangeAreaStatus(area, dynamicParameters),
       'CAL-01': () => calendarCreateEventFromArea(area, dynamicParameters),
+      'CAL-02': () => calendarCreateCalendarFromArea(area, dynamicParameters),
     }
     if (!area.isEnable || !area.Reaction.isEnable) {
       return
