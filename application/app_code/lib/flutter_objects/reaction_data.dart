@@ -64,7 +64,6 @@ class ReactionData {
 
   /// Get a visual representation of a Reaction
   /// mode -> true = params, false = only text and desc
-  /// params -> list of all the associated parameter content
   /// update -> Function pointer used for update the state
   Widget display(bool mode, Function? update) {
     List<Widget> paramWid = <Widget>[];
