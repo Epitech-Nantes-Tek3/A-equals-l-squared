@@ -24,7 +24,7 @@ Widget materialElevatedButtonArea(ElevatedButton buttonContent, BuildContext con
     bool isShadowNeeded = false,
     borderColor = Colors.white,
     primaryColor = Colors.white,
-    double borderRadius = 30,
+    double borderRadius = 10,
     double borderWith = 0,
     double paddingVertical = 10,
     double paddingHorizontal = 10}) {
