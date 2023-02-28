@@ -99,7 +99,7 @@ const swaggerOptions = {
   },
   consumes: ['application/json'],
   produces: ['application/json'],
-  apis: ['server_app.js'], // The file that contains your routes
+  apis: ['server_app.js', 'api/*.js'] // The files that contains your routes
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
@@ -776,10 +776,6 @@ app.post('/api/login/google', async (req, res, next) => {
  *               example: <html><body><p>Found. Redirecting to https://www.facebook.com/v9.0/dialog/oauth?client_id=1234567890&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Ffacebook%2Fcallback&response_type=code&scope=email</p></body></html>
  *       500:
  *         description: Server error.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
  */
 app.get(
   '/api/login/facebook',
@@ -812,7 +808,6 @@ app.get(
  *                   example: "Welcome back."
  *                 user:
  *                   type: object
- *                   $ref: '#/definitions/User'
  *                 token:
  *                   type: string
  *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -845,12 +840,11 @@ app.get(
  * /api/token:
  *   post:
  *     tags: [Authentification]
- *     summary: Create/Update auth token.
- *     description: Create or update a user's auth tokens.
+ *     summary: Updates user's tokens.
+ *     description: Update user's Google, Discord, and Deezer tokens.
  *     security:
  *       - bearerAuth: []
  *     requestBody:
- *       description: Request body for creating/updating auth tokens.
  *       required: true
  *       content:
  *         application/json:
@@ -859,11 +853,20 @@ app.get(
  *             properties:
  *               google:
  *                 type: string
+ *                 description: User's Google token.
  *               discord:
  *                 type: string
+ *                 description: User's Discord token.
+ *               deezer:
+ *                 type: string
+ *                 description: User's Deezer token.
+ *             example:
+ *               google: "google_token_string"
+ *               discord: "discord_token_string"
+ *               deezer: "deezer_token_string"
  *     responses:
- *       '200':
- *         description: Returns the updated user with a new token.
+ *       200:
+ *         description: Token updated successfully.
  *         content:
  *           application/json:
  *             schema:
@@ -871,23 +874,55 @@ app.get(
  *               properties:
  *                 status:
  *                   type: string
+ *                   description: Response status.
+ *                   example: "success"
  *                 data:
  *                   type: object
+ *                   description: Response data.
  *                   properties:
  *                     message:
  *                       type: string
+ *                       description: Response message.
+ *                       example: "Token updated."
  *                     user:
- *                       $ref: '#/components/schemas/User'
+ *                       type: object
+ *                       description: User object with updated token information.
+ *                       properties:
+ *                         id:
+ *                           type: integer
+ *                           description: User ID.
+ *                           example: 1
+ *                         googleToken:
+ *                           type: string
+ *                           description: User's Google token.
+ *                           example: "google_token_string"
+ *                         discordToken:
+ *                           type: string
+ *                           description: User's Discord token.
+ *                           example: "discord_token_string"
+ *                         deezerToken:
+ *                           type: string
+ *                           description: User's Deezer token.
+ *                           example: "deezer_token_string"
  *                     token:
  *                       type: string
+ *                       description: New JWT token.
+ *                       example: "jwt_token_string"
  *                 statusCode:
  *                   type: integer
- *       '400':
- *         description: Indicates that the token management system is temporarily deactivated.
- *       '401':
- *         description: Invalid JWT token.
- *       '500':
- *         description: Internal server error.
+ *                   description: Response status code.
+ *                   example: 200
+ *       400:
+ *         description: An error occurred while updating token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *                   example: "Token manager temporarily deactivated."
  */
 app.post(
   '/api/token',
@@ -1869,8 +1904,6 @@ app.get('/api/dev/service/listall', async (req, res) => {
  *         description: Returns the newly created action.
  *         content:
  *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Action'
  *       400:
  *         description: Please pass a complete body.
  *         content:
@@ -1994,8 +2027,6 @@ app.post('/api/dev/reaction/create', async (req, res) => {
  *           application/json:
  *             schema:
  *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Reaction'
  *       '400':
  *         description: An error occurred.
  *         content:
@@ -2046,8 +2077,6 @@ app.get('/api/dev/reaction/listall', async (req, res) => {
  *         description: The newly created parameter.
  *         content:
  *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Parameter'
  *       '400':
  *         description: Please pass a complete body.
  *         content:
@@ -2098,8 +2127,6 @@ app.post('/api/dev/parameter/create', async (req, res) => {
  *           application/json:
  *             schema:
  *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Parameter'
  *       '400':
  *         description: An error occurred.
  *         content:
