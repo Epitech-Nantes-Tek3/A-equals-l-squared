@@ -192,7 +192,7 @@ Widget build(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: &lt;Widget&gt;[
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: &lt;Widget&gt;[
                         IconButton(
                             onPressed: () {
@@ -204,11 +204,15 @@ Widget build(BuildContext context) {
                                 }
                               });
                             },
-                            icon: const Icon(Icons.arrow_back_ios_sharp),
+                            icon: const Icon(Icons.home_filled),
                             color: Colors.black),
+                        const SizedBox(
+                          width: 30,
+                        ),
                         displaySettingsHeader(),
                       ],
                     ),
+                    const SizedBox(height: 30),
                     displaySettingsViews(),
                     FutureBuilder&lt;String&gt;(
                       future: _futureAnswer,

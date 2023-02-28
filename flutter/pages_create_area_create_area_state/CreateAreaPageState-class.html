@@ -100,13 +100,13 @@
       <h2>Properties</h2>
 
       <dl class="properties">
-        <dt id="actionParameterContent" class="property">
-  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/actionParameterContent.html">actionParameterContent</a></span>
-  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../flutter_objects_parameter_data/ParameterContent-class.html">ParameterContent</a></span>&gt;</span></span> 
+        <dt id="actionSetting" class="property">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/actionSetting.html">actionSetting</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> 
 
 </dt>
 <dd>
-  Parameter value of the action
+  Setting of the action set ?
   <div class="features"><span class="feature">read / write</span></div>
 
 </dd>
@@ -141,17 +141,6 @@
 <dd class="inherited">
   Whether this <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> object is currently in a tree.
   <div class="features"><span class="feature">read-only</span><span class="feature">inherited</span></div>
-
-</dd>
-
-        <dt id="reactionParameterContent" class="property">
-  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/reactionParameterContent.html">reactionParameterContent</a></span>
-  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../flutter_objects_parameter_data/ParameterContent-class.html">ParameterContent</a></span>&gt;</span></span> 
-
-</dt>
-<dd>
-  Parameter value of the reaction
-  <div class="features"><span class="feature">read / write</span></div>
 
 </dd>
 
@@ -200,15 +189,41 @@ removed via <a href="https://api.flutter.dev/flutter/widgets/State/deactivate.ht
 
 </dd>
 
-        <dt id="apiAskForAreaCreation" class="callable">
-  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/apiAskForAreaCreation.html">apiAskForAreaCreation</a></span><span class="signature">(<wbr>)
+        <dt id="apiAskForActionChange" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/apiAskForActionChange.html">apiAskForActionChange</a></span><span class="signature">(<wbr><span class="parameter" id="apiAskForActionChange-param-action"><span class="type-annotation"><a href="../flutter_objects_action_data/ActionData-class.html">ActionData</a></span> <span class="parameter-name">action</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Ask the api to create an area
+  Ask the api to change an action
+  
+
+</dd>
+
+        <dt id="apiAskForAreaChange" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/apiAskForAreaChange.html">apiAskForAreaChange</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Ask the api to change an area
+  
+
+</dd>
+
+        <dt id="apiAskForReactionChange" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/apiAskForReactionChange.html">apiAskForReactionChange</a></span><span class="signature">(<wbr><span class="parameter" id="apiAskForReactionChange-param-reaction"><span class="type-annotation"><a href="../flutter_objects_reaction_data/ReactionData-class.html">ReactionData</a></span> <span class="parameter-name">reaction</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Ask the api to change a reaction
   
 
 </dd>
@@ -226,8 +241,34 @@ removed via <a href="https://api.flutter.dev/flutter/widgets/State/deactivate.ht
 
 </dd>
 
+        <dt id="chooseAnAction" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/chooseAnAction.html">chooseAnAction</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  
+  
+
+</dd>
+
+        <dt id="chooseAReaction" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/chooseAReaction.html">chooseAReaction</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; dynamic</span>
+  </span>
+  
+
+</dt>
+<dd>
+  
+  
+
+</dd>
+
         <dt id="createUpdate" class="callable">
-  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/createUpdate.html">createUpdate</a></span><span class="signature">(<wbr><span class="parameter" id="createUpdate-param-object"><span class="type-annotation"><a href="../flutter_objects_parameter_data/ParameterData-class.html">ParameterData</a></span> <span class="parameter-name">object</span></span>)
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/createUpdate.html">createUpdate</a></span><span class="signature">(<wbr><span class="parameter" id="createUpdate-param-object"><span class="type-annotation"><a href="../flutter_objects_parameter_data/ParameterData-class.html">ParameterData</a>?</span> <span class="parameter-name">object</span></span>)
     <span class="returntype parameter">&#8594; void</span>
   </span>
   
@@ -236,19 +277,6 @@ removed via <a href="https://api.flutter.dev/flutter/widgets/State/deactivate.ht
 <dd>
   Useful function updating the state
 object -&gt; Object who's calling the function
-  
-
-</dd>
-
-        <dt id="creationDisplay" class="callable">
-  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/creationDisplay.html">creationDisplay</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  A display function useful for creation steps
   
 
 </dd>
@@ -305,6 +333,32 @@ object -&gt; Object who's calling the function
 
 </dd>
 
+        <dt id="displayActionViewToCreateAnArea" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/displayActionViewToCreateAnArea.html">displayActionViewToCreateAnArea</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  
+  
+
+</dd>
+
+        <dt id="displayReactionViewToCreateAnArea" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/displayReactionViewToCreateAnArea.html">displayReactionViewToCreateAnArea</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  
+  
+
+</dd>
+
         <dt id="dispose" class="callable inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></span><span class="signature">(<wbr>)
     <span class="returntype parameter">&#8594; void</span>
@@ -315,19 +369,6 @@ object -&gt; Object who's calling the function
 <dd class="inherited">
   Called when this object is removed from the tree permanently.
   <div class="features"><span class="feature">inherited</span></div>
-
-</dd>
-
-        <dt id="getAFirstApiAnswer" class="callable">
-  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/getAFirstApiAnswer.html">getAFirstApiAnswer</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
-  </span>
-  
-
-</dt>
-<dd>
-  Initialization function for the api answer
-  
 
 </dd>
 
@@ -495,26 +536,29 @@ tools and by <a href="https://api.flutter.dev/flutter/foundation/DiagnosticsNode
         <li class="section-title">
           <a href="../pages_create_area_create_area_state/CreateAreaPageState-class.html#instance-properties">Properties</a>
         </li>
-          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/actionParameterContent.html">actionParameterContent</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/actionSetting.html">actionSetting</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/context.html">context</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/mounted.html">mounted</a></li>
-          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/reactionParameterContent.html">reactionParameterContent</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/widget.html">widget</a></li>
 
         <li class="section-title"><a href="../pages_create_area_create_area_state/CreateAreaPageState-class.html#instance-methods">Methods</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/activate.html">activate</a></li>
-          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/apiAskForAreaCreation.html">apiAskForAreaCreation</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/apiAskForActionChange.html">apiAskForActionChange</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/apiAskForAreaChange.html">apiAskForAreaChange</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/apiAskForReactionChange.html">apiAskForReactionChange</a></li>
           <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/build.html">build</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/chooseAnAction.html">chooseAnAction</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/chooseAReaction.html">chooseAReaction</a></li>
           <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/createUpdate.html">createUpdate</a></li>
-          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/creationDisplay.html">creationDisplay</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/displayActionViewToCreateAnArea.html">displayActionViewToCreateAnArea</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/displayReactionViewToCreateAnArea.html">displayReactionViewToCreateAnArea</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
-          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/getAFirstApiAnswer.html">getAFirstApiAnswer</a></li>
           <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/initState.html">initState</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>

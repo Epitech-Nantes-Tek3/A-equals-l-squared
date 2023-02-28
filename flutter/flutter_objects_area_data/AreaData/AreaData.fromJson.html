@@ -72,24 +72,47 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">factory AreaData.fromJson(Map&lt;String, dynamic&gt; json) {
-  List&lt;ParameterContent&gt; actionParameters = &lt;ParameterContent&gt;[];
-  for (var temp in json[&#39;ActionParameters&#39;]) {
-    actionParameters.add(ParameterContent.fromJson(temp));
-  }
-  List&lt;ParameterContent&gt; reactionParameters = &lt;ParameterContent&gt;[];
-  for (var temp in json[&#39;ReactionParameters&#39;]) {
-    reactionParameters.add(ParameterContent.fromJson(temp));
+  List&lt;ActionData&gt; actionList = &lt;ActionData&gt;[];
+  List&lt;ReactionData&gt; reactionList = &lt;ReactionData&gt;[];
+  try {
+    for (var temp in json[&#39;Actions&#39;]) {
+      actionList.add(getActionDataById(temp[&#39;Action&#39;][&#39;id&#39;])!);
+      actionList.last.id = temp[&#39;id&#39;];
+      for (var temp2 in temp[&#39;ActionParameters&#39;]) {
+        actionList.last.parametersContent
+            .add(ParameterContent.fromJson(temp2));
+        try {
+          actionList.last.parametersContent.last.id = temp2[&#39;id&#39;];
+        } catch (err) {
+          debugPrint(err.toString());
+        }
+      }
+    }
+    for (var temp in json[&#39;Reactions&#39;]) {
+      reactionList.add(getReactionDataById(temp[&#39;Reaction&#39;][&#39;id&#39;])!);
+      reactionList.last.id = temp[&#39;id&#39;];
+      for (var temp2 in temp[&#39;ReactionParameters&#39;]) {
+        reactionList.last.parametersContent
+            .add(ParameterContent.fromJson(temp2));
+        try {
+          reactionList.last.parametersContent.last.id = temp2[&#39;id&#39;];
+        } catch (err) {
+          debugPrint(err.toString());
+        }
+      }
+    }
+  } catch (err) {
+    err;
   }
   return AreaData(
       id: json[&#39;id&#39;],
       name: json[&#39;name&#39;],
-      userId: json[&#39;userId&#39;],
-      actionId: json[&#39;actionId&#39;],
-      reactionId: json[&#39;reactionId&#39;],
+      userId: &#39;&#39;,
+      actionList: actionList,
+      reactionList: reactionList,
       isEnable: json[&#39;isEnable&#39;],
       description: json[&#39;description&#39;],
-      actionParameters: actionParameters,
-      reactionParameters: reactionParameters);
+      logicalGate: json[&#39;logicalGate&#39;]);
 }</code></pre>
 </section>
 
@@ -123,16 +146,16 @@
         <li class="section-title">
           <a href="../../flutter_objects_area_data/AreaData-class.html#instance-properties">Properties</a>
         </li>
-          <li><a href="../../flutter_objects_area_data/AreaData/actionId.html">actionId</a></li>
-          <li><a href="../../flutter_objects_area_data/AreaData/actionParameters.html">actionParameters</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/actionList.html">actionList</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/description.html">description</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/id.html">id</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/isEnable.html">isEnable</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/logicalGate.html">logicalGate</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/name.html">name</a></li>
-          <li><a href="../../flutter_objects_area_data/AreaData/reactionId.html">reactionId</a></li>
-          <li><a href="../../flutter_objects_area_data/AreaData/reactionParameters.html">reactionParameters</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/reactionList.html">reactionList</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+          <li><a href="../../flutter_objects_area_data/AreaData/serviceId.html">serviceId</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/userId.html">userId</a></li>
 
         <li class="section-title"><a href="../../flutter_objects_area_data/AreaData-class.html#instance-methods">Methods</a></li>
@@ -141,7 +164,6 @@
           <li><a href="../../flutter_objects_area_data/AreaData/displayAreaDescription.html">displayAreaDescription</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/displayAreaName.html">displayAreaName</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/displayAreaPreview.html">displayAreaPreview</a></li>
-          <li><a href="../../flutter_objects_area_data/AreaData/displayForCreate.html">displayForCreate</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/getAssociatedService.html">getAssociatedService</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/getPrimaryColor.html">getPrimaryColor</a></li>
           <li><a href="../../flutter_objects_area_data/AreaData/getSecondaryColor.html">getSecondaryColor</a></li>

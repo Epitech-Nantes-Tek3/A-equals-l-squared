@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the reactionParameterContent property from the CreateAreaPageState class, for the Dart programming language.">
-  <title>reactionParameterContent property - CreateAreaPageState class - create_area_state library - Dart API</title>
+  <meta name="description" content="API docs for the apiAskForAreaChange method from the CreateAreaPageState class, for the Dart programming language.">
+  <title>apiAskForAreaChange method - CreateAreaPageState class - create_area_state library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">application</a></li>
     <li><a href="../../pages_create_area_create_area_state/pages_create_area_create_area_state-library.html">create_area_state</a></li>
     <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html">CreateAreaPageState</a></li>
-    <li class="self-crumb">reactionParameterContent property</li>
+    <li class="self-crumb">apiAskForAreaChange method</li>
   </ol>
-  <div class="self-name">reactionParameterContent</div>
+  <div class="self-name">apiAskForAreaChange</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -53,25 +53,82 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-property">reactionParameterContent</span> property 
+<h1><span class="kind-method">apiAskForAreaChange</span> method 
 </h1></div>
 
-        <section class="multi-line-signature">
-          
-          <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../flutter_objects_parameter_data/ParameterContent-class.html">ParameterContent</a></span>&gt;</span>
-          <span class="name ">reactionParameterContent</span>
-          <div class="features"><span class="feature">read / write</span></div>
+    <section class="multi-line-signature">
+      
 
-        </section>
-        
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+<span class="name ">apiAskForAreaChange</span>(<wbr>)
+
+      
+
+    </section>
+    
 <section class="desc markdown">
-  <p>Parameter value of the reaction</p>
+  <p>Ask the api to change an area</p>
 </section>
 
-        
+
+    
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">List&lt;ParameterContent&gt; reactionParameterContent = &lt;ParameterContent&gt;[];</code></pre>
+  <pre class="language-dart"><code class="language-dart">Future&lt;String&gt; apiAskForAreaChange() async {
+  try {
+    late http.Response response;
+    if (changeType == &#39;create&#39;) {
+      response = await http.post(
+        Uri.parse(&#39;http:&#47;&#47;$serverIp:8080&#47;api&#47;area&#39;),
+        headers: &lt;String, String&gt;{
+          &#39;Content-Type&#39;: &#39;application&#47;json; charset=UTF-8&#39;,
+          &#39;Authorization&#39;: &#39;Bearer ${userInformation!.token}&#39;,
+        },
+        body: jsonEncode(&lt;String, dynamic&gt;{
+          &quot;name&quot;: createdArea!.name,
+          &quot;description&quot;: createdArea!.description,
+          &quot;isEnable&quot;: createdArea!.isEnable,
+          &quot;logicalGate&quot;: createdArea!.logicalGate
+        }),
+      );
+    } else if (changeType == &#39;update&#39;) {
+      response = await http.put(
+        Uri.parse(&#39;http:&#47;&#47;$serverIp:8080&#47;api&#47;area&#47;${createdArea!.id}&#39;),
+        headers: &lt;String, String&gt;{
+          &#39;Content-Type&#39;: &#39;application&#47;json; charset=UTF-8&#39;,
+          &#39;Authorization&#39;: &#39;Bearer ${userInformation!.token}&#39;,
+        },
+        body: jsonEncode(&lt;String, dynamic&gt;{
+          &quot;name&quot;: createdArea!.name,
+          &quot;description&quot;: createdArea!.description,
+          &quot;isEnable&quot;: createdArea!.isEnable,
+          &quot;logicalGate&quot;: createdArea!.logicalGate
+        }),
+      );
+    } else if (changeType == &#39;delete&#39;) {
+      response = await http.delete(
+        Uri.parse(&#39;http:&#47;&#47;$serverIp:8080&#47;api&#47;area&#47;${createdArea!.id}&#39;),
+        headers: &lt;String, String&gt;{
+          &#39;Content-Type&#39;: &#39;application&#47;json; charset=UTF-8&#39;,
+          &#39;Authorization&#39;: &#39;Bearer ${userInformation!.token}&#39;,
+        },
+      );
+    } else {
+      return &#39;Error during $changeType process&#39;;
+    }
+
+    if (response.statusCode != 200) {
+      return &#39;Error during area $changeType&#39;;
+    }
+    if (changeType == &#39;create&#39;) {
+      createdArea = AreaData.fromJson(jsonDecode(response.body));
+    }
+    await updateAllFlutterObject();
+    return &#39;Area successfully $changeType !&#39;;
+  } catch (err) {
+    return &#39;Error during area $changeType&#39;;
+  }
+}</code></pre>
 </section>
 
 
@@ -88,7 +145,7 @@
   <li><a href="../../index.html">application</a></li>
   <li><a href="../../pages_create_area_create_area_state/pages_create_area_create_area_state-library.html">create_area_state</a></li>
   <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html">CreateAreaPageState</a></li>
-  <li class="self-crumb">reactionParameterContent property</li>
+  <li class="self-crumb">apiAskForAreaChange method</li>
 </ol>
 
 
@@ -102,26 +159,29 @@
         <li class="section-title">
           <a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html#instance-properties">Properties</a>
         </li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/actionParameterContent.html">actionParameterContent</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/actionSetting.html">actionSetting</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/context.html">context</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/mounted.html">mounted</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/reactionParameterContent.html">reactionParameterContent</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/widget.html">widget</a></li>
 
         <li class="section-title"><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html#instance-methods">Methods</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/activate.html">activate</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/apiAskForAreaCreation.html">apiAskForAreaCreation</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/apiAskForActionChange.html">apiAskForActionChange</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/apiAskForAreaChange.html">apiAskForAreaChange</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/apiAskForReactionChange.html">apiAskForReactionChange</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/build.html">build</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/chooseAnAction.html">chooseAnAction</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/chooseAReaction.html">chooseAReaction</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/createUpdate.html">createUpdate</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/creationDisplay.html">creationDisplay</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/displayActionViewToCreateAnArea.html">displayActionViewToCreateAnArea</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/displayReactionViewToCreateAnArea.html">displayReactionViewToCreateAnArea</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/getAFirstApiAnswer.html">getAFirstApiAnswer</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/initState.html">initState</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>

@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the getAFirstApiAnswer method from the CreateAreaPageState class, for the Dart programming language.">
-  <title>getAFirstApiAnswer method - CreateAreaPageState class - create_area_state library - Dart API</title>
+  <meta name="description" content="API docs for the chooseAnAction method from the CreateAreaPageState class, for the Dart programming language.">
+  <title>chooseAnAction method - CreateAreaPageState class - create_area_state library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">application</a></li>
     <li><a href="../../pages_create_area_create_area_state/pages_create_area_create_area_state-library.html">create_area_state</a></li>
     <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html">CreateAreaPageState</a></li>
-    <li class="self-crumb">getAFirstApiAnswer method</li>
+    <li class="self-crumb">chooseAnAction method</li>
   </ol>
-  <div class="self-name">getAFirstApiAnswer</div>
+  <div class="self-name">chooseAnAction</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -53,29 +53,155 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">getAFirstApiAnswer</span> method 
+<h1><span class="kind-method">chooseAnAction</span> method 
 </h1></div>
 
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
-<span class="name ">getAFirstApiAnswer</span>(<wbr>)
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>&gt;</span></span>
+<span class="name ">chooseAnAction</span>(<wbr>)
 
       
 
     </section>
     
-<section class="desc markdown">
-  <p>Initialization function for the api answer</p>
-</section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;String&gt; getAFirstApiAnswer() async {
-  return &#39;&#39;;
+  <pre class="language-dart"><code class="language-dart">List&lt;Widget&gt; chooseAnAction() {
+  List&lt;Widget&gt; createAnAction = &lt;Widget&gt;[];
+
+  if (_isChoosingAnAction == true &amp;&amp; _actionCreationState == 0) {
+    createAnAction.add(const Text(&quot;Choose your Action service&quot;));
+    for (var temp in serviceDataList) {
+      if (temp.actions.isEmpty) {
+        continue;
+      }
+      createAnAction.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
+      createAnAction.add(ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            side: const BorderSide(width: 3, color: Colors.white),
+
+            &#47;&#47;&#47; Change when DB is Up
+            primary: Colors.white,
+          ),
+          onPressed: () {
+            setState(() {
+              _createdAreaSave = AreaData.clone(createdArea!);
+              createdArea!.serviceId = ServiceData.clone(temp);
+              _actionCreationState = 1;
+            });
+          },
+          child: temp.display()));
+      createAnAction.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
+    }
+  }
+  if (_actionCreationState == 1) {
+    createAnAction.add(Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const &lt;Widget&gt;[Text(&quot;Choose your Action&quot;)]));
+    createAnAction.add(
+      const SizedBox(
+        height: 30,
+      ),
+    );
+    for (var temp in createdArea!.serviceId!.actions) {
+      createAnAction.add(ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            side: const BorderSide(width: 3, color: Colors.white),
+
+            &#47;&#47;&#47; Change when DB is Up
+            primary: Colors.white,
+          ),
+          onPressed: () {
+            setState(() {
+              _createdAreaSave = AreaData.clone(createdArea!);
+              createdArea!.actionList.add(ActionData.clone(temp));
+              for (var tmp in temp.parameters) {
+                createdArea!.actionList.last.parametersContent.add(
+                    ParameterContent(paramId: tmp.id, value: &quot;&quot;, id: &#39;&#39;));
+              }
+              _actionCreationState = 2;
+            });
+          },
+          child: temp.display(false, createUpdate)));
+      createAnAction.add(
+        const SizedBox(
+          height: 10,
+        ),
+      );
+    }
+  }
+
+  if (_actionCreationState == 2) {
+    createAnAction.add(const Text(&quot;Configure your Action&quot;));
+    createAnAction.add(
+      const SizedBox(
+        height: 10,
+      ),
+    );
+    createAnAction
+        .add(createdArea!.actionList.last.display(true, createUpdate));
+    createAnAction.add(
+      const SizedBox(
+        height: 10,
+      ),
+    );
+    createAnAction.add(ElevatedButton(
+        onPressed: () {
+          setState(() {
+            bool isRequired = true;
+            _createdAreaSave = AreaData.clone(createdArea!);
+            for (var temp in createdArea!.actionList.last.parameters) {
+              if (temp.isRequired &amp;&amp; temp.matchedContent!.value == &quot;&quot;) {
+                isRequired = false;
+              }
+            }
+            if (isRequired) {
+              _actionCreationState = 0;
+
+              changeType = &#39;create&#39;;
+              apiAskForActionChange(createdArea!.actionList.last);
+              _isChoosingAnAction = false;
+            }
+          });
+        },
+        child: const Text(&quot;Validate&quot;)));
+  }
+
+  if (_isChoosingAnAction) {
+    createAnAction
+        .add(Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      ElevatedButton(
+        key: const Key(&#39;CreateActionPreviousButton&#39;),
+        onPressed: () {
+          setState(() {
+            createdArea = AreaData.clone(_createdAreaSave!);
+            if (_actionCreationState == 0) {
+              _isChoosingAnAction = false;
+              _actionCreationState = 0;
+            }
+            _actionCreationState -= 1;
+          });
+        },
+        child: const Text(&#39;Previous&#39;),
+      ),
+    ]));
+  }
+  return createAnAction;
 }</code></pre>
 </section>
 
@@ -93,7 +219,7 @@
   <li><a href="../../index.html">application</a></li>
   <li><a href="../../pages_create_area_create_area_state/pages_create_area_create_area_state-library.html">create_area_state</a></li>
   <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html">CreateAreaPageState</a></li>
-  <li class="self-crumb">getAFirstApiAnswer method</li>
+  <li class="self-crumb">chooseAnAction method</li>
 </ol>
 
 
@@ -107,26 +233,29 @@
         <li class="section-title">
           <a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html#instance-properties">Properties</a>
         </li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/actionParameterContent.html">actionParameterContent</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/actionSetting.html">actionSetting</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/context.html">context</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/mounted.html">mounted</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/reactionParameterContent.html">reactionParameterContent</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/widget.html">widget</a></li>
 
         <li class="section-title"><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html#instance-methods">Methods</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/activate.html">activate</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/apiAskForAreaCreation.html">apiAskForAreaCreation</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/apiAskForActionChange.html">apiAskForActionChange</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/apiAskForAreaChange.html">apiAskForAreaChange</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/apiAskForReactionChange.html">apiAskForReactionChange</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/build.html">build</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/chooseAnAction.html">chooseAnAction</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/chooseAReaction.html">chooseAReaction</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/createUpdate.html">createUpdate</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/creationDisplay.html">creationDisplay</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/displayActionViewToCreateAnArea.html">displayActionViewToCreateAnArea</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/displayReactionViewToCreateAnArea.html">displayReactionViewToCreateAnArea</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/getAFirstApiAnswer.html">getAFirstApiAnswer</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/initState.html">initState</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>

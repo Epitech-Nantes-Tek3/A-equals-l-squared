@@ -94,7 +94,7 @@
     }
 
     response = await http.get(
-      Uri.parse(&#39;http:&#47;&#47;$serverIp:8080&#47;api&#47;get&#47;area&#39;),
+      Uri.parse(&#39;http:&#47;&#47;$serverIp:8080&#47;api&#47;area&#39;),
       headers: &lt;String, String&gt;{
         &#39;Content-Type&#39;: &#39;application&#47;json; charset=UTF-8&#39;,
         &#39;Authorization&#39;: &#39;Bearer ${userInformation!.token}&#39;,
@@ -104,7 +104,7 @@
     if (response.statusCode == 200) {
       List&lt;AreaData&gt; newList = &lt;AreaData&gt;[];
       var json = jsonDecode(response.body);
-      for (var temp in json[&#39;data&#39;][&#39;areas&#39;]) {
+      for (var temp in json) {
         newList.add(AreaData.fromJson(temp));
       }
       areaDataList = newList;

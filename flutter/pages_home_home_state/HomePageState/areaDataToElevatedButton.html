@@ -80,7 +80,7 @@
   return materialElevatedButtonArea(
     ElevatedButton(
         onPressed: () {
-          updatingArea = areaData;
+          createdArea = AreaData.clone(areaData);
           goToUpdateAreaPage(context);
         },
         child: areaData.display(false, null)),
