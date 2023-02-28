@@ -142,20 +142,24 @@ class AreaData {
   /// This function display an Area preview with the logo, the name and the description
   Widget displayAreaPreview() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             getServiceIcon(),
-            Text(
-              name,
-              style: const TextStyle(color: Colors.black),
+            Expanded(
+              child: Text(
+                name,
+                style: const TextStyle(color: Colors.black),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
         const SizedBox(height: 20),
         Text(
+          description == null ? 'Description : \n\n No description' :
           'Description : \n\n $description',
           style: const TextStyle(color: Colors.black),
         )
