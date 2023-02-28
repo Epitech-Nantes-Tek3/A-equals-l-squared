@@ -1,3 +1,4 @@
+import 'package:application/flutter_objects/user_data.dart';
 import 'package:application/network/informations.dart';
 import 'package:application/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,12 @@ import 'package:flutter_test/flutter_test.dart';
 
 void settingsPageTest() {
   testWidgets('Some test with the settings page', (WidgetTester tester) async {
-    userInformation = null;
+    userInformation = UserData(
+        userName: 'testing',
+        email: 'testing',
+        isAdmin: false,
+        createdAt: DateTime(1));
+    ;
     await tester.pumpWidget(
       MaterialApp(
         title: 'Testing app',
