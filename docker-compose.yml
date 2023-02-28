@@ -3,14 +3,14 @@ services:
   database:
     build: ./server/database
     env_file:
-      - ./server/database.env
+      - ./server/.env
     environment:
-      MYSQL_ROOT_PASSWORD: $${password}
-      MYSQL_DATABASE: $${database}
+      MYSQL_ROOT_PASSWORD: ${password}
+      MYSQL_DATABASE: ${database}
     volumes:
       - .:/code
     healthcheck:
-      test: mysqladmin ping -h 127.0.0.1 -u $${user} --password=$${password}
+      test: mysqladmin ping -h 127.0.0.1 -u ${user} --password=${password}
       interval: 5s
       timeout: 45s
       retries: 40
@@ -60,11 +60,11 @@ services:
     links:
       - client_web
     env_file:
-      - ./server/database.env
+      - ./server/.env
     environment:
+      - AUTH_TOKEN=$password
       - DOMAIN=client_web
       - PORT=8080
-      - AUTH_TOKEN=$${NGROK_AUTH_TOKEN}
 
 volumes:
   common:
