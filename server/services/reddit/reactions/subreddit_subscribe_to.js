@@ -5,17 +5,17 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 
 /**
  * @brief Subscribe to a subreddit from an area
- * @param {*} Area Area that contains the parameters
+ * @param {*} ReactionParameters Reaction parameters
  * @param {*} dynamicParameters Dynamic parameters
+ * @param {*} User User that contains the token
  * @returns True if it was successful, false otherwise
  */
-function redditSubscribeToSubredditFromArea (Area, dynamicParameters) {
-  const reactionParameters = Area.ReactionParameters
-  let subredditName = reactionParameters.find(
+function redditSubscribeToSubredditFromAreaParameters(ReactionParameters, dynamicParameters, User) {
+  let subredditName = ReactionParameters.find(
     parameter => parameter.Parameter.name == 'subredditName'
   ).value
   subredditName = replaceDynamicParameters(subredditName, dynamicParameters)
-  return subscribeToSubreddit(Area.User.redditToken, subredditName)
+  return subscribeToSubreddit(User.redditToken, subredditName)
 }
 
 /**
@@ -48,6 +48,6 @@ async function subscribeToSubreddit (token, subredditName) {
 }
 
 module.exports = {
-  redditSubscribeToSubredditFromArea,
+  redditSubscribeToSubredditFromAreaParameters,
   subscribeToSubreddit
 }

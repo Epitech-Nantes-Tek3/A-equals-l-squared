@@ -49,7 +49,7 @@ const createRedditService = async () => {
               }
             },
             {
-              name: 'subscribeToNewSubreddit',
+              name: 'redditSubscribeToNewSubreddit',
               code: 'RDT-03',
               description: 'Subscribe to a subreddit created recently',
               isEnable: true

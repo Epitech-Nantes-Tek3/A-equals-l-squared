@@ -34,13 +34,13 @@ const {
 } = require('../reaaaaaaa/reactions/change_area_status')
 
 const {
-  redditUnsubscribeToSubredditFromArea
+  redditUnsubscribeToSubredditFromAreaParameters
 } = require('../reddit/reactions/subreddit_unsubscribe')
 const {
-  redditSubscribeToSubredditFromArea
+  redditSubscribeToSubredditFromAreaParameters
 } = require('../reddit/reactions/subreddit_subscribe_to')
 const {
-  subscribeToNewSubreddit
+  redditSubscribeToNewSubreddit
 } = require('../reddit/reactions/subreddit_subscribe_new')
 
 const {
@@ -226,9 +226,9 @@ const reactionsList = {
       dynamicParameters,
       User
     ),
-  'RDT-01': () => redditSubscribeToSubredditFromArea(area, dynamicParameters),
-  'RDT-02': () => redditUnsubscribeToSubredditFromArea(area, dynamicParameters),
-  'RDT-03': () => subscribeToNewSubreddit(area.User.redditToken)
+  'RDT-01': (ReactionParameters, dynamicParameters, User) => redditSubscribeToSubredditFromAreaParameters(ReactionParameters, dynamicParameters, User),
+  'RDT-02': (ReactionParameters, dynamicParameters, User) => redditUnsubscribeToSubredditFromAreaParameters(ReactionParameters, dynamicParameters, User),
+  'RDT-03': (ReactionParameters, dynamicParameters, User) => redditSubscribeToNewSubreddit(User.redditToken)
 }
 
 const updateTriggeredLink = async (linkId, triggered) => {

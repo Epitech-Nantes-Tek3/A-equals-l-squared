@@ -7,7 +7,7 @@ const axios = require('axios')
  * @param {*} token Reddit token of the user
  * @returns True if it was successful, false otherwise
  */
-async function subscribeToNewSubreddit (token) {
+async function redditSubscribeToNewSubreddit (token) {
   try {
     const response_get = await axios.get(
       'http://oauth.reddit.com/subreddits/new',
@@ -44,5 +44,5 @@ async function subscribeToNewSubreddit (token) {
 }
 
 module.exports = {
-  subscribeToNewSubreddit
+  redditSubscribeToNewSubreddit
 }
