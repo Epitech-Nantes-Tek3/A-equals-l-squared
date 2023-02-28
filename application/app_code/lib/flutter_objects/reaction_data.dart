@@ -66,6 +66,8 @@ class ReactionData {
     return parametersContent;
   }
 
+  /// Get a visual representation of a Reaction
+  /// update -> Function pointer used for update the state
   Widget displayReactionModificationView(Function? update) {
     List<Widget> paramWid = <Widget>[];
 

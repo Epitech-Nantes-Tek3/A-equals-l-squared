@@ -217,6 +217,7 @@ class ParameterData {
             matchedContent!.value = key;
           }
         }
+        matchedContent!.getParameterData()!.getterValue = getterValue;
         return;
       } else {
         return;

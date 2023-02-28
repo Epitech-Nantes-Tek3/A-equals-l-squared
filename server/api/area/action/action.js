@@ -1,5 +1,10 @@
 'use strict'
 
+const {
+  TriggerInitMap,
+  TriggerDestroyMap
+} = require('../../../services/timetime/init')
+
 module.exports = function (app, passport, database) {
   /**
    * @api {get} /api/area/:areaId/action Get all actions
@@ -174,6 +179,7 @@ module.exports = function (app, passport, database) {
             id: req.params.areaId
           },
           select: {
+            isEnable: true,
             userId: true
           }
         })
@@ -210,7 +216,8 @@ module.exports = function (app, passport, database) {
               select: {
                 id: true,
                 name: true,
-                isEnable: true
+                isEnable: true,
+                code: true
               }
             },
             ActionParameters: {
@@ -226,6 +233,14 @@ module.exports = function (app, passport, database) {
             }
           }
         })
+        if (area.isEnable && TriggerInitMap[action.Action.code]) {
+          if (!TriggerInitMap[action.Action.code](action)) {
+            await database.prisma.AREAhasActions.delete({
+              where: { id: action.id }
+            })
+            return res.status(400).send('Please pass a valid parameter list !')
+          }
+        }
         res.status(200).json(action)
       } catch (error) {
         console.log(error)
@@ -276,8 +291,18 @@ module.exports = function (app, passport, database) {
         const action = await database.prisma.AREAhasActions.delete({
           where: {
             id: req.params.id
+          },
+          select: {
+            id: true,
+            Action: {
+              select: {
+                code: true
+              }
+            }
           }
         })
+        if (TriggerDestroyMap[action.Action.code])
+          TriggerDestroyMap[action.Action.code](action)
         res.status(200).json(action)
       } catch (error) {
         console.log(error)
@@ -317,6 +342,7 @@ module.exports = function (app, passport, database) {
             id: req.params.areaId
           },
           select: {
+            isEnable: true,
             userId: true,
             Actions: {
               select: {
@@ -345,6 +371,35 @@ module.exports = function (app, passport, database) {
           })
           resolve(updatedActionParameters)
         })
+        const action = await database.prisma.AREAhasActions.findUnique({
+          where: {
+            id: req.params.id
+          },
+          select: {
+            id: true,
+            Action: {
+              select: {
+                code: true
+              }
+            },
+            ActionParameters: {
+              select: {
+                id: true,
+                Parameter: {
+                  select: {
+                    name: true
+                  }
+                },
+                value: true
+              }
+            }
+          }
+        })
+        if (TriggerDestroyMap[action.Action.code])
+          TriggerDestroyMap[action.Action.code](action)
+        if (area.isEnable && TriggerInitMap[action.Action.code])
+          if (!TriggerInitMap[action.Action.code](action))
+            return res.status(400).send('Please pass a valid parameter list !')
         res.status(200).json(response)
       } catch (error) {
         console.log(error)
