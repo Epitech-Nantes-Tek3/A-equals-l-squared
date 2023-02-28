@@ -462,11 +462,8 @@ app.post(
         data: {
           googleToken: req.body.google != '' ? req.body.google : null,
           discordToken: req.body.discord != '' ? req.body.discord : null,
-<<<<<<< HEAD
-          redditToken: req.body.reddit != '' ? req.body.reddit : null
-=======
+          redditToken: req.body.reddit != '' ? req.body.reddit : null,
           deezerToken: req.body.deezer != '' ? req.body.deezer : null
->>>>>>> main
         }
       })
       const token = utils.generateToken(user.id)
