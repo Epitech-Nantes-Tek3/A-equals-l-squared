@@ -2,6 +2,15 @@ import 'package:application/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'testsFlutterObjects/action_data_tests.dart';
+import 'testsFlutterObjects/area_data_tests.dart';
+import 'testsFlutterObjects/dynamic_parameter_data_tests.dart';
+import 'testsFlutterObjects/error_data_tests.dart';
+import 'testsFlutterObjects/parameter_data_tests.dart';
+import 'testsFlutterObjects/reaction_data_tests.dart';
+import 'testsFlutterObjects/service_data_tests.dart';
+import 'testsFlutterObjects/user_data_tests.dart';
+
 void templateFunction() {
   testWidgets('Just a basic template test', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
@@ -25,11 +34,17 @@ void templateFunction() {
   });
 }
 
-void uselessTest() {
-  testWidgets('Just a basic template test', (WidgetTester tester) async {});
+void flutterObjectTest() {
+  actionDataTest();
+  areaDataTest();
+  dynamicParameterDataTest();
+  errorDataTest();
+  parameterDataTest();
+  reactionDataTest();
+  serviceDataTest();
+  userDataTest();
 }
 
 void main() {
-  uselessTest();
-  //loginPageTest(); Removed for the moment
+  flutterObjectTest();
 }
