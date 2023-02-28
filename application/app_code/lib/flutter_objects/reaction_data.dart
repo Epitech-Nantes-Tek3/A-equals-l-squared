@@ -10,6 +10,7 @@ class ReactionData {
   DateTime createdAt;
   bool isEnable;
   String serviceId;
+  bool isPreviewDisplayMax;
   List<ParameterData> parameters;
   List<ParameterContent> parametersContent;
 
@@ -21,6 +22,7 @@ class ReactionData {
       required this.createdAt,
       required this.isEnable,
       required this.serviceId,
+      required this.isPreviewDisplayMax,
       required this.parameters,
       required this.parametersContent});
 
@@ -31,6 +33,7 @@ class ReactionData {
             name: oldReaction.name,
             description: oldReaction.description,
             createdAt: oldReaction.createdAt,
+            isPreviewDisplayMax: false,
             isEnable: oldReaction.isEnable,
             serviceId: oldReaction.serviceId,
             parameters: oldReaction.parameters
@@ -54,6 +57,7 @@ class ReactionData {
         isEnable: json['isEnable'],
         serviceId: json['serviceId'],
         parameters: parameters,
+        isPreviewDisplayMax: false,
         parametersContent: <ParameterContent>[]);
   }
 
@@ -64,14 +68,39 @@ class ReactionData {
 
   Widget displayReactionModificationView(Function? update) {
     List<Widget> paramWid = <Widget>[];
-    paramWid.add(displayReactionDescription());
-    ParameterData? previous;
-    for (var temp in parameters) {
-      paramWid.add(temp.display(parametersContent, previous, update!));
-      if (temp.isRequired == true && temp.getterUrl != null) {
-        previous = temp;
-      } else {
-        previous = null;
+
+    paramWid.add(Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            displayReactionDescription(),
+            IconButton(
+                onPressed: () {
+                  if (isPreviewDisplayMax) {
+                    isPreviewDisplayMax = false;
+                  } else {
+                    isPreviewDisplayMax = true;
+                  }
+                  update!(null);
+                },
+                icon: isPreviewDisplayMax
+                    ? const Icon(Icons.expand_circle_down_outlined)
+                    : const Icon(Icons.arrow_circle_up_outlined))
+          ],
+        )
+      ],
+    ));
+
+    if (isPreviewDisplayMax) {
+      ParameterData? previous;
+      for (var temp in parameters) {
+        paramWid.add(temp.display(parametersContent, previous, update!));
+        if (temp.isRequired == true && temp.getterUrl != null) {
+          previous = temp;
+        } else {
+          previous = null;
+        }
       }
     }
     return Column(
@@ -84,24 +113,21 @@ class ReactionData {
     List<Widget> paramWid = <Widget>[];
     paramWid.add(
       Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  description,
-                  style: TextStyle(color: isEnable ? Colors.green : Colors.red),
+                  '$description Reaction configuration : ',
+                  style: const TextStyle(color: Colors.black, fontSize: 14),
                 ), // Change when icon are in DB
               ]),
         ],
       ),
     );
     return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: paramWid);
+        crossAxisAlignment: CrossAxisAlignment.center, children: paramWid);
   }
 
   /// Function to display reaction name
