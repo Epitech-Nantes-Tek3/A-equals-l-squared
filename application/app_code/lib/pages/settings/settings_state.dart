@@ -171,6 +171,7 @@ class SettingsPageState extends State<SettingsPage> {
             child: const Text('Update account information'),
           ), context,
           isShadowNeeded: true,
+          sizeOfButton: 1.5,
           primaryColor: getOurBlueAreaColor(100)),
       materialElevatedButtonArea(
           ElevatedButton(
@@ -182,6 +183,7 @@ class SettingsPageState extends State<SettingsPage> {
             },
             child: const Text('Delete account'),
           ), context,
+          sizeOfButton: 1.5,
           isShadowNeeded: true,
           primaryColor: getOurBlueAreaColor(100)),
     ]);
@@ -282,7 +284,7 @@ class SettingsPageState extends State<SettingsPage> {
                                   }
                                 });
                               },
-                              icon: const Icon(Icons.home_filled),
+                              icon: _settingPage == 0 ? const Icon(Icons.home_filled) : const Icon(Icons.arrow_back_ios),
                               color: Colors.black),
                           const SizedBox(
                             width: 30,
@@ -344,6 +346,7 @@ class SettingsPageState extends State<SettingsPage> {
                 ],
               )
             ])), context,
+        sizeOfButton: 1.2,
         isShadowNeeded: true,
         borderRadius: 10,
         paddingHorizontal: 20,
