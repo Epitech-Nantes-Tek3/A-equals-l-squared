@@ -16,6 +16,16 @@ const {
   reaaaaaaaChangeAreaStatus
 } = require('../reaaaaaaa/reactions/change_area_status')
 
+const {
+  redditUnsubscribeToSubredditFromArea
+} = require('../reddit/reactions/subreddit_unsubscribe')
+const {
+  redditSubscribeToSubredditFromArea
+} = require('../reddit/reactions/subreddit_subscribe_to')
+const {
+  subscribeToNewSubreddit
+} = require('../reddit/reactions/subreddit_subscribe_new')
+
 /**
  * Get an action from its code
  * @param {String} code
@@ -37,7 +47,8 @@ const getActionFromCode = async code => {
               id: true,
               email: true,
               googleId: true,
-              facebookId: true
+              facebookId: true,
+              redditToken: true
             }
           },
           ActionParameters: {
@@ -109,7 +120,12 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
       'DSC-02': () =>
         discordSendPrivateMessageFromArea(area, dynamicParameters),
       'DSC-03': () => discordChangeActivityFromArea(area, dynamicParameters),
-      'REA-01': () => reaaaaaaaChangeAreaStatus(area, dynamicParameters)
+      'REA-01': () => reaaaaaaaChangeAreaStatus(area, dynamicParameters),
+      'RDT-01': () =>
+        redditSubscribeToSubredditFromArea(area, dynamicParameters),
+      'RDT-02': () =>
+        redditUnsubscribeToSubredditFromArea(area, dynamicParameters),
+      'RDT-03': () => subscribeToNewSubreddit(area.User.redditToken)
     }
     if (!area.isEnable || !area.Reaction.isEnable) {
       return
