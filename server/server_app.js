@@ -16,7 +16,6 @@ const utils = require('./utils')
 const gmail = require('./services/gmail/reactions/send_email')
 const jwt = require('jwt-simple')
 const { hash } = require('./utils')
-const axios = require('axios')
 require('dotenv').config({ path: '../database.env' })
 
 const onMessage = require('./services/discord/actions/on_message')
