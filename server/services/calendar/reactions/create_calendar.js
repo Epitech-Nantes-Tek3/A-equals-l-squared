@@ -3,61 +3,34 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 const { google } = require('googleapis')
 
 /**
- * @brief create an event
- * @param {*} Area the area
+ * @brief create an calendar
+ * @param {*} ReactionParameters the parameters
  * @param {*} dynamicParameters the dynamic parameters
+ * @param {*} User the user
  * @returns
  */
-const calendarCreateCalendarFromArea = async (Area, dynamicParameters) => {
+const calendarCreateCalendarFromAreaParameters = async (
+  ReactionParameters,
+  dynamicParameters,
+  User
+) => {
     try {
-        const reactionParameters = Area.ReactionParameters
-        let from = reactionParameters
-            .find(parameter => parameter.Parameter.name == 'from')
-            .value
-        let summary = reactionParameters
+        let summary = ReactionParameters
             .find(parameter => parameter.Parameter.name == 'summary')
             .value
         summary = replaceDynamicParameters(summary, dynamicParameters)
 
         let description =
-            reactionParameters
+            ReactionParameters
                 .find(parameter => parameter.Parameter.name == 'description')
                 .value
         description = replaceDynamicParameters(description, dynamicParameters)
 
-        return await createCalendar(from, summary, description)
+        return await createCalendar(User.googleToken, summary, description)
     }
     catch (error) {
         console.log('Error while creating calendar from area : ', error)
     }
-}
-
-/**
- * @brief create an calendar
- * @param {*} summary the summary of the calendar
- * @param {*} description the description of the calendar
- * @returns the created calendar
- * @throws error if the calendar is not created
- */
-const createCalendar =
-    async (from, summary, description) => {
-  try {
-    if (from && from != 'aequallsquared@gmail.com')
-      createCalendarWithAccessToken(from, summary, description)
-    else {
-      const response = await calendar.calendars.insert({
-        requestBody: {
-          summary: summary,
-          description: description,
-          timeZone: 'Europe/Paris'
-        }
-      })
-      return response.data
-    }
-  } catch (err) {
-    console.log(`An error occurred in create calendar: ${err}`)
-    throw err
-  }
 }
 
 /**
@@ -70,7 +43,7 @@ const createCalendar =
  * @param {*} end the end date of the calendar
  * @returns
  */
-const createCalendarWithAccessToken = async (accessToken, summary, description) => {
+const createCalendar = async (accessToken, summary, description) => {
   const auth = new google.auth.OAuth2()
   auth.setCredentials({ access_token: accessToken })
   auth.scopes = ['https://www.googleapis.com/auth/calendar']
@@ -92,6 +65,5 @@ const createCalendarWithAccessToken = async (accessToken, summary, description) 
 
 module.exports = {
   createCalendar,
-  calendarCreateCalendarFromArea,
-  createCalendarWithAccessToken
+  calendarCreateCalendarFromAreaParameters
 }

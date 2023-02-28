@@ -46,7 +46,7 @@ Future<void> updateAllFlutterObject() async {
     }
 
     response = await http.get(
-      Uri.parse('http://$serverIp:8080/api/get/area'),
+      Uri.parse('http://$serverIp:8080/api/area'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer ${userInformation!.token}',
@@ -56,7 +56,7 @@ Future<void> updateAllFlutterObject() async {
     if (response.statusCode == 200) {
       List<AreaData> newList = <AreaData>[];
       var json = jsonDecode(response.body);
-      for (var temp in json['data']['areas']) {
+      for (var temp in json) {
         newList.add(AreaData.fromJson(temp));
       }
       areaDataList = newList;

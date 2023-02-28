@@ -192,15 +192,15 @@ class SettingsPageState extends State<SettingsPage> {
     return Column(children: <Widget>[
       const SizedBox(height: 30),
       parameterButtonView(Icons.manage_accounts_rounded, 'User information', 1),
-      const SizedBox(height: 10),
+      const SizedBox(height: 20),
       parameterButtonView(Icons.app_settings_alt_sharp, 'Data management', 2),
-      const SizedBox(height: 10),
+      const SizedBox(height: 20),
       parameterButtonView(Icons.language, 'Language', 3),
-      const SizedBox(height: 10),
+      const SizedBox(height: 20),
       parameterButtonView(Icons.notifications_active, 'Notification', 4),
-      const SizedBox(height: 10),
+      const SizedBox(height: 20),
       parameterButtonView(Icons.connect_without_contact, 'Auth', 5),
-      const SizedBox(height: 10),
+      const SizedBox(height: 20),
       parameterButtonView(Icons.logout, 'Logout', 84),
     ]);
   }
@@ -209,7 +209,7 @@ class SettingsPageState extends State<SettingsPage> {
   Widget displaySettingsHeader() {
     if (_settingPage == 0) {
       return const Text(
-        'Settings',
+        'Settings Page',
         style: TextStyle(fontSize: 20),
       );
     }
@@ -270,7 +270,7 @@ class SettingsPageState extends State<SettingsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           IconButton(
                               onPressed: () {
@@ -282,11 +282,15 @@ class SettingsPageState extends State<SettingsPage> {
                                   }
                                 });
                               },
-                              icon: const Icon(Icons.arrow_back_ios_sharp),
+                              icon: const Icon(Icons.home_filled),
                               color: Colors.black),
+                          const SizedBox(
+                            width: 30,
+                          ),
                           displaySettingsHeader(),
                         ],
                       ),
+                      const SizedBox(height: 30),
                       displaySettingsViews(),
                       FutureBuilder<String>(
                         future: _futureAnswer,

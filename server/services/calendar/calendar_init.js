@@ -99,6 +99,6 @@ const getCalendarClient = () => {
 }
 
 module.exports = {
-    createCalendarService,
-    getCalendarClient
+  createCalendarService,
+  getCalendarClient
 }

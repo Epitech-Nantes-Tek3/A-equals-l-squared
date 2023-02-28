@@ -122,6 +122,7 @@ const createTimeTimeService = async () => {
       }
     })
     console.log('TimeTime service created : ', timetime)
+    return timetime
   } catch (error) {
     console.log('Error while creating TimeTime service : ', error)
   }

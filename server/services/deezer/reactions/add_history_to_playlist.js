@@ -9,24 +9,28 @@ const { addTracksToPlaylist } = require('../common/add_tracks_to_playlist.js')
  * Add history tracks to a playlist from an area
  * @param {*} Area The Area
  * @param {*} dynamicParameters The dynamic parameters
+ * @param {*} User The user
  * @returns True if the tracks were added to the playlist, false otherwise
  */
-async function deezerAddHistoryToPlaylistFromArea (Area, dynamicParameters) {
-  const reactionParameters = Area.ReactionParameters
-  let playlistId = reactionParameters.find(
+async function deezerAddHistoryToPlaylistFromAreaParameters (
+  ReactionParameters,
+  dynamicParameters,
+  User
+) {
+  let playlistId = ReactionParameters.find(
     parameter => parameter.Parameter.name == 'playlistId'
   ).value
   playlistId = replaceDynamicParameters(playlistId, dynamicParameters)
 
-  let limit = reactionParameters.find(
+  let limit = ReactionParameters.find(
     parameter => parameter.Parameter.name == 'limit'
   ).value
   limit = replaceDynamicParameters(limit, dynamicParameters)
   return addHistoryToPlaylist(
     playlistId,
     limit,
-    Area.User.deezerId,
-    Area.User.deezerToken
+    User.deezerId,
+    User.deezerToken
   )
 }
 
@@ -63,6 +67,6 @@ async function addHistoryToPlaylist (playlistId, limit, deezerId, deezerToken) {
 }
 
 module.exports = {
-  deezerAddHistoryToPlaylistFromArea,
+  deezerAddHistoryToPlaylistFromAreaParameters,
   addHistoryToPlaylist
 }

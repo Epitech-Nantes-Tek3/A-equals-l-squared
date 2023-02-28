@@ -8,15 +8,19 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
  * Create a playlist from an area
  * @param {*} Area The Area
  * @param {*} dynamicParameters The dynamic parameters
+ * @param {*} User The user
  * @returns True if the playlist was created, false otherwise
  */
-function deezerCreatePlaylistFromArea (Area, dynamicParameters) {
-  const reactionParameters = Area.ReactionParameters
-  let title = reactionParameters.find(
+function deezerCreatePlaylistFromAreaParameters (
+  ReactionParameters,
+  dynamicParameters,
+  User
+) {
+  let title = ReactionParameters.find(
     parameter => parameter.Parameter.name == 'title'
   ).value
   title = replaceDynamicParameters(title, dynamicParameters)
-  return createPlaylist(title, Area.User.deezerId, Area.User.deezerToken)
+  return createPlaylist(title, User.deezerId, User.deezerToken)
 }
 
 /**
@@ -40,4 +44,4 @@ async function createPlaylist (title, deezerId, deezerToken) {
   }
 }
 
-module.exports = { deezerCreatePlaylistFromArea, createPlaylist }
+module.exports = { deezerCreatePlaylistFromAreaParameters, createPlaylist }

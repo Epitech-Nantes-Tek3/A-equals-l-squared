@@ -85,7 +85,7 @@ class ParameterData {
         break;
       }
     }
-    matchedContent ??= ParameterContent(paramId: id, value: "");
+    matchedContent ??= ParameterContent(paramId: id, value: "", id: '');
     List<String>? tempProposal;
 
     if (getterUrl != null) {
@@ -211,6 +211,7 @@ class ParameterData {
             matchedContent!.value = key;
           }
         }
+        matchedContent!.getParameterData()!.getterValue = getterValue;
         return;
       } else {
         return;
@@ -226,16 +227,22 @@ class ParameterData {
 class ParameterContent {
   String paramId;
   String value;
+  String id;
 
   /// Constructor of the parameterContent class
-  ParameterContent({required this.paramId, required this.value});
+  ParameterContent(
+      {required this.paramId, required this.value, required this.id});
 
   ParameterContent.clone(ParameterContent oldParameter)
-      : this(paramId: oldParameter.paramId, value: oldParameter.value);
+      : this(
+            paramId: oldParameter.paramId,
+            value: oldParameter.value,
+            id: oldParameter.id);
 
   /// Convert a json map into the class
   factory ParameterContent.fromJson(Map<String, dynamic> json) {
-    return ParameterContent(paramId: json['parameterId'], value: json['value']);
+    return ParameterContent(
+        paramId: json['Parameter']['id'], value: json['value'], id: '');
   }
 
   ParameterData? getParameterData() {

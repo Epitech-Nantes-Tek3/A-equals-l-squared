@@ -3,41 +3,49 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
 const { google } = require('googleapis')
 
 /**
- * @brief create an event from an area
- * @param {*} Area the area
+ * @brief create an event
+ * @param {*} ReactionParameters the parameters
  * @param {*} dynamicParameters the dynamic parameters
+ * @param {*} User the user
  * @returns
  */
-const calendarCreateEventFromArea = async (Area, dynamicParameters) => {
+const calendarCreateEventFromAreaParameters = async (
+  ReactionParameters,
+  dynamicParameters,
+  User
+) => {
   try {
-    const googleToken = Area.User.googleToken
-    const reactionParameters = Area.ReactionParameters
-    let calendarId =
-        reactionParameters
-            .find(parameter => parameter.Parameter.name == 'calendarId')
-            .value
-    let summary = reactionParameters
-                      .find(parameter => parameter.Parameter.name == 'summary')
-                      .value
+    let calendarId = ReactionParameters.find(
+      parameter => parameter.Parameter.name == 'calendarId'
+    ).value
+    let summary = ReactionParameters.find(
+      parameter => parameter.Parameter.name == 'summary'
+    ).value
     summary = replaceDynamicParameters(summary, dynamicParameters)
 
-    let description =
-        reactionParameters
-            .find(parameter => parameter.Parameter.name == 'description')
-            .value
+    let description = ReactionParameters.find(
+      parameter => parameter.Parameter.name == 'description'
+    ).value
     description = replaceDynamicParameters(description, dynamicParameters)
 
-    let start = reactionParameters
-                    .find(parameter => parameter.Parameter.name == 'start')
-                    .value
+    let start = ReactionParameters.find(
+      parameter => parameter.Parameter.name == 'start'
+    ).value
     start = replaceDynamicParameters(start, dynamicParameters)
 
-    let end =
-        reactionParameters.find(parameter => parameter.Parameter.name == 'end')
-            .value
+    let end = ReactionParameters.find(
+      parameter => parameter.Parameter.name == 'end'
+    ).value
     end = replaceDynamicParameters(end, dynamicParameters)
 
-    return await createEvent(googleToken, calendarId, summary, description, start, end)
+    return await createEvent(
+      User.googleToken,
+      calendarId,
+      summary,
+      description,
+      start,
+      end
+    )
   } catch (error) {
     console.log('Error while creating event from area : ', error)
   }
@@ -53,20 +61,27 @@ const calendarCreateEventFromArea = async (Area, dynamicParameters) => {
  * @param {*} end the end date of the event
  * @returns
  */
-const createEvent = async (accessToken, calendarId='primary', summary, description, start, end) => {
+const createEvent = async (
+  accessToken,
+  calendarId = 'primary',
+  summary,
+  description,
+  start,
+  end
+) => {
   const auth = new google.auth.OAuth2()
   auth.setCredentials({ access_token: accessToken })
   auth.scopes = ['https://www.googleapis.com/auth/calendar']
   const client = google.calendar({ version: 'v3', auth })
-  const isValidISODate = (dateStr) => {
-    return !isNaN(Date.parse(dateStr));
-  };
+  const isValidISODate = dateStr => {
+    return !isNaN(Date.parse(dateStr))
+  }
 
   if (!isValidISODate(start)) {
-    throw new Error('Invalid start date format. Must be in ISO 8601 format.');
+    throw new Error('Invalid start date format. Must be in ISO 8601 format.')
   }
   if (!isValidISODate(end)) {
-    throw new Error('Invalid end date format. Must be in ISO 8601 format.');
+    throw new Error('Invalid end date format. Must be in ISO 8601 format.')
   }
   try {
     const response = await client.events.insert({
@@ -75,9 +90,9 @@ const createEvent = async (accessToken, calendarId='primary', summary, descripti
         summary: summary,
         location: 'Nantes',
         description: description,
-        start: {dateTime: start, timeZone: 'Europe/Paris'},
-        end: {dateTime: end, timeZone: 'Europe/Paris'}
-      },
+        start: { dateTime: start, timeZone: 'Europe/Paris' },
+        end: { dateTime: end, timeZone: 'Europe/Paris' }
+      }
     })
     return response.data
   } catch (err) {
@@ -88,5 +103,5 @@ const createEvent = async (accessToken, calendarId='primary', summary, descripti
 
 module.exports = {
   createEvent,
-  calendarCreateEventFromArea,
+  calendarCreateEventFromAreaParameters
 }

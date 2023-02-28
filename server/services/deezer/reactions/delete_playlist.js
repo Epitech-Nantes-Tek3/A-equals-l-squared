@@ -8,15 +8,19 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
  * Delete a playlist from an area
  * @param {*} Area The Area
  * @param {*} dynamicParameters The dynamic parameters
+ * @param {*} User The user
  * @returns True if the playlist was deleted, false otherwise
  */
-function deezerDeletePlaylistFromArea (Area, dynamicParameters) {
-  const reactionParameters = Area.ReactionParameters
-  let playlistId = reactionParameters.find(
+function deezerDeletePlaylistFromAreaParameters (
+  ReactionParameters,
+  dynamicParameters,
+  User
+) {
+  let playlistId = ReactionParameters.find(
     parameter => parameter.Parameter.name == 'playlistId'
   ).value
   playlistId = replaceDynamicParameters(playlistId, dynamicParameters)
-  return deletePlaylist(playlistId, Area.User.deezerToken)
+  return deletePlaylist(playlistId, User.deezerToken)
 }
 
 /**
@@ -35,4 +39,4 @@ async function deletePlaylist (playlistId, deezerToken) {
   }
 }
 
-module.exports = { deezerDeletePlaylistFromArea, deletePlaylist }
+module.exports = { deezerDeletePlaylistFromAreaParameters, deletePlaylist }
