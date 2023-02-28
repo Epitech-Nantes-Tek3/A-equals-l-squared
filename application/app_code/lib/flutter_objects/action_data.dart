@@ -127,7 +127,6 @@ class ActionData {
               children: <Widget>[
                 Text(
                   description,
-                  style: TextStyle(color: isEnable ? Colors.green : Colors.red),
                 ), // Change when icon are in DB
               ]),
         ],
