@@ -1,9 +1,7 @@
-version: "2.2"
+version: "2.4"
 services:
   database:
     build: ./server/database
-    env_file:
-      - ./server/.env
     environment:
       MYSQL_ROOT_PASSWORD: ${password}
       MYSQL_DATABASE: ${database}
@@ -59,10 +57,8 @@ services:
       - 4551:4551
     links:
       - client_web
-    env_file:
-      - ./server/.env
     environment:
-      - AUTH_TOKEN=$password
+      - AUTH_TOKEN=${NGROK_AUTH_TOKEN}
       - DOMAIN=client_web
       - PORT=8080
 

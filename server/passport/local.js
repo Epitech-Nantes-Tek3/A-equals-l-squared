@@ -2,7 +2,7 @@ const { Strategy } = require('passport-local')
 const { hash, compare } = require('../utils')
 const passport = require('passport')
 const database = require('../database_init')
-require('dotenv').config({ path: '../database.env' })
+require('dotenv').config({ path: '../../.env' })
 
 /**
  * Strategy option needed by passport
