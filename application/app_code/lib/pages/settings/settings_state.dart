@@ -169,7 +169,7 @@ class SettingsPageState extends State<SettingsPage> {
               });
             },
             child: const Text('Update account information'),
-          ),
+          ), context,
           isShadowNeeded: true,
           primaryColor: getOurBlueAreaColor(100)),
       materialElevatedButtonArea(
@@ -181,7 +181,7 @@ class SettingsPageState extends State<SettingsPage> {
               });
             },
             child: const Text('Delete account'),
-          ),
+          ), context,
           isShadowNeeded: true,
           primaryColor: getOurBlueAreaColor(100)),
     ]);
@@ -343,7 +343,7 @@ class SettingsPageState extends State<SettingsPage> {
                   const Icon(Icons.arrow_forward_ios_sharp, color: Colors.black)
                 ],
               )
-            ])),
+            ])), context,
         isShadowNeeded: true,
         borderRadius: 10,
         paddingHorizontal: 20,
