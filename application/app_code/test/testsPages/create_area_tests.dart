@@ -12,7 +12,6 @@ void createAreaPageTest() {
         email: 'testing',
         isAdmin: false,
         createdAt: DateTime(1));
-    ;
     await tester.pumpWidget(
       MaterialApp(
         title: 'Testing app',
