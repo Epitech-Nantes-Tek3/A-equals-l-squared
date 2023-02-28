@@ -32,6 +32,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Save of the creation state
   AreaData? _createdAreaSave;
 
+  /// An api error message
+  String? _apiErrorMessage;
+
   /// Useful function updating the state
   /// object -> Object who's calling the function
   void createUpdate(ParameterData? object) async {
@@ -39,6 +42,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       await object.getProposalValue();
     }
     setState(() {});
+  }
+
+  void leavePage() {
+    goToHomePage(context);
   }
 
   /// Ask the api to change an area
@@ -86,12 +93,22 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       }
 
       if (response.statusCode != 200) {
+        actionSetting = false;
+        createdArea!.isEnable = false;
+        _apiErrorMessage = response.body;
+        createUpdate(null);
         return 'Error during area $changeType';
       }
+      _apiErrorMessage = null;
       if (changeType == 'create') {
         createdArea = AreaData.fromJson(jsonDecode(response.body));
       }
       await updateAllFlutterObject();
+      if (changeType == 'delete') {
+        leavePage();
+        return 'Area successfully $changeType !';
+      }
+      createUpdate(null);
       return 'Area successfully $changeType !';
     } catch (err) {
       return 'Error during area $changeType';
@@ -152,6 +169,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         return 'Error during $changeType process';
       }
       if (response.statusCode != 200) {
+        _apiErrorMessage = response.body;
+        _isChoosingAnAction = true;
+        createUpdate(null);
         return 'Error during action $changeType';
       }
       if (changeType == 'create') {
@@ -162,8 +182,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               'Authorization': 'Bearer ${userInformation!.token}',
             });
         createdArea = AreaData.fromJson(jsonDecode(response.body));
-        createUpdate(null);
       }
+      _apiErrorMessage = null;
+      createUpdate(null);
       await updateAllFlutterObject();
       return 'Action successfully $changeType !';
     } catch (err) {
@@ -226,6 +247,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         return 'Error during $changeType process';
       }
       if (response.statusCode != 200) {
+        _apiErrorMessage = response.body;
+        _isChoosingAReaction = true;
+        createUpdate(null);
         return 'Error during reaction $changeType';
       }
       if (changeType == 'create') {
@@ -236,8 +260,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               'Authorization': 'Bearer ${userInformation!.token}',
             });
         createdArea = AreaData.fromJson(jsonDecode(response.body));
-        createUpdate(null);
       }
+      _apiErrorMessage = null;
+      createUpdate(null);
       await updateAllFlutterObject();
       return 'Reaction successfully $changeType !';
     } catch (err) {
@@ -773,25 +798,13 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                         onPressed: (() {
                           changeType = 'delete';
                           apiAskForAreaChange();
-                          setState(() {
-                            createdArea = AreaData(
-                                id: '',
-                                name: 'Deleted',
-                                description: 'You can now go home !',
-                                userId: '',
-                                actionList: [],
-                                reactionList: [],
-                                isEnable: true,
-                                logicalGate: 'OR');
-                          });
-
-                          /// UPDATE IT WITH FRAME GESTION
                         }),
                         child: Text(
                             "Delete ${createdArea != null ? createdArea!.name : ''}"))
                 ],
               )
-            ])
+            ]),
+          Text(_apiErrorMessage != null ? _apiErrorMessage! : '')
         ],
       ),
     )));
