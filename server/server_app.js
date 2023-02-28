@@ -55,6 +55,8 @@ app.use(session({ secret: 'SECRET', resave: false, saveUninitialized: false }))
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.set('json spaces', 2)
+
 const PORT = 8080
 const HOST = '0.0.0.0'
 
@@ -123,7 +125,8 @@ app.get('/about.json', async (req, res) => {
         }
       })
     )
-    res.json(about)
+    res.header('Content-Type', 'application/json')
+    res.type('json').send(JSON.stringify(about, null, 2) + '\n');
   } catch (err) {
     console.log(err)
     res.status(500).send(err)
