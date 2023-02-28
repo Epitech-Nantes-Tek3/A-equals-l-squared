@@ -6,6 +6,7 @@ import 'package:application/pages/create_area/create_area_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../material_lib_functions/material_functions.dart';
 import '../../flutter_objects/action_data.dart';
 import '../../flutter_objects/area_data.dart';
 import '../../flutter_objects/reaction_data.dart';
@@ -290,26 +291,21 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       ),
     );
     for (var temp in createdArea!.serviceId!.actions) {
-      selectAnAction.add(ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            side: const BorderSide(width: 3, color: Colors.white),
-
-            /// Change when DB is Up
-            primary: Colors.white,
-          ),
-          onPressed: () {
-            setState(() {
-              _createdAreaSave = AreaData.clone(createdArea!);
-              createdArea!.actionList.add(ActionData.clone(temp));
-              for (var tmp in temp.parameters) {
-                createdArea!.actionList.last.parametersContent
-                    .add(ParameterContent(paramId: tmp.id, value: "", id: ''));
-              }
-              _actionCreationState = 2;
-            });
-          },
-          child: temp.displayActionDescription()));
+      selectAnAction.add(materialElevatedButtonArea(
+          ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _createdAreaSave = AreaData.clone(createdArea!);
+                  createdArea!.actionList.add(ActionData.clone(temp));
+                  for (var tmp in temp.parameters) {
+                    createdArea!.actionList.last.parametersContent.add(
+                        ParameterContent(paramId: tmp.id, value: "", id: ''));
+                  }
+                  _actionCreationState = 2;
+                });
+              },
+              child: temp.displayActionDescription()),
+          context));
       selectAnAction.add(
         const SizedBox(
           height: 10,
@@ -335,20 +331,17 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           height: 10,
         ),
       );
-      selectAServiceAction.add(ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-            side: const BorderSide(width: 3, color: Colors.white),
-            primary: Colors.white,
-          ),
-          onPressed: () {
-            setState(() {
-              _createdAreaSave = AreaData.clone(createdArea!);
-              createdArea!.serviceId = ServiceData.clone(temp);
-              _actionCreationState = 1;
-            });
-          },
-          child: temp.display()));
+      selectAServiceAction.add(materialElevatedButtonArea(
+          ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _createdAreaSave = AreaData.clone(createdArea!);
+                  createdArea!.serviceId = ServiceData.clone(temp);
+                  _actionCreationState = 1;
+                });
+              },
+              child: temp.display()),
+          context));
       selectAServiceAction.add(
         const SizedBox(
           height: 10,
@@ -383,41 +376,47 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     if (_isChoosingAnAction) {
       createAnAction
           .add(Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        ElevatedButton(
-          key: const Key('CreateActionPreviousButton'),
-          onPressed: () {
-            setState(() {
-              createdArea = AreaData.clone(_createdAreaSave!);
-              if (_actionCreationState == 0) {
-                _isChoosingAnAction = false;
-                _actionCreationState = 0;
-              }
-              _actionCreationState -= 1;
-            });
-          },
-          child: const Text('Previous'),
-        ),
-        if (_actionCreationState == 2)
-          ElevatedButton(
+        materialElevatedButtonArea(
+            ElevatedButton(
+              key: const Key('CreateActionPreviousButton'),
               onPressed: () {
                 setState(() {
-                  bool isRequired = true;
-                  _createdAreaSave = AreaData.clone(createdArea!);
-                  for (var temp in createdArea!.actionList.last.parameters) {
-                    if (temp.isRequired && temp.matchedContent!.value == "") {
-                      isRequired = false;
-                    }
-                  }
-                  if (isRequired) {
-                    _actionCreationState = 0;
-
-                    changeType = 'create';
-                    apiAskForActionChange(createdArea!.actionList.last);
+                  createdArea = AreaData.clone(_createdAreaSave!);
+                  if (_actionCreationState == 0) {
                     _isChoosingAnAction = false;
+                    _actionCreationState = 0;
                   }
+                  _actionCreationState -= 1;
                 });
               },
-              child: const Text("Validate")),
+              child: const Text('Previous'),
+            ),
+            context),
+        if (_actionCreationState == 2)
+          materialElevatedButtonArea(
+              ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      bool isRequired = true;
+                      _createdAreaSave = AreaData.clone(createdArea!);
+                      for (var temp
+                          in createdArea!.actionList.last.parameters) {
+                        if (temp.isRequired &&
+                            temp.matchedContent!.value == "") {
+                          isRequired = false;
+                        }
+                      }
+                      if (isRequired) {
+                        _actionCreationState = 0;
+
+                        changeType = 'create';
+                        apiAskForActionChange(createdArea!.actionList.last);
+                        _isChoosingAnAction = false;
+                      }
+                    });
+                  },
+                  child: const Text("Validate")),
+              context),
       ]));
     }
     return createAnAction;
@@ -427,23 +426,25 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   Widget displayNewActionSelectionView() {
     return Column(children: <Widget>[
       if (!_isChoosingAnAction)
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-
-              /// Change when DB is Up
-              primary: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                _isChoosingAnAction = true;
-                _actionCreationState = 0;
-              });
-            },
-            child: const Text(
-              'Add an Action',
-              style: TextStyle(color: Colors.black),
-            )),
+        materialElevatedButtonArea(
+          ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _isChoosingAnAction = true;
+                  _actionCreationState = 0;
+                });
+              },
+              child: Text(
+                'Add an Action',
+                style: TextStyle(color: getOurBlueAreaColor(100)),
+              )),
+          context,
+          sizeOfButton: 1.8,
+          borderColor: getOurBlueAreaColor(100),
+          borderWith: 2,
+          isShadowNeeded: true,
+          /// Add button desc
+        ),
       if (_isChoosingAnAction)
         Column(
           children: <Widget>[
@@ -470,26 +471,31 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         height: 10,
       ),
     );
-    modifyAReaction.add(ElevatedButton(
-        onPressed: () {
-          setState(() {
-            bool isRequired = true;
-            _createdAreaSave = AreaData.clone(createdArea!);
-            for (var temp in createdArea!.reactionList.last.parameters) {
-              if (temp.isRequired && temp.matchedContent!.value == "") {
-                isRequired = false;
+    modifyAReaction.add(materialElevatedButtonArea(
+      ElevatedButton(
+          onPressed: () {
+            setState(() {
+              bool isRequired = true;
+              _createdAreaSave = AreaData.clone(createdArea!);
+              for (var temp in createdArea!.reactionList.last.parameters) {
+                if (temp.isRequired && temp.matchedContent!.value == "") {
+                  isRequired = false;
+                }
               }
-            }
-            if (isRequired) {
-              _reactionCreationState = 0;
+              if (isRequired) {
+                _reactionCreationState = 0;
 
-              changeType = 'create';
-              apiAskForReactionChange(createdArea!.reactionList.last);
-              _isChoosingAReaction = false;
-            }
-          });
-        },
-        child: const Text("Validate")));
+                changeType = 'create';
+                apiAskForReactionChange(createdArea!.reactionList.last);
+                _isChoosingAReaction = false;
+              }
+            });
+          },
+          child: const Text("Validate")),
+      context,
+
+      /// Add button desc
+    ));
 
     return Column(
       children: modifyAReaction,
@@ -509,26 +515,31 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       ),
     );
     for (var temp in createdArea!.serviceId!.reactions) {
-      selectAReaction.add(ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            side: const BorderSide(width: 3, color: Colors.white),
+      selectAReaction.add(materialElevatedButtonArea(
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              side: const BorderSide(width: 3, color: Colors.white),
 
-            /// Change when DB is Up
-            primary: Colors.white,
-          ),
-          onPressed: () {
-            setState(() {
-              _createdAreaSave = AreaData.clone(createdArea!);
-              createdArea!.reactionList.add(ReactionData.clone(temp));
-              for (var tmp in temp.parameters) {
-                createdArea!.reactionList.last.parametersContent
-                    .add(ParameterContent(paramId: tmp.id, value: "", id: ''));
-              }
-              _reactionCreationState = 2;
-            });
-          },
-          child: temp.displayReactionDescription()));
+              /// Change when DB is Up
+              primary: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                _createdAreaSave = AreaData.clone(createdArea!);
+                createdArea!.reactionList.add(ReactionData.clone(temp));
+                for (var tmp in temp.parameters) {
+                  createdArea!.reactionList.last.parametersContent.add(
+                      ParameterContent(paramId: tmp.id, value: "", id: ''));
+                }
+                _reactionCreationState = 2;
+              });
+            },
+            child: temp.displayReactionDescription()),
+        context,
+
+        /// Add button desc
+      ));
       selectAReaction.add(
         const SizedBox(
           height: 10,
@@ -555,24 +566,27 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           height: 10,
         ),
       );
-      selectAServiceReaction.add(ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-            side: const BorderSide(width: 3, color: Colors.white),
+      selectAServiceReaction.add(materialElevatedButtonArea(
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                side: const BorderSide(width: 3, color: Colors.white),
 
-            /// Change when DB is Up
-            primary: Colors.white,
-          ),
-          onPressed: () {
-            setState(() {
-              print(_isChoosingAReaction);
-              print(_reactionCreationState);
-              _createdAreaSave = AreaData.clone(createdArea!);
-              createdArea!.serviceId = ServiceData.clone(temp);
-              _reactionCreationState = 1;
-            });
-          },
-          child: temp.display()));
+                /// Change when DB is Up
+                primary: Colors.white,
+              ),
+              onPressed: () {
+                setState(() {
+                  print(_isChoosingAReaction);
+                  print(_reactionCreationState);
+                  _createdAreaSave = AreaData.clone(createdArea!);
+                  createdArea!.serviceId = ServiceData.clone(temp);
+                  _reactionCreationState = 1;
+                });
+              },
+              child: temp.display()),
+          context));
       selectAServiceReaction.add(
         const SizedBox(
           height: 10,
@@ -607,20 +621,23 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     if (_isChoosingAReaction) {
       createAReaction
           .add(Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        ElevatedButton(
-          key: const Key('CreateReactionPreviousButton'),
-          onPressed: () {
-            setState(() {
-              createdArea = AreaData.clone(_createdAreaSave!);
-              if (_reactionCreationState == 0) {
-                _isChoosingAReaction = false;
-                _reactionCreationState = 0;
-              }
-              _reactionCreationState -= 1;
-            });
-          },
-          child: const Text('Previous'),
-        ),
+        materialElevatedButtonArea(
+            ElevatedButton(
+              key: const Key('CreateReactionPreviousButton'),
+              onPressed: () {
+                setState(() {
+                  createdArea = AreaData.clone(_createdAreaSave!);
+                  if (_reactionCreationState == 0) {
+                    _isChoosingAReaction = false;
+                    _reactionCreationState = 0;
+                  }
+                  _reactionCreationState -= 1;
+                });
+              },
+              child: const Text('Previous'),
+            ),
+            context,
+            sizeOfButton: 1.8)
       ]));
     }
     return createAReaction;
@@ -630,23 +647,25 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   Widget displayNewReactionSelectionView() {
     return Column(children: <Widget>[
       if (!_isChoosingAReaction)
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-
-              /// Change when DB is Up
-              primary: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                _isChoosingAReaction = true;
-                _reactionCreationState = 0;
-              });
-            },
-            child: const Text(
-              'Add a Reaction',
-              style: TextStyle(color: Colors.black),
-            )),
+        materialElevatedButtonArea(
+          ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _isChoosingAReaction = true;
+                  _reactionCreationState = 0;
+                });
+              },
+              child: Text(
+                'Add a Reaction',
+                style: TextStyle(color: getOurBlueAreaColor(100)),
+              )),
+          context,
+          sizeOfButton: 1.8,
+          borderColor: getOurBlueAreaColor(100),
+          borderWith: 2,
+          isShadowNeeded: true,
+          /// Add button desc
+        ),
       if (_isChoosingAReaction)
         Column(
           children: <Widget>[
@@ -686,21 +705,25 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton(
-                        onPressed: () {
-                          changeType = 'update';
-                          apiAskForActionChange(temp);
-                        },
-                        child: const Text('Update')),
-                    ElevatedButton(
-                        onPressed: () {
-                          changeType = 'delete';
-                          apiAskForActionChange(temp);
-                          setState(() {
-                            createdArea!.actionList.remove(temp);
-                          });
-                        },
-                        child: const Text('Delete'))
+                    materialElevatedButtonArea(
+                        ElevatedButton(
+                            onPressed: () {
+                              changeType = 'update';
+                              apiAskForActionChange(temp);
+                            },
+                            child: const Text('Update')),
+                        context),
+                    materialElevatedButtonArea(
+                        ElevatedButton(
+                            onPressed: () {
+                              changeType = 'delete';
+                              apiAskForActionChange(temp);
+                              setState(() {
+                                createdArea!.actionList.remove(temp);
+                              });
+                            },
+                            child: const Text('Delete')),
+                        context)
                   ],
                 )
               ])));
@@ -732,21 +755,25 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton(
-                        onPressed: () {
-                          changeType = 'update';
-                          apiAskForReactionChange(temp);
-                        },
-                        child: const Text('Update')),
-                    ElevatedButton(
-                        onPressed: () {
-                          changeType = 'delete';
-                          apiAskForReactionChange(temp);
-                          setState(() {
-                            createdArea!.reactionList.remove(temp);
-                          });
-                        },
-                        child: const Text('Delete'))
+                    materialElevatedButtonArea(
+                        ElevatedButton(
+                            onPressed: () {
+                              changeType = 'update';
+                              apiAskForReactionChange(temp);
+                            },
+                            child: const Text('Update')),
+                        context),
+                    materialElevatedButtonArea(
+                        ElevatedButton(
+                            onPressed: () {
+                              changeType = 'delete';
+                              apiAskForReactionChange(temp);
+                              setState(() {
+                                createdArea!.reactionList.remove(temp);
+                              });
+                            },
+                            child: const Text('Delete')),
+                        context)
                   ],
                 )
               ])));
@@ -923,37 +950,41 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ElevatedButton(
-                          onPressed: (() {
-                            _createdAreaSave = AreaData.clone(createdArea!);
-                            apiAskForAreaChange();
-                            setState(() {
-                              actionSetting = true;
-                            });
-                          }),
-                          child: Text(
-                              "$changeType ${createdArea != null ? createdArea!.name : ''}")),
+                      materialElevatedButtonArea(
+                          ElevatedButton(
+                              onPressed: (() {
+                                _createdAreaSave = AreaData.clone(createdArea!);
+                                apiAskForAreaChange();
+                                setState(() {
+                                  actionSetting = true;
+                                });
+                              }),
+                              child: Text(
+                                  "$changeType ${createdArea != null ? createdArea!.name : ''}")),
+                          context),
                       if (changeType != 'create')
-                        ElevatedButton(
-                            onPressed: (() {
-                              changeType = 'delete';
-                              apiAskForAreaChange();
-                              setState(() {
-                                createdArea = AreaData(
-                                    id: '',
-                                    name: 'Deleted',
-                                    description: 'You can now go home !',
-                                    userId: '',
-                                    actionList: [],
-                                    reactionList: [],
-                                    isEnable: true,
-                                    logicalGate: 'OR');
-                              });
+                        materialElevatedButtonArea(
+                            ElevatedButton(
+                                onPressed: (() {
+                                  changeType = 'delete';
+                                  apiAskForAreaChange();
+                                  setState(() {
+                                    createdArea = AreaData(
+                                        id: '',
+                                        name: 'Deleted',
+                                        description: 'You can now go home !',
+                                        userId: '',
+                                        actionList: [],
+                                        reactionList: [],
+                                        isEnable: true,
+                                        logicalGate: 'OR');
+                                  });
 
-                              /// UPDATE IT WITH FRAME GESTION
-                            }),
-                            child: Text(
-                                "Delete ${createdArea != null ? createdArea!.name : ''}"))
+                                  /// UPDATE IT WITH FRAME GESTION
+                                }),
+                                child: Text(
+                                    "Delete ${createdArea != null ? createdArea!.name : ''}")),
+                            context)
                     ],
                   )
               ])),
