@@ -77,7 +77,11 @@
   <pre class="language-dart"><code class="language-dart">Widget displayLogoAndName() {
   return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: &lt;Widget&gt;[displayLogo(120), displayAreaLoginSentence()]);
+      children: &lt;Widget&gt;[
+        const Text(&quot;&quot;),
+        displayLogo(120),
+        displayAreaLoginSentence()
+      ]);
 }</code></pre>
 </section>
 

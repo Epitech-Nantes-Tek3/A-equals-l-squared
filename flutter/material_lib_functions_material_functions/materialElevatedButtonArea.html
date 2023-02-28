@@ -102,6 +102,7 @@ This function can take many parameter to modified the style of the ElevatedButto
               borderRadius: BorderRadius.circular(borderRadius)),
           shadowColor: isShadowNeeded ? Colors.black : Colors.transparent,
           elevation: isShadowNeeded ? 3 : 0),
+      key: buttonContent.key,
       child: buttonContent.child);
   return newButton;
 }</code></pre>
