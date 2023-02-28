@@ -10,6 +10,14 @@ import 'testsFlutterObjects/parameter_data_tests.dart';
 import 'testsFlutterObjects/reaction_data_tests.dart';
 import 'testsFlutterObjects/service_data_tests.dart';
 import 'testsFlutterObjects/user_data_tests.dart';
+import 'testsMaterialFunctions/material_functions_tests.dart';
+import 'testsPages/auth_linker_tests.dart';
+import 'testsPages/create_area_tests.dart';
+import 'testsPages/home_tests.dart';
+import 'testsPages/login_tests.dart';
+import 'testsPages/service_list_tests.dart';
+import 'testsPages/settings_tests.dart';
+import 'testsPages/signup_tests.dart';
 
 void templateFunction() {
   testWidgets('Just a basic template test', (WidgetTester tester) async {
@@ -45,6 +53,22 @@ void flutterObjectTest() {
   userDataTest();
 }
 
+void materialFunctionsTests() {
+  materialFunctionsTest();
+}
+
+void pagesTests() {
+  authLinkerPageTest();
+  createAreaPageTest();
+  homePageTest();
+  loginPageTest();
+  serviceListPageTest();
+  settingsPageTest();
+  signupPageTest();
+}
+
 void main() {
   flutterObjectTest();
+  materialFunctionsTests();
+  pagesTests();
 }
