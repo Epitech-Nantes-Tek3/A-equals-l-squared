@@ -116,10 +116,10 @@ class ParameterData {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-      const SizedBox(
-        height: 20,
-      ),
-        Text('$description : '),
+          const SizedBox(
+            height: 20,
+          ),
+        Text('$description : ', style: const TextStyle(fontSize: 12)),
           const SizedBox(
             height: 10,
           ),
