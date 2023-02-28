@@ -7,6 +7,7 @@ import 'package:application/pages/settings/settings_functional.dart';
 import 'package:application/pages/update_area/update_area_functional.dart';
 import 'package:flutter/material.dart';
 
+import '../../flutter_objects/area_data.dart';
 import '../../material_lib_functions/material_functions.dart';
 import '../login/login_page.dart';
 import 'home_page.dart';
@@ -47,7 +48,7 @@ class HomePageState extends State<HomePage> {
     return materialElevatedButtonArea(
       ElevatedButton(
           onPressed: () {
-            updatingArea = areaData;
+            createdArea = AreaData.clone(areaData);
             goToUpdateAreaPage(context);
           },
           child: areaData.display(false, null)),

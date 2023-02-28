@@ -52,6 +52,9 @@ class AuthBox {
       if (authName == 'Reddit') {
         token = userInformation!.userToken!.redditToken;
       }
+      if (authName == 'Deezer') {
+        token = userInformation!.userToken!.deezerToken;
+      }
       isEnable = token == null ? false : true;
     }
     return ElevatedButton(
@@ -115,6 +118,13 @@ AuthBox redditAuthBox = AuthBox(
     isEnable: false,
     action: getRedditToken);
 
+/// The deezer service authBox
+AuthBox deezerAuthBox = AuthBox(
+    authName: "Deezer",
+    authDescription: "Used for all Deezer interaction",
+    isEnable: false,
+    action: getDeezerToken);
+
 /// Remove / Get the Google API access token
 Future<String> getGoogleToken() async {
   if (googleAuthBox.isEnable) {
@@ -134,7 +144,9 @@ Future<String> getGoogleToken() async {
         'email',
         'profile',
         'https://www.googleapis.com/auth/gmail.send',
-        'https://www.googleapis.com/auth/gmail.readonly'
+        'https://www.googleapis.com/auth/gmail.readonly',
+        'https://www.googleapis.com/auth/calendar',
+        'https://www.googleapis.com/auth/calendar.events'
       ],
     );
     googleSignIn.disconnect();
@@ -294,12 +306,91 @@ Future<String?> publishNewToken() async {
         body: jsonEncode(<String, dynamic>{
           'google': googleAuthBox.token != null ? googleAuthBox.token! : '',
           'discord': discordAuthBox.token != null ? discordAuthBox.token! : '',
-          'reddit': redditAuthBox.token != null ? redditAuthBox.token! : ''
+          'reddit': redditAuthBox.token != null ? redditAuthBox.token! : '',
+          'deezer': deezerAuthBox.token != null ? deezerAuthBox.token! : ''
         }));
 
     if (response.statusCode == 200) {
       userInformation = UserData.fromJson(jsonDecode(response.body)['data']);
       return null;
+    } else {
+      return response.body.toString();
+    }
+  } catch (err) {
+    debugPrint(err.toString());
+    return 'Error during auth process.';
+  }
+}
+
+Future<String> getDeezerToken() async {
+  if (deezerAuthBox.isEnable) {
+    String? tokenSave = '${deezerAuthBox.token}';
+    deezerAuthBox.token = null;
+    String? error = await publishNewToken();
+    if (error != null) {
+      deezerAuthBox.token = tokenSave;
+      return error;
+    }
+    deezerAuthBox.isEnable = false;
+  } else {
+    String appId = "581644";
+    String secret = "2cf8a215785c22ac97469d251cef7667";
+
+    final url = Uri.https('connect.deezer.com', '/oauth/auth.php', {
+      'app_id': appId,
+      'redirect_uri': 'http://localhost:8081/auth.html',
+      'perms':
+          'basic_access,email,offline_access,manage_library,manage_community,delete_library,listening_history',
+    });
+
+    final result = await FlutterWebAuth2.authenticate(
+        url: url.toString(), callbackUrlScheme: 'http');
+
+    String code = Uri.parse(result).queryParameters['code']!;
+
+    final response = await getDeezerTokenWithCode(appId, secret, code);
+    final accessToken = response;
+
+    deezerAuthBox.token = accessToken;
+
+    String? error = await publishNewToken();
+    if (error != null) {
+      deezerAuthBox.token = null;
+      return error;
+    }
+    deezerAuthBox.isEnable = true;
+    var responseId = await http.post(
+        Uri.parse('http://$serverIp:8080/api/services/deezer/fillUserId'),
+        headers: <String, String>{
+          'Authorization': 'Bearer ${userInformation!.token}',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: jsonEncode(<String, dynamic>{}));
+    if (responseId.statusCode != 200) {
+      return responseId.body.toString();
+    }
+  }
+  updateAuthPage!(null);
+  return 'Operation succeed !';
+}
+
+Future<String> getDeezerTokenWithCode(
+    String appId, String secret, String code) async {
+  try {
+    var response =
+        await http.post(Uri.parse('http://$serverIp:8080/api/code/deezer'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer ${userInformation!.token}',
+            },
+            body: jsonEncode(<String, dynamic>{
+              'app_id': appId,
+              'secret': secret,
+              'code': code,
+            }));
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body)['data']['access_token'];
     } else {
       return response.body.toString();
     }

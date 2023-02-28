@@ -4,27 +4,27 @@ const { google } = require('googleapis')
 
 /**
  * @brief send an email with the gmail api from an area
- * @param {*} Area Area that contains the parameters
+ * @param {*} ReactionParameters The parameters
  * @param {*} dynamicParameters the dynamic parameters to replace in the email
+ * @param {*} User the user
  * @returns the response from the gmail api
  */
-async function gmailSendEmailFromArea (Area, dynamicParameters) {
+async function gmailSendEmailFromAreaParameters (ReactionParameters, dynamicParameters, User) {
   try {
-    const reactionParameters = Area.ReactionParameters
-    let from = reactionParameters.find(
+    let from = ReactionParameters.find(
       parameter => parameter.Parameter.name == 'from'
     ).value
-    let to = reactionParameters.find(
+    let to = ReactionParameters.find(
       parameter => parameter.Parameter.name == 'to'
     ).value
     to = replaceDynamicParameters(to, dynamicParameters)
 
-    let subject = reactionParameters.find(
+    let subject = ReactionParameters.find(
       parameter => parameter.Parameter.name == 'subject'
     ).value
     subject = replaceDynamicParameters(subject, dynamicParameters)
 
-    let body = reactionParameters.find(
+    let body = ReactionParameters.find(
       parameter => parameter.Parameter.name == 'body'
     ).value
     body = replaceDynamicParameters(body, dynamicParameters)
@@ -108,5 +108,5 @@ const sendEmailWithAccessToken = async (accessToken, to, subject, body) => {
 
 module.exports = {
   sendEmail,
-  gmailSendEmailFromArea
+  gmailSendEmailFromAreaParameters
 }

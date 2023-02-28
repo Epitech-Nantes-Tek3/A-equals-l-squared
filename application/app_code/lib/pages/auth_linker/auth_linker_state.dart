@@ -27,6 +27,10 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
         const SizedBox(
           height: 30,
         ),
+        deezerAuthBox.display(),
+        const SizedBox(
+          height: 30,
+        ),
         redditAuthBox.display(),
       ],
     );

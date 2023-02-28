@@ -87,12 +87,14 @@ class Token {
   String? googleToken;
   String? discordToken;
   String? redditToken;
+  String? deezerToken;
 
   /// Constructor of the Token class
   Token({
     this.googleToken,
     this.discordToken,
     this.redditToken,
+    this.deezerToken,
   });
 
   /// Convert a json map into a Token class
@@ -100,6 +102,7 @@ class Token {
     String? googleToken;
     String? discordToken;
     String? redditToken;
+    String? deezerToken;
 
     try {
       googleToken = json['googleToken'];
@@ -119,6 +122,11 @@ class Token {
       redditToken = null;
     }
 
-    return Token(googleToken: googleToken, discordToken: discordToken, redditToken: redditToken);
+    try {deezerToken = json['deezerToken'];
+    } catch (err) {
+      deezerToken = null;
+    }
+    return Token(googleToken: googleToken, discordToken: discordToken, redditToken: redditToken,
+        deezerToken: deezerToken);
   }
 }

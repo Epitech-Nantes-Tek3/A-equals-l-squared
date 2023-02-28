@@ -13,6 +13,7 @@ class ActionData {
   bool isEnable;
   String serviceId;
   List<ParameterData> parameters;
+  List<ParameterContent> parametersContent;
   List<DynamicParameterData> dynamicParameters;
 
   /// Constructor of the action class
@@ -24,6 +25,7 @@ class ActionData {
       required this.isEnable,
       required this.serviceId,
       required this.parameters,
+      required this.parametersContent,
       required this.dynamicParameters});
 
   /// Utility function used for cloning the class
@@ -37,6 +39,9 @@ class ActionData {
             serviceId: oldAction.serviceId,
             parameters: oldAction.parameters
                 .map((v) => ParameterData.clone(v))
+                .toList(),
+            parametersContent: oldAction.parametersContent
+                .map((v) => ParameterContent.clone(v))
                 .toList(),
             dynamicParameters: oldAction.dynamicParameters
                 .map((v) => DynamicParameterData.clone(v))
@@ -60,29 +65,20 @@ class ActionData {
         isEnable: json['isEnable'],
         serviceId: json['serviceId'],
         parameters: parameters,
+        parametersContent: <ParameterContent>[],
         dynamicParameters: dynamicParameters);
   }
 
   /// Return the list of all the associated param content
   List<ParameterContent> getAllParameterContent() {
-    List<ParameterContent> paramList = <ParameterContent>[];
-
-    for (var temp in parameters) {
-      if (temp.matchedContent == null) {
-        paramList.add(ParameterContent(paramId: temp.id, value: ""));
-      } else {
-        paramList.add(temp.matchedContent!);
-      }
-    }
-
-    return paramList;
+    return parametersContent;
   }
 
   /// Get a visual representation of an Action
   /// mode -> true = params, false = only name and desc
   /// params -> list of all the associated parameter content
   /// update -> Function pointer used for update the state
-  Widget display(bool mode, List<ParameterContent> params, Function? update) {
+  Widget display(bool mode, Function? update) {
     List<Widget> paramWid = <Widget>[];
     paramWid.add(Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,7 +103,7 @@ class ActionData {
     if (mode == true) {
       ParameterData? previous;
       for (var temp in parameters) {
-        paramWid.add(temp.display(params, previous, update!));
+        paramWid.add(temp.display(parametersContent, previous, update!));
         if (temp.isRequired == true && temp.getterUrl != null) {
           previous = temp;
         } else {

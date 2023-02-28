@@ -2,6 +2,23 @@ import 'package:application/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'testsFlutterObjects/action_data_tests.dart';
+import 'testsFlutterObjects/area_data_tests.dart';
+import 'testsFlutterObjects/dynamic_parameter_data_tests.dart';
+import 'testsFlutterObjects/error_data_tests.dart';
+import 'testsFlutterObjects/parameter_data_tests.dart';
+import 'testsFlutterObjects/reaction_data_tests.dart';
+import 'testsFlutterObjects/service_data_tests.dart';
+import 'testsFlutterObjects/user_data_tests.dart';
+import 'testsMaterialFunctions/material_functions_tests.dart';
+import 'testsPages/auth_linker_tests.dart';
+import 'testsPages/create_area_tests.dart';
+import 'testsPages/home_tests.dart';
+import 'testsPages/login_tests.dart';
+import 'testsPages/service_list_tests.dart';
+import 'testsPages/settings_tests.dart';
+import 'testsPages/signup_tests.dart';
+
 void templateFunction() {
   testWidgets('Just a basic template test', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
@@ -25,11 +42,33 @@ void templateFunction() {
   });
 }
 
-void uselessTest() {
-  testWidgets('Just a basic template test', (WidgetTester tester) async {});
+void flutterObjectTest() {
+  actionDataTest();
+  areaDataTest();
+  dynamicParameterDataTest();
+  errorDataTest();
+  parameterDataTest();
+  reactionDataTest();
+  serviceDataTest();
+  userDataTest();
+}
+
+void materialFunctionsTests() {
+  materialFunctionsTest();
+}
+
+void pagesTests() {
+  authLinkerPageTest();
+  createAreaPageTest();
+  homePageTest();
+  loginPageTest();
+  serviceListPageTest();
+  settingsPageTest();
+  signupPageTest();
 }
 
 void main() {
-  uselessTest();
-  //loginPageTest(); Removed for the moment
+  flutterObjectTest();
+  materialFunctionsTests();
+  pagesTests();
 }

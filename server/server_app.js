@@ -16,6 +16,7 @@ const utils = require('./utils')
 const gmail = require('./services/gmail/reactions/send_email')
 const jwt = require('jwt-simple')
 const { hash } = require('./utils')
+const axios = require('axios')
 require('dotenv').config({ path: '../database.env' })
 
 const onMessage = require('./services/discord/actions/on_message')
@@ -23,12 +24,17 @@ const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
 const discordClient = require('./services/discord/init')
+const deezer = require('./services/deezer/init')
+const { createDeezerService } = require('./services/deezer/init')
+const getUserPlaylists = require('./services/deezer/getters/user_playlists')
 const { createGmailService } = require('./services/gmail/gmail_init')
+const { createCalendarService } = require('./services/calendar/calendar_init')
 const { createDiscordService } = require('./services/discord/init')
 const { createRedditService } = require('./services/reddit/init')
 const getVoiceChannels = require('./services/discord/getters/voice_channels')
 const getTextChannels = require('./services/discord/getters/text_channels')
 const getAvailableGuilds = require('./services/discord/getters/available_guilds')
+const getAvailableCalendars = require('./services/calendar/getters/get_available_calendars')
 const { createTimeTimeService } = require('./services/timetime/init')
 const {
   TriggerInitMap,
@@ -50,6 +56,8 @@ app.use(bodyParser.json())
 app.use(session({ secret: 'SECRET', resave: false, saveUninitialized: false }))
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.set('json spaces', 2)
 
 const PORT = 8080
 const HOST = '0.0.0.0'
@@ -119,7 +127,8 @@ app.get('/about.json', async (req, res) => {
         }
       })
     )
-    res.json(about)
+    res.header('Content-Type', 'application/json')
+    res.type('json').send(JSON.stringify(about, null, 2) + '\n');
   } catch (err) {
     console.log(err)
     res.status(500).send(err)
@@ -264,7 +273,7 @@ app.get(
 
 /**
  * Post request to reset current password
- * Send a confirmation e-mail before reseting.
+ * Send a confirmation e-mail before resetting.
  * body.email -> User mail
  */
 app.post('/api/user/resetPassword', async (req, res, next) => {
@@ -439,6 +448,7 @@ app.get(
  * If no token storage is already linked with the user, a new one is created
  * body.google The Google auth token (Set to '' to remove it)
  * body.discord The Discord auth token (Set to '' to remove it)
+ * body.deezer The Discord auth token (Set to '' to remove it)
  * Route protected by a JWT token
  */
 app.post(
@@ -452,7 +462,11 @@ app.post(
         data: {
           googleToken: req.body.google != '' ? req.body.google : null,
           discordToken: req.body.discord != '' ? req.body.discord : null,
+<<<<<<< HEAD
           redditToken: req.body.reddit != '' ? req.body.reddit : null
+=======
+          deezerToken: req.body.deezer != '' ? req.body.deezer : null
+>>>>>>> main
         }
       })
       const token = utils.generateToken(user.id)
@@ -463,7 +477,41 @@ app.post(
       })
     } catch (err) {
       console.log(err)
-      return res.status(400).send('Token gestionner temporaly desactivated.')
+      return res.status(400).send('Token manager temporarily desactivated.')
+    }
+  }
+)
+
+/**
+ * Route used for Create/Update auth token
+ * If no token storage is already linked with the user, a new one is created
+ * body.google The Google auth token (Set to '' to remove it)
+ * body.discord The Discord auth token (Set to '' to remove it)
+ * Route protected by a JWT token
+ */
+app.post(
+  '/api/code/deezer',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid code')
+    try {
+      const ret = await axios.post(
+        'https://connect.deezer.com/oauth/access_token.php?app_id=' +
+          req.body.app_id +
+          '&secret=' +
+          req.body.secret +
+          '&code=' +
+          req.body.code +
+          '&output=json'
+      )
+      return res.status(200).json({
+        status: 'success',
+        data: { access_token: ret.data.access_token },
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('Code generation has failed.')
     }
   }
 )
@@ -503,209 +551,9 @@ app.get(
   }
 )
 
-/**
- * Get request returning all user AREA sorted by creation date.
- * Need to be authenticated with a token.
- */
-app.get(
-  '/api/get/area',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res) => {
-    if (!req.user) return res.status(401).send('Invalid token')
-    try {
-      const areas = await database.prisma.UsersHasActionsReactions.findMany({
-        where: {
-          userId: req.user.id
-        },
-        include: {
-          ActionParameters: {
-            include: {
-              Parameter: true
-            }
-          },
-          ReactionParameters: true
-        },
-        orderBy: {
-          createdAt: 'desc'
-        }
-      })
-      return res.status(200).json({
-        status: 'success',
-        data: {
-          areas
-        },
-        statusCode: res.statusCode
-      })
-    } catch (err) {
-      console.log(err)
-      return res.status(400).send('AREA getter temporarily desactivated.')
-    }
-  }
-)
-
-/**
- * Post function used for deleting an area
- * body.id -> id of the AREA to delete
- * Route protected by a JWT token
- */
-app.post(
-  '/api/delete/area',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res, next) => {
-    if (!req.user) return res.status(401).send('Invalid token')
-    try {
-      const oldArea = await database.prisma.UsersHasActionsReactions.findUnique(
-        {
-          where: { id: req.body.id },
-          select: {
-            id: true,
-            User: true,
-            ActionParameters: {
-              include: {
-                Parameter: true
-              }
-            },
-            Action: true
-          }
-        }
-      )
-      if (TriggerDestroyMap[oldArea.Action.code])
-        await TriggerDestroyMap[oldArea.Action.code](oldArea)
-      await database.prisma.UsersHasActionsReactions.delete({
-        where: { id: req.body.id }
-      })
-      return res.status(200).send('AREA successfully deleted.')
-    } catch (err) {
-      console.log(err)
-      return res.status(400).send('You cannot delete this area.')
-    }
-  }
-)
-
-/**
- * Cross all the User area and check the Name validity
- * @param {*} userId the user Id
- * @param {*} newName the wanted name
- * @returns True if the new name is valid, false otherwise
- */
-async function checkAreaNameAlreadyExistForGivenUser (userId, newName) {
-  let notExisting = true
-  const userAreas = await database.prisma.UsersHasActionsReactions.findMany({
-    where: { userId: userId }
-  })
-  userAreas.forEach(areaContent => {
-    if (areaContent.name == newName) notExisting = false
-  })
-  return notExisting
-}
-
-/**
- * Post function used for updating an area
- * body.id -> id of the AREA to update
- * body.name -> Name of the area
- * body.isEnable -> Status of the area
- * body.description -> Description of the area (optionnal)
- * body.actionId -> Action id (optionnal if reactionId is set)
- * body.actionParameters -> Action parameters (optional)
- * body.reactionId -> Reaction id (optionnal if actionId is set)
- * body.reactionParameters -> Reaction parameters (optionnal)
- * Route protected by a JWT token
- */
-app.post(
-  '/api/update/area',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res, next) => {
-    if (!req.user) return res.status(401).send('Invalid token')
-    try {
-      const oldArea = await database.prisma.UsersHasActionsReactions.findUnique(
-        {
-          where: {
-            id: req.body.id
-          },
-          include: {
-            Action: true,
-            ActionParameters: {
-              include: {
-                Parameter: true
-              }
-            },
-            ReactionParameters: true
-          }
-        }
-      )
-      if (
-        req.body.name != oldArea.name &&
-        !checkAreaNameAlreadyExistForGivenUser(req.user.id, req.body.name)
-      )
-        return res.status(400).send('Please give a non existent area name.')
-      if (TriggerDestroyMap[oldArea.Action.code])
-        await TriggerDestroyMap[oldArea.Action.code](oldArea)
-
-      for await (let param of req.body.actionParameters) {
-        for await (let actionParam of oldArea.ActionParameters) {
-          if (actionParam.parameterId == param.paramId) {
-            await database.prisma.ActionParameter.update({
-              where: {
-                id: actionParam.id
-              },
-              data: {
-                value: param.value
-              }
-            })
-          }
-        }
-      }
-
-      for await (let param of req.body.reactionParameters) {
-        for await (let reactionParam of oldArea.ReactionParameters) {
-          if (reactionParam.parameterId == param.paramId) {
-            await database.prisma.ReactionParameter.update({
-              where: {
-                id: reactionParam.id
-              },
-              data: {
-                value: param.value
-              }
-            })
-          }
-        }
-      }
-      const areaCreation =
-        await database.prisma.UsersHasActionsReactions.update({
-          where: { id: req.body.id },
-          data: {
-            name: req.body.name,
-            isEnable: req.body.isEnable,
-            description: req.body.description,
-            Action: { connect: { id: req.body.actionId } },
-            Reaction: { connect: { id: req.body.reactionId } }
-          },
-          select: {
-            id: true,
-            isEnable: true,
-            User: true,
-            ActionParameters: {
-              include: {
-                Parameter: true
-              }
-            },
-            Action: true
-          }
-        })
-      if (areaCreation.isEnable && TriggerInitMap[areaCreation.Action.code])
-        if (!TriggerInitMap[areaCreation.Action.code](areaCreation)) {
-          return res.status(400).send('Please pass a valid parameter list !')
-        }
-      return res.status(200).send('AREA successfully updated.')
-    } catch (err) {
-      console.log(err)
-      return res.status(400).send('You cannot update this area.')
-    }
-  }
-)
-
 /*
- * @brief List all available Voice Channels on a given Guild ID.
+ * List all available Voice Channels on a given Guild ID.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/discord/getVoiceChannels',
@@ -721,7 +569,8 @@ app.get(
 )
 
 /**
- * @brief List all available Text Channels on a given GuildID.
+ * List all available Text Channels on a given GuildID.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/discord/getTextChannels',
@@ -737,7 +586,8 @@ app.get(
 )
 
 /**
- * @brief List all available Guilds where the bot is.
+ * List all available Guilds where the bot is.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/discord/getAvailableGuilds',
@@ -761,7 +611,33 @@ app.get(
 )
 
 /**
- * @brief List available performers, such as bot/user.
+ * List all available calendars where the user is.
+ * Route protected by a JWT token
+ */
+app.get(
+  '/api/services/calendar/getAvailableCalendars',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    if (req.user.googleToken == null)
+      return res.status(400).send('No Google account linked.')
+    try {
+      const calendars = await getAvailableCalendars(req.user.googleToken)
+      if (calendars == null) return res.status(400).send('An error occured.')
+      return res.status(200).json({
+        status: 'success',
+        data: calendars,
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('An error occured.')
+    }
+  }
+)
+
+/**
+ * List available performers, such as bot/user.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/discord/getAvailablePerformers',
@@ -787,7 +663,8 @@ app.get(
 )
 
 /**
- * @brief List available performers, such as bot/user.
+ * List available performers, such as bot/user.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/gmail/getAvailablePerformers',
@@ -812,14 +689,43 @@ app.get(
 )
 
 /**
- * @brief List available area for rea service.
+ * List all user's playlist on Deezer.
+ * Route protected by a JWT token
+ */
+app.get(
+  '/api/services/deezer/getUserPlaylists',
+  passport.authenticate('jwt', { sessions: false }),
+  async (req, res) => {
+    if (req.user.deezerToken == null)
+      return res.status(400).send('No Deezer account linked.')
+    try {
+      const playlists = await getUserPlaylists(
+        req.user.deezerId,
+        req.user.deezerToken
+      )
+      if (playlists == null) return res.status(400).send('No playlist found.')
+      return res.status(200).json({
+        status: 'success',
+        data: playlists,
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('An error occured.')
+    }
+  }
+)
+
+/**
+ * List available area for rea service.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/rea/getAvailableArea',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const area = []
-    const areas = await database.prisma.UsersHasActionsReactions.findMany({
+    const areas = await database.prisma.AREA.findMany({
       where: { userId: req.user.id }
     })
     areas.forEach(areaContent => {
@@ -837,7 +743,8 @@ app.get(
 )
 
 /**
- * @brief List available status for rea service.
+ * List available status for rea service.
+ * Route protected by a JWT token
  */
 app.get(
   '/api/services/rea/getAvailableStatus',
@@ -862,7 +769,7 @@ app.get(
 
 /**
  * Creating a new user in the database.
- * bodi.username -> User name
+ * body.username -> User name
  * body.email -> User mail
  * body.password -> User password
  */
@@ -884,6 +791,40 @@ app.post('/api/dev/user/create', async (req, res) => {
 })
 
 /**
+ * Add the Deezer ID to the user in the database.
+ * Route protected by a JWT token
+ */
+app.post(
+  '/api/services/deezer/fillUserId',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    if (req.user.deezerToken == null)
+      return res.status(400).send('No Deezer account linked.')
+    try {
+      const response = await axios.get(
+        'https://api.deezer.com/user/me?access_token=' + req.user.deezerToken,
+        {
+          headers: {
+            Authorization: `Bearer ${req.user.deezerToken}`,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        }
+      )
+      const user = await database.prisma.User.update({
+        where: { id: req.user.id },
+        data: {
+          deezerId: response.data.id.toString()
+        }
+      })
+      return res.status(200).send('Deezer ID successfully updated.')
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('An error occured.')
+    }
+  }
+)
+
+/**
  * List all users in the database.
  */
 app.get('/api/dev/user/listall', async (req, res) => {
@@ -899,9 +840,9 @@ app.get('/api/dev/user/listall', async (req, res) => {
 /**
  * Creating a new service in the database.
  * body.name -> Service name
- * body.description -> Service description (optionnal)
- * body.primaryColor -> Description of the area (optionnal, set by default #000000)
- * body.secondaryColor -> Description of the area (optionnal, set by default #000000)
+ * body.description -> Service description (optional)
+ * body.primaryColor -> Description of the area (optional, set by default #000000)
+ * body.secondaryColor -> Description of the area (optional, set by default #000000)
  */
 app.post('/api/dev/service/create', async (req, res) => {
   try {
@@ -937,7 +878,7 @@ app.get('/api/dev/service/listall', async (req, res) => {
 /**
  * Creating a new action.
  * body.name -> Action name
- * body.description -> Action description (optionnal)
+ * body.description -> Action description (optional)
  * body.serviceId -> Service id
  */
 app.post('/api/dev/action/create', async (req, res) => {
@@ -977,7 +918,7 @@ app.get('/api/dev/action/listall', async (req, res) => {
 /**
  * Creating a new reaction.
  * body.name -> Reaction name
- * body.description -> Reaction description (optionnal)
+ * body.description -> Reaction description (optional)
  * body.serviceId -> Service id
  */
 app.post('/api/dev/reaction/create', async (req, res) => {
@@ -1001,7 +942,11 @@ app.post('/api/dev/reaction/create', async (req, res) => {
  */
 app.get('/api/dev/reaction/listall', async (req, res) => {
   try {
-    const reactions = await database.prisma.Reaction.findMany()
+    const reactions = await database.prisma.Reaction.findMany({
+      include: {
+        Parameters: true
+      }
+    })
     return res.json(reactions)
   } catch (err) {
     console.log(err)
@@ -1013,9 +958,9 @@ app.get('/api/dev/reaction/listall', async (req, res) => {
  * Creating a new parameter.
  * body.name -> Parameter name
  * body.isRequired -> Parameter is required or not
- * body.description -> Parameter description (optionnal)
- * body.actionId -> Action id (optionnal)
- * body.reactionId -> Reaction id (optionnal)
+ * body.description -> Parameter description (optional)
+ * body.actionId -> Action id (optional)
+ * body.reactionId -> Reaction id (optional)
  */
 app.post('/api/dev/parameter/create', async (req, res) => {
   try {
@@ -1061,94 +1006,21 @@ app.get('/api/dev/parameter/listall', async (req, res) => {
 })
 
 /**
- * Creating a new area.
- * body.name -> Name of the area. (need to be set)
- * body.description -> Description of the area (optionnal)
- * body.actionId -> Action id (optionnal if reactionId is set)
- * body.actionParameters -> Action parameters (optionnal)
- * body.reactionId -> Reaction id (optionnal if actionId is set)
- * body.reactionParameters -> Reaction parameters (optionnal)
- * body.isEnable -> Status of the area. (need to be set)
- * Protected by a JWT token
- */
-app.post(
-  '/api/area/create',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res) => {
-    if (!req.user) return res.status(401).send('Invalid token')
-    try {
-      if (!checkAreaNameAlreadyExistForGivenUser(req.user.id, req.body.name))
-        return res.status(400).send('Please give a non existent area name.')
-      const ActionParameters = []
-
-      req.body.actionParameters.forEach(param => {
-        ActionParameters.push({
-          Parameter: { connect: { id: param.paramId } },
-          value: param.value
-        })
-      })
-
-      const ReactionParameters = []
-
-      req.body.reactionParameters.forEach(param => {
-        ReactionParameters.push({
-          Parameter: { connect: { id: param.paramId } },
-          value: param.value
-        })
-      })
-
-      const areaCreation =
-        await database.prisma.UsersHasActionsReactions.create({
-          data: {
-            name: req.body.name,
-            description: req.body.description,
-            User: { connect: { id: req.user.id } },
-            Action: { connect: { id: req.body.actionId } },
-            ActionParameters: { create: ActionParameters },
-            Reaction: { connect: { id: req.body.reactionId } },
-            ReactionParameters: { create: ReactionParameters },
-            isEnable: req.body.isEnable
-          },
-          select: {
-            id: true,
-            isEnable: true,
-            User: true,
-            ActionParameters: {
-              include: {
-                Parameter: true
-              }
-            },
-            Action: true
-          }
-        })
-      if (areaCreation.isEnable && TriggerInitMap[areaCreation.Action.code])
-        if (!TriggerInitMap[areaCreation.Action.code](areaCreation)) {
-          await database.prisma.UsersHasActionsReactions.delete({
-            where: { id: areaCreation.id }
-          })
-          return res.status(400).send('Please pass a valid parameter list !')
-        }
-      return res.json(areaCreation)
-    } catch (err) {
-      console.log(err)
-      return res.status(400).json('Please pass a complete body.')
-    }
-  }
-)
-
-/**
  * Creating a new area without protection.
  * body.name -> Name of the area. (need to be set)
- * body.description -> Description of the area (optionnal)
- * body.actionId -> Action id (optionnal if reactionId is set)
- * body.actionParameters -> Action parameters (optionnal)
- * body.reactionId -> Reaction id (optionnal if actionId is set)
- * body.reactionParameters -> Reaction parameters (optionnal)
+ * body.description -> Description of the area (optional)
+ * body.actionId -> Action id (optional if reactionId is set)
+ * body.actionParameters -> Action parameters (optional)
+ * body.reactionId -> Reaction id (optional if actionId is set)
+ * body.reactionParameters -> Reaction parameters (optional)
  */
 app.post('/api/dev/area/create', async (req, res) => {
   try {
-    const ActionParameters = []
+    if (!checkAreaNameAlreadyExistForGivenUser(req.user.id, req.body.name))
+      return res.status(400).send('Please give a non existent area name.')
 
+    //Create each action parameter
+    const ActionParameters = []
     req.body.actionParameters.forEach(param => {
       ActionParameters.push({
         Parameter: { connect: { id: param.paramId } },
@@ -1156,26 +1028,52 @@ app.post('/api/dev/area/create', async (req, res) => {
       })
     })
 
-    const ReactionParameters = []
-
-    req.body.reactionParameters.forEach(param => {
-      ReactionParameters.push({
-        Parameter: { connect: { id: param.paramId } },
-        value: param.value
+    //Create each reaction with its parameters
+    const Reactions = []
+    req.body.reactions.forEach(reaction => {
+      //Create each reaction parameter
+      const ReactionParameters = []
+      reaction.reactionParameters.forEach(param => {
+        ReactionParameters.push({
+          Parameter: { connect: { id: param.paramId } },
+          value: param.value
+        })
+      })
+      Reactions.push({
+        Reaction: { connect: { id: reaction.id } },
+        ReactionParameters: { create: ReactionParameters }
       })
     })
 
-    const areaCreation = await database.prisma.UsersHasActionsReactions.create({
+    //Create the area
+    const areaCreation = await database.prisma.AREA.create({
       data: {
         name: req.body.name,
         description: req.body.description,
-        User: { connect: { id: req.body.userId } },
+        User: { connect: { id: req.user.id } },
         Action: { connect: { id: req.body.actionId } },
         ActionParameters: { create: ActionParameters },
-        Reaction: { connect: { id: req.body.reactionId } },
-        ReactionParameters: { create: ReactionParameters }
+        Reactions: { create: Reactions }
+      },
+      select: {
+        id: true,
+        isEnable: true,
+        User: true,
+        ActionParameters: {
+          include: {
+            Parameter: true
+          }
+        },
+        Action: true
       }
     })
+    if (areaCreation.isEnable && TriggerInitMap[areaCreation.Action.code])
+      if (!TriggerInitMap[areaCreation.Action.code](areaCreation)) {
+        await database.prisma.AREA.delete({
+          where: { id: areaCreation.id }
+        })
+        return res.status(400).send('Please pass a valid parameter list !')
+      }
     return res.json(areaCreation)
   } catch (err) {
     console.log(err)
@@ -1188,7 +1086,7 @@ app.post('/api/dev/area/create', async (req, res) => {
  */
 app.get('/api/dev/area/listall', async (req, res) => {
   try {
-    const areas = await database.prisma.UsersHasActionsReactions.findMany()
+    const areas = await database.prisma.AREA.findMany()
     return res.json(areas)
   } catch (err) {
     console.log(err)
@@ -1203,11 +1101,17 @@ app.get('/api/dev/service/createAll', async (req, res) => {
   const response = []
   response.push(await createDiscordService())
   response.push(await createGmailService())
+  response.push(await createCalendarService())
   response.push(await createTimeTimeService())
   response.push(await createReaaaaaaaService())
   response.push(await createRedditService())
+  response.push(await createDeezerService())
   return res.json(response)
 })
+
+require('./api/area/area.js')(app, passport, database)
+require('./api/area/reaction/reaction.js')(app, passport, database)
+require('./api/area/action/action.js')(app, passport, database)
 
 /**
  * Generate token thanks to a code in Reddit
@@ -1256,4 +1160,4 @@ app.listen(PORT, HOST, () => {
   console.log(`Server running...`)
 })
 
-module.exports = { test_example }
+module.exports = { test_example, app }
