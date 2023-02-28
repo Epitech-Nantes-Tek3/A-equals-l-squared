@@ -148,6 +148,7 @@ class AreaData {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             getServiceIcon(),
+            const SizedBox(width: 10),
             Expanded(
               child: Text(
                 name,
@@ -159,8 +160,9 @@ class AreaData {
         ),
         const SizedBox(height: 20),
         Text(
-          description == null ? 'Description : \n\n No description' :
-          'Description : \n\n $description',
+          description == null
+              ? 'Description : \n\n No description'
+              : 'Description : \n\n $description',
           style: const TextStyle(color: Colors.black),
         )
 
