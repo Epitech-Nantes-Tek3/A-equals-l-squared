@@ -50,5 +50,21 @@ services:
     volumes:
       - common:/apk
 
+  ngrok:
+    image: shkoliar/ngrok:latest
+    depends_on:
+      client_web:
+        condition: service_started
+    ports:
+      - 4551:4551
+    links:
+      - client_web
+    env_file:
+      - ./server/database.env
+    environment:
+      - DOMAIN=client_web
+      - PORT=8080
+      - AUTH_TOKEN=$${NGROK_AUTH_TOKEN}
+
 volumes:
   common:
