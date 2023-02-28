@@ -12,6 +12,7 @@ class ActionData {
   DateTime createdAt;
   bool isEnable;
   String serviceId;
+  bool isPreviewDisplayMax;
   List<ParameterData> parameters;
   List<ParameterContent> parametersContent;
   List<DynamicParameterData> dynamicParameters;
@@ -24,6 +25,7 @@ class ActionData {
       required this.createdAt,
       required this.isEnable,
       required this.serviceId,
+      required this.isPreviewDisplayMax,
       required this.parameters,
       required this.parametersContent,
       required this.dynamicParameters});
@@ -37,6 +39,7 @@ class ActionData {
             createdAt: oldAction.createdAt,
             isEnable: oldAction.isEnable,
             serviceId: oldAction.serviceId,
+            isPreviewDisplayMax: false,
             parameters: oldAction.parameters
                 .map((v) => ParameterData.clone(v))
                 .toList(),
@@ -65,6 +68,7 @@ class ActionData {
         isEnable: json['isEnable'],
         serviceId: json['serviceId'],
         parameters: parameters,
+        isPreviewDisplayMax: false,
         parametersContent: <ParameterContent>[],
         dynamicParameters: dynamicParameters);
   }
@@ -77,24 +81,48 @@ class ActionData {
   Widget displayActionModificationView(Function? update) {
     List<Widget> actionPreview = <Widget>[];
 
-    actionPreview.add(displayActionDescription());
-    ParameterData? previous;
-    for (var temp in parameters) {
-      actionPreview.add(temp.display(parametersContent, previous, update!));
-      if (temp.isRequired == true && temp.getterUrl != null) {
-        previous = temp;
-      } else {
-        previous = null;
-      }
-    }
-    List<Widget> dynamicParams = <Widget>[];
-    for (var temp in dynamicParameters) {
-      dynamicParams.add(temp.display());
-    }
     actionPreview.add(Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: dynamicParams,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            displayActionDescription(),
+            IconButton(
+                onPressed: () {
+                  if (isPreviewDisplayMax) {
+                    isPreviewDisplayMax = false;
+                  } else {
+                    isPreviewDisplayMax = true;
+                  }
+                  update!(null);
+                },
+                icon: isPreviewDisplayMax
+                    ? const Icon(Icons.expand_circle_down_outlined)
+                    : const Icon(Icons.arrow_circle_up_outlined))
+          ],
+        )
+      ],
     ));
+
+    if (isPreviewDisplayMax) {
+      ParameterData? previous;
+      for (var temp in parameters) {
+        actionPreview.add(temp.display(parametersContent, previous, update!));
+        if (temp.isRequired == true && temp.getterUrl != null) {
+          previous = temp;
+        } else {
+          previous = null;
+        }
+      }
+      List<Widget> dynamicParams = <Widget>[];
+      for (var temp in dynamicParameters) {
+        dynamicParams.add(temp.display());
+      }
+      actionPreview.add(Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: dynamicParams,
+      ));
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: actionPreview,
@@ -127,6 +155,7 @@ class ActionData {
               children: <Widget>[
                 Text(
                   description,
+                  style: const TextStyle(color: Colors.black),
                 ), // Change when icon are in DB
               ]),
         ],
