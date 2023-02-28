@@ -118,12 +118,22 @@
     }
 
     if (response.statusCode != 200) {
+      actionSetting = false;
+      createdArea!.isEnable = false;
+      _apiErrorMessage = response.body;
+      createUpdate(null);
       return &#39;Error during area $changeType&#39;;
     }
+    _apiErrorMessage = null;
     if (changeType == &#39;create&#39;) {
       createdArea = AreaData.fromJson(jsonDecode(response.body));
     }
     await updateAllFlutterObject();
+    if (changeType == &#39;delete&#39;) {
+      leavePage();
+      return &#39;Area successfully $changeType !&#39;;
+    }
+    createUpdate(null);
     return &#39;Area successfully $changeType !&#39;;
   } catch (err) {
     return &#39;Error during area $changeType&#39;;
@@ -183,6 +193,7 @@
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/displayReactionViewToCreateAnArea.html">displayReactionViewToCreateAnArea</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/initState.html">initState</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/leavePage.html">leavePage</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>

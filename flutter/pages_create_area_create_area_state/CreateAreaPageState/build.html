@@ -378,25 +378,13 @@ Widget build(BuildContext context) {
                       onPressed: (() {
                         changeType = &#39;delete&#39;;
                         apiAskForAreaChange();
-                        setState(() {
-                          createdArea = AreaData(
-                              id: &#39;&#39;,
-                              name: &#39;Deleted&#39;,
-                              description: &#39;You can now go home !&#39;,
-                              userId: &#39;&#39;,
-                              actionList: [],
-                              reactionList: [],
-                              isEnable: true,
-                              logicalGate: &#39;OR&#39;);
-                        });
-
-                        &#47;&#47;&#47; UPDATE IT WITH FRAME GESTION
                       }),
                       child: Text(
                           &quot;Delete ${createdArea != null ? createdArea!.name : &#39;&#39;}&quot;))
               ],
             )
-          ])
+          ]),
+        Text(_apiErrorMessage != null ? _apiErrorMessage! : &#39;&#39;)
       ],
     ),
   )));
@@ -455,6 +443,7 @@ Widget build(BuildContext context) {
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/displayReactionViewToCreateAnArea.html">displayReactionViewToCreateAnArea</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/initState.html">initState</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/leavePage.html">leavePage</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>
