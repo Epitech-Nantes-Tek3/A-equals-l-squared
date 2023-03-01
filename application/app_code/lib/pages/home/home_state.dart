@@ -57,7 +57,7 @@ class HomePageState extends State<HomePage> {
             createdArea = AreaData.clone(areaData);
             goToUpdateAreaPage(context);
           },
-          child: areaData.display(false, null),), context,
+          child: areaData.display(false, null, false, false)), context,
       sizeOfButton: 2.5,
       isShadowNeeded: true,
       paddingHorizontal: 10,
