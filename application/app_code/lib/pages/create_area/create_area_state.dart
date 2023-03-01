@@ -23,6 +23,29 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     Text('And')
   ];
 
+  static const List<Widget> listPrimaryColor = <Widget>[
+    Icon(
+      Icons.color_lens,
+      color: Colors.green,
+    ),
+    Icon(
+      Icons.color_lens,
+      color: Colors.blue,
+    ),
+    Icon(
+      Icons.color_lens,
+      color: Colors.red,
+    ),
+    Icon(
+      Icons.color_lens,
+      color: Colors.amber,
+    ),
+    Icon(
+      Icons.color_lens,
+      color: Colors.black,
+    )
+  ];
+
   /// Creation of an Action state
   int _actionCreationState = 0;
 
@@ -33,6 +56,14 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           ? <bool>[true, false]
           : <bool>[false, true]
       : <bool>[true, false];
+
+  final List<bool> _selectedPrimaryColor = <bool>[
+    false,
+    false,
+    false,
+    false,
+    true
+  ];
 
   /// Creation of an Reaction state
   int _reactionCreationState = 0;
@@ -83,7 +114,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             "name": createdArea!.name,
             "description": createdArea!.description,
             "isEnable": createdArea!.isEnable,
-            "logicalGate": createdArea!.logicalGate
+            "logicalGate": createdArea!.logicalGate,
+            "primaryColor": createdArea!.primaryColor,
+            "secondaryColor:": createdArea!.secondaryColor,
+            "iconPath": createdArea!.iconPath
           }),
         );
       } else if (changeType == 'update') {
@@ -97,7 +131,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             "name": createdArea!.name,
             "description": createdArea!.description,
             "isEnable": createdArea!.isEnable,
-            "logicalGate": createdArea!.logicalGate
+            "logicalGate": createdArea!.logicalGate,
+            "primaryColor": createdArea!.primaryColor,
+            "secondaryColor:": createdArea!.secondaryColor,
+            "iconPath": createdArea!.iconPath
           }),
         );
       } else if (changeType == 'delete') {
@@ -767,6 +804,17 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   @override
   void initState() {
     super.initState();
+    if (createdArea != null) {
+      _selectedPrimaryColor[4] = false;
+      String str = createdArea!.primaryColor.replaceFirst("#", "0xff");
+      Color tempColor = Color(int.parse(str));
+      for (int i = 0; i < listPrimaryColor.length; i++) {
+        if (tempColor.value == (listPrimaryColor[i] as Icon).color!.value) {
+          _selectedPrimaryColor[i] = true;
+          break;
+        }
+      }
+    }
   }
 
   @override
@@ -1080,6 +1128,33 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                 ),
                                 isSelected: _selectedActionCondition,
                                 children: listActionCondition,
+                              ),
+                              const SizedBox(height: 5),
+                              ToggleButtons(
+                                direction: isSelected
+                                    ? Axis.vertical
+                                    : Axis.horizontal,
+                                onPressed: (int index) {
+                                  setState(() {
+                                    for (int i = 0;
+                                        i < _selectedPrimaryColor.length;
+                                        i++) {
+                                      _selectedPrimaryColor[i] = i == index;
+                                      if (i == index) {
+                                        createdArea!.primaryColor =
+                                            '#${(listPrimaryColor[i] as Icon).color!.value.toRadixString(16).substring(2, 8)}';
+                                      }
+                                    }
+                                  });
+                                },
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                constraints: const BoxConstraints(
+                                  minHeight: 40.0,
+                                  minWidth: 60.0,
+                                ),
+                                isSelected: _selectedPrimaryColor,
+                                children: listPrimaryColor,
                               ),
                             ]),
                       ])),
