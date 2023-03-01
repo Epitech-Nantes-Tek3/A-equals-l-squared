@@ -39,7 +39,7 @@ class ActionData {
             createdAt: oldAction.createdAt,
             isEnable: oldAction.isEnable,
             serviceId: oldAction.serviceId,
-            isPreviewDisplayMax: false,
+            isPreviewDisplayMax: true,
             parameters: oldAction.parameters
                 .map((v) => ParameterData.clone(v))
                 .toList(),
@@ -68,7 +68,7 @@ class ActionData {
         isEnable: json['isEnable'],
         serviceId: json['serviceId'],
         parameters: parameters,
-        isPreviewDisplayMax: false,
+        isPreviewDisplayMax: true,
         parametersContent: <ParameterContent>[],
         dynamicParameters: dynamicParameters);
   }
