@@ -122,11 +122,15 @@ class Token {
       redditToken = null;
     }
 
-    try {deezerToken = json['deezerToken'];
+    try {
+      deezerToken = json['deezerToken'];
     } catch (err) {
       deezerToken = null;
     }
-    return Token(googleToken: googleToken, discordToken: discordToken, redditToken: redditToken,
+    return Token(
+        googleToken: googleToken,
+        discordToken: discordToken,
+        redditToken: redditToken,
         deezerToken: deezerToken);
   }
 }
