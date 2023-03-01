@@ -344,6 +344,7 @@ module.exports = function (app, passport, database) {
           data: {
             name: req.body.name,
             isEnable: req.body.isEnable,
+            updatedArea: Date(),
             description: 'description' in req.body ? req.body.description : '',
             logicalGate:
               'logicalGate' in req.body ? req.body.logicalGate : 'OR',
