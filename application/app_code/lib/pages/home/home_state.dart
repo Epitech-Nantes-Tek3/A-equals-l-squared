@@ -53,13 +53,11 @@ class HomePageState extends State<HomePage> {
   Widget areaDataToElevatedButton(AreaData areaData, Color areaBorderColor) {
     return materialElevatedButtonArea(
       ElevatedButton(
-        onPressed: () {
-          createdArea = AreaData.clone(areaData);
-          goToUpdateAreaPage(context);
-        },
-        child: areaData.display(false, null),
-      ),
-      context,
+          onPressed: () {
+            createdArea = AreaData.clone(areaData);
+            goToUpdateAreaPage(context);
+          },
+          child: areaData.display(false, null, false, false)), context,
       sizeOfButton: 2.5,
       isShadowNeeded: true,
       paddingHorizontal: 10,
@@ -70,7 +68,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  /// THis function display all Areas in Tab
+  /// This function display all Areas in Tab
   List<Widget> createTabOfAreas() {
     List<Widget> areaVis = <Widget>[];
     late AreaData tempArea;

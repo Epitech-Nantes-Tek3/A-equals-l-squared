@@ -33,7 +33,7 @@ class ReactionData {
             name: oldReaction.name,
             description: oldReaction.description,
             createdAt: oldReaction.createdAt,
-            isPreviewDisplayMax: false,
+            isPreviewDisplayMax: true,
             isEnable: oldReaction.isEnable,
             serviceId: oldReaction.serviceId,
             parameters: oldReaction.parameters
@@ -57,7 +57,7 @@ class ReactionData {
         isEnable: json['isEnable'],
         serviceId: json['serviceId'],
         parameters: parameters,
-        isPreviewDisplayMax: false,
+        isPreviewDisplayMax: true,
         parametersContent: <ParameterContent>[]);
   }
 
