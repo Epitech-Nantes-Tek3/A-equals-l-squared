@@ -94,7 +94,7 @@ class ServiceData {
                   Text(
                     name,
                     style:
-                        TextStyle(color: isEnabled ? Colors.green : Colors.red),
+                        TextStyle(color: Color(int.parse(primaryColor.replaceFirst("#", "0xff")))),
                   ),
                   // Change when icon are in DB
                   Text(
