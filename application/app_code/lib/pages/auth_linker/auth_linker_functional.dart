@@ -240,7 +240,8 @@ Future<String> getRedditToken() async {
           !kIsWeb ? 'https://www.test.com' : 'http://localhost:8081/auth.html',
       'duration': 'permanent',
       'state': state,
-      'scope': 'identity edit history mysubreddits privatemessages read save submit subscribe vote'
+      'scope':
+          'identity edit history mysubreddits privatemessages read save submit subscribe vote'
     });
     final result = await FlutterWebAuth2.authenticate(
         url: url.toString(), callbackUrlScheme: !kIsWeb ? 'https' : 'http');
