@@ -42,6 +42,87 @@ const { createReaaaaaaaService } = require('./services/reaaaaaaa/init')
 
 const app = express()
 
+const swaggerUi = require('swagger-ui-express')
+const swaggerJsdoc = require('swagger-jsdoc')
+
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'A=L² API',
+      version: '1.0.0',
+      description: 'API for A=L² Area Epitech project',
+    },
+    servers: [
+      {
+        url: 'http://localhost:8080',
+      },
+    ],
+    tags: [
+      {
+        name: 'About',
+        description: 'About the A=L² project',
+      },
+      {
+        name: 'User',
+        description: 'User management',
+      },
+      {
+        name: 'Authentification',
+        description: 'Authentification management',
+      },
+      {
+        name: 'Services',
+        description: 'Service management',
+        children: [
+          {
+            name: 'Gmail',
+            description: 'Gmail management',
+          },
+          {
+            name: 'Discord',
+            description: 'Discord management',
+          },
+          {
+            name: 'Calendar',
+            description: 'Calendar management',
+          },
+          {
+            name: 'Deezer',
+            description: 'Deezer management',
+          },
+        ]
+      },
+      {
+        name: 'Area',
+        description: 'Area management',
+        children: [
+          {
+            name: 'Action',
+            description: 'Action management',
+          },
+          {
+            name: 'Reaction',
+            description: 'Reaction management',
+          }
+        ]
+      },
+    ],
+    host: 'localhost:8080',
+    basePath: '/',
+  },
+  consumes: ['application/json'],
+  produces: ['application/json'],
+  apis: ["server_app.js", "api/area/*.js", "api/area/**/*.js"]
+};
+
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocs)
+)
+
 passport.serializeUser((user, done) => {
   done(null, user.id)
 })
@@ -100,7 +181,16 @@ app.get('/', (req, res) => {
 })
 
 /**
- * Required subject path, send some usefully data about service
+ * @swagger
+ * /about.json:
+ *  get:
+ *    tags: [About]
+ *    summary: Get info about server and services
+ *    responses:
+ *      200:
+ *        description: OK
+ *      500:
+ *        description: Internal server error
  */
 app.get('/about.json', async (req, res) => {
   try {
@@ -134,11 +224,30 @@ app.get('/about.json', async (req, res) => {
 })
 
 /**
- * Post request to signup a new user in the database.
- * body.username -> User name
- * body.email -> User mail
- * body.password -> User password
- * An e-mail is now send to the user.
+ * @swagger
+ * /api/signup:
+ *  post:
+ *    tags: [User]
+ *    description: Sign up a new user in the database
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - in: body
+ *        name: user
+ *        description: The user to create.
+ *        required: true
+ *        schema:
+ *          type: object
+ *          properties:
+ *            email:
+ *              type: string
+ *            password:
+ *              type: string
+ *    responses:
+ *      201:
+ *        description: User created
+ *      400:
+ *        description: Bad request
  */
 app.post('/api/signup', (req, res, next) => {
   passport.authenticate('signup', { session: false }, (err, user, info) => {
@@ -164,9 +273,62 @@ app.post('/api/signup', (req, res, next) => {
 })
 
 /**
- * Post request to login to the website.
- * body.email -> User mail
- * body.password -> User password
+ * @swagger
+ * /api/login:
+ *   post:
+ *     tags: [User]
+ *     description: Login an existing user with username and password
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             username:
+ *               type: string
+ *             password:
+ *               type: string
+ *           example:
+ *             username: testuser
+ *             password: testpassword
+ *     responses:
+ *       201:
+ *         description: Successfully logged in
+ *         schema:
+ *           type: object
+ *           properties:
+ *             status:
+ *               type: string
+ *               enum: [success]
+ *             data:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Welcome back.
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     username:
+ *                       type: string
+ *                       example: testuser
+ *                     email:
+ *                       type: string
+ *                       example: testuser@example.com
+ *                     mailVerification:
+ *                       type: boolean
+ *                       example: true
+ *                 token:
+ *                   type: string
+ *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+ *       400:
+ *         description: Bad request
  */
 app.post('/api/login', (req, res, next) => {
   passport.authenticate('login', { session: false }, (err, user, info) => {
@@ -182,8 +344,26 @@ app.post('/api/login', (req, res, next) => {
 })
 
 /**
- * Get request use to verify e-mail address with a token
- * Link sent by e-mail
+ * @swagger
+ * /api/mail/verification:
+ *   get:
+ *     tags: [User]
+ *     description: Verify user email from email link
+ *     produces:
+ *       - text/plain
+ *     parameters:
+ *       - name: token
+ *         in: query
+ *         required: true
+ *         type: string
+ *         description: JWT token received in email link
+ *         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+ *     responses:
+ *       200:
+ *         description: Email verified
+ *         type: string
+ *       401:
+ *         description: No matching user found
  */
 app.get('/api/mail/verification', async (req, res) => {
   const token = req.query.token
@@ -206,10 +386,26 @@ app.get('/api/mail/verification', async (req, res) => {
 })
 
 /**
- * Get request to confirm a custom action.
- * Link sent by e-mail
- * Delete -> Remove the user credentials from the database
- * ResetPassword -> Reset the current user password and set it to 'password'
+ * @swagger
+ * /api/mail/customVerification:
+ *   get:
+ *     tags: [User]
+ *     description: Execute custom verification operation based on user's `confirmProcess` value
+ *     produces:
+ *       - text/plain
+ *     parameters:
+ *       - name: token
+ *         in: query
+ *         required: true
+ *         type: string
+ *         description: JWT token received in email link
+ *         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+ *     responses:
+ *       200:
+ *         description: Operation authorized and executed
+ *         type: string
+ *       401:
+ *         description: No matching user found
  */
 app.get('/api/mail/customVerification', async (req, res) => {
   const token = req.query.token
@@ -240,9 +436,21 @@ app.get('/api/mail/customVerification', async (req, res) => {
 })
 
 /**
- * Get request to delete an account
- * Send a confirmation e-mail before deleting.
- * Need to be authenticated with a token.
+ * @swagger
+ * /api/user/deleteAccount:
+ *   get:
+ *     tags: [User]
+ *     summary: Delete user account
+ *     description: Deletes the user account with the authenticated user's ID, after sending a confirmation email to the user's email address.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: A success message indicating that the confirmation email has been sent.
+ *       '401':
+ *         description: Unauthorized access, when the authentification token is invalid or missing.
+ *       '500':
+ *         description: Internal server error, when the database query or email sending fails.
  */
 app.get(
   '/api/user/deleteAccount',
@@ -270,9 +478,56 @@ app.get(
 )
 
 /**
- * Post request to reset current password
- * Send a confirmation e-mail before resetting.
- * body.email -> User mail
+ * @swagger
+ * /api/user/resetPassword:
+ *   post:
+ *     summary: Request to reset user password
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: User's email address
+ *                 example: example@example.com
+ *     responses:
+ *       200:
+ *         description: Verification e-mail sent
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Success message
+ *                   example: Verification e-mail sent.
+ *       400:
+ *         description: No user found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message
+ *                   example: No user found.
+ *       401:
+ *         description: Please verify your e-mail address
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message
+ *                   example: Please verify your e-mail address.
  */
 app.post('/api/user/resetPassword', async (req, res, next) => {
   const user = await database.prisma.User.findFirst({
@@ -301,12 +556,64 @@ app.post('/api/user/resetPassword', async (req, res, next) => {
 })
 
 /**
- * Post request to update user personal data.
- * body.username -> User name
- * body.email -> User mail
- * body.password -> User password
- * Road protected by token authentication
- * An new e-mail verification is sent when e-mail is updated.
+ * @swagger
+ * /api/user/updateData:
+ *   post:
+ *     tags: [User]
+ *     summary: Updates the authenticated user's username, email, and password
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             example:
+ *               username: johndoe123
+ *               email: johndoe@example.com
+ *               password: newpassword
+ *     responses:
+ *       200:
+ *         description: Success message
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *               example:
+ *                 message: "Your informations have been successfully updated."
+ *       400:
+ *         description: Incomplete request body
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *               example:
+ *                 message: "Please pass a complete body."
+ *       401:
+ *         description: Invalid token or email not verified
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *               example:
+ *                 message: "Please verify your e-mail address."
  */
 app.post(
   '/api/user/updateData',
@@ -348,10 +655,63 @@ app.post(
 )
 
 /**
- * Post request to login with google methods
- * body.id -> Google Id
- * body.email -> User Email
- * body.displayName -> User name
+ * @swagger
+ * /api/login/google:
+ *   post:
+ *     tags: [Authentification]
+ *     summary: Login with Google
+ *     description: This endpoint allows users to login with Google.
+ *     requestBody:
+ *       description: User data required for Google authentification
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 description: Google ID token
+ *                 example: "googleidtoken"
+ *               displayName:
+ *                 type: string
+ *                 description: User's display name on Google
+ *                 example: "John Doe"
+ *               email:
+ *                 type: string
+ *                 description: User's email on Google
+ *                 example: "johndoe@gmail.com"
+ *     responses:
+ *       '201':
+ *         description: Login successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: "success"
+ *                   description: Status of the response
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     token:
+ *                       type: string
+ *                       example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYxNjU2NzgxNiwiZXhwIjoxNjE2NjU0MjE2fQ.yikUO_lFV6pRvBVJXQcHbGmzWg3qJvRu1zc4V7dymlw"
+ *                       description: JSON Web Token (JWT) used for authentification
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 201
+ *                   description: HTTP status code of the response
+ *       '401':
+ *         description: Google authentification failed
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "Google auth failed."
+ *               description: Error message
  */
 app.post('/api/login/google', async (req, res, next) => {
   try {
@@ -413,7 +773,23 @@ app.post('/api/login/google', async (req, res, next) => {
 })
 
 /**
- * Get request to login with facebook methods
+ * @swagger
+ * /api/login/facebook:
+ *   get:
+ *     tags: [Authentification]
+ *     summary: Authenticate with Facebook
+ *     description: Endpoint to initiate authentification with Facebook.
+ *     security: []
+ *     responses:
+ *       302:
+ *         description: Redirects to Facebook login page.
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ *               example: <html><body><p>Found. Redirecting to https://www.facebook.com/v9.0/dialog/oauth?client_id=1234567890&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Ffacebook%2Fcallback&response_type=code&scope=email</p></body></html>
+ *       500:
+ *         description: Server error.
  */
 app.get(
   '/api/login/facebook',
@@ -421,7 +797,39 @@ app.get(
 )
 
 /**
- * Private request used by facebook after login operation
+ * @swagger
+ * /api/login/facebookCallBack:
+ *   get:
+ *     summary: Callback endpoint for Facebook authentification
+ *     tags:
+ *       - Authentification
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       201:
+ *         description: Returns a JSON object containing the user object and JWT token
+ *         schema:
+ *           type: object
+ *           properties:
+ *             status:
+ *               type: string
+ *               example: "success"
+ *             data:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Welcome back."
+ *                 user:
+ *                   type: object
+ *                 token:
+ *                   type: string
+ *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *             statusCode:
+ *               type: number
+ *               example: 201
+ *       401:
+ *         description: Invalid Facebook authentification
  */
 app.get(
   '/api/login/facebookCallBack',
@@ -442,12 +850,93 @@ app.get(
 )
 
 /**
- * Route used for Create/Update auth token
- * If no token storage is already linked with the user, a new one is created
- * body.google The Google auth token (Set to '' to remove it)
- * body.discord The Discord auth token (Set to '' to remove it)
- * body.deezer The Discord auth token (Set to '' to remove it)
- * Route protected by a JWT token
+ * @swagger
+ * /api/token:
+ *   post:
+ *     tags: [Authentification]
+ *     summary: Updates user's tokens.
+ *     description: Update user's Google, Discord, and Deezer tokens.
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               google:
+ *                 type: string
+ *                 description: User's Google token.
+ *               discord:
+ *                 type: string
+ *                 description: User's Discord token.
+ *               deezer:
+ *                 type: string
+ *                 description: User's Deezer token.
+ *             example:
+ *               google: "google_token_string"
+ *               discord: "discord_token_string"
+ *               deezer: "deezer_token_string"
+ *     responses:
+ *       200:
+ *         description: Token updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Response status.
+ *                   example: "success"
+ *                 data:
+ *                   type: object
+ *                   description: Response data.
+ *                   properties:
+ *                     message:
+ *                       type: string
+ *                       description: Response message.
+ *                       example: "Token updated."
+ *                     user:
+ *                       type: object
+ *                       description: User object with updated token information.
+ *                       properties:
+ *                         id:
+ *                           type: integer
+ *                           description: User ID.
+ *                           example: 1
+ *                         googleToken:
+ *                           type: string
+ *                           description: User's Google token.
+ *                           example: "google_token_string"
+ *                         discordToken:
+ *                           type: string
+ *                           description: User's Discord token.
+ *                           example: "discord_token_string"
+ *                         deezerToken:
+ *                           type: string
+ *                           description: User's Deezer token.
+ *                           example: "deezer_token_string"
+ *                     token:
+ *                       type: string
+ *                       description: New JWT token.
+ *                       example: "jwt_token_string"
+ *                 statusCode:
+ *                   type: integer
+ *                   description: Response status code.
+ *                   example: 200
+ *       400:
+ *         description: An error occurred while updating token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *                   example: "Token manager temporarily deactivated."
  */
 app.post(
   '/api/token',
@@ -477,11 +966,63 @@ app.post(
 )
 
 /**
- * Route used for Create/Update auth token
- * If no token storage is already linked with the user, a new one is created
- * body.google The Google auth token (Set to '' to remove it)
- * body.discord The Discord auth token (Set to '' to remove it)
- * Route protected by a JWT token
+ * @swagger
+ * /api/code/deezer:
+ *   post:
+ *     tags: [Authentification]
+ *     summary: Create or update auth token for Deezer service
+ *     description: Create or update an authentication token for the Deezer service by providing an app ID, secret, and authorization code.
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       description: JSON object containing the app ID, secret, and authorization code.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               app_id:
+ *                 type: string
+ *               secret:
+ *                 type: string
+ *               code:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Auth token created/updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Status of the response.
+ *                   example: "success"
+ *                 data:
+ *                   type: object
+ *                   description: Contains the access token for Deezer.
+ *                   properties:
+ *                     access_token:
+ *                       type: string
+ *                       description: Access token for Deezer.
+ *                       example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+ *                 statusCode:
+ *                   type: integer
+ *                   description: HTTP status code of the response.
+ *                   example: 200
+ *       400:
+ *         description: Code generation has failed.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message.
+ *                   example: "Code generation has failed."
  */
 app.post(
   '/api/code/deezer',
@@ -511,8 +1052,35 @@ app.post(
 )
 
 /**
- * Get request returning all enabled service sorted by creation date.
- * Need to be authenticated with a token.
+ * @swagger
+ * /api/get/Service:
+ *   get:
+ *     tags: [Services]
+ *     summary: Get all enabled services sorted by creation date
+ *     description: Returns a list of all enabled services sorted by creation date. Requires a valid JSON web token.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: Successful response with list of services
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Service'
+ *       '401':
+ *         description: Invalid token provided
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: Invalid token
+ *       '400':
+ *         description: Service getter temporarily deactivated
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: Service getter temporarily deactivated.
  */
 app.get(
   '/api/get/Service',
@@ -543,95 +1111,55 @@ app.get(
       return res.status(400).send('Service getter temporarily desactivated.')
     }
   }
-)
-
-/*
- * List all available Voice Channels on a given Guild ID.
- * Route protected by a JWT token
- */
-app.get(
-  '/api/services/discord/getVoiceChannels',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    const channels = getVoiceChannels(req.query.id)
-    return res.status(200).json({
-      status: 'success',
-      data: channels,
-      statusCode: res.statusCode
-    })
-  }
-)
+  )
 
 /**
- * List all available Text Channels on a given GuildID.
- * Route protected by a JWT token
- */
-app.get(
-  '/api/services/discord/getTextChannels',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    const channels = getTextChannels(req.query.id)
-    return res.status(200).json({
-      status: 'success',
-      data: channels,
-      statusCode: res.statusCode
-    })
-  }
-)
-
-/**
- * List all available Guilds where the bot is.
- * Route protected by a JWT token
- */
-app.get(
-  '/api/services/discord/getAvailableGuilds',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res) => {
-    if (req.user.discordToken == null)
-      return res.status(400).send('No Discord account linked.')
-    try {
-      const guilds = await getAvailableGuilds(req.user.discordToken)
-      if (guilds == null) return res.status(400).send('An error occured.')
-      return res.status(200).json({
-        status: 'success',
-        data: guilds,
-        statusCode: res.statusCode
-      })
-    } catch (err) {
-      console.log(err)
-      return res.status(400).send('An error occured.')
-    }
-  }
-)
-
-/**
- * List all available calendars where the user is.
- * Route protected by a JWT token
- */
-app.get(
-  '/api/services/calendar/getAvailableCalendars',
-  passport.authenticate('jwt', { session: false }),
-  async (req, res) => {
-    if (req.user.googleToken == null)
-      return res.status(400).send('No Google account linked.')
-    try {
-      const calendars = await getAvailableCalendars(req.user.googleToken)
-      if (calendars == null) return res.status(400).send('An error occured.')
-      return res.status(200).json({
-        status: 'success',
-        data: calendars,
-        statusCode: res.statusCode
-      })
-    } catch (err) {
-      console.log(err)
-      return res.status(400).send('An error occured.')
-    }
-  }
-)
-
-/**
- * List available performers, such as bot/user.
- * Route protected by a JWT token
+ * @swagger
+ *
+ * /api/services/discord/getAvailablePerformers:
+ *   get:
+ *     tags: [Services/Discord]
+ *     summary: List available performers such as bot/user.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Returns the list of available performers.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: "1234567890"
+ *                       name:
+ *                         type: string
+ *                         example: "Bot Name"
+ *                 statusCode:
+ *                   type: number
+ *                   example: 200
+ *       400:
+ *         description: No Discord account linked or an error occurred.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "No Discord account linked."
+ *                 statusCode:
+ *                   type: number
+ *                   example: 400
  */
 app.get(
   '/api/services/discord/getAvailablePerformers',
@@ -657,8 +1185,52 @@ app.get(
 )
 
 /**
- * List available performers, such as bot/user.
- * Route protected by a JWT token
+ * @swagger
+ *
+ * /api/services/gmail/getAvailablePerformers:
+ *   get:
+ *     tags: [Services/Gmail]
+ *     summary: List available performers such as bot/user.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Returns the list of available performers.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: "1234567890"
+ *                       name:
+ *                         type: string
+ *                         example: "User Name"
+ *                 statusCode:
+ *                   type: number
+ *                   example: 200
+ *       400:
+ *         description: No Google account linked or an error occurred.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "No Google account linked."
+ *                 statusCode:
+ *                   type: number
+ *                   example: 400
  */
 app.get(
   '/api/services/gmail/getAvailablePerformers',
@@ -683,8 +1255,318 @@ app.get(
 )
 
 /**
- * List all user's playlist on Deezer.
- * Route protected by a JWT token
+ * @swagger
+ *
+ * /api/services/discord/getVoiceChannels:
+ *   get:
+ *     tags: [Services/Discord]
+ *     summary: List all available Voice Channels on a given Guild ID.
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the Discord guild.
+ *     responses:
+ *       '200':
+ *         description: Successful response with the list of voice channels.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: The status of the response.
+ *                   example: success
+ *                 data:
+ *                   type: array
+ *                   description: An array of voice channel objects.
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         description: The ID of the voice channel.
+ *                       name:
+ *                         type: string
+ *                         description: The name of the voice channel.
+ *                       type:
+ *                         type: string
+ *                         description: The type of the voice channel.
+ *                         enum: [voice]
+ *                       createdAt:
+ *                         type: string
+ *                         description: The date and time when the voice channel was created.
+ *                 statusCode:
+ *                   type: number
+ *                   description: The status code of the response.
+ *                   example: 200
+ */
+app.get(
+  '/api/services/discord/getVoiceChannels',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const channels = getVoiceChannels(req.query.id)
+    return res.status(200).json({
+      status: 'success',
+      data: channels,
+      statusCode: res.statusCode
+    })
+  }
+)
+
+/**
+ * @swagger
+ * /api/services/discord/getTextChannels:
+ *   get:
+ *     tags: [Services/Discord]
+ *     summary: List all available Text Channels on a given GuildID.
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the guild to retrieve channels from.
+ *     responses:
+ *       200:
+ *         description: A list of available text channels.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: "success"
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         description: The unique ID of the text channel.
+ *                       name:
+ *                         type: string
+ *                         description: The name of the text channel.
+ *                       position:
+ *                         type: integer
+ *                         description: The position of the text channel in the guild's channel list.
+ *                       parentId:
+ *                         type: string
+ *                         description: The ID of the parent category for the text channel, if applicable.
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *       400:
+ *         description: Service getter temporarily disabled.
+ *       401:
+ *         description: Invalid token.
+ *       404:
+ *         description: Guild not found.
+ */
+app.get(
+  '/api/services/discord/getTextChannels',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const channels = getTextChannels(req.query.id)
+    return res.status(200).json({
+      status: 'success',
+      data: channels,
+      statusCode: res.statusCode
+    })
+  }
+)
+
+/**
+ * @swagger
+ * /api/services/discord/getAvailableGuilds:
+ *   get:
+ *     tags: [Services/Discord]
+ *     summary: List all available Guilds where the bot is.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Returns a list of available guilds.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: The status of the response.
+ *                   example: success
+ *                 data:
+ *                   type: array
+ *                   description: An array of guilds.
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         description: The unique identifier for the guild.
+ *                         example: '1234567890'
+ *                       name:
+ *                         type: string
+ *                         description: The name of the guild.
+ *                         example: 'My Discord Server'
+ *                 statusCode:
+ *                   type: number
+ *                   description: The status code of the response.
+ *                   example: 200
+ *       400:
+ *         description: An error occurred.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message.
+ *                   example: No Discord account linked.
+ *                 statusCode:
+ *                   type: number
+ *                   description: The status code of the response.
+ *                   example: 400
+ */
+app.get(
+  '/api/services/discord/getAvailableGuilds',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    if (req.user.discordToken == null)
+      return res.status(400).send('No Discord account linked.')
+    try {
+      const guilds = await getAvailableGuilds(req.user.discordToken)
+      if (guilds == null) return res.status(400).send('An error occured.')
+      return res.status(200).json({
+        status: 'success',
+        data: guilds,
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('An error occured.')
+    }
+  }
+)
+
+/**
+ * @swagger
+ * /api/services/calendar/getAvailableCalendars:
+ *   get:
+ *     tags: [Services/Calendar]
+ *     summary: List all available Google calendars
+ *     description: Returns a list of all available Google calendars linked to the user's account.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Calendars listed successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: "success"
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       summary:
+ *                         type: string
+ *                 statusCode:
+ *                   type: number
+ *                   example: 200
+ *       400:
+ *         description: Invalid or missing Google auth token.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "No Google account linked."
+ *       500:
+ *         description: An error occurred while processing the request.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "An error occurred."
+ */
+app.get('/api/services/calendar/getAvailableCalendars', (req, res) => {
+  if (req.user.googleToken == null)
+    return res.status(400).send('No Google account linked.')
+  try {
+    const calendars = getAvailableCalendars()
+    res.status(200).json({
+      status: 'success',
+      data: calendars,
+      statusCode: res.statusCode
+    })
+  } catch (error) {
+    res.status(400).send('An error occured.')
+  }
+})
+
+/**
+ * @swagger
+ * /api/services/deezer/getUserPlaylists:
+ *   get:
+ *     tags: [Services/Deezer]
+ *     summary: List all user's playlist on Deezer
+ *     description: List all user's playlist on Deezer, requires authentication.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User's playlists listed successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: number
+ *                       title:
+ *                         type: string
+ *                       picture:
+ *                         type: string
+ *                       description:
+ *                         type: string
+ *                       nb_tracks:
+ *                         type: number
+ *                       is_public:
+ *                         type: boolean
+ *                 statusCode:
+ *                   type: number
+ *                   example: 200
+ *       400:
+ *         description: Deezer account not linked or error occurred.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
  */
 app.get(
   '/api/services/deezer/getUserPlaylists',
@@ -711,8 +1593,45 @@ app.get(
 )
 
 /**
- * List available area for rea service.
- * Route protected by a JWT token
+ * @swagger
+ *
+ * /api/services/rea/getAvailableArea:
+ *   get:
+ *     tags: [Services/Rea]
+ *     summary: List available area for rea service
+ *     description: Retrieves the list of available areas for the rea service.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: A list of available areas for the rea service
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: The status of the response
+ *                   example: success
+ *                 data:
+ *                   type: array
+ *                   description: The list of available areas
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The ID of the area
+ *                         example: 1
+ *                       name:
+ *                         type: string
+ *                         description: The name of the area
+ *                         example: Living Room
+ *                 statusCode:
+ *                   type: integer
+ *                   description: The status code of the response
+ *                   example: 200
  */
 app.get(
   '/api/services/rea/getAvailableArea',
@@ -737,8 +1656,44 @@ app.get(
 )
 
 /**
- * List available status for rea service.
- * Route protected by a JWT token
+ * @swagger
+ * /api/services/rea/getAvailableStatus:
+ *   get:
+ *     tags: [Services/Rea]
+ *     summary: List available status for rea service
+ *     description: Retrieves the list of available status for the rea service.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: A list of available status for the rea service
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: The status of the response
+ *                   example: success
+ *                 data:
+ *                   type: array
+ *                   description: The list of available status
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         description: The ID of the status
+ *                         example: True
+ *                       name:
+ *                         type: string
+ *                         description: The name of the status
+ *                         example: On
+ *                 statusCode:
+ *                   type: integer
+ *                   description: The status code of the response
+ *                   example: 200
  */
 app.get(
   '/api/services/rea/getAvailableStatus',
@@ -819,7 +1774,33 @@ app.post(
 )
 
 /**
- * List all users in the database.
+ * @swagger
+ *
+ * /api/dev/user/create:
+ *   post:
+ *     summary: Create a new user in the database
+ *     tags: [Dev]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: User name
+ *               email:
+ *                 type: string
+ *                 description: User mail
+ *               password:
+ *                 type: string
+ *                 description: User password
+ *     responses:
+ *       200:
+ *         description: The newly created user
+ *       400:
+ *         description: Please pass a complete body.
  */
 app.get('/api/dev/user/listall', async (req, res) => {
   try {
@@ -831,12 +1812,19 @@ app.get('/api/dev/user/listall', async (req, res) => {
   }
 })
 
+
 /**
- * Creating a new service in the database.
- * body.name -> Service name
- * body.description -> Service description (optional)
- * body.primaryColor -> Description of the area (optional, set by default #000000)
- * body.secondaryColor -> Description of the area (optional, set by default #000000)
+ * @swagger
+ *
+ * /api/dev/user/listall:
+ *   get:
+ *     summary: List all users in the database
+ *     tags: [Dev]
+ *     responses:
+ *       200:
+ *         description: The list of all users
+ *       400:
+ *         description: An error occured.
  */
 app.post('/api/dev/service/create', async (req, res) => {
   try {
@@ -857,7 +1845,24 @@ app.post('/api/dev/service/create', async (req, res) => {
 })
 
 /**
- * List all services in the database.
+ * @swagger
+ * /api/dev/service/listall:
+ *   get:
+ *     tags: [Dev]
+ *     summary: List all services in the database.
+ *     responses:
+ *       200:
+ *         description: Returns the list of all services in the database.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *       400:
+ *         description: An error occurred while processing the request.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
  */
 app.get('/api/dev/service/listall', async (req, res) => {
   try {
@@ -869,11 +1874,44 @@ app.get('/api/dev/service/listall', async (req, res) => {
   }
 })
 
+
 /**
- * Creating a new action.
- * body.name -> Action name
- * body.description -> Action description (optional)
- * body.serviceId -> Service id
+ * @swagger
+ * /api/dev/action/create:
+ *   post:
+ *     tags: [Dev]
+ *     summary: Creating a new action.
+ *     requestBody:
+ *       description: The action details to create.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Action name
+ *                 example: "Turn on the light"
+ *               description:
+ *                 type: string
+ *                 description: Action description (optional)
+ *                 example: "This action turns on the light in the living room"
+ *               serviceId:
+ *                 type: integer
+ *                 description: Service ID
+ *                 example: 1
+ *     responses:
+ *       200:
+ *         description: Returns the newly created action.
+ *         content:
+ *           application/json:
+ *       400:
+ *         description: Please pass a complete body.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
  */
 app.post('/api/dev/action/create', async (req, res) => {
   try {
@@ -892,7 +1930,25 @@ app.post('/api/dev/action/create', async (req, res) => {
 })
 
 /**
- * List all actions in the database.
+ * @swagger
+ * /api/dev/action/listall:
+ *   get:
+ *     tags: [Dev]
+ *     summary: List all actions in the database.
+ *     responses:
+ *       200:
+ *         description: A list of all actions in the database.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *       400:
+ *         description: An error occurred.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
+ *               example: An error occurred.
  */
 app.get('/api/dev/action/listall', async (req, res) => {
   try {
@@ -910,10 +1966,39 @@ app.get('/api/dev/action/listall', async (req, res) => {
 })
 
 /**
- * Creating a new reaction.
- * body.name -> Reaction name
- * body.description -> Reaction description (optional)
- * body.serviceId -> Service id
+ * @swagger
+ * /api/dev/reaction/create:
+ *   post:
+ *     tags: [Dev]
+ *     summary: Creating a new reaction.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               serviceId:
+ *                 type: integer
+ *             required:
+ *               - name
+ *               - serviceId
+ *     responses:
+ *       200:
+ *         description: The newly created reaction.
+ *         content:
+ *           application/json:
+ *       400:
+ *         description: Please pass a complete body.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
+ *               example: Please pass a complete body.
  */
 app.post('/api/dev/reaction/create', async (req, res) => {
   try {
@@ -932,7 +2017,24 @@ app.post('/api/dev/reaction/create', async (req, res) => {
 })
 
 /**
- * List all reactions in the database.
+ * @swagger
+ * /api/dev/reaction/listall:
+ *   get:
+ *     tags: [Dev]
+ *     summary: Get a list of all reactions in the database.
+ *     responses:
+ *       '200':
+ *         description: A list of all reactions.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *       '400':
+ *         description: An error occurred.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
  */
 app.get('/api/dev/reaction/listall', async (req, res) => {
   try {
@@ -949,12 +2051,40 @@ app.get('/api/dev/reaction/listall', async (req, res) => {
 })
 
 /**
- * Creating a new parameter.
- * body.name -> Parameter name
- * body.isRequired -> Parameter is required or not
- * body.description -> Parameter description (optional)
- * body.actionId -> Action id (optional)
- * body.reactionId -> Reaction id (optional)
+ * @swagger
+ * /api/dev/parameter/create:
+ *   post:
+ *     tags: [Dev]
+ *     summary: Create a new parameter.
+ *     requestBody:
+ *       description: Parameter information to create.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               isRequired:
+ *                 type: boolean
+ *               description:
+ *                 type: string
+ *               actionId:
+ *                 type: integer
+ *               reactionId:
+ *                 type: integer
+ *     responses:
+ *       '200':
+ *         description: The newly created parameter.
+ *         content:
+ *           application/json:
+ *       '400':
+ *         description: Please pass a complete body.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
  */
 app.post('/api/dev/parameter/create', async (req, res) => {
   try {
@@ -987,7 +2117,69 @@ app.post('/api/dev/parameter/create', async (req, res) => {
 })
 
 /**
- * List all parameters in the database.
+ * @swagger
+ * /api/dev/parameter/listall:
+ *   get:
+ *     tags: [Dev]
+ *     summary: Get a list of all parameters in the database.
+ *     responses:
+ *       '200':
+ *         description: A list of all parameters.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *       '400':
+ *         description: An error occurred.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
+ *
+ * components:
+ *   schemas:
+ *     Reaction:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ *     Parameter:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         isRequired:
+ *           type: boolean
+ *         description:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ *         Action:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: integer
+ *             name:
+ *               type: string
+ *         Reaction:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: integer
+ *             name:
+ *               type: string
  */
 app.get('/api/dev/parameter/listall', async (req, res) => {
   try {
@@ -1000,13 +2192,132 @@ app.get('/api/dev/parameter/listall', async (req, res) => {
 })
 
 /**
- * Creating a new area without protection.
- * body.name -> Name of the area. (need to be set)
- * body.description -> Description of the area (optional)
- * body.actionId -> Action id (optional if reactionId is set)
- * body.actionParameters -> Action parameters (optional)
- * body.reactionId -> Reaction id (optional if actionId is set)
- * body.reactionParameters -> Reaction parameters (optional)
+ * @swagger
+ * /api/dev/area/create:
+ *   post:
+ *     tags: [Dev]
+ *     summary: Create a new area
+ *     description: Create a new area with specified parameters.
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               actionId:
+ *                 type: string
+ *               actionParameters:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     paramId:
+ *                       type: string
+ *                     value:
+ *                       type: string
+ *               reactionId:
+ *                 type: string
+ *               reactionParameters:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     paramId:
+ *                       type: string
+ *                     value:
+ *                       type: string
+ *             required:
+ *               - name
+ *     responses:
+ *       200:
+ *         description: Area created successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 isEnable:
+ *                   type: boolean
+ *                 User:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                 Action:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                     name:
+ *                       type: string
+ *                     code:
+ *                       type: string
+ *                 ActionParameters:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       Parameter:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                           name:
+ *                             type: string
+ *                           isRequired:
+ *                             type: boolean
+ *                           description:
+ *                             type: string
+ *                       value:
+ *                         type: string
+ *                 Reactions:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       Reaction:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                           name:
+ *                             type: string
+ *                           code:
+ *                             type: string
+ *                       ReactionParameters:
+ *                         type: array
+ *                         items:
+ *                           type: object
+ *                           properties:
+ *                             id:
+ *                               type: string
+ *                             Parameter:
+ *                               type: object
+ *                               properties:
+ *                                 id:
+ *                                   type: string
+ *                                 name:
+ *                                   type: string
+ *                                 isRequired:
+ *                                   type: boolean
+ *                                 description:
+ *                                   type: string
+ *                             value:
+ *                               type: string
+ *       400:
+ *         description: Bad request. Please pass a complete body.
  */
 app.post('/api/dev/area/create', async (req, res) => {
   try {
@@ -1076,8 +2387,96 @@ app.post('/api/dev/area/create', async (req, res) => {
 })
 
 /**
- * List all areas in the database.
+ * @swagger
+ * /api/dev/area/listall:
+ *   get:
+ *     tags: [Dev]
+ *     summary: List all areas
+ *     description: List all areas in the database.
+ *     responses:
+ *       200:
+ *         description: Areas listed successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                   isEnable:
+ *                     type: boolean
+ *                   User:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       email:
+ *                         type: string
+ *                   Action:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       code:
+ *                         type: string
+ *                       description:
+ *                         type: string
+ *                   ActionParameters:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: string
+ *                         value:
+ *                           type: string
+ *                         Parameter:
+ *                           type: object
+ *                           properties:
+ *                             id:
+ *                               type: string
+ *                             name:
+ *                               type: string
+ *                             description:
+ *                               type: string
+ *                   Reactions:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: string
+ *                         Reaction:
+ *                           type: object
+ *                           properties:
+ *                             id:
+ *                               type: string
+ *                             code:
+ *                               type: string
+ *                             description:
+ *                               type: string
+ *                         ReactionParameters:
+ *                           type: array
+ *                           items:
+ *                             type: object
+ *                             properties:
+ *                               id:
+ *                                 type: string
+ *                               value:
+ *                                 type: string
+ *                               Parameter:
+ *                                 type: object
+ *                                 properties:
+ *                                   id:
+ *                                     type: string
+ *                                   name:
+ *                                     type: string
+ *                                   description:
+ *                                     type: string
  */
+
 app.get('/api/dev/area/listall', async (req, res) => {
   try {
     const areas = await database.prisma.AREA.findMany()
@@ -1089,7 +2488,75 @@ app.get('/api/dev/area/listall', async (req, res) => {
 })
 
 /**
- * Initialize the database with all services, actions, reactions and parameters.
+ * /api/dev/service/createAll:
+ *   get:
+ *     tags: [Dev]
+ *     summary: Initialize the database with all services, actions, reactions and parameters.
+ *     description: Initializes the database with all supported services, actions, reactions and parameters.
+ *     responses:
+ *       200:
+ *         description: Services, actions, reactions and parameters initialized successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                   name:
+ *                     type: string
+ *                   description:
+ *                     type: string
+ *                   Actions:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: string
+ *                         name:
+ *                           type: string
+ *                         description:
+ *                           type: string
+ *                         code:
+ *                           type: string
+ *                         Parameters:
+ *                           type: array
+ *                           items:
+ *                             type: object
+ *                             properties:
+ *                               id:
+ *                                 type: string
+ *                               name:
+ *                                 type: string
+ *                               description:
+ *                                 type: string
+ *                   Reactions:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: string
+ *                         name:
+ *                           type: string
+ *                         description:
+ *                           type: string
+ *                         code:
+ *                           type: string
+ *                         Parameters:
+ *                           type: array
+ *                           items:
+ *                             type: object
+ *                             properties:
+ *                               id:
+ *                                 type: string
+ *                               name:
+ *                                 type: string
+ *                               description:
+ *                                 type: string
  */
 app.get('/api/dev/service/createAll', async (req, res) => {
   const response = []
@@ -1101,6 +2568,92 @@ app.get('/api/dev/service/createAll', async (req, res) => {
   response.push(await createDeezerService())
   return res.json(response)
 })
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Action:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ *     Reaction:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ *     Parameter:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         isRequired:
+ *           type: boolean
+ *         description:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ *         Action:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: integer
+ *             name:
+ *               type: string
+ *         Reaction:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: integer
+ *             name:
+ *               type: string
+ *     Service:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ *         Actions:
+ *           type: array
+ *           items:
+ *              $ref: '#/components/schemas/Action'
+ *         Reactions:
+ *           type: array
+ *           items:
+ *              $ref: '#/components/schemas/Reaction'
+ *         Parameters:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Parameter'
+ */
 
 require('./api/area/area.js')(app, passport, database)
 require('./api/area/reaction/reaction.js')(app, passport, database)
