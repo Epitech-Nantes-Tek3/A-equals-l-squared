@@ -179,19 +179,19 @@ class AreaData {
   /// Get a visual representation of an Area
   /// mode -> true = complete representation, false = only area preview
   /// update -> Function pointer used for update the state
-  Widget display(bool mode, Function? update) {
+  Widget display(bool mode, Function? update, bool isReactionPreviewClosed, bool isActionPreviewClosed) {
     List<Widget> listDisplay = <Widget>[];
     List<Widget> actionListDisplay = <Widget>[const Text("Actions")];
     List<Widget> reactionListDisplay = <Widget>[const Text("Reactions")];
     if (mode) {
       for (var temp in actionList) {
         actionListDisplay.add(
-          temp.displayActionModificationView(update),
+          temp.displayActionModificationView(update, isActionPreviewClosed),
         );
       }
       for (var temp in reactionList) {
         reactionListDisplay.add(
-          temp.displayReactionModificationView(update),
+          temp.displayReactionModificationView(update, isReactionPreviewClosed),
         );
       }
       listDisplay.add(Column(
