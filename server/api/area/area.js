@@ -43,6 +43,7 @@ module.exports = function (app, passport, database) {
             logicalGate: true,
             primaryColor: true,
             secondaryColor: true,
+            updatedArea: true,
             icon: true,
             Actions: {
               select: {
@@ -144,6 +145,7 @@ module.exports = function (app, passport, database) {
             logicalGate: true,
             primaryColor: true,
             secondaryColor: true,
+            updatedArea: true,
             icon: true,
             Actions: {
               select: {
