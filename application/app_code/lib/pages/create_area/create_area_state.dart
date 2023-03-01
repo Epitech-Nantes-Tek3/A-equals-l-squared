@@ -43,6 +43,12 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Variable to know if at least one Reaction is save on your Area
   bool _isDisplayReactions = true;
 
+  /// To know if all previews Reaction must be closed
+  bool _isReactionPreviewClosed = false;
+
+  /// To know if all previews Action must be closed
+  bool _isActionPreviewClosed = false;
+
   /// Variable to know if an User want to choose an Action
   bool _isChoosingAnAction = false;
 
@@ -54,6 +60,14 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
   /// An api error message
   String? _apiErrorMessage;
+
+  void updateIsActionPreviewClosed() {
+    _isActionPreviewClosed = false;
+  }
+
+  void updateIsReactionPreviewClosed() {
+    _isReactionPreviewClosed = false;
+  }
 
   /// Useful function updating the state
   /// object -> Object who's calling the function
@@ -301,8 +315,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         const SizedBox(
           height: 10,
         ),
-        createdArea!.actionList.last
-            .displayActionModificationView(createUpdate),
+        createdArea!.actionList.last.displayActionModificationView(
+            createUpdate, _isActionPreviewClosed),
         const SizedBox(
           height: 20,
         ),
@@ -481,7 +495,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     }
                     if (isRequired) {
                       _actionCreationState = 0;
-
                       changeType = 'create';
                       apiAskForActionChange(createdArea!.actionList.last);
                       _isChoosingAnAction = false;
@@ -511,6 +524,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 setState(() {
                   _isChoosingAnAction = true;
                   _actionCreationState = 0;
+                  _isActionPreviewClosed = true;
                 });
               },
               child: const Text(
@@ -539,8 +553,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   Widget configureAReactionDisplay() {
     Widget modifyAReaction =
         Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      createdArea!.reactionList.last
-          .displayReactionModificationView(createUpdate),
+      createdArea!.reactionList.last.displayReactionModificationView(
+          createUpdate, _isReactionPreviewClosed),
       const SizedBox(
         height: 10,
       ),
@@ -645,13 +659,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       );
       selectAServiceReaction.add(materialElevatedButtonArea(
         ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-              side: const BorderSide(width: 3, color: Colors.white),
-
-              /// Change when DB is Up
-              primary: Colors.white,
-            ),
             onPressed: () {
               setState(() {
                 _createdAreaSave = AreaData.clone(createdArea!);
@@ -758,6 +765,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 setState(() {
                   _isChoosingAReaction = true;
                   _reactionCreationState = 0;
+                  _isReactionPreviewClosed = true;
                 });
               },
               child: const Text(
@@ -806,7 +814,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     bottomRight: Radius.circular(10.0),
                   )),
               child: Column(children: [
-                temp.displayActionModificationView(createUpdate),
+                temp.displayActionModificationView(
+                    createUpdate, _isActionPreviewClosed),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -850,6 +859,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           ));
         }
       }
+      updateIsActionPreviewClosed();
     }
 
     /// Get reactionListDisplay
@@ -869,7 +879,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     bottomRight: Radius.circular(10.0),
                   )),
               child: Column(children: [
-                temp.displayReactionModificationView(createUpdate),
+                temp.displayReactionModificationView(
+                    createUpdate, _isReactionPreviewClosed),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -907,8 +918,12 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   ],
                 )
               ])));
+          reactionListDisplay.add(const SizedBox(
+            height: 20,
+          ));
         }
       }
+      updateIsReactionPreviewClosed();
     }
 
     return Scaffold(
@@ -949,67 +964,97 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                      Text(
-                        createdArea!.actionList.length >= 2
-                            ? 'Actions'
-                            : 'Action',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      if (!_isDisplayActions)
-                        IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _isDisplayActions = true;
-                              });
-                            },
-                            icon: Icon(
-                              Icons.remove_red_eye_outlined,
-                              color: getOurBlueAreaColor(100),
-                            )),
-                      if (_isDisplayActions)
-                        IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _isDisplayActions = false;
-                              });
-                            },
-                            icon: Icon(
-                              Icons.remove_red_eye,
-                              color: getOurBlueAreaColor(100),
-                            )),
-                    ]),
+                          Text(
+                            createdArea!.actionList.length >= 2
+                                ? 'Actions'
+                                : 'Action',
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          if (!_isDisplayActions)
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isDisplayActions = true;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_red_eye_outlined,
+                                  color: getOurBlueAreaColor(100),
+                                )),
+                          if (_isDisplayActions)
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isDisplayActions = false;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_red_eye,
+                                  color: getOurBlueAreaColor(100),
+                                  shadows: const [
+                                    Shadow(color: Colors.black, blurRadius: 0.4)
+                                  ],
+                                )),
+                        ]),
 
                     if (_isDisplayActions) Column(children: actionListDisplay),
                     displayNewActionSelectionView(),
-
                     const SizedBox(
                       height: 30,
                     ),
 
                     /// Block Reaction
-                    Row(children: [
-                      Text(
-                        createdArea!.reactionList.length >= 2
-                            ? 'Reactions'
-                            : 'Reaction',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ]),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Display Reactions of this Area"),
-                        Switch(
-                          value: _isDisplayReactions,
-                          activeColor: Colors.blue,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _isDisplayReactions = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            createdArea!.reactionList.length >= 2
+                                ? 'Reactions'
+                                : 'Reaction',
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          if (!_isDisplayReactions)
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isDisplayReactions = true;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_red_eye_outlined,
+                                  color: getOurBlueAreaColor(100),
+                                )),
+                          if (_isDisplayReactions)
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isDisplayReactions = false;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_red_eye,
+                                  color: getOurBlueAreaColor(100),
+                                  shadows: const [
+                                    Shadow(color: Colors.black, blurRadius: 0.4)
+                                  ],
+                                )),
+                        ]),
+                    if (false)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("Display Reactions of this Area"),
+                          Switch(
+                            value: _isDisplayReactions,
+                            activeColor: Colors.blue,
+                            onChanged: (bool value) {
+                              setState(() {
+                                _isDisplayReactions = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
                     if (_isDisplayReactions)
                       Column(children: reactionListDisplay),
                     displayNewReactionSelectionView()
