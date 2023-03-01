@@ -39,7 +39,7 @@ class ActionData {
             createdAt: oldAction.createdAt,
             isEnable: oldAction.isEnable,
             serviceId: oldAction.serviceId,
-            isPreviewDisplayMax: false,
+            isPreviewDisplayMax: true,
             parameters: oldAction.parameters
                 .map((v) => ParameterData.clone(v))
                 .toList(),
@@ -68,7 +68,7 @@ class ActionData {
         isEnable: json['isEnable'],
         serviceId: json['serviceId'],
         parameters: parameters,
-        isPreviewDisplayMax: false,
+        isPreviewDisplayMax: true,
         parametersContent: <ParameterContent>[],
         dynamicParameters: dynamicParameters);
   }
@@ -146,9 +146,6 @@ class ActionData {
   Widget displayActionDescription() {
     List<Widget> actionDescription = <Widget>[];
     actionDescription.add(
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
           Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -158,8 +155,6 @@ class ActionData {
                   style: const TextStyle(color: Colors.black),
                 ), // Change when icon are in DB
               ]),
-        ],
-      ),
     );
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

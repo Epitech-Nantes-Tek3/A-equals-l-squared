@@ -114,19 +114,12 @@ class ReactionData {
   Widget displayReactionDescription() {
     List<Widget> paramWid = <Widget>[];
     paramWid.add(
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  '$description Reaction configuration : ',
-                  style: const TextStyle(color: Colors.black, fontSize: 14),
-                ), // Change when icon are in DB
-              ]),
-        ],
-      ),
+      Column(crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
+        Text(
+          description,
+          style: const TextStyle(color: Colors.black, fontSize: 14),
+        ),
+      ]),
     );
     return Column(
         crossAxisAlignment: CrossAxisAlignment.center, children: paramWid);

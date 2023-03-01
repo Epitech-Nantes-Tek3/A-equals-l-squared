@@ -30,15 +30,12 @@ Widget materialElevatedButtonArea(
     double paddingVertical = 10,
     double paddingHorizontal = 10}) {
   Widget newButton = Container(
-    color: Colors.yellowAccent,
-
-    /// REMOVE WHEN IN PR
     width: context != null
         ? (MediaQuery.of(context).size.width) >= 600
             ? (600 / sizeOfButton)
             : (MediaQuery.of(context).size.width / sizeOfButton)
         : 10,
-    child: ElevatedButton(
+    child:  ElevatedButton(
         onPressed: buttonContent.onPressed,
         style: ElevatedButton.styleFrom(
             primary: primaryColor,
