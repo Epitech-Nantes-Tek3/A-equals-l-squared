@@ -7,21 +7,144 @@ const {
 
 module.exports = function (app, passport, database) {
   /**
-   * @api {get} /api/area/:areaId/action Get all actions
-   * @apiParam {String} areaId Area id
-   * @apiSuccess {Object[]} actions Actions
-   * @apiSuccess {String} actions.id Action id
-   * @apiSuccess {String} actions.name Action name
-   * @apiSuccess {Boolean} actions.isEnable Action isEnable
-   * @apiSuccess {Object[]} actions.ActionParameters Action parameters
-   * @apiSuccess {Object} actions.ActionParameters.Parameter Action parameter
-   * @apiSuccess {String} actions.ActionParameters.Parameter.id Parameter id
-   * @apiSuccess {String} actions.ActionParameters.Parameter.name Parameter name
-   * @apiSuccess {String} actions.ActionParameters.value Parameter value
-   * @apiFailure {String} error Error message
-   * @apiFailure {500} error Internal server error
-   * @apiFailure {404} error Area not found
+   * @swagger
+   * /api/area/{areaId}/action:
+   *   post:
+   *     tags: [Area/Action]
+   *     summary: Add an action to an area
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - name: areaId
+   *         in: path
+   *         required: true
+   *         description: The ID of the area to add the action to
+   *         schema:
+   *           type: integer
+   *       - name: actionId
+   *         in: body
+   *         required: true
+   *         description: The ID of the action to add
+   *         schema:
+   *           type: object
+   *           properties:
+   *             actionId:
+   *               type: integer
+   *     responses:
+   *       200:
+   *         description: The newly created area action
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 id:
+   *                   type: integer
+   *                   description: The ID of the created area action
+   *                 Action:
+   *                   type: object
+   *                   properties:
+   *                     id:
+   *                       type: integer
+   *                       description: The ID of the action
+   *                     name:
+   *                       type: string
+   *                       description: The name of the action
+   *                     isEnable:
+   *                       type: boolean
+   *                       description: Whether the action is enabled or not
+   *                 ActionParameters:
+   *                   type: array
+   *                   description: The parameters of the action
+   *                   items:
+   *                     type: object
+   *                     properties:
+   *                       id:
+   *                         type: integer
+   *                         description: The ID of the action parameter
+   *                       Parameter:
+   *                         type: object
+   *                         properties:
+   *                           name:
+   *                             type: string
+   *                             description: The name of the parameter
+   *                       value:
+   *                         type: string
+   *                         description: The value of the parameter
+   *       400:
+   *         description: An error occurred
+   *       404:
+   *         description: Area or action not found
+   *       500:
+   *         description: An internal server error occurred
    */
+  app.post(
+    '/api/area/:areaId/action',
+    passport.authenticate('jwt', { session: false }),
+    async (req, res) => {
+      try {
+        const area = await database.prisma.AREA.findUnique({
+          where: {
+            id: req.params.areaId
+          },
+          select: {
+            userId: true
+          }
+        })
+        if (!area || area.userId !== req.user.id)
+          return res.status(404).json({ error: 'Area not found' })
+
+        const action = await database.prisma.ACTION.findUnique({
+          where: {
+            id: req.body.actionId
+          }
+        })
+        if (!action) return res.status(404).json({ error: 'Action not found' })
+
+        const newAction = await database.prisma.AREAhasActions.create({
+          data: {
+            AREA: {
+              connect: {
+                id: req.params.areaId
+              }
+            },
+            Action: {
+              connect: {
+                id: req.body.actionId
+              }
+            }
+          },
+          select: {
+            id: true,
+            Action: {
+              select: {
+                id: true,
+                name: true,
+                isEnable: true
+              }
+            },
+            ActionParameters: {
+              select: {
+                id: true,
+                Parameter: {
+                  select: {
+                    name: true
+                  }
+                },
+                value: true
+              }
+            }
+          }
+        })
+
+        res.status(200).json(newAction)
+      } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error.message })
+      }
+    }
+  )
+
   app.get(
     '/api/area/:areaId/action',
     passport.authenticate('jwt', { session: false }),
@@ -75,22 +198,96 @@ module.exports = function (app, passport, database) {
   )
 
   /**
-   * @api {get} /api/area/:areaId/action/:id Get action
-   * @apiParam {String} areaId Area id
-   * @apiParam {String} id id of a Action/Parameter set
-   * @apiSuccess {Object} action Action
-   * @apiSuccess {String} action.id Action id
-   * @apiSuccess {String} action.name Action name
-   * @apiSuccess {Boolean} action.isEnable Action isEnable
-   * @apiSuccess {Object[]} action.ActionParameters Action parameters
-   * @apiSuccess {Object} action.ActionParameters.Parameter Action parameter
-   * @apiSuccess {String} action.ActionParameters.Parameter.id Parameter id
-   * @apiSuccess {String} action.ActionParameters.Parameter.name Parameter name
-   * @apiSuccess {String} action.ActionParameters.value Parameter value
-   * @apiFailure {String} error Error message
-   * @apiFailure {500} error Internal server error
-   * @apiFailure {404} error Area not found
-   * @apiFailure {404} error Action not found
+   * @swagger
+   * /api/area/{areaId}/action/{id}:
+   *   get:
+   *     tags: [Area/Action]
+   *     summary: Get an action by ID for a specific area
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: areaId
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: ID of the area
+   *       - in: path
+   *         name: id
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: ID of the action
+   *     responses:
+   *       '200':
+   *         description: OK. Returns the action.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 Action:
+   *                   type: object
+   *                   properties:
+   *                     id:
+   *                       type: string
+   *                       description: Action ID.
+   *                     name:
+   *                       type: string
+   *                       description: Action name.
+   *                     isEnable:
+   *                       type: boolean
+   *                       description: Whether the action is enabled.
+   *                   required:
+   *                     - id
+   *                     - name
+   *                     - isEnable
+   *                 ActionParameters:
+   *                   type: array
+   *                   description: Array of action parameters.
+   *                   items:
+   *                     type: object
+   *                     properties:
+   *                       id:
+   *                         type: string
+   *                         description: Parameter ID.
+   *                       Parameter:
+   *                         type: object
+   *                         properties:
+   *                           name:
+   *                             type: string
+   *                             description: Parameter name.
+   *                         required:
+   *                           - name
+   *                       value:
+   *                         type: string
+   *                         description: Parameter value.
+   *                   required:
+   *                     - id
+   *                     - Parameter
+   *                     - value
+   *       '404':
+   *         description: Not found. Either the area or the action was not found.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: Error message.
+   *                   example: "Area not found"
+   *       '500':
+   *         description: Internal server error. An unexpected error occurred.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: Error message.
+   *                   example: "Internal server error"
    */
   app.get(
     '/api/area/:areaId/action/:id',
@@ -143,25 +340,105 @@ module.exports = function (app, passport, database) {
   )
 
   /**
-   * @api {post} /api/area/:areaId/action Create action
-   * @apiParam {String} areaId Area id
-   * @apiParam {String} actionId Action id
-   * @apiParam {Object[]} actionParameters Action parameters
-   * @apiParam {String} actionParameters.id Parameter id
-   * @apiParam {String} actionParameters.value Parameter value
-   * @apiSuccess {Object} action Action
-   * @apiSuccess {String} action.id Action id
-   * @apiSuccess {String} action.name Action name
-   * @apiSuccess {Boolean} action.isEnable Action isEnable
-   * @apiSuccess {Object[]} action.ActionParameters Action parameters
-   * @apiSuccess {Object} action.ActionParameters.Parameter Action parameter
-   * @apiSuccess {String} action.ActionParameters.Parameter.id Parameter id
-   * @apiSuccess {String} action.ActionParameters.Parameter.name Parameter name
-   * @apiSuccess {String} action.ActionParameters.value Parameter value
-   * @apiFailure {String} error Error message
-   * @apiFailure {404} Area not found
-   * @apiFailure {404} Action not found
-   * @apiFailure {500} Internal server error
+   * @swagger
+   * /api/area/:areaId/action:
+   *   post:
+   *     tags: [Area/Action]
+   *     summary: Create an action for a specific area
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: areaId
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: ID of the area
+   *       - in: body
+   *         name: action
+   *         description: The action to create
+   *         required: true
+   *         schema:
+   *           type: object
+   *           properties:
+   *             actionId:
+   *               type: string
+   *               description: ID of the action
+   *             actionParameters:
+   *               type: array
+   *               items:
+   *                 type: object
+   *                 properties:
+   *                   id:
+   *                     type: string
+   *                     description: ID of the parameter
+   *                   value:
+   *                     type: string
+   *                     description: Value of the parameter
+   *     produces:
+   *       - application/json
+   *     responses:
+   *       200:
+   *         description: Successfully created an action
+   *         schema:
+   *           type: object
+   *           properties:
+   *             id:
+   *               type: string
+   *               description: ID of the created action
+   *             Action:
+   *               type: object
+   *               properties:
+   *                 id:
+   *                   type: string
+   *                   description: ID of the action
+   *                 name:
+   *                   type: string
+   *                   description: Name of the action
+   *                 isEnable:
+   *                   type: boolean
+   *                   description: Flag indicating whether the action is enabled or not
+   *                 ActionParameters:
+   *                   type: array
+   *                   items:
+   *                     type: object
+   *                     properties:
+   *                       id:
+   *                         type: string
+   *                         description: ID of the parameter
+   *                       Parameter:
+   *                         type: object
+   *                         properties:
+   *                           name:
+   *                             type: string
+   *                             description: Name of the parameter
+   *                       value:
+   *                         type: string
+   *                         description: Value of the parameter
+   *       400:
+   *         description: Incomplete body or invalid parameter list
+   *         schema:
+   *           type: object
+   *           properties:
+   *             error:
+   *               type: string
+   *               description: Error message
+   *       404:
+   *         description: Area not found or Action not found
+   *         schema:
+   *           type: object
+   *           properties:
+   *             error:
+   *               type: string
+   *               description: Error message
+   *       500:
+   *         description: Internal server error
+   *         schema:
+   *           type: object
+   *           properties:
+   *             error:
+   *               type: string
+   *               description: Error message
    */
   app.post(
     '/api/area/:areaId/action',
@@ -250,20 +527,77 @@ module.exports = function (app, passport, database) {
   )
 
   /**
-   * @api {delete} /api/area/:areaId/action/:id Delete action
-   * @apiParam {String} areaId Area id
-   * @apiParam {String} id id of a Action/Parameter set
-   * @apiSuccess {Object} action Deleted action
-   * @apiSuccess {String} action.id Action id
-   * @apiSuccess {String} action.name Action name
-   * @apiSuccess {Boolean} action.isEnable Action isEnable
-   * @apiSuccess {Object[]} action.actionParameters Action parameters
-   * @apiSuccess {String} action.actionParameters.id Parameter id
-   * @apiSuccess {String} action.actionParameters.name Parameter name
-   * @apiSuccess {String} action.actionParameters.value Parameter value
-   * @apiFailure {404} Area not found
-   * @apiFailure {404} Action not found
-   * @apiFailure {500} Internal server error
+   * @swagger
+   *
+   * /api/area/{areaId}/action/{id}:
+   *   delete:
+   *     tags: [Area/Action]
+   *     summary: Delete an action/parameter set for a specific area
+   *     description: Deletes the action/parameter set with the specified ID for the area with the specified area ID.
+   *     parameters:
+   *       - in: path
+   *         name: areaId
+   *         required: true
+   *         description: ID of the area
+   *         schema:
+   *           type: string
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         description: ID of the action/parameter set
+   *         schema:
+   *           type: string
+   *     responses:
+   *       '200':
+   *         description: OK. Returns the deleted action/parameter set.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 id:
+   *                   type: string
+   *                   description: ID of the deleted action/parameter set
+   *                 name:
+   *                   type: string
+   *                   description: Name of the deleted action/parameter set
+   *                 isEnable:
+   *                   type: boolean
+   *                   description: Whether the deleted action/parameter set was enabled
+   *                 actionParameters:
+   *                   type: array
+   *                   items:
+   *                     type: object
+   *                     properties:
+   *                       id:
+   *                         type: string
+   *                         description: ID of the parameter
+   *                       name:
+   *                         type: string
+   *                         description: Name of the parameter
+   *                       value:
+   *                         type: string
+   *                         description: Value of the parameter
+   *       '404':
+   *         description: Not found. Either the specified area or the specified action/parameter set does not exist.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: Description of the error
+   *       '500':
+   *         description: Internal server error. An error occurred while deleting the action/parameter set.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: Description of the error
    */
   app.delete(
     '/api/area/:areaId/action/:id',
@@ -312,23 +646,105 @@ module.exports = function (app, passport, database) {
   )
 
   /**
-   * @api {put} /api/area/:areaId/action/:id Update action
-   * @apiParam {String} areaId Area id
-   * @apiParam {String} id id of a Action/Parameter set
-   * @apiParam {Object[]} actionParameters Action parameters
-   * @apiParam {String} actionParameters.id Parameter id
-   * @apiParam {String} actionParameters.value Parameter value
-   * @apiSuccess {Object} action Updated action
-   * @apiSuccess {String} action.id Action id
-   * @apiSuccess {String} action.name Action name
-   * @apiSuccess {Boolean} action.isEnable Action isEnable
-   * @apiSuccess {Object[]} action.actionParameters Action parameters
-   * @apiSuccess {String} action.actionParameters.id Parameter id
-   * @apiSuccess {String} action.actionParameters.name Parameter name
-   * @apiSuccess {String} action.actionParameters.value Parameter value
-   * @apiFailure {404} Area not found
-   * @apiFailure {404} Action not found
-   * @apiFailure {500} Internal server error
+   * @swagger
+   * /api/area/{areaId}/action/{id}:
+   *   put:
+   *     tags: [Area/Action]
+   *     summary: Update action
+   *     parameters:
+   *       - in: path
+   *         name: areaId
+   *         required: true
+   *         description: Area id
+   *         schema:
+   *           type: string
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         description: ID of a Action/Parameter set
+   *         schema:
+   *           type: string
+   *       - in: body
+   *         name: actionParameters
+   *         required: true
+   *         description: Action parameters
+   *         schema:
+   *           type: array
+   *           items:
+   *             type: object
+   *             properties:
+   *               id:
+   *                 type: string
+   *                 description: Parameter id
+   *               value:
+   *                 type: string
+   *                 description: Parameter value
+   *     security:
+   *       - bearerAuth: []
+   *     responses:
+   *       "200":
+   *         description: Updated action
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 action:
+   *                   type: object
+   *                   properties:
+   *                     id:
+   *                       type: string
+   *                       description: Action id
+   *                     name:
+   *                       type: string
+   *                       description: Action name
+   *                     isEnable:
+   *                       type: boolean
+   *                       description: Action isEnable
+   *                     actionParameters:
+   *                       type: array
+   *                       items:
+   *                         type: object
+   *                         properties:
+   *                           id:
+   *                             type: string
+   *                             description: Parameter id
+   *                           name:
+   *                             type: string
+   *                             description: Parameter name
+   *                           value:
+   *                             type: string
+   *                             description: Parameter value
+   *       "400":
+   *         description: Bad request
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: Error message
+   *       "404":
+   *         description: Not found
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: Error message
+   *       "500":
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: Error message
    */
   app.put(
     '/api/area/:areaId/action/:id',
