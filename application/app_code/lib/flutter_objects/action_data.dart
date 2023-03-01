@@ -146,9 +146,6 @@ class ActionData {
   Widget displayActionDescription() {
     List<Widget> actionDescription = <Widget>[];
     actionDescription.add(
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
           Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -158,8 +155,6 @@ class ActionData {
                   style: const TextStyle(color: Colors.black),
                 ), // Change when icon are in DB
               ]),
-        ],
-      ),
     );
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
