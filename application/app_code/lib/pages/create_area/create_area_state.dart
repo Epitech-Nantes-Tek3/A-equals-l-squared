@@ -37,20 +37,11 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Creation of an Reaction state
   int _reactionCreationState = 0;
 
-  /// Name of the AREA
-  String _name = "";
-
   /// Variable to know if at least one Action is save on your Area
   bool _isDisplayActions = true;
 
   /// Variable to know if at least one Reaction is save on your Area
   bool _isDisplayReactions = true;
-
-  /// Variable to know if an action has been chosen
-  bool _hasAnAction = false;
-
-  /// Variable to know if an action has been chosen
-  bool _hasAReaction = false;
 
   /// Variable to know if an User want to choose an Action
   bool _isChoosingAnAction = false;
@@ -337,12 +328,11 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     List<Widget> selectAnAction = <Widget>[];
     selectAnAction.add(Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const <Widget>[Text("Choose your Action")]));
-    selectAnAction.add(
-      const SizedBox(
-        height: 30,
-      ),
-    );
+        children: const <Widget>[
+          SizedBox(
+            height: 30,
+          ),
+        ]));
     for (var temp in createdArea!.serviceId!.actions) {
       selectAnAction.add(materialElevatedButtonArea(
         ElevatedButton(
@@ -379,7 +369,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   Widget selectAServiceActionDisplay() {
     List<Widget> selectAServiceAction = <Widget>[];
 
-    selectAServiceAction.add(const Text("Choose your Action service"));
     for (var temp in serviceDataList) {
       if (temp.actions.isEmpty) {
         continue;
@@ -422,16 +411,35 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
     /// Select a Service Action
     if (_isChoosingAnAction == true && _actionCreationState == 0) {
+      createAnAction.add(Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: const [
+          Text('Add a new Action : Choose your Service',
+              style: TextStyle(fontSize: 16)),
+        ],
+      ));
       createAnAction.add(selectAServiceActionDisplay());
     }
 
     ///Select an Action
     if (_actionCreationState == 1) {
+      createAnAction.add(Column(
+        children: const [
+          Text('Add a new Action : Choose your Action',
+              style: TextStyle(fontSize: 16)),
+        ],
+      ));
       createAnAction.add(selectAnActionDisplay());
     }
 
     /// Configure the chosen Action
     if (_actionCreationState == 2) {
+      createAnAction.add(Column(
+        children: const [
+          Text('Add a new Action : Configure your new Action',
+              style: TextStyle(fontSize: 16)),
+        ],
+      ));
       createAnAction.add(configureAnActionDisplay());
     }
 
@@ -478,7 +486,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                       changeType = 'create';
                       apiAskForActionChange(createdArea!.actionList.last);
                       _isChoosingAnAction = false;
-                      _hasAnAction = true;
                     }
                   });
                 },
@@ -581,9 +588,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   Widget selectAReactionDisplay() {
     List<Widget> selectAReaction = <Widget>[];
 
-    selectAReaction.add(Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const <Widget>[Text("Choose your Reaction")]));
     selectAReaction.add(
       const SizedBox(
         height: 30,
@@ -592,13 +596,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     for (var temp in createdArea!.serviceId!.reactions) {
       selectAReaction.add(materialElevatedButtonArea(
         ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              side: const BorderSide(width: 3, color: Colors.white),
-
-              /// Change when DB is Up
-              primary: Colors.white,
-            ),
             onPressed: () {
               setState(() {
                 _createdAreaSave = AreaData.clone(createdArea!);
@@ -616,8 +613,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         isShadowNeeded: true,
         paddingVertical: 20,
         paddingHorizontal: 20,
-
-        /// Add button desc
       ));
       selectAReaction.add(
         const SizedBox(
@@ -635,7 +630,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   Widget selectAServiceReactionDisplay() {
     List<Widget> selectAServiceReaction = <Widget>[];
 
-    selectAServiceReaction.add(const Text("Choose your Reaction service"));
     for (var temp in serviceDataList) {
       if (temp.reactions.isEmpty) {
         continue;
@@ -683,26 +677,40 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   List<Widget> chooseAReaction() {
     List<Widget> createAReaction = <Widget>[];
 
-    if (_isChoosingAReaction) {
-      createAReaction.add(Column(
-        children: const [
-          Text('Add a new Reaction', style: TextStyle(fontSize: 16)),
-        ],
-      ));
-    }
+    createAReaction.add(const SizedBox(
+      height: 30,
+    ));
 
     /// Select a Service Reaction
     if (_isChoosingAReaction == true && _reactionCreationState == 0) {
+      createAReaction.add(Row(
+        children: const [
+          Text('Add a new Reaction : Select a Service',
+              style: TextStyle(fontSize: 16)),
+        ],
+      ));
       createAReaction.add(selectAServiceReactionDisplay());
     }
 
     /// Select a Reaction
     if (_reactionCreationState == 1) {
+      createAReaction.add(Row(
+        children: const [
+          Text('Add a new Reaction : Reaction selection',
+              style: TextStyle(fontSize: 16)),
+        ],
+      ));
       createAReaction.add(selectAReactionDisplay());
     }
 
     /// Configure a Reaction
     if (_reactionCreationState == 2) {
+      createAReaction.add(Row(
+        children: const [
+          Text('Add a new Reaction : Reaction configuration',
+              style: TextStyle(fontSize: 16)),
+        ],
+      ));
       createAReaction.add(configureAReactionDisplay());
     }
 
@@ -756,8 +764,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           sizeOfButton: 1.8,
           primaryColor: getOurBlueAreaColor(100),
           isShadowNeeded: true,
-
-          /// Add button desc
         ),
       if (_isChoosingAReaction)
         Column(
@@ -808,7 +814,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                             });
                           },
                           child: Text('Delete',
-                              style: TextStyle(color: getOurBlueAreaColor(100)))),
+                              style:
+                                  TextStyle(color: getOurBlueAreaColor(100)))),
                       context,
                       borderColor: getOurBlueAreaColor(100),
                       borderWith: 2,
@@ -829,9 +836,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     ),
                   ],
                 )
-              ])
-          )
-          );
+              ])));
           actionListDisplay.add(const SizedBox(
             height: 20,
           ));
@@ -863,18 +868,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     materialElevatedButtonArea(
                       ElevatedButton(
                           onPressed: () {
-                            changeType = 'update';
-                            apiAskForReactionChange(temp);
-                          },
-                          child: const Text('Update',
-                              style: TextStyle(color: Colors.white))),
-                      context,
-                      primaryColor: getOurBlueAreaColor(100),
-                      isShadowNeeded: true,
-                    ),
-                    materialElevatedButtonArea(
-                      ElevatedButton(
-                          onPressed: () {
                             changeType = 'delete';
                             apiAskForReactionChange(temp);
                             setState(() {
@@ -888,7 +881,19 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                       borderColor: getOurBlueAreaColor(100),
                       borderWith: 2,
                       isShadowNeeded: true,
-                    )
+                    ),
+                    materialElevatedButtonArea(
+                      ElevatedButton(
+                          onPressed: () {
+                            changeType = 'update';
+                            apiAskForReactionChange(temp);
+                          },
+                          child: const Text('Update',
+                              style: TextStyle(color: Colors.white))),
+                      context,
+                      primaryColor: getOurBlueAreaColor(100),
+                      isShadowNeeded: true,
+                    ),
                   ],
                 )
               ])));
