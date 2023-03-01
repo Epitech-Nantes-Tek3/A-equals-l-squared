@@ -631,6 +631,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// This function display new selection Action view (create an Action and the selection of a new Action)
   Widget displayNewActionSelectionView() {
     return Column(children: <Widget>[
+      const SizedBox(height: 20,),
       if (!_isChoosingAnAction)
         materialElevatedButtonArea(
           ElevatedButton(
@@ -1110,7 +1111,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                 : 'Action',
                             style: const TextStyle(fontSize: 20),
                           ),
-                          if (!_isDisplayActions)
+                          if (!_isDisplayActions && createdArea!.actionList.isNotEmpty)
                             IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -1124,7 +1125,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                   Icons.remove_red_eye_outlined,
                                   color: getOurBlueAreaColor(100),
                                 )),
-                          if (_isDisplayActions)
+                          if (_isDisplayActions && createdArea!.actionList.isNotEmpty)
                             IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -1159,7 +1160,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                 : 'Reaction',
                             style: const TextStyle(fontSize: 20),
                           ),
-                          if (!_isDisplayReactions)
+                          if (!_isDisplayReactions && createdArea!.reactionList.isNotEmpty)
                             IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -1174,7 +1175,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                   Icons.remove_red_eye_outlined,
                                   color: getOurBlueAreaColor(100),
                                 )),
-                          if (_isDisplayReactions)
+                          if (_isDisplayReactions && createdArea!.reactionList.isNotEmpty)
                             IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -1254,7 +1255,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                               createdArea != null ? createdArea!.name : '',
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (String? value) {
-                            createdArea!.name = value!;
+                            if (value!.length > 15) {
+                              return 'Name is too long.';
+                            }
+                            createdArea!.name = value;
                             return null;
                           },
                         ),
@@ -1269,6 +1273,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                               : '',
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (String? value) {
+                            if (value!.length > 20) {
+                              return 'Name is too long.';
+                            }
                             createdArea!.description = value!;
                             return null;
                           },
