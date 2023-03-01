@@ -90,6 +90,20 @@ const swaggerOptions = {
           {
             name: 'Deezer',
             description: 'Deezer management',
+          },
+        ]
+      },
+      {
+        name: 'Area',
+        description: 'Area management',
+        children: [
+          {
+            name: 'Action',
+            description: 'Action management',
+          },
+          {
+            name: 'Reaction',
+            description: 'Reaction management',
           }
         ]
       },
@@ -99,7 +113,7 @@ const swaggerOptions = {
   },
   consumes: ['application/json'],
   produces: ['application/json'],
-  apis: ["server_app.js", "api/area/**/*.js"]
+  apis: ["server_app.js", "api/area/*.js", "api/area/**/*.js"]
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
