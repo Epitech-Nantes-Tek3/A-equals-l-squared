@@ -41,6 +41,9 @@ module.exports = function (app, passport, database) {
             isEnable: true,
             description: true,
             logicalGate: true,
+            primaryColor: true,
+            secondaryColor: true,
+            icon: true,
             Actions: {
               select: {
                 id: true,
@@ -139,6 +142,9 @@ module.exports = function (app, passport, database) {
             isEnable: true,
             description: true,
             logicalGate: true,
+            primaryColor: true,
+            secondaryColor: true,
+            icon: true,
             Actions: {
               select: {
                 id: true,
@@ -235,6 +241,9 @@ module.exports = function (app, passport, database) {
    * @apiParam {String} name Area name.
    * @apiParam {String} [description] Area description.
    * @apiParam {String} [logicalGate] Area logical gate.
+   * @apiParam {String} [primaryColor] Area primary color.
+   * @apiParam {String} [secondaryColor] Area secondary color.
+   * @apiParam {String} [iconPath] Area icon path.
    * @apiParam {Boolean} isEnable Area is enable.
    * @apiSuccess {Number} id Area unique ID.
    * @apiSuccess {String} name Area name.
@@ -268,7 +277,14 @@ module.exports = function (app, passport, database) {
             isEnable: req.body.isEnable,
             logicalGate:
               'logicalGate' in req.body ? req.body.logicalGate : 'OR',
-            User: { connect: { id: req.user.id } }
+            User: { connect: { id: req.user.id } },
+            primaryColor:
+              'primaryColor' in req.body ? req.body.primaryColor : '#000000',
+            secondaryColor:
+              'secondaryColor' in req.body
+                ? req.body.secondaryColor
+                : '#000000',
+            icon: 'iconPath' in req.body ? req.body.iconPath : ''
           }
         })
         res.status(200).json(newArea)
@@ -286,6 +302,9 @@ module.exports = function (app, passport, database) {
    * @apiParam {Boolean} isEnable Area is enable.
    * @apiParam {String} [description] Area description.
    * @apiParam {String} [logicalGate] Area logical gate.
+   * @apiParam {String} [primaryColor] Area primary color.
+   * @apiParam {String} [secondaryColor] Area secondary color.
+   * @apiParam {String} [iconPath] Area icon path.
    * @apiSuccess {Number} id Area unique ID.
    * @apiSuccess {String} name Area name.
    * @apiSuccess {String} description Area description.
@@ -326,7 +345,15 @@ module.exports = function (app, passport, database) {
             name: req.body.name,
             isEnable: req.body.isEnable,
             description: 'description' in req.body ? req.body.description : '',
-            logicalGate: 'logicalGate' in req.body ? req.body.logicalGate : 'OR'
+            logicalGate:
+              'logicalGate' in req.body ? req.body.logicalGate : 'OR',
+            primaryColor:
+              'primaryColor' in req.body ? req.body.primaryColor : '#000000',
+            secondaryColor:
+              'secondaryColor' in req.body
+                ? req.body.secondaryColor
+                : '#000000',
+            icon: 'iconPath' in req.body ? req.body.iconPath : ''
           }
         })
         res.status(200).json(updatedArea)
