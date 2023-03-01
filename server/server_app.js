@@ -99,7 +99,7 @@ const swaggerOptions = {
   },
   consumes: ['application/json'],
   produces: ['application/json'],
-  apis: ['server_app.js', 'api/*.js'] // The files that contains your routes
+  apis: ["server_app.js", "api/area/**/*.js"]
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
