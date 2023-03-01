@@ -1102,6 +1102,7 @@ app.get('/api/dev/service/createAll', async (req, res) => {
 require('./api/area/area.js')(app, passport, database)
 require('./api/area/reaction/reaction.js')(app, passport, database)
 require('./api/area/action/action.js')(app, passport, database)
+require('./api/webhook/webhook.js')(app, passport, database)
 
 /**
  * Start the node.js server at PORT and HOST variable
