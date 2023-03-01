@@ -68,9 +68,11 @@ class ReactionData {
 
   /// Get a visual representation of a Reaction
   /// update -> Function pointer used for update the state
-  Widget displayReactionModificationView(Function? update) {
+  Widget displayReactionModificationView(Function? update, bool isPreviewClosed) {
     List<Widget> paramWid = <Widget>[];
 
+    if (isPreviewClosed)
+      isPreviewDisplayMax = false;
     paramWid.add(Column(
       children: [
         Row(
