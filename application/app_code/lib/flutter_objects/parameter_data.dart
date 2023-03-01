@@ -119,7 +119,7 @@ class ParameterData {
           const SizedBox(
             height: 20,
           ),
-        Text('$description : ', style: const TextStyle(fontSize: 12)),
+        Text(isRequired ? '$description *: ' : '$description : ', style: const TextStyle(fontSize: 12)),
           const SizedBox(
             height: 10,
           ),
