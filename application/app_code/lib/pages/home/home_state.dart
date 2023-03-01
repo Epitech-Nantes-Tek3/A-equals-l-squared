@@ -28,7 +28,7 @@ class HomePageState extends State<HomePage> {
       MediaQuery.of(context).size.width >= 600;
 
   bool isMobile(BuildContext context) =>
-     MediaQuery.of(context).size.width < 600;
+      MediaQuery.of(context).size.width < 600;
 
   /// Re sync all flutter object
   void homeSync() async {
@@ -39,13 +39,13 @@ class HomePageState extends State<HomePage> {
   /// This function create a Row of two Areas
   Widget createRowOfAreas(Widget firstArea, Widget? secondArea) {
     Widget rowArea = Row(
-          mainAxisAlignment: secondArea != null
-              ? MainAxisAlignment.spaceBetween
-              : MainAxisAlignment.center,
-          children: <Widget>[
-            firstArea,
-            if (secondArea != null) secondArea,
-          ]);
+        mainAxisAlignment: secondArea != null
+            ? MainAxisAlignment.spaceBetween
+            : MainAxisAlignment.center,
+        children: <Widget>[
+          firstArea,
+          if (secondArea != null) secondArea,
+        ]);
     return rowArea;
   }
 
@@ -57,7 +57,8 @@ class HomePageState extends State<HomePage> {
             createdArea = AreaData.clone(areaData);
             goToUpdateAreaPage(context);
           },
-          child: areaData.display(false, null, false, false)), context,
+          child: areaData.display(false, null, false, false)),
+      context,
       sizeOfButton: 2.5,
       isShadowNeeded: true,
       paddingHorizontal: 10,
@@ -68,7 +69,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  /// THis function display all Areas in Tab
+  /// This function display all Areas in Tab
   List<Widget> createTabOfAreas() {
     List<Widget> areaVis = <Widget>[];
     late AreaData tempArea;
@@ -89,7 +90,8 @@ class HomePageState extends State<HomePage> {
     }
     if (count % 2 == 0) {
       areaVis.add(createRowOfAreas(
-          areaDataToElevatedButton(tempArea, Colors.deepOrange), null));
+          areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor()),
+          null));
     }
     return areaVis;
   }
@@ -168,7 +170,8 @@ class HomePageState extends State<HomePage> {
                         });
                       },
                       child: const Text('Service List'),
-                    ), context,
+                    ),
+                    context,
                     sizeOfButton: 4,
                     primaryColor: getOurBlueAreaColor(100),
                   ),

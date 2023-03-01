@@ -80,7 +80,7 @@ class ServiceData {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Image.asset(
-              icon,
+              icon != '' ? icon : './assets/icons/Area_Logo.png',
               height: 30,
               width: 30,
             ),
@@ -93,8 +93,9 @@ class ServiceData {
                 children: <Widget>[
                   Text(
                     name,
-                    style:
-                        TextStyle(color: Color(int.parse(primaryColor.replaceFirst("#", "0xff")))),
+                    style: TextStyle(
+                        color: Color(
+                            int.parse(primaryColor.replaceFirst("#", "0xff")))),
                   ),
                   // Change when icon are in DB
                   Text(

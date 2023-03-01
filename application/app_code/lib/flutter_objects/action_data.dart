@@ -146,15 +146,15 @@ class ActionData {
   Widget displayActionDescription() {
     List<Widget> actionDescription = <Widget>[];
     actionDescription.add(
-          Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  description,
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ]),
+      Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              description,
+              style: const TextStyle(color: Colors.black),
+            ),
+          ]),
     );
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

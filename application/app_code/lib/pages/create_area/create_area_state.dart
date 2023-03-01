@@ -6,11 +6,11 @@ import 'package:application/pages/create_area/create_area_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../../material_lib_functions/material_functions.dart';
 import '../../flutter_objects/action_data.dart';
 import '../../flutter_objects/area_data.dart';
 import '../../flutter_objects/reaction_data.dart';
 import '../../flutter_objects/service_data.dart';
+import '../../material_lib_functions/material_functions.dart';
 import '../../network/informations.dart';
 import '../home/home_functional.dart';
 
@@ -23,6 +23,97 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     Text('And')
   ];
 
+  static const List<Widget> listPrimaryColor = <Widget>[
+    Icon(
+      Icons.color_lens,
+      color: Colors.green,
+    ),
+    Icon(
+      Icons.color_lens,
+      color: Colors.blue,
+    ),
+    Icon(
+      Icons.color_lens,
+      color: Colors.red,
+    ),
+    Icon(
+      Icons.color_lens,
+      color: Colors.amber,
+    ),
+    Icon(
+      Icons.color_lens,
+      color: Colors.black,
+    )
+  ];
+
+  static const List<Widget> listSecondaryColor = <Widget>[
+    Icon(
+      Icons.color_lens_outlined,
+      color: Colors.green,
+    ),
+    Icon(
+      Icons.color_lens_outlined,
+      color: Colors.blue,
+    ),
+    Icon(
+      Icons.color_lens_outlined,
+      color: Colors.red,
+    ),
+    Icon(
+      Icons.color_lens_outlined,
+      color: Colors.amber,
+    ),
+    Icon(
+      Icons.color_lens_outlined,
+      color: Colors.black,
+    )
+  ];
+
+  static List<Widget> listIcon = <Widget>[
+    Image.asset(
+      'assets/icons/calendar.png',
+      key: const Key('assets/icons/calendar.png'),
+      width: 21,
+      height: 20,
+    ),
+    Image.asset(
+      'assets/icons/deezer.png',
+      key: const Key('assets/icons/deezer.png'),
+      width: 21,
+      height: 20,
+    ),
+    Image.asset(
+      'assets/icons/discord.png',
+      key: const Key('assets/icons/discord.png'),
+      width: 21,
+      height: 20,
+    ),
+    Image.asset(
+      'assets/icons/gmail.png',
+      key: const Key('assets/icons/gmail.png'),
+      width: 21,
+      height: 20,
+    ),
+    Image.asset(
+      'assets/icons/reaaaaaaa.png',
+      key: const Key('assets/icons/reaaaaaaa.png'),
+      width: 21,
+      height: 20,
+    ),
+    Image.asset(
+      'assets/icons/timetime.png',
+      key: const Key('assets/icons/timetime.png'),
+      width: 21,
+      height: 20,
+    ),
+    Image.asset(
+      'assets/icons/Area_Logo.png',
+      key: const Key('assets/icons/Area_Logo.png'),
+      width: 21,
+      height: 20,
+    ),
+  ];
+
   /// Creation of an Action state
   int _actionCreationState = 0;
 
@@ -33,6 +124,32 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           ? <bool>[true, false]
           : <bool>[false, true]
       : <bool>[true, false];
+
+  final List<bool> _selectedPrimaryColor = <bool>[
+    false,
+    false,
+    false,
+    false,
+    true
+  ];
+
+  final List<bool> _selectedSecondaryColor = <bool>[
+    false,
+    false,
+    false,
+    false,
+    true
+  ];
+
+  final List<bool> _selectedIcon = <bool>[
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true
+  ];
 
   /// Creation of an Reaction state
   int _reactionCreationState = 0;
@@ -83,7 +200,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             "name": createdArea!.name,
             "description": createdArea!.description,
             "isEnable": createdArea!.isEnable,
-            "logicalGate": createdArea!.logicalGate
+            "logicalGate": createdArea!.logicalGate,
+            "primaryColor": createdArea!.primaryColor,
+            "secondaryColor": createdArea!.secondaryColor,
+            "iconPath": createdArea!.iconPath
           }),
         );
       } else if (changeType == 'update') {
@@ -97,7 +217,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             "name": createdArea!.name,
             "description": createdArea!.description,
             "isEnable": createdArea!.isEnable,
-            "logicalGate": createdArea!.logicalGate
+            "logicalGate": createdArea!.logicalGate,
+            "primaryColor": createdArea!.primaryColor,
+            "secondaryColor": createdArea!.secondaryColor,
+            "iconPath": createdArea!.iconPath
           }),
         );
       } else if (changeType == 'delete') {
@@ -191,6 +314,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       if (response.statusCode != 200) {
         _apiErrorMessage = response.body;
         _isChoosingAnAction = true;
+        if (changeType == 'create') {
+          _actionCreationState = 2;
+        }
         createUpdate(null);
         return 'Error during action $changeType';
       }
@@ -268,6 +394,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       if (response.statusCode != 200) {
         _apiErrorMessage = response.body;
         _isChoosingAReaction = true;
+        if (changeType == 'create') {
+          _reactionCreationState = 2;
+        }
         createUpdate(null);
         return 'Error during reaction $changeType';
       }
@@ -780,6 +909,30 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   @override
   void initState() {
     super.initState();
+    if (createdArea != null) {
+      _selectedPrimaryColor[4] = false;
+      _selectedSecondaryColor[4] = false;
+      _selectedIcon[6] = false;
+      String str = createdArea!.primaryColor.replaceFirst("#", "0xff");
+      Color tempColor = Color(int.parse(str));
+      str = createdArea!.secondaryColor.replaceFirst("#", "0xff");
+      Color tempSecondaryColor = Color(int.parse(str));
+      for (int i = 0; i < listPrimaryColor.length; i++) {
+        if (tempColor.value == (listPrimaryColor[i] as Icon).color!.value) {
+          _selectedPrimaryColor[i] = true;
+        }
+        if (tempSecondaryColor.value ==
+            (listSecondaryColor[i] as Icon).color!.value) {
+          _selectedSecondaryColor[i] = true;
+        }
+      }
+      for (int i = 0; i < listIcon.length; i++) {
+        if (Key(createdArea!.iconPath) == (listIcon[i] as Image).key) {
+          _selectedIcon[i] = true;
+          break;
+        }
+      }
+    }
   }
 
   @override
@@ -1158,6 +1311,91 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                 isSelected: _selectedActionCondition,
                                 children: listActionCondition,
                               ),
+                              const SizedBox(height: 5),
+                              ToggleButtons(
+                                direction: isSelected
+                                    ? Axis.vertical
+                                    : Axis.horizontal,
+                                onPressed: (int index) {
+                                  setState(() {
+                                    for (int i = 0;
+                                        i < _selectedPrimaryColor.length;
+                                        i++) {
+                                      _selectedPrimaryColor[i] = i == index;
+                                      if (i == index) {
+                                        createdArea!.primaryColor =
+                                            '#${(listPrimaryColor[i] as Icon).color!.value.toRadixString(16).substring(2, 8)}';
+                                      }
+                                    }
+                                  });
+                                },
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                constraints: const BoxConstraints(
+                                  minHeight: 40.0,
+                                  minWidth: 60.0,
+                                ),
+                                isSelected: _selectedPrimaryColor,
+                                children: listPrimaryColor,
+                              ),
+                              const SizedBox(height: 5),
+                              ToggleButtons(
+                                direction: isSelected
+                                    ? Axis.vertical
+                                    : Axis.horizontal,
+                                onPressed: (int index) {
+                                  setState(() {
+                                    for (int i = 0;
+                                        i < _selectedSecondaryColor.length;
+                                        i++) {
+                                      _selectedSecondaryColor[i] = i == index;
+                                      if (i == index) {
+                                        createdArea!.secondaryColor =
+                                            '#${(listSecondaryColor[i] as Icon).color!.value.toRadixString(16).substring(2, 8)}';
+                                      }
+                                    }
+                                  });
+                                },
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                constraints: const BoxConstraints(
+                                  minHeight: 40.0,
+                                  minWidth: 60.0,
+                                ),
+                                isSelected: _selectedSecondaryColor,
+                                children: listSecondaryColor,
+                              ),
+                              const SizedBox(height: 5),
+                              ToggleButtons(
+                                direction: isSelected
+                                    ? Axis.vertical
+                                    : Axis.horizontal,
+                                onPressed: (int index) {
+                                  setState(() {
+                                    for (int i = 0;
+                                        i < _selectedIcon.length;
+                                        i++) {
+                                      _selectedIcon[i] = i == index;
+                                      if (i == index) {
+                                        createdArea!.iconPath =
+                                            (listIcon[i] as Image)
+                                                .key
+                                                .toString()
+                                                .replaceFirst("[<'", "")
+                                                .replaceFirst("'>]", "");
+                                      }
+                                    }
+                                  });
+                                },
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                constraints: const BoxConstraints(
+                                  minHeight: 40.0,
+                                  minWidth: 42.0,
+                                ),
+                                isSelected: _selectedIcon,
+                                children: listIcon,
+                              ),
                             ]),
                       ])),
                 const SizedBox(
@@ -1206,7 +1444,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                         borderColor: getOurBlueAreaColor(100),
                       ),
                     ],
-                  )
+                  ),
+                Text(_apiErrorMessage != null ? _apiErrorMessage! : '')
               ])),
     ));
   }

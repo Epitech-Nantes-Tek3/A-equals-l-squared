@@ -112,17 +112,16 @@ class ParameterData {
         }
       }
     }
-
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const SizedBox(
-            height: 20,
-          ),
-        Text(isRequired ? '$description *: ' : '$description : ', style: const TextStyle(fontSize: 12)),
-          const SizedBox(
-            height: 10,
-          ),
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+        Widget>[
+      const SizedBox(
+        height: 20,
+      ),
+      Text(isRequired ? '$description *: ' : '$description : ',
+          style: const TextStyle(fontSize: 12)),
+      const SizedBox(
+        height: 10,
+      ),
       if (getterUrl == null)
         TextFormField(
             decoration: InputDecoration(
