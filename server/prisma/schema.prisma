@@ -137,6 +137,7 @@ model AREA {
   name           String
   isEnable       Boolean            @default(true)
   createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @default(now())
   description    String?
   logicalGate    String             @default("OR")
   primaryColor   String             @default("#000000") @db.VarChar(7)
