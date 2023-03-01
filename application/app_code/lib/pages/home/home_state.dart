@@ -91,7 +91,7 @@ class HomePageState extends State<HomePage> {
     }
     if (count % 2 == 0) {
       areaVis.add(createRowOfAreas(
-          areaDataToElevatedButton(tempArea, Colors.deepOrange), null));
+          areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor()), null));
     }
     return areaVis;
   }
