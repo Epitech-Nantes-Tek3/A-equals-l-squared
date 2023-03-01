@@ -127,7 +127,7 @@ app.get('/about.json', async (req, res) => {
       })
     )
     res.header('Content-Type', 'application/json')
-    res.type('json').send(JSON.stringify(about, null, 2) + '\n');
+    res.type('json').send(JSON.stringify(about, null, 2) + '\n')
   } catch (err) {
     console.log(err)
     res.status(500).send(err)
@@ -165,6 +165,43 @@ app.post('/api/signup', (req, res, next) => {
 })
 
 /**
+ * Refresh the Reddit token of the user
+ * @param {*} userId The ID of the user in the database
+ * @param {*} refresh_token The refresh token of the user
+ */
+async function refresh_reddit_token (userId, refresh_token) {
+  try {
+    const postData = {
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token
+    }
+    const authString = `7P3NMqftCBgr7H-XaPUbNg:gPFD-f_P2DNz8WVjm-Qwj21G8hS9KA`
+    const authHeader = `Basic ${Buffer.from(authString).toString('base64')}`
+
+    const response = await axios.post(
+      'https://www.reddit.com/api/v1/access_token',
+      postData,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: authHeader,
+          'User-Agent': 'MyBot/1.0.0'
+        }
+      }
+    )
+    const user = await database.prisma.User.update({
+      where: { id: userId },
+      data: {
+        redditToken: response.data.access_token,
+        redditRefreshToken: response.data.refresh_token
+      }
+    })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+/**
  * Post request to login to the website.
  * body.email -> User mail
  * body.password -> User password
@@ -174,6 +211,8 @@ app.post('/api/login', (req, res, next) => {
     if (err) throw new Error(err)
     if (user == false) return res.json(info)
     const token = utils.generateToken(user.id)
+    if (user.redditToken != null)
+      refresh_reddit_token(user.id, user.redditRefreshToken)
     return res.status(201).json({
       status: 'success',
       data: { message: 'Welcome back.', user, token },
@@ -462,6 +501,8 @@ app.post(
           googleToken: req.body.google != '' ? req.body.google : null,
           discordToken: req.body.discord != '' ? req.body.discord : null,
           redditToken: req.body.reddit != '' ? req.body.reddit : null,
+          redditRefreshToken:
+            req.body.reddit != '' ? req.body.redditRefreshToken : null,
           deezerToken: req.body.deezer != '' ? req.body.deezer : null
         }
       })
@@ -1137,6 +1178,10 @@ app.post(
           }
         }
       )
+      await database.prisma.User.update({
+        where: { id: req.user.id },
+        data: { redditRefreshToken: ret.data.refresh_token }
+      })
       return res.status(200).json({
         status: 'success',
         data: { access_token: ret.data.access_token },
