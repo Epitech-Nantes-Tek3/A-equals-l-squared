@@ -43,12 +43,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Variable to know if at least one Reaction is save on your Area
   bool _isDisplayReactions = true;
 
-  /// To know if all previews Reaction must be closed
-  bool _isReactionPreviewClosed = false;
-
-  /// To know if all previews Action must be closed
-  bool _isActionPreviewClosed = false;
-
   /// Variable to know if an User want to choose an Action
   bool _isChoosingAnAction = false;
 
@@ -60,14 +54,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
   /// An api error message
   String? _apiErrorMessage;
-
-  void updateIsActionPreviewClosed() {
-    _isActionPreviewClosed = false;
-  }
-
-  void updateIsReactionPreviewClosed() {
-    _isReactionPreviewClosed = false;
-  }
 
   /// Useful function updating the state
   /// object -> Object who's calling the function
@@ -243,7 +229,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   : ''
         });
       }
-
       if (changeType == 'create') {
         response = await http.post(
           Uri.parse(
@@ -315,8 +300,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         const SizedBox(
           height: 10,
         ),
-        createdArea!.actionList.last.displayActionModificationView(
-            createUpdate, _isActionPreviewClosed),
+        createdArea!.actionList.last
+            .displayActionModificationView(createUpdate), //, false),
         const SizedBox(
           height: 20,
         ),
@@ -524,7 +509,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 setState(() {
                   _isChoosingAnAction = true;
                   _actionCreationState = 0;
-                  _isActionPreviewClosed = true;
+                  for (var temp in createdArea!.actionList) {
+                    temp.isPreviewDisplayMax = false;
+                  }
                 });
               },
               child: const Text(
@@ -553,8 +540,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   Widget configureAReactionDisplay() {
     Widget modifyAReaction =
         Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      createdArea!.reactionList.last.displayReactionModificationView(
-          createUpdate, _isReactionPreviewClosed),
+      createdArea!.reactionList.last
+          .displayReactionModificationView(createUpdate), //, false),
       const SizedBox(
         height: 10,
       ),
@@ -765,7 +752,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 setState(() {
                   _isChoosingAReaction = true;
                   _reactionCreationState = 0;
-                  _isReactionPreviewClosed = true;
+                  for (var temp in createdArea!.reactionList) {
+                    temp.isPreviewDisplayMax = false;
+                  }
                 });
               },
               child: const Text(
@@ -814,8 +803,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     bottomRight: Radius.circular(10.0),
                   )),
               child: Column(children: [
-                temp.displayActionModificationView(
-                    createUpdate, _isActionPreviewClosed),
+                temp.displayActionModificationView(createUpdate),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -859,7 +847,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           ));
         }
       }
-      updateIsActionPreviewClosed();
+      //updateIsActionPreviewClosed();
     }
 
     /// Get reactionListDisplay
@@ -879,8 +867,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     bottomRight: Radius.circular(10.0),
                   )),
               child: Column(children: [
-                temp.displayReactionModificationView(
-                    createUpdate, _isReactionPreviewClosed),
+                temp.displayReactionModificationView(createUpdate),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -923,7 +910,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           ));
         }
       }
-      updateIsReactionPreviewClosed();
+      //updateIsReactionPreviewClosed();
     }
 
     return Scaffold(
@@ -975,6 +962,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                 onPressed: () {
                                   setState(() {
                                     _isDisplayActions = true;
+                                    for (var temp in createdArea!.actionList) {
+                                      temp.isPreviewDisplayMax = false;
+                                    }
                                   });
                                 },
                                 icon: Icon(
@@ -986,6 +976,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                 onPressed: () {
                                   setState(() {
                                     _isDisplayActions = false;
+                                    for (var temp in createdArea!.actionList) {
+                                      temp.isPreviewDisplayMax = true;
+                                    }
                                   });
                                 },
                                 icon: Icon(
@@ -997,7 +990,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                 )),
                         ]),
 
-                    if (_isDisplayActions) Column(children: actionListDisplay),
+                    Column(children: actionListDisplay),
                     displayNewActionSelectionView(),
                     const SizedBox(
                       height: 30,
@@ -1018,6 +1011,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                 onPressed: () {
                                   setState(() {
                                     _isDisplayReactions = true;
+                                    for (var temp
+                                        in createdArea!.reactionList) {
+                                      temp.isPreviewDisplayMax = false;
+                                    }
                                   });
                                 },
                                 icon: Icon(
@@ -1029,6 +1026,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                 onPressed: () {
                                   setState(() {
                                     _isDisplayReactions = false;
+                                    for (var temp
+                                        in createdArea!.reactionList) {
+                                      temp.isPreviewDisplayMax = true;
+                                    }
                                   });
                                 },
                                 icon: Icon(
@@ -1055,8 +1056,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                           ),
                         ],
                       ),
-                    if (_isDisplayReactions)
-                      Column(children: reactionListDisplay),
+                    Column(children: reactionListDisplay),
                     displayNewReactionSelectionView()
                   ])
                 else
