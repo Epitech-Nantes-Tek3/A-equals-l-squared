@@ -1166,7 +1166,7 @@ app.post(
         code: req.body.code,
         redirect_uri: 'http://localhost:8081/auth.html'
       }
-      const authString = `7P3NMqftCBgr7H-XaPUbNg:gPFD-f_P2DNz8WVjm-Qwj21G8hS9KA`
+      const authString = process.env.REDDIT_AUTH
       const authHeader = `Basic ${Buffer.from(authString).toString('base64')}`
 
       const ret = await axios.post(
