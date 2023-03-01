@@ -80,7 +80,7 @@ class ServiceData {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Image.asset(
-              icon,
+              icon != '' ? icon : './assets/icons/Area_Logo.png',
               height: 30,
               width: 30,
             ),

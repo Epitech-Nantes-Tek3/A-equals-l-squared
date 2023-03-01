@@ -191,6 +191,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       if (response.statusCode != 200) {
         _apiErrorMessage = response.body;
         _isChoosingAnAction = true;
+        if (changeType == 'create') {
+          _actionCreationState = 2;
+        }
         createUpdate(null);
         return 'Error during action $changeType';
       }
@@ -269,6 +272,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       if (response.statusCode != 200) {
         _apiErrorMessage = response.body;
         _isChoosingAReaction = true;
+        if (changeType == 'create') {
+          _reactionCreationState = 2;
+        }
         createUpdate(null);
         return 'Error during reaction $changeType';
       }
