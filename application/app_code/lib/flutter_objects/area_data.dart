@@ -186,12 +186,12 @@ class AreaData {
     if (mode) {
       for (var temp in actionList) {
         actionListDisplay.add(
-          temp.displayActionModificationView(update, isActionPreviewClosed),
+          temp.displayActionModificationView(update)
         );
       }
       for (var temp in reactionList) {
         reactionListDisplay.add(
-          temp.displayReactionModificationView(update, isReactionPreviewClosed),
+          temp.displayReactionModificationView(update)
         );
       }
       listDisplay.add(Column(
