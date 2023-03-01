@@ -69,6 +69,51 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     )
   ];
 
+  static List<Widget> listIcon = <Widget>[
+    Image.asset(
+      'assets/icons/calendar.png',
+      key: const Key('assets/icons/calendar.png'),
+      width: 21,
+      height: 20,
+    ),
+    Image.asset(
+      'assets/icons/deezer.png',
+      key: const Key('assets/icons/deezer.png'),
+      width: 21,
+      height: 20,
+    ),
+    Image.asset(
+      'assets/icons/discord.png',
+      key: const Key('assets/icons/discord.png'),
+      width: 21,
+      height: 20,
+    ),
+    Image.asset(
+      'assets/icons/gmail.png',
+      key: const Key('assets/icons/gmail.png'),
+      width: 21,
+      height: 20,
+    ),
+    Image.asset(
+      'assets/icons/reaaaaaaa.png',
+      key: const Key('assets/icons/reaaaaaaa.png'),
+      width: 21,
+      height: 20,
+    ),
+    Image.asset(
+      'assets/icons/timetime.png',
+      key: const Key('assets/icons/timetime.png'),
+      width: 21,
+      height: 20,
+    ),
+    Image.asset(
+      'assets/icons/Area_Logo.png',
+      key: const Key('assets/icons/Area_Logo.png'),
+      width: 21,
+      height: 20,
+    ),
+  ];
+
   /// Creation of an Action state
   int _actionCreationState = 0;
 
@@ -89,6 +134,16 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   ];
 
   final List<bool> _selectedSecondaryColor = <bool>[
+    false,
+    false,
+    false,
+    false,
+    true
+  ];
+
+  final List<bool> _selectedIcon = <bool>[
+    false,
+    false,
     false,
     false,
     false,
@@ -838,6 +893,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     if (createdArea != null) {
       _selectedPrimaryColor[4] = false;
       _selectedSecondaryColor[4] = false;
+      _selectedIcon[6] = false;
       String str = createdArea!.primaryColor.replaceFirst("#", "0xff");
       Color tempColor = Color(int.parse(str));
       str = createdArea!.secondaryColor.replaceFirst("#", "0xff");
@@ -849,6 +905,12 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         if (tempSecondaryColor.value ==
             (listSecondaryColor[i] as Icon).color!.value) {
           _selectedSecondaryColor[i] = true;
+        }
+      }
+      for (int i = 0; i < listIcon.length; i++) {
+        if (Key(createdArea!.iconPath) == (listIcon[i] as Image).key) {
+          _selectedIcon[i] = true;
+          break;
         }
       }
     }
@@ -1219,6 +1281,38 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                 ),
                                 isSelected: _selectedSecondaryColor,
                                 children: listSecondaryColor,
+                              ),
+                              const SizedBox(height: 5),
+                              ToggleButtons(
+                                direction: isSelected
+                                    ? Axis.vertical
+                                    : Axis.horizontal,
+                                onPressed: (int index) {
+                                  setState(() {
+                                    for (int i = 0;
+                                        i < _selectedIcon.length;
+                                        i++) {
+                                      _selectedIcon[i] = i == index;
+                                      if (i == index) {
+                                        createdArea!.iconPath =
+                                            (listIcon[i] as Image)
+                                                .key
+                                                .toString()
+                                                .replaceFirst("[<'", "")
+                                                .replaceFirst("'>]", "");
+                                        print(createdArea!.iconPath);
+                                      }
+                                    }
+                                  });
+                                },
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                constraints: const BoxConstraints(
+                                  minHeight: 40.0,
+                                  minWidth: 42.0,
+                                ),
+                                isSelected: _selectedIcon,
+                                children: listIcon,
                               ),
                             ]),
                       ])),
