@@ -13,7 +13,7 @@ const createRedditService = async () => {
         description: 'Reddit service',
         primaryColor: '#FF4500',
         secondaryColor: '#FFFFFF',
-        icon: '',
+        icon: './assets/icons/reddit.png',
         isEnable: true,
         Actions: {},
         Reactions: {
