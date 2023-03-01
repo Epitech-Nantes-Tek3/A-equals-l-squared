@@ -1,8 +1,6 @@
 import 'package:application/router.dart';
 import 'package:flutter/material.dart';
 
-import '../../material_lib_functions/material_functions.dart';
-
 void main() {
   runApp(const MyApp());
 }

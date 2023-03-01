@@ -6,11 +6,11 @@ import 'package:application/pages/create_area/create_area_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../../material_lib_functions/material_functions.dart';
 import '../../flutter_objects/action_data.dart';
 import '../../flutter_objects/area_data.dart';
 import '../../flutter_objects/reaction_data.dart';
 import '../../flutter_objects/service_data.dart';
+import '../../material_lib_functions/material_functions.dart';
 import '../../network/informations.dart';
 import '../home/home_functional.dart';
 
@@ -37,20 +37,11 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Creation of an Reaction state
   int _reactionCreationState = 0;
 
-  /// Name of the AREA
-  String _name = "";
-
   /// Variable to know if at least one Action is save on your Area
   bool _isDisplayActions = true;
 
   /// Variable to know if at least one Reaction is save on your Area
   bool _isDisplayReactions = true;
-
-  /// Variable to know if an action has been chosen
-  bool _hasAnAction = false;
-
-  /// Variable to know if an action has been chosen
-  bool _hasAReaction = false;
 
   /// Variable to know if an User want to choose an Action
   bool _isChoosingAnAction = false;
@@ -478,7 +469,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                       changeType = 'create';
                       apiAskForActionChange(createdArea!.actionList.last);
                       _isChoosingAnAction = false;
-                      _hasAnAction = true;
                     }
                   });
                 },
@@ -808,7 +798,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                             });
                           },
                           child: Text('Delete',
-                              style: TextStyle(color: getOurBlueAreaColor(100)))),
+                              style:
+                                  TextStyle(color: getOurBlueAreaColor(100)))),
                       context,
                       borderColor: getOurBlueAreaColor(100),
                       borderWith: 2,
@@ -829,9 +820,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     ),
                   ],
                 )
-              ])
-          )
-          );
+              ])));
           actionListDisplay.add(const SizedBox(
             height: 20,
           ));
@@ -1106,7 +1095,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                               }),
                               child: Text(
                                   "$changeType ${createdArea != null ? createdArea!.name : ''}",
-                                  style: TextStyle(color: Colors.black))),
+                                  style: const TextStyle(color: Colors.black))),
                           context),
                       if (changeType != 'create')
                         materialElevatedButtonArea(
@@ -1114,19 +1103,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                               onPressed: (() {
                                 changeType = 'delete';
                                 apiAskForAreaChange();
-                                setState(() {
-                                  createdArea = AreaData(
-                                      id: '',
-                                      name: 'Deleted',
-                                      description: 'You can now go home !',
-                                      userId: '',
-                                      actionList: [],
-                                      reactionList: [],
-                                      isEnable: true,
-                                      logicalGate: 'OR');
-                                });
-
-                                /// UPDATE IT WITH FRAME GESTION
                               }),
                               child: Text(
                                   "Delete ${createdArea != null ? createdArea!.name : ''}",
@@ -1134,7 +1110,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                             ),
                             context)
                     ],
-                  )
+                  ),
+                Text(_apiErrorMessage != null ? _apiErrorMessage! : '')
               ])),
     ));
   }

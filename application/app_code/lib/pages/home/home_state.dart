@@ -28,7 +28,7 @@ class HomePageState extends State<HomePage> {
       MediaQuery.of(context).size.width >= 600;
 
   bool isMobile(BuildContext context) =>
-     MediaQuery.of(context).size.width < 600;
+      MediaQuery.of(context).size.width < 600;
 
   /// Re sync all flutter object
   void homeSync() async {
@@ -39,13 +39,13 @@ class HomePageState extends State<HomePage> {
   /// This function create a Row of two Areas
   Widget createRowOfAreas(Widget firstArea, Widget? secondArea) {
     Widget rowArea = Row(
-          mainAxisAlignment: secondArea != null
-              ? MainAxisAlignment.spaceBetween
-              : MainAxisAlignment.center,
-          children: <Widget>[
-            firstArea,
-            if (secondArea != null) secondArea,
-          ]);
+        mainAxisAlignment: secondArea != null
+            ? MainAxisAlignment.spaceBetween
+            : MainAxisAlignment.center,
+        children: <Widget>[
+          firstArea,
+          if (secondArea != null) secondArea,
+        ]);
     return rowArea;
   }
 
@@ -53,11 +53,13 @@ class HomePageState extends State<HomePage> {
   Widget areaDataToElevatedButton(AreaData areaData, Color areaBorderColor) {
     return materialElevatedButtonArea(
       ElevatedButton(
-          onPressed: () {
-            createdArea = AreaData.clone(areaData);
-            goToUpdateAreaPage(context);
-          },
-          child: areaData.display(false, null),), context,
+        onPressed: () {
+          createdArea = AreaData.clone(areaData);
+          goToUpdateAreaPage(context);
+        },
+        child: areaData.display(false, null),
+      ),
+      context,
       sizeOfButton: 2.5,
       isShadowNeeded: true,
       paddingHorizontal: 10,
@@ -168,7 +170,8 @@ class HomePageState extends State<HomePage> {
                         });
                       },
                       child: const Text('Service List'),
-                    ), context,
+                    ),
+                    context,
                     sizeOfButton: 4,
                     primaryColor: getOurBlueAreaColor(100),
                   ),
