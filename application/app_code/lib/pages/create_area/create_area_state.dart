@@ -46,6 +46,29 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     )
   ];
 
+  static const List<Widget> listSecondaryColor = <Widget>[
+    Icon(
+      Icons.color_lens_outlined,
+      color: Colors.green,
+    ),
+    Icon(
+      Icons.color_lens_outlined,
+      color: Colors.blue,
+    ),
+    Icon(
+      Icons.color_lens_outlined,
+      color: Colors.red,
+    ),
+    Icon(
+      Icons.color_lens_outlined,
+      color: Colors.amber,
+    ),
+    Icon(
+      Icons.color_lens_outlined,
+      color: Colors.black,
+    )
+  ];
+
   /// Creation of an Action state
   int _actionCreationState = 0;
 
@@ -58,6 +81,14 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       : <bool>[true, false];
 
   final List<bool> _selectedPrimaryColor = <bool>[
+    false,
+    false,
+    false,
+    false,
+    true
+  ];
+
+  final List<bool> _selectedSecondaryColor = <bool>[
     false,
     false,
     false,
@@ -116,7 +147,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             "isEnable": createdArea!.isEnable,
             "logicalGate": createdArea!.logicalGate,
             "primaryColor": createdArea!.primaryColor,
-            "secondaryColor:": createdArea!.secondaryColor,
+            "secondaryColor": createdArea!.secondaryColor,
             "iconPath": createdArea!.iconPath
           }),
         );
@@ -133,7 +164,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             "isEnable": createdArea!.isEnable,
             "logicalGate": createdArea!.logicalGate,
             "primaryColor": createdArea!.primaryColor,
-            "secondaryColor:": createdArea!.secondaryColor,
+            "secondaryColor": createdArea!.secondaryColor,
             "iconPath": createdArea!.iconPath
           }),
         );
@@ -806,12 +837,18 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     super.initState();
     if (createdArea != null) {
       _selectedPrimaryColor[4] = false;
+      _selectedSecondaryColor[4] = false;
       String str = createdArea!.primaryColor.replaceFirst("#", "0xff");
       Color tempColor = Color(int.parse(str));
+      str = createdArea!.secondaryColor.replaceFirst("#", "0xff");
+      Color tempSecondaryColor = Color(int.parse(str));
       for (int i = 0; i < listPrimaryColor.length; i++) {
         if (tempColor.value == (listPrimaryColor[i] as Icon).color!.value) {
           _selectedPrimaryColor[i] = true;
-          break;
+        }
+        if (tempSecondaryColor.value ==
+            (listSecondaryColor[i] as Icon).color!.value) {
+          _selectedSecondaryColor[i] = true;
         }
       }
     }
@@ -1155,6 +1192,33 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                 ),
                                 isSelected: _selectedPrimaryColor,
                                 children: listPrimaryColor,
+                              ),
+                              const SizedBox(height: 5),
+                              ToggleButtons(
+                                direction: isSelected
+                                    ? Axis.vertical
+                                    : Axis.horizontal,
+                                onPressed: (int index) {
+                                  setState(() {
+                                    for (int i = 0;
+                                        i < _selectedSecondaryColor.length;
+                                        i++) {
+                                      _selectedSecondaryColor[i] = i == index;
+                                      if (i == index) {
+                                        createdArea!.secondaryColor =
+                                            '#${(listSecondaryColor[i] as Icon).color!.value.toRadixString(16).substring(2, 8)}';
+                                      }
+                                    }
+                                  });
+                                },
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(8)),
+                                constraints: const BoxConstraints(
+                                  minHeight: 40.0,
+                                  minWidth: 60.0,
+                                ),
+                                isSelected: _selectedSecondaryColor,
+                                children: listSecondaryColor,
                               ),
                             ]),
                       ])),
