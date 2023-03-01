@@ -78,9 +78,11 @@ class ActionData {
     return parametersContent;
   }
 
-  Widget displayActionModificationView(Function? update) {
+  Widget displayActionModificationView(Function? update, bool isPreviewClosed) {
     List<Widget> actionPreview = <Widget>[];
 
+    if (isPreviewClosed)
+      isPreviewDisplayMax = false;
     actionPreview.add(Column(
       children: [
         Row(
