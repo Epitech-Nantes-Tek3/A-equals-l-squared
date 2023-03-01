@@ -15,6 +15,9 @@ class AreaData {
   List<ActionData> actionList;
   List<ReactionData> reactionList;
   bool isEnable = true;
+  String primaryColor;
+  String secondaryColor;
+  String iconPath;
   String? description;
   ServiceData? serviceId;
   String logicalGate;
@@ -28,6 +31,9 @@ class AreaData {
     required this.reactionList,
     required this.isEnable,
     required this.logicalGate,
+    required this.primaryColor,
+    required this.secondaryColor,
+    required this.iconPath,
     this.description,
     this.serviceId,
   });
@@ -45,7 +51,10 @@ class AreaData {
             isEnable: oldArea.isEnable,
             description: oldArea.description,
             serviceId: oldArea.serviceId,
-            logicalGate: oldArea.logicalGate);
+            logicalGate: oldArea.logicalGate,
+            primaryColor: oldArea.primaryColor,
+            secondaryColor: oldArea.secondaryColor,
+            iconPath: oldArea.iconPath);
 
   /// Convert a json map into the class
   factory AreaData.fromJson(Map<String, dynamic> json) {
@@ -89,54 +98,32 @@ class AreaData {
         reactionList: reactionList,
         isEnable: json['isEnable'],
         description: json['description'],
-        logicalGate: json['logicalGate']);
+        logicalGate: json['logicalGate'],
+        primaryColor: json['primaryColor'],
+        secondaryColor: json['secondaryColor'],
+        iconPath: json['icon']);
   }
 
   /// Get the first color of hit first service
   Color getPrimaryColor() {
-    if (getAssociatedService() == null) {
-      return Colors.white;
-    }
-    String str = getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
+    String str = primaryColor.replaceFirst("#", "0xff");
     Color tempColor = Color(int.parse(str));
     return tempColor;
   }
 
   /// Get the secondary color of hit first service
   Color getSecondaryColor() {
-    if (getAssociatedService() == null) {
-      return Colors.white;
-    }
-    String str =
-        getAssociatedService()!.secondaryColor.replaceFirst("#", "0xff");
+    String str = secondaryColor.replaceFirst("#", "0xff");
     Color tempColor = Color(int.parse(str));
     return tempColor;
   }
 
-  /// This function return the first associated service of an Area
-  ServiceData? getAssociatedService() {
-    if (actionList.isEmpty) {
-      return null;
-    }
-    for (var temp in serviceDataList) {
-      if (temp.id == actionList[0].serviceId) {
-        return temp;
-      }
-    }
-    return null;
-  }
-
   /// This function return the good icon with the serviceName
   Widget getServiceIcon() {
-    ServiceData? serviceData = getAssociatedService();
     return Column(
       children: <Widget>[
         Image.asset(
-          serviceData != null
-              ? (serviceData.icon != ''
-                  ? serviceData.icon
-                  : 'assets/icons/Area_Logo.png')
-              : 'assets/icons/Area_Logo.png',
+          iconPath != '' ? iconPath : 'assets/icons/Area_Logo.png',
           height: 50,
           width: 50,
         )
