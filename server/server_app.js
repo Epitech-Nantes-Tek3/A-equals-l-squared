@@ -1152,6 +1152,8 @@ require('./api/area/action/action.js')(app, passport, database)
 
 /**
  * Generate token thanks to a code in Reddit
+ * body.code -> Code given by Reddit
+ * Route protected by a JWT token
  */
 app.post(
   '/api/code/reddit',
