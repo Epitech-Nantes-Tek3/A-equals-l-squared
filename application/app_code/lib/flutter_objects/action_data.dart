@@ -12,6 +12,7 @@ class ActionData {
   DateTime createdAt;
   bool isEnable;
   String serviceId;
+  bool isPreviewDisplayMax;
   List<ParameterData> parameters;
   List<ParameterContent> parametersContent;
   List<DynamicParameterData> dynamicParameters;
@@ -24,6 +25,7 @@ class ActionData {
       required this.createdAt,
       required this.isEnable,
       required this.serviceId,
+      required this.isPreviewDisplayMax,
       required this.parameters,
       required this.parametersContent,
       required this.dynamicParameters});
@@ -37,6 +39,7 @@ class ActionData {
             createdAt: oldAction.createdAt,
             isEnable: oldAction.isEnable,
             serviceId: oldAction.serviceId,
+            isPreviewDisplayMax: false,
             parameters: oldAction.parameters
                 .map((v) => ParameterData.clone(v))
                 .toList(),
@@ -65,6 +68,7 @@ class ActionData {
         isEnable: json['isEnable'],
         serviceId: json['serviceId'],
         parameters: parameters,
+        isPreviewDisplayMax: false,
         parametersContent: <ParameterContent>[],
         dynamicParameters: dynamicParameters);
   }
@@ -74,36 +78,36 @@ class ActionData {
     return parametersContent;
   }
 
-  /// Get a visual representation of an Action
-  /// mode -> true = params, false = only name and desc
-  /// params -> list of all the associated parameter content
-  /// update -> Function pointer used for update the state
-  Widget display(bool mode, Function? update) {
-    List<Widget> paramWid = <Widget>[];
-    paramWid.add(Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      description,
-                      style: TextStyle(
-                          color: isEnable ? Colors.green : Colors.red),
-                    ), // Change when icon are in DB
-                  ]),
-            ],
-          ),
-        ]));
-    if (mode == true) {
+  Widget displayActionModificationView(Function? update) {
+    List<Widget> actionPreview = <Widget>[];
+
+    actionPreview.add(Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            displayActionDescription(),
+            IconButton(
+                onPressed: () {
+                  if (isPreviewDisplayMax) {
+                    isPreviewDisplayMax = false;
+                  } else {
+                    isPreviewDisplayMax = true;
+                  }
+                  update!(null);
+                },
+                icon: isPreviewDisplayMax
+                    ? const Icon(Icons.expand_circle_down_outlined)
+                    : const Icon(Icons.arrow_circle_up_outlined))
+          ],
+        )
+      ],
+    ));
+
+    if (isPreviewDisplayMax) {
       ParameterData? previous;
       for (var temp in parameters) {
-        paramWid.add(temp.display(parametersContent, previous, update!));
+        actionPreview.add(temp.display(parametersContent, previous, update!));
         if (temp.isRequired == true && temp.getterUrl != null) {
           previous = temp;
         } else {
@@ -114,19 +118,19 @@ class ActionData {
       for (var temp in dynamicParameters) {
         dynamicParams.add(temp.display());
       }
-      paramWid.add(Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      actionPreview.add(Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: dynamicParams,
       ));
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: paramWid,
+      children: actionPreview,
     );
   }
 
-  /// Function to display the name of a Reaction
-  Widget? displayReactionName() {
+  /// Function to display the name of an Action
+  Widget? displayActionName() {
     if (isEnable) {
       return Column(
         children: <Widget>[
@@ -138,28 +142,28 @@ class ActionData {
     }
   }
 
-  /// Function to display all information about a Reaction
-  Widget? displayReactionWithInfo() {
-    if (isEnable) {
-      return Column(
+  /// Function to display description information about an Action
+  Widget displayActionDescription() {
+    List<Widget> actionDescription = <Widget>[];
+    actionDescription.add(
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  const Icon(Icons.access_alarm),
-                  Text(name),
-                ],
-              ),
-            ],
-          ),
-          Row(children: <Widget>[
-            Text(description),
-          ]),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  description,
+                  style: const TextStyle(color: Colors.black),
+                ), // Change when icon are in DB
+              ]),
         ],
-      );
-    } else {
-      return null;
-    }
+      ),
+    );
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: actionDescription);
   }
 }

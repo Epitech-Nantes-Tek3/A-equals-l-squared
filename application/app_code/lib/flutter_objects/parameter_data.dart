@@ -113,10 +113,16 @@ class ParameterData {
       }
     }
 
-    return Column(children: <Widget>[
-      const SizedBox(
-        height: 10,
-      ),
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          const SizedBox(
+            height: 20,
+          ),
+        Text('$description : ', style: const TextStyle(fontSize: 12)),
+          const SizedBox(
+            height: 10,
+          ),
       if (getterUrl == null)
         TextFormField(
             decoration: InputDecoration(
@@ -160,7 +166,7 @@ class ParameterData {
               child: Text(value),
             );
           }).toList(),
-        )
+        ),
     ]);
   }
 

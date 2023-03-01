@@ -1,6 +1,8 @@
 import 'package:application/router.dart';
 import 'package:flutter/material.dart';
 
+import '../../material_lib_functions/material_functions.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -13,7 +15,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'A = L²',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         fontFamily: 'Roboto-Bold',
       ),
       routeInformationProvider: router.routeInformationProvider,

@@ -147,21 +147,27 @@ class AreaData {
   /// This function display an Area preview with the logo, the name and the description
   Widget displayAreaPreview() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             getServiceIcon(),
-            Text(
-              name,
-              style: const TextStyle(color: Colors.black),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                name,
+                style: const TextStyle(color: Colors.black),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
         const SizedBox(height: 20),
         Text(
-          'Description : \n\n $description',
+          description == null
+              ? 'Description : \n\n No description'
+              : 'Description : \n\n $description',
           style: const TextStyle(color: Colors.black),
         )
 
@@ -180,12 +186,12 @@ class AreaData {
     if (mode) {
       for (var temp in actionList) {
         actionListDisplay.add(
-          temp.display(true, update),
+          temp.displayActionModificationView(update),
         );
       }
       for (var temp in reactionList) {
         reactionListDisplay.add(
-          temp.display(true, update),
+          temp.displayReactionModificationView(update),
         );
       }
       listDisplay.add(Column(
