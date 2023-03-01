@@ -411,8 +411,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
     /// Select a Service Action
     if (_isChoosingAnAction == true && _actionCreationState == 0) {
-      createAnAction.add(Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      createAnAction.add(Row(
         children: const [
           Text('Add a new Action : Choose your Service',
               style: TextStyle(fontSize: 16)),
@@ -423,7 +422,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
     ///Select an Action
     if (_actionCreationState == 1) {
-      createAnAction.add(Column(
+      createAnAction.add(Row(
         children: const [
           Text('Add a new Action : Choose your Action',
               style: TextStyle(fontSize: 16)),
@@ -434,7 +433,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
     /// Configure the chosen Action
     if (_actionCreationState == 2) {
-      createAnAction.add(Column(
+      createAnAction.add(Row(
         children: const [
           Text('Add a new Action : Configure your new Action',
               style: TextStyle(fontSize: 16)),
@@ -493,6 +492,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     style: TextStyle(color: Colors.white))),
             context,
             primaryColor: getOurBlueAreaColor(100),
+            borderWith: 1,
+            borderColor: getOurBlueAreaColor(100),
             isShadowNeeded: true,
           ),
       ]));
@@ -519,6 +520,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           context,
           sizeOfButton: 1.8,
           primaryColor: getOurBlueAreaColor(100),
+          borderWith: 1,
+          borderColor: getOurBlueAreaColor(100),
           isShadowNeeded: true,
 
           /// Add button desc
@@ -564,8 +567,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             child:
                 const Text("Validate", style: TextStyle(color: Colors.black))),
         context,
+        primaryColor: getOurBlueAreaColor(100),
+        borderWith: 1,
         borderColor: getOurBlueAreaColor(100),
-        borderWith: 2,
         isShadowNeeded: true,
       )
     ]);
@@ -763,6 +767,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           context,
           sizeOfButton: 1.8,
           primaryColor: getOurBlueAreaColor(100),
+          borderWith: 1,
+          borderColor: getOurBlueAreaColor(100),
           isShadowNeeded: true,
         ),
       if (_isChoosingAReaction)
@@ -832,6 +838,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                       ),
                       context,
                       primaryColor: getOurBlueAreaColor(100),
+                      borderWith: 1,
+                      borderColor: getOurBlueAreaColor(100),
                       isShadowNeeded: true,
                     ),
                   ],
@@ -892,6 +900,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                               style: TextStyle(color: Colors.white))),
                       context,
                       primaryColor: getOurBlueAreaColor(100),
+                      borderWith: 1,
+                      borderColor: getOurBlueAreaColor(100),
                       isShadowNeeded: true,
                     ),
                   ],
@@ -936,28 +946,39 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 if (actionSetting)
                   Column(children: [
                     /// Block Action
-                    const Text(
-                      'Action',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Display Actions of this Area"),
-                        Switch(
-                          value: _isDisplayActions,
-                          activeColor: Colors.blue,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _isDisplayActions = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                      Text(
+                        createdArea!.actionList.length >= 2
+                            ? 'Actions'
+                            : 'Action',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      if (!_isDisplayActions)
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isDisplayActions = true;
+                              });
+                            },
+                            icon: Icon(
+                              Icons.remove_red_eye_outlined,
+                              color: getOurBlueAreaColor(100),
+                            )),
+                      if (_isDisplayActions)
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isDisplayActions = false;
+                              });
+                            },
+                            icon: Icon(
+                              Icons.remove_red_eye,
+                              color: getOurBlueAreaColor(100),
+                            )),
+                    ]),
+
                     if (_isDisplayActions) Column(children: actionListDisplay),
                     displayNewActionSelectionView(),
 
@@ -966,13 +987,14 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     ),
 
                     /// Block Reaction
-                    const Text(
-                      'Reaction',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    Row(children: [
+                      Text(
+                        createdArea!.reactionList.length >= 2
+                            ? 'Reactions'
+                            : 'Reaction',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ]),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -1093,6 +1115,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                               ),
                             ]),
                       ])),
+                const SizedBox(
+                  height: 10,
+                ),
 
                 /// Update and delete Area
                 if ((changeType == 'update' && !actionSetting) ||
@@ -1100,44 +1125,41 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      materialElevatedButtonArea(
-                          ElevatedButton(
-                              onPressed: (() {
-                                _createdAreaSave = AreaData.clone(createdArea!);
-                                apiAskForAreaChange();
-                                setState(() {
-                                  actionSetting = true;
-                                });
-                              }),
-                              child: Text(
-                                  "$changeType ${createdArea != null ? createdArea!.name : ''}",
-                                  style: TextStyle(color: Colors.black))),
-                          context),
                       if (changeType != 'create')
                         materialElevatedButtonArea(
-                            ElevatedButton(
-                              onPressed: (() {
-                                changeType = 'delete';
-                                apiAskForAreaChange();
-                                setState(() {
-                                  createdArea = AreaData(
-                                      id: '',
-                                      name: 'Deleted',
-                                      description: 'You can now go home !',
-                                      userId: '',
-                                      actionList: [],
-                                      reactionList: [],
-                                      isEnable: true,
-                                      logicalGate: 'OR');
-                                });
-
-                                /// UPDATE IT WITH FRAME GESTION
-                              }),
-                              child: Text(
-                                  "Delete ${createdArea != null ? createdArea!.name : ''}",
-                                  style: const TextStyle(color: Colors.black)),
-                            ),
-                            context)
+                          ElevatedButton(
+                            onPressed: (() {
+                              changeType = 'delete';
+                              apiAskForAreaChange();
+                            }),
+                            child: Text(
+                                "Delete ${createdArea != null ? createdArea!.name : ''}",
+                                style:
+                                    TextStyle(color: getOurBlueAreaColor(100))),
+                          ),
+                          context,
+                          isShadowNeeded: true,
+                          borderWith: 2,
+                          borderColor: getOurBlueAreaColor(100),
+                        ),
+                      materialElevatedButtonArea(
+                        ElevatedButton(
+                            onPressed: (() {
+                              _createdAreaSave = AreaData.clone(createdArea!);
+                              apiAskForAreaChange();
+                              setState(() {
+                                actionSetting = true;
+                              });
+                            }),
+                            child: Text(
+                                "$changeType ${createdArea != null ? createdArea!.name : ''}",
+                                style: const TextStyle(color: Colors.white))),
+                        context,
+                        isShadowNeeded: true,
+                        primaryColor: getOurBlueAreaColor(100),
+                        borderWith: 1,
+                        borderColor: getOurBlueAreaColor(100),
+                      ),
                     ],
                   )
               ])),
