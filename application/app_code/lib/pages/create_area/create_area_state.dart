@@ -1102,35 +1102,35 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                      Text(
-                        createdArea!.actionList.length >= 2
-                            ? 'Actions'
-                            : 'Action',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      if (!_isDisplayActions)
-                        IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _isDisplayActions = true;
-                              });
-                            },
-                            icon: Icon(
-                              Icons.remove_red_eye_outlined,
-                              color: getOurBlueAreaColor(100),
-                            )),
-                      if (_isDisplayActions)
-                        IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _isDisplayActions = false;
-                              });
-                            },
-                            icon: Icon(
-                              Icons.remove_red_eye,
-                              color: getOurBlueAreaColor(100),
-                            )),
-                    ]),
+                          Text(
+                            createdArea!.actionList.length >= 2
+                                ? 'Actions'
+                                : 'Action',
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          if (!_isDisplayActions)
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isDisplayActions = true;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_red_eye_outlined,
+                                  color: getOurBlueAreaColor(100),
+                                )),
+                          if (_isDisplayActions)
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isDisplayActions = false;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_red_eye,
+                                  color: getOurBlueAreaColor(100),
+                                )),
+                        ]),
 
                     if (_isDisplayActions) Column(children: actionListDisplay),
                     displayNewActionSelectionView(),

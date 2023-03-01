@@ -35,7 +35,7 @@ Widget materialElevatedButtonArea(
             ? (600 / sizeOfButton)
             : (MediaQuery.of(context).size.width / sizeOfButton)
         : 10,
-    child:  ElevatedButton(
+    child: ElevatedButton(
         onPressed: buttonContent.onPressed,
         style: ElevatedButton.styleFrom(
             primary: primaryColor,
