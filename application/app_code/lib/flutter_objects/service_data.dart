@@ -93,8 +93,9 @@ class ServiceData {
                 children: <Widget>[
                   Text(
                     name,
-                    style:
-                        TextStyle(color: Color(int.parse(primaryColor.replaceFirst("#", "0xff")))),
+                    style: TextStyle(
+                        color: Color(
+                            int.parse(primaryColor.replaceFirst("#", "0xff")))),
                   ),
                   // Change when icon are in DB
                   Text(

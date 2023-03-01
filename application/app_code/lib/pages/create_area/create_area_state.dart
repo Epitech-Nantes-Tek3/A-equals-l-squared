@@ -1383,7 +1383,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                                 .toString()
                                                 .replaceFirst("[<'", "")
                                                 .replaceFirst("'>]", "");
-                                        print(createdArea!.iconPath);
                                       }
                                     }
                                   });

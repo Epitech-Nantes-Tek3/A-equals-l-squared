@@ -29,7 +29,7 @@ Widget materialElevatedButtonArea(
     double borderWith = 0,
     double paddingVertical = 10,
     double paddingHorizontal = 10}) {
-  Widget newButton = Container(
+  Widget newButton = SizedBox(
     width: context != null
         ? (MediaQuery.of(context).size.width) >= 600
             ? (600 / sizeOfButton)
