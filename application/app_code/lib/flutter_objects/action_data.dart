@@ -78,11 +78,9 @@ class ActionData {
     return parametersContent;
   }
 
-  Widget displayActionModificationView(Function? update, bool isPreviewClosed) {
+  Widget displayActionModificationView(Function? update) {
     List<Widget> actionPreview = <Widget>[];
 
-    if (isPreviewClosed)
-      isPreviewDisplayMax = false;
     actionPreview.add(Column(
       children: [
         Row(
@@ -155,7 +153,7 @@ class ActionData {
                 Text(
                   description,
                   style: const TextStyle(color: Colors.black),
-                ), // Change when icon are in DB
+                ),
               ]),
     );
     return Column(
