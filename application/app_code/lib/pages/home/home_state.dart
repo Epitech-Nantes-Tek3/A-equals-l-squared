@@ -152,7 +152,16 @@ class HomePageState extends State<HomePage> {
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: 'Search an Area',
-                            )),
+                            ),
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            validator: (String? value) {
+                              if (value == null) {
+                                return null;
+                              }
+                              sortAreaDataList(value);
+                              return null;
+                            }
+                        ),
                       ]),
                   const SizedBox(
                     height: 30,

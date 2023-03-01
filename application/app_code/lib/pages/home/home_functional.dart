@@ -25,6 +25,22 @@ void goToHomePage(BuildContext context) {
   context.go('/');
 }
 
+/// Utility function used to sort area data by name
+void sortAreaDataList(String name) {
+  if (name == '') {
+    areaDataList.sort((a, b) {
+      return a.updatedAt.toString().compareTo(b.updatedAt.toString());
+    });
+  } else {
+    areaDataList.sort((a, b) {
+      return a.name.compareTo(b.name);
+    });
+    areaDataList.sort((a, b) {
+      return a.updatedAt.toString().compareTo(name);
+    });
+  }
+}
+
 /// Update all the Flutter object and call the api
 Future<void> updateAllFlutterObject() async {
   try {
@@ -60,6 +76,7 @@ Future<void> updateAllFlutterObject() async {
         newList.add(AreaData.fromJson(temp));
       }
       areaDataList = newList;
+      sortAreaDataList("");
     }
   } catch (err) {
     debugPrint(err.toString());
