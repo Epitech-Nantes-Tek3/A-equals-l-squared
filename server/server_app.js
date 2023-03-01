@@ -1066,19 +1066,7 @@ app.post(
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   example: success
- *                 data:
- *                   type: object
- *                   properties:
- *                     services:
- *                       type: array
- *                 statusCode:
- *                   type: number
- *                   example: 200
+ *               $ref: '#/components/schemas/Service'
  *       '401':
  *         description: Invalid token provided
  *         content:
@@ -2580,6 +2568,92 @@ app.get('/api/dev/service/createAll', async (req, res) => {
   response.push(await createDeezerService())
   return res.json(response)
 })
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Action:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ *     Reaction:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ *     Parameter:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         isRequired:
+ *           type: boolean
+ *         description:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ *         Action:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: integer
+ *             name:
+ *               type: string
+ *         Reaction:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: integer
+ *             name:
+ *               type: string
+ *     Service:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         description:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ *         Actions:
+ *           type: array
+ *           items:
+ *              $ref: '#/components/schemas/Action'
+ *         Reactions:
+ *           type: array
+ *           items:
+ *              $ref: '#/components/schemas/Reaction'
+ *         Parameters:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Parameter'
+ */
 
 require('./api/area/area.js')(app, passport, database)
 require('./api/area/reaction/reaction.js')(app, passport, database)
