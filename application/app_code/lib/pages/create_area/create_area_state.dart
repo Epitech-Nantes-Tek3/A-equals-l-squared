@@ -1248,16 +1248,16 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                           height: 20,
                         ),
                         TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Area Name',
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            labelText: getSentence('CREATE-25'),
                           ),
                           initialValue:
                               createdArea != null ? createdArea!.name : '',
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (String? value) {
                             if (value!.length > 15) {
-                              return 'Name is too long.';
+                              return getSentence('CREATE-26');
                             }
                             createdArea!.name = value;
                             return null;
@@ -1265,9 +1265,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Area Description',
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            labelText: getSentence('CREATE-27'),
                           ),
                           initialValue: createdArea != null
                               ? createdArea!.description
@@ -1275,7 +1275,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (String? value) {
                             if (value!.length > 20) {
-                              return 'Name is too long.';
+                              return getSentence('CREATE-28');
                             }
                             createdArea!.description = value;
                             return null;

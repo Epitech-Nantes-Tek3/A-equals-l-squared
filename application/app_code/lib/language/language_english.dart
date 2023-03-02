@@ -42,5 +42,9 @@ Map<String, String> englishLanguageMap = Map.unmodifiable({
   'CREATE-21-02': 'Reaction',
   'CREATE-22': 'Available',
   'CREATE-23': 'Condition to activate this Area with many Actions : ',
-  'CREATE-24': 'Delete '
+  'CREATE-24': 'Delete ',
+  'CREATE-25': 'Area Name',
+  'CREATE-26': 'Name is too long.',
+  'CREATE-27': 'Area Description',
+  'CREATE-28': 'Name is too long.'
 });

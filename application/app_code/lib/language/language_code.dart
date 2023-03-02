@@ -83,3 +83,7 @@
 // CREATE-22 -> Status of the area
 // CREATE-23 -> Hint Text describing || && for area action
 // CREATE-24 -> Area delete button
+// CREATE-25 -> Area name field label text
+// CREATE-26 -> Area name field validator error when name is too long
+// CREATE-27 -> Area descrition field label text
+// CREATE-28 -> area description field validator error when description is too long
