@@ -2,6 +2,13 @@
 
 const axios = require('axios')
 
+/**
+ * Retry an action if it fails.
+ * @param {Promise} action
+ * @param {Number} retries
+ * @param {Number} delay
+ * @returns
+ */
 function retryAction (action, retries = 3, delay = 3000) {
   return new Promise((resolve, reject) => {
     action()
@@ -18,6 +25,10 @@ function retryAction (action, retries = 3, delay = 3000) {
   })
 }
 
+/**
+  * Get the ngrok url.
+ * @returns {string} The ngrok url.
+ */
 function get_ngrok_url () {
   return new Promise((resolve, reject) => {
     axios
@@ -41,12 +52,17 @@ module.exports = async function (app, passport, db) {
     console.log('Webhook service failed to start : ', error.message)
   }
 
-  const generate_webhook = (userId, serviceName, actionName, actionLinkId) => {
+  /**
+   * Generate a webhook url for a specific AREAhasActions.
+   * @param {String} serviceName
+   * @param {String} actionName
+   * @param {String} actionLinkId
+   * @returns
+   */
+  const generate_webhook = (serviceName, actionName, actionLinkId) => {
     return (
       ngrok_url +
       '/api/webhook/' +
-      userId +
-      '/' +
       serviceName +
       '/' +
       actionName +
@@ -55,18 +71,29 @@ module.exports = async function (app, passport, db) {
     )
   }
 
+  /**
+   * Generate a webhook url for a specific AREAhasActions.
+   * @api {post} /api/webhook/generate Generate a webhook url.
+   * @apiParam {string} actionLinkId The AREAhasActions id.
+   * @apiSuccess {string} The webhook url.
+   * @apiFailure {400} Bad request.
+   * @apiFailure {500} Internal server error.
+   * @security JWT
+   */
   app.post(
     '/api/webhook/generate',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
-        console.log('New webhook generator call.')
         if (!('actionLinkId' in req.body) || !req.body.actionLinkId) {
           return res.status(400).send('Bad request')
         }
         const actionLink = await db.prisma.AREAhasActions.findMany({
           where: {
-            id: req.body.actionLinkId
+            id: req.body.actionLinkId,
+            AREA: {
+              userId: req.user.id
+            }
           },
           select: {
             Action: {
@@ -82,13 +109,14 @@ module.exports = async function (app, passport, db) {
             }
           }
         })
+
         if (actionLink.length === 0 || !actionLink[0].Action.needWebhook) {
           return res.status(400).send('Bad request')
         }
+        console.log('actionLinkId', req.body.actionLinkId)
         const webhook = generate_webhook(
-          req.body.userId,
-          actionLink.Action.Service.name,
-          actionLink.Action.name,
+          actionLink[0].Action.Service.name,
+          actionLink[0].Action.name,
           req.body.actionLinkId
         )
         return res.status(200).send(webhook)
