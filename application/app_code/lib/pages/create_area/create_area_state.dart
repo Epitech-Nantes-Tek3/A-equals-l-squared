@@ -155,10 +155,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   int _reactionCreationState = 0;
 
   /// Variable to know if at least one Action is save on your Area
-  bool _isDisplayActions = true;
+  bool _isDisplayActions = false;
 
   /// Variable to know if at least one Reaction is save on your Area
-  bool _isDisplayReactions = true;
+  bool _isDisplayReactions = false;
 
   /// Variable to know if an User want to choose an Action
   bool _isChoosingAnAction = false;
