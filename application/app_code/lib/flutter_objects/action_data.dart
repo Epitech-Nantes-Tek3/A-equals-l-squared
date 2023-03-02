@@ -11,6 +11,7 @@ class ActionData {
   String description;
   DateTime createdAt;
   bool isEnable;
+  bool isDynamicParamDisplay;
   String serviceId;
   bool isPreviewDisplayMax;
   List<ParameterData> parameters;
@@ -21,6 +22,7 @@ class ActionData {
   ActionData(
       {required this.id,
       required this.name,
+      required this.isDynamicParamDisplay,
       required this.description,
       required this.createdAt,
       required this.isEnable,
@@ -40,6 +42,7 @@ class ActionData {
             isEnable: oldAction.isEnable,
             serviceId: oldAction.serviceId,
             isPreviewDisplayMax: true,
+            isDynamicParamDisplay: false,
             parameters: oldAction.parameters
                 .map((v) => ParameterData.clone(v))
                 .toList(),
@@ -69,6 +72,7 @@ class ActionData {
         serviceId: json['serviceId'],
         parameters: parameters,
         isPreviewDisplayMax: true,
+        isDynamicParamDisplay: false,
         parametersContent: <ParameterContent>[],
         dynamicParameters: dynamicParameters);
   }
@@ -119,8 +123,31 @@ class ActionData {
         dynamicParams.add(temp.display());
       }
       actionPreview.add(Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: dynamicParams,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Dynamic parameter', style: TextStyle(fontSize: 12)),
+              IconButton(
+                  onPressed: () {
+                    if (isDynamicParamDisplay) {
+                      isDynamicParamDisplay = false;
+                    } else {
+                      isDynamicParamDisplay = true;
+                    }
+                    update!(null);
+                  },
+                  icon: isDynamicParamDisplay
+                      ? const Icon(Icons.info)
+                      : const Icon(Icons.info_outline))
+            ],
+          ),
+          if (isDynamicParamDisplay)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: dynamicParams,
+            ),
+        ],
       ));
     }
     return Column(
