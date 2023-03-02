@@ -145,6 +145,7 @@
 // SETT-11 -> email field validator error when email is not valid
 // SETT-12 -> password field label text
 // SETT-13 -> password field validator error when password is too short
+// SETT-14 -> header text of the language page
 
 /// Signup Functional File :
 

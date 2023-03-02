@@ -158,6 +158,34 @@ class SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  /// Display function returning the language selection
+  Widget languageVisualization() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(getSentence('SETT-14')),
+        DropdownButton<String>(
+          icon: const Icon(Icons.keyboard_arrow_down),
+          value: selectedLanguage,
+          elevation: 45,
+          style: const TextStyle(color: Colors.deepPurple),
+          onChanged: (String? value) {
+            value ??= selectedLanguage;
+            selectedLanguage = value;
+            setState(() {});
+          },
+          items:
+              availableLanguage.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
   /// This function display buttons to modified an user account
   Widget modifierButtons() {
     return Column(children: <Widget>[
@@ -250,7 +278,7 @@ class SettingsPageState extends State<SettingsPage> {
     if (_settingPage == 0) return displayAllParameterButtons();
     if (_settingPage == 1) return userDataVisualization();
     if (_settingPage == 2) return userDataVisualization();
-    if (_settingPage == 3) return userDataVisualization();
+    if (_settingPage == 3) return languageVisualization();
     if (_settingPage == 4) return userDataVisualization();
     if (_settingPage == 5) return goToAuthPage(context);
     if (_settingPage == 84) return userDataVisualization();
