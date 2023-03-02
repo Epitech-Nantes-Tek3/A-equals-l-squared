@@ -1,3 +1,4 @@
+import 'package:application/language/language.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/service_list/service_list_page.dart';
 import 'package:flutter/material.dart';
@@ -51,14 +52,13 @@ class ServiceListPageState extends State<ServiceListPage> {
                     });
                   },
                   icon: const Icon(Icons.home_filled)),
-              const Text(
-                'Service List page',
-                style: TextStyle(fontFamily: 'Roboto-Bold', fontSize: 25),
+              Text(
+                getSentence('SERVLIST-01'),
+                style: const TextStyle(fontFamily: 'Roboto-Bold', fontSize: 25),
               )
             ],
           ),
-          const Text(
-              'All our implemented Services, if you want to create something with one of these, click on it !'),
+          Text(getSentence('SERVLIST-02')),
           const SizedBox(
             height: 20,
           ),

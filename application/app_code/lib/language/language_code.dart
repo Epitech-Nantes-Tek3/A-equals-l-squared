@@ -116,3 +116,12 @@
 // LOGIN-10 -> email field validator error when provided email is not valid
 // LOGIN-11 -> password field label text
 // LOGIN-12 -> password field validator error when password is too short
+
+/// Service List Functional File :
+
+/// Service List Page File :
+
+/// Service List State File :
+
+// SERVLIST-01 -> Service list page header
+// SERVLIST-02 -> Service list page description

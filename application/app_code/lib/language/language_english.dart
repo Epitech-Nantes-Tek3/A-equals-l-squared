@@ -61,5 +61,8 @@ Map<String, String> englishLanguageMap = Map.unmodifiable({
   'LOGIN-09': 'E-mail',
   'LOGIN-10': 'Must be a valid email.',
   'LOGIN-11': 'Password',
-  'LOGIN-12': 'Password must be min 8 characters long.'
+  'LOGIN-12': 'Password must be min 8 characters long.',
+  'SERVLIST-01': 'Service List page',
+  'SERVLIST-02':
+      'All our implemented Services, if you want to create something with one of these, click on it !'
 });
