@@ -82,6 +82,7 @@ class ActionData {
     return parametersContent;
   }
 
+  /// This function display the view of actions modification
   Widget displayActionModificationView(Function? update) {
     List<Widget> actionPreview = <Widget>[];
 
