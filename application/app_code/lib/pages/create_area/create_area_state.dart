@@ -1200,22 +1200,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                   ],
                                 )),
                         ]),
-                    if (false)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Display Reactions of this Area"),
-                          Switch(
-                            value: _isDisplayReactions,
-                            activeColor: Colors.blue,
-                            onChanged: (bool value) {
-                              setState(() {
-                                _isDisplayReactions = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
                     Column(children: reactionListDisplay),
                     displayNewReactionSelectionView()
                   ])
