@@ -87,3 +87,13 @@
 // CREATE-26 -> Area name field validator error when name is too long
 // CREATE-27 -> Area descrition field label text
 // CREATE-28 -> area description field validator error when description is too long
+
+/// Home Functional File :
+
+/// Home Page File :
+
+/// Home State File :
+
+// HOME-01 -> Heading text in home page
+// HOME-02 -> Service list button text
+// HOME-03 -> Area searchbar field label text

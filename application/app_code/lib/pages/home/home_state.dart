@@ -1,4 +1,5 @@
 import 'package:application/flutter_objects/area_data.dart';
+import 'package:application/language/language.dart';
 import 'package:application/network/informations.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/home/home_functional.dart';
@@ -141,16 +142,16 @@ class HomePageState extends State<HomePage> {
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        const Text('All Areas',
-                            style: TextStyle(
+                        Text(getSentence('HOME-01'),
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 28,
                                 fontFamily: 'Roboto-Bold')),
                         const SizedBox(height: 10),
                         TextFormField(
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Search an Area',
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            labelText: getSentence('HOME-03'),
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (String? value) {
@@ -180,7 +181,7 @@ class HomePageState extends State<HomePage> {
                           goToServiceListPage(context);
                         });
                       },
-                      child: const Text('Service List'),
+                      child: Text(getSentence('HOME-02')),
                     ),
                     context,
                     sizeOfButton: 4,

@@ -46,5 +46,8 @@ Map<String, String> englishLanguageMap = Map.unmodifiable({
   'CREATE-25': 'Area Name',
   'CREATE-26': 'Name is too long.',
   'CREATE-27': 'Area Description',
-  'CREATE-28': 'Name is too long.'
+  'CREATE-28': 'Name is too long.',
+  'HOME-01': 'All Areas',
+  'HOME-02': 'Service List',
+  'HOME-03': 'Search an Area'
 });
