@@ -77,5 +77,15 @@ Map<String, String> englishLanguageMap = Map.unmodifiable({
   'SETT-10': 'E-mail',
   'SETT-11': 'Must be a valid email.',
   'SETT-12': 'Password',
-  'SETT-13': 'Password must be min 8 characters long.'
+  'SETT-13': 'Password must be min 8 characters long.',
+  'SIGNUP-01': 'Log In To A=l²',
+  'SIGNUP-02': 'Welcome to Signup page !',
+  'SIGNUP-03': 'Signup',
+  'SIGNUP-04': 'Back to login screen...',
+  'SIGNUP-05': 'Username',
+  'SIGNUP-06': 'Username must be min 5 characters long.',
+  'SIGNUP-07': 'E-mail',
+  'SIGNUP-08': 'Must be a valid email.',
+  'SIGNUP-09': 'Password',
+  'SIGNUP-10': 'Password must be min 8 characters long.',
 });

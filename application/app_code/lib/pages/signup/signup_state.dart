@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application/language/language.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -52,9 +53,9 @@ class SignupPageState extends State<SignupPage> {
 
   /// This function display the login and the name of our project
   Widget displayAreaLoginSentence() {
-    return const Text('Log In To A=l²',
+    return Text(getSentence('SIGNUP-01'),
         textAlign: TextAlign.center,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 45));
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 45));
   }
 
   /// This function display our logo and the login name of our project
@@ -85,37 +86,37 @@ class SignupPageState extends State<SignupPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     displayLogoAndName(),
-                    const Text(
-                      'Welcome to Signup page !',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                    Text(
+                      getSentence('SIGNUP-02'),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 22),
                     ),
                     getHostConfigField(),
                     TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Username',
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: getSentence('SIGNUP-05'),
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (String? value) {
                         if (value != null && value.length <= 4) {
-                          return 'Username must be min 5 characters long.';
+                          return getSentence('SIGNUP-06');
                         }
                         _username = value;
                         return null;
                       },
                     ),
                     TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'E-mail',
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: getSentence('SIGNUP-07'),
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (String? value) {
                         if (value != null &&
                             !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                 .hasMatch(value)) {
-                          return 'Must be a valid email.';
+                          return getSentence('SIGNUP-08');
                         }
                         _email = value;
                         return null;
@@ -123,14 +124,14 @@ class SignupPageState extends State<SignupPage> {
                     ),
                     TextFormField(
                       obscureText: true,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Password',
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: getSentence('SIGNUP-09'),
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (String? value) {
                         if (value != null && value.length <= 7) {
-                          return 'Password must be min 8 characters long.';
+                          return getSentence('SIGNUP-10');
                         }
                         _password = value;
                         return null;
@@ -154,14 +155,14 @@ class SignupPageState extends State<SignupPage> {
                           _futureSignup = apiAskForSignup();
                         });
                       },
-                      child: const Text('Signup'),
+                      child: Text(getSentence('SIGNUP-03')),
                     ),
                     TextButton(
                       key: const Key('GoLoginButton'),
                       onPressed: () {
                         goToLoginPage(context);
                       },
-                      child: const Text('Back to login screen...'),
+                      child: Text(getSentence('SIGNUP-04')),
                     ),
                   ],
                 ))));

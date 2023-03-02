@@ -145,3 +145,20 @@
 // SETT-11 -> email field validator error when email is not valid
 // SETT-12 -> password field label text
 // SETT-13 -> password field validator error when password is too short
+
+/// Signup Functional File :
+
+/// Signup Page File :
+
+/// Signup State File :
+
+// SIGNUP-01 -> header text of the signup page
+// SIGNUP-02 -> Welcoming text
+// SIGNUP-03 -> Signup button text
+// SIGNUP-04 -> Back to login button text
+// SIGNUP-05 -> username field label text
+// SIGNUP-06 -> username field validator error when username is too short
+// SIGNUP-07 -> email field label text
+// SIGNUP-08 -> email field validator error when email is not valid
+// SIGNUP-09 -> password field label text
+// SIGNUP-10 -> password field validator error when password is too short
