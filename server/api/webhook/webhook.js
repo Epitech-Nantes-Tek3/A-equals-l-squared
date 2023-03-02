@@ -2,23 +2,44 @@
 
 const axios = require('axios')
 
+function retryAction (action, retries = 3, delay = 3000) {
+  return new Promise((resolve, reject) => {
+    action()
+      .then(resolve)
+      .catch(error => {
+        if (retries > 0) {
+          setTimeout(() => {
+            retryAction(action, retries - 1, delay).then(resolve, reject)
+          }, delay)
+        } else {
+          reject(new Error(`Failed after ${retries} retries: ${error.message}`))
+        }
+      })
+  })
+}
+
 function get_ngrok_url () {
-  try {
+  return new Promise((resolve, reject) => {
     axios
       .get('http://ngrok:4040/api/tunnels')
       .then(response => {
-        return response.data['tunnels'][0]['public_url']
+        resolve(response.data['tunnels'][0]['public_url'])
       })
       .catch(error => {
-        console.error('4040/api/tunnels data', error)
+        reject(error)
       })
-  } catch (error) {
-    console.log('get URL error', error)
-  }
+  })
 }
 
-module.exports = function (app, passport, db) {
-  const ngrok_url = get_ngrok_url()
+module.exports = async function (app, passport, db) {
+  let ngrok_url
+  try {
+    console.log('Starting webhook service...')
+    ngrok_url = await retryAction(get_ngrok_url)
+    console.log('Webhook service started, the public url is: ', ngrok_url)
+  } catch (error) {
+    console.log('Webhook service failed to start : ', error.message)
+  }
 
   const generate_webhook = (userId, serviceName, actionName, actionLinkId) => {
     return (
@@ -30,7 +51,8 @@ module.exports = function (app, passport, db) {
       '/' +
       actionName +
       '/' +
-      actionLinkId)
+      actionLinkId
+    )
   }
 
   app.post(
@@ -39,12 +61,7 @@ module.exports = function (app, passport, db) {
     async (req, res) => {
       try {
         console.log('New webhook generator call.')
-        if (
-          !('userId' in req.body) ||
-          !req.body.userId ||
-          !('actionLinkId' in req.body) ||
-          !req.body.actionLinkId
-        ) {
+        if (!('actionLinkId' in req.body) || !req.body.actionLinkId) {
           return res.status(400).send('Bad request')
         }
         const actionLink = await db.prisma.AREAhasActions.findMany({
@@ -55,6 +72,7 @@ module.exports = function (app, passport, db) {
             Action: {
               select: {
                 name: true,
+                needWebhook: true,
                 Service: {
                   select: {
                     name: true
@@ -64,7 +82,7 @@ module.exports = function (app, passport, db) {
             }
           }
         })
-        if (actionLink.length === 0) {
+        if (actionLink.length === 0 || !actionLink[0].Action.needWebhook) {
           return res.status(400).send('Bad request')
         }
         const webhook = generate_webhook(
@@ -87,7 +105,7 @@ module.exports = function (app, passport, db) {
       console.log(req.body)
       console.log('My ngrok url is: ', ngrok_url)
     } catch (error) {
-      console.log('Weebhooks error', error)
+      console.log('Webhooks error', error)
     }
     res.status(200).send('OK')
   })

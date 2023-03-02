@@ -126,7 +126,7 @@ app.get('/about.json', async (req, res) => {
       })
     )
     res.header('Content-Type', 'application/json')
-    res.type('json').send(JSON.stringify(about, null, 2) + '\n');
+    res.type('json').send(JSON.stringify(about, null, 2) + '\n')
   } catch (err) {
     console.log(err)
     res.status(500).send(err)
@@ -1089,20 +1089,6 @@ app.get('/api/dev/area/listall', async (req, res) => {
 })
 
 /**
- * Initialize the database with all services, actions, reactions and parameters.
- */
-app.get('/api/dev/service/createAll', async (req, res) => {
-  const response = []
-  response.push(await createDiscordService())
-  response.push(await createGmailService())
-  response.push(await createCalendarService())
-  response.push(await createTimeTimeService())
-  response.push(await createReaaaaaaaService())
-  response.push(await createDeezerService())
-  return res.json(response)
-})
-
-/**
  * Create the discord service.
  */
 const generateDiscordService = async () => {
@@ -1112,8 +1098,7 @@ const generateDiscordService = async () => {
   if (discordService.length === 0) {
     console.log('Creating discord service...')
     await createDiscordService()
-  } else
-  {
+  } else {
     console.log('Discord service already exist.')
   }
 }
@@ -1128,8 +1113,7 @@ const generateGmailService = async () => {
   if (gmailService.length === 0) {
     console.log('Creating gmail service...')
     await createGmailService()
-  } else
-  {
+  } else {
     console.log('Gmail service already exist.')
   }
 }
@@ -1144,8 +1128,7 @@ const generateCalendarService = async () => {
   if (calendarService.length === 0) {
     console.log('Creating calendar service...')
     await createCalendarService()
-  } else
-  {
+  } else {
     console.log('Calendar service already exist.')
   }
 }
@@ -1160,8 +1143,7 @@ const generateTimeTimeService = async () => {
   if (timeTimeService.length === 0) {
     console.log('Creating timetime service...')
     await createTimeTimeService()
-  } else
-  {
+  } else {
     console.log('Timetime service already exist.')
   }
 }
@@ -1176,8 +1158,7 @@ const generateReaaaaaaaService = async () => {
   if (reaaaaaaaService.length === 0) {
     console.log('Creating Reaaaaaaa service...')
     await createReaaaaaaaService()
-  } else
-  {
+  } else {
     console.log('Reaaaaaaa service already exist.')
   }
 }
@@ -1192,8 +1173,7 @@ const generateDeezerService = async () => {
   if (deezerService.length === 0) {
     console.log('Creating deezer service...')
     await createDeezerService()
-  } else
-  {
+  } else {
     console.log('Deezer service already exist.')
   }
 }
@@ -1206,9 +1186,14 @@ require('./api/webhook/webhook.js')(app, passport, database)
 /**
  * Start the node.js server at PORT and HOST variable
  */
-app.listen(PORT, HOST, () => {
+app.listen(PORT, HOST, async () => {
   console.log(`Server is starting...`)
-  generateDiscordService()
+  await generateDiscordService()
+  await generateGmailService()
+  await generateCalendarService()
+  await generateTimeTimeService()
+  await generateReaaaaaaaService()
+  await generateDeezerService()
   console.log(`Server running...`)
 })
 

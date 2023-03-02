@@ -53,6 +53,7 @@ model Action {
   description       String?
   isEnable          Boolean            @default(false)
   createdAt         DateTime           @default(now())
+  needWebhook       Boolean            @default(false)
   Service           Service            @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   serviceId         String
   DynamicParameters DynamicParameter[]

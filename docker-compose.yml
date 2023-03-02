@@ -7,6 +7,10 @@ services:
       MYSQL_DATABASE: ${database}
     volumes:
       - .:/code
+    ports:
+      - "3306:3306"
+    networks:
+      - database_net
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u ${user} --password=${password}
       interval: 5s
@@ -31,6 +35,7 @@ services:
     tty: true
     networks:
       - ngrok_net
+      - database_net
     healthcheck:
       test: curl --fail http://localhost:8080 || exit 1
       interval: 5s
@@ -77,3 +82,4 @@ volumes:
 
 networks:
   ngrok_net:
+  database_net:
