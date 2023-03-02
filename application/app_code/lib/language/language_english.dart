@@ -49,5 +49,17 @@ Map<String, String> englishLanguageMap = Map.unmodifiable({
   'CREATE-28': 'Name is too long.',
   'HOME-01': 'All Areas',
   'HOME-02': 'Service List',
-  'HOME-03': 'Search an Area'
+  'HOME-03': 'Search an Area',
+  'LOGIN-01': 'Log In To A=l²',
+  'LOGIN-02': 'Continue with Apple Account',
+  'LOGIN-03': 'Continue with Google Account',
+  'LOGIN-04': 'No account ? Go to Signup',
+  'LOGIN-05': 'Continue with Email',
+  'LOGIN-06': 'Login',
+  'LOGIN-07': 'Forgot Password ? Reset it',
+  'LOGIN-08': 'Back to login page...',
+  'LOGIN-09': 'E-mail',
+  'LOGIN-10': 'Must be a valid email.',
+  'LOGIN-11': 'Password',
+  'LOGIN-12': 'Password must be min 8 characters long.'
 });

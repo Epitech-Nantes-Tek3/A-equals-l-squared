@@ -97,3 +97,22 @@
 // HOME-01 -> Heading text in home page
 // HOME-02 -> Service list button text
 // HOME-03 -> Area searchbar field label text
+
+/// Login Functional File :
+
+/// Login Page File :
+
+/// Login State File :
+
+// LOGIN-01 -> Heading text in login page
+// LOGIN-02 -> Apple account auth button text
+// LOGIN-03 -> Google account auth button text
+// LOGIN-04 -> Signup button text
+// LOGIN-05 -> Continue with email button text
+// LOGIN-06 -> Login button text
+// LOGIN-07 -> Forgot password button text
+// LOGIN-08 -> Back to login button text
+// LOGIN-09 -> email field label text
+// LOGIN-10 -> email field validator error when provided email is not valid
+// LOGIN-11 -> password field label text
+// LOGIN-12 -> password field validator error when password is too short
