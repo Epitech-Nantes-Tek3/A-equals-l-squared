@@ -78,6 +78,7 @@ Map<String, String> spanishLanguageMap = Map.unmodifiable({
   'SETT-11': 'Debe ser un correo electrónico válido.',
   'SETT-12': 'Contraseña',
   'SETT-13': 'La contraseña debe tener al menos 8 caracteres.',
+  'SETT-14': 'Seleccione el idioma deseado',
   'SIGNUP-01': 'Iniciar sesión en A=l²',
   'SIGNUP-02': '¡Bienvenido a la página de registro!',
   'SIGNUP-03': 'Registrarse',

@@ -133,10 +133,14 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
-  /// Initialization function for the api answer
-  Future<String> getAFirstLoginAnswer() async {
+  /// Load the selected language from the desktop memory
+  void loadSelectedLanguage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     selectedLanguage = prefs.getString('selectedLanguage') ?? selectedLanguage;
+  }
+
+  /// Initialization function for the api answer
+  Future<String> getAFirstLoginAnswer() async {
     return '';
   }
 
@@ -320,6 +324,7 @@ class LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    loadSelectedLanguage();
     _futureLogin = getAFirstLoginAnswer();
   }
 
