@@ -18,11 +18,13 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Setting of the action set ?
   bool actionSetting = false;
 
+  /// List to know all button
   static const List<Widget> listActionCondition = <Widget>[
     Text('Or'),
     Text('And')
   ];
 
+  /// List all primary color for Area modification
   static const List<Widget> listPrimaryColor = <Widget>[
     Icon(
       Icons.color_lens,
@@ -46,6 +48,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     )
   ];
 
+  /// List all secondary color for Area modification
   static const List<Widget> listSecondaryColor = <Widget>[
     Icon(
       Icons.color_lens_outlined,
@@ -69,6 +72,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     )
   ];
 
+  /// List all icons for Area modification
   static List<Widget> listIcon = <Widget>[
     Image.asset(
       'assets/icons/calendar.png',
@@ -117,14 +121,17 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Creation of an Action state
   int _actionCreationState = 0;
 
+  /// To know if a button isSelected
   bool isSelected = false;
 
+  /// List to know all button of _selectedActionCondition
   final List<bool> _selectedActionCondition = createdArea != null
       ? createdArea!.logicalGate == 'OR'
           ? <bool>[true, false]
           : <bool>[false, true]
       : <bool>[true, false];
 
+  /// List to know what color is selected
   final List<bool> _selectedPrimaryColor = <bool>[
     false,
     false,
@@ -133,6 +140,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     true
   ];
 
+  /// List to know what secondary color is selected
   final List<bool> _selectedSecondaryColor = <bool>[
     false,
     false,
@@ -141,6 +149,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     true
   ];
 
+  /// List to know what icon is selected
   final List<bool> _selectedIcon = <bool>[
     false,
     false,
