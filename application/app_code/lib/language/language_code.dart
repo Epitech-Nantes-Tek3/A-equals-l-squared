@@ -50,3 +50,36 @@
 
 // AUTHLINK-01 -> Welcoming text in the Auth Linker page
 // AUTHLINK-02 -> Button to go back to settings text
+
+/// Create Area Functional File :
+
+/// Create Area Page File :
+
+/// Create Area State File :
+
+// CREATE-01 -> || option of the area action
+// CREATE-02 -> && option of the area action
+// CREATE-03 -> Configuration text of an action
+// CREATE-04 -> New action creation - Service selection
+// CREATE-05 -> New action creation - Action selection
+// CREATE-06 -> New action creation - Configuration steps
+// CREATE-07 -> New action creation - Previous button
+// CREATE-08 -> New action creation - Validation button
+// CREATE-09 -> Add a new action button
+// CREATE-10 -> New reaction creation - Validation button
+// CREATE-11 -> New reation creation - Service selection
+// CREATE-12 -> New reaction creation - Reaction selection
+// CREATE-13 -> New reaction creation - Configuration steps
+// CREATE-14 -> New reaction creation - Previous button
+// CREATE-15 -> Add a new reaction button
+// CREATE-16 -> Delete button of an action
+// CREATE-17 -> Update button of an action
+// CREATE-18 -> Delete button of a reaction
+// CREATE-19 -> Update button of an action
+// CREATE-20-01 -> Title of display actions list (MULTIPLE)
+// CREATE-20-02 -> Title of display actions list (ONE)
+// CREATE-21-01 -> Title of display reactions list (MULTIPLE)
+// CREATE-21-02 -> Title of display reactions list (ONE)
+// CREATE-22 -> Status of the area
+// CREATE-23 -> Hint Text describing || && for area action
+// CREATE-24 -> Area delete button

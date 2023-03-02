@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:application/flutter_objects/parameter_data.dart';
+import 'package:application/language/language.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/create_area/create_area_page.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Setting of the action set ?
   bool actionSetting = false;
 
-  static const List<Widget> listActionCondition = <Widget>[
-    Text('Or'),
-    Text('And')
+  static List<Widget> listActionCondition = <Widget>[
+    Text(getSentence('CREATE-01')),
+    Text(getSentence('CREATE-02'))
   ];
 
   static const List<Widget> listPrimaryColor = <Widget>[
@@ -422,9 +423,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   Widget configureAnActionDisplay() {
     Widget modifyAnAction = Column(
       children: [
-        const Text(
-          "Configure your Action",
-          style: TextStyle(fontSize: 14),
+        Text(
+          getSentence('CREATE-03'),
+          style: const TextStyle(fontSize: 14),
         ),
         const SizedBox(
           height: 10,
@@ -540,9 +541,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     /// Select a Service Action
     if (_isChoosingAnAction == true && _actionCreationState == 0) {
       createAnAction.add(Row(
-        children: const [
-          Text('Add a new Action : Choose your Service',
-              style: TextStyle(fontSize: 16)),
+        children: [
+          Text(getSentence('CREATE-04'), style: const TextStyle(fontSize: 16)),
         ],
       ));
       createAnAction.add(selectAServiceActionDisplay());
@@ -551,9 +551,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     ///Select an Action
     if (_actionCreationState == 1) {
       createAnAction.add(Row(
-        children: const [
-          Text('Add a new Action : Choose your Action',
-              style: TextStyle(fontSize: 16)),
+        children: [
+          Text(getSentence('CREATE-05'), style: const TextStyle(fontSize: 16)),
         ],
       ));
       createAnAction.add(selectAnActionDisplay());
@@ -562,9 +561,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     /// Configure the chosen Action
     if (_actionCreationState == 2) {
       createAnAction.add(Row(
-        children: const [
-          Text('Add a new Action : Configure your new Action',
-              style: TextStyle(fontSize: 16)),
+        children: [
+          Text(getSentence('CREATE-06'), style: const TextStyle(fontSize: 16)),
         ],
       ));
       createAnAction.add(configureAnActionDisplay());
@@ -587,7 +585,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _actionCreationState -= 1;
               });
             },
-            child: Text('Previous',
+            child: Text(getSentence('CREATE-07'),
                 style: TextStyle(color: getOurBlueAreaColor(100))),
           ),
           context,
@@ -615,8 +613,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     }
                   });
                 },
-                child: const Text("Validate",
-                    style: TextStyle(color: Colors.white))),
+                child: Text(getSentence('CREATE-08'),
+                    style: const TextStyle(color: Colors.white))),
             context,
             primaryColor: getOurBlueAreaColor(100),
             borderWith: 1,
@@ -646,9 +644,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   }
                 });
               },
-              child: const Text(
-                'Add an Action',
-                style: TextStyle(color: Colors.white),
+              child: Text(
+                getSentence('CREATE-09'),
+                style: const TextStyle(color: Colors.white),
               )),
           context,
           sizeOfButton: 1.8,
@@ -697,8 +695,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 }
               });
             },
-            child:
-                const Text("Validate", style: TextStyle(color: Colors.black))),
+            child: Text(getSentence('CREATE-10'),
+                style: const TextStyle(color: Colors.black))),
         context,
         primaryColor: getOurBlueAreaColor(100),
         borderWith: 1,
@@ -814,9 +812,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     /// Select a Service Reaction
     if (_isChoosingAReaction == true && _reactionCreationState == 0) {
       createAReaction.add(Row(
-        children: const [
-          Text('Add a new Reaction : Select a Service',
-              style: TextStyle(fontSize: 16)),
+        children: [
+          Text(getSentence('CREATE-11'), style: const TextStyle(fontSize: 16)),
         ],
       ));
       createAReaction.add(selectAServiceReactionDisplay());
@@ -825,9 +822,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     /// Select a Reaction
     if (_reactionCreationState == 1) {
       createAReaction.add(Row(
-        children: const [
-          Text('Add a new Reaction : Reaction selection',
-              style: TextStyle(fontSize: 16)),
+        children: [
+          Text(getSentence('CREATE-12'), style: const TextStyle(fontSize: 16)),
         ],
       ));
       createAReaction.add(selectAReactionDisplay());
@@ -836,9 +832,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     /// Configure a Reaction
     if (_reactionCreationState == 2) {
       createAReaction.add(Row(
-        children: const [
-          Text('Add a new Reaction : Reaction configuration',
-              style: TextStyle(fontSize: 16)),
+        children: [
+          Text(getSentence('CREATE-13'), style: const TextStyle(fontSize: 16)),
         ],
       ));
       createAReaction.add(configureAReactionDisplay());
@@ -861,7 +856,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _reactionCreationState -= 1;
               });
             },
-            child: Text('Previous',
+            child: Text(getSentence('CREATE-14'),
                 style: TextStyle(color: getOurBlueAreaColor(100))),
           ),
           context,
@@ -889,9 +884,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   }
                 });
               },
-              child: const Text(
-                'Add a Reaction',
-                style: TextStyle(color: Colors.white),
+              child: Text(
+                getSentence('CREATE-15'),
+                style: const TextStyle(color: Colors.white),
               )),
           context,
           sizeOfButton: 1.8,
@@ -972,7 +967,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                               createdArea!.actionList.remove(temp);
                             });
                           },
-                          child: Text('Delete',
+                          child: Text(getSentence('CREATE-16'),
                               style:
                                   TextStyle(color: getOurBlueAreaColor(100)))),
                       context,
@@ -986,8 +981,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                           changeType = 'update';
                           apiAskForActionChange(temp);
                         },
-                        child: const Text('Update',
-                            style: TextStyle(color: Colors.white)),
+                        child: Text(getSentence('CREATE-17'),
+                            style: const TextStyle(color: Colors.white)),
                       ),
                       context,
                       primaryColor: getOurBlueAreaColor(100),
@@ -1036,7 +1031,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                               createdArea!.reactionList.remove(temp);
                             });
                           },
-                          child: Text('Delete',
+                          child: Text(getSentence('CREATE-18'),
                               style:
                                   TextStyle(color: getOurBlueAreaColor(100)))),
                       context,
@@ -1050,8 +1045,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                             changeType = 'update';
                             apiAskForReactionChange(temp);
                           },
-                          child: const Text('Update',
-                              style: TextStyle(color: Colors.white))),
+                          child: Text(getSentence('CREATE-19'),
+                              style: const TextStyle(color: Colors.white))),
                       context,
                       primaryColor: getOurBlueAreaColor(100),
                       borderWith: 1,
@@ -1109,8 +1104,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                         children: [
                           Text(
                             createdArea!.actionList.length >= 2
-                                ? 'Actions'
-                                : 'Action',
+                                ? getSentence('CREATE-20-01')
+                                : getSentence('CREATE-20-02'),
                             style: const TextStyle(fontSize: 20),
                           ),
                           if (!_isDisplayActions &&
@@ -1160,8 +1155,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                         children: [
                           Text(
                             createdArea!.reactionList.length >= 2
-                                ? 'Reactions'
-                                : 'Reaction',
+                                ? getSentence('CREATE-21-01')
+                                : getSentence('CREATE-21-02'),
                             style: const TextStyle(fontSize: 20),
                           ),
                           if (!_isDisplayReactions &&
@@ -1235,7 +1230,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text("Available"),
+                            Text(getSentence('CREATE-22')),
                             Switch(
                               value: createdArea != null
                                   ? createdArea!.isEnable
@@ -1292,8 +1287,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               // ToggleButtons with a single selection.
-                              const Text(
-                                  "Condition to activate this Area with many Actions : "),
+                              Text(getSentence('CREATE-23')),
                               const SizedBox(height: 5),
                               ToggleButtons(
                                 direction: isSelected
@@ -1429,7 +1423,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                               apiAskForAreaChange();
                             }),
                             child: Text(
-                                "Delete ${createdArea != null ? createdArea!.name : ''}",
+                                "${getSentence('CREATE-24')}${createdArea != null ? createdArea!.name : ''}",
                                 style:
                                     TextStyle(color: getOurBlueAreaColor(100))),
                           ),
