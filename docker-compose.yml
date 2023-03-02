@@ -29,6 +29,8 @@ services:
       - .:/code
     stdin_open: true
     tty: true
+    networks:
+      - ngrok_net
     healthcheck:
       test: curl --fail http://localhost:8080 || exit 1
       interval: 5s
@@ -66,7 +68,12 @@ services:
       - NGROK_AUTHTOKEN=${NGROK_AUTH_TOKEN}
     ports:
       - "4040:4040"
-    command: http host.docker.internal:8080
+    command: http server:8080
+    networks:
+      - ngrok_net
 
 volumes:
   common:
+
+networks:
+  ngrok_net:
