@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-route.html">route</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-route.html#~test_example">test_example</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#compare">compare</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#connection">connection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#generateToken">generateToken</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#hash">hash</a></span></li>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-route.html">route</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-route.html#~refresh_reddit_token">refresh_reddit_token</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-route.html#~test_example">test_example</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#compare">compare</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#connection">connection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#generateToken">generateToken</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#hash">hash</a></span></li>
 </nav>
 
 <div id="main">
@@ -43,6 +43,7 @@
 
 /** @module route */
 
+const axios = require('axios')
 const express = require('express')
 const passport = require('passport')
 const database = require('./database_init')
@@ -56,7 +57,6 @@ const utils = require('./utils')
 const gmail = require('./services/gmail/reactions/send_email')
 const jwt = require('jwt-simple')
 const { hash } = require('./utils')
-const axios = require('axios')
 require('dotenv').config({ path: '../database.env' })
 
 const onMessage = require('./services/discord/actions/on_message')
@@ -70,6 +70,7 @@ const getUserPlaylists = require('./services/deezer/getters/user_playlists')
 const { createGmailService } = require('./services/gmail/gmail_init')
 const { createCalendarService } = require('./services/calendar/calendar_init')
 const { createDiscordService } = require('./services/discord/init')
+const { createRedditService } = require('./services/reddit/init')
 const getVoiceChannels = require('./services/discord/getters/voice_channels')
 const getTextChannels = require('./services/discord/getters/text_channels')
 const getAvailableGuilds = require('./services/discord/getters/available_guilds')
@@ -257,7 +258,7 @@ app.get('/about.json', async (req, res) => {
       })
     )
     res.header('Content-Type', 'application/json')
-    res.type('json').send(JSON.stringify(about, null, 2) + '\n');
+    res.type('json').send(JSON.stringify(about, null, 2) + '\n')
   } catch (err) {
     console.log(err)
     res.status(500).send(err)
@@ -314,6 +315,47 @@ app.post('/api/signup', (req, res, next) => {
 })
 
 /**
+ * Refresh the Reddit token of the user
+ * @param {*} userId The ID of the user in the database
+ * @param {*} refresh_token The refresh token of the user
+ */
+async function refresh_reddit_token (userId, refresh_token) {
+  try {
+    const postData = {
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token
+    }
+    const authString = `7P3NMqftCBgr7H-XaPUbNg:gPFD-f_P2DNz8WVjm-Qwj21G8hS9KA`
+    const authHeader = `Basic ${Buffer.from(authString).toString('base64')}`
+
+    const response = await axios.post(
+      'https://www.reddit.com/api/v1/access_token',
+      postData,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: authHeader,
+          'User-Agent': 'MyBot/1.0.0'
+        }
+      }
+    )
+    const user = await database.prisma.User.update({
+      where: { id: userId },
+      data: {
+        redditToken: response.data.access_token,
+        redditRefreshToken: response.data.refresh_token
+      }
+    })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+/**
+ * Post request to login to the website.
+ * body.email -> User mail
+ * body.password -> User password
+=======
  * @swagger
  * /api/login:
  *   post:
@@ -376,6 +418,8 @@ app.post('/api/login', (req, res, next) => {
     if (err) throw new Error(err)
     if (user == false) return res.json(info)
     const token = utils.generateToken(user.id)
+    if (user.redditToken != null)
+      refresh_reddit_token(user.id, user.redditRefreshToken)
     return res.status(201).json({
       status: 'success',
       data: { message: 'Welcome back.', user, token },
@@ -990,6 +1034,9 @@ app.post(
         data: {
           googleToken: req.body.google != '' ? req.body.google : null,
           discordToken: req.body.discord != '' ? req.body.discord : null,
+          redditToken: req.body.reddit != '' ? req.body.reddit : null,
+          redditRefreshToken:
+            req.body.reddit != '' ? req.body.redditRefreshToken : null,
           deezerToken: req.body.deezer != '' ? req.body.deezer : null
         }
       })
@@ -2606,6 +2653,7 @@ app.get('/api/dev/service/createAll', async (req, res) => {
   response.push(await createCalendarService())
   response.push(await createTimeTimeService())
   response.push(await createReaaaaaaaService())
+  response.push(await createRedditService())
   response.push(await createDeezerService())
   return res.json(response)
 })
@@ -2701,6 +2749,52 @@ require('./api/area/reaction/reaction.js')(app, passport, database)
 require('./api/area/action/action.js')(app, passport, database)
 
 /**
+ * Generate token thanks to a code in Reddit
+ * body.code -> Code given by Reddit
+ * Route protected by a JWT token
+ */
+app.post(
+  '/api/code/reddit',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    if (!req.user) return res.status(401).send('Invalid code')
+    try {
+      const postData = {
+        grant_type: 'authorization_code',
+        code: req.body.code,
+        redirect_uri: 'http://localhost:8081/auth.html'
+      }
+      const authString = process.env.REDDIT_AUTH
+      const authHeader = `Basic ${Buffer.from(authString).toString('base64')}`
+
+      const ret = await axios.post(
+        'https://www.reddit.com/api/v1/access_token',
+        postData,
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: authHeader,
+            'User-Agent': 'MyBot/1.0.0'
+          }
+        }
+      )
+      await database.prisma.User.update({
+        where: { id: req.user.id },
+        data: { redditRefreshToken: ret.data.refresh_token }
+      })
+      return res.status(200).json({
+        status: 'success',
+        data: { access_token: ret.data.access_token },
+        statusCode: res.statusCode
+      })
+    } catch (err) {
+      console.log(err)
+      return res.status(400).send('Code generation has failed.')
+    }
+  }
+)
+
+/**
  * Start the node.js server at PORT and HOST variable
  */
 app.listen(PORT, HOST, () => {
@@ -2720,7 +2814,7 @@ module.exports = { test_example, app }
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Wed Mar 01 2023 13:37:14 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Mar 02 2023 08:31:40 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
