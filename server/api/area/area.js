@@ -3,28 +3,202 @@
 const { TriggerDestroyMap } = require('../../services/timetime/init')
 
 module.exports = function (app, passport, database) {
+
   /**
-   * @api {get} /api/area Get all areas
-   * @apiSuccess {Number} id Area unique ID.
-   * @apiSuccess {String} name Area name.
-   * @apiSuccess {Boolean} isEnable Area is enable.
-   * @apiSuccess {Object} Action Action object.
-   * @apiSuccess {String} Action.name Action name.
-   * @apiSuccess {Boolean} Action.isEnable Action is enable.
-   * @apiSuccess {Object[]} ActionParameters Action parameters.
-   * @apiSuccess {Object} ActionParameters.Parameter Action parameter.
-   * @apiSuccess {String} ActionParameters.Parameter.name Action parameter name.
-   * @apiSuccess {String} ActionParameters.value Action parameter value.
-   * @apiSuccess {Object[]} Reactions Reactions object.
-   * @apiSuccess {Object} Reactions.Reaction Reaction object.
-   * @apiSuccess {String} Reactions.Reaction.name Reaction name.
-   * @apiSuccess {Boolean} Reactions.Reaction.isEnable Reaction is enable.
-   * @apiSuccess {Object[]} Reactions.ReactionParameters Reaction parameters.
-   * @apiSuccess {Object} Reactions.ReactionParameters.Parameter Reaction parameter.
-   * @apiSuccess {String} Reactions.ReactionParameters.Parameter.name Reaction parameter name.
-   * @apiSuccess {String} Reactions.ReactionParameters.value Reaction parameter value.
-   * @apiFailure {String} error Error message.
-   * Route protected by a JWT token
+   * @swagger
+   * components:
+   *   securitySchemes:
+   *     bearerAuth:
+   *       type: http
+   *       scheme: bearer
+   *       bearerFormat: JWT
+   *   schemas:
+   *     Area:
+   *       type: object
+   *       properties:
+   *         id:
+   *           type: integer
+   *           description: The ID of the area
+   *         name:
+   *           type: string
+   *           description: The name of the area
+   *         userId:
+   *           type: integer
+   *           description: The ID of the user who created the area
+   *         createdAt:
+   *           type: string
+   *           format: date-time
+   *           description: The date and time when the area was created
+   *         updatedAt:
+   *           type: string
+   *           format: date-time
+   *           description: The date and time when the area was last updated
+   *   responses:
+   *     BadRequest:
+   *       description: The request was invalid or could not be served
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               error:
+   *                 type: string
+   *                 description: A message describing the error
+   *     Unauthorized:
+   *       description: Authentication failed or user does not have permissions for the requested operation
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               error:
+   *                 type: string
+   *                 description: A message describing the error
+   *     NotFound:
+   *       description: The requested resource was not found
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               error:
+   *                 type: string
+   *                 description: A message describing the error
+   *     InternalServerError:
+   *       description: An error occurred while processing the request
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               error:
+   *                 type: string
+   *                 description: A message describing the error
+   */
+
+  /**
+   * @swagger
+   * /api/area:
+   *   get:
+   *     tags: [Area]
+   *     summary: Get all areas
+   *     description: Retrieve a list of all areas for the authenticated user
+   *     security:
+   *       - bearerAuth: []
+   *     responses:
+   *       200:
+   *         description: A list of areas
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 type: object
+   *                 properties:
+   *                   id:
+   *                     type: integer
+   *                     description: Area unique ID.
+   *                   name:
+   *                     type: string
+   *                     description: Area name.
+   *                   isEnable:
+   *                     type: boolean
+   *                     description: Area is enable.
+   *                   description:
+   *                     type: string
+   *                     description: Area description.
+   *                   logicalGate:
+   *                     type: string
+   *                     description: Logical gate used to combine all actions and reactions of the area.
+   *                   Actions:
+   *                     type: array
+   *                     description: Action object.
+   *                     items:
+   *                       type: object
+   *                       properties:
+   *                         id:
+   *                           type: integer
+   *                           description: Action unique ID.
+   *                         triggered:
+   *                           type: boolean
+   *                           description: Indicates whether the action has been triggered.
+   *                         Action:
+   *                           type: object
+   *                           description: Action object.
+   *                           properties:
+   *                             id:
+   *                               type: integer
+   *                               description: Action unique ID.
+   *                             name:
+   *                               type: string
+   *                               description: Action name.
+   *                             isEnable:
+   *                               type: boolean
+   *                               description: Action is enable.
+   *                         ActionParameters:
+   *                           type: array
+   *                           description: Action parameters.
+   *                           items:
+   *                             type: object
+   *                             properties:
+   *                               Parameter:
+   *                                 type: object
+   *                                 description: Action parameter.
+   *                                 properties:
+   *                                   id:
+   *                                     type: integer
+   *                                     description: Parameter unique ID.
+   *                                   name:
+   *                                     type: string
+   *                                     description: Parameter name.
+   *                               value:
+   *                                 type: string
+   *                                 description: Action parameter value.
+   *                   Reactions:
+   *                     type: array
+   *                     description: Reactions object.
+   *                     items:
+   *                       type: object
+   *                       properties:
+   *                         id:
+   *                           type: integer
+   *                           description: Reaction unique ID.
+   *                         Reaction:
+   *                           type: object
+   *                           description: Reaction object.
+   *                           properties:
+   *                             id:
+   *                               type: integer
+   *                               description: Reaction unique ID.
+   *                             name:
+   *                               type: string
+   *                               description: Reaction name.
+   *                             isEnable:
+   *                               type: boolean
+   *                               description: Reaction is enable.
+   *                         ReactionParameters:
+   *                           type: array
+   *                           description: Reaction parameters.
+   *                           items:
+   *                             type: object
+   *                             properties:
+   *                               Parameter:
+   *                                 type: object
+   *                                 description: Reaction parameter.
+   *                                 properties:
+   *                                   id:
+   *                                     type: integer
+   *                                     description: Parameter unique ID.
+   *                                   name:
+   *                                     type: string
+   *                                     description: Parameter name.
+   *                               value:
+   *                                 type: string
+   *                                 description: Reaction parameter value.
+   *       401:
+   *         description: Unauthorized
+   *       500:
+   *         description: Server error
    */
   app.get(
     '/api/area',
@@ -105,28 +279,131 @@ module.exports = function (app, passport, database) {
   )
 
   /**
-   * @api {get} /api/area/:id Get area by id
-   * @apiParam {Number} id Area unique ID.
-   * @apiSuccess {Number} id Area unique ID.
-   * @apiSuccess {String} name Area name.
-   * @apiSuccess {Boolean} isEnable Area is enable.
-   * @apiSuccess {Object} Action Action object.
-   * @apiSuccess {String} Action.name Action name.
-   * @apiSuccess {Boolean} Action.isEnable Action is enable.
-   * @apiSuccess {Object[]} ActionParameters Action parameters.
-   * @apiSuccess {Object} ActionParameters.Parameter Action parameter.
-   * @apiSuccess {String} ActionParameters.Parameter.name Action parameter name.
-   * @apiSuccess {String} ActionParameters.value Action parameter value.
-   * @apiSuccess {Object[]} Reactions Reactions object.
-   * @apiSuccess {Object} Reactions.Reaction Reaction object.
-   * @apiSuccess {String} Reactions.Reaction.name Reaction name.
-   * @apiSuccess {Boolean} Reactions.Reaction.isEnable Reaction is enable.
-   * @apiSuccess {Object[]} Reactions.ReactionParameters Reaction parameters.
-   * @apiSuccess {Object} Reactions.ReactionParameters.Parameter Reaction parameter.
-   * @apiSuccess {String} Reactions.ReactionParameters.Parameter.name Reaction parameter name.
-   * @apiSuccess {String} Reactions.ReactionParameters.value Reaction parameter value.
-   * @apiFailure {String} error Error message.
-   * Route protected by a JWT token
+   * @swagger
+   * /api/area/{id}:
+   *   get:
+   *     summary: Get an area by ID
+   *     tags: [Area]
+   *     description: Returns an area object with the specified ID, including its associated actions and reactions.
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - name: id
+   *         in: path
+   *         description: ID of the area to retrieve
+   *         required: true
+   *         schema:
+   *           type: string
+   *     responses:
+   *       200:
+   *         description: Successful response with the area object
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 id:
+   *                   type: string
+   *                   description: Unique ID of the area
+   *                 name:
+   *                   type: string
+   *                   description: Name of the area
+   *                 isEnable:
+   *                   type: boolean
+   *                   description: Whether the area is enabled or not
+   *                 description:
+   *                   type: string
+   *                   description: Description of the area
+   *                 logicalGate:
+   *                   type: string
+   *                   description: Logical gate for the area
+   *                 Actions:
+   *                   type: array
+   *                   items:
+   *                     type: object
+   *                     properties:
+   *                       id:
+   *                         type: string
+   *                         description: Unique ID of the action
+   *                       triggered:
+   *                         type: boolean
+   *                         description: Whether the action is triggered or not
+   *                       Action:
+   *                         type: object
+   *                         properties:
+   *                           id:
+   *                             type: string
+   *                             description: Unique ID of the action type
+   *                           name:
+   *                             type: string
+   *                             description: Name of the action type
+   *                           isEnable:
+   *                             type: boolean
+   *                             description: Whether the action type is enabled or not
+   *                       ActionParameters:
+   *                         type: array
+   *                         items:
+   *                           type: object
+   *                           properties:
+   *                             id:
+   *                               type: string
+   *                               description: Unique ID of the action parameter
+   *                             Parameter:
+   *                               type: object
+   *                               properties:
+   *                                 id:
+   *                                   type: string
+   *                                   description: Unique ID of the action parameter type
+   *                                 name:
+   *                                   type: string
+   *                                   description: Name of the action parameter type
+   *                             value:
+   *                               type: string
+   *                               description: Value of the action parameter
+   *                 Reactions:
+   *                   type: array
+   *                   items:
+   *                     type: object
+   *                     properties:
+   *                       id:
+   *                         type: string
+   *                         description: Unique ID of the reaction
+   *                       Reaction:
+   *                         type: object
+   *                         properties:
+   *                           id:
+   *                             type: string
+   *                             description: Unique ID of the reaction type
+   *                           name:
+   *                             type: string
+   *                             description: Name of the reaction type
+   *                           isEnable:
+   *                             type: boolean
+   *                             description: Whether the reaction type is enabled or not
+   *                       ReactionParameters:
+   *                         type: array
+   *                         items:
+   *                           type: object
+   *                           properties:
+   *                             id:
+   *                               type: string
+   *                               description: Unique ID of the reaction parameter
+   *                             Parameter:
+   *                               type: object
+   *                               properties:
+   *                                 id:
+   *                                   type: string
+   *                                   description: Unique ID of the reaction parameter type
+   *                                 name:
+   *                                   type:
+   *                                   description: Name of the reaction parameter type
+   *                                 value:
+   *                                   type: string
+   *                                   description: Value of the reaction parameter
+   *       401:
+   *         description: Unauthorized
+   *       500:
+   *         description: Server error
    */
   app.get(
     '/api/area/:id',
@@ -239,20 +516,179 @@ module.exports = function (app, passport, database) {
   }
 
   /**
-   * @api {post} /api/area/create Create area
-   * @apiParam {String} name Area name.
-   * @apiParam {String} [description] Area description.
-   * @apiParam {String} [logicalGate] Area logical gate.
-   * @apiParam {String} [primaryColor] Area primary color.
-   * @apiParam {String} [secondaryColor] Area secondary color.
-   * @apiParam {String} [iconPath] Area icon path.
-   * @apiParam {Boolean} isEnable Area is enable.
-   * @apiSuccess {Number} id Area unique ID.
-   * @apiSuccess {String} name Area name.
-   * @apiSuccess {String} description Area description.
-   * @apiSuccess {Boolean} isEnable Area is enable.
-   * @apiFailure {String} error Error message.
-   * Route protected by a JWT token
+   * @swagger
+   * /api/area:
+   *   post:
+   *     summary: Create a new area
+   *     description: Endpoint to create a new area for the authenticated user
+   *     security:
+   *       - BearerAuth: []
+   *     tags:
+   *       - Area
+   *     requestBody:
+   *       description: Object containing area details
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               name:
+   *                 type: string
+   *                 example: Mail from Discord
+   *               description:
+   *                 type: string
+   *                 example: This area includes an action receive discord message and a reaction send mail
+   *               isEnable:
+   *                 type: boolean
+   *                 example: true
+   *               logicalGate:
+   *                 type: string
+   *                 example: OR
+   *               primaryColor:
+   *                 type: string
+   *                 example: #000000
+   *               secondaryColor:
+   *                 type: string
+   *                 example: #0000f0
+   *               iconPath:
+   *                 type: string
+   *                 example: assets/icons/.png
+   *     responses:
+   *       '200':
+   *         description: Created area object
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 id:
+   *                   type: string
+   *                   description: Unique ID of the area
+   *                 name:
+   *                   type: string
+   *                   description: Name of the area
+   *                 isEnable:
+   *                   type: boolean
+   *                   description: Whether the area is enabled or not
+   *                 description:
+   *                   type: string
+   *                   description: Description of the area
+   *                 logicalGate:
+   *                   type: string
+   *                   description: Logical gate for the area
+   *                 primaryColor:
+   *                   type: string
+   *                   description: Primary color of the area.
+   *                 secondaryColor:
+   *                   type: string
+   *                   description: Secondary color of the area.
+   *                 icon:
+   *                   type: string
+   *                   description: Icon path of the area.
+   *                 Actions:
+   *                   type: array
+   *                   items:
+   *                     type: object
+   *                     properties:
+   *                       id:
+   *                         type: string
+   *                         description: Unique ID of the action
+   *                       triggered:
+   *                         type: boolean
+   *                         description: Whether the action is triggered or not
+   *                       Action:
+   *                         type: object
+   *                         properties:
+   *                           id:
+   *                             type: string
+   *                             description: Unique ID of the action type
+   *                           name:
+   *                             type: string
+   *                             description: Name of the action type
+   *                           isEnable:
+   *                             type: boolean
+   *                             description: Whether the action type is enabled or not
+   *                       ActionParameters:
+   *                         type: array
+   *                         items:
+   *                           type: object
+   *                           properties:
+   *                             id:
+   *                               type: string
+   *                               description: Unique ID of the action parameter
+   *                             Parameter:
+   *                               type: object
+   *                               properties:
+   *                                 id:
+   *                                   type: string
+   *                                   description: Unique ID of the action parameter type
+   *                                 name:
+   *                                   type: string
+   *                                   description: Name of the action parameter type
+   *                             value:
+   *                               type: string
+   *                               description: Value of the action parameter
+   *                 Reactions:
+   *                   type: array
+   *                   items:
+   *                     type: object
+   *                     properties:
+   *                       id:
+   *                         type: string
+   *                         description: Unique ID of the reaction
+   *                       Reaction:
+   *                         type: object
+   *                         properties:
+   *                           id:
+   *                             type: string
+   *                             description: Unique ID of the reaction type
+   *                           name:
+   *                             type: string
+   *                             description: Name of the reaction type
+   *                           isEnable:
+   *                             type: boolean
+   *                             description: Whether the reaction type is enabled or not
+   *                       ReactionParameters:
+   *                         type: array
+   *                         items:
+   *                           type: object
+   *                           properties:
+   *                             id:
+   *                               type: string
+   *                               description: Unique ID of the reaction parameter
+   *                             Parameter:
+   *                               type: object
+   *                               properties:
+   *                                 id:
+   *                                   type: string
+   *                                   description: Unique ID of the reaction parameter type
+   *                                 name:
+   *                                   type:
+   *                                   description: Name of the reaction parameter type
+   *                                 value:
+   *                                   type: string
+   *                                   description: Value of the reaction parameter
+   *       '400':
+   *         description: Incomplete request body or area name already exists for the user
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   example: An other AREA already have this name.
+   *       '500':
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   example: An error occurred while creating the area.
    */
   app.post(
     '/api/area',
@@ -296,23 +732,133 @@ module.exports = function (app, passport, database) {
       }
     }
   )
-
+  
   /**
-   * @api {post} /api/area/:id Update area
-   * @apiParam {Number} id Area unique ID.
-   * @apiParam {String} name Area name.
-   * @apiParam {Boolean} isEnable Area is enable.
-   * @apiParam {String} [description] Area description.
-   * @apiParam {String} [logicalGate] Area logical gate.
-   * @apiParam {String} [primaryColor] Area primary color.
-   * @apiParam {String} [secondaryColor] Area secondary color.
-   * @apiParam {String} [iconPath] Area icon path.
-   * @apiSuccess {Number} id Area unique ID.
-   * @apiSuccess {String} name Area name.
-   * @apiSuccess {String} description Area description.
-   * @apiSuccess {Boolean} isEnable Area is enable.
-   * @apiFailure {String} error Error message.
-   * Route protected by a JWT token
+   * @swagger
+   * /api/area/{id}:
+   *   put:
+   *     summary: Update an area
+   *     description: Update the name, description, logical gate, and enablement status of an area.
+   *     tags:
+   *       - Area
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         description: The ID of the area to update.
+   *         required: true
+   *         schema:
+   *           type: string
+   *     requestBody:
+   *       description: Area object to be updated.
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               name:
+   *                 type: string
+   *                 description: The new name of the area.
+   *               isEnable:
+   *                 type: boolean
+   *                 description: The new enablement status of the area.
+   *               description:
+   *                 type: string
+   *                 description: The new description of the area.
+   *               logicalGate:
+   *                 type: string
+   *                 description: The new logical gate of the area. Defaults to "OR" if not provided.
+   *               primaryColor:
+   *                 type: string
+   *                 example: #000000
+   *               secondaryColor:
+   *                 type: string
+   *                 example: #0000f0
+   *               iconPath:
+   *                 type: string
+   *                 example: assets/icons/.png
+   *             example:
+   *               name: New Area Name
+   *               isEnable: true
+   *               description: This is the updated description for the area.
+   *               logicalGate: AND
+   *     responses:
+   *       '200':
+   *         description: OK
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 id:
+   *                   type: integer
+   *                   description: The ID of the updated area.
+   *                 name:
+   *                   type: string
+   *                   description: The new name of the area.
+   *                 isEnable:
+   *                   type: boolean
+   *                   description: The new enablement status of the area.
+   *                 description:
+   *                   type: string
+   *                   description: The new description of the area.
+   *                 logicalGate:
+   *                   type: string
+   *                   description: The new logical gate of the area.
+   *                 primaryColor:
+   *                   type: string
+   *                   description: The new primary color of the area.
+   *                 secondaryColor:
+   *                   type: string
+   *                   description: The new secondary color of the area.
+   *                 icon:
+   *                   type: string
+   *                   description: The new icon path of the area.
+   *               example:
+   *                 id: 123
+   *                 name: New Area Name
+   *                 isEnable: true
+   *                 description: This is the updated description for the area.
+   *                 logicalGate: AND
+   *                 primaryColor: #000000
+   *                 secondaryColor: #000000
+   *                 icon: assets/icons/.png
+   *       '400':
+   *         description: Bad Request
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: The error message.
+   *               example:
+   *                 error: Imcomplete body
+   *       '404':
+   *         description: Not Found
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: The error message.
+   *               example:
+   *                 error: Area not found
+   *       '500':
+   *         description: Internal Server Error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: The error message.
+   *               example:
+   *                 error: Internal Server Error
    */
   app.put(
     '/api/area/:id',
@@ -368,14 +914,52 @@ module.exports = function (app, passport, database) {
   )
 
   /**
-   * @api {post} /api/area/:id Delete area
-   * @apiParam {Number} id Area unique ID.
-   * @apiSuccess {Number} id Area unique ID.
-   * @apiSuccess {String} name Area name.
-   * @apiSuccess {String} description Area description.
-   * @apiSuccess {Boolean} isEnable Area is enable.
-   * @apiFailure {String} error Error message.
-   * Route protected by a JWT token
+   * @swagger
+   * /api/area/{id}:
+   *   delete:
+   *     summary: Delete an area by ID
+   *     description: Deletes an area and its associated actions from the database.
+   *     tags: [Area]
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - name: id
+   *         in: path
+   *         description: ID of the area to delete
+   *         required: true
+   *         schema:
+   *           type: string
+   *     responses:
+   *       200:
+   *         description: The deleted area object
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Area'
+   *       400:
+   *         description: Bad request, invalid input parameters
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/responses/BadRequest'
+   *       401:
+   *         description: Unauthorized, missing or invalid authentication credentials
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/responses/Unauthorized'
+   *       404:
+   *         description: The area with the specified ID was not found
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/responses/NotFound'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/responses/InternalServerError'
    */
   app.delete(
     '/api/area/:id',
