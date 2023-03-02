@@ -32,6 +32,17 @@ const {
 const {
   reaaaaaaaChangeAreaStatusFromAreaParameters
 } = require('../reaaaaaaa/reactions/change_area_status')
+
+const {
+  redditUnsubscribeToSubredditFromAreaParameters
+} = require('../reddit/reactions/subreddit_unsubscribe')
+const {
+  redditSubscribeToSubredditFromAreaParameters
+} = require('../reddit/reactions/subreddit_subscribe_to')
+const {
+  redditSubscribeToNewSubreddit
+} = require('../reddit/reactions/subreddit_subscribe_new')
+
 const {
   calendarCreateEventFromAreaParameters
 } = require('../calendar/reactions/create_event')
@@ -67,7 +78,8 @@ const getActionFromCode = async code => {
                   googleToken: true,
                   facebookId: true,
                   deezerId: true,
-                  deezerToken: true
+                  deezerToken: true,
+                  redditToken: true
                 }
               },
               Actions: {
@@ -213,7 +225,10 @@ const reactionsList = {
       ReactionParameters,
       dynamicParameters,
       User
-    )
+    ),
+  'RDT-01': (ReactionParameters, dynamicParameters, User) => redditSubscribeToSubredditFromAreaParameters(ReactionParameters, dynamicParameters, User),
+  'RDT-02': (ReactionParameters, dynamicParameters, User) => redditUnsubscribeToSubredditFromAreaParameters(ReactionParameters, dynamicParameters, User),
+  'RDT-03': (ReactionParameters, dynamicParameters, User) => redditSubscribeToNewSubreddit(User.redditToken)
 }
 
 const updateTriggeredLink = async (linkId, triggered) => {

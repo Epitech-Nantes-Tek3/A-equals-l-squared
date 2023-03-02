@@ -62,7 +62,7 @@ async function addRecommendationsToPlaylist (
     }
     var tracksId = []
     tracks.map(track => tracksId.push(track.id))
-    tracksId = tracksId.slice(0, limit)
+    if (limit > 0) tracksId = tracksId.slice(0, limit)
     addTracksToPlaylist(playlistId, tracksId, deezerToken)
     return tracksId
   } catch (err) {

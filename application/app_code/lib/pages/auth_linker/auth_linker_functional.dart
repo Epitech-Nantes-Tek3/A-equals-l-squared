@@ -49,6 +49,9 @@ class AuthBox {
       if (authName == 'Discord') {
         token = userInformation!.userToken!.discordToken;
       }
+      if (authName == 'Reddit') {
+        token = userInformation!.userToken!.redditToken;
+      }
       if (authName == 'Deezer') {
         token = userInformation!.userToken!.deezerToken;
       }
@@ -107,6 +110,13 @@ AuthBox discordInviteAuthBox = AuthBox(
     isEnable: true,
     token: "",
     action: inviteDiscordBot);
+
+/// The reddit service authBox
+AuthBox redditAuthBox = AuthBox(
+    authName: "Reddit",
+    authDescription: "Used for all Reddit interaction",
+    isEnable: false,
+    action: getRedditToken);
 
 /// The deezer service authBox
 AuthBox deezerAuthBox = AuthBox(
@@ -208,11 +218,82 @@ Future<String> getDiscordToken() async {
   return 'Operation succeed !';
 }
 
+/// Remove / Get the Reddit API access Token
+Future<String> getRedditToken() async {
+  if (redditAuthBox.isEnable) {
+    String? tokenSave = '${redditAuthBox.token}';
+    redditAuthBox.token = null;
+    String? error = await publishNewToken();
+    if (error != null) {
+      redditAuthBox.token = tokenSave;
+      return error;
+    }
+    redditAuthBox.isEnable = false;
+  } else {
+    String clientId = "7P3NMqftCBgr7H-XaPUbNg";
+    String state = 'blablablarea';
+
+    final url = Uri.https('reddit.com', '/api/v1/authorize', {
+      'response_type': 'code',
+      'client_id': clientId,
+      'redirect_uri':
+          !kIsWeb ? 'https://www.test.com' : 'http://localhost:8081/auth.html',
+      'duration': 'permanent',
+      'state': state,
+      'scope':
+          'identity edit history mysubreddits privatemessages read save submit subscribe vote'
+    });
+    final result = await FlutterWebAuth2.authenticate(
+        url: url.toString(), callbackUrlScheme: !kIsWeb ? 'https' : 'http');
+
+    final code = Uri.parse(result).queryParameters['code']!;
+
+    final response = await getRedditTokenWithCode(code);
+
+    final accessToken = response;
+
+    redditAuthBox.token = accessToken;
+
+    String? error = await publishNewToken();
+    if (error != null) {
+      redditAuthBox.token = null;
+      return error;
+    }
+    redditAuthBox.isEnable = true;
+  }
+  updateAuthPage!(null);
+  return 'Operation succeed !';
+}
+
 /// Invite the Discord bot to the user server
 Future<String> inviteDiscordBot() async {
   await launchUrl(Uri.parse('https://www.test.com'),
       mode: LaunchMode.externalApplication);
   return 'Thanks for adding our bot to your server !';
+}
+
+/// Get the Reddit API access Token with the code
+Future<String> getRedditTokenWithCode(String code) async {
+  try {
+    var response =
+        await http.post(Uri.parse('http://$serverIp:8080/api/code/reddit'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer ${userInformation!.token}',
+            },
+            body: jsonEncode(<String, dynamic>{
+              'code': code,
+            }));
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body)['data']['access_token'];
+    } else {
+      return response.body.toString();
+    }
+  } catch (err) {
+    debugPrint(err.toString());
+    return 'Error during auth process.';
+  }
 }
 
 /// Publish the updated Auth Token to the server
@@ -226,6 +307,7 @@ Future<String?> publishNewToken() async {
         body: jsonEncode(<String, dynamic>{
           'google': googleAuthBox.token != null ? googleAuthBox.token! : '',
           'discord': discordAuthBox.token != null ? discordAuthBox.token! : '',
+          'reddit': redditAuthBox.token != null ? redditAuthBox.token! : '',
           'deezer': deezerAuthBox.token != null ? deezerAuthBox.token! : ''
         }));
 
