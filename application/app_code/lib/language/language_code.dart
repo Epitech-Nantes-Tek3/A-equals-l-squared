@@ -146,6 +146,8 @@
 // SETT-12 -> password field label text
 // SETT-13 -> password field validator error when password is too short
 // SETT-14 -> header text of the language page
+// SETT-15 -> Header - Authentification
+// SETT-16 -> Header - Logout
 
 /// Signup Functional File :
 

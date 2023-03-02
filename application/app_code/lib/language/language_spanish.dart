@@ -79,6 +79,8 @@ Map<String, String> spanishLanguageMap = Map.unmodifiable({
   'SETT-12': 'Contraseña',
   'SETT-13': 'La contraseña debe tener al menos 8 caracteres.',
   'SETT-14': 'Seleccione el idioma deseado',
+  'SETT-15': ' Administrador de autenticación',
+  'SETT-16': 'Cerrar sesión',
   'SIGNUP-01': 'Iniciar sesión en A=l²',
   'SIGNUP-02': '¡Bienvenido a la página de registro!',
   'SIGNUP-03': 'Registrarse',
