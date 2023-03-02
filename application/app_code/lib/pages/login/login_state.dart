@@ -7,6 +7,7 @@ import 'package:application/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../flutter_objects/user_data.dart';
 import '../../material_lib_functions/material_functions.dart';
@@ -134,6 +135,8 @@ class LoginPageState extends State<LoginPage> {
 
   /// Initialization function for the api answer
   Future<String> getAFirstLoginAnswer() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    selectedLanguage = prefs.getString('selectedLanguage') ?? selectedLanguage;
     return '';
   }
 

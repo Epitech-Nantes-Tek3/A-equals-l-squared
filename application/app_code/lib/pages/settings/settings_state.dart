@@ -6,6 +6,7 @@ import 'package:application/network/informations.dart';
 import 'package:application/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../auth_linker/auth_linker_functional.dart';
 import '../home/home_functional.dart';
@@ -158,6 +159,12 @@ class SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  /// Save the selected language in the desktop memory
+  void saveSelectedLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('selectedLanguage', selectedLanguage);
+  }
+
   /// Display function returning the language selection
   Widget languageVisualization() {
     return Column(
@@ -172,6 +179,7 @@ class SettingsPageState extends State<SettingsPage> {
           onChanged: (String? value) {
             value ??= selectedLanguage;
             selectedLanguage = value;
+            saveSelectedLanguage();
             setState(() {});
           },
           items:
