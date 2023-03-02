@@ -14,6 +14,7 @@ class AreaData {
   String userId;
   List<ActionData> actionList;
   List<ReactionData> reactionList;
+  DateTime updatedAt;
   bool isEnable = true;
   String primaryColor;
   String secondaryColor;
@@ -29,6 +30,7 @@ class AreaData {
     required this.userId,
     required this.actionList,
     required this.reactionList,
+    required this.updatedAt,
     required this.isEnable,
     required this.logicalGate,
     required this.primaryColor,
@@ -54,7 +56,8 @@ class AreaData {
             logicalGate: oldArea.logicalGate,
             primaryColor: oldArea.primaryColor,
             secondaryColor: oldArea.secondaryColor,
-            iconPath: oldArea.iconPath);
+            iconPath: oldArea.iconPath,
+            updatedAt: oldArea.updatedAt);
 
   /// Convert a json map into the class
   factory AreaData.fromJson(Map<String, dynamic> json) {
@@ -101,7 +104,8 @@ class AreaData {
         logicalGate: json['logicalGate'],
         primaryColor: json['primaryColor'],
         secondaryColor: json['secondaryColor'],
-        iconPath: json['icon']);
+        iconPath: json['icon'],
+        updatedAt: DateTime.parse(json['updatedAt']));
   }
 
   /// Get the first color of hit first service

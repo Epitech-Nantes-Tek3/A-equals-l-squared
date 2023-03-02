@@ -25,7 +25,8 @@ void goToCreateAreaPage(BuildContext context) {
       logicalGate: 'OR',
       primaryColor: '#000000',
       secondaryColor: '#000000',
-      iconPath: '');
+      iconPath: '',
+      updatedAt: DateTime(1));
   changeType = 'create';
   context.go('/create_area');
 }

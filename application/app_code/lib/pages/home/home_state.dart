@@ -148,11 +148,22 @@ class HomePageState extends State<HomePage> {
                                 fontFamily: 'Roboto-Bold')),
                         const SizedBox(height: 10),
                         TextFormField(
-                            obscureText: true,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Search an Area',
-                            )),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Search an Area',
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (String? value) {
+                            if (value == null) {
+                              return null;
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            sortAreaDataList(value);
+                            setState(() {});
+                          },
+                        ),
                       ]),
                   const SizedBox(
                     height: 30,
