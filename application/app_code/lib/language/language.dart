@@ -21,5 +21,17 @@ Map<String, dynamic> languageMap = Map.unmodifiable({
 /// All the codes are listed in the file: language_code.dart
 /// And their equivalent in the different language files of this folder
 String getSentence(String code) {
-  return '';
+  try {
+    return languageMap[selectedLanguage][code];
+  } catch (err) {
+    try {
+      return languageMap["English"][code];
+    } catch (err) {
+      try {
+        return languageMap[selectedLanguage]["EXCEPT-01"];
+      } catch (err) {
+        return "Translation file have been corrupted";
+      }
+    }
+  }
 }
