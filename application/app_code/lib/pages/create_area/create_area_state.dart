@@ -24,6 +24,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     Text(getSentence('CREATE-02'))
   ];
 
+  /// List all primary color for Area modification
   static const List<Widget> listPrimaryColor = <Widget>[
     Icon(
       Icons.color_lens,
@@ -47,6 +48,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     )
   ];
 
+  /// List all secondary color for Area modification
   static const List<Widget> listSecondaryColor = <Widget>[
     Icon(
       Icons.color_lens_outlined,
@@ -70,6 +72,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     )
   ];
 
+  /// List all icons for Area modification
   static List<Widget> listIcon = <Widget>[
     Image.asset(
       'assets/icons/calendar.png',
@@ -118,14 +121,17 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// Creation of an Action state
   int _actionCreationState = 0;
 
+  /// To know if a button isSelected
   bool isSelected = false;
 
+  /// List to know all button of _selectedActionCondition
   final List<bool> _selectedActionCondition = createdArea != null
       ? createdArea!.logicalGate == 'OR'
           ? <bool>[true, false]
           : <bool>[false, true]
       : <bool>[true, false];
 
+  /// List to know what color is selected
   final List<bool> _selectedPrimaryColor = <bool>[
     false,
     false,
@@ -134,6 +140,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     true
   ];
 
+  /// List to know what secondary color is selected
   final List<bool> _selectedSecondaryColor = <bool>[
     false,
     false,
@@ -142,6 +149,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     true
   ];
 
+  /// List to know what icon is selected
   final List<bool> _selectedIcon = <bool>[
     false,
     false,
@@ -156,10 +164,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   int _reactionCreationState = 0;
 
   /// Variable to know if at least one Action is save on your Area
-  bool _isDisplayActions = true;
+  bool _isDisplayActions = false;
 
   /// Variable to know if at least one Reaction is save on your Area
-  bool _isDisplayReactions = true;
+  bool _isDisplayReactions = false;
 
   /// Variable to know if an User want to choose an Action
   bool _isChoosingAnAction = false;
@@ -1195,22 +1203,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                   ],
                                 )),
                         ]),
-                    if (false)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Display Reactions of this Area"),
-                          Switch(
-                            value: _isDisplayReactions,
-                            activeColor: Colors.blue,
-                            onChanged: (bool value) {
-                              setState(() {
-                                _isDisplayReactions = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
                     Column(children: reactionListDisplay),
                     displayNewReactionSelectionView()
                   ])

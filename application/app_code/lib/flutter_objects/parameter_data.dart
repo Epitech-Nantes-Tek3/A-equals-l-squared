@@ -157,13 +157,13 @@ class ParameterData {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               border: Border.all(
-                  color: Colors.red, style: BorderStyle.solid, width: 0.80),
+                  color: Colors.black, style: BorderStyle.solid, width: 0.80),
             ),
             child: DropdownButton<String>(
               icon: const Icon(Icons.keyboard_arrow_down),
               value: matchedContent!.value,
               elevation: 45,
-              style: const TextStyle(color: Colors.deepPurple),
+              style: const TextStyle(color: Colors.black),
               onChanged: (String? value) {
                 if (value == null && isRequired) {
                   return;

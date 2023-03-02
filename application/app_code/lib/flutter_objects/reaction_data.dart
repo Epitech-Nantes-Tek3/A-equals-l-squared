@@ -111,6 +111,7 @@ class ReactionData {
     );
   }
 
+  /// This function display the description of Reaction
   Widget displayReactionDescription() {
     List<Widget> paramWid = <Widget>[];
     paramWid.add(
