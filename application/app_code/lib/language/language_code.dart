@@ -24,3 +24,10 @@
 
 // DYNPARAM-01-01 -> Prefix of a dynamic param
 // DYNPARAM-01-02 -> Separator between a dynamic param and his description
+
+/// Error Data File :
+
+/// Parameter Data File :
+
+// PARAM-01-01 -> Subfix of a required parameter description
+// PARAM-01-02 -> Subfix of a not required parameter descriptio
