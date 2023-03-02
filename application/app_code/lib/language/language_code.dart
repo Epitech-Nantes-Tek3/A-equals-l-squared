@@ -38,3 +38,15 @@
 
 /// User Data File :
 
+/// Material Functions File :
+
+/// Informations File :
+
+/// Auth Linker Functional File :
+
+/// Auth Linker Page File :
+
+/// Auth Linker State File :
+
+// AUTHLINK-01 -> Welcoming text in the Auth Linker page
+// AUTHLINK-02 -> Button to go back to settings text

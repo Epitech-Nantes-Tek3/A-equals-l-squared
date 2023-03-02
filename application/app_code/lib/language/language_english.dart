@@ -14,5 +14,7 @@ Map<String, String> englishLanguageMap = Map.unmodifiable({
   'DYNPARAM-01-01': '\$',
   'DYNPARAM-01-02': ' : ',
   'PARAM-01-01': ' *: ',
-  'PARAM-01-02': ' : '
+  'PARAM-01-02': ' : ',
+  'AUTHLINK-01': 'Welcome to Auth Linker page',
+  'AUTHLINK-02': 'Go back to settings'
 });
