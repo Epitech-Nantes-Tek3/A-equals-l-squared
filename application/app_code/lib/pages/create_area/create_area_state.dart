@@ -935,9 +935,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       for (int i = 0; i < listIcon.length; i++) {
         if (Key(createdArea!.iconPath) == (listIcon[i] as Image).key) {
           _selectedIcon[i] = true;
-          break;
+          return;
         }
       }
+      _selectedIcon[6] = true;
     }
   }
 
