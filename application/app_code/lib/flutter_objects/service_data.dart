@@ -126,25 +126,4 @@ class ServiceData {
       ],
     );
   }
-
-  /// Function to display all information about a Service
-  Widget displayServiceWithInfo() {
-    return Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                const Icon(Icons.access_alarm),
-                Text('Discord Test : $name!'),
-              ],
-            ),
-          ],
-        ),
-        Row(children: <Widget>[
-          Text('Discord description : $description'),
-        ]),
-      ],
-    );
-  }
 }

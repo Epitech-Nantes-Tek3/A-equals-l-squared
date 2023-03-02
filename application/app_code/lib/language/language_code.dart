@@ -30,4 +30,11 @@
 /// Parameter Data File :
 
 // PARAM-01-01 -> Subfix of a required parameter description
-// PARAM-01-02 -> Subfix of a not required parameter descriptio
+// PARAM-01-02 -> Subfix of a not required parameter description
+
+/// Reaction Data File :
+
+/// Service Data File :
+
+/// User Data File :
+

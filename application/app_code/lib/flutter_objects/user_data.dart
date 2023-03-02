@@ -32,26 +32,9 @@ class UserData {
   Widget? displayUserEmail() {
     return Column(
       children: <Widget>[
-        Text(userName),
+        Text(email),
       ],
     );
-  }
-
-  /// Function to display if an user is admin
-  Widget? displayIsUserIsAdmin() {
-    if (isAdmin) {
-      return Column(
-        children: const <Widget>[
-          Text('Admin'),
-        ],
-      );
-    } else {
-      return Column(
-        children: const <Widget>[
-          Text("Not Admin"),
-        ],
-      );
-    }
   }
 
   /// Convert a json map into the class
