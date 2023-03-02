@@ -1276,7 +1276,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                             if (value!.length > 20) {
                               return 'Name is too long.';
                             }
-                            createdArea!.description = value!;
+                            createdArea!.description = value;
                             return null;
                           },
                         ),

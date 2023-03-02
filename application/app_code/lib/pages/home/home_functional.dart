@@ -29,14 +29,14 @@ void goToHomePage(BuildContext context) {
 void sortAreaDataList(String name) {
   if (name == '') {
     areaDataList.sort((a, b) {
-      return a.updatedAt.toString().compareTo(b.updatedAt.toString());
+      return b.updatedAt.toString().compareTo(a.updatedAt.toString());
     });
   } else {
     areaDataList.sort((a, b) {
-      return a.name.compareTo(b.name);
+      return b.name.compareTo(a.name);
     });
     areaDataList.sort((a, b) {
-      return a.updatedAt.toString().compareTo(name);
+      return name.compareTo(a.name);
     });
   }
 }

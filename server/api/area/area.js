@@ -43,7 +43,7 @@ module.exports = function (app, passport, database) {
             logicalGate: true,
             primaryColor: true,
             secondaryColor: true,
-            updatedArea: true,
+            updatedAt: true,
             icon: true,
             Actions: {
               select: {
@@ -145,7 +145,7 @@ module.exports = function (app, passport, database) {
             logicalGate: true,
             primaryColor: true,
             secondaryColor: true,
-            updatedArea: true,
+            updatedAt: true,
             icon: true,
             Actions: {
               select: {
@@ -346,7 +346,7 @@ module.exports = function (app, passport, database) {
           data: {
             name: req.body.name,
             isEnable: req.body.isEnable,
-            updatedArea: Date(),
+            updatedAt: new Date(),
             description: 'description' in req.body ? req.body.description : '',
             logicalGate:
               'logicalGate' in req.body ? req.body.logicalGate : 'OR',
