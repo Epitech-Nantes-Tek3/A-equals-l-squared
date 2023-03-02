@@ -24,6 +24,14 @@ class HomePageState extends State<HomePage> {
     updatePage = update;
   }
 
+  /// To know if we are on desktop
+  bool isDesktop(BuildContext context) =>
+      MediaQuery.of(context).size.width >= 600;
+
+  /// To know if we are on mobile
+  bool isMobile(BuildContext context) =>
+      MediaQuery.of(context).size.width < 600;
+
   /// Re sync all flutter object
   void homeSync() async {
     await updateAllFlutterObject();
@@ -51,21 +59,22 @@ class HomePageState extends State<HomePage> {
             createdArea = AreaData.clone(areaData);
             goToUpdateAreaPage(context);
           },
-          child: areaData.display(false, null)),
+          child: areaData.display(false, null, false, false)),
+      context,
+      sizeOfButton: 2.5,
       isShadowNeeded: true,
-      paddingHorizontal: 30,
-      paddingVertical: 30,
+      paddingHorizontal: 10,
+      paddingVertical: 10,
       borderRadius: 10,
       borderWith: 3,
       borderColor: areaBorderColor,
     );
   }
 
-  /// THis function display all Areas in Tab
+  /// This function display all Areas in Tab
   List<Widget> createTabOfAreas() {
     List<Widget> areaVis = <Widget>[];
     late AreaData tempArea;
-
     var count = 1;
 
     for (var temp in areaDataList) {
@@ -82,7 +91,8 @@ class HomePageState extends State<HomePage> {
     }
     if (count % 2 == 0) {
       areaVis.add(createRowOfAreas(
-          areaDataToElevatedButton(tempArea, Colors.deepOrange), null));
+          areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor()),
+          null));
     }
     return areaVis;
   }
@@ -139,11 +149,22 @@ class HomePageState extends State<HomePage> {
                                 fontFamily: 'Roboto-Bold')),
                         const SizedBox(height: 10),
                         TextFormField(
-                            obscureText: true,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Search an Area',
-                            )),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Search an Area',
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (String? value) {
+                            if (value == null) {
+                              return null;
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            sortAreaDataList(value);
+                            setState(() {});
+                          },
+                        ),
                       ]),
                   const SizedBox(
                     height: 30,
@@ -162,6 +183,8 @@ class HomePageState extends State<HomePage> {
                       },
                       child: const Text('Service List'),
                     ),
+                    context,
+                    sizeOfButton: 4,
                     primaryColor: getOurBlueAreaColor(100),
                   ),
                 ],

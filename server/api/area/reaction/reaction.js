@@ -582,9 +582,9 @@ module.exports = function (app, passport, database) {
         if (!area.Reactions.find(reaction => reaction.id === req.params.id))
           return res.status(404).json({ error: 'Reaction not found' })
 
-        const response = new Promise((resolve, reject) => {
+        const response = new Promise(async (resolve, reject) => {
           let updatedReactionParameters = []
-          req.body.reactionParameters.forEach(async param => {
+          for await (let param of req.body.reactionParameters) {
             const a = await database.prisma.ReactionParameter.update({
               where: {
                 id: param.id
@@ -594,7 +594,7 @@ module.exports = function (app, passport, database) {
               }
             })
             updatedReactionParameters.push(a)
-          })
+          }
           resolve(updatedReactionParameters)
         })
         res.status(200).json(response)

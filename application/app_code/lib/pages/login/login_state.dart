@@ -334,13 +334,13 @@ class LoginPageState extends State<LoginPage> {
                 logout = false;
                 return Container(
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 30),
+                        horizontal: 30, vertical: 12),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           displayLogoAndName(),
                           const SizedBox(
-                            height: 30,
+                            height: 20,
                           ),
                           getHostConfigField(),
                           const SizedBox(

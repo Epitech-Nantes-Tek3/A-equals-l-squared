@@ -135,14 +135,18 @@ model AREAhasActions {
 }
 
 model AREA {
-  id          String             @id @unique @default(cuid())
-  name        String
-  isEnable    Boolean            @default(true)
-  createdAt   DateTime           @default(now())
-  description String?
-  logicalGate String             @default("OR")
-  User        User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId      String
-  Actions     AREAhasActions[]
-  Reactions   AREAhasReactions[]
+  id             String             @id @unique @default(cuid())
+  name           String
+  isEnable       Boolean            @default(true)
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @default(now())
+  description    String?
+  logicalGate    String             @default("OR")
+  primaryColor   String             @default("#000000") @db.VarChar(7)
+  secondaryColor String             @default("#000000") @db.VarChar(7)
+  icon           String?
+  User           User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId         String
+  Actions        AREAhasActions[]
+  Reactions      AREAhasReactions[]
 }

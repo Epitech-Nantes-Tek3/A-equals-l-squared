@@ -215,6 +215,10 @@ module.exports = function (app, passport, database) {
             isEnable: true,
             description: true,
             logicalGate: true,
+            primaryColor: true,
+            secondaryColor: true,
+            updatedAt: true,
+            icon: true,
             Actions: {
               select: {
                 id: true,
@@ -416,6 +420,10 @@ module.exports = function (app, passport, database) {
             isEnable: true,
             description: true,
             logicalGate: true,
+            primaryColor: true,
+            secondaryColor: true,
+            updatedAt: true,
+            icon: true,
             Actions: {
               select: {
                 id: true,
@@ -537,6 +545,15 @@ module.exports = function (app, passport, database) {
    *               logicalGate:
    *                 type: string
    *                 example: OR
+   *               primaryColor:
+   *                 type: string
+   *                 example: #000000
+   *               secondaryColor:
+   *                 type: string
+   *                 example: #0000f0
+   *               iconPath:
+   *                 type: string
+   *                 example: assets/icons/.png
    *     responses:
    *       '200':
    *         description: Created area object
@@ -560,6 +577,15 @@ module.exports = function (app, passport, database) {
    *                 logicalGate:
    *                   type: string
    *                   description: Logical gate for the area
+   *                 primaryColor:
+   *                   type: string
+   *                   description: Primary color of the area.
+   *                 secondaryColor:
+   *                   type: string
+   *                   description: Secondary color of the area.
+   *                 icon:
+   *                   type: string
+   *                   description: Icon path of the area.
    *                 Actions:
    *                   type: array
    *                   items:
@@ -689,7 +715,14 @@ module.exports = function (app, passport, database) {
             isEnable: req.body.isEnable,
             logicalGate:
               'logicalGate' in req.body ? req.body.logicalGate : 'OR',
-            User: { connect: { id: req.user.id } }
+            User: { connect: { id: req.user.id } },
+            primaryColor:
+              'primaryColor' in req.body ? req.body.primaryColor : '#000000',
+            secondaryColor:
+              'secondaryColor' in req.body
+                ? req.body.secondaryColor
+                : '#000000',
+            icon: 'iconPath' in req.body ? req.body.iconPath : ''
           }
         })
         res.status(200).json(newArea)
@@ -735,6 +768,15 @@ module.exports = function (app, passport, database) {
    *               logicalGate:
    *                 type: string
    *                 description: The new logical gate of the area. Defaults to "OR" if not provided.
+   *               primaryColor:
+   *                 type: string
+   *                 example: #000000
+   *               secondaryColor:
+   *                 type: string
+   *                 example: #0000f0
+   *               iconPath:
+   *                 type: string
+   *                 example: assets/icons/.png
    *             example:
    *               name: New Area Name
    *               isEnable: true
@@ -763,12 +805,24 @@ module.exports = function (app, passport, database) {
    *                 logicalGate:
    *                   type: string
    *                   description: The new logical gate of the area.
+   *                 primaryColor:
+   *                   type: string
+   *                   description: The new primary color of the area.
+   *                 secondaryColor:
+   *                   type: string
+   *                   description: The new secondary color of the area.
+   *                 icon:
+   *                   type: string
+   *                   description: The new icon path of the area.
    *               example:
    *                 id: 123
    *                 name: New Area Name
    *                 isEnable: true
    *                 description: This is the updated description for the area.
    *                 logicalGate: AND
+   *                 primaryColor: #000000
+   *                 secondaryColor: #000000
+   *                 icon: assets/icons/.png
    *       '400':
    *         description: Bad Request
    *         content:
@@ -838,8 +892,17 @@ module.exports = function (app, passport, database) {
           data: {
             name: req.body.name,
             isEnable: req.body.isEnable,
+            updatedAt: new Date(),
             description: 'description' in req.body ? req.body.description : '',
-            logicalGate: 'logicalGate' in req.body ? req.body.logicalGate : 'OR'
+            logicalGate:
+              'logicalGate' in req.body ? req.body.logicalGate : 'OR',
+            primaryColor:
+              'primaryColor' in req.body ? req.body.primaryColor : '#000000',
+            secondaryColor:
+              'secondaryColor' in req.body
+                ? req.body.secondaryColor
+                : '#000000',
+            icon: 'iconPath' in req.body ? req.body.iconPath : ''
           }
         })
         res.status(200).json(updatedArea)
