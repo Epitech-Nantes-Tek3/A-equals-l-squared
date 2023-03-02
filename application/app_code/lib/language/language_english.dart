@@ -10,5 +10,7 @@ Map<String, String> englishLanguageMap = Map.unmodifiable({
   'AREA-05-02': ' is activated',
   'AREA-05-03': ' is disabled',
   'AREA-06': 'Please logout and login.',
-  'AREA-07': 'No description'
+  'AREA-07': 'No description',
+  'DYNPARAM-01-01': '\$',
+  'DYNPARAM-01-02': ' : '
 });

@@ -19,3 +19,8 @@
 // AREA-05-03 -> Second part of sentence representing an area status (Disabled) in customisation display of area
 // AREA-06 -> Error message displayed in case of an old JWT token in area customization display
 // AREA-07 -> Description text displayed when no description is provided by the area object
+
+/// Dynamic Param Data File :
+
+// DYNPARAM-01-01 -> Prefix of a dynamic param
+// DYNPARAM-01-02 -> Separator between a dynamic param and his description
