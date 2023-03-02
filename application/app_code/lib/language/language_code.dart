@@ -125,3 +125,23 @@
 
 // SERVLIST-01 -> Service list page header
 // SERVLIST-02 -> Service list page description
+
+/// Settings Functional File :
+
+/// Settings Page File :
+
+/// Settings State File :
+
+// SETT-01 -> Account Update - Header text
+// SETT-02 -> Account Update - Deleter account button
+// SETT-03 -> Header - Settings
+// SETT-04 -> Header - User Informations
+// SETT-05 -> Header - Data Management
+// SETT-06 -> Header - Language
+// SETT-07 -> Header - Notification
+// SETT-08 -> username field label text
+// SETT-09 -> username field validator error when username is too short
+// SETT-10 -> email field label text
+// SETT-11 -> email field validator error when email is not valid
+// SETT-12 -> password field label text
+// SETT-13 -> password field validator error when password is too short

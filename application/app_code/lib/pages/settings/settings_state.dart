@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application/language/language.dart';
 import 'package:application/material_lib_functions/material_functions.dart';
 import 'package:application/network/informations.dart';
 import 'package:application/pages/settings/settings_page.dart';
@@ -96,15 +97,15 @@ class SettingsPageState extends State<SettingsPage> {
           height: 10,
         ),
         TextFormField(
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Username',
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: getSentence('SETT-08'),
           ),
           initialValue: _username,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (String? value) {
             if (value != null && value.length <= 4) {
-              return 'Username must be min 5 characters long.';
+              return getSentence('SETT-09');
             }
             _username = value;
             return null;
@@ -114,9 +115,9 @@ class SettingsPageState extends State<SettingsPage> {
           height: 10,
         ),
         TextFormField(
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'E-mail',
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: getSentence('SETT-10'),
           ),
           initialValue: _email,
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -124,7 +125,7 @@ class SettingsPageState extends State<SettingsPage> {
             if (value != null &&
                 !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(value)) {
-              return 'Must be a valid email.';
+              return getSentence('SETT-11');
             }
             _email = value;
             return null;
@@ -135,15 +136,15 @@ class SettingsPageState extends State<SettingsPage> {
         ),
         TextFormField(
           obscureText: true,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Password',
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: getSentence('SETT-12'),
           ),
           initialValue: _password,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (String? value) {
             if (value != null && value.length <= 7) {
-              return 'Password must be min 8 characters long.';
+              return getSentence('SETT-13');
             }
             _password = value;
             return null;
@@ -168,7 +169,7 @@ class SettingsPageState extends State<SettingsPage> {
                 _futureAnswer = apiAskForUpdate();
               });
             },
-            child: const Text('Update account information'),
+            child: Text(getSentence('SETT-01')),
           ),
           context,
           isShadowNeeded: true,
@@ -182,7 +183,7 @@ class SettingsPageState extends State<SettingsPage> {
                 _futureAnswer = apiAskForDelete();
               });
             },
-            child: const Text('Delete account'),
+            child: Text(getSentence('SETT-02')),
           ),
           context,
           sizeOfButton: 1.5,
@@ -212,33 +213,33 @@ class SettingsPageState extends State<SettingsPage> {
   /// This function display headers for settings views, depends on _settingsPage
   Widget displaySettingsHeader() {
     if (_settingPage == 0) {
-      return const Text(
-        'Settings Page',
-        style: TextStyle(fontSize: 20),
+      return Text(
+        getSentence('SETT-03'),
+        style: const TextStyle(fontSize: 20),
       );
     }
     if (_settingPage == 1) {
-      return const Text(
-        'User information',
-        style: TextStyle(fontSize: 20),
+      return Text(
+        getSentence('SETT-04'),
+        style: const TextStyle(fontSize: 20),
       );
     }
     if (_settingPage == 2) {
-      return const Text(
-        'Data management',
-        style: TextStyle(fontSize: 20),
+      return Text(
+        getSentence('SETT-05'),
+        style: const TextStyle(fontSize: 20),
       );
     }
     if (_settingPage == 3) {
-      return const Text(
-        'Language',
-        style: TextStyle(fontSize: 20),
+      return Text(
+        getSentence('SETT-06'),
+        style: const TextStyle(fontSize: 20),
       );
     }
     if (_settingPage == 4) {
-      return const Text(
-        'Notification',
-        style: TextStyle(fontSize: 20),
+      return Text(
+        getSentence('SETT-07'),
+        style: const TextStyle(fontSize: 20),
       );
     }
     return const Text('');

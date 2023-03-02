@@ -64,5 +64,18 @@ Map<String, String> englishLanguageMap = Map.unmodifiable({
   'LOGIN-12': 'Password must be min 8 characters long.',
   'SERVLIST-01': 'Service List page',
   'SERVLIST-02':
-      'All our implemented Services, if you want to create something with one of these, click on it !'
+      'All our implemented Services, if you want to create something with one of these, click on it !',
+  'SETT-01': 'Update account information',
+  'SETT-02': 'Delete account',
+  'SETT-03': 'Settings Page',
+  'SETT-04': 'User information',
+  'SETT-05': 'Data management',
+  'SETT-06': 'Language',
+  'SETT-07': 'Notification',
+  'SETT-08': 'Username',
+  'SETT-09': 'Username must be min 5 characters long.',
+  'SETT-10': 'E-mail',
+  'SETT-11': 'Must be a valid email.',
+  'SETT-12': 'Password',
+  'SETT-13': 'Password must be min 8 characters long.'
 });
