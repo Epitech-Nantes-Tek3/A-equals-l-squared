@@ -10,6 +10,7 @@ class ReactionData {
   DateTime createdAt;
   bool isEnable;
   String serviceId;
+  bool isPreviewDisplayMax;
   List<ParameterData> parameters;
   List<ParameterContent> parametersContent;
 
@@ -21,6 +22,7 @@ class ReactionData {
       required this.createdAt,
       required this.isEnable,
       required this.serviceId,
+      required this.isPreviewDisplayMax,
       required this.parameters,
       required this.parametersContent});
 
@@ -31,6 +33,7 @@ class ReactionData {
             name: oldReaction.name,
             description: oldReaction.description,
             createdAt: oldReaction.createdAt,
+            isPreviewDisplayMax: true,
             isEnable: oldReaction.isEnable,
             serviceId: oldReaction.serviceId,
             parameters: oldReaction.parameters
@@ -54,6 +57,7 @@ class ReactionData {
         isEnable: json['isEnable'],
         serviceId: json['serviceId'],
         parameters: parameters,
+        isPreviewDisplayMax: true,
         parametersContent: <ParameterContent>[]);
   }
 
@@ -63,31 +67,34 @@ class ReactionData {
   }
 
   /// Get a visual representation of a Reaction
-  /// mode -> true = params, false = only text and desc
   /// update -> Function pointer used for update the state
-  Widget display(bool mode, Function? update) {
+  Widget displayReactionModificationView(Function? update) {
     List<Widget> paramWid = <Widget>[];
+
     paramWid.add(Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      description,
-                      style: TextStyle(
-                          color: isEnable ? Colors.green : Colors.red),
-                    ), // Change when icon are in DB
-                  ]),
-            ],
-          ),
-        ]));
-    if (mode == true) {
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            displayReactionDescription(),
+            IconButton(
+                onPressed: () {
+                  if (isPreviewDisplayMax) {
+                    isPreviewDisplayMax = false;
+                  } else {
+                    isPreviewDisplayMax = true;
+                  }
+                  update!(null);
+                },
+                icon: isPreviewDisplayMax
+                    ? const Icon(Icons.expand_circle_down_outlined)
+                    : const Icon(Icons.arrow_circle_up_outlined))
+          ],
+        )
+      ],
+    ));
+
+    if (isPreviewDisplayMax) {
       ParameterData? previous;
       for (var temp in parameters) {
         paramWid.add(temp.display(parametersContent, previous, update!));
@@ -104,25 +111,26 @@ class ReactionData {
     );
   }
 
+  Widget displayReactionDescription() {
+    List<Widget> paramWid = <Widget>[];
+    paramWid.add(
+      Column(crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
+        Text(
+          description,
+          style: const TextStyle(color: Colors.black, fontSize: 14),
+        ),
+      ]),
+    );
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.center, children: paramWid);
+  }
+
   /// Function to display reaction name
   Widget? displayReactionName() {
     if (isEnable) {
       return Column(
         children: <Widget>[
           Text(name),
-        ],
-      );
-    } else {
-      return null;
-    }
-  }
-
-  /// Function to display reaction description
-  Widget? displayReactionDescription() {
-    if (isEnable) {
-      return Column(
-        children: <Widget>[
-          Text(description),
         ],
       );
     } else {

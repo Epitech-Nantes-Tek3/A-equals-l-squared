@@ -26,9 +26,30 @@ class DynamicParameterData {
 
   /// Function returning a visual representation of a dynamicParameter
   Widget display() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [Text("\$$name"), Text(description)],
-    );
+    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const SizedBox(
+        height: 20,
+      ),
+      Expanded(
+        child: Text(
+          "\$$name : ",
+          style: const TextStyle(fontSize: 12),
+          softWrap: false,
+          maxLines: 20,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      const SizedBox(
+        height: 20,
+      ),
+      Expanded(
+          child: Text(
+        description,
+        style: const TextStyle(fontSize: 12),
+        softWrap: false,
+        maxLines: 20,
+        overflow: TextOverflow.ellipsis,
+      )),
+    ]);
   }
 }

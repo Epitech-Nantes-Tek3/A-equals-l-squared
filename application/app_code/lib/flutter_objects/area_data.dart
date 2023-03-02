@@ -14,7 +14,11 @@ class AreaData {
   String userId;
   List<ActionData> actionList;
   List<ReactionData> reactionList;
+  DateTime updatedAt;
   bool isEnable = true;
+  String primaryColor;
+  String secondaryColor;
+  String iconPath;
   String? description;
   ServiceData? serviceId;
   String logicalGate;
@@ -26,8 +30,12 @@ class AreaData {
     required this.userId,
     required this.actionList,
     required this.reactionList,
+    required this.updatedAt,
     required this.isEnable,
     required this.logicalGate,
+    required this.primaryColor,
+    required this.secondaryColor,
+    required this.iconPath,
     this.description,
     this.serviceId,
   });
@@ -45,7 +53,11 @@ class AreaData {
             isEnable: oldArea.isEnable,
             description: oldArea.description,
             serviceId: oldArea.serviceId,
-            logicalGate: oldArea.logicalGate);
+            logicalGate: oldArea.logicalGate,
+            primaryColor: oldArea.primaryColor,
+            secondaryColor: oldArea.secondaryColor,
+            iconPath: oldArea.iconPath,
+            updatedAt: oldArea.updatedAt);
 
   /// Convert a json map into the class
   factory AreaData.fromJson(Map<String, dynamic> json) {
@@ -89,54 +101,33 @@ class AreaData {
         reactionList: reactionList,
         isEnable: json['isEnable'],
         description: json['description'],
-        logicalGate: json['logicalGate']);
+        logicalGate: json['logicalGate'],
+        primaryColor: json['primaryColor'],
+        secondaryColor: json['secondaryColor'],
+        iconPath: json['icon'],
+        updatedAt: DateTime.parse(json['updatedAt']));
   }
 
   /// Get the first color of hit first service
   Color getPrimaryColor() {
-    if (getAssociatedService() == null) {
-      return Colors.white;
-    }
-    String str = getAssociatedService()!.primaryColor.replaceFirst("#", "0xff");
+    String str = primaryColor.replaceFirst("#", "0xff");
     Color tempColor = Color(int.parse(str));
     return tempColor;
   }
 
   /// Get the secondary color of hit first service
   Color getSecondaryColor() {
-    if (getAssociatedService() == null) {
-      return Colors.white;
-    }
-    String str =
-        getAssociatedService()!.secondaryColor.replaceFirst("#", "0xff");
+    String str = secondaryColor.replaceFirst("#", "0xff");
     Color tempColor = Color(int.parse(str));
     return tempColor;
   }
 
-  /// This function return the first associated service of an Area
-  ServiceData? getAssociatedService() {
-    if (actionList.isEmpty) {
-      return null;
-    }
-    for (var temp in serviceDataList) {
-      if (temp.id == actionList[0].serviceId) {
-        return temp;
-      }
-    }
-    return null;
-  }
-
   /// This function return the good icon with the serviceName
   Widget getServiceIcon() {
-    ServiceData? serviceData = getAssociatedService();
     return Column(
       children: <Widget>[
         Image.asset(
-          serviceData != null
-              ? (serviceData.icon != ''
-                  ? serviceData.icon
-                  : 'assets/icons/Area_Logo.png')
-              : 'assets/icons/Area_Logo.png',
+          iconPath != '' ? iconPath : 'assets/icons/Area_Logo.png',
           height: 50,
           width: 50,
         )
@@ -147,21 +138,27 @@ class AreaData {
   /// This function display an Area preview with the logo, the name and the description
   Widget displayAreaPreview() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             getServiceIcon(),
-            Text(
-              name,
-              style: const TextStyle(color: Colors.black),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                name,
+                style: const TextStyle(color: Colors.black),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
         const SizedBox(height: 20),
         Text(
-          'Description : \n\n $description',
+          description == null
+              ? 'Description : \n\n No description'
+              : 'Description : \n\n $description',
           style: const TextStyle(color: Colors.black),
         )
 
@@ -173,20 +170,17 @@ class AreaData {
   /// Get a visual representation of an Area
   /// mode -> true = complete representation, false = only area preview
   /// update -> Function pointer used for update the state
-  Widget display(bool mode, Function? update) {
+  Widget display(bool mode, Function? update, bool isReactionPreviewClosed,
+      bool isActionPreviewClosed) {
     List<Widget> listDisplay = <Widget>[];
     List<Widget> actionListDisplay = <Widget>[const Text("Actions")];
     List<Widget> reactionListDisplay = <Widget>[const Text("Reactions")];
     if (mode) {
       for (var temp in actionList) {
-        actionListDisplay.add(
-          temp.display(true, update),
-        );
+        actionListDisplay.add(temp.displayActionModificationView(update));
       }
       for (var temp in reactionList) {
-        reactionListDisplay.add(
-          temp.display(true, update),
-        );
+        reactionListDisplay.add(temp.displayReactionModificationView(update));
       }
       listDisplay.add(Column(
         children: <Widget>[

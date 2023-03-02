@@ -772,9 +772,9 @@ module.exports = function (app, passport, database) {
         if (!area.Actions.find(action => action.id === req.params.id))
           return res.status(404).json({ error: 'Action not found' })
 
-        const response = new Promise((resolve, reject) => {
+        const response = new Promise(async (resolve, reject) => {
           let updatedActionParameters = []
-          req.body.actionParameters.forEach(async param => {
+          for await (let param of req.body.actionParameters) {
             const a = await database.prisma.ActionParameter.update({
               where: {
                 id: param.id
@@ -784,7 +784,7 @@ module.exports = function (app, passport, database) {
               }
             })
             updatedActionParameters.push(a)
-          })
+          }
           resolve(updatedActionParameters)
         })
         const action = await database.prisma.AREAhasActions.findUnique({

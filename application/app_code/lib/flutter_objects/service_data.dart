@@ -79,9 +79,10 @@ class ServiceData {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Icon(
-              Icons.square,
-              color: Colors.black,
+            Image.asset(
+              icon != '' ? icon : './assets/icons/Area_Logo.png',
+              height: 30,
+              width: 30,
             ),
             const SizedBox(
               width: 30,
@@ -92,8 +93,9 @@ class ServiceData {
                 children: <Widget>[
                   Text(
                     name,
-                    style:
-                        TextStyle(color: isEnabled ? Colors.green : Colors.red),
+                    style: TextStyle(
+                        color: Color(
+                            int.parse(primaryColor.replaceFirst("#", "0xff")))),
                   ),
                   // Change when icon are in DB
                   Text(
