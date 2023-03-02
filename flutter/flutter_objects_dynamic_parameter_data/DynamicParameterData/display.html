@@ -75,10 +75,31 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Widget display() {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [Text(&quot;\$$name&quot;), Text(description)],
-  );
+  return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    const SizedBox(
+      height: 20,
+    ),
+    Expanded(
+      child: Text(
+        &quot;\$$name : &quot;,
+        style: const TextStyle(fontSize: 12),
+        softWrap: false,
+        maxLines: 20,
+        overflow: TextOverflow.ellipsis,
+      ),
+    ),
+    const SizedBox(
+      height: 20,
+    ),
+    Expanded(
+        child: Text(
+      description,
+      style: const TextStyle(fontSize: 12),
+      softWrap: false,
+      maxLines: 20,
+      overflow: TextOverflow.ellipsis,
+    )),
+  ]);
 }</code></pre>
 </section>
 

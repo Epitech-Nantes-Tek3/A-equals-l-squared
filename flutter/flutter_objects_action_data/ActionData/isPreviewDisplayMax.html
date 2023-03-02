@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the display method from the ActionData class, for the Dart programming language.">
-  <title>display method - ActionData class - action_data library - Dart API</title>
+  <meta name="description" content="API docs for the isPreviewDisplayMax property from the ActionData class, for the Dart programming language.">
+  <title>isPreviewDisplayMax property - ActionData class - action_data library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">application</a></li>
     <li><a href="../../flutter_objects_action_data/flutter_objects_action_data-library.html">action_data</a></li>
     <li><a href="../../flutter_objects_action_data/ActionData-class.html">ActionData</a></li>
-    <li class="self-crumb">display method</li>
+    <li class="self-crumb">isPreviewDisplayMax property</li>
   </ol>
-  <div class="self-name">display</div>
+  <div class="self-name">isPreviewDisplayMax</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -53,78 +53,22 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">display</span> method 
+<h1><span class="kind-property">isPreviewDisplayMax</span> property 
 </h1></div>
 
-    <section class="multi-line-signature">
-      
+        <section class="multi-line-signature">
+          
+          <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a>
+          <span class="name ">isPreviewDisplayMax</span>
+          <div class="features"><span class="feature">read / write</span></div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
-<span class="name ">display</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="display-param-mode"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">mode</span>, </span></li>
-<li><span class="parameter" id="display-param-update"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Function-class.html">Function</a>?</span> <span class="parameter-name">update</span></span></li>
-</ol>)
+        </section>
+        
 
-      
-
-    </section>
-    
-<section class="desc markdown">
-  <p>Get a visual representation of an Action
-mode -&gt; true = params, false = only name and desc
-params -&gt; list of all the associated parameter content
-update -&gt; Function pointer used for update the state</p>
-</section>
-
-
-    
+        
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Widget display(bool mode, Function? update) {
-  List&lt;Widget&gt; paramWid = &lt;Widget&gt;[];
-  paramWid.add(Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: &lt;Widget&gt;[
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: &lt;Widget&gt;[
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: &lt;Widget&gt;[
-                  Text(
-                    description,
-                    style: TextStyle(
-                        color: isEnable ? Colors.green : Colors.red),
-                  ), &#47;&#47; Change when icon are in DB
-                ]),
-          ],
-        ),
-      ]));
-  if (mode == true) {
-    ParameterData? previous;
-    for (var temp in parameters) {
-      paramWid.add(temp.display(parametersContent, previous, update!));
-      if (temp.isRequired == true &amp;&amp; temp.getterUrl != null) {
-        previous = temp;
-      } else {
-        previous = null;
-      }
-    }
-    List&lt;Widget&gt; dynamicParams = &lt;Widget&gt;[];
-    for (var temp in dynamicParameters) {
-      dynamicParams.add(temp.display());
-    }
-    paramWid.add(Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: dynamicParams,
-    ));
-  }
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: paramWid,
-  );
-}</code></pre>
+  <pre class="language-dart"><code class="language-dart">bool isPreviewDisplayMax;</code></pre>
 </section>
 
 
@@ -141,7 +85,7 @@ update -&gt; Function pointer used for update the state</p>
   <li><a href="../../index.html">application</a></li>
   <li><a href="../../flutter_objects_action_data/flutter_objects_action_data-library.html">action_data</a></li>
   <li><a href="../../flutter_objects_action_data/ActionData-class.html">ActionData</a></li>
-  <li class="self-crumb">display method</li>
+  <li class="self-crumb">isPreviewDisplayMax property</li>
 </ol>
 
 
@@ -162,7 +106,9 @@ update -&gt; Function pointer used for update the state</p>
           <li><a href="../../flutter_objects_action_data/ActionData/dynamicParameters.html">dynamicParameters</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
           <li><a href="../../flutter_objects_action_data/ActionData/id.html">id</a></li>
+          <li><a href="../../flutter_objects_action_data/ActionData/isDynamicParamDisplay.html">isDynamicParamDisplay</a></li>
           <li><a href="../../flutter_objects_action_data/ActionData/isEnable.html">isEnable</a></li>
+          <li><a href="../../flutter_objects_action_data/ActionData/isPreviewDisplayMax.html">isPreviewDisplayMax</a></li>
           <li><a href="../../flutter_objects_action_data/ActionData/name.html">name</a></li>
           <li><a href="../../flutter_objects_action_data/ActionData/parameters.html">parameters</a></li>
           <li><a href="../../flutter_objects_action_data/ActionData/parametersContent.html">parametersContent</a></li>
@@ -170,9 +116,9 @@ update -&gt; Function pointer used for update the state</p>
           <li><a href="../../flutter_objects_action_data/ActionData/serviceId.html">serviceId</a></li>
 
         <li class="section-title"><a href="../../flutter_objects_action_data/ActionData-class.html#instance-methods">Methods</a></li>
-          <li><a href="../../flutter_objects_action_data/ActionData/display.html">display</a></li>
-          <li><a href="../../flutter_objects_action_data/ActionData/displayReactionName.html">displayReactionName</a></li>
-          <li><a href="../../flutter_objects_action_data/ActionData/displayReactionWithInfo.html">displayReactionWithInfo</a></li>
+          <li><a href="../../flutter_objects_action_data/ActionData/displayActionDescription.html">displayActionDescription</a></li>
+          <li><a href="../../flutter_objects_action_data/ActionData/displayActionModificationView.html">displayActionModificationView</a></li>
+          <li><a href="../../flutter_objects_action_data/ActionData/displayActionName.html">displayActionName</a></li>
           <li><a href="../../flutter_objects_action_data/ActionData/getAllParameterContent.html">getAllParameterContent</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>

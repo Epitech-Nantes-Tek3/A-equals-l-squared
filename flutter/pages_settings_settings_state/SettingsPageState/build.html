@@ -204,7 +204,9 @@ Widget build(BuildContext context) {
                                 }
                               });
                             },
-                            icon: const Icon(Icons.home_filled),
+                            icon: _settingPage == 0
+                                ? const Icon(Icons.home_filled)
+                                : const Icon(Icons.arrow_back_ios),
                             color: Colors.black),
                         const SizedBox(
                           width: 30,

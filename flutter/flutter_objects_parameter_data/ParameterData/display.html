@@ -115,8 +115,17 @@ previous -&gt; Previous displayed parameter</p>
       }
     }
   }
-
-  return Column(children: &lt;Widget&gt;[
+  return Column(crossAxisAlignment: CrossAxisAlignment.start, children: &lt;
+      Widget&gt;[
+    const SizedBox(
+      height: 20,
+    ),
+    Row(
+      children: [
+        Text(isRequired ? &#39;$description *: &#39; : &#39;$description : &#39;,
+            style: const TextStyle(fontSize: 12)),
+      ],
+    ),
     const SizedBox(
       height: 10,
     ),
@@ -140,30 +149,38 @@ previous -&gt; Previous displayed parameter</p>
             return null;
           })
     else
-      DropdownButton&lt;String&gt;(
-        value: matchedContent!.value,
-        icon: const Icon(Icons.arrow_downward),
-        elevation: 16,
-        style: const TextStyle(color: Colors.deepPurple),
-        underline: Container(
-          height: 2,
-          color: Colors.deepPurpleAccent,
-        ),
-        onChanged: (String? value) {
-          if (value == null &amp;&amp; isRequired) {
-            return;
-          }
-          value ??= &quot;&quot;;
-          if (matchedContent != null) matchedContent!.value = value;
-          update(this);
-        },
-        items: tempProposal!.map&lt;DropdownMenuItem&lt;String&gt;&gt;((String value) {
-          return DropdownMenuItem&lt;String&gt;(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-      )
+      Row(children: [
+        DropdownButtonHideUnderline(
+            child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            border: Border.all(
+                color: Colors.black, style: BorderStyle.solid, width: 0.80),
+          ),
+          child: DropdownButton&lt;String&gt;(
+            icon: const Icon(Icons.keyboard_arrow_down),
+            value: matchedContent!.value,
+            elevation: 45,
+            style: const TextStyle(color: Colors.black),
+            onChanged: (String? value) {
+              if (value == null &amp;&amp; isRequired) {
+                return;
+              }
+              value ??= &quot;&quot;;
+              if (matchedContent != null) matchedContent!.value = value;
+              update(this);
+            },
+            items:
+                tempProposal!.map&lt;DropdownMenuItem&lt;String&gt;&gt;((String value) {
+              return DropdownMenuItem&lt;String&gt;(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ))
+      ])
   ]);
 }</code></pre>
 </section>

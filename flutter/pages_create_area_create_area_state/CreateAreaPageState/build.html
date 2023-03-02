@@ -184,210 +184,508 @@ Widget build(BuildContext context) {
   List&lt;Widget&gt; actionListDisplay = &lt;Widget&gt;[];
   List&lt;Widget&gt; reactionListDisplay = &lt;Widget&gt;[];
 
+  &#47;&#47;&#47; Get actionListDisplay
   if (createdArea != null &amp;&amp; createdArea!.actionList.isNotEmpty) {
     for (var temp in createdArea!.actionList) {
       if (_actionCreationState != 2 || temp != createdArea!.actionList.last) {
-        actionListDisplay.add(Column(children: [
-          temp.display(true, createUpdate),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                  onPressed: () {
-                    changeType = &#39;update&#39;;
-                    apiAskForActionChange(temp);
-                  },
-                  child: const Text(&#39;Update&#39;)),
-              ElevatedButton(
-                  onPressed: () {
-                    changeType = &#39;delete&#39;;
-                    apiAskForActionChange(temp);
-                    setState(() {
-                      createdArea!.actionList.remove(temp);
-                    });
-                  },
-                  child: const Text(&#39;Delete&#39;))
-            ],
-          )
-        ]));
+        actionListDisplay.add(Container(
+            padding: const EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+                color: Colors.transparent,
+                border: Border.all(color: Colors.black),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0),
+                  bottomLeft: Radius.circular(10.0),
+                  bottomRight: Radius.circular(10.0),
+                )),
+            child: Column(children: [
+              temp.displayActionModificationView(createUpdate),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  materialElevatedButtonArea(
+                    ElevatedButton(
+                        onPressed: () {
+                          changeType = &#39;delete&#39;;
+                          apiAskForActionChange(temp);
+                          setState(() {
+                            createdArea!.actionList.remove(temp);
+                          });
+                        },
+                        child: Text(&#39;Delete&#39;,
+                            style:
+                                TextStyle(color: getOurBlueAreaColor(100)))),
+                    context,
+                    borderColor: getOurBlueAreaColor(100),
+                    borderWith: 2,
+                    isShadowNeeded: true,
+                  ),
+                  materialElevatedButtonArea(
+                    ElevatedButton(
+                      onPressed: () {
+                        changeType = &#39;update&#39;;
+                        apiAskForActionChange(temp);
+                      },
+                      child: const Text(&#39;Update&#39;,
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                    context,
+                    primaryColor: getOurBlueAreaColor(100),
+                    borderWith: 1,
+                    borderColor: getOurBlueAreaColor(100),
+                    isShadowNeeded: true,
+                  ),
+                ],
+              )
+            ])));
+        actionListDisplay.add(const SizedBox(
+          height: 20,
+        ));
       }
     }
+    &#47;&#47;updateIsActionPreviewClosed();
   }
 
+  &#47;&#47;&#47; Get reactionListDisplay
   if (createdArea != null &amp;&amp; createdArea!.reactionList.isNotEmpty) {
     for (var temp in createdArea!.reactionList) {
       if (_reactionCreationState != 2 ||
           temp != createdArea!.reactionList.last) {
-        reactionListDisplay.add(Column(children: [
-          temp.display(true, createUpdate),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                  onPressed: () {
-                    changeType = &#39;update&#39;;
-                    apiAskForReactionChange(temp);
-                  },
-                  child: const Text(&#39;Update&#39;)),
-              ElevatedButton(
-                  onPressed: () {
-                    changeType = &#39;delete&#39;;
-                    apiAskForReactionChange(temp);
-                    setState(() {
-                      createdArea!.reactionList.remove(temp);
-                    });
-                  },
-                  child: const Text(&#39;Delete&#39;))
-            ],
-          )
-        ]));
+        reactionListDisplay.add(Container(
+            padding: const EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+                color: Colors.transparent,
+                border: Border.all(color: Colors.black),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0),
+                  bottomLeft: Radius.circular(10.0),
+                  bottomRight: Radius.circular(10.0),
+                )),
+            child: Column(children: [
+              temp.displayReactionModificationView(createUpdate),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  materialElevatedButtonArea(
+                    ElevatedButton(
+                        onPressed: () {
+                          changeType = &#39;delete&#39;;
+                          apiAskForReactionChange(temp);
+                          setState(() {
+                            createdArea!.reactionList.remove(temp);
+                          });
+                        },
+                        child: Text(&#39;Delete&#39;,
+                            style:
+                                TextStyle(color: getOurBlueAreaColor(100)))),
+                    context,
+                    borderColor: getOurBlueAreaColor(100),
+                    borderWith: 2,
+                    isShadowNeeded: true,
+                  ),
+                  materialElevatedButtonArea(
+                    ElevatedButton(
+                        onPressed: () {
+                          changeType = &#39;update&#39;;
+                          apiAskForReactionChange(temp);
+                        },
+                        child: const Text(&#39;Update&#39;,
+                            style: TextStyle(color: Colors.white))),
+                    context,
+                    primaryColor: getOurBlueAreaColor(100),
+                    borderWith: 1,
+                    borderColor: getOurBlueAreaColor(100),
+                    isShadowNeeded: true,
+                  ),
+                ],
+              )
+            ])));
+        reactionListDisplay.add(const SizedBox(
+          height: 20,
+        ));
       }
     }
+    &#47;&#47;updateIsReactionPreviewClosed();
   }
 
   return Scaffold(
       body: SingleChildScrollView(
-          child: Container(
-    margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: &lt;Widget&gt;[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: &lt;Widget&gt;[
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    createdArea = null;
-                    _createdAreaSave = null;
-                    actionSetting = false;
-                    goToHomePage(context);
-                  });
-                },
-                icon: const Icon(Icons.home_filled)),
-            Text(
-              createdArea != null ? createdArea!.name : &#39;&#39;,
-              style: const TextStyle(fontFamily: &#39;Roboto-Bold&#39;, fontSize: 20),
-            )
-          ],
-        ),
-        const SizedBox(
-          height: 30,
-        ),
-        if (actionSetting)
-          Column(children: [
-            &#47;&#47;&#47; Block Action
-            const Text(
-              &#39;Action&#39;,
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-
-            Column(children: actionListDisplay),
-            displayActionViewToCreateAnArea(),
-
-            const SizedBox(
-              height: 30,
-            ),
-
-            &#47;&#47;&#47; Block Reaction
-            const Text(
-              &#39;Reaction&#39;,
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-
-            Column(children: reactionListDisplay),
-            displayReactionViewToCreateAnArea()
-          ])
-        else
-          Column(children: [
-            TextFormField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: &#39;Area Name&#39;,
-              ),
-              initialValue: createdArea != null ? createdArea!.name : &#39;&#39;,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (String? value) {
-                createdArea!.name = value!;
-                return null;
-              },
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: &#39;Area Description&#39;,
-              ),
-              initialValue:
-                  createdArea != null ? createdArea!.description : &#39;&#39;,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (String? value) {
-                createdArea!.description = value!;
-                return null;
-              },
-            ),
-            Switch(
-              value: createdArea != null ? createdArea!.isEnable : true,
-              activeColor: Colors.blue,
-              onChanged: (bool value) {
-                setState(() {
-                  createdArea!.isEnable = value;
-                });
-              },
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Text(&quot;OR&quot;),
-                Switch(
-                  value: createdArea != null
-                      ? createdArea!.logicalGate == &#39;OR&#39;
-                          ? false
-                          : true
-                      : false,
-                  activeColor: Colors.green,
-                  onChanged: (bool value) {
-                    setState(() {
-                      createdArea!.logicalGate = value == true ? &#39;AND&#39; : &#39;OR&#39;;
-                    });
-                  },
-                ),
-                const Text(&quot;AND&quot;),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                    onPressed: (() {
-                      _createdAreaSave = AreaData.clone(createdArea!);
-                      apiAskForAreaChange();
+    child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: &lt;Widget&gt;[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: &lt;Widget&gt;[
+                  IconButton(
+                    onPressed: () {
                       setState(() {
-                        actionSetting = true;
+                        createdArea = null;
+                        _createdAreaSave = null;
+                        actionSetting = false;
+                        goToHomePage(context);
                       });
-                    }),
-                    child: Text(
-                        &quot;$changeType ${createdArea != null ? createdArea!.name : &#39;&#39;}&quot;)),
-                if (changeType != &#39;create&#39;)
-                  ElevatedButton(
-                      onPressed: (() {
-                        changeType = &#39;delete&#39;;
-                        apiAskForAreaChange();
-                      }),
-                      child: Text(
-                          &quot;Delete ${createdArea != null ? createdArea!.name : &#39;&#39;}&quot;))
-              ],
-            )
-          ]),
-        Text(_apiErrorMessage != null ? _apiErrorMessage! : &#39;&#39;)
-      ],
-    ),
-  )));
+                    },
+                    icon: const Icon(Icons.home_filled),
+                    color: getOurBlueAreaColor(100),
+                  ),
+                  Text(
+                    createdArea != null ? createdArea!.name : &#39;&#39;,
+                    style: const TextStyle(
+                        fontFamily: &#39;Roboto-Bold&#39;, fontSize: 20),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              if (actionSetting)
+                Column(children: [
+                  &#47;&#47;&#47; Block Action
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          createdArea!.actionList.length &gt;= 2
+                              ? &#39;Actions&#39;
+                              : &#39;Action&#39;,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        if (!_isDisplayActions &amp;&amp;
+                            createdArea!.actionList.isNotEmpty)
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _isDisplayActions = true;
+                                  for (var temp in createdArea!.actionList) {
+                                    temp.isPreviewDisplayMax = false;
+                                  }
+                                });
+                              },
+                              icon: Icon(
+                                Icons.remove_red_eye_outlined,
+                                color: getOurBlueAreaColor(100),
+                              )),
+                        if (_isDisplayActions &amp;&amp;
+                            createdArea!.actionList.isNotEmpty)
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _isDisplayActions = false;
+                                  for (var temp in createdArea!.actionList) {
+                                    temp.isPreviewDisplayMax = true;
+                                  }
+                                });
+                              },
+                              icon: Icon(
+                                Icons.remove_red_eye,
+                                color: getOurBlueAreaColor(100),
+                                shadows: const [
+                                  Shadow(color: Colors.black, blurRadius: 0.4)
+                                ],
+                              )),
+                      ]),
+
+                  Column(children: actionListDisplay),
+                  displayNewActionSelectionView(),
+                  const SizedBox(
+                    height: 30,
+                  ),
+
+                  &#47;&#47;&#47; Block Reaction
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          createdArea!.reactionList.length &gt;= 2
+                              ? &#39;Reactions&#39;
+                              : &#39;Reaction&#39;,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        if (!_isDisplayReactions &amp;&amp;
+                            createdArea!.reactionList.isNotEmpty)
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _isDisplayReactions = true;
+                                  for (var temp
+                                      in createdArea!.reactionList) {
+                                    temp.isPreviewDisplayMax = false;
+                                  }
+                                });
+                              },
+                              icon: Icon(
+                                Icons.remove_red_eye_outlined,
+                                color: getOurBlueAreaColor(100),
+                              )),
+                        if (_isDisplayReactions &amp;&amp;
+                            createdArea!.reactionList.isNotEmpty)
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _isDisplayReactions = false;
+                                  for (var temp
+                                      in createdArea!.reactionList) {
+                                    temp.isPreviewDisplayMax = true;
+                                  }
+                                });
+                              },
+                              icon: Icon(
+                                Icons.remove_red_eye,
+                                color: getOurBlueAreaColor(100),
+                                shadows: const [
+                                  Shadow(color: Colors.black, blurRadius: 0.4)
+                                ],
+                              )),
+                      ]),
+                  Column(children: reactionListDisplay),
+                  displayNewReactionSelectionView()
+                ])
+              else
+                Container(
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border.all(color: Colors.black),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10.0),
+                          topRight: Radius.circular(10.0),
+                          bottomLeft: Radius.circular(10.0),
+                          bottomRight: Radius.circular(10.0),
+                        )),
+                    child: Column(children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(&quot;Available&quot;),
+                          Switch(
+                            value: createdArea != null
+                                ? createdArea!.isEnable
+                                : true,
+                            activeColor: Colors.blue,
+                            onChanged: (bool value) {
+                              setState(() {
+                                createdArea!.isEnable = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: &#39;Area Name&#39;,
+                        ),
+                        initialValue:
+                            createdArea != null ? createdArea!.name : &#39;&#39;,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (String? value) {
+                          if (value!.length &gt; 15) {
+                            return &#39;Name is too long.&#39;;
+                          }
+                          createdArea!.name = value;
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: &#39;Area Description&#39;,
+                        ),
+                        initialValue: createdArea != null
+                            ? createdArea!.description
+                            : &#39;&#39;,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (String? value) {
+                          if (value!.length &gt; 20) {
+                            return &#39;Name is too long.&#39;;
+                          }
+                          createdArea!.description = value;
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: &lt;Widget&gt;[
+                            &#47;&#47; ToggleButtons with a single selection.
+                            const Text(
+                                &quot;Condition to activate this Area with many Actions : &quot;),
+                            const SizedBox(height: 5),
+                            ToggleButtons(
+                              direction: isSelected
+                                  ? Axis.vertical
+                                  : Axis.horizontal,
+                              onPressed: (int index) {
+                                setState(() {
+                                  &#47;&#47; The button that is tapped is set to true, and the others to false.
+                                  for (int i = 0;
+                                      i &lt; _selectedActionCondition.length;
+                                      i++) {
+                                    _selectedActionCondition[i] = i == index;
+                                  }
+                                  createdArea!.logicalGate =
+                                      index == 0 ? &#39;OR&#39; : &#39;AND&#39;;
+                                });
+                              },
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                              selectedBorderColor: Colors.blue[700],
+                              selectedColor: Colors.white,
+                              fillColor: Colors.blue[200],
+                              color: Colors.blue[400],
+                              constraints: const BoxConstraints(
+                                minHeight: 40.0,
+                                minWidth: 80.0,
+                              ),
+                              isSelected: _selectedActionCondition,
+                              children: listActionCondition,
+                            ),
+                            const SizedBox(height: 5),
+                            ToggleButtons(
+                              direction: isSelected
+                                  ? Axis.vertical
+                                  : Axis.horizontal,
+                              onPressed: (int index) {
+                                setState(() {
+                                  for (int i = 0;
+                                      i &lt; _selectedPrimaryColor.length;
+                                      i++) {
+                                    _selectedPrimaryColor[i] = i == index;
+                                    if (i == index) {
+                                      createdArea!.primaryColor =
+                                          &#39;#${(listPrimaryColor[i] as Icon).color!.value.toRadixString(16).substring(2, 8)}&#39;;
+                                    }
+                                  }
+                                });
+                              },
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                              constraints: const BoxConstraints(
+                                minHeight: 40.0,
+                                minWidth: 60.0,
+                              ),
+                              isSelected: _selectedPrimaryColor,
+                              children: listPrimaryColor,
+                            ),
+                            const SizedBox(height: 5),
+                            ToggleButtons(
+                              direction: isSelected
+                                  ? Axis.vertical
+                                  : Axis.horizontal,
+                              onPressed: (int index) {
+                                setState(() {
+                                  for (int i = 0;
+                                      i &lt; _selectedSecondaryColor.length;
+                                      i++) {
+                                    _selectedSecondaryColor[i] = i == index;
+                                    if (i == index) {
+                                      createdArea!.secondaryColor =
+                                          &#39;#${(listSecondaryColor[i] as Icon).color!.value.toRadixString(16).substring(2, 8)}&#39;;
+                                    }
+                                  }
+                                });
+                              },
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                              constraints: const BoxConstraints(
+                                minHeight: 40.0,
+                                minWidth: 60.0,
+                              ),
+                              isSelected: _selectedSecondaryColor,
+                              children: listSecondaryColor,
+                            ),
+                            const SizedBox(height: 5),
+                            ToggleButtons(
+                              direction: isSelected
+                                  ? Axis.vertical
+                                  : Axis.horizontal,
+                              onPressed: (int index) {
+                                setState(() {
+                                  for (int i = 0;
+                                      i &lt; _selectedIcon.length;
+                                      i++) {
+                                    _selectedIcon[i] = i == index;
+                                    if (i == index) {
+                                      createdArea!.iconPath =
+                                          (listIcon[i] as Image)
+                                              .key
+                                              .toString()
+                                              .replaceFirst(&quot;[&lt;&#39;&quot;, &quot;&quot;)
+                                              .replaceFirst(&quot;&#39;&gt;]&quot;, &quot;&quot;);
+                                    }
+                                  }
+                                });
+                              },
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                              constraints: const BoxConstraints(
+                                minHeight: 40.0,
+                                minWidth: 42.0,
+                              ),
+                              isSelected: _selectedIcon,
+                              children: listIcon,
+                            ),
+                          ]),
+                    ])),
+              const SizedBox(
+                height: 10,
+              ),
+
+              &#47;&#47;&#47; Update and delete Area
+              if ((changeType == &#39;update&#39; &amp;&amp; !actionSetting) ||
+                  changeType == &#39;create&#39;)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    if (changeType != &#39;create&#39;)
+                      materialElevatedButtonArea(
+                        ElevatedButton(
+                          onPressed: (() {
+                            changeType = &#39;delete&#39;;
+                            apiAskForAreaChange();
+                          }),
+                          child: Text(
+                              &quot;Delete ${createdArea != null ? createdArea!.name : &#39;&#39;}&quot;,
+                              style:
+                                  TextStyle(color: getOurBlueAreaColor(100))),
+                        ),
+                        context,
+                        isShadowNeeded: true,
+                        borderWith: 2,
+                        borderColor: getOurBlueAreaColor(100),
+                      ),
+                    materialElevatedButtonArea(
+                      ElevatedButton(
+                          onPressed: (() {
+                            _createdAreaSave = AreaData.clone(createdArea!);
+                            apiAskForAreaChange();
+                            setState(() {
+                              actionSetting = true;
+                            });
+                          }),
+                          child: Text(
+                              &quot;$changeType ${createdArea != null ? createdArea!.name : &#39;&#39;}&quot;,
+                              style: const TextStyle(color: Colors.white))),
+                      context,
+                      isShadowNeeded: true,
+                      primaryColor: getOurBlueAreaColor(100),
+                      borderWith: 1,
+                      borderColor: getOurBlueAreaColor(100),
+                    ),
+                  ],
+                ),
+              Text(_apiErrorMessage != null ? _apiErrorMessage! : &#39;&#39;)
+            ])),
+  ));
 }</code></pre>
 </section>
 
@@ -422,6 +720,7 @@ Widget build(BuildContext context) {
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/actionSetting.html">actionSetting</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/context.html">context</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/isSelected.html">isSelected</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/mounted.html">mounted</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/widget.html">widget</a></li>
@@ -434,18 +733,24 @@ Widget build(BuildContext context) {
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/build.html">build</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/chooseAnAction.html">chooseAnAction</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/chooseAReaction.html">chooseAReaction</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/configureAnActionDisplay.html">configureAnActionDisplay</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/configureAReactionDisplay.html">configureAReactionDisplay</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/createUpdate.html">createUpdate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/displayActionViewToCreateAnArea.html">displayActionViewToCreateAnArea</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/displayReactionViewToCreateAnArea.html">displayReactionViewToCreateAnArea</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/displayNewActionSelectionView.html">displayNewActionSelectionView</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/displayNewReactionSelectionView.html">displayNewReactionSelectionView</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/initState.html">initState</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/leavePage.html">leavePage</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/selectAnActionDisplay.html">selectAnActionDisplay</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/selectAReactionDisplay.html">selectAReactionDisplay</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/selectAServiceActionDisplay.html">selectAServiceActionDisplay</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/selectAServiceReactionDisplay.html">selectAServiceReactionDisplay</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toDiagnosticsNode.html">toDiagnosticsNode</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html">toString</a></li>
@@ -455,8 +760,14 @@ Widget build(BuildContext context) {
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
 
 
+        <li class="section-title"><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html#static-properties">Static properties</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listIcon.html">listIcon</a></li>
 
 
+        <li class="section-title"><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html#constants">Constants</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listActionCondition-constant.html">listActionCondition</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listPrimaryColor-constant.html">listPrimaryColor</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listSecondaryColor-constant.html">listSecondaryColor</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->

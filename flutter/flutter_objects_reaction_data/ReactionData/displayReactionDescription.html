@@ -59,7 +59,7 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a>?</span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
 <span class="name ">displayReactionDescription</span>(<wbr>)
 
       
@@ -67,23 +67,25 @@
     </section>
     
 <section class="desc markdown">
-  <p>Function to display reaction description</p>
+  <p>This function display the description of Reaction</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Widget? displayReactionDescription() {
-  if (isEnable) {
-    return Column(
-      children: &lt;Widget&gt;[
-        Text(description),
-      ],
-    );
-  } else {
-    return null;
-  }
+  <pre class="language-dart"><code class="language-dart">Widget displayReactionDescription() {
+  List&lt;Widget&gt; paramWid = &lt;Widget&gt;[];
+  paramWid.add(
+    Column(crossAxisAlignment: CrossAxisAlignment.center, children: &lt;Widget&gt;[
+      Text(
+        description,
+        style: const TextStyle(color: Colors.black, fontSize: 14),
+      ),
+    ]),
+  );
+  return Column(
+      crossAxisAlignment: CrossAxisAlignment.center, children: paramWid);
 }</code></pre>
 </section>
 
@@ -122,6 +124,7 @@
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
           <li><a href="../../flutter_objects_reaction_data/ReactionData/id.html">id</a></li>
           <li><a href="../../flutter_objects_reaction_data/ReactionData/isEnable.html">isEnable</a></li>
+          <li><a href="../../flutter_objects_reaction_data/ReactionData/isPreviewDisplayMax.html">isPreviewDisplayMax</a></li>
           <li><a href="../../flutter_objects_reaction_data/ReactionData/name.html">name</a></li>
           <li><a href="../../flutter_objects_reaction_data/ReactionData/parameters.html">parameters</a></li>
           <li><a href="../../flutter_objects_reaction_data/ReactionData/parametersContent.html">parametersContent</a></li>
@@ -129,8 +132,8 @@
           <li><a href="../../flutter_objects_reaction_data/ReactionData/serviceId.html">serviceId</a></li>
 
         <li class="section-title"><a href="../../flutter_objects_reaction_data/ReactionData-class.html#instance-methods">Methods</a></li>
-          <li><a href="../../flutter_objects_reaction_data/ReactionData/display.html">display</a></li>
           <li><a href="../../flutter_objects_reaction_data/ReactionData/displayReactionDescription.html">displayReactionDescription</a></li>
+          <li><a href="../../flutter_objects_reaction_data/ReactionData/displayReactionModificationView.html">displayReactionModificationView</a></li>
           <li><a href="../../flutter_objects_reaction_data/ReactionData/displayReactionName.html">displayReactionName</a></li>
           <li><a href="../../flutter_objects_reaction_data/ReactionData/displayReactionWithInfo.html">displayReactionWithInfo</a></li>
           <li><a href="../../flutter_objects_reaction_data/ReactionData/getAllParameterContent.html">getAllParameterContent</a></li>

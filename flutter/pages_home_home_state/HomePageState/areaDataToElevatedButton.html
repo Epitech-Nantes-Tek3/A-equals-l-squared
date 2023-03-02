@@ -83,10 +83,12 @@
           createdArea = AreaData.clone(areaData);
           goToUpdateAreaPage(context);
         },
-        child: areaData.display(false, null)),
+        child: areaData.display(false, null, false, false)),
+    context,
+    sizeOfButton: 2.5,
     isShadowNeeded: true,
-    paddingHorizontal: 30,
-    paddingVertical: 30,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
     borderRadius: 10,
     borderWith: 3,
     borderColor: areaBorderColor,
@@ -141,6 +143,8 @@
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
           <li><a href="../../pages_home_home_state/HomePageState/homeSync.html">homeSync</a></li>
           <li><a href="../../pages_home_home_state/HomePageState/initState.html">initState</a></li>
+          <li><a href="../../pages_home_home_state/HomePageState/isDesktop.html">isDesktop</a></li>
+          <li><a href="../../pages_home_home_state/HomePageState/isMobile.html">isMobile</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>

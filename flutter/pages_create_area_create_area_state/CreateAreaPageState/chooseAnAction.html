@@ -66,6 +66,9 @@
 
     </section>
     
+<section class="desc markdown">
+  <p>This function call all function to select a new Action views</p>
+</section>
 
 
     
@@ -74,131 +77,92 @@
   <pre class="language-dart"><code class="language-dart">List&lt;Widget&gt; chooseAnAction() {
   List&lt;Widget&gt; createAnAction = &lt;Widget&gt;[];
 
+  &#47;&#47;&#47; Select a Service Action
   if (_isChoosingAnAction == true &amp;&amp; _actionCreationState == 0) {
-    createAnAction.add(const Text(&quot;Choose your Action service&quot;));
-    for (var temp in serviceDataList) {
-      if (temp.actions.isEmpty) {
-        continue;
-      }
-      createAnAction.add(
-        const SizedBox(
-          height: 10,
-        ),
-      );
-      createAnAction.add(ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-            side: const BorderSide(width: 3, color: Colors.white),
-
-            &#47;&#47;&#47; Change when DB is Up
-            primary: Colors.white,
-          ),
-          onPressed: () {
-            setState(() {
-              _createdAreaSave = AreaData.clone(createdArea!);
-              createdArea!.serviceId = ServiceData.clone(temp);
-              _actionCreationState = 1;
-            });
-          },
-          child: temp.display()));
-      createAnAction.add(
-        const SizedBox(
-          height: 10,
-        ),
-      );
-    }
+    createAnAction.add(Row(
+      children: const [
+        Text(&#39;Add a new Action : Choose your Service&#39;,
+            style: TextStyle(fontSize: 16)),
+      ],
+    ));
+    createAnAction.add(selectAServiceActionDisplay());
   }
+
+  &#47;&#47;&#47;Select an Action
   if (_actionCreationState == 1) {
-    createAnAction.add(Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const &lt;Widget&gt;[Text(&quot;Choose your Action&quot;)]));
-    createAnAction.add(
-      const SizedBox(
-        height: 30,
-      ),
-    );
-    for (var temp in createdArea!.serviceId!.actions) {
-      createAnAction.add(ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            side: const BorderSide(width: 3, color: Colors.white),
-
-            &#47;&#47;&#47; Change when DB is Up
-            primary: Colors.white,
-          ),
-          onPressed: () {
-            setState(() {
-              _createdAreaSave = AreaData.clone(createdArea!);
-              createdArea!.actionList.add(ActionData.clone(temp));
-              for (var tmp in temp.parameters) {
-                createdArea!.actionList.last.parametersContent.add(
-                    ParameterContent(paramId: tmp.id, value: &quot;&quot;, id: &#39;&#39;));
-              }
-              _actionCreationState = 2;
-            });
-          },
-          child: temp.display(false, createUpdate)));
-      createAnAction.add(
-        const SizedBox(
-          height: 10,
-        ),
-      );
-    }
+    createAnAction.add(Row(
+      children: const [
+        Text(&#39;Add a new Action : Choose your Action&#39;,
+            style: TextStyle(fontSize: 16)),
+      ],
+    ));
+    createAnAction.add(selectAnActionDisplay());
   }
 
+  &#47;&#47;&#47; Configure the chosen Action
   if (_actionCreationState == 2) {
-    createAnAction.add(const Text(&quot;Configure your Action&quot;));
-    createAnAction.add(
-      const SizedBox(
-        height: 10,
-      ),
-    );
-    createAnAction
-        .add(createdArea!.actionList.last.display(true, createUpdate));
-    createAnAction.add(
-      const SizedBox(
-        height: 10,
-      ),
-    );
-    createAnAction.add(ElevatedButton(
-        onPressed: () {
-          setState(() {
-            bool isRequired = true;
-            _createdAreaSave = AreaData.clone(createdArea!);
-            for (var temp in createdArea!.actionList.last.parameters) {
-              if (temp.isRequired &amp;&amp; temp.matchedContent!.value == &quot;&quot;) {
-                isRequired = false;
-              }
-            }
-            if (isRequired) {
-              _actionCreationState = 0;
-
-              changeType = &#39;create&#39;;
-              apiAskForActionChange(createdArea!.actionList.last);
-              _isChoosingAnAction = false;
-            }
-          });
-        },
-        child: const Text(&quot;Validate&quot;)));
+    createAnAction.add(Row(
+      children: const [
+        Text(&#39;Add a new Action : Configure your new Action&#39;,
+            style: TextStyle(fontSize: 16)),
+      ],
+    ));
+    createAnAction.add(configureAnActionDisplay());
   }
 
+  &#47;&#47;&#47; Buttons
   if (_isChoosingAnAction) {
     createAnAction
         .add(Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      ElevatedButton(
-        key: const Key(&#39;CreateActionPreviousButton&#39;),
-        onPressed: () {
-          setState(() {
-            createdArea = AreaData.clone(_createdAreaSave!);
-            if (_actionCreationState == 0) {
-              _isChoosingAnAction = false;
-              _actionCreationState = 0;
-            }
-            _actionCreationState -= 1;
-          });
-        },
-        child: const Text(&#39;Previous&#39;),
+      materialElevatedButtonArea(
+        ElevatedButton(
+          key: const Key(&#39;CreateActionPreviousButton&#39;),
+          onPressed: () {
+            setState(() {
+              createdArea = AreaData.clone(_createdAreaSave!);
+              if (_actionCreationState == 0) {
+                _isChoosingAnAction = false;
+                _actionCreationState = 0;
+              }
+              _actionCreationState -= 1;
+            });
+          },
+          child: Text(&#39;Previous&#39;,
+              style: TextStyle(color: getOurBlueAreaColor(100))),
+        ),
+        context,
+        borderColor: getOurBlueAreaColor(100),
+        borderWith: 2,
+        isShadowNeeded: true,
       ),
+      if (_actionCreationState == 2)
+        materialElevatedButtonArea(
+          ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  bool isRequired = true;
+                  _createdAreaSave = AreaData.clone(createdArea!);
+                  for (var temp in createdArea!.actionList.last.parameters) {
+                    if (temp.isRequired &amp;&amp; temp.matchedContent!.value == &quot;&quot;) {
+                      isRequired = false;
+                    }
+                  }
+                  if (isRequired) {
+                    _actionCreationState = 0;
+                    changeType = &#39;create&#39;;
+                    apiAskForActionChange(createdArea!.actionList.last);
+                    _isChoosingAnAction = false;
+                  }
+                });
+              },
+              child: const Text(&quot;Validate&quot;,
+                  style: TextStyle(color: Colors.white))),
+          context,
+          primaryColor: getOurBlueAreaColor(100),
+          borderWith: 1,
+          borderColor: getOurBlueAreaColor(100),
+          isShadowNeeded: true,
+        ),
     ]));
   }
   return createAnAction;
@@ -236,6 +200,7 @@
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/actionSetting.html">actionSetting</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/context.html">context</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/isSelected.html">isSelected</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/mounted.html">mounted</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/widget.html">widget</a></li>
@@ -248,18 +213,24 @@
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/build.html">build</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/chooseAnAction.html">chooseAnAction</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/chooseAReaction.html">chooseAReaction</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/configureAnActionDisplay.html">configureAnActionDisplay</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/configureAReactionDisplay.html">configureAReactionDisplay</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/createUpdate.html">createUpdate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/displayActionViewToCreateAnArea.html">displayActionViewToCreateAnArea</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/displayReactionViewToCreateAnArea.html">displayReactionViewToCreateAnArea</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/displayNewActionSelectionView.html">displayNewActionSelectionView</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/displayNewReactionSelectionView.html">displayNewReactionSelectionView</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/initState.html">initState</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/leavePage.html">leavePage</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/selectAnActionDisplay.html">selectAnActionDisplay</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/selectAReactionDisplay.html">selectAReactionDisplay</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/selectAServiceActionDisplay.html">selectAServiceActionDisplay</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/selectAServiceReactionDisplay.html">selectAServiceReactionDisplay</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toDiagnosticsNode.html">toDiagnosticsNode</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html">toString</a></li>
@@ -269,8 +240,14 @@
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
 
 
+        <li class="section-title"><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html#static-properties">Static properties</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listIcon.html">listIcon</a></li>
 
 
+        <li class="section-title"><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html#constants">Constants</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listActionCondition-constant.html">listActionCondition</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listPrimaryColor-constant.html">listPrimaryColor</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listSecondaryColor-constant.html">listSecondaryColor</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->

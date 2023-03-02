@@ -133,6 +133,17 @@
 
 </dd>
 
+        <dt id="isSelected" class="property">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/isSelected.html">isSelected</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> 
+
+</dt>
+<dd>
+  To know if a button isSelected
+  <div class="features"><span class="feature">read / write</span></div>
+
+</dd>
+
         <dt id="mounted" class="property inherited">
   <span class="name"><a href="https://api.flutter.dev/flutter/widgets/State/mounted.html">mounted</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> 
@@ -249,20 +260,46 @@ removed via <a href="https://api.flutter.dev/flutter/widgets/State/deactivate.ht
 
 </dt>
 <dd>
-  
+  This function call all function to select a new Action views
   
 
 </dd>
 
         <dt id="chooseAReaction" class="callable">
   <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/chooseAReaction.html">chooseAReaction</a></span><span class="signature">(<wbr>)
-    <span class="returntype parameter">&#8594; dynamic</span>
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
+  This function call all function to select a new Reaction views
   
+
+</dd>
+
+        <dt id="configureAnActionDisplay" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/configureAnActionDisplay.html">configureAnActionDisplay</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  This function display the configuration Action widget view
+  
+
+</dd>
+
+        <dt id="configureAReactionDisplay" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/configureAReactionDisplay.html">configureAReactionDisplay</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  This function display the configuration Reaction widget view
   
 
 </dd>
@@ -333,28 +370,28 @@ object -&gt; Object who's calling the function
 
 </dd>
 
-        <dt id="displayActionViewToCreateAnArea" class="callable">
-  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/displayActionViewToCreateAnArea.html">displayActionViewToCreateAnArea</a></span><span class="signature">(<wbr>)
+        <dt id="displayNewActionSelectionView" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/displayNewActionSelectionView.html">displayNewActionSelectionView</a></span><span class="signature">(<wbr>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
   </span>
   
 
 </dt>
 <dd>
-  
+  This function display new selection Action view (create an Action and the selection of a new Action)
   
 
 </dd>
 
-        <dt id="displayReactionViewToCreateAnArea" class="callable">
-  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/displayReactionViewToCreateAnArea.html">displayReactionViewToCreateAnArea</a></span><span class="signature">(<wbr>)
+        <dt id="displayNewReactionSelectionView" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/displayNewReactionSelectionView.html">displayNewReactionSelectionView</a></span><span class="signature">(<wbr>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
   </span>
   
 
 </dt>
 <dd>
-  
+  This function display new selection Reaction view (create a Reaction and the selection of a new Reaction)
   
 
 </dd>
@@ -422,6 +459,58 @@ object -&gt; Object who's calling the function
   Called whenever the application is reassembled during debugging, for
 example during hot reload.
   <div class="features"><span class="feature">inherited</span></div>
+
+</dd>
+
+        <dt id="selectAnActionDisplay" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/selectAnActionDisplay.html">selectAnActionDisplay</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  This function display the selection Action widget view
+  
+
+</dd>
+
+        <dt id="selectAReactionDisplay" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/selectAReactionDisplay.html">selectAReactionDisplay</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  This function display the selection Reaction widget view
+  
+
+</dd>
+
+        <dt id="selectAServiceActionDisplay" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/selectAServiceActionDisplay.html">selectAServiceActionDisplay</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  This function display the selection Service Action widget view
+  
+
+</dd>
+
+        <dt id="selectAServiceReactionDisplay" class="callable">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/selectAServiceReactionDisplay.html">selectAServiceReactionDisplay</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  This function display the selection Service Reaction widget view
+  
 
 </dd>
 
@@ -503,9 +592,77 @@ tools and by <a href="https://api.flutter.dev/flutter/foundation/DiagnosticsNode
     </dl>
   </section>
     
+  <section class="summary offset-anchor" id="static-properties">
+    <h2>Static Properties</h2>
+
+    <dl class="properties">
+        <dt id="listIcon" class="property">
+  <span class="name"><a href="../pages_create_area_create_area_state/CreateAreaPageState/listIcon.html">listIcon</a></span>
+  <span class="signature">&#8596; <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>&gt;</span></span> 
+
+</dt>
+<dd>
+  List all icons for Area modification
+  <div class="features"><span class="feature">read / write</span></div>
+
+</dd>
+
+    </dl>
+  </section>
     
     
 
+  <section class="summary offset-anchor" id="constants">
+    <h2>Constants</h2>
+
+    <dl class="properties">
+        <dt id="listActionCondition" class="constant">
+    <span class="name "><a href="../pages_create_area_create_area_state/CreateAreaPageState/listActionCondition-constant.html">listActionCondition</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>&gt;</span></span>
+  
+
+</dt>
+<dd>
+  List to know all button
+  
+
+    <div>
+      <span class="signature"><code>&lt;Widget&gt;[Text(&#39;Or&#39;), Text(&#39;And&#39;)]</code></span>
+    </div>
+</dd>
+
+        <dt id="listPrimaryColor" class="constant">
+    <span class="name "><a href="../pages_create_area_create_area_state/CreateAreaPageState/listPrimaryColor-constant.html">listPrimaryColor</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>&gt;</span></span>
+  
+
+</dt>
+<dd>
+  List all primary color for Area modification
+  
+
+    <div>
+      <span class="signature"><code>&lt;Widget&gt;[Icon(Icons.color_lens, color: Colors.green), Icon(Icons.color_lens, color: Colors.blue), Icon(Icons.color_lens, color: Colors.red), Icon(Icons.color_lens, color: Colors.amber), Icon(Ico…</code></span>
+    </div>
+</dd>
+
+        <dt id="listSecondaryColor" class="constant">
+    <span class="name "><a href="../pages_create_area_create_area_state/CreateAreaPageState/listSecondaryColor-constant.html">listSecondaryColor</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>&gt;</span></span>
+  
+
+</dt>
+<dd>
+  List all secondary color for Area modification
+  
+
+    <div>
+      <span class="signature"><code>&lt;Widget&gt;[Icon(Icons.color_lens_outlined, color: Colors.green), Icon(Icons.color_lens_outlined, color: Colors.blue), Icon(Icons.color_lens_outlined, color: Colors.red), Icon(Icons.color_lens_outl…</code></span>
+    </div>
+</dd>
+
+    </dl>
+  </section>
 
   </div> <!-- /.main-content -->
 
@@ -552,6 +709,7 @@ tools and by <a href="https://api.flutter.dev/flutter/foundation/DiagnosticsNode
           <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/actionSetting.html">actionSetting</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/context.html">context</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/isSelected.html">isSelected</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/mounted.html">mounted</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/widget.html">widget</a></li>
@@ -564,18 +722,24 @@ tools and by <a href="https://api.flutter.dev/flutter/foundation/DiagnosticsNode
           <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/build.html">build</a></li>
           <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/chooseAnAction.html">chooseAnAction</a></li>
           <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/chooseAReaction.html">chooseAReaction</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/configureAnActionDisplay.html">configureAnActionDisplay</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/configureAReactionDisplay.html">configureAReactionDisplay</a></li>
           <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/createUpdate.html">createUpdate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/deactivate.html">deactivate</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/debugFillProperties.html">debugFillProperties</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didChangeDependencies.html">didChangeDependencies</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/didUpdateWidget.html">didUpdateWidget</a></li>
-          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/displayActionViewToCreateAnArea.html">displayActionViewToCreateAnArea</a></li>
-          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/displayReactionViewToCreateAnArea.html">displayReactionViewToCreateAnArea</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/displayNewActionSelectionView.html">displayNewActionSelectionView</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/displayNewReactionSelectionView.html">displayNewReactionSelectionView</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
           <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/initState.html">initState</a></li>
           <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/leavePage.html">leavePage</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/selectAnActionDisplay.html">selectAnActionDisplay</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/selectAReactionDisplay.html">selectAReactionDisplay</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/selectAServiceActionDisplay.html">selectAServiceActionDisplay</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/selectAServiceReactionDisplay.html">selectAServiceReactionDisplay</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toDiagnosticsNode.html">toDiagnosticsNode</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html">toString</a></li>
@@ -585,8 +749,14 @@ tools and by <a href="https://api.flutter.dev/flutter/foundation/DiagnosticsNode
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
 
 
+        <li class="section-title"><a href="../pages_create_area_create_area_state/CreateAreaPageState-class.html#static-properties">Static properties</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/listIcon.html">listIcon</a></li>
 
 
+        <li class="section-title"><a href="../pages_create_area_create_area_state/CreateAreaPageState-class.html#constants">Constants</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/listActionCondition-constant.html">listActionCondition</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/listPrimaryColor-constant.html">listPrimaryColor</a></li>
+          <li><a href="../pages_create_area_create_area_state/CreateAreaPageState/listSecondaryColor-constant.html">listSecondaryColor</a></li>
 </ol>
 
   </div><!--/.sidebar-offcanvas-->

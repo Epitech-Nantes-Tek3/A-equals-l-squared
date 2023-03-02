@@ -67,7 +67,7 @@
     </section>
     
 <section class="desc markdown">
-  <p>THis function display all Areas in Tab</p>
+  <p>This function display all Areas in Tab</p>
 </section>
 
 
@@ -77,7 +77,6 @@
   <pre class="language-dart"><code class="language-dart">List&lt;Widget&gt; createTabOfAreas() {
   List&lt;Widget&gt; areaVis = &lt;Widget&gt;[];
   late AreaData tempArea;
-
   var count = 1;
 
   for (var temp in areaDataList) {
@@ -94,7 +93,8 @@
   }
   if (count % 2 == 0) {
     areaVis.add(createRowOfAreas(
-        areaDataToElevatedButton(tempArea, Colors.deepOrange), null));
+        areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor()),
+        null));
   }
   return areaVis;
 }</code></pre>
@@ -147,6 +147,8 @@
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
           <li><a href="../../pages_home_home_state/HomePageState/homeSync.html">homeSync</a></li>
           <li><a href="../../pages_home_home_state/HomePageState/initState.html">initState</a></li>
+          <li><a href="../../pages_home_home_state/HomePageState/isDesktop.html">isDesktop</a></li>
+          <li><a href="../../pages_home_home_state/HomePageState/isMobile.html">isMobile</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>

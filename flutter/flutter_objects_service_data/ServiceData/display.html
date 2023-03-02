@@ -82,9 +82,10 @@
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: &lt;Widget&gt;[
-          const Icon(
-            Icons.square,
-            color: Colors.black,
+          Image.asset(
+            icon != &#39;&#39; ? icon : &#39;.&#47;assets&#47;icons&#47;Area_Logo.png&#39;,
+            height: 30,
+            width: 30,
           ),
           const SizedBox(
             width: 30,
@@ -95,8 +96,9 @@
               children: &lt;Widget&gt;[
                 Text(
                   name,
-                  style:
-                      TextStyle(color: isEnabled ? Colors.green : Colors.red),
+                  style: TextStyle(
+                      color: Color(
+                          int.parse(primaryColor.replaceFirst(&quot;#&quot;, &quot;0xff&quot;)))),
                 ),
                 &#47;&#47; Change when icon are in DB
                 Text(
