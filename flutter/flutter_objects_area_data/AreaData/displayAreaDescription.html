@@ -76,10 +76,9 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Widget? displayAreaDescription() {
   if (isEnable) {
-    &#47;&#47;&#47; Add &#39; &amp;&amp; description != null &#39; when is in DB
     return Column(
       children: &lt;Widget&gt;[
-        Text(description != null ? description! : &#39;No description&#39;),
+        Text(description != null ? description! : getSentence(&#39;AREA-07&#39;)),
       ],
     );
   } else {

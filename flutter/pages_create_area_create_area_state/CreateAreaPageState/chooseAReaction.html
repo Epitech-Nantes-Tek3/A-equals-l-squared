@@ -84,9 +84,8 @@
   &#47;&#47;&#47; Select a Service Reaction
   if (_isChoosingAReaction == true &amp;&amp; _reactionCreationState == 0) {
     createAReaction.add(Row(
-      children: const [
-        Text(&#39;Add a new Reaction : Select a Service&#39;,
-            style: TextStyle(fontSize: 16)),
+      children: [
+        Text(getSentence(&#39;CREATE-11&#39;), style: const TextStyle(fontSize: 16)),
       ],
     ));
     createAReaction.add(selectAServiceReactionDisplay());
@@ -95,9 +94,8 @@
   &#47;&#47;&#47; Select a Reaction
   if (_reactionCreationState == 1) {
     createAReaction.add(Row(
-      children: const [
-        Text(&#39;Add a new Reaction : Reaction selection&#39;,
-            style: TextStyle(fontSize: 16)),
+      children: [
+        Text(getSentence(&#39;CREATE-12&#39;), style: const TextStyle(fontSize: 16)),
       ],
     ));
     createAReaction.add(selectAReactionDisplay());
@@ -106,9 +104,8 @@
   &#47;&#47;&#47; Configure a Reaction
   if (_reactionCreationState == 2) {
     createAReaction.add(Row(
-      children: const [
-        Text(&#39;Add a new Reaction : Reaction configuration&#39;,
-            style: TextStyle(fontSize: 16)),
+      children: [
+        Text(getSentence(&#39;CREATE-13&#39;), style: const TextStyle(fontSize: 16)),
       ],
     ));
     createAReaction.add(configureAReactionDisplay());
@@ -131,7 +128,7 @@
               _reactionCreationState -= 1;
             });
           },
-          child: Text(&#39;Previous&#39;,
+          child: Text(getSentence(&#39;CREATE-14&#39;),
               style: TextStyle(color: getOurBlueAreaColor(100))),
         ),
         context,
@@ -217,11 +214,11 @@
 
 
         <li class="section-title"><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html#static-properties">Static properties</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listActionCondition.html">listActionCondition</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listIcon.html">listIcon</a></li>
 
 
         <li class="section-title"><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html#constants">Constants</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listActionCondition-constant.html">listActionCondition</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listPrimaryColor-constant.html">listPrimaryColor</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listSecondaryColor-constant.html">listSecondaryColor</a></li>
 </ol>

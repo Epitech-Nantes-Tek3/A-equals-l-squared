@@ -190,37 +190,37 @@ Widget build(BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: &lt;Widget&gt;[
                   displayLogoAndName(),
-                  const Text(
-                    &#39;Welcome to Signup page !&#39;,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  Text(
+                    getSentence(&#39;SIGNUP-02&#39;),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                   getHostConfigField(),
                   TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: &#39;Username&#39;,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: getSentence(&#39;SIGNUP-05&#39;),
                     ),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (String? value) {
                       if (value != null &amp;&amp; value.length &lt;= 4) {
-                        return &#39;Username must be min 5 characters long.&#39;;
+                        return getSentence(&#39;SIGNUP-06&#39;);
                       }
                       _username = value;
                       return null;
                     },
                   ),
                   TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: &#39;E-mail&#39;,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: getSentence(&#39;SIGNUP-07&#39;),
                     ),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (String? value) {
                       if (value != null &amp;&amp;
                           !RegExp(r&quot;^[a-zA-Z0-9.a-zA-Z0-9.!#$%&amp;&#39;*+-&#47;=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+&quot;)
                               .hasMatch(value)) {
-                        return &#39;Must be a valid email.&#39;;
+                        return getSentence(&#39;SIGNUP-08&#39;);
                       }
                       _email = value;
                       return null;
@@ -228,14 +228,14 @@ Widget build(BuildContext context) {
                   ),
                   TextFormField(
                     obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: &#39;Password&#39;,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: getSentence(&#39;SIGNUP-09&#39;),
                     ),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (String? value) {
                       if (value != null &amp;&amp; value.length &lt;= 7) {
-                        return &#39;Password must be min 8 characters long.&#39;;
+                        return getSentence(&#39;SIGNUP-10&#39;);
                       }
                       _password = value;
                       return null;
@@ -259,14 +259,14 @@ Widget build(BuildContext context) {
                         _futureSignup = apiAskForSignup();
                       });
                     },
-                    child: const Text(&#39;Signup&#39;),
+                    child: Text(getSentence(&#39;SIGNUP-03&#39;)),
                   ),
                   TextButton(
                     key: const Key(&#39;GoLoginButton&#39;),
                     onPressed: () {
                       goToLoginPage(context);
                     },
-                    child: const Text(&#39;Back to login screen...&#39;),
+                    child: Text(getSentence(&#39;SIGNUP-04&#39;)),
                   ),
                 ],
               ))));

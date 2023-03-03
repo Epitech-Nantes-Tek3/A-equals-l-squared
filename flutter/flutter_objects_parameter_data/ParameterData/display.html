@@ -122,7 +122,10 @@ previous -&gt; Previous displayed parameter</p>
     ),
     Row(
       children: [
-        Text(isRequired ? &#39;$description *: &#39; : &#39;$description : &#39;,
+        Text(
+            isRequired
+                ? &#39;$description${getSentence(&#39;PARAM-01-01&#39;)}&#39;
+                : &#39;$description${getSentence(&#39;PARAM-01-02&#39;)}&#39;,
             style: const TextStyle(fontSize: 12)),
       ],
     ),

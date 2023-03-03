@@ -213,7 +213,7 @@ Widget build(BuildContext context) {
                             createdArea!.actionList.remove(temp);
                           });
                         },
-                        child: Text(&#39;Delete&#39;,
+                        child: Text(getSentence(&#39;CREATE-16&#39;),
                             style:
                                 TextStyle(color: getOurBlueAreaColor(100)))),
                     context,
@@ -227,8 +227,8 @@ Widget build(BuildContext context) {
                         changeType = &#39;update&#39;;
                         apiAskForActionChange(temp);
                       },
-                      child: const Text(&#39;Update&#39;,
-                          style: TextStyle(color: Colors.white)),
+                      child: Text(getSentence(&#39;CREATE-17&#39;),
+                          style: const TextStyle(color: Colors.white)),
                     ),
                     context,
                     primaryColor: getOurBlueAreaColor(100),
@@ -277,7 +277,7 @@ Widget build(BuildContext context) {
                             createdArea!.reactionList.remove(temp);
                           });
                         },
-                        child: Text(&#39;Delete&#39;,
+                        child: Text(getSentence(&#39;CREATE-18&#39;),
                             style:
                                 TextStyle(color: getOurBlueAreaColor(100)))),
                     context,
@@ -291,8 +291,8 @@ Widget build(BuildContext context) {
                           changeType = &#39;update&#39;;
                           apiAskForReactionChange(temp);
                         },
-                        child: const Text(&#39;Update&#39;,
-                            style: TextStyle(color: Colors.white))),
+                        child: Text(getSentence(&#39;CREATE-19&#39;),
+                            style: const TextStyle(color: Colors.white))),
                     context,
                     primaryColor: getOurBlueAreaColor(100),
                     borderWith: 1,
@@ -350,8 +350,8 @@ Widget build(BuildContext context) {
                       children: [
                         Text(
                           createdArea!.actionList.length &gt;= 2
-                              ? &#39;Actions&#39;
-                              : &#39;Action&#39;,
+                              ? getSentence(&#39;CREATE-20-01&#39;)
+                              : getSentence(&#39;CREATE-20-02&#39;),
                           style: const TextStyle(fontSize: 20),
                         ),
                         if (!_isDisplayActions &amp;&amp;
@@ -401,8 +401,8 @@ Widget build(BuildContext context) {
                       children: [
                         Text(
                           createdArea!.reactionList.length &gt;= 2
-                              ? &#39;Reactions&#39;
-                              : &#39;Reaction&#39;,
+                              ? getSentence(&#39;CREATE-21-01&#39;)
+                              : getSentence(&#39;CREATE-21-02&#39;),
                           style: const TextStyle(fontSize: 20),
                         ),
                         if (!_isDisplayReactions &amp;&amp;
@@ -460,7 +460,7 @@ Widget build(BuildContext context) {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(&quot;Available&quot;),
+                          Text(getSentence(&#39;CREATE-22&#39;)),
                           Switch(
                             value: createdArea != null
                                 ? createdArea!.isEnable
@@ -478,16 +478,16 @@ Widget build(BuildContext context) {
                         height: 20,
                       ),
                       TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: &#39;Area Name&#39;,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText: getSentence(&#39;CREATE-25&#39;),
                         ),
                         initialValue:
                             createdArea != null ? createdArea!.name : &#39;&#39;,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (String? value) {
                           if (value!.length &gt; 15) {
-                            return &#39;Name is too long.&#39;;
+                            return getSentence(&#39;CREATE-26&#39;);
                           }
                           createdArea!.name = value;
                           return null;
@@ -495,9 +495,9 @@ Widget build(BuildContext context) {
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: &#39;Area Description&#39;,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText: getSentence(&#39;CREATE-27&#39;),
                         ),
                         initialValue: createdArea != null
                             ? createdArea!.description
@@ -505,7 +505,7 @@ Widget build(BuildContext context) {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (String? value) {
                           if (value!.length &gt; 20) {
-                            return &#39;Name is too long.&#39;;
+                            return getSentence(&#39;CREATE-28&#39;);
                           }
                           createdArea!.description = value;
                           return null;
@@ -517,8 +517,7 @@ Widget build(BuildContext context) {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: &lt;Widget&gt;[
                             &#47;&#47; ToggleButtons with a single selection.
-                            const Text(
-                                &quot;Condition to activate this Area with many Actions : &quot;),
+                            Text(getSentence(&#39;CREATE-23&#39;)),
                             const SizedBox(height: 5),
                             ToggleButtons(
                               direction: isSelected
@@ -654,7 +653,7 @@ Widget build(BuildContext context) {
                             apiAskForAreaChange();
                           }),
                           child: Text(
-                              &quot;Delete ${createdArea != null ? createdArea!.name : &#39;&#39;}&quot;,
+                              &quot;${getSentence(&#39;CREATE-24&#39;)}${createdArea != null ? createdArea!.name : &#39;&#39;}&quot;,
                               style:
                                   TextStyle(color: getOurBlueAreaColor(100))),
                         ),
@@ -761,11 +760,11 @@ Widget build(BuildContext context) {
 
 
         <li class="section-title"><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html#static-properties">Static properties</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listActionCondition.html">listActionCondition</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listIcon.html">listIcon</a></li>
 
 
         <li class="section-title"><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html#constants">Constants</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listActionCondition-constant.html">listActionCondition</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listPrimaryColor-constant.html">listPrimaryColor</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listSecondaryColor-constant.html">listSecondaryColor</a></li>
 </ol>

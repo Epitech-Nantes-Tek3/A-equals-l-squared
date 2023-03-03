@@ -82,15 +82,15 @@
         height: 10,
       ),
       TextFormField(
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: &#39;Username&#39;,
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: getSentence(&#39;SETT-08&#39;),
         ),
         initialValue: _username,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (String? value) {
           if (value != null &amp;&amp; value.length &lt;= 4) {
-            return &#39;Username must be min 5 characters long.&#39;;
+            return getSentence(&#39;SETT-09&#39;);
           }
           _username = value;
           return null;
@@ -100,9 +100,9 @@
         height: 10,
       ),
       TextFormField(
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: &#39;E-mail&#39;,
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: getSentence(&#39;SETT-10&#39;),
         ),
         initialValue: _email,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -110,7 +110,7 @@
           if (value != null &amp;&amp;
               !RegExp(r&quot;^[a-zA-Z0-9.a-zA-Z0-9.!#$%&amp;&#39;*+-&#47;=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+&quot;)
                   .hasMatch(value)) {
-            return &#39;Must be a valid email.&#39;;
+            return getSentence(&#39;SETT-11&#39;);
           }
           _email = value;
           return null;
@@ -121,15 +121,15 @@
       ),
       TextFormField(
         obscureText: true,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: &#39;Password&#39;,
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: getSentence(&#39;SETT-12&#39;),
         ),
         initialValue: _password,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (String? value) {
           if (value != null &amp;&amp; value.length &lt;= 7) {
-            return &#39;Password must be min 8 characters long.&#39;;
+            return getSentence(&#39;SETT-13&#39;);
           }
           _password = value;
           return null;
@@ -194,10 +194,12 @@
           <li><a href="../../pages_settings_settings_state/SettingsPageState/getAFirstApiAnswer.html">getAFirstApiAnswer</a></li>
           <li><a href="../../pages_settings_settings_state/SettingsPageState/goToAuthPage.html">goToAuthPage</a></li>
           <li><a href="../../pages_settings_settings_state/SettingsPageState/initState.html">initState</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/languageVisualization.html">languageVisualization</a></li>
           <li><a href="../../pages_settings_settings_state/SettingsPageState/modifierButtons.html">modifierButtons</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li><a href="../../pages_settings_settings_state/SettingsPageState/parameterButtonView.html">parameterButtonView</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/saveSelectedLanguage.html">saveSelectedLanguage</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toDiagnosticsNode.html">toDiagnosticsNode</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html">toString</a></li>

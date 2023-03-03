@@ -95,8 +95,8 @@
       const SizedBox(height: 20),
       Text(
         description == null
-            ? &#39;Description : \n\n No description&#39;
-            : &#39;Description : \n\n $description&#39;,
+            ? &#39;${getSentence(&quot;AREA-01&quot;)}${getSentence(&quot;AREA-02&quot;)}&#39;
+            : &#39;$getSentence(&quot;AREA-01)$description&#39;,
         style: const TextStyle(color: Colors.black),
       )
 

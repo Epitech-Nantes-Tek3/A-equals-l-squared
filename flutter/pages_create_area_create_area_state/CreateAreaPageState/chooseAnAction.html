@@ -80,9 +80,8 @@
   &#47;&#47;&#47; Select a Service Action
   if (_isChoosingAnAction == true &amp;&amp; _actionCreationState == 0) {
     createAnAction.add(Row(
-      children: const [
-        Text(&#39;Add a new Action : Choose your Service&#39;,
-            style: TextStyle(fontSize: 16)),
+      children: [
+        Text(getSentence(&#39;CREATE-04&#39;), style: const TextStyle(fontSize: 16)),
       ],
     ));
     createAnAction.add(selectAServiceActionDisplay());
@@ -91,9 +90,8 @@
   &#47;&#47;&#47;Select an Action
   if (_actionCreationState == 1) {
     createAnAction.add(Row(
-      children: const [
-        Text(&#39;Add a new Action : Choose your Action&#39;,
-            style: TextStyle(fontSize: 16)),
+      children: [
+        Text(getSentence(&#39;CREATE-05&#39;), style: const TextStyle(fontSize: 16)),
       ],
     ));
     createAnAction.add(selectAnActionDisplay());
@@ -102,9 +100,8 @@
   &#47;&#47;&#47; Configure the chosen Action
   if (_actionCreationState == 2) {
     createAnAction.add(Row(
-      children: const [
-        Text(&#39;Add a new Action : Configure your new Action&#39;,
-            style: TextStyle(fontSize: 16)),
+      children: [
+        Text(getSentence(&#39;CREATE-06&#39;), style: const TextStyle(fontSize: 16)),
       ],
     ));
     createAnAction.add(configureAnActionDisplay());
@@ -127,7 +124,7 @@
               _actionCreationState -= 1;
             });
           },
-          child: Text(&#39;Previous&#39;,
+          child: Text(getSentence(&#39;CREATE-07&#39;),
               style: TextStyle(color: getOurBlueAreaColor(100))),
         ),
         context,
@@ -155,8 +152,8 @@
                   }
                 });
               },
-              child: const Text(&quot;Validate&quot;,
-                  style: TextStyle(color: Colors.white))),
+              child: Text(getSentence(&#39;CREATE-08&#39;),
+                  style: const TextStyle(color: Colors.white))),
           context,
           primaryColor: getOurBlueAreaColor(100),
           borderWith: 1,
@@ -241,11 +238,11 @@
 
 
         <li class="section-title"><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html#static-properties">Static properties</a></li>
+          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listActionCondition.html">listActionCondition</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listIcon.html">listIcon</a></li>
 
 
         <li class="section-title"><a href="../../pages_create_area_create_area_state/CreateAreaPageState-class.html#constants">Constants</a></li>
-          <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listActionCondition-constant.html">listActionCondition</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listPrimaryColor-constant.html">listPrimaryColor</a></li>
           <li><a href="../../pages_create_area_create_area_state/CreateAreaPageState/listSecondaryColor-constant.html">listSecondaryColor</a></li>
 </ol>

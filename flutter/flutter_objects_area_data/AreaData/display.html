@@ -83,8 +83,8 @@ update -&gt; Function pointer used for update the state</p>
   <pre class="language-dart"><code class="language-dart">Widget display(bool mode, Function? update, bool isReactionPreviewClosed,
     bool isActionPreviewClosed) {
   List&lt;Widget&gt; listDisplay = &lt;Widget&gt;[];
-  List&lt;Widget&gt; actionListDisplay = &lt;Widget&gt;[const Text(&quot;Actions&quot;)];
-  List&lt;Widget&gt; reactionListDisplay = &lt;Widget&gt;[const Text(&quot;Reactions&quot;)];
+  List&lt;Widget&gt; actionListDisplay = &lt;Widget&gt;[Text(getSentence(&#39;AREA-03&#39;))];
+  List&lt;Widget&gt; reactionListDisplay = &lt;Widget&gt;[Text(getSentence(&#39;AREA-04&#39;))];
   if (mode) {
     for (var temp in actionList) {
       actionListDisplay.add(temp.displayActionModificationView(update));
@@ -97,8 +97,8 @@ update -&gt; Function pointer used for update the state</p>
         Row(children: &lt;Widget&gt;[
           Text(
             (isEnable
-                ? &#39;Area : $name is activated&#39;
-                : &#39;Area : $name is disabled&#39;),
+                ? &#39;${getSentence(&#39;AREA-05-01&#39;)}$name${getSentence(&#39;AREA-05-02&#39;)}&#39;
+                : &#39;${getSentence(&#39;AREA-05-01&#39;)}$name${getSentence(&#39;AREA-05-03&#39;)}&#39;),
             style: TextStyle(
                 color: isEnable ? Colors.green : Colors.red, fontSize: 20),
           ),
@@ -127,7 +127,7 @@ update -&gt; Function pointer used for update the state</p>
     try {
       listDisplay.add(displayAreaPreview());
     } catch (err) {
-      listDisplay.add(const Text(&quot;Please logout and login.&quot;));
+      listDisplay.add(Text(getSentence(&#39;AREA-06&#39;)));
     }
   }
   return Column(

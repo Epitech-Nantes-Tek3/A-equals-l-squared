@@ -77,17 +77,21 @@
   <pre class="language-dart"><code class="language-dart">Widget displayAllParameterButtons() {
   return Column(children: &lt;Widget&gt;[
     const SizedBox(height: 30),
-    parameterButtonView(Icons.manage_accounts_rounded, &#39;User information&#39;, 1),
+    parameterButtonView(
+        Icons.manage_accounts_rounded, getSentence(&#39;SETT-04&#39;), 1),
     const SizedBox(height: 20),
-    parameterButtonView(Icons.app_settings_alt_sharp, &#39;Data management&#39;, 2),
+    parameterButtonView(
+        Icons.app_settings_alt_sharp, getSentence(&#39;SETT-05&#39;), 2),
     const SizedBox(height: 20),
-    parameterButtonView(Icons.language, &#39;Language&#39;, 3),
+    parameterButtonView(Icons.language, getSentence(&#39;SETT-06&#39;), 3),
     const SizedBox(height: 20),
-    parameterButtonView(Icons.notifications_active, &#39;Notification&#39;, 4),
+    parameterButtonView(
+        Icons.notifications_active, getSentence(&#39;SETT-07&#39;), 4),
     const SizedBox(height: 20),
-    parameterButtonView(Icons.connect_without_contact, &#39;Auth&#39;, 5),
+    parameterButtonView(
+        Icons.connect_without_contact, getSentence(&#39;SETT-15&#39;), 5),
     const SizedBox(height: 20),
-    parameterButtonView(Icons.logout, &#39;Logout&#39;, 84),
+    parameterButtonView(Icons.logout, getSentence(&#39;SETT-16&#39;), 84),
   ]);
 }</code></pre>
 </section>
@@ -142,10 +146,12 @@
           <li><a href="../../pages_settings_settings_state/SettingsPageState/getAFirstApiAnswer.html">getAFirstApiAnswer</a></li>
           <li><a href="../../pages_settings_settings_state/SettingsPageState/goToAuthPage.html">goToAuthPage</a></li>
           <li><a href="../../pages_settings_settings_state/SettingsPageState/initState.html">initState</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/languageVisualization.html">languageVisualization</a></li>
           <li><a href="../../pages_settings_settings_state/SettingsPageState/modifierButtons.html">modifierButtons</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li><a href="../../pages_settings_settings_state/SettingsPageState/parameterButtonView.html">parameterButtonView</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
+          <li><a href="../../pages_settings_settings_state/SettingsPageState/saveSelectedLanguage.html">saveSelectedLanguage</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toDiagnosticsNode.html">toDiagnosticsNode</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html">toString</a></li>

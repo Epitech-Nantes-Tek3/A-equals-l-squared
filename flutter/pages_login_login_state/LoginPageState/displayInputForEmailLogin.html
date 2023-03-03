@@ -86,7 +86,7 @@
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5.0),
           ),
-          labelText: &#39;E-mail&#39;,
+          labelText: getSentence(&#39;LOGIN-09&#39;),
         ),
         initialValue: _email,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -94,7 +94,7 @@
           if (value != null &amp;&amp;
               !RegExp(r&quot;^[a-zA-Z0-9.a-zA-Z0-9.!#$%&amp;&#39;*+-&#47;=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+&quot;)
                   .hasMatch(value)) {
-            return &#39;Must be a valid email.&#39;;
+            return getSentence(&#39;LOGIN-10&#39;);
           }
           _email = value;
           return null;
@@ -106,14 +106,14 @@
       if (_isConnexionWithEmail == true)
         TextFormField(
           obscureText: true,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: &#39;Password&#39;,
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: getSentence(&#39;LOGIN-11&#39;),
           ),
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (String? value) {
             if (value != null &amp;&amp; value.length &lt;= 7) {
-              return &#39;Password must be min 8 characters long.&#39;;
+              return getSentence(&#39;LOGIN-12&#39;);
             }
             _password = value;
             return null;
@@ -187,6 +187,7 @@
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/getAFirstLoginAnswer.html">getAFirstLoginAnswer</a></li>
           <li><a href="../../pages_login_login_state/LoginPageState/initState.html">initState</a></li>
+          <li><a href="../../pages_login_login_state/LoginPageState/loadSelectedLanguage.html">loadSelectedLanguage</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>

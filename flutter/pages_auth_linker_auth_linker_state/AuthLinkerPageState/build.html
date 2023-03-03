@@ -192,7 +192,7 @@ Widget build(BuildContext context) {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: &lt;Widget&gt;[
-                    const Text(&#39;Welcome to Auth Linker page&#39;),
+                    Text(getSentence(&#39;AUTHLINK-01&#39;)),
                     displayAuthBox(),
                     FutureBuilder&lt;String&gt;(
                       future: _futureApiResponse,
@@ -220,7 +220,7 @@ Widget build(BuildContext context) {
                           goToSettingsPage(context);
                         });
                       },
-                      child: const Text(&#39;Go back settings&#39;),
+                      child: Text(getSentence(&#39;AUTHLINK-02&#39;)),
                     ),
                   ],
                 ),

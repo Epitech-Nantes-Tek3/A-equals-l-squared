@@ -224,16 +224,16 @@ Widget build(BuildContext context) {
                 Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: &lt;Widget&gt;[
-                      const Text(&#39;All Areas&#39;,
-                          style: TextStyle(
+                      Text(getSentence(&#39;HOME-01&#39;),
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 28,
                               fontFamily: &#39;Roboto-Bold&#39;)),
                       const SizedBox(height: 10),
                       TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: &#39;Search an Area&#39;,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText: getSentence(&#39;HOME-03&#39;),
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (String? value) {
@@ -263,7 +263,7 @@ Widget build(BuildContext context) {
                         goToServiceListPage(context);
                       });
                     },
-                    child: const Text(&#39;Service List&#39;),
+                    child: Text(getSentence(&#39;HOME-02&#39;)),
                   ),
                   context,
                   sizeOfButton: 4,
