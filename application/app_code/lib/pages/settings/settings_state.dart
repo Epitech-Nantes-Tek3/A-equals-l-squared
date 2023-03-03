@@ -124,7 +124,8 @@ class SettingsPageState extends State<SettingsPage> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (String? value) {
             if (value != null &&
-                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                !RegExp(
+                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(value)) {
               return getSentence('SETT-11');
             }
@@ -183,7 +184,7 @@ class SettingsPageState extends State<SettingsPage> {
             setState(() {});
           },
           items:
-              availableLanguage.map<DropdownMenuItem<String>>((String value) {
+          availableLanguage.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(value),
@@ -239,9 +240,10 @@ class SettingsPageState extends State<SettingsPage> {
           Icons.app_settings_alt_sharp, getSentence('SETT-05'), 2),
       const SizedBox(height: 20),
       parameterButtonView(Icons.language, getSentence('SETT-06'), 3),
-      const SizedBox(height: 20),
-      parameterButtonView(
-          Icons.notifications_active, getSentence('SETT-07'), 4),
+      /// if (user is admin)
+      Column(children: [const SizedBox(height: 20),
+        parameterButtonView(
+            Icons.admin_panel_settings, 'Admin Panel', 4),],),
       const SizedBox(height: 20),
       parameterButtonView(
           Icons.connect_without_contact, getSentence('SETT-15'), 5),
@@ -277,12 +279,21 @@ class SettingsPageState extends State<SettingsPage> {
       );
     }
     if (_settingPage == 4) {
-      return Text(
-        getSentence('SETT-07'),
-        style: const TextStyle(fontSize: 20),
+      return const Text(
+        'Admin panel',
+        style: TextStyle(fontSize: 20),
       );
     }
     return const Text('');
+  }
+
+  Widget adminDataVisualization() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: const [
+        Text('Admin panel'),
+      ],
+    );
   }
 
   /// This function choose what Settings View display depends on _settingsPage
@@ -291,68 +302,12 @@ class SettingsPageState extends State<SettingsPage> {
     if (_settingPage == 1) return userDataVisualization();
     if (_settingPage == 2) return userDataVisualization();
     if (_settingPage == 3) return languageVisualization();
-    if (_settingPage == 4) return userDataVisualization();
+    if (_settingPage == 4 ) {  /// && User is admin
+      return adminDataVisualization();
+    }
     if (_settingPage == 5) return goToAuthPage(context);
     if (_settingPage == 84) return userDataVisualization();
     return const Text('');
-  }
-
-  Widget goToAuthPage(context) {
-    goToAuthLinkerPage(context);
-    return const Text('');
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
-            child: Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (_settingPage == 0) {
-                                    goToHomePage(context);
-                                  } else {
-                                    _settingPage = 0;
-                                  }
-                                });
-                              },
-                              icon: _settingPage == 0
-                                  ? const Icon(Icons.home_filled)
-                                  : const Icon(Icons.arrow_back_ios),
-                              color: Colors.black),
-                          const SizedBox(
-                            width: 30,
-                          ),
-                          displaySettingsHeader(),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      displaySettingsViews(),
-                      FutureBuilder<String>(
-                        future: _futureAnswer,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Text(snapshot.data!);
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
-                          }
-                          return const CircularProgressIndicator();
-                        },
-                      ),
-                    ],
-                  ),
-                ))));
   }
 
   /// This function display all settings which can manage by users
@@ -397,5 +352,56 @@ class SettingsPageState extends State<SettingsPage> {
         borderRadius: 10,
         paddingHorizontal: 20,
         paddingVertical: 20);
+  }
+
+  Widget goToAuthPage(context) {
+    goToAuthLinkerPage(context);
+    return const Text('');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: SingleChildScrollView(
+            child: Container(
+                margin:
+                const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (_settingPage == 0) {
+                                    goToHomePage(context);
+                                  } else {
+                                    _settingPage = 0;
+                                  }
+                                });
+                              },
+                              icon: const Icon(Icons.arrow_back_ios),
+                              color: Colors.black),
+                          displaySettingsHeader(),
+                        ],
+                      ),
+                      displaySettingsViews(),
+                      FutureBuilder<String>(
+                        future: _futureAnswer,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(snapshot.data!);
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+                          return const CircularProgressIndicator();
+                        },
+                      ),
+                    ],
+                  ),
+                ))));
   }
 }
