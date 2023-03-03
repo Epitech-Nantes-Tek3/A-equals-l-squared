@@ -83,6 +83,9 @@ module.exports = function (app, passport, database) {
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
+        if (!('actionId' in req.body) || !req.body.actionId) {
+          return res.status(400).json({ error: 'Bad request' })
+        }
         const area = await database.prisma.AREA.findUnique({
           where: {
             id: req.params.areaId
@@ -94,7 +97,7 @@ module.exports = function (app, passport, database) {
         if (!area || area.userId !== req.user.id)
           return res.status(404).json({ error: 'Area not found' })
 
-        const action = await database.prisma.ACTION.findUnique({
+        const action = await database.prisma.Action.findUnique({
           where: {
             id: req.body.actionId
           }

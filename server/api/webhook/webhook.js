@@ -9,7 +9,7 @@ const axios = require('axios')
  * @param {Number} delay
  * @returns
  */
-function retryAction (action, retries = 3, delay = 3000) {
+const retryAction = (action, retries = 3, delay = 3000) => {
   return new Promise((resolve, reject) => {
     action()
       .then(resolve)
@@ -26,10 +26,10 @@ function retryAction (action, retries = 3, delay = 3000) {
 }
 
 /**
-  * Get the ngrok url.
+ * Get the ngrok url.
  * @returns {string} The ngrok url.
  */
-function get_ngrok_url () {
+const get_ngrok_url = () => {
   return new Promise((resolve, reject) => {
     axios
       .get('http://ngrok:4040/api/tunnels')
@@ -42,10 +42,44 @@ function get_ngrok_url () {
   })
 }
 
+/**
+ * Disable all AREAhasActions with a webhook.
+ * @param {Object} db The database object.
+ */
+const disableWebhookLink = async db => {
+  console.log('Disabling all AREAs with a webhook...')
+  const areas = await db.prisma.AREA.findMany({
+    where: {
+      Actions: {
+        some: {
+          Action: {
+            needWebhook: true
+          }
+        }
+      }
+    },
+    select: {
+      id: true
+    }
+  })
+  for await (const area of areas) {
+    await db.prisma.AREA.update({
+      where: {
+        id: area.id
+      },
+      data: {
+        isEnable: false
+      }
+    })
+  }
+  console.log('All AREAs with a webhook disabled.')
+}
+
 module.exports = async function (app, passport, db) {
   let ngrok_url
   try {
     console.log('Starting webhook service...')
+    await disableWebhookLink(db)
     ngrok_url = await retryAction(get_ngrok_url)
     console.log('Webhook service started, the public url is: ', ngrok_url)
   } catch (error) {
@@ -126,15 +160,4 @@ module.exports = async function (app, passport, db) {
       }
     }
   )
-
-  app.post('/api/webhook', function (req, res) {
-    try {
-      console.log('Webhook received new function call.')
-      console.log(req.body)
-      console.log('My ngrok url is: ', ngrok_url)
-    } catch (error) {
-      console.log('Webhooks error', error)
-    }
-    res.status(200).send('OK')
-  })
 }
