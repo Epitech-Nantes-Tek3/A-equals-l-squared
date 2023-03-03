@@ -13,11 +13,13 @@ void materialFunctionsTest() {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         ),
         home: Center(
-          child: materialElevatedButtonArea(ElevatedButton(
-            onPressed: () {},
-            key: const Key('TestingButton'),
-            child: const Text('testing'),
-          )),
+          child: materialElevatedButtonArea(
+              ElevatedButton(
+                onPressed: () {},
+                key: const Key('TestingButton'),
+                child: const Text('testing'),
+              ),
+              null),
         ),
       ),
     );

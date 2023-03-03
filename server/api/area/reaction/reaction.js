@@ -2,20 +2,49 @@
 
 module.exports = function (app, passport, database) {
   /**
-   * @api {get} /api/area/:areaId/reaction Get all reactions
-   * @apiParam {String} areaId Area id
-   * @apiSuccess {Object[]} reactions Reactions
-   * @apiSuccess {String} reactions.id Reaction id
-   * @apiSuccess {String} reactions.name Reaction name
-   * @apiSuccess {Boolean} reactions.isEnable Reaction isEnable
-   * @apiSuccess {Object[]} reactions.ReactionParameters Reaction parameters
-   * @apiSuccess {Object} reactions.ReactionParameters.Parameter Reaction parameter
-   * @apiSuccess {String} reactions.ReactionParameters.Parameter.id Parameter id
-   * @apiSuccess {String} reactions.ReactionParameters.Parameter.name Parameter name
-   * @apiSuccess {String} reactions.ReactionParameters.value Parameter value
-   * @apiFailure {String} error Error message
-   * @apiFailure {500} error Internal server error
-   * @apiFailure {404} error Area not found
+   * @swagger
+   * /api/area/{areaId}/reaction:
+   *   get:
+   *     tags: [Area/Reaction]
+   *     summary: Get all reactions for an area
+   *     description: Retrieve all reactions associated with a given area ID.
+   *     parameters:
+   *       - name: areaId
+   *         in: path
+   *         description: ID of the area to retrieve reactions for
+   *         required: true
+   *         schema:
+   *           type: string
+   *     responses:
+   *       200:
+   *         description: List of reactions
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 $ref: '#/components/schemas/Reaction'
+   *       404:
+   *         description: Area not found
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   example: Area not found
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *     security:
+   *       - bearerAuth: []
    */
   app.get(
     '/api/area/:areaId/reaction',
@@ -70,22 +99,67 @@ module.exports = function (app, passport, database) {
   )
 
   /**
-   * @api {get} /api/area/:areaId/reaction/:id Get reaction
-   * @apiParam {String} areaId Area id
-   * @apiParam {String} id id of a Reaction/Parameter set
-   * @apiSuccess {Object} reaction Reaction
-   * @apiSuccess {String} reaction.id Reaction id
-   * @apiSuccess {String} reaction.name Reaction name
-   * @apiSuccess {Boolean} reaction.isEnable Reaction isEnable
-   * @apiSuccess {Object[]} reaction.ReactionParameters Reaction parameters
-   * @apiSuccess {Object} reaction.ReactionParameters.Parameter Reaction parameter
-   * @apiSuccess {String} reaction.ReactionParameters.Parameter.id Parameter id
-   * @apiSuccess {String} reaction.ReactionParameters.Parameter.name Parameter name
-   * @apiSuccess {String} reaction.ReactionParameters.value Parameter value
-   * @apiFailure {String} error Error message
-   * @apiFailure {500} error Internal server error
-   * @apiFailure {404} error Area not found
-   * @apiFailure {404} error Reaction not found
+   * @swagger
+   * /api/area/{areaId}/reaction/{id}:
+   *   get:
+   *     tags: [Area/Reaction]
+   *     summary: Get a reaction
+   *     description: Get a specific reaction and its parameters for a given area
+   *     parameters:
+   *       - in: path
+   *         name: areaId
+   *         description: The ID of the area to retrieve the reaction from
+   *         required: true
+   *         schema:
+   *           type: string
+   *       - in: path
+   *         name: id
+   *         description: The ID of the reaction to retrieve
+   *         required: true
+   *         schema:
+   *           type: string
+   *     responses:
+   *       '200':
+   *         description: OK
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 Reaction:
+   *                   type: object
+   *                   properties:
+   *                     id:
+   *                       type: string
+   *                       description: The ID of the reaction
+   *                     name:
+   *                       type: string
+   *                       description: The name of the reaction
+   *                     isEnable:
+   *                       type: boolean
+   *                       description: Whether the reaction is enabled or not
+   *                 ReactionParameters:
+   *                   type: array
+   *                   description: An array of parameter objects for the reaction
+   *                   items:
+   *                     type: object
+   *                     properties:
+   *                       id:
+   *                         type: string
+   *                         description: The ID of the parameter
+   *                       Parameter:
+   *                         type: object
+   *                         properties:
+   *                           name:
+   *                             type: string
+   *                             description: The name of the parameter
+   *                       value:
+   *                         type: string
+   *                         description: The value of the parameter
+   *       '404':
+   *         description: Not found
+   *       '500':
+   *         description: Internal Server Error
    */
   app.get(
     '/api/area/:areaId/reaction/:id',
@@ -139,25 +213,76 @@ module.exports = function (app, passport, database) {
   )
 
   /**
-   * @api {post} /api/area/:areaId/reaction Create reaction
-   * @apiParam {String} areaId Area id
-   * @apiParam {String} reactionId Reaction id
-   * @apiParam {Object[]} reactionParameters Reaction parameters
-   * @apiParam {String} reactionParameters.id Parameter id
-   * @apiParam {String} reactionParameters.value Parameter value
-   * @apiSuccess {Object} reaction Reaction
-   * @apiSuccess {String} reaction.id Reaction id
-   * @apiSuccess {String} reaction.name Reaction name
-   * @apiSuccess {Boolean} reaction.isEnable Reaction isEnable
-   * @apiSuccess {Object[]} reaction.ReactionParameters Reaction parameters
-   * @apiSuccess {Object} reaction.ReactionParameters.Parameter Reaction parameter
-   * @apiSuccess {String} reaction.ReactionParameters.Parameter.id Parameter id
-   * @apiSuccess {String} reaction.ReactionParameters.Parameter.name Parameter name
-   * @apiSuccess {String} reaction.ReactionParameters.value Parameter value
-   * @apiFailure {String} error Error message
-   * @apiFailure {404} Area not found
-   * @apiFailure {404} Reaction not found
-   * @apiFailure {500} Internal server error
+   * @swagger
+   * /api/area/{areaId}/reaction:
+   *   post:
+   *     tags: [Area/Reaction]
+   *     summary: Create reaction
+   *     parameters:
+   *       - in: path
+   *         name: areaId
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: ID of the area
+   *       - in: body
+   *         name: reaction
+   *         description: Reaction object
+   *         required: true
+   *         schema:
+   *           type: object
+   *           properties:
+   *             reactionId:
+   *               type: string
+   *             reactionParameters:
+   *               type: array
+   *               items:
+   *                 type: object
+   *                 properties:
+   *                   id:
+   *                     type: string
+   *                   value:
+   *                     type: string
+   *     responses:
+   *       '200':
+   *         description: Successful operation
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 id:
+   *                   type: string
+   *                   description: Reaction id
+   *                 name:
+   *                   type: string
+   *                   description: Reaction name
+   *                 isEnable:
+   *                   type: boolean
+   *                   description: Reaction isEnable
+   *                 ReactionParameters:
+   *                   type: array
+   *                   items:
+   *                     type: object
+   *                     properties:
+   *                       Parameter:
+   *                         type: object
+   *                         properties:
+   *                           id:
+   *                             type: string
+   *                             description: Parameter id
+   *                           name:
+   *                             type: string
+   *                             description: Parameter name
+   *                       value:
+   *                         type: string
+   *                         description: Parameter value
+   *       '400':
+   *         description: Invalid input
+   *       '404':
+   *         description: Area or Reaction not found
+   *       '500':
+   *         description: Internal server error
    */
   app.post(
     '/api/area/:areaId/reaction',
@@ -235,20 +360,78 @@ module.exports = function (app, passport, database) {
   )
 
   /**
-   * @api {delete} /api/area/:areaId/reaction/:id Delete reaction
-   * @apiParam {String} areaId Area id
-   * @apiParam {String} id id of a Reaction/Parameter set
-   * @apiSuccess {Object} reaction Deleted reaction
-   * @apiSuccess {String} reaction.id Reaction id
-   * @apiSuccess {String} reaction.name Reaction name
-   * @apiSuccess {Boolean} reaction.isEnable Reaction isEnable
-   * @apiSuccess {Object[]} reaction.reactionParameters Reaction parameters
-   * @apiSuccess {String} reaction.reactionParameters.id Parameter id
-   * @apiSuccess {String} reaction.reactionParameters.name Parameter name
-   * @apiSuccess {String} reaction.reactionParameters.value Parameter value
-   * @apiFailure {404} Area not found
-   * @apiFailure {404} Reaction not found
-   * @apiFailure {500} Internal server error
+   * @swagger
+   *
+   * /api/area/{areaId}/reaction/{id}:
+   *   delete:
+   *     tags: [Area/Reaction]
+   *     summary: Delete reaction
+   *     description: Deletes a reaction with the specified id and its parameters for the area with the specified areaId
+   *     parameters:
+   *       - in: path
+   *         name: areaId
+   *         required: true
+   *         description: ID of the area
+   *         schema:
+   *           type: string
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         description: ID of the reaction/parameter set
+   *         schema:
+   *           type: string
+   *     responses:
+   *       200:
+   *         description: Deleted reaction
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 id:
+   *                   type: string
+   *                   description: ID of the reaction
+   *                 name:
+   *                   type: string
+   *                   description: Name of the reaction
+   *                 isEnable:
+   *                   type: boolean
+   *                   description: Specifies if the reaction is enabled
+   *                 reactionParameters:
+   *                   type: array
+   *                   description: An array of reaction parameters
+   *                   items:
+   *                     type: object
+   *                     properties:
+   *                       id:
+   *                         type: string
+   *                         description: ID of the parameter
+   *                       name:
+   *                         type: string
+   *                         description: Name of the parameter
+   *                       value:
+   *                         type: string
+   *                         description: Value of the parameter
+   *       404:
+   *         description: Area or Reaction not found
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: Error message
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: Error message
    */
   app.delete(
     '/api/area/:areaId/reaction/:id',
@@ -287,23 +470,92 @@ module.exports = function (app, passport, database) {
   )
 
   /**
-   * @api {put} /api/area/:areaId/reaction/:id Update reaction
-   * @apiParam {String} areaId Area id
-   * @apiParam {String} id id of a Reaction/Parameter set
-   * @apiParam {Object[]} reactionParameters Reaction parameters
-   * @apiParam {String} reactionParameters.id Parameter id
-   * @apiParam {String} reactionParameters.value Parameter value
-   * @apiSuccess {Object} reaction Updated reaction
-   * @apiSuccess {String} reaction.id Reaction id
-   * @apiSuccess {String} reaction.name Reaction name
-   * @apiSuccess {Boolean} reaction.isEnable Reaction isEnable
-   * @apiSuccess {Object[]} reaction.reactionParameters Reaction parameters
-   * @apiSuccess {String} reaction.reactionParameters.id Parameter id
-   * @apiSuccess {String} reaction.reactionParameters.name Parameter name
-   * @apiSuccess {String} reaction.reactionParameters.value Parameter value
-   * @apiFailure {404} Area not found
-   * @apiFailure {404} Reaction not found
-   * @apiFailure {500} Internal server error
+   * @swagger
+   * /api/area/{areaId}/reaction/{id}:
+   *   put:
+   *     tags: [Area/Reaction]
+   *     summary: Update reaction
+   *     description: Update a reaction with the specified ID in the area with the specified area ID
+   *     parameters:
+   *       - in: path
+   *         name: areaId
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: ID of the area to update the reaction in
+   *       - in: path
+   *         name: id
+   *         schema:
+   *           type: string
+   *         required: true
+   *         description: ID of the reaction to update
+   *       - in: body
+   *         name: reactionParameters
+   *         description: Reaction parameters to update
+   *         schema:
+   *           type: object
+   *           properties:
+   *             id:
+   *               type: string
+   *             value:
+   *               type: string
+   *           required:
+   *             - id
+   *             - value
+   *     responses:
+   *       '200':
+   *         description: Updated reaction
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 type: object
+   *                 properties:
+   *                   id:
+   *                     type: string
+   *                   name:
+   *                     type: string
+   *                   isEnable:
+   *                     type: boolean
+   *                   reactionParameters:
+   *                     type: array
+   *                     items:
+   *                       type: object
+   *                       properties:
+   *                         id:
+   *                           type: string
+   *                         name:
+   *                           type: string
+   *                         value:
+   *                           type: string
+   *       '400':
+   *         description: Incomplete body
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *       '404':
+   *         description: Area or Reaction not found
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *       '500':
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
    */
   app.put(
     '/api/area/:areaId/reaction/:id',
@@ -330,9 +582,9 @@ module.exports = function (app, passport, database) {
         if (!area.Reactions.find(reaction => reaction.id === req.params.id))
           return res.status(404).json({ error: 'Reaction not found' })
 
-        const response = new Promise((resolve, reject) => {
+        const response = new Promise(async (resolve, reject) => {
           let updatedReactionParameters = []
-          req.body.reactionParameters.forEach(async param => {
+          for await (let param of req.body.reactionParameters) {
             const a = await database.prisma.ReactionParameter.update({
               where: {
                 id: param.id
@@ -342,7 +594,7 @@ module.exports = function (app, passport, database) {
               }
             })
             updatedReactionParameters.push(a)
-          })
+          }
           resolve(updatedReactionParameters)
         })
         res.status(200).json(response)

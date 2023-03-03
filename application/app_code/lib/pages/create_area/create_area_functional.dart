@@ -22,7 +22,11 @@ void goToCreateAreaPage(BuildContext context) {
       actionList: [],
       reactionList: [],
       isEnable: true,
-      logicalGate: 'OR');
+      logicalGate: 'OR',
+      primaryColor: '#000000',
+      secondaryColor: '#000000',
+      iconPath: '',
+      updatedAt: DateTime(1));
   changeType = 'create';
   context.go('/create_area');
 }

@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:application/language/language.dart';
 import 'package:application/material_lib_functions/material_functions.dart';
 import 'package:application/network/informations.dart';
 import 'package:application/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../auth_linker/auth_linker_functional.dart';
 import '../home/home_functional.dart';
@@ -96,15 +98,15 @@ class SettingsPageState extends State<SettingsPage> {
           height: 10,
         ),
         TextFormField(
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Username',
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: getSentence('SETT-08'),
           ),
           initialValue: _username,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (String? value) {
             if (value != null && value.length <= 4) {
-              return 'Username must be min 5 characters long.';
+              return getSentence('SETT-09');
             }
             _username = value;
             return null;
@@ -114,9 +116,9 @@ class SettingsPageState extends State<SettingsPage> {
           height: 10,
         ),
         TextFormField(
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'E-mail',
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: getSentence('SETT-10'),
           ),
           initialValue: _email,
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -124,7 +126,7 @@ class SettingsPageState extends State<SettingsPage> {
             if (value != null &&
                 !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(value)) {
-              return 'Must be a valid email.';
+              return getSentence('SETT-11');
             }
             _email = value;
             return null;
@@ -135,15 +137,15 @@ class SettingsPageState extends State<SettingsPage> {
         ),
         TextFormField(
           obscureText: true,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Password',
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: getSentence('SETT-12'),
           ),
           initialValue: _password,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (String? value) {
             if (value != null && value.length <= 7) {
-              return 'Password must be min 8 characters long.';
+              return getSentence('SETT-13');
             }
             _password = value;
             return null;
@@ -153,6 +155,41 @@ class SettingsPageState extends State<SettingsPage> {
           height: 10,
         ),
         modifierButtons(),
+      ],
+    );
+  }
+
+  /// Save the selected language in the desktop memory
+  void saveSelectedLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('selectedLanguage', selectedLanguage);
+  }
+
+  /// Display function returning the language selection
+  Widget languageVisualization() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(getSentence('SETT-14')),
+        DropdownButton<String>(
+          icon: const Icon(Icons.keyboard_arrow_down),
+          value: selectedLanguage,
+          elevation: 45,
+          style: const TextStyle(color: Colors.deepPurple),
+          onChanged: (String? value) {
+            value ??= selectedLanguage;
+            selectedLanguage = value;
+            saveSelectedLanguage();
+            setState(() {});
+          },
+          items:
+              availableLanguage.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
       ],
     );
   }
@@ -168,9 +205,11 @@ class SettingsPageState extends State<SettingsPage> {
                 _futureAnswer = apiAskForUpdate();
               });
             },
-            child: const Text('Update account information'),
+            child: Text(getSentence('SETT-01')),
           ),
+          context,
           isShadowNeeded: true,
+          sizeOfButton: 1.5,
           primaryColor: getOurBlueAreaColor(100)),
       materialElevatedButtonArea(
           ElevatedButton(
@@ -180,8 +219,10 @@ class SettingsPageState extends State<SettingsPage> {
                 _futureAnswer = apiAskForDelete();
               });
             },
-            child: const Text('Delete account'),
+            child: Text(getSentence('SETT-02')),
           ),
+          context,
+          sizeOfButton: 1.5,
           isShadowNeeded: true,
           primaryColor: getOurBlueAreaColor(100)),
     ]);
@@ -191,50 +232,54 @@ class SettingsPageState extends State<SettingsPage> {
   Widget displayAllParameterButtons() {
     return Column(children: <Widget>[
       const SizedBox(height: 30),
-      parameterButtonView(Icons.manage_accounts_rounded, 'User information', 1),
+      parameterButtonView(
+          Icons.manage_accounts_rounded, getSentence('SETT-04'), 1),
       const SizedBox(height: 20),
-      parameterButtonView(Icons.app_settings_alt_sharp, 'Data management', 2),
+      parameterButtonView(
+          Icons.app_settings_alt_sharp, getSentence('SETT-05'), 2),
       const SizedBox(height: 20),
-      parameterButtonView(Icons.language, 'Language', 3),
+      parameterButtonView(Icons.language, getSentence('SETT-06'), 3),
       const SizedBox(height: 20),
-      parameterButtonView(Icons.notifications_active, 'Notification', 4),
+      parameterButtonView(
+          Icons.notifications_active, getSentence('SETT-07'), 4),
       const SizedBox(height: 20),
-      parameterButtonView(Icons.connect_without_contact, 'Auth', 5),
+      parameterButtonView(
+          Icons.connect_without_contact, getSentence('SETT-15'), 5),
       const SizedBox(height: 20),
-      parameterButtonView(Icons.logout, 'Logout', 84),
+      parameterButtonView(Icons.logout, getSentence('SETT-16'), 84),
     ]);
   }
 
   /// This function display headers for settings views, depends on _settingsPage
   Widget displaySettingsHeader() {
     if (_settingPage == 0) {
-      return const Text(
-        'Settings Page',
-        style: TextStyle(fontSize: 20),
+      return Text(
+        getSentence('SETT-03'),
+        style: const TextStyle(fontSize: 20),
       );
     }
     if (_settingPage == 1) {
-      return const Text(
-        'User information',
-        style: TextStyle(fontSize: 20),
+      return Text(
+        getSentence('SETT-04'),
+        style: const TextStyle(fontSize: 20),
       );
     }
     if (_settingPage == 2) {
-      return const Text(
-        'Data management',
-        style: TextStyle(fontSize: 20),
+      return Text(
+        getSentence('SETT-05'),
+        style: const TextStyle(fontSize: 20),
       );
     }
     if (_settingPage == 3) {
-      return const Text(
-        'Language',
-        style: TextStyle(fontSize: 20),
+      return Text(
+        getSentence('SETT-06'),
+        style: const TextStyle(fontSize: 20),
       );
     }
     if (_settingPage == 4) {
-      return const Text(
-        'Notification',
-        style: TextStyle(fontSize: 20),
+      return Text(
+        getSentence('SETT-07'),
+        style: const TextStyle(fontSize: 20),
       );
     }
     return const Text('');
@@ -245,7 +290,7 @@ class SettingsPageState extends State<SettingsPage> {
     if (_settingPage == 0) return displayAllParameterButtons();
     if (_settingPage == 1) return userDataVisualization();
     if (_settingPage == 2) return userDataVisualization();
-    if (_settingPage == 3) return userDataVisualization();
+    if (_settingPage == 3) return languageVisualization();
     if (_settingPage == 4) return userDataVisualization();
     if (_settingPage == 5) return goToAuthPage(context);
     if (_settingPage == 84) return userDataVisualization();
@@ -282,7 +327,9 @@ class SettingsPageState extends State<SettingsPage> {
                                   }
                                 });
                               },
-                              icon: const Icon(Icons.home_filled),
+                              icon: _settingPage == 0
+                                  ? const Icon(Icons.home_filled)
+                                  : const Icon(Icons.arrow_back_ios),
                               color: Colors.black),
                           const SizedBox(
                             width: 30,
@@ -344,6 +391,8 @@ class SettingsPageState extends State<SettingsPage> {
                 ],
               )
             ])),
+        context,
+        sizeOfButton: 1.2,
         isShadowNeeded: true,
         borderRadius: 10,
         paddingHorizontal: 20,
