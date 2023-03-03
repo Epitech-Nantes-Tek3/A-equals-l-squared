@@ -55,7 +55,7 @@ class SignupPageState extends State<SignupPage> {
   Widget displayAreaLoginSentence() {
     return Text(getSentence('SIGNUP-01'),
         textAlign: TextAlign.center,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 45));
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 42));
   }
 
   /// This function display our logo and the login name of our project
@@ -64,7 +64,7 @@ class SignupPageState extends State<SignupPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           const Text(""),
-          displayLogo(120),
+          displayLogo(90),
           displayAreaLoginSentence()
         ]);
   }
@@ -89,7 +89,7 @@ class SignupPageState extends State<SignupPage> {
                     Text(
                       getSentence('SIGNUP-02'),
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 22),
+                          fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     getHostConfigField(),
                     TextFormField(
@@ -148,21 +148,37 @@ class SignupPageState extends State<SignupPage> {
                         return const CircularProgressIndicator();
                       },
                     ),
-                    ElevatedButton(
-                      key: const Key('SendSignupButton'),
-                      onPressed: () {
-                        setState(() {
-                          _futureSignup = apiAskForSignup();
-                        });
-                      },
-                      child: Text(getSentence('SIGNUP-03')),
-                    ),
-                    TextButton(
-                      key: const Key('GoLoginButton'),
-                      onPressed: () {
-                        goToLoginPage(context);
-                      },
-                      child: Text(getSentence('SIGNUP-04')),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        materialElevatedButtonArea(
+                          ElevatedButton(
+                            key: const Key('SendSignupButton'),
+                            onPressed: () {
+                              setState(() {
+                                _futureSignup = apiAskForSignup();
+                              });
+                            },
+                            child: Text(getSentence('SIGNUP-03')),
+                          ),
+                          context,
+                          primaryColor: getOurBlueAreaColor(100),
+                          borderWith: 1,
+                          borderColor: getOurBlueAreaColor(100),
+                          sizeOfButton: 1.8,
+                          isShadowNeeded: true,
+                        ),
+                        TextButton(
+                          key: const Key('GoLoginButton'),
+                          onPressed: () {
+                            goToLoginPage(context);
+                          },
+                          child: Text(
+                            getSentence('SIGNUP-04'),
+                            style: TextStyle(color: getOurBlueAreaColor(100)),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ))));
