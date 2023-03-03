@@ -1425,24 +1425,25 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                           borderWith: 2,
                           borderColor: getOurBlueAreaColor(100),
                         ),
-                      materialElevatedButtonArea(
-                        ElevatedButton(
-                            onPressed: (() {
-                              _createdAreaSave = AreaData.clone(createdArea!);
-                              apiAskForAreaChange();
-                              setState(() {
-                                actionSetting = true;
-                              });
-                            }),
-                            child: Text(
-                                "$changeType ${createdArea != null ? createdArea!.name : ''}",
-                                style: const TextStyle(color: Colors.white))),
-                        context,
-                        isShadowNeeded: true,
-                        primaryColor: getOurBlueAreaColor(100),
-                        borderWith: 1,
-                        borderColor: getOurBlueAreaColor(100),
-                      ),
+                      if (actionSetting != true)
+                        materialElevatedButtonArea(
+                          ElevatedButton(
+                              onPressed: (() {
+                                _createdAreaSave = AreaData.clone(createdArea!);
+                                apiAskForAreaChange();
+                                setState(() {
+                                  actionSetting = true;
+                                });
+                              }),
+                              child: Text(
+                                  "$changeType ${createdArea != null ? createdArea!.name : ''}",
+                                  style: const TextStyle(color: Colors.white))),
+                          context,
+                          isShadowNeeded: true,
+                          primaryColor: getOurBlueAreaColor(100),
+                          borderWith: 1,
+                          borderColor: getOurBlueAreaColor(100),
+                        ),
                     ],
                   ),
                 Text(_apiErrorMessage != null ? _apiErrorMessage! : '')
