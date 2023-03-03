@@ -1,3 +1,4 @@
+import 'package:application/language/language.dart';
 import 'package:flutter/material.dart';
 
 /// This class is the dynamicParameter class.
@@ -32,7 +33,7 @@ class DynamicParameterData {
       ),
       Expanded(
         child: Text(
-          "\$$name : ",
+          "${getSentence('DYNPARAM-01-01')}$name${getSentence('DYNPARAM-01-02')}",
           style: const TextStyle(fontSize: 12),
           softWrap: false,
           maxLines: 20,

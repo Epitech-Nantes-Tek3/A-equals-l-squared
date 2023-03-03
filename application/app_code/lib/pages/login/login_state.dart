@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:application/language/language.dart';
 import 'package:application/network/informations.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:application/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../flutter_objects/user_data.dart';
 import '../../material_lib_functions/material_functions.dart';
@@ -131,6 +133,12 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
+  /// Load the selected language from the desktop memory
+  void loadSelectedLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    selectedLanguage = prefs.getString('selectedLanguage') ?? selectedLanguage;
+  }
+
   /// Initialization function for the api answer
   Future<String> getAFirstLoginAnswer() async {
     return '';
@@ -138,9 +146,9 @@ class LoginPageState extends State<LoginPage> {
 
   /// This function display the login name of our project
   Widget displayAreaName() {
-    return const Text('Log In To A=l²',
+    return Text(getSentence('LOGIN-01'),
         textAlign: TextAlign.center,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 48));
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 48));
   }
 
   /// This function display our logo and the login name of our project
@@ -153,7 +161,7 @@ class LoginPageState extends State<LoginPage> {
   /// This function display the apple button for log with apple AUTH
   Widget displayTextButtonAppleLogin() {
     return TextButton.icon(
-        label: const Text('Continue with Apple Account'),
+        label: Text(getSentence('LOGIN-02')),
         icon: const Icon(Icons.apple),
         onPressed: () {});
   }
@@ -161,7 +169,7 @@ class LoginPageState extends State<LoginPage> {
   /// This function display the google button for log with google AUTH
   Widget displayTextButtonGoogleLogin() {
     return TextButton.icon(
-        label: const Text('Continue with Google Account'),
+        label: Text(getSentence('LOGIN-03')),
         icon: const Icon(Icons.access_alarm),
         onPressed: () {
           setState(() {
@@ -185,7 +193,7 @@ class LoginPageState extends State<LoginPage> {
       onPressed: () {
         goToSignupPage(context);
       },
-      child: const Text('No account ? Go to Signup'),
+      child: Text(getSentence('LOGIN-04')),
     );
   }
 
@@ -206,8 +214,8 @@ class LoginPageState extends State<LoginPage> {
                 _isConnexionWithEmail = true;
               });
             },
-            child: const Text('Continue with Email',
-                style: TextStyle(
+            child: Text(getSentence('LOGIN-05'),
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
                     fontFamily: 'Roboto-Black')),
@@ -232,7 +240,7 @@ class LoginPageState extends State<LoginPage> {
               _futureLogin = apiAskForLogin();
             });
           },
-          child: const Text('Login'),
+          child: Text(getSentence('LOGIN-06')),
         ),
       ),
       displayResetAndForgotPassword(),
@@ -251,7 +259,7 @@ class LoginPageState extends State<LoginPage> {
               _futureLogin = apiAskForResetPassword();
             });
           },
-          child: const Text('Forgot Password ? Reset it'),
+          child: Text(getSentence('LOGIN-07')),
         ),
       ],
     );
@@ -269,7 +277,7 @@ class LoginPageState extends State<LoginPage> {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),
             ),
-            labelText: 'E-mail',
+            labelText: getSentence('LOGIN-09'),
           ),
           initialValue: _email,
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -277,7 +285,7 @@ class LoginPageState extends State<LoginPage> {
             if (value != null &&
                 !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(value)) {
-              return 'Must be a valid email.';
+              return getSentence('LOGIN-10');
             }
             _email = value;
             return null;
@@ -289,14 +297,14 @@ class LoginPageState extends State<LoginPage> {
         if (_isConnexionWithEmail == true)
           TextFormField(
             obscureText: true,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Password',
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: getSentence('LOGIN-11'),
             ),
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (String? value) {
               if (value != null && value.length <= 7) {
-                return 'Password must be min 8 characters long.';
+                return getSentence('LOGIN-12');
               }
               _password = value;
               return null;
@@ -316,6 +324,7 @@ class LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    loadSelectedLanguage();
     _futureLogin = getAFirstLoginAnswer();
   }
 
@@ -359,7 +368,7 @@ class LoginPageState extends State<LoginPage> {
                                   _isConnexionWithEmail = false;
                                 });
                               },
-                              child: const Text('Back to login page...'),
+                              child: Text(getSentence('LOGIN-08')),
                             ),
                         ]));
               }

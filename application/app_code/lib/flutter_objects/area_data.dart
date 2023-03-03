@@ -1,6 +1,7 @@
 import 'package:application/flutter_objects/parameter_data.dart';
 import 'package:application/flutter_objects/reaction_data.dart';
 import 'package:application/flutter_objects/service_data.dart';
+import 'package:application/language/language.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:flutter/material.dart';
 
@@ -157,8 +158,8 @@ class AreaData {
         const SizedBox(height: 20),
         Text(
           description == null
-              ? 'Description : \n\n No description'
-              : 'Description : \n\n $description',
+              ? '${getSentence("AREA-01")}${getSentence("AREA-02")}'
+              : '$getSentence("AREA-01)$description',
           style: const TextStyle(color: Colors.black),
         )
 
@@ -173,8 +174,8 @@ class AreaData {
   Widget display(bool mode, Function? update, bool isReactionPreviewClosed,
       bool isActionPreviewClosed) {
     List<Widget> listDisplay = <Widget>[];
-    List<Widget> actionListDisplay = <Widget>[const Text("Actions")];
-    List<Widget> reactionListDisplay = <Widget>[const Text("Reactions")];
+    List<Widget> actionListDisplay = <Widget>[Text(getSentence('AREA-03'))];
+    List<Widget> reactionListDisplay = <Widget>[Text(getSentence('AREA-04'))];
     if (mode) {
       for (var temp in actionList) {
         actionListDisplay.add(temp.displayActionModificationView(update));
@@ -187,8 +188,8 @@ class AreaData {
           Row(children: <Widget>[
             Text(
               (isEnable
-                  ? 'Area : $name is activated'
-                  : 'Area : $name is disabled'),
+                  ? '${getSentence('AREA-05-01')}$name${getSentence('AREA-05-02')}'
+                  : '${getSentence('AREA-05-01')}$name${getSentence('AREA-05-03')}'),
               style: TextStyle(
                   color: isEnable ? Colors.green : Colors.red, fontSize: 20),
             ),
@@ -217,7 +218,7 @@ class AreaData {
       try {
         listDisplay.add(displayAreaPreview());
       } catch (err) {
-        listDisplay.add(const Text("Please logout and login."));
+        listDisplay.add(Text(getSentence('AREA-06')));
       }
     }
     return Column(
@@ -242,10 +243,9 @@ class AreaData {
   /// Function to display area description
   Widget? displayAreaDescription() {
     if (isEnable) {
-      /// Add ' && description != null ' when is in DB
       return Column(
         children: <Widget>[
-          Text(description != null ? description! : 'No description'),
+          Text(description != null ? description! : getSentence('AREA-07')),
         ],
       );
     } else {

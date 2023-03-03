@@ -1,4 +1,5 @@
 import 'package:application/flutter_objects/parameter_data.dart';
+import 'package:application/language/language.dart';
 import 'package:flutter/material.dart';
 
 import 'dynamic_parameter_data.dart';
@@ -128,7 +129,7 @@ class ActionData {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Dynamic parameter', style: TextStyle(fontSize: 12)),
+              Text(getSentence('ACT-01'), style: const TextStyle(fontSize: 12)),
               IconButton(
                   onPressed: () {
                     if (isDynamicParamDisplay) {

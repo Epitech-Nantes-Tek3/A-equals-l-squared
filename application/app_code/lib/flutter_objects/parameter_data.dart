@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application/language/language.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -119,7 +120,10 @@ class ParameterData {
       ),
       Row(
         children: [
-          Text(isRequired ? '$description *: ' : '$description : ',
+          Text(
+              isRequired
+                  ? '$description${getSentence('PARAM-01-01')}'
+                  : '$description${getSentence('PARAM-01-02')}',
               style: const TextStyle(fontSize: 12)),
         ],
       ),
