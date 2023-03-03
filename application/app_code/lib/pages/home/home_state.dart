@@ -123,12 +123,9 @@ class HomePageState extends State<HomePage> {
                             });
                           },
                           icon: const Icon(Icons.settings)),
-                      IconButton(
-                          iconSize: 30,
-                          onPressed: () {
-                            homeSync();
-                          },
-                          icon: const Icon(Icons.sync)),
+                      IconButton(onPressed: () {
+                        homeSync();
+                      }, icon: Image.asset('assets/icons/Area_Logo.png')),
                       IconButton(
                           iconSize: 30,
                           onPressed: () {
