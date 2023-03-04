@@ -98,10 +98,7 @@ class ServiceData {
                             int.parse(primaryColor.replaceFirst("#", "0xff")))),
                   ),
                   // Change when icon are in DB
-                  Text(
-                    description,
-                    style: const TextStyle(color: Colors.black),
-                  ),
+                  Text(description),
                 ]),
           ],
         ),

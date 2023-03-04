@@ -149,7 +149,6 @@ class AreaData {
             Expanded(
               child: Text(
                 name,
-                style: const TextStyle(color: Colors.black),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -159,8 +158,7 @@ class AreaData {
         Text(
           description == null
               ? '${getSentence("AREA-01")}${getSentence("AREA-02")}'
-              : '$getSentence("AREA-01)$description',
-          style: const TextStyle(color: Colors.black),
+              : '${getSentence("AREA-01")}$description',
         )
 
         /// Put Description when it's in DB

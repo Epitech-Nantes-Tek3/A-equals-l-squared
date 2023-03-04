@@ -179,10 +179,7 @@ class ActionData {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              description,
-              style: const TextStyle(color: Colors.black),
-            ),
+            Text(description),
           ]),
     );
     return Column(

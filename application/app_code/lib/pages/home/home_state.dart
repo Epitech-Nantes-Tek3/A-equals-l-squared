@@ -53,7 +53,8 @@ class HomePageState extends State<HomePage> {
   }
 
   /// This function Create an Elevated Button thanks to an Area
-  Widget areaDataToElevatedButton(AreaData areaData, Color areaBorderColor) {
+  Widget areaDataToElevatedButton(
+      AreaData areaData, Color areaPrimaryColor, Color areaBorderColor) {
     return materialElevatedButtonArea(
       ElevatedButton(
           onPressed: () {
@@ -68,6 +69,7 @@ class HomePageState extends State<HomePage> {
       paddingVertical: 10,
       borderRadius: 10,
       borderWith: 3,
+      primaryColor: areaPrimaryColor,
       borderColor: areaBorderColor,
     );
   }
@@ -81,8 +83,10 @@ class HomePageState extends State<HomePage> {
     for (var temp in areaDataList) {
       if (count % 2 == 0 && count != 0) {
         areaVis.add(createRowOfAreas(
-            areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor()),
-            areaDataToElevatedButton(temp, temp.getPrimaryColor())));
+            areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor(),
+                tempArea.getSecondaryColor()),
+            areaDataToElevatedButton(
+                temp, temp.getPrimaryColor(), tempArea.getSecondaryColor())));
         areaVis.add(const SizedBox(
           height: 30,
         ));
@@ -92,7 +96,8 @@ class HomePageState extends State<HomePage> {
     }
     if (count % 2 == 0) {
       areaVis.add(createRowOfAreas(
-          areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor()),
+          areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor(),
+              tempArea.getSecondaryColor()),
           null));
     }
     return areaVis;

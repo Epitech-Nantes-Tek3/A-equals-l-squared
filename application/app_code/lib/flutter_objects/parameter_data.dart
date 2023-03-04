@@ -156,14 +156,12 @@ class ParameterData {
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(
-                  color: Colors.black, style: BorderStyle.solid, width: 0.80),
+              border: Border.all(style: BorderStyle.solid, width: 0.80),
             ),
             child: DropdownButton<String>(
               icon: const Icon(Icons.keyboard_arrow_down),
               value: matchedContent!.value,
               elevation: 45,
-              style: const TextStyle(color: Colors.black),
               onChanged: (String? value) {
                 if (value == null && isRequired) {
                   return;

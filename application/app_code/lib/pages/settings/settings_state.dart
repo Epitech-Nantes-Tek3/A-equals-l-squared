@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:application/language/language.dart';
 import 'package:application/material_lib_functions/material_functions.dart';
 import 'package:application/network/informations.dart';
+import 'package:application/night_mod/night_mod.dart';
 import 'package:application/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -27,6 +28,23 @@ class SettingsPageState extends State<SettingsPage> {
 
   /// future api answer
   late Future<String> _futureAnswer;
+
+  /// List all application mode
+  static const List<Widget> listAppMode = <Widget>[
+    Icon(
+      Icons.sunny,
+    ),
+    Icon(Icons.star_border_purple500)
+  ];
+
+  /// To know if a button isSelected
+  bool isSelected = false;
+
+  /// List to know what mode is selected
+  final List<bool> _selectedAppMode = <bool>[
+    !nightMod,
+    nightMod,
+  ];
 
   /// Network function calling the api for updating user information
   Future<String> apiAskForUpdate() async {
@@ -160,6 +178,13 @@ class SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  /// Save the selected application mode
+  void saveSelectedAppMode(bool appMode) async {
+    nightMod = appMode;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('nightMod', nightMod);
+  }
+
   /// Save the selected language in the desktop memory
   void saveSelectedLanguage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -249,6 +274,30 @@ class SettingsPageState extends State<SettingsPage> {
           Icons.connect_without_contact, getSentence('SETT-15'), 5),
       const SizedBox(height: 20),
       parameterButtonView(Icons.logout, getSentence('SETT-16'), 84),
+      const SizedBox(
+        height: 40,
+      ),
+      ToggleButtons(
+        direction: isSelected ? Axis.vertical : Axis.horizontal,
+        onPressed: (int index) {
+          setState(() {
+            for (int i = 0; i < _selectedAppMode.length; i++) {
+              _selectedAppMode[i] = i == index;
+            }
+            saveSelectedAppMode(index == 1);
+          });
+        },
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        selectedBorderColor: Colors.blue[700],
+        fillColor: Colors.blue[200],
+        color: Colors.blue[400],
+        constraints: const BoxConstraints(
+          minHeight: 40.0,
+          minWidth: 80.0,
+        ),
+        isSelected: _selectedAppMode,
+        children: listAppMode,
+      ),
     ]);
   }
 
@@ -331,18 +380,14 @@ class SettingsPageState extends State<SettingsPage> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Icon(
-                        icon,
-                        color: Colors.black,
-                      ),
+                      Icon(icon),
                       const SizedBox(width: 20),
                       Text(
                         description,
-                        style: const TextStyle(color: Colors.black),
                       ),
                     ],
                   ),
-                  const Icon(Icons.arrow_forward_ios_sharp, color: Colors.black)
+                  const Icon(Icons.arrow_forward_ios_sharp)
                 ],
               )
             ])),
