@@ -145,6 +145,99 @@ module.exports = function (app, passport, database) {
     }
   )
 
+  /**
+   * @swagger
+   * /api/area/{areaId}/action:
+   *   get:
+   *     summary: Get actions for a specific area
+   *     description: Returns a list of actions and their parameters for a specific area.
+   *     tags:
+   *       - Actions
+   *     security:
+   *       - jwt: []
+   *     parameters:
+   *       - name: areaId
+   *         in: path
+   *         required: true
+   *         description: The ID of the area to retrieve actions for.
+   *         schema:
+   *           type: string
+   *           example: "abc123"
+   *     responses:
+   *       200:
+   *         description: Successfully retrieved actions for the area.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 type: object
+   *                 properties:
+   *                   id:
+   *                     type: string
+   *                     description: The ID of the AREAhasActions record.
+   *                     example: "abc123"
+   *                   Action:
+   *                     type: object
+   *                     description: The action associated with the AREAhasActions record.
+   *                     properties:
+   *                       id:
+   *                         type: string
+   *                         description: The ID of the action.
+   *                         example: "def456"
+   *                       name:
+   *                         type: string
+   *                         description: The name of the action.
+   *                         example: "Send email"
+   *                       isEnable:
+   *                         type: boolean
+   *                         description: Indicates whether the action is currently enabled or disabled.
+   *                         example: true
+   *                   ActionParameters:
+   *                     type: array
+   *                     description: The parameters associated with the action.
+   *                     items:
+   *                       type: object
+   *                       properties:
+   *                         id:
+   *                           type: string
+   *                           description: The ID of the ActionParameters record.
+   *                           example: "ghi789"
+   *                         Parameter:
+   *                           type: object
+   *                           description: The parameter associated with the ActionParameters record.
+   *                           properties:
+   *                             name:
+   *                               type: string
+   *                               description: The name of the parameter.
+   *                               example: "To"
+   *                         value:
+   *                           type: string
+   *                           description: The value of the parameter.
+   *                           example: "john.doe@example.com"
+   *       404:
+   *         description: Area not found or user is not authorized to access the area.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: The error message.
+   *                   example: "Area not found"
+   *       500:
+   *         description: An error occurred while retrieving the actions.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: The error message.
+   *                   example: "Internal server error"
+   */
   app.get(
     '/api/area/:areaId/action',
     passport.authenticate('jwt', { session: false }),

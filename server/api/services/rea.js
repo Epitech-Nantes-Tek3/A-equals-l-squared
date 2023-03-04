@@ -60,46 +60,46 @@ areas.forEach(
     }
   )
 
-      /**
-       * @swagger
-       * /api/services/rea/getAvailableStatus:
-       *   get:
-       *     tags: [Services/Rea]
-       *     summary: List available status for rea service
-       *     description: Retrieves the list of available status for the rea service.
-       *     security:
-       *       - bearerAuth: []
-       *     responses:
-       *       '200':
-       *         description: A list of available status for the rea service
-       *         content:
-       *           application/json:
-       *             schema:
-       *               type: object
-       *               properties:
-       *                 status:
-       *                   type: string
-       *                   description: The status of the response
-       *                   example: success
-       *                 data:
-       *                   type: array
-       *                   description: The list of available status
-       *                   items:
-       *                     type: object
-       *                     properties:
-       *                       id:
-       *                         type: string
-       *                         description: The ID of the status
-       *                         example: True
-       *                       name:
-       *                         type: string
-       *                         description: The name of the status
-       *                         example: On
-       *                 statusCode:
-       *                   type: integer
-       *                   description: The status code of the response
-       *                   example: 200
-       */
+  /**
+   * @swagger
+   * /api/services/rea/getAvailableStatus:
+   *   get:
+   *     tags: [Services/Rea]
+   *     summary: List available status for rea service
+   *     description: Retrieves the list of available status for the rea service.
+   *     security:
+   *       - bearerAuth: []
+   *     responses:
+   *       '200':
+   *         description: A list of available status for the rea service
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 status:
+   *                   type: string
+   *                   description: The status of the response
+   *                   example: success
+   *                 data:
+   *                   type: array
+   *                   description: The list of available status
+   *                   items:
+   *                     type: object
+   *                     properties:
+   *                       id:
+   *                         type: string
+   *                         description: The ID of the status
+   *                         example: True
+   *                       name:
+   *                         type: string
+   *                         description: The name of the status
+   *                         example: On
+   *                 statusCode:
+   *                   type: integer
+   *                   description: The status code of the response
+   *                   example: 200
+   */
   app.get(
     '/api/services/rea/getAvailableStatus',
     passport.authenticate('jwt', { session: false }),
