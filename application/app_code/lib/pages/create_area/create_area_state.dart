@@ -1261,6 +1261,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                             createdArea!.name = value;
                             return null;
                           },
+                          onChanged: (value) {
+                            setState(() {});
+                          },
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
