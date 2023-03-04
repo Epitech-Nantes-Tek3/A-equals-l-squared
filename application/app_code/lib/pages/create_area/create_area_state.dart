@@ -623,7 +623,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                         .map((v) => ActionData.clone(v))
                         .toList();
                     for (var temp in createdArea!.actionList.last.parameters) {
-                      if (temp.isRequired && temp.matchedContent!.value == "") {
+                      if (temp.isRequired && temp.matchedContent!.value == "" ||
+                          temp.matchedContent!.value == "Click To Update") {
                         isRequired = false;
                       }
                     }
