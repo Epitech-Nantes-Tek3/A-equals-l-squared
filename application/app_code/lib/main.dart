@@ -11,14 +11,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'A = L²',
-      theme: ThemeData(
+    if (!nightMod) {
+      return MaterialApp.router(
+        title: 'A = L²',
+        theme: ThemeData(
           fontFamily: 'Roboto-Bold',
-          brightness: nightMod ? Brightness.dark : Brightness.light),
-      routeInformationProvider: router.routeInformationProvider,
-      routeInformationParser: router.routeInformationParser,
-      routerDelegate: router.routerDelegate,
-    );
+          brightness: Brightness.light,
+          primaryColor: Colors.blue[200],
+        ),
+        routeInformationProvider: router.routeInformationProvider,
+        routeInformationParser: router.routeInformationParser,
+        routerDelegate: router.routerDelegate,
+      );
+    } else {
+      return MaterialApp.router(
+        title: 'A = L²',
+        theme:
+            ThemeData(fontFamily: 'Roboto-Bold', brightness: Brightness.dark),
+        routeInformationProvider: router.routeInformationProvider,
+        routeInformationParser: router.routeInformationParser,
+        routerDelegate: router.routerDelegate,
+      );
+    }
   }
 }
