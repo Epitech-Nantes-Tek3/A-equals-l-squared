@@ -526,6 +526,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     : null;
                 createdArea!.serviceId = ServiceData.clone(temp);
                 _actionCreationState = 1;
+                _reactionCreationState = 0;
               });
             },
             child: temp.display(context)),
@@ -811,6 +812,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     : null;
                 createdArea!.serviceId = ServiceData.clone(temp);
                 _reactionCreationState = 1;
+                _actionCreationState = 0;
               });
             },
             child: temp.display(context)),
