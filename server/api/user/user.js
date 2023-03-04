@@ -2,6 +2,7 @@
 
 const gmail = require('../../services/gmail/reactions/send_email')
 const auth_token = require('../../passport/local')
+const { hash } = require('../utils')
 
 module.exports = function (app, passport, database) {
   /**
@@ -429,6 +430,7 @@ module.exports = function (app, passport, database) {
         })
         return res.json('Your informations have been successfully updated.')
       } catch (err) {
+        console.error(err)
         return res.status(400).json('Please pass a complete body.')
       }
     }
