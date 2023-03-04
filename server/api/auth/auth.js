@@ -5,6 +5,7 @@ const { hash } = require('../../utils.js')
 const auth_token = require('../../passport/token')
 const auth_google = require('../../passport/google')
 const auth_facebook = require('../../passport/facebook')
+const axios = require('axios')
 
 module.exports = function (app, passport, database) {
   /**
