@@ -148,6 +148,8 @@
 // SETT-14 -> header text of the language page
 // SETT-15 -> Header - Authentification
 // SETT-16 -> Header - Logout
+// SETT-17 -> Thanks - Header text
+// SETT-18 -> Thanks - Button Text
 
 /// Signup Functional File :
 
