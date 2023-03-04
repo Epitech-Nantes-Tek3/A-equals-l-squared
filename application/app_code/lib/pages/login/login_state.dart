@@ -158,19 +158,11 @@ class LoginPageState extends State<LoginPage> {
         children: <Widget>[displayLogo(120), displayAreaName()]);
   }
 
-  /// This function display the apple button for log with apple AUTH
-  Widget displayTextButtonAppleLogin() {
-    return TextButton.icon(
-        label: Text(getSentence('LOGIN-02')),
-        icon: const Icon(Icons.apple),
-        onPressed: () {});
-  }
-
   /// This function display the google button for log with google AUTH
   Widget displayTextButtonGoogleLogin() {
     return TextButton.icon(
         label: Text(getSentence('LOGIN-03')),
-        icon: const Icon(Icons.access_alarm),
+        icon: const Icon(Icons.account_circle_sharp),
         onPressed: () {
           setState(() {
             _futureLogin = _signInGoogle();
@@ -181,7 +173,6 @@ class LoginPageState extends State<LoginPage> {
   /// This function display the google button for log with google AUTH and the apple button for log with apple AUTH
   Widget displayForRequestWhatConnectionIsUsed() {
     return Column(children: <Widget>[
-      displayTextButtonAppleLogin(),
       displayTextButtonGoogleLogin()
     ]);
   }
