@@ -294,7 +294,7 @@ module.exports = function (app, passport, database) {
           !('reactionParameters' in req.body) ||
           !('reactionId' in req.body)
         )
-          return res.status(400).json({ error: 'Imcomplete body' })
+          return res.status(400).json({ error: 'Incomplete body' })
         const area = await database.prisma.AREA.findUnique({
           where: {
             id: req.params.areaId
@@ -562,7 +562,7 @@ module.exports = function (app, passport, database) {
     async (req, res) => {
       try {
         if (!req.body || !('reactionParameters' in req.body))
-          return res.status(400).json({ error: 'Imcomplete body' })
+          return res.status(400).json({ error: 'Incomplete body' })
         const area = await database.prisma.AREA.findUnique({
           where: {
             id: req.params.areaId
