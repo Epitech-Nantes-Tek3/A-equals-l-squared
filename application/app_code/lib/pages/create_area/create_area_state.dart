@@ -1075,8 +1075,10 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
     return Scaffold(
         body: SingleChildScrollView(
-      child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+            child: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+      child: SizedBox(
+          width: isDesktop(context) ? 600 : MediaQuery.of(context).size.width,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -1437,6 +1439,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   ),
                 Text(_apiErrorMessage != null ? _apiErrorMessage! : '')
               ])),
-    ));
+    )));
   }
 }

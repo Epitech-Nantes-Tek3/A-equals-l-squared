@@ -161,16 +161,26 @@ class LoginPageState extends State<LoginPage> {
   /// This function display the apple button for log with apple AUTH
   Widget displayTextButtonAppleLogin() {
     return TextButton.icon(
-        label: Text(getSentence('LOGIN-02'), style: TextStyle(color: getOurBlueAreaColor(100)),),
-        icon: Icon(Icons.apple, color: getOurBlueAreaColor(100),),
+        label: Text(
+          getSentence('LOGIN-02'),
+          style: TextStyle(color: getOurBlueAreaColor(100)),
+        ),
+        icon: Icon(
+          Icons.apple,
+          color: getOurBlueAreaColor(100),
+        ),
         onPressed: () {});
   }
 
   /// This function display the google button for log with google AUTH
   Widget displayTextButtonGoogleLogin() {
     return TextButton.icon(
-        label: Text(getSentence('LOGIN-03'), style: TextStyle(color: getOurBlueAreaColor(100))),
-        icon: Icon(Icons.access_alarm, color: getOurBlueAreaColor(100),),
+        label: Text(getSentence('LOGIN-03'),
+            style: TextStyle(color: getOurBlueAreaColor(100))),
+        icon: Icon(
+          Icons.access_alarm,
+          color: getOurBlueAreaColor(100),
+        ),
         onPressed: () {
           setState(() {
             _futureLogin = _signInGoogle();
@@ -193,7 +203,10 @@ class LoginPageState extends State<LoginPage> {
       onPressed: () {
         goToSignupPage(context);
       },
-      child: Text(getSentence('LOGIN-04'), style: TextStyle(color: getOurBlueAreaColor(100)),),
+      child: Text(
+        getSentence('LOGIN-04'),
+        style: TextStyle(color: getOurBlueAreaColor(100)),
+      ),
     );
   }
 
@@ -371,36 +384,40 @@ class LoginPageState extends State<LoginPage> {
                 return Container(
                     margin: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 12),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          displayLogoAndName(),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          if (_isConnexionWithEmail)
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _isConnexionWithEmail = false;
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.arrow_back_ios,
-                                      color: getOurBlueAreaColor(100),
-                                    ))
-                              ],
-                            ),
-                          getHostConfigField(),
-                          displayInputForEmailLogin(snapshot),
-                          if (_isConnexionWithEmail == false)
-                            displayButtonRequestForEmailLogin(),
-                          if (_isConnexionWithEmail)
-                            displayInputForEmailConnexion(snapshot),
-                        ]));
+                    child: SizedBox(
+                        width: isDesktop(context)
+                            ? 600
+                            : MediaQuery.of(context).size.width,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              displayLogoAndName(),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              if (_isConnexionWithEmail)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _isConnexionWithEmail = false;
+                                          });
+                                        },
+                                        icon: Icon(
+                                          Icons.arrow_back_ios,
+                                          color: getOurBlueAreaColor(100),
+                                        ))
+                                  ],
+                                ),
+                              getHostConfigField(),
+                              displayInputForEmailLogin(snapshot),
+                              if (_isConnexionWithEmail == false)
+                                displayButtonRequestForEmailLogin(),
+                              if (_isConnexionWithEmail)
+                                displayInputForEmailConnexion(snapshot),
+                            ])));
               }
               return const CircularProgressIndicator();
             },

@@ -18,6 +18,14 @@ Color getOurBlueAreaColor(double opacity) {
   return Color.fromRGBO(6, 161, 228, opacity);
 }
 
+/// To know if we are on desktop
+bool isDesktop(BuildContext context) =>
+    MediaQuery.of(context).size.width >= 600;
+
+/// To know if we are on mobile
+bool isMobile(BuildContext context) =>
+    MediaQuery.of(context).size.width < 600;
+
 /// Return our green color Hex : 16FCBC
 Color getOurGreenAreaColor(double opacity) {
   return Color.fromRGBO(22, 252, 188, opacity);

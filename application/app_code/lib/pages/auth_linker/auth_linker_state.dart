@@ -2,6 +2,7 @@ import 'package:application/language/language.dart';
 import 'package:application/pages/settings/settings_functional.dart';
 import 'package:flutter/material.dart';
 
+import '../../material_lib_functions/material_functions.dart';
 import 'auth_linker_functional.dart';
 import 'auth_linker_page.dart';
 
@@ -66,8 +67,8 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
             child: Container(
                 margin:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                child: Align(
-                  alignment: Alignment.topCenter,
+                child: SizedBox(
+                  width: isDesktop(context) ? 600 : MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[

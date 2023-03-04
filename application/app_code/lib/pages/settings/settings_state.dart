@@ -142,8 +142,7 @@ class SettingsPageState extends State<SettingsPage> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (String? value) {
             if (value != null &&
-                !RegExp(
-                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(value)) {
               return getSentence('SETT-11');
             }
@@ -209,7 +208,7 @@ class SettingsPageState extends State<SettingsPage> {
             setState(() {});
           },
           items:
-          availableLanguage.map<DropdownMenuItem<String>>((String value) {
+              availableLanguage.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(value),
@@ -262,10 +261,14 @@ class SettingsPageState extends State<SettingsPage> {
           Icons.manage_accounts_rounded, getSentence('SETT-04'), 1),
       const SizedBox(height: 20),
       parameterButtonView(Icons.language, getSentence('SETT-06'), 3),
+
       /// if (user is admin)
-      Column(children: [const SizedBox(height: 20),
-        parameterButtonView(
-            Icons.admin_panel_settings, 'Admin Panel', 4),],),
+      Column(
+        children: [
+          const SizedBox(height: 20),
+          parameterButtonView(Icons.admin_panel_settings, 'Admin Panel', 4),
+        ],
+      ),
       const SizedBox(height: 20),
       parameterButtonView(
           Icons.connect_without_contact, getSentence('SETT-15'), 5),
@@ -341,7 +344,8 @@ class SettingsPageState extends State<SettingsPage> {
     if (_settingPage == 0) return displayAllParameterButtons();
     if (_settingPage == 1) return userDataVisualization();
     if (_settingPage == 3) return languageVisualization();
-    if (_settingPage == 4 ) {  /// && User is admin
+    if (_settingPage == 4) {
+      /// && User is admin
       return adminDataVisualization();
     }
     if (_settingPage == 5) return goToAuthPage(context);
@@ -370,14 +374,21 @@ class SettingsPageState extends State<SettingsPage> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Icon(icon, color: Colors.black,),
+                      Icon(
+                        icon,
+                        color: Colors.black,
+                      ),
                       const SizedBox(width: 20),
                       Text(
-                        description,style: const TextStyle(color: Colors.black),
+                        description,
+                        style: const TextStyle(color: Colors.black),
                       ),
                     ],
                   ),
-                  const Icon(Icons.arrow_forward_ios_sharp, color: Colors.black,)
+                  const Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    color: Colors.black,
+                  )
                 ],
               )
             ])),
@@ -400,9 +411,11 @@ class SettingsPageState extends State<SettingsPage> {
         body: SingleChildScrollView(
             child: Container(
                 margin:
-                const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                child: Align(
-                  alignment: Alignment.topCenter,
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                child: SizedBox(
+                  width: isDesktop(context)
+                      ? 600
+                      : MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[

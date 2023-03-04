@@ -40,33 +40,39 @@ class ServiceListPageState extends State<ServiceListPage> {
     return Scaffold(
         body: SingleChildScrollView(
             child: Container(
-      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      goToHomePage(context);
-                    });
-                  },
-                  icon: const Icon(Icons.home_filled)),
-              Text(
-                getSentence('SERVLIST-01'),
-                style: const TextStyle(fontFamily: 'Roboto-Bold', fontSize: 25),
-              )
-            ],
-          ),
-          Text(getSentence('SERVLIST-02')),
-          const SizedBox(
-            height: 20,
-          ),
-          displayAllService(),
-        ],
-      ),
-    )));
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                child: SizedBox(
+                  width: isDesktop(context)
+                      ? 600
+                      : MediaQuery.of(context).size.width,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  goToHomePage(context);
+                                });
+                              },
+                              icon: const Icon(Icons.home_filled)),
+                          Text(
+                            getSentence('SERVLIST-01'),
+                            style: const TextStyle(
+                                fontFamily: 'Roboto-Bold', fontSize: 25),
+                          )
+                        ],
+                      ),
+                      Text(getSentence('SERVLIST-02')),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      displayAllService(),
+                    ],
+                  ),
+                ))));
   }
 }
