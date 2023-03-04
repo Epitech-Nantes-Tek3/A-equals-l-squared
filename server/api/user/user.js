@@ -1,5 +1,8 @@
 'use strict'
 
+const gmail = require('../../services/gmail/reactions/send_email')
+const auth_token = require('../../passport/local')
+
 module.exports = function(app, passport, database) {
   /**
    * @swagger

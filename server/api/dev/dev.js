@@ -1,6 +1,13 @@
 'use strict'
 
-module.exports = function(app, passport, database) {
+const { createDeezerService } = require('../../services/deezer/init')
+const { createGmailService } = require('../../services/gmail/gmail_init')
+const { createCalendarService } = require('../../services/calendar/calendar_init')
+const { createDiscordService } = require('../../services/discord/init')
+const { createTimeTimeService } = require('../../services/timetime/init')
+const { createReaaaaaaaService } = require('../../services/reaaaaaaa/init')
+
+module.exports = function(app, database) {
   /**
    * @swagger
    *
@@ -732,12 +739,12 @@ module.exports = function(app, passport, database) {
    */
   app.get('/api/dev/service/createAll', async (req, res) => {
     const response = []
-  response.push(await createDiscordService())
-  response.push(await createGmailService())
-  response.push(await createCalendarService())
-  response.push(await createTimeTimeService())
-  response.push(await createReaaaaaaaService())
-  response.push(await createDeezerService())
+    response.push(await createDiscordService())
+    response.push(await createGmailService())
+    response.push(await createCalendarService())
+    response.push(await createTimeTimeService())
+    response.push(await createReaaaaaaaService())
+    response.push(await createDeezerService())
     return res.json(response)
   })
 }

@@ -1,6 +1,9 @@
 'use strict'
 
-module.exports = function(app, passport, database) {
+const getAvailableCalendars =
+    require('../../services/calendar/getters/get_available_calendars')
+
+module.exports = function(app, passport) {
   /**
    * @swagger
    * /api/services/gmail/getAvailablePerformers:
@@ -107,15 +110,21 @@ module.exports = function(app, passport, database) {
    *               type: string
    *               example: "An error occurred."
    */
-  app.get('/api/services/calendar/getAvailableCalendars', (req, res) => {
-    if (req.user.googleToken == null)
-      return res.status(400).send('No Google account linked.')
-      try {
-        const calendars = getAvailableCalendars()
-        res.status(200).json(
-            {status: 'success', data: calendars, statusCode: res.statusCode})
-      } catch (error) {
-        res.status(400).send('An error occured.')
-      }
-  })
+  app.get(
+      '/api/services/calendar/getAvailableCalendars',
+      passport.authenticate('jwt', {session: false}),
+      (req, res) => {
+        if (req.user.googleToken == null)
+          return res.status(400).send('No Google account linked.')
+          try {
+            const calendars = getAvailableCalendars(req.user.googleToken)
+            res.status(200).json({
+              status: 'success',
+              data: calendars,
+              statusCode: res.statusCode
+            })
+          } catch (error) {
+            res.status(400).send('An error occured.')
+          }
+      })
 }

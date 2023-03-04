@@ -1,5 +1,8 @@
 'use strict'
 
+const axios = require('axios')
+const getUserPlaylists = require('../../services/deezer/getters/user_playlists')
+
 module.exports = function(app, passport, database) {
   /**
    * @swagger

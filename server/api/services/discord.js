@@ -1,5 +1,10 @@
 'use strict'
 
+const discordClient = require('../../services/discord/init')
+const getVoiceChannels = require('../../services/discord/getters/voice_channels')
+const getTextChannels = require('../../services/discord/getters/text_channels')
+const getAvailableGuilds = require('../../services/discord/getters/available_guilds')
+
 module.exports = function (app, passport, database) {
     /**
  * @swagger

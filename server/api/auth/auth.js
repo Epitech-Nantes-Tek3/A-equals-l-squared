@@ -1,5 +1,11 @@
 'use strict'
 
+const utils = require('../../utils.js')
+const { hash } = require('../../utils.js')
+const auth_token = require('../../passport/token')
+const auth_google = require('../../passport/google')
+const auth_facebook = require('../../passport/facebook')
+
 module.exports = function(app, passport, database) {
   /**
    * @swagger
@@ -263,7 +269,7 @@ module.exports = function(app, passport, database) {
                   data: {
                     googleToken: req.body.google != '' ? req.body.google : null,
                     discordToken: req.body.discord != '' ? req.body.discord :
-                                                           null,
+                                                          null,
                     deezerToken: req.body.deezer != '' ? req.body.deezer : null
                   }
                 })
