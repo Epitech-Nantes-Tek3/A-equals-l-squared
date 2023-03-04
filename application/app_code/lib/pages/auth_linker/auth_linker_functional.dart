@@ -79,7 +79,10 @@ class AuthBox {
               const SizedBox(
                 height: 10,
               ),
-              Text(authDescription, style: const TextStyle(color: Colors.black),)
+              Text(
+                authDescription,
+                style: const TextStyle(color: Colors.black),
+              )
             ],
           )),
       context,

@@ -68,18 +68,24 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
                 margin:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
                 child: SizedBox(
-                  width: isDesktop(context) ? 600 : MediaQuery.of(context).size.width,
+                  width: isDesktop(context)
+                      ? 600
+                      : MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Row(children: [
-                        IconButton(onPressed:() {
-                          setState(() {
-                            goToSettingsPage(context);
-                          });
-                        }, icon: const Icon(Icons.arrow_back_ios)),
-                        Text(getSentence('AUTHLINK-01')),
-                      ],),
+                      Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  goToSettingsPage(context);
+                                });
+                              },
+                              icon: const Icon(Icons.arrow_back_ios)),
+                          Text(getSentence('AUTHLINK-01')),
+                        ],
+                      ),
                       displayAuthBox(),
                       FutureBuilder<String>(
                         future: _futureApiResponse,

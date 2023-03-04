@@ -45,8 +45,8 @@ class HomePageState extends State<HomePage> {
   }
 
   /// This function Create an Elevated Button thanks to an Area
-  Widget areaDataToElevatedButton(AreaData areaData, Color areaPrimaryColor,
-      Color areaBorderColor) {
+  Widget areaDataToElevatedButton(
+      AreaData areaData, Color areaPrimaryColor, Color areaBorderColor) {
     return materialElevatedButtonArea(
       ElevatedButton(
           onPressed: () {
@@ -105,94 +105,92 @@ class HomePageState extends State<HomePage> {
           resizeToAvoidBottomInset: true,
           body: SingleChildScrollView(
               child: Container(
-                margin: const EdgeInsets.symmetric(
-                    horizontal: 30, vertical: 30),
-                child: SizedBox(
-                  width: isDesktop(context) ? 600 : MediaQuery.of(context).size.width,
-                  child:
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+            child: SizedBox(
+              width:
+                  isDesktop(context) ? 600 : MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      IconButton(
+                          iconSize: 30,
+                          onPressed: () {
+                            setState(() {
+                              goToSettingsPage(context);
+                            });
+                          },
+                          icon: const Icon(Icons.settings)),
+                      IconButton(
+                          onPressed: () {
+                            homeSync();
+                          },
+                          icon: Image.asset('assets/icons/Area_Logo.png')),
+                      IconButton(
+                          iconSize: 30,
+                          onPressed: () {
+                            setState(() {
+                              goToCreateAreaPage(context);
+                            });
+                          },
+                          icon: const Icon(Icons.add))
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        IconButton(
-                            iconSize: 30,
-                            onPressed: () {
-                              setState(() {
-                                goToSettingsPage(context);
-                              });
-                            },
-                            icon: const Icon(Icons.settings)),
-                        IconButton(
-                            onPressed: () {
-                              homeSync();
-                            },
-                            icon: Image.asset('assets/icons/Area_Logo.png')),
-                        IconButton(
-                            iconSize: 30,
-                            onPressed: () {
-                              setState(() {
-                                goToCreateAreaPage(context);
-                              });
-                            },
-                            icon: const Icon(Icons.add))
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(getSentence('HOME-01'),
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 28,
-                                  fontFamily: 'Roboto-Bold')),
-                          const SizedBox(height: 10),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: getSentence('HOME-03'),
-                            ),
-                            autovalidateMode: AutovalidateMode
-                                .onUserInteraction,
-                            validator: (String? value) {
-                              if (value == null) {
-                                return null;
-                              }
-                              return null;
-                            },
-                            onChanged: (value) {
-                              sortAreaDataList(value);
-                              setState(() {});
-                            },
+                        Text(getSentence('HOME-01'),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 28,
+                                fontFamily: 'Roboto-Bold')),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            labelText: getSentence('HOME-03'),
                           ),
-                        ]),
-                    const SizedBox(
-                      height: 30,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (String? value) {
+                            if (value == null) {
+                              return null;
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            sortAreaDataList(value);
+                            setState(() {});
+                          },
+                        ),
+                      ]),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: createTabOfAreas(),
+                  ),
+                  materialElevatedButtonArea(
+                    ElevatedButton(
+                      key: const Key('HomeServiceButton'),
+                      onPressed: () {
+                        setState(() {
+                          goToServiceListPage(context);
+                        });
+                      },
+                      child: Text(getSentence('HOME-02')),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: createTabOfAreas(),
-                    ),
-                    materialElevatedButtonArea(
-                      ElevatedButton(
-                        key: const Key('HomeServiceButton'),
-                        onPressed: () {
-                          setState(() {
-                            goToServiceListPage(context);
-                          });
-                        },
-                        child: Text(getSentence('HOME-02')),
-                      ),
-                      context,
-                      sizeOfButton: 4,
-                      primaryColor: getOurBlueAreaColor(100),
-                    ),
-                  ],
-                ),
-                ),
-              )));
+                    context,
+                    sizeOfButton: 4,
+                    primaryColor: getOurBlueAreaColor(100),
+                  ),
+                ],
+              ),
+            ),
+          )));
     }
   }
 }

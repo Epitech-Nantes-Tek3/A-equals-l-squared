@@ -23,8 +23,7 @@ bool isDesktop(BuildContext context) =>
     MediaQuery.of(context).size.width >= 600;
 
 /// To know if we are on mobile
-bool isMobile(BuildContext context) =>
-    MediaQuery.of(context).size.width < 600;
+bool isMobile(BuildContext context) => MediaQuery.of(context).size.width < 600;
 
 /// Return our green color Hex : 16FCBC
 Color getOurGreenAreaColor(double opacity) {
@@ -55,9 +54,7 @@ Widget materialElevatedButtonArea(
             primary: primaryColor,
             padding: EdgeInsets.symmetric(
                 vertical: paddingVertical, horizontal: paddingHorizontal),
-            side: BorderSide(
-                color: borderColor,
-                width: borderWith),
+            side: BorderSide(color: borderColor, width: borderWith),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(borderRadius)),
             shadowColor: isShadowNeeded ? Colors.black : Colors.transparent,
