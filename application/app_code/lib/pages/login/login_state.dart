@@ -172,9 +172,7 @@ class LoginPageState extends State<LoginPage> {
 
   /// This function display the google button for log with google AUTH and the apple button for log with apple AUTH
   Widget displayForRequestWhatConnectionIsUsed() {
-    return Column(children: <Widget>[
-      displayTextButtonGoogleLogin()
-    ]);
+    return Column(children: <Widget>[displayTextButtonGoogleLogin()]);
   }
 
   /// This function display the button for create a new account
