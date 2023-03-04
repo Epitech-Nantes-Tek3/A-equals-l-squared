@@ -6,6 +6,7 @@ const { createCalendarService } = require('../../services/calendar/calendar_init
 const { createDiscordService } = require('../../services/discord/init')
 const { createTimeTimeService } = require('../../services/timetime/init')
 const { createReaaaaaaaService } = require('../../services/reaaaaaaa/init')
+const { createRedditService } = require('../../services/reddit/init')
 
 module.exports = function(app, database) {
   /**
@@ -745,6 +746,7 @@ module.exports = function(app, database) {
     response.push(await createTimeTimeService())
     response.push(await createReaaaaaaaService())
     response.push(await createDeezerService())
+    response.push(await createRedditService())
     return res.json(response)
   })
 }

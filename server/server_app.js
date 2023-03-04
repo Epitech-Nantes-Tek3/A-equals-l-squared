@@ -202,6 +202,7 @@ require('./api/services/discord.js')(app, passport, database)
 require('./api/services/deezer.js')(app, passport, database)
 require('./api/services/google.js')(app, passport)
 require('./api/services/rea.js')(app, passport, database)
+require('./api/services/reddit.js')(app, passport, database)
 require('./api/dev/dev.js')(app, database)
 require('./api/auth/auth.js')(app, passport, database)
 
