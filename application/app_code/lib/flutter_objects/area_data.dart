@@ -159,7 +159,7 @@ class AreaData {
         Text(
           description == null
               ? '${getSentence("AREA-01")}${getSentence("AREA-02")}'
-              : '$getSentence("AREA-01)$description',
+              : '${getSentence("AREA-01")}$description',
           style: const TextStyle(color: Colors.black),
         )
 
