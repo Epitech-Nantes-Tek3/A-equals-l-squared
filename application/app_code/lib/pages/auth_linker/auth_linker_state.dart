@@ -16,23 +16,23 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
         const SizedBox(
           height: 30,
         ),
-        googleAuthBox.display(),
+        googleAuthBox.display(context),
         const SizedBox(
           height: 30,
         ),
-        discordAuthBox.display(),
+        discordAuthBox.display(context),
         const SizedBox(
           height: 30,
         ),
-        discordInviteAuthBox.display(),
+        discordInviteAuthBox.display(context),
         const SizedBox(
           height: 30,
         ),
-        deezerAuthBox.display(),
+        deezerAuthBox.display(context),
         const SizedBox(
           height: 30,
         ),
-        redditAuthBox.display(),
+        redditAuthBox.display(context),
       ],
     );
   }
