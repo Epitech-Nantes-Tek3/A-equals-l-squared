@@ -228,7 +228,7 @@ module.exports = function (app, passport, database) {
    *       '200':
    *         description: A success message indicating that the confirmation email has been sent.
    *       '401':
-   *         description: Unauthorized access, when the authentification token is invalid or missing.
+   *         description: Unauthorized access, when the authentication token is invalid or missing.
    *       '500':
    *         description: Internal server error, when the database query or email sending fails.
    */
