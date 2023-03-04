@@ -10,7 +10,7 @@ const createDeezerService = async () => {
     const deezer = await database.prisma.Service.create({
       data: {
         name: 'Deezer',
-        description: 'Deezer service',
+        description: 'Music streaming service',
         primaryColor: '#323232',
         secondaryColor: '#EF5466',
         icon: './assets/icons/deezer.png',

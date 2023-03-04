@@ -11,7 +11,7 @@ const createGmailService = async () => {
     const gmail = await database.prisma.Service.create({
       data: {
         name: 'gmail',
-        description: 'Gmail service',
+        description: 'Email service',
         isEnable: true,
         primaryColor: '#EA4335',
         secondaryColor: '#FFFFFF',

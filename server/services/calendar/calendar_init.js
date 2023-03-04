@@ -9,7 +9,7 @@ const createCalendarService = async () => {
     const calendar = await database.prisma.Service.create({
       data: {
         name: 'Calendar',
-        description: 'Use your Google Calendar',
+        description: 'Calendar service',
         isEnable: true,
         primaryColor: '#4285F4',
         secondaryColor: '#FFFFFF',
