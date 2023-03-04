@@ -39,7 +39,7 @@ services:
     healthcheck:
       test: curl --fail http://localhost:8080 || exit 1
       interval: 5s
-      retries: 60
+      retries: 600
       start_period: 5s
       timeout: 5s
 
