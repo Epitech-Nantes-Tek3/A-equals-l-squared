@@ -495,7 +495,6 @@ module.exports = function (app, passport, database) {
     newName,
     actualAreaId
   ) {
-    let existing = false
     let where
 
     if (actualAreaId) {
