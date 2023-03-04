@@ -92,13 +92,11 @@ module.exports = function (app, passport, database) {
         }
       })
       const token = utils.generateToken(user.id)
-      return res
-        .status(201)
-        .json({
-          status: 'success',
-          data: { user, token },
-          statusCode: res.statusCode
-        })
+      return res.status(201).json({
+        status: 'success',
+        data: { user, token },
+        statusCode: res.statusCode
+      })
     } catch (err) {
       console.error(err.message)
       return res.status(401).send('Google auth failed.')
@@ -281,6 +279,7 @@ module.exports = function (app, passport, database) {
           data: {
             googleToken: req.body.google != '' ? req.body.google : null,
             discordToken: req.body.discord != '' ? req.body.discord : null,
+            redditToken: req.body.reddit != '' ? req.body.reddit : null,
             deezerToken: req.body.deezer != '' ? req.body.deezer : null
           }
         })
