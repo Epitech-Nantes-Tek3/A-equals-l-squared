@@ -4,9 +4,60 @@ const axios = require('axios')
 
 module.exports = function(app, passport, database) {
   /**
-   * Generate token thanks to a code in Reddit
-   * body.code -> Code given by Reddit
-   * Route protected by a JWT token
+   * @swagger
+   * /api/code/reddit:
+   *   post:
+   *     summary: Generate a Reddit token with a given code
+   *     description: Generates a Reddit token with a given code and stores the refresh token in the database for the current user.
+   *     tags: [Services/Reddit]
+   *     security:
+   *       - jwt: []
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               code:
+   *                 type: string
+   *                 description: The authorization code obtained from Reddit.
+   *                 example: "123456"
+   *     responses:
+   *       200:
+   *         description: Successfully generated a Reddit token.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 status:
+   *                   type: string
+   *                   description: The status of the response.
+   *                   example: "success"
+   *                 data:
+   *                   type: object
+   *                   description: The data returned from the API.
+   *                   properties:
+   *                     access_token:
+   *                       type: string
+   *                       description: The Reddit access token.
+   *                       example: "1234567890abcdefg"
+   *                 statusCode:
+   *                   type: number
+   *                   description: The HTTP status code of the response.
+   *                   example: 200
+   *       400:
+   *         description: Failed to generate a Reddit token.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 message:
+   *                   type: string
+   *                   description: The error message.
+   *                   example: "Code generation has failed."
    */
   app.post(
       '/api/code/reddit', passport.authenticate('jwt', {session: false}),
