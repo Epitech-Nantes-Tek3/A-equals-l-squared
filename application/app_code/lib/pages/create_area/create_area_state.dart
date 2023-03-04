@@ -281,7 +281,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               ? temp.value
               : paramData.getterValue != null
                   ? paramData.getterValue![temp.value]
-                  : ''
+                  : temp.value
         });
       }
 
@@ -361,7 +361,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               ? temp.value
               : paramData.getterValue != null
                   ? paramData.getterValue![temp.value]
-                  : ''
+                  : temp.value
         });
       }
       if (changeType == 'create') {
