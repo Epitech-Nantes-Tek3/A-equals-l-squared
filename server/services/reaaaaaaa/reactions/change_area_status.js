@@ -11,7 +11,11 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
  * @param {*} User the user
  * @returns True if the status have been updated, false otherwise
  */
-async function reaaaaaaaChangeAreaStatusFromAreaParameters (ReactionParameters, dynamicParameters, User) {
+async function reaaaaaaaChangeAreaStatusFromAreaParameters (
+  ReactionParameters,
+  dynamicParameters,
+  User
+) {
   try {
     let changingAreaId = ReactionParameters.find(
       parameter => parameter.Parameter.name == 'areaId'

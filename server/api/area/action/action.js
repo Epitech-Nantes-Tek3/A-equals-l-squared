@@ -9,142 +9,96 @@ module.exports = function (app, passport, database) {
   /**
    * @swagger
    * /api/area/{areaId}/action:
-   *   post:
-   *     tags: [Area/Action]
-   *     summary: Add an action to an area
+   *   get:
+   *     summary: Get actions for a specific area
+   *     description: Returns a list of actions and their parameters for a specific area.
+   *     tags:
+   *       - Actions
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     parameters:
    *       - name: areaId
    *         in: path
    *         required: true
-   *         description: The ID of the area to add the action to
+   *         description: The ID of the area to retrieve actions for.
    *         schema:
-   *           type: integer
-   *       - name: actionId
-   *         in: body
-   *         required: true
-   *         description: The ID of the action to add
-   *         schema:
-   *           type: object
-   *           properties:
-   *             actionId:
-   *               type: integer
+   *           type: string
+   *           example: "abc123"
    *     responses:
    *       200:
-   *         description: The newly created area action
+   *         description: Successfully retrieved actions for the area.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 type: object
+   *                 properties:
+   *                   id:
+   *                     type: string
+   *                     description: The ID of the AREAhasActions record.
+   *                     example: "abc123"
+   *                   Action:
+   *                     type: object
+   *                     description: The action associated with the AREAhasActions record.
+   *                     properties:
+   *                       id:
+   *                         type: string
+   *                         description: The ID of the action.
+   *                         example: "def456"
+   *                       name:
+   *                         type: string
+   *                         description: The name of the action.
+   *                         example: "Send email"
+   *                       isEnable:
+   *                         type: boolean
+   *                         description: Indicates whether the action is currently enabled or disabled.
+   *                         example: true
+   *                   ActionParameters:
+   *                     type: array
+   *                     description: The parameters associated with the action.
+   *                     items:
+   *                       type: object
+   *                       properties:
+   *                         id:
+   *                           type: string
+   *                           description: The ID of the ActionParameters record.
+   *                           example: "ghi789"
+   *                         Parameter:
+   *                           type: object
+   *                           description: The parameter associated with the ActionParameters record.
+   *                           properties:
+   *                             name:
+   *                               type: string
+   *                               description: The name of the parameter.
+   *                               example: "To"
+   *                         value:
+   *                           type: string
+   *                           description: The value of the parameter.
+   *                           example: "john.doe@example.com"
+   *       404:
+   *         description: Area not found or user is not authorized to access the area.
    *         content:
    *           application/json:
    *             schema:
    *               type: object
    *               properties:
-   *                 id:
-   *                   type: integer
-   *                   description: The ID of the created area action
-   *                 Action:
-   *                   type: object
-   *                   properties:
-   *                     id:
-   *                       type: integer
-   *                       description: The ID of the action
-   *                     name:
-   *                       type: string
-   *                       description: The name of the action
-   *                     isEnable:
-   *                       type: boolean
-   *                       description: Whether the action is enabled or not
-   *                 ActionParameters:
-   *                   type: array
-   *                   description: The parameters of the action
-   *                   items:
-   *                     type: object
-   *                     properties:
-   *                       id:
-   *                         type: integer
-   *                         description: The ID of the action parameter
-   *                       Parameter:
-   *                         type: object
-   *                         properties:
-   *                           name:
-   *                             type: string
-   *                             description: The name of the parameter
-   *                       value:
-   *                         type: string
-   *                         description: The value of the parameter
-   *       400:
-   *         description: An error occurred
-   *       404:
-   *         description: Area or action not found
+   *                 error:
+   *                   type: string
+   *                   description: The error message.
+   *                   example: "Area not found"
    *       500:
-   *         description: An internal server error occurred
+   *         description: An error occurred while retrieving the actions.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   description: The error message.
+   *                   example: "Internal server error"
    */
-  app.post(
-    '/api/area/:areaId/action',
-    passport.authenticate('jwt', { session: false }),
-    async (req, res) => {
-      try {
-        const area = await database.prisma.AREA.findUnique({
-          where: {
-            id: req.params.areaId
-          },
-          select: {
-            userId: true
-          }
-        })
-        if (!area || area.userId !== req.user.id)
-          return res.status(404).json({ error: 'Area not found' })
-
-        const action = await database.prisma.ACTION.findUnique({
-          where: {
-            id: req.body.actionId
-          }
-        })
-        if (!action) return res.status(404).json({ error: 'Action not found' })
-
-        const newAction = await database.prisma.AREAhasActions.create({
-          data: {
-            AREA: {
-              connect: {
-                id: req.params.areaId
-              }
-            },
-            Action: {
-              connect: {
-                id: req.body.actionId
-              }
-            }
-          },
-          select: {
-            id: true,
-            Action: {
-              select: {
-                id: true,
-                name: true,
-                isEnable: true
-              }
-            },
-            ActionParameters: {
-              select: {
-                id: true,
-                Parameter: {
-                  select: {
-                    name: true
-                  }
-                },
-                value: true
-              }
-            }
-          }
-        })
-
-        res.status(200).json(newAction)
-      } catch (error) {
-        console.log(error)
-        res.status(500).json({ error: error.message })
-      }
-    }
-  )
-
   app.get(
     '/api/area/:areaId/action',
     passport.authenticate('jwt', { session: false }),
@@ -204,7 +158,7 @@ module.exports = function (app, passport, database) {
    *     tags: [Area/Action]
    *     summary: Get an action by ID for a specific area
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     parameters:
    *       - in: path
    *         name: areaId
@@ -346,7 +300,7 @@ module.exports = function (app, passport, database) {
    *     tags: [Area/Action]
    *     summary: Create an action for a specific area
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     parameters:
    *       - in: path
    *         name: areaId
@@ -680,7 +634,7 @@ module.exports = function (app, passport, database) {
    *                 type: string
    *                 description: Parameter value
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     responses:
    *       "200":
    *         description: Updated action

@@ -9,7 +9,11 @@ const { google } = require('googleapis')
  * @param {*} User the user
  * @returns the response from the gmail api
  */
-async function gmailSendEmailFromAreaParameters (ReactionParameters, dynamicParameters, User) {
+async function gmailSendEmailFromAreaParameters (
+  ReactionParameters,
+  dynamicParameters,
+  User
+) {
   try {
     let from = ReactionParameters.find(
       parameter => parameter.Parameter.name == 'from'
