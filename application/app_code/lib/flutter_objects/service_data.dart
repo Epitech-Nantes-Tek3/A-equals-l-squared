@@ -98,9 +98,7 @@ class ServiceData {
                             int.parse(primaryColor.replaceFirst("#", "0xff")))),
                   ),
                   // Change when icon are in DB
-                  Text(
-                    description
-                  ),
+                  Text(description),
                 ]),
           ],
         ),

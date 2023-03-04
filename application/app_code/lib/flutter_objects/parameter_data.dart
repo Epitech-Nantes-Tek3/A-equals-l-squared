@@ -156,8 +156,7 @@ class ParameterData {
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(
-                  style: BorderStyle.solid, width: 0.80),
+              border: Border.all(style: BorderStyle.solid, width: 0.80),
             ),
             child: DropdownButton<String>(
               icon: const Icon(Icons.keyboard_arrow_down),

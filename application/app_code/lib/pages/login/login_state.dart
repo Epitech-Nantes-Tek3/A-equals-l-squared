@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:application/language/language.dart';
 import 'package:application/network/informations.dart';
-import 'package:application/night_mod/night_mod.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:application/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
