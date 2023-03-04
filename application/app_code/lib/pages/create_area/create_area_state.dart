@@ -475,7 +475,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         ElevatedButton(
             onPressed: () {
               setState(() {
-                _createdAreaSave = AreaData.clone(createdArea!);
+                _createdAreaSave!.actionList = createdArea!.actionList
+                    .map((v) => ActionData.clone(v))
+                    .toList();
                 createdArea!.actionList.add(ActionData.clone(temp));
                 for (var tmp in temp.parameters) {
                   createdArea!.actionList.last.parametersContent.add(
@@ -519,7 +521,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         ElevatedButton(
             onPressed: () {
               setState(() {
-                _createdAreaSave = AreaData.clone(createdArea!);
+                _createdAreaSave!.serviceId = createdArea!.serviceId != null
+                    ? ServiceData.clone(createdArea!.serviceId!)
+                    : null;
                 createdArea!.serviceId = ServiceData.clone(temp);
                 _actionCreationState = 1;
               });
@@ -585,10 +589,18 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             key: const Key('CreateActionPreviousButton'),
             onPressed: () {
               setState(() {
-                createdArea = AreaData.clone(_createdAreaSave!);
+                createdArea!.actionList = _createdAreaSave!.actionList
+                    .map((v) => ActionData.clone(v))
+                    .toList();
                 if (_actionCreationState == 0) {
                   _isChoosingAnAction = false;
                   _actionCreationState = 0;
+                }
+                if (_actionCreationState == 2) {
+                  createdArea!.actionList.removeLast();
+                  _createdAreaSave!.actionList = createdArea!.actionList
+                      .map((v) => ActionData.clone(v))
+                      .toList();
                 }
                 _actionCreationState -= 1;
               });
@@ -607,7 +619,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 onPressed: () {
                   setState(() {
                     bool isRequired = true;
-                    _createdAreaSave = AreaData.clone(createdArea!);
+                    _createdAreaSave!.actionList = createdArea!.actionList
+                        .map((v) => ActionData.clone(v))
+                        .toList();
                     for (var temp in createdArea!.actionList.last.parameters) {
                       if (temp.isRequired && temp.matchedContent!.value == "") {
                         isRequired = false;
@@ -688,7 +702,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             onPressed: () {
               setState(() {
                 bool isRequired = true;
-                _createdAreaSave = AreaData.clone(createdArea!);
+                _createdAreaSave!.reactionList = createdArea!.reactionList
+                    .map((v) => ReactionData.clone(v))
+                    .toList();
                 for (var temp in createdArea!.reactionList.last.parameters) {
                   if (temp.isRequired && temp.matchedContent!.value == "") {
                     isRequired = false;
@@ -742,7 +758,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         ElevatedButton(
             onPressed: () {
               setState(() {
-                _createdAreaSave = AreaData.clone(createdArea!);
+                _createdAreaSave!.reactionList = createdArea!.reactionList
+                    .map((v) => ReactionData.clone(v))
+                    .toList();
                 createdArea!.reactionList.add(ReactionData.clone(temp));
                 for (var tmp in temp.parameters) {
                   createdArea!.reactionList.last.parametersContent.add(
@@ -787,7 +805,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         ElevatedButton(
             onPressed: () {
               setState(() {
-                _createdAreaSave = AreaData.clone(createdArea!);
+                _createdAreaSave!.serviceId = createdArea!.serviceId != null
+                    ? ServiceData.clone(createdArea!.serviceId!)
+                    : null;
                 createdArea!.serviceId = ServiceData.clone(temp);
                 _reactionCreationState = 1;
               });
@@ -857,10 +877,18 @@ class CreateAreaPageState extends State<CreateAreaPage> {
             key: const Key('CreateReactionPreviousButton'),
             onPressed: () {
               setState(() {
-                createdArea = AreaData.clone(_createdAreaSave!);
+                createdArea!.reactionList = _createdAreaSave!.reactionList
+                    .map((v) => ReactionData.clone(v))
+                    .toList();
                 if (_reactionCreationState == 0) {
                   _isChoosingAReaction = false;
                   _reactionCreationState = 0;
+                }
+                if (_reactionCreationState == 2) {
+                  createdArea!.reactionList.removeLast();
+                  _createdAreaSave!.reactionList = createdArea!.reactionList
+                      .map((v) => ReactionData.clone(v))
+                      .toList();
                 }
                 _reactionCreationState -= 1;
               });
