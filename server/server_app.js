@@ -37,8 +37,8 @@ const swaggerOptions = {
         description: 'User management'
       },
       {
-        name: 'Authentification',
-        description: 'Authentification management'
+        name: 'Authentication',
+        description: 'Authentication management'
       },
       {
         name: 'Services',
