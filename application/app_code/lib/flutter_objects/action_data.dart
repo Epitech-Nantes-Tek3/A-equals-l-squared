@@ -180,8 +180,7 @@ class ActionData {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              description,
-              style: const TextStyle(color: Colors.black),
+              description
             ),
           ]),
     );

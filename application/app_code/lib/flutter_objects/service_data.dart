@@ -99,8 +99,7 @@ class ServiceData {
                   ),
                   // Change when icon are in DB
                   Text(
-                    description,
-                    style: const TextStyle(color: Colors.black),
+                    description
                   ),
                 ]),
           ],

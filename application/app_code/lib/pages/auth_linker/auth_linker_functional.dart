@@ -81,8 +81,7 @@ class AuthBox {
               height: 10,
             ),
             Text(
-              authDescription,
-              style: const TextStyle(color: Colors.black),
+              authDescription
             )
           ],
         ));

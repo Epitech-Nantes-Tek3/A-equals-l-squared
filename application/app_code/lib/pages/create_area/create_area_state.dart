@@ -127,8 +127,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// List to know all button of _selectedActionCondition
   final List<bool> _selectedActionCondition = createdArea != null
       ? createdArea!.logicalGate == 'OR'
-          ? <bool>[true, false]
-          : <bool>[false, true]
+      ? <bool>[true, false]
+      : <bool>[false, true]
       : <bool>[true, false];
 
   /// List to know what color is selected
@@ -280,8 +280,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           "value": paramData.getterUrl == null
               ? temp.value
               : paramData.getterValue != null
-                  ? paramData.getterValue![temp.value]
-                  : temp.value
+              ? paramData.getterValue![temp.value]
+              : temp.value
         });
       }
 
@@ -300,7 +300,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       } else if (changeType == 'update') {
         response = await http.put(
           Uri.parse(
-              'http://$serverIp:8080/api/area/${createdArea!.id}/action/${action.id}'),
+              'http://$serverIp:8080/api/area/${createdArea!.id}/action/${action
+                  .id}'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ${userInformation!.token}',
@@ -311,7 +312,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       } else if (changeType == 'delete') {
         response = await http.delete(
           Uri.parse(
-              'http://$serverIp:8080/api/area/${createdArea!.id}/action/${action.id}'),
+              'http://$serverIp:8080/api/area/${createdArea!.id}/action/${action
+                  .id}'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ${userInformation!.token}',
@@ -360,8 +362,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           "value": paramData.getterUrl == null
               ? temp.value
               : paramData.getterValue != null
-                  ? paramData.getterValue![temp.value]
-                  : temp.value
+              ? paramData.getterValue![temp.value]
+              : temp.value
         });
       }
       if (changeType == 'create') {
@@ -380,7 +382,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       } else if (changeType == 'update') {
         response = await http.put(
           Uri.parse(
-              'http://$serverIp:8080/api/area/${createdArea!.id}/reaction/${reaction.id}'),
+              'http://$serverIp:8080/api/area/${createdArea!
+                  .id}/reaction/${reaction.id}'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ${userInformation!.token}',
@@ -391,7 +394,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       } else if (changeType == 'delete') {
         response = await http.delete(
           Uri.parse(
-              'http://$serverIp:8080/api/area/${createdArea!.id}/reaction/${reaction.id}'),
+              'http://$serverIp:8080/api/area/${createdArea!
+                  .id}/reaction/${reaction.id}'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer ${userInformation!.token}',
@@ -449,7 +453,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
           color: Colors.transparent,
-          border: Border.all(color: Colors.black),
+          border: Border.all(),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10.0),
             topRight: Radius.circular(10.0),
@@ -677,7 +681,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
   /// This function display the configuration Reaction widget view
   Widget configureAReactionDisplay() {
     Widget modifyAReaction =
-        Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+    Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
       createdArea!.reactionList.last
           .displayReactionModificationView(createUpdate), //, false),
       const SizedBox(
@@ -704,7 +708,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               });
             },
             child: Text(getSentence('CREATE-10'),
-                style: const TextStyle(color: Colors.black))),
+            )),
         context,
         primaryColor: getOurBlueAreaColor(100),
         borderWith: 1,
@@ -716,7 +720,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
           color: Colors.transparent,
-          border: Border.all(color: Colors.black),
+          border: Border.all(),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10.0),
             topRight: Radius.circular(10.0),
@@ -955,7 +959,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                   color: Colors.transparent,
-                  border: Border.all(color: Colors.black),
+                  border: Border.all(),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10.0),
                     topRight: Radius.circular(10.0),
@@ -978,7 +982,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                           },
                           child: Text(getSentence('CREATE-16'),
                               style:
-                                  TextStyle(color: getOurBlueAreaColor(100)))),
+                              TextStyle(color: getOurBlueAreaColor(100)))),
                       context,
                       borderColor: getOurBlueAreaColor(100),
                       borderWith: 2,
@@ -1019,7 +1023,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                   color: Colors.transparent,
-                  border: Border.all(color: Colors.black),
+                  border: Border.all(),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10.0),
                     topRight: Radius.circular(10.0),
@@ -1042,7 +1046,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                           },
                           child: Text(getSentence('CREATE-18'),
                               style:
-                                  TextStyle(color: getOurBlueAreaColor(100)))),
+                              TextStyle(color: getOurBlueAreaColor(100)))),
                       context,
                       borderColor: getOurBlueAreaColor(100),
                       borderWith: 2,
@@ -1075,379 +1079,397 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
     return Scaffold(
         body: SingleChildScrollView(
-      child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
+          child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+              child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          createdArea = null;
-                          _createdAreaSave = null;
-                          actionSetting = false;
-                          goToHomePage(context);
-                        });
-                      },
-                      icon: const Icon(Icons.home_filled),
-                      color: getOurBlueAreaColor(100),
-                    ),
-                    Text(
-                      createdArea != null ? createdArea!.name : '',
-                      style: const TextStyle(
-                          fontFamily: 'Roboto-Bold', fontSize: 20),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                if (actionSetting)
-                  Column(children: [
-                    /// Block Action
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            createdArea!.actionList.length >= 2
-                                ? getSentence('CREATE-20-01')
-                                : getSentence('CREATE-20-02'),
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          if (!_isDisplayActions &&
-                              createdArea!.actionList.isNotEmpty)
-                            IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _isDisplayActions = true;
-                                    for (var temp in createdArea!.actionList) {
-                                      temp.isPreviewDisplayMax = false;
-                                    }
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.remove_red_eye_outlined,
-                                  color: getOurBlueAreaColor(100),
-                                )),
-                          if (_isDisplayActions &&
-                              createdArea!.actionList.isNotEmpty)
-                            IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _isDisplayActions = false;
-                                    for (var temp in createdArea!.actionList) {
-                                      temp.isPreviewDisplayMax = true;
-                                    }
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.remove_red_eye,
-                                  color: getOurBlueAreaColor(100),
-                                  shadows: const [
-                                    Shadow(color: Colors.black, blurRadius: 0.4)
-                                  ],
-                                )),
-                        ]),
-
-                    Column(children: actionListDisplay),
-                    displayNewActionSelectionView(),
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              createdArea = null;
+                              _createdAreaSave = null;
+                              actionSetting = false;
+                              goToHomePage(context);
+                            });
+                          },
+                          icon: const Icon(Icons.home_filled),
+                          color: getOurBlueAreaColor(100),
+                        ),
+                        Text(
+                          createdArea != null ? createdArea!.name : '',
+                          style: const TextStyle(
+                              fontFamily: 'Roboto-Bold', fontSize: 20),
+                        )
+                      ],
+                    ),
                     const SizedBox(
                       height: 30,
                     ),
+                    if (actionSetting)
+                      Column(children: [
 
-                    /// Block Reaction
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            createdArea!.reactionList.length >= 2
-                                ? getSentence('CREATE-21-01')
-                                : getSentence('CREATE-21-02'),
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          if (!_isDisplayReactions &&
-                              createdArea!.reactionList.isNotEmpty)
-                            IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _isDisplayReactions = true;
-                                    for (var temp
-                                        in createdArea!.reactionList) {
-                                      temp.isPreviewDisplayMax = false;
-                                    }
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.remove_red_eye_outlined,
-                                  color: getOurBlueAreaColor(100),
-                                )),
-                          if (_isDisplayReactions &&
-                              createdArea!.reactionList.isNotEmpty)
-                            IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _isDisplayReactions = false;
-                                    for (var temp
-                                        in createdArea!.reactionList) {
-                                      temp.isPreviewDisplayMax = true;
-                                    }
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.remove_red_eye,
-                                  color: getOurBlueAreaColor(100),
-                                  shadows: const [
-                                    Shadow(color: Colors.black, blurRadius: 0.4)
-                                  ],
-                                )),
-                        ]),
-                    Column(children: reactionListDisplay),
-                    displayNewReactionSelectionView()
-                  ])
-                else
-                  Container(
-                      padding: const EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          border: Border.all(color: Colors.black),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0),
-                            bottomLeft: Radius.circular(10.0),
-                            bottomRight: Radius.circular(10.0),
-                          )),
-                      child: Column(children: [
+                        /// Block Action
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(getSentence('CREATE-22')),
-                            Switch(
-                              value: createdArea != null
-                                  ? createdArea!.isEnable
-                                  : true,
-                              activeColor: Colors.blue,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  createdArea!.isEnable = value;
-                                });
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                createdArea!.actionList.length >= 2
+                                    ? getSentence('CREATE-20-01')
+                                    : getSentence('CREATE-20-02'),
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              if (!_isDisplayActions &&
+                                  createdArea!.actionList.isNotEmpty)
+                                IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isDisplayActions = true;
+                                        for (var temp in createdArea!
+                                            .actionList) {
+                                          temp.isPreviewDisplayMax = false;
+                                        }
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.remove_red_eye_outlined,
+                                      color: getOurBlueAreaColor(100),
+                                    )),
+                              if (_isDisplayActions &&
+                                  createdArea!.actionList.isNotEmpty)
+                                IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isDisplayActions = false;
+                                        for (var temp in createdArea!
+                                            .actionList) {
+                                          temp.isPreviewDisplayMax = true;
+                                        }
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.remove_red_eye,
+                                      color: getOurBlueAreaColor(100),
+                                      shadows: const [
+                                        Shadow(color: Colors.black,
+                                            blurRadius: 0.4)
+                                      ],
+                                    )),
+                            ]),
+
+                        Column(children: actionListDisplay),
+                        displayNewActionSelectionView(),
+                        const SizedBox(
+                          height: 30,
+                        ),
+
+                        /// Block Reaction
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                createdArea!.reactionList.length >= 2
+                                    ? getSentence('CREATE-21-01')
+                                    : getSentence('CREATE-21-02'),
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              if (!_isDisplayReactions &&
+                                  createdArea!.reactionList.isNotEmpty)
+                                IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isDisplayReactions = true;
+                                        for (var temp
+                                        in createdArea!.reactionList) {
+                                          temp.isPreviewDisplayMax = false;
+                                        }
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.remove_red_eye_outlined,
+                                      color: getOurBlueAreaColor(100),
+                                    )),
+                              if (_isDisplayReactions &&
+                                  createdArea!.reactionList.isNotEmpty)
+                                IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isDisplayReactions = false;
+                                        for (var temp
+                                        in createdArea!.reactionList) {
+                                          temp.isPreviewDisplayMax = true;
+                                        }
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.remove_red_eye,
+                                      color: getOurBlueAreaColor(100),
+                                      shadows: const [
+                                        Shadow(color: Colors.black,
+                                            blurRadius: 0.4)
+                                      ],
+                                    )),
+                            ]),
+                        Column(children: reactionListDisplay),
+                        displayNewReactionSelectionView()
+                      ])
+                    else
+                      Container(
+                          padding: const EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              border: Border.all(),
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                                topRight: Radius.circular(10.0),
+                                bottomLeft: Radius.circular(10.0),
+                                bottomRight: Radius.circular(10.0),
+                              )),
+                          child: Column(children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(getSentence('CREATE-22')),
+                                Switch(
+                                  value: createdArea != null
+                                      ? createdArea!.isEnable
+                                      : true,
+                                  activeColor: Colors.blue,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      createdArea!.isEnable = value;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: getSentence('CREATE-25'),
+                              ),
+                              initialValue:
+                              createdArea != null ? createdArea!.name : '',
+                              autovalidateMode: AutovalidateMode
+                                  .onUserInteraction,
+                              validator: (String? value) {
+                                if (value!.length > 15) {
+                                  return getSentence('CREATE-26');
+                                }
+                                createdArea!.name = value;
+                                return null;
                               },
                             ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            labelText: getSentence('CREATE-25'),
-                          ),
-                          initialValue:
-                              createdArea != null ? createdArea!.name : '',
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (String? value) {
-                            if (value!.length > 15) {
-                              return getSentence('CREATE-26');
-                            }
-                            createdArea!.name = value;
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            labelText: getSentence('CREATE-27'),
-                          ),
-                          initialValue: createdArea != null
-                              ? createdArea!.description
-                              : '',
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (String? value) {
-                            if (value!.length > 20) {
-                              return getSentence('CREATE-28');
-                            }
-                            createdArea!.description = value;
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              // ToggleButtons with a single selection.
-                              Text(getSentence('CREATE-23')),
-                              const SizedBox(height: 5),
-                              ToggleButtons(
-                                direction: isSelected
-                                    ? Axis.vertical
-                                    : Axis.horizontal,
-                                onPressed: (int index) {
-                                  setState(() {
-                                    // The button that is tapped is set to true, and the others to false.
-                                    for (int i = 0;
+                            const SizedBox(height: 20),
+                            TextFormField(
+                              decoration: InputDecoration(
+                                border: const OutlineInputBorder(),
+                                labelText: getSentence('CREATE-27'),
+                              ),
+                              initialValue: createdArea != null
+                                  ? createdArea!.description
+                                  : '',
+                              autovalidateMode: AutovalidateMode
+                                  .onUserInteraction,
+                              validator: (String? value) {
+                                if (value!.length > 20) {
+                                  return getSentence('CREATE-28');
+                                }
+                                createdArea!.description = value;
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  // ToggleButtons with a single selection.
+                                  Text(getSentence('CREATE-23')),
+                                  const SizedBox(height: 5),
+                                  ToggleButtons(
+                                    direction: isSelected
+                                        ? Axis.vertical
+                                        : Axis.horizontal,
+                                    onPressed: (int index) {
+                                      setState(() {
+                                        // The button that is tapped is set to true, and the others to false.
+                                        for (int i = 0;
                                         i < _selectedActionCondition.length;
                                         i++) {
-                                      _selectedActionCondition[i] = i == index;
-                                    }
-                                    createdArea!.logicalGate =
+                                          _selectedActionCondition[i] =
+                                              i == index;
+                                        }
+                                        createdArea!.logicalGate =
                                         index == 0 ? 'OR' : 'AND';
-                                  });
-                                },
-                                borderRadius:
+                                      });
+                                    },
+                                    borderRadius:
                                     const BorderRadius.all(Radius.circular(8)),
-                                selectedBorderColor: Colors.blue[700],
-                                selectedColor: Colors.white,
-                                fillColor: Colors.blue[200],
-                                color: Colors.blue[400],
-                                constraints: const BoxConstraints(
-                                  minHeight: 40.0,
-                                  minWidth: 80.0,
-                                ),
-                                isSelected: _selectedActionCondition,
-                                children: listActionCondition,
-                              ),
-                              const SizedBox(height: 5),
-                              ToggleButtons(
-                                direction: isSelected
-                                    ? Axis.vertical
-                                    : Axis.horizontal,
-                                onPressed: (int index) {
-                                  setState(() {
-                                    for (int i = 0;
+                                    selectedBorderColor: Colors.blue[700],
+                                    selectedColor: Colors.white,
+                                    fillColor: Colors.blue[200],
+                                    color: Colors.blue[400],
+                                    constraints: const BoxConstraints(
+                                      minHeight: 40.0,
+                                      minWidth: 80.0,
+                                    ),
+                                    isSelected: _selectedActionCondition,
+                                    children: listActionCondition,
+                                  ),
+                                  const SizedBox(height: 5),
+                                  ToggleButtons(
+                                    direction: isSelected
+                                        ? Axis.vertical
+                                        : Axis.horizontal,
+                                    onPressed: (int index) {
+                                      setState(() {
+                                        for (int i = 0;
                                         i < _selectedPrimaryColor.length;
                                         i++) {
-                                      _selectedPrimaryColor[i] = i == index;
-                                      if (i == index) {
-                                        createdArea!.primaryColor =
-                                            '#${(listPrimaryColor[i] as Icon).color!.value.toRadixString(16).substring(2, 8)}';
-                                      }
-                                    }
-                                  });
-                                },
-                                borderRadius:
+                                          _selectedPrimaryColor[i] = i == index;
+                                          if (i == index) {
+                                            createdArea!.primaryColor =
+                                            '#${(listPrimaryColor[i] as Icon)
+                                                .color!.value.toRadixString(16)
+                                                .substring(2, 8)}';
+                                          }
+                                        }
+                                      });
+                                    },
+                                    borderRadius:
                                     const BorderRadius.all(Radius.circular(8)),
-                                constraints: const BoxConstraints(
-                                  minHeight: 40.0,
-                                  minWidth: 60.0,
-                                ),
-                                isSelected: _selectedPrimaryColor,
-                                children: listPrimaryColor,
-                              ),
-                              const SizedBox(height: 5),
-                              ToggleButtons(
-                                direction: isSelected
-                                    ? Axis.vertical
-                                    : Axis.horizontal,
-                                onPressed: (int index) {
-                                  setState(() {
-                                    for (int i = 0;
+                                    constraints: const BoxConstraints(
+                                      minHeight: 40.0,
+                                      minWidth: 60.0,
+                                    ),
+                                    isSelected: _selectedPrimaryColor,
+                                    children: listPrimaryColor,
+                                  ),
+                                  const SizedBox(height: 5),
+                                  ToggleButtons(
+                                    direction: isSelected
+                                        ? Axis.vertical
+                                        : Axis.horizontal,
+                                    onPressed: (int index) {
+                                      setState(() {
+                                        for (int i = 0;
                                         i < _selectedSecondaryColor.length;
                                         i++) {
-                                      _selectedSecondaryColor[i] = i == index;
-                                      if (i == index) {
-                                        createdArea!.secondaryColor =
-                                            '#${(listSecondaryColor[i] as Icon).color!.value.toRadixString(16).substring(2, 8)}';
-                                      }
-                                    }
-                                  });
-                                },
-                                borderRadius:
+                                          _selectedSecondaryColor[i] =
+                                              i == index;
+                                          if (i == index) {
+                                            createdArea!.secondaryColor =
+                                            '#${(listSecondaryColor[i] as Icon)
+                                                .color!.value.toRadixString(16)
+                                                .substring(2, 8)}';
+                                          }
+                                        }
+                                      });
+                                    },
+                                    borderRadius:
                                     const BorderRadius.all(Radius.circular(8)),
-                                constraints: const BoxConstraints(
-                                  minHeight: 40.0,
-                                  minWidth: 60.0,
-                                ),
-                                isSelected: _selectedSecondaryColor,
-                                children: listSecondaryColor,
-                              ),
-                              const SizedBox(height: 5),
-                              ToggleButtons(
-                                direction: isSelected
-                                    ? Axis.vertical
-                                    : Axis.horizontal,
-                                onPressed: (int index) {
-                                  setState(() {
-                                    for (int i = 0;
+                                    constraints: const BoxConstraints(
+                                      minHeight: 40.0,
+                                      minWidth: 60.0,
+                                    ),
+                                    isSelected: _selectedSecondaryColor,
+                                    children: listSecondaryColor,
+                                  ),
+                                  const SizedBox(height: 5),
+                                  ToggleButtons(
+                                    direction: isSelected
+                                        ? Axis.vertical
+                                        : Axis.horizontal,
+                                    onPressed: (int index) {
+                                      setState(() {
+                                        for (int i = 0;
                                         i < _selectedIcon.length;
                                         i++) {
-                                      _selectedIcon[i] = i == index;
-                                      if (i == index) {
-                                        createdArea!.iconPath =
-                                            (listIcon[i] as Image)
-                                                .key
-                                                .toString()
-                                                .replaceFirst("[<'", "")
-                                                .replaceFirst("'>]", "");
-                                      }
-                                    }
-                                  });
-                                },
-                                borderRadius:
+                                          _selectedIcon[i] = i == index;
+                                          if (i == index) {
+                                            createdArea!.iconPath =
+                                                (listIcon[i] as Image)
+                                                    .key
+                                                    .toString()
+                                                    .replaceFirst("[<'", "")
+                                                    .replaceFirst("'>]", "");
+                                          }
+                                        }
+                                      });
+                                    },
+                                    borderRadius:
                                     const BorderRadius.all(Radius.circular(8)),
-                                constraints: const BoxConstraints(
-                                  minHeight: 40.0,
-                                  minWidth: 42.0,
-                                ),
-                                isSelected: _selectedIcon,
-                                children: listIcon,
-                              ),
-                            ]),
-                      ])),
-                const SizedBox(
-                  height: 10,
-                ),
+                                    constraints: const BoxConstraints(
+                                      minHeight: 40.0,
+                                      minWidth: 42.0,
+                                    ),
+                                    isSelected: _selectedIcon,
+                                    children: listIcon,
+                                  ),
+                                ]),
+                          ])),
+                    const SizedBox(
+                      height: 10,
+                    ),
 
-                /// Update and delete Area
-                if ((changeType == 'update' && !actionSetting) ||
-                    changeType == 'create')
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      if (changeType != 'create')
-                        materialElevatedButtonArea(
-                          ElevatedButton(
-                            onPressed: (() {
-                              changeType = 'delete';
-                              apiAskForAreaChange();
-                            }),
-                            child: Text(
-                                "${getSentence('CREATE-24')}${createdArea != null ? createdArea!.name : ''}",
-                                style:
+                    /// Update and delete Area
+                    if ((changeType == 'update' && !actionSetting) ||
+                        changeType == 'create')
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          if (changeType != 'create')
+                            materialElevatedButtonArea(
+                              ElevatedButton(
+                                onPressed: (() {
+                                  changeType = 'delete';
+                                  apiAskForAreaChange();
+                                }),
+                                child: Text(
+                                    "${getSentence('CREATE-24')}${createdArea !=
+                                        null ? createdArea!.name : ''}",
+                                    style:
                                     TextStyle(color: getOurBlueAreaColor(100))),
-                          ),
-                          context,
-                          isShadowNeeded: true,
-                          borderWith: 2,
-                          borderColor: getOurBlueAreaColor(100),
-                        ),
-                      if (actionSetting != true)
-                        materialElevatedButtonArea(
-                          ElevatedButton(
-                              onPressed: (() {
-                                _createdAreaSave = AreaData.clone(createdArea!);
-                                apiAskForAreaChange();
-                                setState(() {
-                                  actionSetting = true;
-                                });
-                              }),
-                              child: Text(
-                                  "$changeType ${createdArea != null ? createdArea!.name : ''}",
-                                  style: const TextStyle(color: Colors.white))),
-                          context,
-                          isShadowNeeded: true,
-                          primaryColor: getOurBlueAreaColor(100),
-                          borderWith: 1,
-                          borderColor: getOurBlueAreaColor(100),
-                        ),
-                    ],
-                  ),
-                Text(_apiErrorMessage != null ? _apiErrorMessage! : '')
-              ])),
-    ));
+                              ),
+                              context,
+                              isShadowNeeded: true,
+                              borderWith: 2,
+                              borderColor: getOurBlueAreaColor(100),
+                            ),
+                          if (actionSetting != true)
+                            materialElevatedButtonArea(
+                              ElevatedButton(
+                                  onPressed: (() {
+                                    _createdAreaSave = AreaData.clone(
+                                        createdArea!);
+                                    apiAskForAreaChange();
+                                    setState(() {
+                                      actionSetting = true;
+                                    });
+                                  }),
+                                  child: Text(
+                                      "$changeType ${createdArea != null
+                                          ? createdArea!.name
+                                          : ''}",
+                                      style: const TextStyle(color: Colors
+                                          .white))),
+                              context,
+                              isShadowNeeded: true,
+                              primaryColor: getOurBlueAreaColor(100),
+                              borderWith: 1,
+                              borderColor: getOurBlueAreaColor(100),
+                            ),
+                        ],
+                      ),
+                    Text(_apiErrorMessage != null ? _apiErrorMessage! : '')
+                  ])),
+        ));
   }
 }
