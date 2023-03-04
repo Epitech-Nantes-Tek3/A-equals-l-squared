@@ -24,7 +24,8 @@ class ServiceListPageState extends State<ServiceListPage> {
               },
               child: temp.display(context)),
           context,
-          sizeOfButton: 1));
+          sizeOfButton: 1,
+          isShadowNeeded: true));
       serviceVis.add(const SizedBox(
         height: 10,
       ));

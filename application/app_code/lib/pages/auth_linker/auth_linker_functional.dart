@@ -59,35 +59,36 @@ class AuthBox {
       isEnable = token == null ? false : true;
     }
     return materialElevatedButtonArea(
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              side: const BorderSide(width: 3),
-            ),
-            onPressed: () {
-              if (updateAuthPage != null) {
-                updateAuthPage!(action);
-              }
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  authName,
-                  style: TextStyle(color: isEnable ? Colors.green : Colors.red),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  authDescription,
-                  style:
-                      TextStyle(color: Theme.of(context).secondaryHeaderColor),
-                )
-              ],
-            )),
-        context,
-        sizeOfButton: 1);
+      ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            side: const BorderSide(width: 3),
+          ),
+          onPressed: () {
+            if (updateAuthPage != null) {
+              updateAuthPage!(action);
+            }
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                authName,
+                style: TextStyle(color: isEnable ? Colors.green : Colors.red),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                authDescription,
+                style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+              )
+            ],
+          )),
+      context,
+      sizeOfButton: 1,
+      isShadowNeeded: true,
+    );
   }
 }
 
@@ -269,7 +270,10 @@ Future<String> getRedditToken() async {
 
 /// Invite the Discord bot to the user server
 Future<String> inviteDiscordBot() async {
-  await launchUrl(Uri.parse('https://www.test.com'),
+  await launchUrl(
+      Uri.parse(kIsWeb
+          ? "https://discord.com/oauth2/authorize?client_id=1066384923231006741&permissions=8&redirect_uri=http%3A%2F%2Flocalhost%3A8081%2Fauth.html&response_type=code&scope=identify%20guilds%20bot%20guilds.members.read%20messages.read%20email"
+          : "https://discord.com/oauth2/authorize?client_id=1066384923231006741&permissions=8&redirect_uri=https%3A%2F%2Fwww.test.com&response_type=code&scope=identify%20guilds%20bot%20guilds.members.read%20messages.read%20email"),
       mode: LaunchMode.externalApplication);
   return 'Thanks for adding our bot to your server !';
 }

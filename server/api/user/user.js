@@ -2,6 +2,7 @@
 
 const gmail = require('../../services/gmail/reactions/send_email')
 const auth_token = require('../../passport/local')
+const { hash } = require('../../utils')
 
 module.exports = function (app, passport, database) {
   /**
@@ -228,7 +229,7 @@ module.exports = function (app, passport, database) {
    *       '200':
    *         description: A success message indicating that the confirmation email has been sent.
    *       '401':
-   *         description: Unauthorized access, when the authentification token is invalid or missing.
+   *         description: Unauthorized access, when the authentication token is invalid or missing.
    *       '500':
    *         description: Internal server error, when the database query or email sending fails.
    */
@@ -429,6 +430,7 @@ module.exports = function (app, passport, database) {
         })
         return res.json('Your informations have been successfully updated.')
       } catch (err) {
+        console.error(err)
         return res.status(400).json('Please pass a complete body.')
       }
     }

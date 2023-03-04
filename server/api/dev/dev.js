@@ -13,7 +13,6 @@ const { createRedditService } = require('../../services/reddit/init')
 module.exports = function (app, database) {
   /**
    * @swagger
-   *
    * /api/dev/user/create:
    *   post:
    *     summary: Create a new user in the database
@@ -59,7 +58,6 @@ module.exports = function (app, database) {
 
   /**
    * @swagger
-   *
    * /api/dev/user/listall:
    *   get:
    *     summary: List all users in the database
@@ -663,7 +661,6 @@ module.exports = function (app, database) {
    *                                   description:
    *                                     type: string
    */
-
   app.get('/api/dev/area/listall', async (req, res) => {
     try {
       const areas = await database.prisma.AREA.findMany()
@@ -675,13 +672,15 @@ module.exports = function (app, database) {
   })
 
   /**
+   * @swagger
    * /api/dev/service/createAll:
    *   get:
    *     tags: [Dev]
-   *     summary: Initialize the database with all services, actions, reactions
-   * and parameters. description: Initializes the database with all supported
-   * services, actions, reactions and parameters. responses: 200: description:
-   * Services, actions, reactions and parameters initialized successfully.
+   *     summary: Initialize the database with all services, actions, reactions and parameters.
+   *     description: Initializes the database with all supported services, actions, reactions and parameters.
+   *     responses:
+   *       200:
+   *         description: Services, actions, reactions and parameters initialized successfully.
    *         content:
    *           application/json:
    *             schema:
