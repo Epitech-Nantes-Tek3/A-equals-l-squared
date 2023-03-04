@@ -475,15 +475,15 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         ElevatedButton(
             onPressed: () {
               setState(() {
-                _createdAreaSave!.actionList = createdArea!.actionList
-                    .map((v) => ActionData.clone(v))
-                    .toList();
                 createdArea!.actionList.add(ActionData.clone(temp));
                 for (var tmp in temp.parameters) {
                   createdArea!.actionList.last.parametersContent.add(
                       ParameterContent(paramId: tmp.id, value: "", id: ''));
                 }
                 _actionCreationState = 2;
+                _createdAreaSave!.actionList = createdArea!.actionList
+                    .map((v) => ActionData.clone(v))
+                    .toList();
               });
             },
             child: temp.displayActionDescription(context)),
@@ -759,15 +759,15 @@ class CreateAreaPageState extends State<CreateAreaPage> {
         ElevatedButton(
             onPressed: () {
               setState(() {
-                _createdAreaSave!.reactionList = createdArea!.reactionList
-                    .map((v) => ReactionData.clone(v))
-                    .toList();
                 createdArea!.reactionList.add(ReactionData.clone(temp));
                 for (var tmp in temp.parameters) {
                   createdArea!.reactionList.last.parametersContent.add(
                       ParameterContent(paramId: tmp.id, value: "", id: ''));
                 }
                 _reactionCreationState = 2;
+                _createdAreaSave!.reactionList = createdArea!.reactionList
+                    .map((v) => ReactionData.clone(v))
+                    .toList();
               });
             },
             child: temp.displayReactionDescription(context)),
