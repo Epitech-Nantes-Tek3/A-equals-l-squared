@@ -1,9 +1,8 @@
 'use strict'
 
-const getAvailableCalendars =
-    require('../../services/calendar/getters/get_available_calendars')
+const getAvailableCalendars = require('../../services/calendar/getters/get_available_calendars')
 
-module.exports = function(app, passport) {
+module.exports = function (app, passport) {
   /**
    * @swagger
    * /api/services/gmail/getAvailablePerformers:
@@ -52,16 +51,25 @@ module.exports = function(app, passport) {
    *                   example: 400
    */
   app.get(
-      '/api/services/gmail/getAvailablePerformers',
-      passport.authenticate('jwt', {session: false}), (req, res) => {
-        const performers = []
-        if (req != null && req.user != null && req.user.googleToken != null)
-        performers.push({id: req.user.googleToken, name: req.user.username})
-        performers.push(
-            {id: 'aequallsquared@gmail.com', name: 'Default Bot Gmail'})
-        return res.status(200).json(
-            {status: 'success', data: performers, statusCode: res.statusCode})
+    '/api/services/gmail/getAvailablePerformers',
+    passport.authenticate('jwt', { session: false }),
+    (req, res) => {
+      const performers = []
+      if (req != null && req.user != null && req.user.googleToken != null)
+        performers.push({ id: req.user.googleToken, name: req.user.username })
+      performers.push({
+        id: 'aequallsquared@gmail.com',
+        name: 'Default Bot Gmail'
       })
+      return res
+        .status(200)
+        .json({
+          status: 'success',
+          data: performers,
+          statusCode: res.statusCode
+        })
+    }
+  )
 
   /**
    * @swagger
@@ -111,20 +119,21 @@ module.exports = function(app, passport) {
    *               example: "An error occurred."
    */
   app.get(
-      '/api/services/calendar/getAvailableCalendars',
-      passport.authenticate('jwt', {session: false}),
-      (req, res) => {
-        if (req.user.googleToken == null)
-          return res.status(400).send('No Google account linked.')
-          try {
-            const calendars = getAvailableCalendars(req.user.googleToken)
-            res.status(200).json({
-              status: 'success',
-              data: calendars,
-              statusCode: res.statusCode
-            })
-          } catch (error) {
-            res.status(400).send('An error occured.')
-          }
-      })
+    '/api/services/calendar/getAvailableCalendars',
+    passport.authenticate('jwt', { session: false }),
+    (req, res) => {
+      if (req.user.googleToken == null)
+        return res.status(400).send('No Google account linked.')
+      try {
+        const calendars = getAvailableCalendars(req.user.googleToken)
+        res.status(200).json({
+          status: 'success',
+          data: calendars,
+          statusCode: res.statusCode
+        })
+      } catch (error) {
+        res.status(400).send('An error occured.')
+      }
+    }
+  )
 }

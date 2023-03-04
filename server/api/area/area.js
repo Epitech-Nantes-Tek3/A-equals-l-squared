@@ -3,7 +3,6 @@
 const { TriggerDestroyMap } = require('../../services/timetime/init')
 
 module.exports = function (app, passport, database) {
-
   /**
    * @swagger
    * components:
@@ -732,7 +731,7 @@ module.exports = function (app, passport, database) {
       }
     }
   )
-  
+
   /**
    * @swagger
    * /api/area/{id}:

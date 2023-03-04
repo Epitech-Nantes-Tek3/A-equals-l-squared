@@ -3,7 +3,7 @@
 const gmail = require('../../services/gmail/reactions/send_email')
 const auth_token = require('../../passport/local')
 
-module.exports = function(app, passport, database) {
+module.exports = function (app, passport, database) {
   /**
    * @swagger
    * /api/signup:
@@ -30,23 +30,27 @@ module.exports = function(app, passport, database) {
    *      400:
    *        description: Bad request
    */
-  app.post(
-      '/api/signup',
-      (req, res, next) => {passport.authenticate(
-          'signup', {session: false}, (err, user, info) => {
-            if (err) throw new Error(err)
-              if (user == false) return res.json(info)
-              const token = utils.generateToken(user.id)
-              gmail
-                  .sendEmail(
-                      'aequallsquared@gmail.com', user.email,
-                      'Email Verification',
-                      'Thank you for you registration to our service !\nPlease go to the following link to confirm your mail : http://localhost:8080/api/mail/verification?token=' +
-                          token)
-                  .catch(_error => {return })
-              return res.status(201).json(
-                  {status: 'success', statusCode: res.statusCode})
-          })(req, res, next)})
+  app.post('/api/signup', (req, res, next) => {
+    passport.authenticate('signup', { session: false }, (err, user, info) => {
+      if (err) throw new Error(err)
+      if (user == false) return res.json(info)
+      const token = utils.generateToken(user.id)
+      gmail
+        .sendEmail(
+          'aequallsquared@gmail.com',
+          user.email,
+          'Email Verification',
+          'Thank you for you registration to our service !\nPlease go to the following link to confirm your mail : http://localhost:8080/api/mail/verification?token=' +
+            token
+        )
+        .catch(_error => {
+          return
+        })
+      return res
+        .status(201)
+        .json({ status: 'success', statusCode: res.statusCode })
+    })(req, res, next)
+  })
 
   /**
    * @swagger
@@ -106,19 +110,18 @@ module.exports = function(app, passport, database) {
    *       400:
    *         description: Bad request
    */
-  app.post(
-      '/api/login',
-      (req, res, next) => {passport.authenticate(
-          'login', {session: false}, (err, user, info) => {
-            if (err) throw new Error(err)
-              if (user == false) return res.json(info)
-              const token = utils.generateToken(user.id)
-              return res.status(201).json({
-                status: 'success',
-                data: {message: 'Welcome back.', user, token},
-                statusCode: res.statusCode
-              })
-          })(req, res, next)})
+  app.post('/api/login', (req, res, next) => {
+    passport.authenticate('login', { session: false }, (err, user, info) => {
+      if (err) throw new Error(err)
+      if (user == false) return res.json(info)
+      const token = utils.generateToken(user.id)
+      return res.status(201).json({
+        status: 'success',
+        data: { message: 'Welcome back.', user, token },
+        statusCode: res.statusCode
+      })
+    })(req, res, next)
+  })
 
   /**
    * @swagger
@@ -146,13 +149,16 @@ module.exports = function(app, passport, database) {
     const token = req.query.token
     try {
       const decoded = jwt.decode(token, process.env.JWT_SECRET)
-      const user =
-          await database.prisma.User
-              .findUnique({where: {id: decoded.id}})
-                  await database.prisma.User.update(
-                      {where: {id: decoded.id}, data: {mailVerification: true}})
+      const user = await database.prisma.User.findUnique({
+        where: { id: decoded.id }
+      })
+      await database.prisma.User.update({
+        where: { id: decoded.id },
+        data: { mailVerification: true }
+      })
       res.send(
-          'Email now successfully verified !\nYou can go back to login page.')
+        'Email now successfully verified !\nYou can go back to login page.'
+      )
     } catch (err) {
       console.error(err.message)
       res.status(401).send('No matching user found.')
@@ -185,17 +191,22 @@ module.exports = function(app, passport, database) {
     const token = req.query.token
     try {
       const decoded = jwt.decode(token, process.env.JWT_SECRET)
-      const user =
-          await database.prisma.User.findUnique({where: {id: decoded.id}})
+      const user = await database.prisma.User.findUnique({
+        where: { id: decoded.id }
+      })
       const processType = user.confirmProcess
-      await database.prisma.User.update(
-          {where: {id: decoded.id}, data: {confirmProcess: ''}})
+      await database.prisma.User.update({
+        where: { id: decoded.id },
+        data: { confirmProcess: '' }
+      })
       if (processType == 'Delete') {
-        await database.prisma.User.delete({where: {id: decoded.id}})
+        await database.prisma.User.delete({ where: { id: decoded.id } })
       }
       if (processType == 'ResetPassword') {
-        await database.prisma.User.update(
-            {where: {id: decoded.id}, data: {password: await hash('password')}})
+        await database.prisma.User.update({
+          where: { id: decoded.id },
+          data: { password: await hash('password') }
+        })
       }
       res.send('Operation ' + processType + ' authorized and executed.')
     } catch (err) {
@@ -222,22 +233,29 @@ module.exports = function(app, passport, database) {
    *         description: Internal server error, when the database query or email sending fails.
    */
   app.get(
-      '/api/user/deleteAccount', passport.authenticate('jwt', {session: false}),
-      async (req, res) => {
-        if (!req.user)
-          return res.status(401).send('Invalid token')
-              await database.prisma.User.update(
-                  {where: {id: req.user.id}, data: {confirmProcess: 'Delete'}})
-          const token = utils.generateToken(req.user.id)
-          gmail
-              .sendEmail(
-                  'aequallsquared@gmail.com', req.user.email,
-                  'Confirm operation',
-                  'You asked to delete your account. Please confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
-                      token)
-              .catch(_error => {return })
-          return res.json('Verification e-mail sended')
+    '/api/user/deleteAccount',
+    passport.authenticate('jwt', { session: false }),
+    async (req, res) => {
+      if (!req.user) return res.status(401).send('Invalid token')
+      await database.prisma.User.update({
+        where: { id: req.user.id },
+        data: { confirmProcess: 'Delete' }
       })
+      const token = utils.generateToken(req.user.id)
+      gmail
+        .sendEmail(
+          'aequallsquared@gmail.com',
+          req.user.email,
+          'Confirm operation',
+          'You asked to delete your account. Please confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
+            token
+        )
+        .catch(_error => {
+          return
+        })
+      return res.json('Verification e-mail sended')
+    }
+  )
 
   /**
    * @swagger
@@ -292,21 +310,28 @@ module.exports = function(app, passport, database) {
    *                   example: Please verify your e-mail address.
    */
   app.post('/api/user/resetPassword', async (req, res, next) => {
-    const user =
-        await database.prisma.User.findFirst({where: {email: req.body.email}})
+    const user = await database.prisma.User.findFirst({
+      where: { email: req.body.email }
+    })
     if (!user) return res.status(400).json('No user found.')
     if (!user.mailVerification)
-    return res.status(401)
-        .json('Please verify your e-mail address.')
-            await database.prisma.User.update(
-                {where: {id: user.id}, data: {confirmProcess: 'ResetPassword'}})
+      return res.status(401).json('Please verify your e-mail address.')
+    await database.prisma.User.update({
+      where: { id: user.id },
+      data: { confirmProcess: 'ResetPassword' }
+    })
     const token = utils.generateToken(user.id)
     gmail
-        .sendEmail(
-            'aequallsquared@gmail.com', user.email, 'Confirm operation',
-            'You asked to regenerate your password. It will be set to : password\nPlease confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
-                token)
-        .catch(_error => {return })
+      .sendEmail(
+        'aequallsquared@gmail.com',
+        user.email,
+        'Confirm operation',
+        'You asked to regenerate your password. It will be set to : password\nPlease confirm this operation by visiting this link : http://localhost:8080/api/mail/customVerification?token=' +
+          token
+      )
+      .catch(_error => {
+        return
+      })
     return res.json('Verification e-mail sent.')
   })
 
@@ -371,35 +396,41 @@ module.exports = function(app, passport, database) {
    *                 message: "Please verify your e-mail address."
    */
   app.post(
-      '/api/user/updateData', passport.authenticate('jwt', {session: false}),
-      async (req, res, next) => {
-        if (!req.user) return res.status(401).send('Invalid token')
-          try {
-            if (req.user.email != req.body.email) {
-              const token = utils.generateToken(req.user.id)
-              gmail
-                  .sendEmail(
-                      'aequallsquared@gmail.com', req.body.email,
-                      'Email Verification',
-                      'You have updated your e-mail, please go to the following link to confirm your new mail address : http://localhost:8080/api/mail/verification?token=' +
-                          token)
-                  .catch(_error => {return })
-                      await database.prisma.User.update({
-                        where: {id: req.user.id},
-                        data: {mailVerification: false}
-                      })
-            }
-            await database.prisma.User.update({
-              where: {id: req.user.id},
-              data: {
-                username: req.body.username,
-                email: req.body.email,
-                password: await hash(req.body.password)
-              }
+    '/api/user/updateData',
+    passport.authenticate('jwt', { session: false }),
+    async (req, res, next) => {
+      if (!req.user) return res.status(401).send('Invalid token')
+      try {
+        if (req.user.email != req.body.email) {
+          const token = utils.generateToken(req.user.id)
+          gmail
+            .sendEmail(
+              'aequallsquared@gmail.com',
+              req.body.email,
+              'Email Verification',
+              'You have updated your e-mail, please go to the following link to confirm your new mail address : http://localhost:8080/api/mail/verification?token=' +
+                token
+            )
+            .catch(_error => {
+              return
             })
-            return res.json('Your informations have been successfully updated.')
-          } catch (err) {
-            return res.status(400).json('Please pass a complete body.')
+          await database.prisma.User.update({
+            where: { id: req.user.id },
+            data: { mailVerification: false }
+          })
+        }
+        await database.prisma.User.update({
+          where: { id: req.user.id },
+          data: {
+            username: req.body.username,
+            email: req.body.email,
+            password: await hash(req.body.password)
           }
-      })
+        })
+        return res.json('Your informations have been successfully updated.')
+      } catch (err) {
+        return res.status(400).json('Please pass a complete body.')
+      }
+    }
+  )
 }

@@ -20,25 +20,25 @@ const swaggerOptions = {
     info: {
       title: 'A=L² API',
       version: '1.0.0',
-      description: 'API for A=L² Area Epitech project',
+      description: 'API for A=L² Area Epitech project'
     },
     servers: [
       {
-        url: 'http://localhost:8080',
-      },
+        url: 'http://localhost:8080'
+      }
     ],
     tags: [
       {
         name: 'About',
-        description: 'About the A=L² project',
+        description: 'About the A=L² project'
       },
       {
         name: 'User',
-        description: 'User management',
+        description: 'User management'
       },
       {
         name: 'Authentification',
-        description: 'Authentification management',
+        description: 'Authentification management'
       },
       {
         name: 'Services',
@@ -46,20 +46,20 @@ const swaggerOptions = {
         children: [
           {
             name: 'Gmail',
-            description: 'Gmail management',
+            description: 'Gmail management'
           },
           {
             name: 'Discord',
-            description: 'Discord management',
+            description: 'Discord management'
           },
           {
             name: 'Calendar',
-            description: 'Calendar management',
+            description: 'Calendar management'
           },
           {
             name: 'Deezer',
-            description: 'Deezer management',
-          },
+            description: 'Deezer management'
+          }
         ]
       },
       {
@@ -68,29 +68,25 @@ const swaggerOptions = {
         children: [
           {
             name: 'Action',
-            description: 'Action management',
+            description: 'Action management'
           },
           {
             name: 'Reaction',
-            description: 'Reaction management',
+            description: 'Reaction management'
           }
         ]
-      },
+      }
     ],
     host: 'localhost:8080',
-    basePath: '/',
+    basePath: '/'
   },
   consumes: ['application/json'],
   produces: ['application/json'],
-  apis: ["server_app.js", "api/**/*.js", "api/area/**/*.js"]
-};
+  apis: ['server_app.js', 'api/**/*.js', 'api/area/**/*.js']
+}
 
-const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use(
-  '/api-docs',
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocs)
-)
+const swaggerDocs = swaggerJsdoc(swaggerOptions)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 passport.serializeUser((user, done) => {
   done(null, user.id)

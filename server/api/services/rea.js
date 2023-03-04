@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = function(app, passport, database) {
+module.exports = function (app, passport, database) {
   /**
    * @swagger
    *
@@ -42,7 +42,7 @@ module.exports = function(app, passport, database) {
    *                   description: The status code of the response
    *                   example: 200
    */
-app.get(
+  app.get(
     '/api/services/rea/getAvailableArea',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
@@ -50,8 +50,9 @@ app.get(
       const areas = await database.prisma.AREA.findMany({
         where: { userId: req.user.id }
       })
-areas.forEach(
-    areaContent => {area.push({id: areaContent.id, name: areaContent.name})})
+      areas.forEach(areaContent => {
+        area.push({ id: areaContent.id, name: areaContent.name })
+      })
       return res.status(200).json({
         status: 'success',
         data: area,
@@ -105,8 +106,8 @@ areas.forEach(
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       const status = []
-  status.push({id: 'True', name: 'On'})
-  status.push({id: 'False', name: 'Off'})
+      status.push({ id: 'True', name: 'On' })
+      status.push({ id: 'False', name: 'Off' })
       return res.status(200).json({
         status: 'success',
         data: status,

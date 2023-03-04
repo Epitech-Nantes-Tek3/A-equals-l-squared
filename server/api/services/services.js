@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = function(app, passport, database) {
+module.exports = function (app, passport, database) {
   /**
    * @swagger
    * /api/get/Service:
@@ -33,26 +33,27 @@ module.exports = function(app, passport, database) {
    *               example: Service getter temporarily deactivated.
    */
   app.get(
-      '/api/get/Service', passport.authenticate('jwt', {session: false}),
-      async (req, res) => {
-        if (!req.user) return res.status(401).send('Invalid token')
-          try {
-            const services = await database.prisma.Service.findMany({
-              where: {isEnable: true},
-              include: {
-                Actions: {include: {Parameters: true, DynamicParameters: true}},
-                Reactions: {include: {Parameters: true}}
-              },
-              orderBy: {createdAt: 'desc'}
-            })
-            return res.status(200).json({
-              status: 'success',
-              data: {services},
-              statusCode: res.statusCode
-            })
-          } catch (err) {
-            return res.status(400).send(
-                'Service getter temporarily desactivated.')
-          }
-      })
+    '/api/get/Service',
+    passport.authenticate('jwt', { session: false }),
+    async (req, res) => {
+      if (!req.user) return res.status(401).send('Invalid token')
+      try {
+        const services = await database.prisma.Service.findMany({
+          where: { isEnable: true },
+          include: {
+            Actions: { include: { Parameters: true, DynamicParameters: true } },
+            Reactions: { include: { Parameters: true } }
+          },
+          orderBy: { createdAt: 'desc' }
+        })
+        return res.status(200).json({
+          status: 'success',
+          data: { services },
+          statusCode: res.statusCode
+        })
+      } catch (err) {
+        return res.status(400).send('Service getter temporarily desactivated.')
+      }
+    }
+  )
 }

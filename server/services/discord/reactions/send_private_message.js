@@ -10,7 +10,11 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
  * @param {*} User the user
  * @returns True if the message has been sent, false otherwise
  */
-function discordSendPrivateMessageFromAreaParameters (ReactionParameters, dynamicParameters, User) {
+function discordSendPrivateMessageFromAreaParameters (
+  ReactionParameters,
+  dynamicParameters,
+  User
+) {
   let messageContent = ReactionParameters.find(
     parameter => parameter.Parameter.name == 'messageContent'
   ).value
@@ -44,4 +48,7 @@ function sendPrivateMessage (userID, message) {
     })
 }
 
-module.exports = { discordSendPrivateMessageFromAreaParameters, sendPrivateMessage }
+module.exports = {
+  discordSendPrivateMessageFromAreaParameters,
+  sendPrivateMessage
+}

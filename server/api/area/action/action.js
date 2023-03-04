@@ -94,7 +94,7 @@ module.exports = function (app, passport, database) {
         if (!area || area.userId !== req.user.id)
           return res.status(404).json({ error: 'Area not found' })
 
-        const action = await database.prisma.ACTION.findUnique({
+        const action = await database.prisma.Action.findUnique({
           where: {
             id: req.body.actionId
           }

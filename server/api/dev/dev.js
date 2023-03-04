@@ -2,13 +2,15 @@
 
 const { createDeezerService } = require('../../services/deezer/init')
 const { createGmailService } = require('../../services/gmail/gmail_init')
-const { createCalendarService } = require('../../services/calendar/calendar_init')
+const {
+  createCalendarService
+} = require('../../services/calendar/calendar_init')
 const { createDiscordService } = require('../../services/discord/init')
 const { createTimeTimeService } = require('../../services/timetime/init')
 const { createReaaaaaaaService } = require('../../services/reaaaaaaa/init')
 const { createRedditService } = require('../../services/reddit/init')
 
-module.exports = function(app, database) {
+module.exports = function (app, database) {
   /**
    * @swagger
    *
@@ -77,8 +79,6 @@ module.exports = function(app, database) {
       return res.status(400).json('An error occured.')
     }
   })
-
-
 
   app.post('/api/dev/service/create', async (req, res) => {
     try {
@@ -150,8 +150,9 @@ module.exports = function(app, database) {
    */
   app.get('/api/dev/action/listall', async (req, res) => {
     try {
-      const actions = await database.prisma.Action.findMany(
-          {include: {Parameters: true, DynamicParameters: true}})
+      const actions = await database.prisma.Action.findMany({
+        include: { Parameters: true, DynamicParameters: true }
+      })
       return res.json(actions)
     } catch (err) {
       console.log(err)
@@ -200,7 +201,7 @@ module.exports = function(app, database) {
         data: {
           name: req.body.name,
           description: req.body.description,
-          Service: {connect: {id: req.body.serviceId}}
+          Service: { connect: { id: req.body.serviceId } }
         }
       })
       return res.json(reaction)
@@ -232,8 +233,9 @@ module.exports = function(app, database) {
    */
   app.get('/api/dev/reaction/listall', async (req, res) => {
     try {
-      const reactions =
-          await database.prisma.Reaction.findMany({include: {Parameters: true}})
+      const reactions = await database.prisma.Reaction.findMany({
+        include: { Parameters: true }
+      })
       return res.json(reactions)
     } catch (err) {
       console.log(err)
@@ -285,7 +287,7 @@ module.exports = function(app, database) {
             name: req.body.name,
             isRequired: req.body.isRequired,
             description: req.body.description,
-            Action: {connect: {id: req.body.actionId}}
+            Action: { connect: { id: req.body.actionId } }
           }
         })
       } else if (req.body.reactionId) {
@@ -294,7 +296,7 @@ module.exports = function(app, database) {
             name: req.body.name,
             isRequired: req.body.isRequired,
             description: req.body.description,
-            Reaction: {connect: {id: req.body.reactionId}}
+            Reaction: { connect: { id: req.body.reactionId } }
           }
         })
       } else {
@@ -515,49 +517,53 @@ module.exports = function(app, database) {
       if (!checkAreaNameAlreadyExistForGivenUser(req.user.id, req.body.name))
         return res.status(400).send('Please give a non existent area name.')
 
-        // Create each action parameter
-        const ActionParameters = []
-        req.body.actionParameters.forEach(
-            param => {ActionParameters.push({
-              Parameter: {connect: {id: param.paramId}},
-              value: param.value
-            })})
+      // Create each action parameter
+      const ActionParameters = []
+      req.body.actionParameters.forEach(param => {
+        ActionParameters.push({
+          Parameter: { connect: { id: param.paramId } },
+          value: param.value
+        })
+      })
 
-        // Create each reaction with its parameters
-        const Reactions = []
+      // Create each reaction with its parameters
+      const Reactions = []
       req.body.reactions.forEach(reaction => {
         //Create each reaction parameter
         const ReactionParameters = []
-      reaction.reactionParameters.forEach(
-          param => {ReactionParameters.push(
-              {Parameter: {connect: {id: param.paramId}}, value: param.value})})
+        reaction.reactionParameters.forEach(param => {
+          ReactionParameters.push({
+            Parameter: { connect: { id: param.paramId } },
+            value: param.value
+          })
+        })
         Reactions.push({
           Reaction: { connect: { id: reaction.id } },
           ReactionParameters: { create: ReactionParameters }
         })
       })
 
-        // Create the area
-        const areaCreation = await database.prisma.AREA.create({
-          data: {
-            name: req.body.name,
-            description: req.body.description,
-            User: {connect: {id: req.user.id}},
-            Action: {connect: {id: req.body.actionId}},
-            ActionParameters: {create: ActionParameters},
-            Reactions: {create: Reactions}
-          },
-          select: {
-            id: true,
-            isEnable: true,
-            User: true,
-            ActionParameters: {include: {Parameter: true}},
-            Action: true
-          }
-        })
-        if (areaCreation.isEnable && TriggerInitMap[areaCreation.Action.code])
+      // Create the area
+      const areaCreation = await database.prisma.AREA.create({
+        data: {
+          name: req.body.name,
+          description: req.body.description,
+          User: { connect: { id: req.user.id } },
+          Action: { connect: { id: req.body.actionId } },
+          ActionParameters: { create: ActionParameters },
+          Reactions: { create: Reactions }
+        },
+        select: {
+          id: true,
+          isEnable: true,
+          User: true,
+          ActionParameters: { include: { Parameter: true } },
+          Action: true
+        }
+      })
+      if (areaCreation.isEnable && TriggerInitMap[areaCreation.Action.code])
         if (!TriggerInitMap[areaCreation.Action.code](areaCreation)) {
-          await database.prisma.AREA.delete({where: {id: areaCreation.id}})
+          await database.prisma.AREA.delete({ where: { id: areaCreation.id } })
           return res.status(400).send('Please pass a valid parameter list !')
         }
       return res.json(areaCreation)

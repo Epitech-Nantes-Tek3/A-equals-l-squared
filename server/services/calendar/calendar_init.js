@@ -1,5 +1,5 @@
 const database = require('../../database_init')
-const {google} = require('googleapis')
+const { google } = require('googleapis')
 
 /**
  * @brief create the calendar service in the database
@@ -27,7 +27,7 @@ const createCalendarService = async () => {
                   {
                     name: 'calendarId',
                     description:
-                        'The calendar id, by default the primary calendar',
+                      'The calendar id, by default the primary calendar',
                     isRequired: false,
                     GetterUrl: '/api/services/calendar/getAvailableCalendars'
                   },
@@ -61,7 +61,6 @@ const createCalendarService = async () => {
               isEnable: true,
               Parameters: {
                 create: [
-
                   {
                     name: 'summary',
                     description: 'The summary of the calendar',
@@ -90,12 +89,14 @@ const createCalendarService = async () => {
  * @returns the calendar client
  */
 const getCalendarClient = () => {
-    const auth = new google.auth.OAuth2(
-        process.env.GMAIL_CLIENT_ID, process.env.GMAIL_CLIENT_SECRET)
-    auth.setCredentials({refresh_token: process.env.GMAIL_REFRESH_TOKEN})
-    auth.scopes = ['https://www.googleapis.com/auth/calendar']
+  const auth = new google.auth.OAuth2(
+    process.env.GMAIL_CLIENT_ID,
+    process.env.GMAIL_CLIENT_SECRET
+  )
+  auth.setCredentials({ refresh_token: process.env.GMAIL_REFRESH_TOKEN })
+  auth.scopes = ['https://www.googleapis.com/auth/calendar']
 
-    return google.calendar({version: 'v3', auth})
+  return google.calendar({ version: 'v3', auth })
 }
 
 module.exports = {

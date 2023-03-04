@@ -6,55 +6,55 @@ const getTextChannels = require('../../services/discord/getters/text_channels')
 const getAvailableGuilds = require('../../services/discord/getters/available_guilds')
 
 module.exports = function (app, passport, database) {
-    /**
- * @swagger
- *
- * /api/services/discord/getAvailablePerformers:
- *   get:
- *     tags: [Services/Discord]
- *     summary: List available performers such as bot/user.
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Returns the list of available performers.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   example: success
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         example: "1234567890"
- *                       name:
- *                         type: string
- *                         example: "Bot Name"
- *                 statusCode:
- *                   type: number
- *                   example: 200
- *       400:
- *         description: No Discord account linked or an error occurred.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "No Discord account linked."
- *                 statusCode:
- *                   type: number
- *                   example: 400
- */
-app.get(
+  /**
+   * @swagger
+   *
+   * /api/services/discord/getAvailablePerformers:
+   *   get:
+   *     tags: [Services/Discord]
+   *     summary: List available performers such as bot/user.
+   *     security:
+   *       - bearerAuth: []
+   *     responses:
+   *       200:
+   *         description: Returns the list of available performers.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 status:
+   *                   type: string
+   *                   example: success
+   *                 data:
+   *                   type: array
+   *                   items:
+   *                     type: object
+   *                     properties:
+   *                       id:
+   *                         type: string
+   *                         example: "1234567890"
+   *                       name:
+   *                         type: string
+   *                         example: "Bot Name"
+   *                 statusCode:
+   *                   type: number
+   *                   example: 200
+   *       400:
+   *         description: No Discord account linked or an error occurred.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 message:
+   *                   type: string
+   *                   example: "No Discord account linked."
+   *                 statusCode:
+   *                   type: number
+   *                   example: 400
+   */
+  app.get(
     '/api/services/discord/getAvailablePerformers',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
@@ -76,8 +76,6 @@ app.get(
       })
     }
   )
-
-
 
   /**
    * @swagger
