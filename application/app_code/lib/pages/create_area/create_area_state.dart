@@ -1288,7 +1288,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  // ToggleButtons with a single selection.
                                   Text(getSentence('CREATE-23')),
                                   const SizedBox(height: 5),
                                   ToggleButtons(
