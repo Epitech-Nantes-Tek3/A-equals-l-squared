@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../flutter_objects/user_data.dart';
+import '../../material_lib_functions/material_functions.dart';
 
 /// Function pointer needed to update the Auth Page
 Function? updateAuthPage;
@@ -41,7 +42,7 @@ class AuthBox {
       this.token});
 
   /// Return a visual representation of the AuthBox
-  Widget display() {
+  Widget display(BuildContext context) {
     if (userInformation!.userToken != null) {
       if (authName == 'Google') {
         token = userInformation!.userToken!.googleToken;
@@ -57,35 +58,36 @@ class AuthBox {
       }
       isEnable = token == null ? false : true;
     }
-    return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          side: const BorderSide(width: 3, color: Colors.white),
-
-          /// Change when DB is Up
-          primary: Colors.white,
-        ),
-        onPressed: () {
-          if (updateAuthPage != null) {
-            updateAuthPage!(action);
-          }
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              authName,
-              style: TextStyle(color: isEnable ? Colors.green : Colors.red),
+    return materialElevatedButtonArea(
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              side: const BorderSide(width: 3),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              authDescription,
-              style: const TextStyle(color: Colors.black),
-            )
-          ],
-        ));
+            onPressed: () {
+              if (updateAuthPage != null) {
+                updateAuthPage!(action);
+              }
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  authName,
+                  style: TextStyle(color: isEnable ? Colors.green : Colors.red),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  authDescription,
+                  style:
+                      TextStyle(color: Theme.of(context).secondaryHeaderColor),
+                )
+              ],
+            )),
+        context,
+        sizeOfButton: 1);
   }
 }
 

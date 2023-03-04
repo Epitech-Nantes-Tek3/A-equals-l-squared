@@ -40,7 +40,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     ),
     Icon(
       Icons.color_lens,
-      color: Colors.amber,
+      color: Colors.white70,
     ),
     Icon(
       Icons.color_lens,
@@ -64,7 +64,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     ),
     Icon(
       Icons.color_lens_outlined,
-      color: Colors.amber,
+      color: Colors.white70,
     ),
     Icon(
       Icons.color_lens_outlined,
@@ -281,7 +281,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               ? temp.value
               : paramData.getterValue != null
                   ? paramData.getterValue![temp.value]
-                  : ''
+                  : temp.value
         });
       }
 
@@ -361,7 +361,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               ? temp.value
               : paramData.getterValue != null
                   ? paramData.getterValue![temp.value]
-                  : ''
+                  : temp.value
         });
       }
       if (changeType == 'create') {
@@ -439,7 +439,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           height: 10,
         ),
         createdArea!.actionList.last
-            .displayActionModificationView(createUpdate), //, false),
+            .displayActionModificationView(createUpdate, context), //, false),
         const SizedBox(
           height: 20,
         ),
@@ -449,7 +449,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
           color: Colors.transparent,
-          border: Border.all(color: Colors.black),
+          border: Border.all(),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10.0),
             topRight: Radius.circular(10.0),
@@ -484,7 +484,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _actionCreationState = 2;
               });
             },
-            child: temp.displayActionDescription()),
+            child: temp.displayActionDescription(context)),
         context,
         sizeOfButton: 1.2,
         isShadowNeeded: true,
@@ -524,7 +524,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _actionCreationState = 1;
               });
             },
-            child: temp.display()),
+            child: temp.display(context)),
         context,
         sizeOfButton: 1.2,
         isShadowNeeded: true,
@@ -621,8 +621,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     }
                   });
                 },
-                child: Text(getSentence('CREATE-08'),
-                    style: const TextStyle(color: Colors.white))),
+                child: Text(
+                  getSentence('CREATE-08'),
+                )),
             context,
             primaryColor: getOurBlueAreaColor(100),
             borderWith: 1,
@@ -654,7 +655,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               },
               child: Text(
                 getSentence('CREATE-09'),
-                style: const TextStyle(color: Colors.white),
               )),
           context,
           sizeOfButton: 1.8,
@@ -679,7 +679,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     Widget modifyAReaction =
         Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
       createdArea!.reactionList.last
-          .displayReactionModificationView(createUpdate), //, false),
+          .displayReactionModificationView(createUpdate, context), //, false),
       const SizedBox(
         height: 10,
       ),
@@ -703,8 +703,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 }
               });
             },
-            child: Text(getSentence('CREATE-10'),
-                style: const TextStyle(color: Colors.black))),
+            child: Text(
+              getSentence('CREATE-10'),
+            )),
         context,
         primaryColor: getOurBlueAreaColor(100),
         borderWith: 1,
@@ -716,7 +717,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
           color: Colors.transparent,
-          border: Border.all(color: Colors.black),
+          border: Border.all(),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10.0),
             topRight: Radius.circular(10.0),
@@ -750,7 +751,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _reactionCreationState = 2;
               });
             },
-            child: temp.displayReactionDescription()),
+            child: temp.displayReactionDescription(context)),
         context,
         sizeOfButton: 1.2,
         isShadowNeeded: true,
@@ -791,7 +792,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _reactionCreationState = 1;
               });
             },
-            child: temp.display()),
+            child: temp.display(context)),
         context,
         sizeOfButton: 1.2,
         isShadowNeeded: true,
@@ -894,7 +895,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               },
               child: Text(
                 getSentence('CREATE-15'),
-                style: const TextStyle(color: Colors.white),
               )),
           context,
           sizeOfButton: 1.8,
@@ -932,6 +932,12 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           _selectedSecondaryColor[i] = true;
         }
       }
+      if (tempColor == Colors.white) {
+        _selectedPrimaryColor[3] = true;
+      }
+      if (tempSecondaryColor == Colors.white) {
+        _selectedSecondaryColor[3] = true;
+      }
       for (int i = 0; i < listIcon.length; i++) {
         if (Key(createdArea!.iconPath) == (listIcon[i] as Image).key) {
           _selectedIcon[i] = true;
@@ -955,7 +961,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                   color: Colors.transparent,
-                  border: Border.all(color: Colors.black),
+                  border: Border.all(),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10.0),
                     topRight: Radius.circular(10.0),
@@ -963,7 +969,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     bottomRight: Radius.circular(10.0),
                   )),
               child: Column(children: [
-                temp.displayActionModificationView(createUpdate),
+                temp.displayActionModificationView(createUpdate, context),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -990,8 +996,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                           changeType = 'update';
                           apiAskForActionChange(temp);
                         },
-                        child: Text(getSentence('CREATE-17'),
-                            style: const TextStyle(color: Colors.white)),
+                        child: Text(getSentence('CREATE-17')),
                       ),
                       context,
                       primaryColor: getOurBlueAreaColor(100),
@@ -1019,7 +1024,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                   color: Colors.transparent,
-                  border: Border.all(color: Colors.black),
+                  border: Border.all(),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10.0),
                     topRight: Radius.circular(10.0),
@@ -1027,7 +1032,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     bottomRight: Radius.circular(10.0),
                   )),
               child: Column(children: [
-                temp.displayReactionModificationView(createUpdate),
+                temp.displayReactionModificationView(createUpdate, context),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -1054,8 +1059,9 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                             changeType = 'update';
                             apiAskForReactionChange(temp);
                           },
-                          child: Text(getSentence('CREATE-19'),
-                              style: const TextStyle(color: Colors.white))),
+                          child: Text(
+                            getSentence('CREATE-19'),
+                          )),
                       context,
                       primaryColor: getOurBlueAreaColor(100),
                       borderWith: 1,
@@ -1212,7 +1218,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                       padding: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
                           color: Colors.transparent,
-                          border: Border.all(color: Colors.black),
+                          border: Border.all(),
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(10.0),
                             topRight: Radius.circular(10.0),
@@ -1279,7 +1285,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              // ToggleButtons with a single selection.
                               Text(getSentence('CREATE-23')),
                               const SizedBox(height: 5),
                               ToggleButtons(
@@ -1301,7 +1306,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(8)),
                                 selectedBorderColor: Colors.blue[700],
-                                selectedColor: Colors.white,
                                 fillColor: Colors.blue[200],
                                 color: Colors.blue[400],
                                 constraints: const BoxConstraints(
@@ -1425,24 +1429,25 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                           borderWith: 2,
                           borderColor: getOurBlueAreaColor(100),
                         ),
-                      materialElevatedButtonArea(
-                        ElevatedButton(
-                            onPressed: (() {
-                              _createdAreaSave = AreaData.clone(createdArea!);
-                              apiAskForAreaChange();
-                              setState(() {
-                                actionSetting = true;
-                              });
-                            }),
-                            child: Text(
-                                "$changeType ${createdArea != null ? createdArea!.name : ''}",
-                                style: const TextStyle(color: Colors.white))),
-                        context,
-                        isShadowNeeded: true,
-                        primaryColor: getOurBlueAreaColor(100),
-                        borderWith: 1,
-                        borderColor: getOurBlueAreaColor(100),
-                      ),
+                      if (actionSetting != true)
+                        materialElevatedButtonArea(
+                          ElevatedButton(
+                              onPressed: (() {
+                                _createdAreaSave = AreaData.clone(createdArea!);
+                                apiAskForAreaChange();
+                                setState(() {
+                                  actionSetting = true;
+                                });
+                              }),
+                              child: Text(
+                                  "$changeType ${createdArea != null ? createdArea!.name : ''}",
+                                  style: const TextStyle(color: Colors.white))),
+                          context,
+                          isShadowNeeded: true,
+                          primaryColor: getOurBlueAreaColor(100),
+                          borderWith: 1,
+                          borderColor: getOurBlueAreaColor(100),
+                        ),
                     ],
                   ),
                 Text(_apiErrorMessage != null ? _apiErrorMessage! : '')
