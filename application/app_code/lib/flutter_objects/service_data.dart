@@ -71,7 +71,7 @@ class ServiceData {
   }
 
   /// Get a visual representation of a service
-  Widget display() {
+  Widget display(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,8 +97,11 @@ class ServiceData {
                         color: Color(
                             int.parse(primaryColor.replaceFirst("#", "0xff")))),
                   ),
-                  // Change when icon are in DB
-                  Text(description),
+                  Text(
+                    description,
+                    style: TextStyle(
+                        color: Theme.of(context).secondaryHeaderColor),
+                  ),
                 ]),
           ],
         ),

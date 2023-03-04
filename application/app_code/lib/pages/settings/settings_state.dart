@@ -425,14 +425,17 @@ class SettingsPageState extends State<SettingsPage> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Icon(icon),
+                      Icon(icon, color: Theme.of(context).secondaryHeaderColor),
                       const SizedBox(width: 20),
                       Text(
                         description,
+                        style: TextStyle(
+                            color: Theme.of(context).secondaryHeaderColor),
                       ),
                     ],
                   ),
-                  const Icon(Icons.arrow_forward_ios_sharp)
+                  Icon(Icons.arrow_forward_ios_sharp,
+                      color: Theme.of(context).secondaryHeaderColor)
                 ],
               )
             ])),

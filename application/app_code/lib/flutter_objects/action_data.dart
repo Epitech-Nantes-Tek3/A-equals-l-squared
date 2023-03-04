@@ -84,7 +84,7 @@ class ActionData {
   }
 
   /// This function display the view of actions modification
-  Widget displayActionModificationView(Function? update) {
+  Widget displayActionModificationView(Function? update, BuildContext context) {
     List<Widget> actionPreview = <Widget>[];
 
     actionPreview.add(Column(
@@ -92,7 +92,7 @@ class ActionData {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            displayActionDescription(),
+            displayActionDescription(context),
             IconButton(
                 onPressed: () {
                   if (isPreviewDisplayMax) {
@@ -172,14 +172,17 @@ class ActionData {
   }
 
   /// Function to display description information about an Action
-  Widget displayActionDescription() {
+  Widget displayActionDescription(BuildContext context) {
     List<Widget> actionDescription = <Widget>[];
     actionDescription.add(
       Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(description),
+            Text(
+              description,
+              style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+            ),
           ]),
     );
     return Column(

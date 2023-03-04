@@ -439,7 +439,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           height: 10,
         ),
         createdArea!.actionList.last
-            .displayActionModificationView(createUpdate), //, false),
+            .displayActionModificationView(createUpdate, context), //, false),
         const SizedBox(
           height: 20,
         ),
@@ -484,7 +484,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _actionCreationState = 2;
               });
             },
-            child: temp.displayActionDescription()),
+            child: temp.displayActionDescription(context)),
         context,
         sizeOfButton: 1.2,
         isShadowNeeded: true,
@@ -524,7 +524,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _actionCreationState = 1;
               });
             },
-            child: temp.display()),
+            child: temp.display(context)),
         context,
         sizeOfButton: 1.2,
         isShadowNeeded: true,
@@ -679,7 +679,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     Widget modifyAReaction =
         Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
       createdArea!.reactionList.last
-          .displayReactionModificationView(createUpdate), //, false),
+          .displayReactionModificationView(createUpdate, context), //, false),
       const SizedBox(
         height: 10,
       ),
@@ -751,7 +751,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _reactionCreationState = 2;
               });
             },
-            child: temp.displayReactionDescription()),
+            child: temp.displayReactionDescription(context)),
         context,
         sizeOfButton: 1.2,
         isShadowNeeded: true,
@@ -792,7 +792,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                 _reactionCreationState = 1;
               });
             },
-            child: temp.display()),
+            child: temp.display(context)),
         context,
         sizeOfButton: 1.2,
         isShadowNeeded: true,
@@ -969,7 +969,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     bottomRight: Radius.circular(10.0),
                   )),
               child: Column(children: [
-                temp.displayActionModificationView(createUpdate),
+                temp.displayActionModificationView(createUpdate, context),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -1032,7 +1032,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                     bottomRight: Radius.circular(10.0),
                   )),
               child: Column(children: [
-                temp.displayReactionModificationView(createUpdate),
+                temp.displayReactionModificationView(createUpdate, context),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

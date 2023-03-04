@@ -176,10 +176,12 @@ class AreaData {
     List<Widget> reactionListDisplay = <Widget>[Text(getSentence('AREA-04'))];
     if (mode) {
       for (var temp in actionList) {
-        actionListDisplay.add(temp.displayActionModificationView(update));
+        actionListDisplay
+            .add(temp.displayActionModificationView(update, context));
       }
       for (var temp in reactionList) {
-        reactionListDisplay.add(temp.displayReactionModificationView(update));
+        reactionListDisplay
+            .add(temp.displayReactionModificationView(update, context));
       }
       listDisplay.add(Column(
         children: <Widget>[

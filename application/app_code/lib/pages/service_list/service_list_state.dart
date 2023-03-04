@@ -22,7 +22,7 @@ class ServiceListPageState extends State<ServiceListPage> {
               onPressed: () {
                 goToCreateAreaPage(context);
               },
-              child: temp.display()),
+              child: temp.display(context)),
           context,
           sizeOfButton: 1));
       serviceVis.add(const SizedBox(
