@@ -61,13 +61,11 @@ module.exports = function (app, passport) {
         id: 'aequallsquared@gmail.com',
         name: 'Default Bot Gmail'
       })
-      return res
-        .status(200)
-        .json({
-          status: 'success',
-          data: performers,
-          statusCode: res.statusCode
-        })
+      return res.status(200).json({
+        status: 'success',
+        data: performers,
+        statusCode: res.statusCode
+      })
     }
   )
 
@@ -121,11 +119,13 @@ module.exports = function (app, passport) {
   app.get(
     '/api/services/calendar/getAvailableCalendars',
     passport.authenticate('jwt', { session: false }),
-    (req, res) => {
+    async (req, res) => {
+      console.log(req.user.googleToken)
+      console.dir(getAvailableCalendars(req.user.googleToken))
       if (req.user.googleToken == null)
         return res.status(400).send('No Google account linked.')
       try {
-        const calendars = getAvailableCalendars(req.user.googleToken)
+        const calendars = await getAvailableCalendars(req.user.googleToken)
         res.status(200).json({
           status: 'success',
           data: calendars,
