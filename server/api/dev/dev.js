@@ -675,6 +675,7 @@ module.exports = function (app, database) {
   })
 
   /**
+   * @swagger
    * /api/dev/service/createAll:
    *   get:
    *     tags: [Dev]
