@@ -329,8 +329,7 @@ class SettingsPageState extends State<SettingsPage> {
                               },
                               icon: _settingPage == 0
                                   ? const Icon(Icons.home_filled)
-                                  : const Icon(Icons.arrow_back_ios),
-                              color: Colors.black),
+                                  : const Icon(Icons.arrow_back_ios),),
                           const SizedBox(
                             width: 30,
                           ),
@@ -377,17 +376,15 @@ class SettingsPageState extends State<SettingsPage> {
                   Row(
                     children: <Widget>[
                       Icon(
-                        icon,
-                        color: Colors.black,
+                        icon
                       ),
                       const SizedBox(width: 20),
                       Text(
                         description,
-                        style: const TextStyle(color: Colors.black),
                       ),
                     ],
                   ),
-                  const Icon(Icons.arrow_forward_ios_sharp, color: Colors.black)
+                  const Icon(Icons.arrow_forward_ios_sharp)
                 ],
               )
             ])),

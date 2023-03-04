@@ -1,3 +1,4 @@
+import 'package:application/night_mod/night_mod.dart';
 import 'package:application/router.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +14,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'A = L²',
       theme: ThemeData(
-        fontFamily: 'Roboto-Bold',
-      ),
+          fontFamily: 'Roboto-Bold',
+          brightness: nightMod ? Brightness.dark : Brightness.light),
       routeInformationProvider: router.routeInformationProvider,
       routeInformationParser: router.routeInformationParser,
       routerDelegate: router.routerDelegate,

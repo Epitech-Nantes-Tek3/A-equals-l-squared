@@ -38,10 +38,16 @@ Widget materialElevatedButtonArea(
     child: ElevatedButton(
         onPressed: buttonContent.onPressed,
         style: ElevatedButton.styleFrom(
-            primary: primaryColor,
+            primary: primaryColor == Colors.white && context != null
+                ? Theme.of(context).primaryColor
+                : primaryColor,
             padding: EdgeInsets.symmetric(
                 vertical: paddingVertical, horizontal: paddingHorizontal),
-            side: BorderSide(color: borderColor, width: borderWith),
+            side: BorderSide(
+                color: borderColor == Colors.white && context != null
+                    ? Theme.of(context).primaryColor
+                    : borderColor,
+                width: borderWith),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(borderRadius)),
             shadowColor: isShadowNeeded ? Colors.black : Colors.transparent,
