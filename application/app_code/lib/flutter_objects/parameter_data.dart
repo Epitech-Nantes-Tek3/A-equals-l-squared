@@ -162,6 +162,7 @@ class ParameterData {
               icon: const Icon(Icons.keyboard_arrow_down),
               value: matchedContent!.value,
               elevation: 45,
+              style: const TextStyle(color: Colors.black),
               onChanged: (String? value) {
                 if (value == null && isRequired) {
                   return;

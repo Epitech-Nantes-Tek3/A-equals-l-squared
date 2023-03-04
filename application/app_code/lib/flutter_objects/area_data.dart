@@ -150,6 +150,7 @@ class AreaData {
               child: Text(
                 name,
                 overflow: TextOverflow.ellipsis,
+                style: const TextStyle(color: Colors.black),
               ),
             ),
           ],
@@ -159,6 +160,7 @@ class AreaData {
           description == null
               ? '${getSentence("AREA-01")}${getSentence("AREA-02")}'
               : '${getSentence("AREA-01")}$description',
+          style: const TextStyle(color: Colors.black),
         )
 
         /// Put Description when it's in DB
