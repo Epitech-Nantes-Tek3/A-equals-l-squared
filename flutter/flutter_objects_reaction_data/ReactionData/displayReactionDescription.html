@@ -60,7 +60,8 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
-<span class="name ">displayReactionDescription</span>(<wbr>)
+<span class="name ">displayReactionDescription</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="displayReactionDescription-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span></li>
+</ol>)
 
       
 
@@ -74,13 +75,14 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Widget displayReactionDescription() {
+  <pre class="language-dart"><code class="language-dart">Widget displayReactionDescription(BuildContext context) {
   List&lt;Widget&gt; paramWid = &lt;Widget&gt;[];
   paramWid.add(
     Column(crossAxisAlignment: CrossAxisAlignment.center, children: &lt;Widget&gt;[
       Text(
         description,
-        style: const TextStyle(color: Colors.black, fontSize: 14),
+        style: TextStyle(
+            fontSize: 14, color: Theme.of(context).secondaryHeaderColor),
       ),
     ]),
   );

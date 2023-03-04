@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the displaySettingsViews method from the SettingsPageState class, for the Dart programming language.">
-  <title>displaySettingsViews method - SettingsPageState class - settings_state library - Dart API</title>
+  <meta name="description" content="API docs for the saveSelectedAppMode method from the SettingsPageState class, for the Dart programming language.">
+  <title>saveSelectedAppMode method - SettingsPageState class - settings_state library - Dart API</title>
 
 
   
@@ -31,9 +31,9 @@
     <li><a href="../../index.html">application</a></li>
     <li><a href="../../pages_settings_settings_state/pages_settings_settings_state-library.html">settings_state</a></li>
     <li><a href="../../pages_settings_settings_state/SettingsPageState-class.html">SettingsPageState</a></li>
-    <li class="self-crumb">displaySettingsViews method</li>
+    <li class="self-crumb">saveSelectedAppMode method</li>
   </ol>
-  <div class="self-name">displaySettingsViews</div>
+  <div class="self-name">saveSelectedAppMode</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -53,36 +53,32 @@
 
   <div id="dartdoc-main-content" class="main-content">
       <div>
-<h1><span class="kind-method">displaySettingsViews</span> method 
+<h1><span class="kind-method">saveSelectedAppMode</span> method 
 </h1></div>
 
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
-<span class="name ">displaySettingsViews</span>(<wbr>)
+<span class="returntype">void</span>
+<span class="name ">saveSelectedAppMode</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="saveSelectedAppMode-param-appMode"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">appMode</span></span></li>
+</ol>)
 
       
 
     </section>
     
 <section class="desc markdown">
-  <p>This function choose what Settings View display depends on _settingsPage</p>
+  <p>Save the selected application mode</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Widget displaySettingsViews() {
-  if (_settingPage == 0) return displayAllParameterButtons();
-  if (_settingPage == 1) return userDataVisualization();
-  if (_settingPage == 2) return userDataVisualization();
-  if (_settingPage == 3) return languageVisualization();
-  if (_settingPage == 4) return userDataVisualization();
-  if (_settingPage == 5) return goToAuthPage(context);
-  if (_settingPage == 84) return userDataVisualization();
-  return const Text(&#39;&#39;);
+  <pre class="language-dart"><code class="language-dart">void saveSelectedAppMode(bool appMode) async {
+  nightMode = appMode;
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool(&#39;nightMode&#39;, nightMode);
 }</code></pre>
 </section>
 
@@ -100,7 +96,7 @@
   <li><a href="../../index.html">application</a></li>
   <li><a href="../../pages_settings_settings_state/pages_settings_settings_state-library.html">settings_state</a></li>
   <li><a href="../../pages_settings_settings_state/SettingsPageState-class.html">SettingsPageState</a></li>
-  <li class="self-crumb">displaySettingsViews method</li>
+  <li class="self-crumb">saveSelectedAppMode method</li>
 </ol>
 
 

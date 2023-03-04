@@ -85,7 +85,7 @@
         height: 10,
       ),
       createdArea!.actionList.last
-          .displayActionModificationView(createUpdate), &#47;&#47;, false),
+          .displayActionModificationView(createUpdate, context), &#47;&#47;, false),
       const SizedBox(
         height: 20,
       ),
@@ -95,7 +95,7 @@
     padding: const EdgeInsets.all(10.0),
     decoration: BoxDecoration(
         color: Colors.transparent,
-        border: Border.all(color: Colors.black),
+        border: Border.all(),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(10.0),
           topRight: Radius.circular(10.0),

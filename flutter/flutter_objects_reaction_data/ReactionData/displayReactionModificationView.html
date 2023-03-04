@@ -60,7 +60,8 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
-<span class="name ">displayReactionModificationView</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="displayReactionModificationView-param-update"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Function-class.html">Function</a>?</span> <span class="parameter-name">update</span></span></li>
+<span class="name ">displayReactionModificationView</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="displayReactionModificationView-param-update"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Function-class.html">Function</a>?</span> <span class="parameter-name">update</span>, </span></li>
+<li><span class="parameter" id="displayReactionModificationView-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span></li>
 </ol>)
 
       
@@ -76,7 +77,8 @@ update -&gt; Function pointer used for update the state</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Widget displayReactionModificationView(Function? update) {
+  <pre class="language-dart"><code class="language-dart">Widget displayReactionModificationView(
+    Function? update, BuildContext context) {
   List&lt;Widget&gt; paramWid = &lt;Widget&gt;[];
 
   paramWid.add(Column(
@@ -84,7 +86,7 @@ update -&gt; Function pointer used for update the state</p>
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          displayReactionDescription(),
+          displayReactionDescription(context),
           IconButton(
               onPressed: () {
                 if (isPreviewDisplayMax) {

@@ -61,6 +61,7 @@
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
 <span class="name ">areaDataToElevatedButton</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="areaDataToElevatedButton-param-areaData"><span class="type-annotation"><a href="../../flutter_objects_area_data/AreaData-class.html">AreaData</a></span> <span class="parameter-name">areaData</span>, </span></li>
+<li><span class="parameter" id="areaDataToElevatedButton-param-areaPrimaryColor"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-ui/Color-class.html">Color</a></span> <span class="parameter-name">areaPrimaryColor</span>, </span></li>
 <li><span class="parameter" id="areaDataToElevatedButton-param-areaBorderColor"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-ui/Color-class.html">Color</a></span> <span class="parameter-name">areaBorderColor</span></span></li>
 </ol>)
 
@@ -76,14 +77,15 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Widget areaDataToElevatedButton(AreaData areaData, Color areaBorderColor) {
+  <pre class="language-dart"><code class="language-dart">Widget areaDataToElevatedButton(
+    AreaData areaData, Color areaPrimaryColor, Color areaBorderColor) {
   return materialElevatedButtonArea(
     ElevatedButton(
         onPressed: () {
           createdArea = AreaData.clone(areaData);
           goToUpdateAreaPage(context);
         },
-        child: areaData.display(false, null, false, false)),
+        child: areaData.display(false, null, false, false, context)),
     context,
     sizeOfButton: 2.5,
     isShadowNeeded: true,
@@ -91,6 +93,11 @@
     paddingVertical: 10,
     borderRadius: 10,
     borderWith: 3,
+    primaryColor: areaPrimaryColor == Colors.black &amp;&amp; nightMode == false
+        ? Colors.white
+        : areaPrimaryColor == Colors.white &amp;&amp; nightMode == true
+            ? Colors.black
+            : areaPrimaryColor,
     borderColor: areaBorderColor,
   );
 }</code></pre>

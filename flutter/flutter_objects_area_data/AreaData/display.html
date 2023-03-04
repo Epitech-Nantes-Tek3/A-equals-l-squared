@@ -63,7 +63,8 @@
 <span class="name ">display</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="display-param-mode"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">mode</span>, </span></li>
 <li><span class="parameter" id="display-param-update"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Function-class.html">Function</a>?</span> <span class="parameter-name">update</span>, </span></li>
 <li><span class="parameter" id="display-param-isReactionPreviewClosed"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">isReactionPreviewClosed</span>, </span></li>
-<li><span class="parameter" id="display-param-isActionPreviewClosed"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">isActionPreviewClosed</span></span></li>
+<li><span class="parameter" id="display-param-isActionPreviewClosed"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">isActionPreviewClosed</span>, </span></li>
+<li><span class="parameter" id="display-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span></li>
 </ol>)
 
       
@@ -81,16 +82,18 @@ update -&gt; Function pointer used for update the state</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Widget display(bool mode, Function? update, bool isReactionPreviewClosed,
-    bool isActionPreviewClosed) {
+    bool isActionPreviewClosed, BuildContext context) {
   List&lt;Widget&gt; listDisplay = &lt;Widget&gt;[];
   List&lt;Widget&gt; actionListDisplay = &lt;Widget&gt;[Text(getSentence(&#39;AREA-03&#39;))];
   List&lt;Widget&gt; reactionListDisplay = &lt;Widget&gt;[Text(getSentence(&#39;AREA-04&#39;))];
   if (mode) {
     for (var temp in actionList) {
-      actionListDisplay.add(temp.displayActionModificationView(update));
+      actionListDisplay
+          .add(temp.displayActionModificationView(update, context));
     }
     for (var temp in reactionList) {
-      reactionListDisplay.add(temp.displayReactionModificationView(update));
+      reactionListDisplay
+          .add(temp.displayReactionModificationView(update, context));
     }
     listDisplay.add(Column(
       children: &lt;Widget&gt;[
@@ -125,7 +128,7 @@ update -&gt; Function pointer used for update the state</p>
     ));
   } else {
     try {
-      listDisplay.add(displayAreaPreview());
+      listDisplay.add(displayAreaPreview(context));
     } catch (err) {
       listDisplay.add(Text(getSentence(&#39;AREA-06&#39;)));
     }

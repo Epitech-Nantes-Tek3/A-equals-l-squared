@@ -192,7 +192,7 @@ Widget build(BuildContext context) {
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
                 color: Colors.transparent,
-                border: Border.all(color: Colors.black),
+                border: Border.all(),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10.0),
                   topRight: Radius.circular(10.0),
@@ -200,7 +200,7 @@ Widget build(BuildContext context) {
                   bottomRight: Radius.circular(10.0),
                 )),
             child: Column(children: [
-              temp.displayActionModificationView(createUpdate),
+              temp.displayActionModificationView(createUpdate, context),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -227,8 +227,7 @@ Widget build(BuildContext context) {
                         changeType = &#39;update&#39;;
                         apiAskForActionChange(temp);
                       },
-                      child: Text(getSentence(&#39;CREATE-17&#39;),
-                          style: const TextStyle(color: Colors.white)),
+                      child: Text(getSentence(&#39;CREATE-17&#39;)),
                     ),
                     context,
                     primaryColor: getOurBlueAreaColor(100),
@@ -256,7 +255,7 @@ Widget build(BuildContext context) {
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
                 color: Colors.transparent,
-                border: Border.all(color: Colors.black),
+                border: Border.all(),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10.0),
                   topRight: Radius.circular(10.0),
@@ -264,7 +263,7 @@ Widget build(BuildContext context) {
                   bottomRight: Radius.circular(10.0),
                 )),
             child: Column(children: [
-              temp.displayReactionModificationView(createUpdate),
+              temp.displayReactionModificationView(createUpdate, context),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -291,8 +290,9 @@ Widget build(BuildContext context) {
                           changeType = &#39;update&#39;;
                           apiAskForReactionChange(temp);
                         },
-                        child: Text(getSentence(&#39;CREATE-19&#39;),
-                            style: const TextStyle(color: Colors.white))),
+                        child: Text(
+                          getSentence(&#39;CREATE-19&#39;),
+                        )),
                     context,
                     primaryColor: getOurBlueAreaColor(100),
                     borderWith: 1,
@@ -449,7 +449,7 @@ Widget build(BuildContext context) {
                     padding: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
                         color: Colors.transparent,
-                        border: Border.all(color: Colors.black),
+                        border: Border.all(),
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(10.0),
                           topRight: Radius.circular(10.0),
@@ -516,7 +516,6 @@ Widget build(BuildContext context) {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: &lt;Widget&gt;[
-                            &#47;&#47; ToggleButtons with a single selection.
                             Text(getSentence(&#39;CREATE-23&#39;)),
                             const SizedBox(height: 5),
                             ToggleButtons(
@@ -538,7 +537,6 @@ Widget build(BuildContext context) {
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(8)),
                               selectedBorderColor: Colors.blue[700],
-                              selectedColor: Colors.white,
                               fillColor: Colors.blue[200],
                               color: Colors.blue[400],
                               constraints: const BoxConstraints(
@@ -662,24 +660,25 @@ Widget build(BuildContext context) {
                         borderWith: 2,
                         borderColor: getOurBlueAreaColor(100),
                       ),
-                    materialElevatedButtonArea(
-                      ElevatedButton(
-                          onPressed: (() {
-                            _createdAreaSave = AreaData.clone(createdArea!);
-                            apiAskForAreaChange();
-                            setState(() {
-                              actionSetting = true;
-                            });
-                          }),
-                          child: Text(
-                              &quot;$changeType ${createdArea != null ? createdArea!.name : &#39;&#39;}&quot;,
-                              style: const TextStyle(color: Colors.white))),
-                      context,
-                      isShadowNeeded: true,
-                      primaryColor: getOurBlueAreaColor(100),
-                      borderWith: 1,
-                      borderColor: getOurBlueAreaColor(100),
-                    ),
+                    if (actionSetting != true)
+                      materialElevatedButtonArea(
+                        ElevatedButton(
+                            onPressed: (() {
+                              _createdAreaSave = AreaData.clone(createdArea!);
+                              apiAskForAreaChange();
+                              setState(() {
+                                actionSetting = true;
+                              });
+                            }),
+                            child: Text(
+                                &quot;$changeType ${createdArea != null ? createdArea!.name : &#39;&#39;}&quot;,
+                                style: const TextStyle(color: Colors.white))),
+                        context,
+                        isShadowNeeded: true,
+                        primaryColor: getOurBlueAreaColor(100),
+                        borderWith: 1,
+                        borderColor: getOurBlueAreaColor(100),
+                      ),
                   ],
                 ),
               Text(_apiErrorMessage != null ? _apiErrorMessage! : &#39;&#39;)

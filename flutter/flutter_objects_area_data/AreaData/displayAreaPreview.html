@@ -60,7 +60,8 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
-<span class="name ">displayAreaPreview</span>(<wbr>)
+<span class="name ">displayAreaPreview</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="displayAreaPreview-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span></li>
+</ol>)
 
       
 
@@ -74,7 +75,7 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Widget displayAreaPreview() {
+  <pre class="language-dart"><code class="language-dart">Widget displayAreaPreview(BuildContext context) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: &lt;Widget&gt;[
@@ -86,8 +87,8 @@
           Expanded(
             child: Text(
               name,
-              style: const TextStyle(color: Colors.black),
               overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
             ),
           ),
         ],
@@ -96,11 +97,9 @@
       Text(
         description == null
             ? &#39;${getSentence(&quot;AREA-01&quot;)}${getSentence(&quot;AREA-02&quot;)}&#39;
-            : &#39;$getSentence(&quot;AREA-01)$description&#39;,
-        style: const TextStyle(color: Colors.black),
+            : &#39;${getSentence(&quot;AREA-01&quot;)}$description&#39;,
+        style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
       )
-
-      &#47;&#47;&#47; Put Description when it&#39;s in DB
     ],
   );
 }</code></pre>

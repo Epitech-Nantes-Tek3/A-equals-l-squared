@@ -60,7 +60,8 @@
       
 
 <span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
-<span class="name ">display</span>(<wbr>)
+<span class="name ">display</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="display-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span></li>
+</ol>)
 
       
 
@@ -74,7 +75,7 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Widget display() {
+  <pre class="language-dart"><code class="language-dart">Widget display(BuildContext context) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -100,10 +101,10 @@
                       color: Color(
                           int.parse(primaryColor.replaceFirst(&quot;#&quot;, &quot;0xff&quot;)))),
                 ),
-                &#47;&#47; Change when icon are in DB
                 Text(
                   description,
-                  style: const TextStyle(color: Colors.black),
+                  style: TextStyle(
+                      color: Theme.of(context).secondaryHeaderColor),
                 ),
               ]),
         ],

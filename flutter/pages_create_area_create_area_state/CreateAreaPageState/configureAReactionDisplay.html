@@ -78,7 +78,7 @@
   Widget modifyAReaction =
       Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
     createdArea!.reactionList.last
-        .displayReactionModificationView(createUpdate), &#47;&#47;, false),
+        .displayReactionModificationView(createUpdate, context), &#47;&#47;, false),
     const SizedBox(
       height: 10,
     ),
@@ -102,8 +102,9 @@
               }
             });
           },
-          child: Text(getSentence(&#39;CREATE-10&#39;),
-              style: const TextStyle(color: Colors.black))),
+          child: Text(
+            getSentence(&#39;CREATE-10&#39;),
+          )),
       context,
       primaryColor: getOurBlueAreaColor(100),
       borderWith: 1,
@@ -115,7 +116,7 @@
     padding: const EdgeInsets.all(10.0),
     decoration: BoxDecoration(
         color: Colors.transparent,
-        border: Border.all(color: Colors.black),
+        border: Border.all(),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(10.0),
           topRight: Radius.circular(10.0),

@@ -64,8 +64,8 @@
 <li><span class="parameter" id="materialElevatedButtonArea-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a>?</span> <span class="parameter-name">context</span>, </span></li>
 <li><span class="parameter" id="materialElevatedButtonArea-param-sizeOfButton">{<span class="type-annotation">dynamic</span> <span class="parameter-name">sizeOfButton</span> = <span class="default-value">3</span>, </span></li>
 <li><span class="parameter" id="materialElevatedButtonArea-param-isShadowNeeded"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">isShadowNeeded</span> = <span class="default-value">false</span>, </span></li>
-<li><span class="parameter" id="materialElevatedButtonArea-param-borderColor"><span class="type-annotation">dynamic</span> <span class="parameter-name">borderColor</span> = <span class="default-value">Colors.white</span>, </span></li>
-<li><span class="parameter" id="materialElevatedButtonArea-param-primaryColor"><span class="type-annotation">dynamic</span> <span class="parameter-name">primaryColor</span> = <span class="default-value">Colors.white</span>, </span></li>
+<li><span class="parameter" id="materialElevatedButtonArea-param-borderColor"><span class="type-annotation">dynamic</span> <span class="parameter-name">borderColor</span> = <span class="default-value">Colors.grey</span>, </span></li>
+<li><span class="parameter" id="materialElevatedButtonArea-param-primaryColor"><span class="type-annotation">dynamic</span> <span class="parameter-name">primaryColor</span> = <span class="default-value">Colors.grey</span>, </span></li>
 <li><span class="parameter" id="materialElevatedButtonArea-param-borderRadius"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">borderRadius</span> = <span class="default-value">10</span>, </span></li>
 <li><span class="parameter" id="materialElevatedButtonArea-param-borderWith"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">borderWith</span> = <span class="default-value">0</span>, </span></li>
 <li><span class="parameter" id="materialElevatedButtonArea-param-paddingVertical"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">paddingVertical</span> = <span class="default-value">10</span>, </span></li>
@@ -89,8 +89,8 @@ This function can take many parameter to modified the style of the ElevatedButto
     ElevatedButton buttonContent, BuildContext? context,
     {sizeOfButton = 3,
     bool isShadowNeeded = false,
-    borderColor = Colors.white,
-    primaryColor = Colors.white,
+    borderColor = Colors.grey,
+    primaryColor = Colors.grey,
     double borderRadius = 10,
     double borderWith = 0,
     double paddingVertical = 10,
@@ -104,10 +104,16 @@ This function can take many parameter to modified the style of the ElevatedButto
     child: ElevatedButton(
         onPressed: buttonContent.onPressed,
         style: ElevatedButton.styleFrom(
-            primary: primaryColor,
+            primary: primaryColor == Colors.grey &amp;&amp; context != null
+                ? Theme.of(context).primaryColor
+                : primaryColor,
             padding: EdgeInsets.symmetric(
                 vertical: paddingVertical, horizontal: paddingHorizontal),
-            side: BorderSide(color: borderColor, width: borderWith),
+            side: BorderSide(
+                color: borderColor == Colors.grey &amp;&amp; context != null
+                    ? Theme.of(context).primaryColor
+                    : borderColor,
+                width: borderWith),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(borderRadius)),
             shadowColor: isShadowNeeded ? Colors.black : Colors.transparent,

@@ -114,15 +114,30 @@ and</li>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
-  return MaterialApp.router(
-    title: &#39;A = L²&#39;,
-    theme: ThemeData(
-      fontFamily: &#39;Roboto-Bold&#39;,
-    ),
-    routeInformationProvider: router.routeInformationProvider,
-    routeInformationParser: router.routeInformationParser,
-    routerDelegate: router.routerDelegate,
-  );
+  if (!nightMode) {
+    return MaterialApp.router(
+      title: &#39;A = L²&#39;,
+      theme: ThemeData(
+          fontFamily: &#39;Roboto-Bold&#39;,
+          brightness: Brightness.light,
+          primaryColor: Colors.white,
+          secondaryHeaderColor: Colors.black),
+      routeInformationProvider: router.routeInformationProvider,
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
+    );
+  } else {
+    return MaterialApp.router(
+      title: &#39;A = L²&#39;,
+      theme: ThemeData(
+          fontFamily: &#39;Roboto-Bold&#39;,
+          brightness: Brightness.dark,
+          secondaryHeaderColor: Colors.white),
+      routeInformationProvider: router.routeInformationProvider,
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
+    );
+  }
 }</code></pre>
 </section>
 
