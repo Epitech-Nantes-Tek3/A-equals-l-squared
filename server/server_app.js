@@ -12,6 +12,10 @@ const app = express()
 
 const swaggerUi = require('swagger-ui-express')
 const swaggerJsdoc = require('swagger-jsdoc')
+const onMessage = require('./services/discord/actions/on_message')
+const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
+const onReactionAdd = require('./services/discord/actions/on_reaction_add')
+const onMemberJoining = require('./services/discord/actions/on_member_joining')
 
 const swaggerOptions = {
   swaggerDefinition: {
