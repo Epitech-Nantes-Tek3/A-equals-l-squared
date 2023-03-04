@@ -261,9 +261,6 @@ class SettingsPageState extends State<SettingsPage> {
       parameterButtonView(
           Icons.manage_accounts_rounded, getSentence('SETT-04'), 1),
       const SizedBox(height: 20),
-      parameterButtonView(
-          Icons.app_settings_alt_sharp, getSentence('SETT-05'), 2),
-      const SizedBox(height: 20),
       parameterButtonView(Icons.language, getSentence('SETT-06'), 3),
       /// if (user is admin)
       Column(children: [const SizedBox(height: 20),
@@ -315,12 +312,6 @@ class SettingsPageState extends State<SettingsPage> {
         style: const TextStyle(fontSize: 20),
       );
     }
-    if (_settingPage == 2) {
-      return Text(
-        getSentence('SETT-05'),
-        style: const TextStyle(fontSize: 20),
-      );
-    }
     if (_settingPage == 3) {
       return Text(
         getSentence('SETT-06'),
@@ -349,7 +340,6 @@ class SettingsPageState extends State<SettingsPage> {
   Widget displaySettingsViews() {
     if (_settingPage == 0) return displayAllParameterButtons();
     if (_settingPage == 1) return userDataVisualization();
-    if (_settingPage == 2) return userDataVisualization();
     if (_settingPage == 3) return languageVisualization();
     if (_settingPage == 4 ) {  /// && User is admin
       return adminDataVisualization();
@@ -380,14 +370,14 @@ class SettingsPageState extends State<SettingsPage> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Icon(icon),
+                      Icon(icon, color: Colors.black,),
                       const SizedBox(width: 20),
                       Text(
-                        description,
+                        description,style: const TextStyle(color: Colors.black),
                       ),
                     ],
                   ),
-                  const Icon(Icons.arrow_forward_ios_sharp)
+                  const Icon(Icons.arrow_forward_ios_sharp, color: Colors.black,)
                 ],
               )
             ])),

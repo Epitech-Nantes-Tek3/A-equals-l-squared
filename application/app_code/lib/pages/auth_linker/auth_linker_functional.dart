@@ -59,31 +59,33 @@ class AuthBox {
       isEnable = token == null ? false : true;
     }
     return materialElevatedButtonArea(
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              side: const BorderSide(width: 3),
-            ),
-            onPressed: () {
-              if (updateAuthPage != null) {
-                updateAuthPage!(action);
-              }
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  authName,
-                  style: TextStyle(color: isEnable ? Colors.green : Colors.red),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(authDescription)
-              ],
-            )),
-        context,
-        sizeOfButton: 1);
+      ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            side: const BorderSide(width: 3),
+          ),
+          onPressed: () {
+            if (updateAuthPage != null) {
+              updateAuthPage!(action);
+            }
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                authName,
+                style: TextStyle(color: isEnable ? Colors.green : Colors.red),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(authDescription, style: const TextStyle(color: Colors.black),)
+            ],
+          )),
+      context,
+      sizeOfButton: 1,
+      isShadowNeeded: true,
+    );
   }
 }
 

@@ -71,7 +71,14 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(getSentence('AUTHLINK-01')),
+                      Row(children: [
+                        IconButton(onPressed:() {
+                          setState(() {
+                            goToSettingsPage(context);
+                          });
+                        }, icon: const Icon(Icons.arrow_back_ios)),
+                        Text(getSentence('AUTHLINK-01')),
+                      ],),
                       displayAuthBox(),
                       FutureBuilder<String>(
                         future: _futureApiResponse,
@@ -88,18 +95,6 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
                           }
                           return const CircularProgressIndicator();
                         },
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      ElevatedButton(
-                        key: const Key('AuthLinkerHomeButton'),
-                        onPressed: () {
-                          setState(() {
-                            goToSettingsPage(context);
-                          });
-                        },
-                        child: Text(getSentence('AUTHLINK-02')),
                       ),
                     ],
                   ),
