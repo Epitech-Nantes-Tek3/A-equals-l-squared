@@ -2,7 +2,7 @@
 
 const gmail = require('../../services/gmail/reactions/send_email')
 const auth_token = require('../../passport/local')
-const { hash } = require('../utils')
+const { hash } = require('../../utils')
 
 module.exports = function (app, passport, database) {
   /**
