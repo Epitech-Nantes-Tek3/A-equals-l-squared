@@ -118,7 +118,7 @@ class ReactionData {
       Column(crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
         Text(
           description,
-          style: const TextStyle(fontSize: 14),
+          style: const TextStyle(fontSize: 14, color: Colors.black,),
         ),
       ]),
     );
