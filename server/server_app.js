@@ -2,6 +2,7 @@
 
 /** @module route */
 
+const axios = require('axios')
 const express = require('express')
 const passport = require('passport')
 const database = require('./database_init')
@@ -184,7 +185,7 @@ app.get('/about.json', async (req, res) => {
       })
     )
     res.header('Content-Type', 'application/json')
-    res.type('json').send(JSON.stringify(about, null, 2) + '\n');
+    res.type('json').send(JSON.stringify(about, null, 2) + '\n')
   } catch (err) {
     console.log(err)
     res.status(500).send(err)

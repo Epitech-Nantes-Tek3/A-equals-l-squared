@@ -13,7 +13,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'A = L²',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         fontFamily: 'Roboto-Bold',
       ),
       routeInformationProvider: router.routeInformationProvider,

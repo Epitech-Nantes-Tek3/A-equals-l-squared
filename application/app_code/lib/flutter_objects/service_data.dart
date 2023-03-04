@@ -79,9 +79,10 @@ class ServiceData {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Icon(
-              Icons.square,
-              color: Colors.black,
+            Image.asset(
+              icon != '' ? icon : './assets/icons/Area_Logo.png',
+              height: 30,
+              width: 30,
             ),
             const SizedBox(
               width: 30,
@@ -92,8 +93,9 @@ class ServiceData {
                 children: <Widget>[
                   Text(
                     name,
-                    style:
-                        TextStyle(color: isEnabled ? Colors.green : Colors.red),
+                    style: TextStyle(
+                        color: Color(
+                            int.parse(primaryColor.replaceFirst("#", "0xff")))),
                   ),
                   // Change when icon are in DB
                   Text(
@@ -121,27 +123,6 @@ class ServiceData {
     return Column(
       children: <Widget>[
         Text(description),
-      ],
-    );
-  }
-
-  /// Function to display all information about a Service
-  Widget displayServiceWithInfo() {
-    return Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                const Icon(Icons.access_alarm),
-                Text('Discord Test : $name!'),
-              ],
-            ),
-          ],
-        ),
-        Row(children: <Widget>[
-          Text('Discord description : $description'),
-        ]),
       ],
     );
   }

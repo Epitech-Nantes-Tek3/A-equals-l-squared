@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application/language/language.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -112,8 +113,20 @@ class ParameterData {
         }
       }
     }
-
-    return Column(children: <Widget>[
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+        Widget>[
+      const SizedBox(
+        height: 20,
+      ),
+      Row(
+        children: [
+          Text(
+              isRequired
+                  ? '$description${getSentence('PARAM-01-01')}'
+                  : '$description${getSentence('PARAM-01-02')}',
+              style: const TextStyle(fontSize: 12)),
+        ],
+      ),
       const SizedBox(
         height: 10,
       ),
@@ -137,30 +150,38 @@ class ParameterData {
               return null;
             })
       else
-        DropdownButton<String>(
-          value: matchedContent!.value,
-          icon: const Icon(Icons.arrow_downward),
-          elevation: 16,
-          style: const TextStyle(color: Colors.deepPurple),
-          underline: Container(
-            height: 2,
-            color: Colors.deepPurpleAccent,
-          ),
-          onChanged: (String? value) {
-            if (value == null && isRequired) {
-              return;
-            }
-            value ??= "";
-            if (matchedContent != null) matchedContent!.value = value;
-            update(this);
-          },
-          items: tempProposal!.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-        )
+        Row(children: [
+          DropdownButtonHideUnderline(
+              child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(
+                  color: Colors.black, style: BorderStyle.solid, width: 0.80),
+            ),
+            child: DropdownButton<String>(
+              icon: const Icon(Icons.keyboard_arrow_down),
+              value: matchedContent!.value,
+              elevation: 45,
+              style: const TextStyle(color: Colors.black),
+              onChanged: (String? value) {
+                if (value == null && isRequired) {
+                  return;
+                }
+                value ??= "";
+                if (matchedContent != null) matchedContent!.value = value;
+                update(this);
+              },
+              items:
+                  tempProposal!.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+          ))
+        ])
     ]);
   }
 

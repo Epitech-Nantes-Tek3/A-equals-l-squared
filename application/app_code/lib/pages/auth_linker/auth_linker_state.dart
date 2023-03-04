@@ -1,3 +1,4 @@
+import 'package:application/language/language.dart';
 import 'package:application/pages/settings/settings_functional.dart';
 import 'package:flutter/material.dart';
 
@@ -31,6 +32,7 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
         const SizedBox(
           height: 30,
         ),
+        redditAuthBox.display(),
       ],
     );
   }
@@ -69,7 +71,7 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      const Text('Welcome to Auth Linker page'),
+                      Text(getSentence('AUTHLINK-01')),
                       displayAuthBox(),
                       FutureBuilder<String>(
                         future: _futureApiResponse,
@@ -97,7 +99,7 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
                             goToSettingsPage(context);
                           });
                         },
-                        child: const Text('Go back settings'),
+                        child: Text(getSentence('AUTHLINK-02')),
                       ),
                     ],
                   ),

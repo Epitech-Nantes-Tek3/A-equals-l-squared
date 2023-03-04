@@ -32,26 +32,9 @@ class UserData {
   Widget? displayUserEmail() {
     return Column(
       children: <Widget>[
-        Text(userName),
+        Text(email),
       ],
     );
-  }
-
-  /// Function to display if an user is admin
-  Widget? displayIsUserIsAdmin() {
-    if (isAdmin) {
-      return Column(
-        children: const <Widget>[
-          Text('Admin'),
-        ],
-      );
-    } else {
-      return Column(
-        children: const <Widget>[
-          Text("Not Admin"),
-        ],
-      );
-    }
   }
 
   /// Convert a json map into the class
@@ -86,12 +69,14 @@ class UserData {
 class Token {
   String? googleToken;
   String? discordToken;
+  String? redditToken;
   String? deezerToken;
 
   /// Constructor of the Token class
   Token({
     this.googleToken,
     this.discordToken,
+    this.redditToken,
     this.deezerToken,
   });
 
@@ -99,6 +84,7 @@ class Token {
   factory Token.fromJson(Map<String, dynamic> json) {
     String? googleToken;
     String? discordToken;
+    String? redditToken;
     String? deezerToken;
 
     try {
@@ -114,14 +100,20 @@ class Token {
     }
 
     try {
+      redditToken = json['redditToken'];
+    } catch (err) {
+      redditToken = null;
+    }
+
+    try {
       deezerToken = json['deezerToken'];
     } catch (err) {
       deezerToken = null;
     }
-
     return Token(
         googleToken: googleToken,
         discordToken: discordToken,
+        redditToken: redditToken,
         deezerToken: deezerToken);
   }
 }
