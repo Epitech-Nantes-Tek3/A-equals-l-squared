@@ -12,7 +12,7 @@ module.exports = function (app, passport, database) {
    *     summary: List all user's playlist on Deezer
    *     description: List all user's playlist on Deezer, requires authentication.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     responses:
    *       200:
    *         description: User's playlists listed successfully.
@@ -73,9 +73,29 @@ module.exports = function (app, passport, database) {
       }
     }
   )
+
   /**
-   * Add the Deezer ID to the user in the database.
-   * Route protected by a JWT token
+   * @swagger
+   * /api/services/deezer/fillUserId:
+   *   get:
+   *     tags: [Services/Deezer]
+   *     summary: Add in database the user id
+   *     description: Add in database the user id from a token
+   *     security:
+   *       - jwt: []
+   *     responses:
+   *       200:
+   *         description: Deezer ID successfully updated.
+   *         content:
+   *           text/plain:
+   *             schema:
+   *               type: string
+   *       400:
+   *         description: Deezer account not linked or error occurred.
+   *         content:
+   *           text/plain:
+   *             schema:
+   *               type: string
    */
   app.post(
     '/api/services/deezer/fillUserId',

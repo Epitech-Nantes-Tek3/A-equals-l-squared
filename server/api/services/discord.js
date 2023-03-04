@@ -14,7 +14,7 @@ module.exports = function (app, passport, database) {
    *     tags: [Services/Discord]
    *     summary: List available performers such as bot/user.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     responses:
    *       200:
    *         description: Returns the list of available performers.
@@ -85,7 +85,7 @@ module.exports = function (app, passport, database) {
    *     tags: [Services/Discord]
    *     summary: List all available Voice Channels on a given Guild ID.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     parameters:
    *       - in: query
    *         name: id
@@ -149,7 +149,7 @@ module.exports = function (app, passport, database) {
    *     tags: [Services/Discord]
    *     summary: List all available Text Channels on a given GuildID.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     parameters:
    *       - in: query
    *         name: id
@@ -215,7 +215,7 @@ module.exports = function (app, passport, database) {
    *     tags: [Services/Discord]
    *     summary: List all available Guilds where the bot is.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     responses:
    *       200:
    *         description: Returns a list of available guilds.

@@ -9,7 +9,7 @@ module.exports = function (app, passport, database) {
    *     summary: Get all enabled services sorted by creation date
    *     description: Returns a list of all enabled services sorted by creation date. Requires a valid JSON web token.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     responses:
    *       '200':
    *         description: Successful response with list of services

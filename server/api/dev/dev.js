@@ -392,7 +392,7 @@ module.exports = function (app, database) {
    *     summary: Create a new area
    *     description: Create a new area with specified parameters.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     requestBody:
    *       content:
    *         application/json:

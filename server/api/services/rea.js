@@ -10,7 +10,7 @@ module.exports = function (app, passport, database) {
    *     summary: List available area for rea service
    *     description: Retrieves the list of available areas for the rea service.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     responses:
    *       '200':
    *         description: A list of available areas for the rea service
@@ -69,7 +69,7 @@ module.exports = function (app, passport, database) {
    *     summary: List available status for rea service
    *     description: Retrieves the list of available status for the rea service.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     responses:
    *       '200':
    *         description: A list of available status for the rea service

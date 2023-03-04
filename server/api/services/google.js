@@ -10,7 +10,7 @@ module.exports = function (app, passport) {
    *     tags: [Services/Gmail]
    *     summary: List available performers such as bot/user.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     responses:
    *       200:
    *         description: Returns the list of available performers.
@@ -77,7 +77,7 @@ module.exports = function (app, passport) {
    *     summary: List all available Google calendars
    *     description: Returns a list of all available Google calendars linked to the user's account.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     responses:
    *       200:
    *         description: Calendars listed successfully.

@@ -83,7 +83,7 @@ module.exports = function (app, passport, database) {
    *     summary: Get all areas
    *     description: Retrieve a list of all areas for the authenticated user
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     responses:
    *       200:
    *         description: A list of areas
@@ -285,7 +285,7 @@ module.exports = function (app, passport, database) {
    *     tags: [Area]
    *     description: Returns an area object with the specified ID, including its associated actions and reactions.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     parameters:
    *       - name: id
    *         in: path
@@ -919,7 +919,7 @@ module.exports = function (app, passport, database) {
    *     description: Deletes an area and its associated actions from the database.
    *     tags: [Area]
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     parameters:
    *       - name: id
    *         in: path

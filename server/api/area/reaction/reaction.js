@@ -44,7 +44,7 @@ module.exports = function (app, passport, database) {
    *                 error:
    *                   type: string
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    */
   app.get(
     '/api/area/:areaId/reaction',

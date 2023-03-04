@@ -158,7 +158,7 @@ module.exports = function (app, passport, database) {
    *     tags: [Area/Action]
    *     summary: Get an action by ID for a specific area
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     parameters:
    *       - in: path
    *         name: areaId
@@ -300,7 +300,7 @@ module.exports = function (app, passport, database) {
    *     tags: [Area/Action]
    *     summary: Create an action for a specific area
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     parameters:
    *       - in: path
    *         name: areaId
@@ -634,7 +634,7 @@ module.exports = function (app, passport, database) {
    *                 type: string
    *                 description: Parameter value
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     responses:
    *       "200":
    *         description: Updated action

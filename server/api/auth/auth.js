@@ -188,7 +188,7 @@ module.exports = function (app, passport, database) {
    *     summary: Updates user's tokens.
    *     description: Update user's Google, Discord, and Deezer tokens.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     requestBody:
    *       required: true
    *       content:
@@ -305,7 +305,7 @@ module.exports = function (app, passport, database) {
    *     description: Create or update an authentication token for the
    *       Deezer service by providing an app ID, secret, and authorization code.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     requestBody:
    *       description: JSON object containing the app ID, secret, and authorization code.
    *       required: true

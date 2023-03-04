@@ -223,7 +223,7 @@ module.exports = function (app, passport, database) {
    *     summary: Delete user account
    *     description: Deletes the user account with the authenticated user's ID after sending a confirmation email to the user's email address.
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     responses:
    *       '200':
    *         description: A success message indicating that the confirmation email has been sent.
@@ -342,7 +342,7 @@ module.exports = function (app, passport, database) {
    *     tags: [User]
    *     summary: Updates the authenticated user's username, email, and password
    *     security:
-   *       - bearerAuth: []
+   *       - jwt: []
    *     requestBody:
    *       required: true
    *       content:
