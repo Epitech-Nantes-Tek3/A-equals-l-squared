@@ -626,7 +626,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   });
                 },
                 child: Text(getSentence('CREATE-08'),
-                    style: const TextStyle(color: Colors.white))),
+                    )),
             context,
             primaryColor: getOurBlueAreaColor(100),
             borderWith: 1,
@@ -658,7 +658,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               },
               child: Text(
                 getSentence('CREATE-09'),
-                style: const TextStyle(color: Colors.white),
+                
               )),
           context,
           sizeOfButton: 1.8,
@@ -898,7 +898,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
               },
               child: Text(
                 getSentence('CREATE-15'),
-                style: const TextStyle(color: Colors.white),
               )),
           context,
           sizeOfButton: 1.8,
@@ -994,8 +993,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                           changeType = 'update';
                           apiAskForActionChange(temp);
                         },
-                        child: Text(getSentence('CREATE-17'),
-                            style: const TextStyle(color: Colors.white)),
+                        child: Text(getSentence('CREATE-17')),
                       ),
                       context,
                       primaryColor: getOurBlueAreaColor(100),
@@ -1059,7 +1057,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                             apiAskForReactionChange(temp);
                           },
                           child: Text(getSentence('CREATE-19'),
-                              style: const TextStyle(color: Colors.white))),
+                              )),
                       context,
                       primaryColor: getOurBlueAreaColor(100),
                       borderWith: 1,
@@ -1313,7 +1311,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                                     borderRadius:
                                     const BorderRadius.all(Radius.circular(8)),
                                     selectedBorderColor: Colors.blue[700],
-                                    selectedColor: Colors.white,
                                     fillColor: Colors.blue[200],
                                     color: Colors.blue[400],
                                     constraints: const BoxConstraints(
