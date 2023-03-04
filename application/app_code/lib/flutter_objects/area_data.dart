@@ -137,7 +137,7 @@ class AreaData {
   }
 
   /// This function display an Area preview with the logo, the name and the description
-  Widget displayAreaPreview() {
+  Widget displayAreaPreview(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -150,6 +150,7 @@ class AreaData {
               child: Text(
                 name,
                 overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
               ),
             ),
           ],
@@ -159,9 +160,8 @@ class AreaData {
           description == null
               ? '${getSentence("AREA-01")}${getSentence("AREA-02")}'
               : '${getSentence("AREA-01")}$description',
+          style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
         )
-
-        /// Put Description when it's in DB
       ],
     );
   }
@@ -170,7 +170,7 @@ class AreaData {
   /// mode -> true = complete representation, false = only area preview
   /// update -> Function pointer used for update the state
   Widget display(bool mode, Function? update, bool isReactionPreviewClosed,
-      bool isActionPreviewClosed) {
+      bool isActionPreviewClosed, BuildContext context) {
     List<Widget> listDisplay = <Widget>[];
     List<Widget> actionListDisplay = <Widget>[Text(getSentence('AREA-03'))];
     List<Widget> reactionListDisplay = <Widget>[Text(getSentence('AREA-04'))];
@@ -214,7 +214,7 @@ class AreaData {
       ));
     } else {
       try {
-        listDisplay.add(displayAreaPreview());
+        listDisplay.add(displayAreaPreview(context));
       } catch (err) {
         listDisplay.add(Text(getSentence('AREA-06')));
       }

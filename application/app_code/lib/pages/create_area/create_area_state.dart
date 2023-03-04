@@ -932,6 +932,12 @@ class CreateAreaPageState extends State<CreateAreaPage> {
           _selectedSecondaryColor[i] = true;
         }
       }
+      if (tempColor == Colors.white) {
+        _selectedPrimaryColor[3] = true;
+      }
+      if (tempSecondaryColor == Colors.white) {
+        _selectedSecondaryColor[3] = true;
+      }
       for (int i = 0; i < listIcon.length; i++) {
         if (Key(createdArea!.iconPath) == (listIcon[i] as Image).key) {
           _selectedIcon[i] = true;

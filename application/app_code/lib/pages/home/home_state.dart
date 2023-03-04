@@ -1,6 +1,7 @@
 import 'package:application/flutter_objects/area_data.dart';
 import 'package:application/language/language.dart';
 import 'package:application/network/informations.dart';
+import 'package:application/night_mod/night_mod.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:application/pages/service_list/service_list_functional.dart';
@@ -61,7 +62,7 @@ class HomePageState extends State<HomePage> {
             createdArea = AreaData.clone(areaData);
             goToUpdateAreaPage(context);
           },
-          child: areaData.display(false, null, false, false)),
+          child: areaData.display(false, null, false, false, context)),
       context,
       sizeOfButton: 2.5,
       isShadowNeeded: true,
@@ -69,7 +70,11 @@ class HomePageState extends State<HomePage> {
       paddingVertical: 10,
       borderRadius: 10,
       borderWith: 3,
-      primaryColor: areaPrimaryColor,
+      primaryColor: areaPrimaryColor == Colors.black && nightMod == false
+          ? Colors.white
+          : areaPrimaryColor == Colors.white && nightMod == true
+              ? Colors.black
+              : areaPrimaryColor,
       borderColor: areaBorderColor,
     );
   }

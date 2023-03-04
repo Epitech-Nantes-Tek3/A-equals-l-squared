@@ -23,8 +23,8 @@ Widget materialElevatedButtonArea(
     ElevatedButton buttonContent, BuildContext? context,
     {sizeOfButton = 3,
     bool isShadowNeeded = false,
-    borderColor = Colors.white,
-    primaryColor = Colors.white,
+    borderColor = Colors.grey,
+    primaryColor = Colors.grey,
     double borderRadius = 10,
     double borderWith = 0,
     double paddingVertical = 10,
@@ -38,13 +38,13 @@ Widget materialElevatedButtonArea(
     child: ElevatedButton(
         onPressed: buttonContent.onPressed,
         style: ElevatedButton.styleFrom(
-            primary: primaryColor == Colors.white && context != null
+            primary: primaryColor == Colors.grey && context != null
                 ? Theme.of(context).primaryColor
                 : primaryColor,
             padding: EdgeInsets.symmetric(
                 vertical: paddingVertical, horizontal: paddingHorizontal),
             side: BorderSide(
-                color: borderColor == Colors.white && context != null
+                color: borderColor == Colors.grey && context != null
                     ? Theme.of(context).primaryColor
                     : borderColor,
                 width: borderWith),
