@@ -3,7 +3,6 @@
 module.exports = function (app, passport, database) {
   /**
    * @swagger
-   *
    * /api/services/rea/getAvailableArea:
    *   get:
    *     tags: [Services/Rea]

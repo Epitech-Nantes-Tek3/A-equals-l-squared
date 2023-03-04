@@ -482,7 +482,6 @@ module.exports = function (app, passport, database) {
 
   /**
    * @swagger
-   *
    * /api/area/{areaId}/action/{id}:
    *   delete:
    *     tags: [Area/Action]

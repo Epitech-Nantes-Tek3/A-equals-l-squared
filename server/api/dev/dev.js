@@ -13,7 +13,6 @@ const { createRedditService } = require('../../services/reddit/init')
 module.exports = function (app, database) {
   /**
    * @swagger
-   *
    * /api/dev/user/create:
    *   post:
    *     summary: Create a new user in the database
@@ -59,7 +58,6 @@ module.exports = function (app, database) {
 
   /**
    * @swagger
-   *
    * /api/dev/user/listall:
    *   get:
    *     summary: List all users in the database
