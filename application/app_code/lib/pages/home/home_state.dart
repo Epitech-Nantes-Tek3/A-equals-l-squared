@@ -70,9 +70,9 @@ class HomePageState extends State<HomePage> {
       paddingVertical: 10,
       borderRadius: 10,
       borderWith: 3,
-      primaryColor: areaPrimaryColor == Colors.black && nightMod == false
+      primaryColor: areaPrimaryColor == Colors.black && nightMode == false
           ? Colors.white
-          : areaPrimaryColor == Colors.white && nightMod == true
+          : areaPrimaryColor == Colors.white && nightMode == true
               ? Colors.black
               : areaPrimaryColor,
       borderColor: areaBorderColor,

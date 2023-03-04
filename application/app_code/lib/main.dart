@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!nightMod) {
+    if (!nightMode) {
       return MaterialApp.router(
         title: 'A = L²',
         theme: ThemeData(
