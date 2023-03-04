@@ -40,7 +40,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     ),
     Icon(
       Icons.color_lens,
-      color: Colors.amber,
+      color: Colors.white70,
     ),
     Icon(
       Icons.color_lens,
@@ -64,7 +64,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
     ),
     Icon(
       Icons.color_lens_outlined,
-      color: Colors.amber,
+      color: Colors.white70,
     ),
     Icon(
       Icons.color_lens_outlined,
