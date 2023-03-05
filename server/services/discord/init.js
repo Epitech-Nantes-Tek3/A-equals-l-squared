@@ -305,7 +305,7 @@ const createDiscordService = async () => {
             {
               name: 'changeActivity',
               code: 'DSC-03',
-              description: 'Change the activity of the User',
+              description: 'Change the activity of the Bot',
               isEnable: true,
               Parameters: {
                 create: [
