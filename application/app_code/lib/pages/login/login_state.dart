@@ -200,23 +200,26 @@ class LoginPageState extends State<LoginPage> {
     return Column(
       children: <Widget>[
         SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shadowColor: Colors.black,
-              elevation: 5,
+          child: materialElevatedButtonArea(
+            ElevatedButton(
+              key: const Key('SendLoginButton'),
+              onPressed: () {
+                setState(() {
+                  _isConnexionWithEmail = true;
+                });
+              },
+              child: Text(getSentence('LOGIN-05'),
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontFamily: 'Roboto-Black')),
             ),
-            key: const Key('SendLoginButton'),
-            onPressed: () {
-              setState(() {
-                _isConnexionWithEmail = true;
-              });
-            },
-            child: Text(getSentence('LOGIN-05'),
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    fontFamily: 'Roboto-Black')),
+            context,
+            primaryColor: getOurBlueAreaColor(100),
+            borderWith: 1,
+            borderColor: getOurBlueAreaColor(100),
+            sizeOfButton: 1.8,
+            isShadowNeeded: true,
           ),
         ),
         if (_isConnexionWithEmail == false)
@@ -230,18 +233,27 @@ class LoginPageState extends State<LoginPage> {
   Widget displayInputForEmailConnexion(snapshot) {
     return Column(children: <Widget>[
       SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
+          child: materialElevatedButtonArea(
+        ElevatedButton(
           key: const Key('SendLoginButton'),
           onPressed: () {
             setState(() {
               _futureLogin = apiAskForLogin();
             });
           },
-          child: Text(getSentence('LOGIN-06')),
+          child: Text(
+            getSentence('LOGIN-06'),
+            style: const TextStyle(color: Colors.white),
+          ),
         ),
-      ),
-      displayResetAndForgotPassword(),
+        context,
+        primaryColor: getOurBlueAreaColor(100),
+        borderWith: 1,
+        borderColor: getOurBlueAreaColor(100),
+        sizeOfButton: 1.8,
+        isShadowNeeded: true,
+      )),
+      displayButtonRequestANewAccount(),
     ]);
   }
 
