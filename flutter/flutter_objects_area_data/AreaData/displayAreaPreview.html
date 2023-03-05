@@ -98,6 +98,7 @@
         description == null
             ? &#39;${getSentence(&quot;AREA-01&quot;)}${getSentence(&quot;AREA-02&quot;)}&#39;
             : &#39;${getSentence(&quot;AREA-01&quot;)}$description&#39;,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
       )
     ],

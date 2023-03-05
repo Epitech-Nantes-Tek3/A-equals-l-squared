@@ -60,7 +60,8 @@
         
 
 <span class="returntype">void</span>
-<span class="name ">goToLoginPage</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="goToLoginPage-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span></li>
+<span class="name ">goToLoginPage</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="goToLoginPage-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span>, </span></li>
+<li><span class="parameter" id="goToLoginPage-param-fromSettings"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">fromSettings</span></span></li>
 </ol>)
 
         
@@ -75,9 +76,12 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">void goToLoginPage(BuildContext context) {
+  <pre class="language-dart"><code class="language-dart">void goToLoginPage(BuildContext context, bool fromSettings) {
   userInformation = null;
   logout = true;
+  if (updatePage != null &amp;&amp; fromSettings) {
+    updatePage!();
+  }
   context.go(&#39;&#47;&#39;);
 }</code></pre>
 </section>

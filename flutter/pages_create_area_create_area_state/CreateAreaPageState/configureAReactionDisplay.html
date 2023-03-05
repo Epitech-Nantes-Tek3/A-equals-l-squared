@@ -91,7 +91,8 @@
                   .map((v) =&gt; ReactionData.clone(v))
                   .toList();
               for (var temp in createdArea!.reactionList.last.parameters) {
-                if (temp.isRequired &amp;&amp; temp.matchedContent!.value == &quot;&quot;) {
+                if (temp.isRequired &amp;&amp; temp.matchedContent!.value == &quot;&quot; ||
+                    temp.matchedContent!.value == &quot;Click To Update&quot;) {
                   isRequired = false;
                 }
               }
