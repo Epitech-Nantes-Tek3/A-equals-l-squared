@@ -72,7 +72,7 @@ Map<String, String> deutschLanguageMap = Map.unmodifiable({
   'SETT-02': 'Konto löschen',
   'SETT-03': 'Einstellungen',
   'SETT-04': 'Benutzerinformationen',
-  'SETT-05': 'Datenverwaltung',
+  'SETT-05': 'Newsletter',
   'SETT-06': 'Sprache',
   'SETT-07': 'Danke',
   'SETT-08': 'Benutzername',
