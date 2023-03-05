@@ -26,6 +26,9 @@ bool logout = false;
 
 /// Navigation function -> Go to Home page
 void goToHomePage(BuildContext context) {
+  if (updatePage != null) {
+    updatePage!();
+  }
   context.go('/');
 }
 
