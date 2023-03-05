@@ -42,7 +42,7 @@ const createDeezerService = async () => {
                 create: [
                   {
                     name: 'playlistId',
-                    description: 'The playlist id',
+                    description: 'The playlist name',
                     isRequired: true,
                     GetterUrl: '/api/services/deezer/getUserPlaylists'
                   }
@@ -58,7 +58,7 @@ const createDeezerService = async () => {
                 create: [
                   {
                     name: 'playlistId',
-                    description: 'The playlist id',
+                    description: 'The playlist name',
                     isRequired: true,
                     GetterUrl: '/api/services/deezer/getUserPlaylists'
                   }
@@ -75,7 +75,7 @@ const createDeezerService = async () => {
                 create: [
                   {
                     name: 'playlistId',
-                    description: 'The playlist id',
+                    description: 'The playlist name',
                     isRequired: true,
                     GetterUrl: '/api/services/deezer/getUserPlaylists'
                   },
@@ -97,7 +97,7 @@ const createDeezerService = async () => {
                 create: [
                   {
                     name: 'playlistId',
-                    description: 'The playlist id',
+                    description: 'The playlist name',
                     isRequired: true,
                     GetterUrl: '/api/services/deezer/getUserPlaylists'
                   },
