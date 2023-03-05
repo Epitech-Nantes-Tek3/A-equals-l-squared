@@ -46,7 +46,7 @@ The purpose of the application is to interconnect different services (Outlook 36
 
 You can find the code documentation here :
 
-- [Notion](https://www.notion.so/a-l2-area/Engineering-Wiki-fecd99eca7db4a2d80a88aabe125da1d)
+- [Notion](https://a-l2-area.notion.site/Engineering-Wiki-fecd99eca7db4a2d80a88aabe125da1d)
 - [Prisma](https://epitech-nantes-tek3.github.io/A-equals-l-squared/prisma/)
 - [Flutter](https://epitech-nantes-tek3.github.io/A-equals-l-squared/flutter/)
 - [Node.js](https://epitech-nantes-tek3.github.io/A-equals-l-squared/js/)
