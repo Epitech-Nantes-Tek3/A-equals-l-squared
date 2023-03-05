@@ -59,67 +59,6 @@ class HomePageState extends State<HomePage> {
   }
 
   /// This function create a Row of two Areas
-  Widget createRowOfAreasOfThree(
-      Widget firstArea, Widget? secondArea, Widget? thirdArea) {
-    Widget rowArea = Row(
-        mainAxisAlignment: secondArea != null
-            ? MainAxisAlignment.spaceBetween
-            : MainAxisAlignment.center,
-        children: <Widget>[
-          firstArea,
-          if (secondArea != null) secondArea,
-          if (thirdArea != null) thirdArea,
-        ]);
-    return rowArea;
-  }
-
-  /// This function display all Areas in Tab
-  List<Widget> createTabOfAreasOfThree() {
-    List<Widget> areaVis = <Widget>[];
-    late AreaData tempArea;
-    late AreaData tempArea2;
-    var count = 1;
-
-    for (var temp in areaDataList) {
-      if (count % 3 == 0 && count != 0) {
-        areaVis.add(createRowOfAreasOfThree(
-            areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor(),
-                tempArea.getSecondaryColor()),
-            areaDataToElevatedButton(
-                temp, temp.getPrimaryColor(), temp.getSecondaryColor()),
-            areaDataToElevatedButton(tempArea2, tempArea2.getPrimaryColor(),
-                tempArea2.getSecondaryColor())));
-        areaVis.add(const SizedBox(
-          height: 30,
-        ));
-        count = 0;
-      }
-      if (count == 1) {
-        tempArea = temp;
-      }
-      if (count == 2) {
-        tempArea2 = temp;
-      }
-      count++;
-    }
-    if (count == 1) {
-      areaVis.add(createRowOfAreas(
-          areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor(),
-              tempArea.getSecondaryColor()),
-          null));
-    }
-    if (count == 2) {
-      areaVis.add(createRowOfAreas(
-        areaDataToElevatedButton(
-            tempArea, tempArea.getPrimaryColor(), tempArea.getSecondaryColor()),
-        areaDataToElevatedButton(tempArea2, tempArea2.getPrimaryColor(),
-            tempArea2.getSecondaryColor()),
-      ));
-    }
-    return areaVis;
-  }
-
-  /// This function create a Row of two Areas
   Widget createRowOfAreas(Widget firstArea, Widget? secondArea) {
     Widget rowArea = Row(
         mainAxisAlignment: secondArea != null
@@ -239,7 +178,7 @@ class HomePageState extends State<HomePage> {
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: isDesktop(context) ? createTabOfAreasOfThree() : createTabOfAreas(),
+                    children: createTabOfAreas(),
                   ),
                   const SizedBox(
                     height: 20,
