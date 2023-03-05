@@ -10,16 +10,14 @@ const session = require('express-session')
 require('dotenv').config({ path: '../database.env' })
 const app = express()
 
-const swaggerUi = require('swagger-ui-express')
-const swaggerJsdoc = require('swagger-jsdoc')
 const onMessage = require('./services/discord/actions/on_message')
 const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
+const swaggerUi = require('swagger-ui-express')
+const swaggerConfig = require('./swaggerdoc.json')
 
-const swaggerConfig = require('./swagger.json')
-const swaggerDocs = swaggerJsdoc(swaggerConfig)
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig))
 
 passport.serializeUser((user, done) => {
   done(null, user.id)
