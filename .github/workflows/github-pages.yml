@@ -31,7 +31,7 @@ jobs:
       uses: Legion2/swagger-ui-action@v1.1.6
       with:
         output: ./server/docs/swagger
-        swagger-config-file: ./server/doc.json
+        spec-file: ./server/swaggerdoc.json
 
     - name: Js documentation
       uses: andstor/jsdoc-action@v1
