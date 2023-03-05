@@ -1,4 +1,5 @@
 import 'package:application/language/language.dart';
+import 'package:application/material_lib_functions/material_functions.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/service_list/service_list_page.dart';
 import 'package:flutter/material.dart';
@@ -11,18 +12,20 @@ class ServiceListPageState extends State<ServiceListPage> {
     List<Widget> serviceVis = <Widget>[];
 
     for (var temp in serviceDataList) {
-      serviceVis.add(ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            side: const BorderSide(width: 3, color: Colors.white),
-
-            /// Change when DB is Up
-            primary: Colors.white,
-          ),
-          onPressed: () {
-            goToCreateAreaPage(context);
-          },
-          child: temp.display()));
+      serviceVis.add(materialElevatedButtonArea(
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                side: const BorderSide(width: 3),
+              ),
+              onPressed: () {
+                goToCreateAreaPage(context);
+              },
+              child: temp.display(context)),
+          context,
+          sizeOfButton: 1,
+          isShadowNeeded: true));
       serviceVis.add(const SizedBox(
         height: 10,
       ));

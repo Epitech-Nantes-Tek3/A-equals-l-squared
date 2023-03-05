@@ -58,7 +58,7 @@ passport.use(
   new Strategy(options, async (email, password, cb) => {
     try {
       const user = await database.prisma.User.findFirst({
-        where: { email },
+        where: { email }
       })
       if (!user)
         return cb(null, false, {

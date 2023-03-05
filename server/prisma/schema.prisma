@@ -143,8 +143,8 @@ model AREA {
   updatedAt      DateTime           @default(now())
   description    String?
   logicalGate    String             @default("OR")
-  primaryColor   String             @default("#000000") @db.VarChar(7)
-  secondaryColor String             @default("#000000") @db.VarChar(7)
+  primaryColor   String             @default("#000000") @db.VarChar(9)
+  secondaryColor String             @default("#000000") @db.VarChar(9)
   icon           String?
   User           User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId         String

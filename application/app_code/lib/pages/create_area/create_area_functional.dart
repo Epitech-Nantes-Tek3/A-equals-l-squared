@@ -23,7 +23,7 @@ void goToCreateAreaPage(BuildContext context) {
       reactionList: [],
       isEnable: true,
       logicalGate: 'OR',
-      primaryColor: '#000000',
+      primaryColor: '#B3FFFFFF',
       secondaryColor: '#000000',
       iconPath: '',
       updatedAt: DateTime(1));

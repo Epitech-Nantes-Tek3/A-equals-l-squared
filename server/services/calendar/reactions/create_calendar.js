@@ -14,23 +14,21 @@ const calendarCreateCalendarFromAreaParameters = async (
   dynamicParameters,
   User
 ) => {
-    try {
-        let summary = ReactionParameters
-            .find(parameter => parameter.Parameter.name == 'summary')
-            .value
-        summary = replaceDynamicParameters(summary, dynamicParameters)
+  try {
+    let summary = ReactionParameters.find(
+      parameter => parameter.Parameter.name == 'summary'
+    ).value
+    summary = replaceDynamicParameters(summary, dynamicParameters)
 
-        let description =
-            ReactionParameters
-                .find(parameter => parameter.Parameter.name == 'description')
-                .value
-        description = replaceDynamicParameters(description, dynamicParameters)
+    let description = ReactionParameters.find(
+      parameter => parameter.Parameter.name == 'description'
+    ).value
+    description = replaceDynamicParameters(description, dynamicParameters)
 
-        return await createCalendar(User.googleToken, summary, description)
-    }
-    catch (error) {
-        console.log('Error while creating calendar from area : ', error)
-    }
+    return await createCalendar(User.googleToken, summary, description)
+  } catch (error) {
+    console.log('Error while creating calendar from area : ', error)
+  }
 }
 
 /**
@@ -50,11 +48,11 @@ const createCalendar = async (accessToken, summary, description) => {
   const client = google.calendar({ version: 'v3', auth })
   try {
     const response = await client.calendars.insert({
-        requestBody: {
-          summary: summary,
-          description: description,
-          timeZone: 'Europe/Paris'
-        }
+      requestBody: {
+        summary: summary,
+        description: description,
+        timeZone: 'Europe/Paris'
+      }
     })
     return response.data
   } catch (err) {

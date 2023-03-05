@@ -1,6 +1,7 @@
 import 'package:application/flutter_objects/area_data.dart';
 import 'package:application/language/language.dart';
 import 'package:application/network/informations.dart';
+import 'package:application/night_mod/night_mod.dart';
 import 'package:application/pages/create_area/create_area_functional.dart';
 import 'package:application/pages/home/home_functional.dart';
 import 'package:application/pages/service_list/service_list_functional.dart';
@@ -53,14 +54,15 @@ class HomePageState extends State<HomePage> {
   }
 
   /// This function Create an Elevated Button thanks to an Area
-  Widget areaDataToElevatedButton(AreaData areaData, Color areaBorderColor) {
+  Widget areaDataToElevatedButton(
+      AreaData areaData, Color areaPrimaryColor, Color areaBorderColor) {
     return materialElevatedButtonArea(
       ElevatedButton(
           onPressed: () {
             createdArea = AreaData.clone(areaData);
             goToUpdateAreaPage(context);
           },
-          child: areaData.display(false, null, false, false)),
+          child: areaData.display(false, null, false, false, context)),
       context,
       sizeOfButton: 2.5,
       isShadowNeeded: true,
@@ -68,6 +70,11 @@ class HomePageState extends State<HomePage> {
       paddingVertical: 10,
       borderRadius: 10,
       borderWith: 3,
+      primaryColor: areaPrimaryColor == Colors.black && nightMode == false
+          ? Colors.white
+          : areaPrimaryColor == Colors.white && nightMode == true
+              ? Colors.black
+              : areaPrimaryColor,
       borderColor: areaBorderColor,
     );
   }
@@ -81,8 +88,10 @@ class HomePageState extends State<HomePage> {
     for (var temp in areaDataList) {
       if (count % 2 == 0 && count != 0) {
         areaVis.add(createRowOfAreas(
-            areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor()),
-            areaDataToElevatedButton(temp, temp.getPrimaryColor())));
+            areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor(),
+                tempArea.getSecondaryColor()),
+            areaDataToElevatedButton(
+                temp, temp.getPrimaryColor(), tempArea.getSecondaryColor())));
         areaVis.add(const SizedBox(
           height: 30,
         ));
@@ -92,7 +101,8 @@ class HomePageState extends State<HomePage> {
     }
     if (count % 2 == 0) {
       areaVis.add(createRowOfAreas(
-          areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor()),
+          areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor(),
+              tempArea.getSecondaryColor()),
           null));
     }
     return areaVis;

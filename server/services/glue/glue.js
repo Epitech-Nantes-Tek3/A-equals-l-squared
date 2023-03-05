@@ -226,9 +226,20 @@ const reactionsList = {
       dynamicParameters,
       User
     ),
-  'RDT-01': (ReactionParameters, dynamicParameters, User) => redditSubscribeToSubredditFromAreaParameters(ReactionParameters, dynamicParameters, User),
-  'RDT-02': (ReactionParameters, dynamicParameters, User) => redditUnsubscribeToSubredditFromAreaParameters(ReactionParameters, dynamicParameters, User),
-  'RDT-03': (ReactionParameters, dynamicParameters, User) => redditSubscribeToNewSubreddit(User.redditToken)
+  'RDT-01': (ReactionParameters, dynamicParameters, User) =>
+    redditSubscribeToSubredditFromAreaParameters(
+      ReactionParameters,
+      dynamicParameters,
+      User
+    ),
+  'RDT-02': (ReactionParameters, dynamicParameters, User) =>
+    redditUnsubscribeToSubredditFromAreaParameters(
+      ReactionParameters,
+      dynamicParameters,
+      User
+    ),
+  'RDT-03': (ReactionParameters, dynamicParameters, User) =>
+    redditSubscribeToNewSubreddit(User.redditToken)
 }
 
 const updateTriggeredLink = async (linkId, triggered) => {

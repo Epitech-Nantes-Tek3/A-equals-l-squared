@@ -35,10 +35,10 @@ const createDiscordService = async () => {
     const discord = await database.prisma.Service.create({
       data: {
         name: 'Discord',
-        description: 'Discord service',
+        description: 'Chat service',
         primaryColor: '#7289DA',
         secondaryColor: '#2C2F33',
-        icon : './assets/icons/discord.png',
+        icon: './assets/icons/discord.png',
         isEnable: true,
         Actions: {
           create: [
@@ -59,7 +59,7 @@ const createDiscordService = async () => {
                     name: 'channelId',
                     description: 'The channel id where the message is sent',
                     isRequired: true,
-                    GetterUrl: '/api/services/discord/getTextChannels',
+                    GetterUrl: '/api/services/discord/getTextChannels'
                   }
                 ]
               },
@@ -83,15 +83,18 @@ const createDiscordService = async () => {
                   },
                   {
                     name: 'CHANNEL_NAME',
-                    description: 'The name of the channel where the message is sent'
+                    description:
+                      'The name of the channel where the message is sent'
                   },
                   {
                     name: 'CHANNEL_ID',
-                    description: 'The ID of the channel where the message is sent'
+                    description:
+                      'The ID of the channel where the message is sent'
                   },
                   {
                     name: 'GUILD_NAME',
-                    description: 'The name of the guild where the message is sent'
+                    description:
+                      'The name of the guild where the message is sent'
                   },
                   {
                     name: 'GUILD_ID',
@@ -117,7 +120,7 @@ const createDiscordService = async () => {
                     name: 'channelId',
                     description: 'The channel id where the user join',
                     isRequired: true,
-                    GetterUrl: '/api/services/discord/getVoiceChannels',
+                    GetterUrl: '/api/services/discord/getVoiceChannels'
                   }
                 ]
               },
@@ -203,7 +206,7 @@ const createDiscordService = async () => {
                     name: 'channelId',
                     description: 'The channel id where the message is sent',
                     isRequired: true,
-                    GetterUrl: '/api/services/discord/getTextChannels',
+                    GetterUrl: '/api/services/discord/getTextChannels'
                   }
                 ]
               },
@@ -215,7 +218,8 @@ const createDiscordService = async () => {
                   },
                   {
                     name: 'MESSAGE_ID',
-                    description: 'The ID of the message where the reaction is added'
+                    description:
+                      'The ID of the message where the reaction is added'
                   },
                   {
                     name: 'USER_NAME',
@@ -227,11 +231,13 @@ const createDiscordService = async () => {
                   },
                   {
                     name: 'CHANNEL_NAME',
-                    description: 'The name of the channel where the reaction is added'
+                    description:
+                      'The name of the channel where the reaction is added'
                   },
                   {
                     name: 'CHANNEL_ID',
-                    description: 'The ID of the channel where the reaction is added'
+                    description:
+                      'The ID of the channel where the reaction is added'
                   },
                   {
                     name: 'GUILD_NAME',
@@ -266,7 +272,7 @@ const createDiscordService = async () => {
                     description:
                       'The channel id where the message will be send',
                     isRequired: true,
-                    GetterUrl: '/api/services/discord/getTextChannels',
+                    GetterUrl: '/api/services/discord/getTextChannels'
                   },
                   {
                     name: 'messageContent',
@@ -299,7 +305,7 @@ const createDiscordService = async () => {
             {
               name: 'changeActivity',
               code: 'DSC-03',
-              description: 'Change the activity of the User',
+              description: 'Change the activity of the Bot',
               isEnable: true,
               Parameters: {
                 create: [
