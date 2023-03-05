@@ -366,43 +366,46 @@ class LoginPageState extends State<LoginPage> {
                   return const HomePage();
                 }
                 logout = false;
-                return Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 12),
-                    child: SizedBox(
-                        width: isDesktop(context)
-                            ? 600
-                            : MediaQuery.of(context).size.width,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              displayLogoAndName(),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              if (_isConnexionWithEmail)
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _isConnexionWithEmail = false;
-                                          });
-                                        },
-                                        icon: Icon(
-                                          Icons.arrow_back_ios,
-                                          color: getOurBlueAreaColor(100),
-                                        ))
-                                  ],
-                                ),
-                              getHostConfigField(),
-                              displayInputForEmailLogin(snapshot),
-                              if (_isConnexionWithEmail == false)
-                                displayButtonRequestForEmailLogin(),
-                              if (_isConnexionWithEmail)
-                                displayInputForEmailConnexion(snapshot),
-                            ])));
+                return Center(
+                    child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 12),
+                        child: SizedBox(
+                            width: isDesktop(context)
+                                ? 600
+                                : MediaQuery.of(context).size.width,
+                            child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  displayLogoAndName(),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  if (_isConnexionWithEmail)
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                _isConnexionWithEmail = false;
+                                              });
+                                            },
+                                            icon: Icon(
+                                              Icons.arrow_back_ios,
+                                              color: getOurBlueAreaColor(100),
+                                            ))
+                                      ],
+                                    ),
+                                  getHostConfigField(),
+                                  displayInputForEmailLogin(snapshot),
+                                  if (_isConnexionWithEmail == false)
+                                    displayButtonRequestForEmailLogin(),
+                                  if (_isConnexionWithEmail)
+                                    displayInputForEmailConnexion(snapshot),
+                                ]))));
               }
               return const CircularProgressIndicator();
             },

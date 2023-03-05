@@ -662,47 +662,48 @@ class SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
-            child: Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                child: SizedBox(
-                  width: isDesktop(context)
-                      ? 600
-                      : MediaQuery.of(context).size.width,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
+            child: Center(
+                child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 30),
+                    child: SizedBox(
+                      width: isDesktop(context)
+                          ? 600
+                          : MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (_settingPage == 0) {
-                                    goToHomePage(context);
-                                  } else {
-                                    _settingPage = 0;
-                                  }
-                                });
-                              },
-                              icon: const Icon(Icons.arrow_back_ios),
-                              color: Colors.black),
-                          displaySettingsHeader(),
+                          Row(
+                            children: <Widget>[
+                              IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if (_settingPage == 0) {
+                                        goToHomePage(context);
+                                      } else {
+                                        _settingPage = 0;
+                                      }
+                                    });
+                                  },
+                                  icon: const Icon(Icons.arrow_back_ios),
+                                  color: Colors.black),
+                              displaySettingsHeader(),
+                            ],
+                          ),
+                          displaySettingsViews(),
+                          FutureBuilder<String>(
+                            future: _futureAnswer,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data!);
+                              } else if (snapshot.hasError) {
+                                return Text('${snapshot.error}');
+                              }
+                              return const CircularProgressIndicator();
+                            },
+                          ),
                         ],
                       ),
-                      displaySettingsViews(),
-                      FutureBuilder<String>(
-                        future: _futureAnswer,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Text(snapshot.data!);
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
-                          }
-                          return const CircularProgressIndicator();
-                        },
-                      ),
-                    ],
-                  ),
-                ))));
+                    )))));
   }
 }

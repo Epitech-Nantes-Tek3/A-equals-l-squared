@@ -64,47 +64,48 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         body: SingleChildScrollView(
-            child: Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                child: SizedBox(
-                  width: isDesktop(context)
-                      ? 600
-                      : MediaQuery.of(context).size.width,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  goToSettingsPage(context);
-                                });
-                              },
-                              icon: const Icon(Icons.arrow_back_ios)),
-                          Text(getSentence('AUTHLINK-01')),
+            child: Center(
+                child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 30),
+                    child: SizedBox(
+                      width: isDesktop(context)
+                          ? 600
+                          : MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      goToSettingsPage(context);
+                                    });
+                                  },
+                                  icon: const Icon(Icons.arrow_back_ios)),
+                              Text(getSentence('AUTHLINK-01')),
+                            ],
+                          ),
+                          displayAuthBox(),
+                          FutureBuilder<String>(
+                            future: _futureApiResponse,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Column(children: [
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  Text(snapshot.data!)
+                                ]);
+                              } else if (snapshot.hasError) {
+                                return Text('${snapshot.error}');
+                              }
+                              return const CircularProgressIndicator();
+                            },
+                          ),
                         ],
                       ),
-                      displayAuthBox(),
-                      FutureBuilder<String>(
-                        future: _futureApiResponse,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Column(children: [
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              Text(snapshot.data!)
-                            ]);
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
-                          }
-                          return const CircularProgressIndicator();
-                        },
-                      ),
-                    ],
-                  ),
-                ))));
+                    )))));
   }
 }

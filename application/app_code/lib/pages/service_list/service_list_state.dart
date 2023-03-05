@@ -40,6 +40,7 @@ class ServiceListPageState extends State<ServiceListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
+        child: Center(
             child: Container(
                 margin:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
@@ -74,6 +75,6 @@ class ServiceListPageState extends State<ServiceListPage> {
                       displayAllService(),
                     ],
                   ),
-                ))));
+                )))));
   }
 }

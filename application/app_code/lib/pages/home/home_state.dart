@@ -109,7 +109,8 @@ class HomePageState extends State<HomePage> {
       return Scaffold(
           resizeToAvoidBottomInset: true,
           body: SingleChildScrollView(
-              child: Container(
+              child: Center(
+                  child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
             child: SizedBox(
               width:
@@ -179,7 +180,9 @@ class HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: createTabOfAreas(),
                   ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   materialElevatedButtonArea(
                     ElevatedButton(
                       key: const Key('HomeServiceButton'),
@@ -197,7 +200,7 @@ class HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-          )));
+          ))));
     }
   }
 }

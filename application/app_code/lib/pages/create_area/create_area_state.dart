@@ -1112,7 +1112,8 @@ class CreateAreaPageState extends State<CreateAreaPage> {
 
     return Scaffold(
         body: SingleChildScrollView(
-            child: Container(
+            child: Center(
+                child: Container(
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       child: SizedBox(
           width: isDesktop(context) ? 600 : MediaQuery.of(context).size.width,
@@ -1474,6 +1475,6 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                   ),
                 Text(_apiErrorMessage != null ? _apiErrorMessage! : '')
               ])),
-    )));
+    ))));
   }
 }
