@@ -1,0 +1,4646 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "A=L² API",
+    "summary": "Area Epitech project",
+    "description": "API for A=L² application",
+    "constact": {
+      "name": "A=L²",
+      "email": "aequallsquared@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "About",
+      "description": "About the A=L² project"
+    },
+    {
+      "name": "User",
+      "description": "User management"
+    },
+    {
+      "name": "Authentication",
+      "description": "Authentication management"
+    },
+    {
+      "name": "Services",
+      "description": "Service management",
+      "children": [
+        {
+          "name": "Gmail",
+          "description": "Gmail management"
+        },
+        {
+          "name": "Discord",
+          "description": "Discord management"
+        },
+        {
+          "name": "Calendar",
+          "description": "Calendar management"
+        },
+        {
+          "name": "Deezer",
+          "description": "Deezer management"
+        }
+      ]
+    },
+    {
+      "name": "Area",
+      "description": "Area management",
+      "children": [
+        {
+          "name": "Action",
+          "description": "Action management"
+        },
+        {
+          "name": "Reaction",
+          "description": "Reaction management"
+        }
+      ]
+    }
+  ],
+  "host": "localhost:8080",
+  "basePath": "/",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "apis": [
+    "server_app.js",
+    "api/**/*.js",
+    "api/area/**/*.js"
+  ],
+  "paths": {
+    "/about.json": {
+      "get": {
+        "tags": [
+          "About"
+        ],
+        "summary": "Get info about server and services",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/area/{areaId}/action": {
+      "get": {
+        "summary": "Get actions for a specific area",
+        "description": "Returns a list of actions and their parameters for a specific area.",
+        "tags": [
+          "Actions"
+        ],
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "areaId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the area to retrieve actions for.",
+            "schema": {
+              "type": "string",
+              "example": "abc123"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved actions for the area.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The ID of the AREAhasActions record.",
+                        "example": "abc123"
+                      },
+                      "Action": {
+                        "type": "object",
+                        "description": "The action associated with the AREAhasActions record.",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The ID of the action.",
+                            "example": "def456"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the action.",
+                            "example": "Send email"
+                          },
+                          "isEnable": {
+                            "type": "boolean",
+                            "description": "Indicates whether the action is currently enabled or disabled.",
+                            "example": true
+                          }
+                        }
+                      },
+                      "ActionParameters": {
+                        "type": "array",
+                        "description": "The parameters associated with the action.",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "description": "The ID of the ActionParameters record.",
+                              "example": "ghi789"
+                            },
+                            "Parameter": {
+                              "type": "object",
+                              "description": "The parameter associated with the ActionParameters record.",
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "description": "The name of the parameter.",
+                                  "example": "To"
+                                }
+                              }
+                            },
+                            "value": {
+                              "type": "string",
+                              "description": "The value of the parameter.",
+                              "example": "john.doe@example.com"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Area not found or user is not authorized to access the area.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message.",
+                      "example": "Area not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An error occurred while retrieving the actions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message.",
+                      "example": "Internal server error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/area/{areaId}/action/{id}": {
+      "get": {
+        "tags": [
+          "Area/Action"
+        ],
+        "summary": "Get an action by ID for a specific area",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "areaId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the area"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the action"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. Returns the action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Action": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "Action ID."
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "Action name."
+                        },
+                        "isEnable": {
+                          "type": "boolean",
+                          "description": "Whether the action is enabled."
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "isEnable"
+                      ]
+                    },
+                    "ActionParameters": {
+                      "type": "array",
+                      "description": "Array of action parameters.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Parameter ID."
+                          },
+                          "Parameter": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Parameter name."
+                              }
+                            },
+                            "required": [
+                              "name"
+                            ]
+                          },
+                          "value": {
+                            "type": "string",
+                            "description": "Parameter value."
+                          }
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "Parameter",
+                        "value"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found. Either the area or the action was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message.",
+                      "example": "Area not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error. An unexpected error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message.",
+                      "example": "Internal server error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Area/Action"
+        ],
+        "summary": "Delete an action/parameter set for a specific area",
+        "description": "Deletes the action/parameter set with the specified ID for the area with the specified area ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "areaId",
+            "required": true,
+            "description": "ID of the area",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the action/parameter set",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. Returns the deleted action/parameter set.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID of the deleted action/parameter set"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the deleted action/parameter set"
+                    },
+                    "isEnable": {
+                      "type": "boolean",
+                      "description": "Whether the deleted action/parameter set was enabled"
+                    },
+                    "actionParameters": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "ID of the parameter"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Name of the parameter"
+                          },
+                          "value": {
+                            "type": "string",
+                            "description": "Value of the parameter"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found. Either the specified area or the specified action/parameter set does not exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Description of the error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error. An error occurred while deleting the action/parameter set.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Description of the error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Area/Action"
+        ],
+        "summary": "Update action",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "areaId",
+            "required": true,
+            "description": "Area id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of a Action/Parameter set",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "body",
+            "name": "actionParameters",
+            "required": true,
+            "description": "Action parameters",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Parameter id"
+                  },
+                  "value": {
+                    "type": "string",
+                    "description": "Parameter value"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "action": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "Action id"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "Action name"
+                        },
+                        "isEnable": {
+                          "type": "boolean",
+                          "description": "Action isEnable"
+                        },
+                        "actionParameters": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "Parameter id"
+                              },
+                              "name": {
+                                "type": "string",
+                                "description": "Parameter name"
+                              },
+                              "value": {
+                                "type": "string",
+                                "description": "Parameter value"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/area/:areaId/action": {
+      "post": {
+        "tags": [
+          "Area/Action"
+        ],
+        "summary": "Create an action for a specific area",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "areaId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the area"
+          },
+          {
+            "in": "body",
+            "name": "action",
+            "description": "The action to create",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "actionId": {
+                  "type": "string",
+                  "description": "ID of the action"
+                },
+                "actionParameters": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID of the parameter"
+                      },
+                      "value": {
+                        "type": "string",
+                        "description": "Value of the parameter"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully created an action",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "ID of the created action"
+                },
+                "Action": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID of the action"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the action"
+                    },
+                    "isEnable": {
+                      "type": "boolean",
+                      "description": "Flag indicating whether the action is enabled or not"
+                    },
+                    "ActionParameters": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "ID of the parameter"
+                          },
+                          "Parameter": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Name of the parameter"
+                              }
+                            }
+                          },
+                          "value": {
+                            "type": "string",
+                            "description": "Value of the parameter"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incomplete body or invalid parameter list",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "Error message"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Area not found or Action not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "Error message"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "Error message"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/area": {
+      "get": {
+        "tags": [
+          "Area"
+        ],
+        "summary": "Get all areas",
+        "description": "Retrieve a list of all areas for the authenticated user",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of areas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Area unique ID."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Area name."
+                      },
+                      "isEnable": {
+                        "type": "boolean",
+                        "description": "Area is enable."
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Area description."
+                      },
+                      "logicalGate": {
+                        "type": "string",
+                        "description": "Logical gate used to combine all actions and reactions of the area."
+                      },
+                      "Actions": {
+                        "type": "array",
+                        "description": "Action object.",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "description": "Action unique ID."
+                            },
+                            "triggered": {
+                              "type": "boolean",
+                              "description": "Indicates whether the action has been triggered."
+                            },
+                            "Action": {
+                              "type": "object",
+                              "description": "Action object.",
+                              "properties": {
+                                "id": {
+                                  "type": "integer",
+                                  "description": "Action unique ID."
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "description": "Action name."
+                                },
+                                "isEnable": {
+                                  "type": "boolean",
+                                  "description": "Action is enable."
+                                }
+                              }
+                            },
+                            "ActionParameters": {
+                              "type": "array",
+                              "description": "Action parameters.",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "Parameter": {
+                                    "type": "object",
+                                    "description": "Action parameter.",
+                                    "properties": {
+                                      "id": {
+                                        "type": "integer",
+                                        "description": "Parameter unique ID."
+                                      },
+                                      "name": {
+                                        "type": "string",
+                                        "description": "Parameter name."
+                                      }
+                                    }
+                                  },
+                                  "value": {
+                                    "type": "string",
+                                    "description": "Action parameter value."
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "Reactions": {
+                        "type": "array",
+                        "description": "Reactions object.",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "description": "Reaction unique ID."
+                            },
+                            "Reaction": {
+                              "type": "object",
+                              "description": "Reaction object.",
+                              "properties": {
+                                "id": {
+                                  "type": "integer",
+                                  "description": "Reaction unique ID."
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "description": "Reaction name."
+                                },
+                                "isEnable": {
+                                  "type": "boolean",
+                                  "description": "Reaction is enable."
+                                }
+                              }
+                            },
+                            "ReactionParameters": {
+                              "type": "array",
+                              "description": "Reaction parameters.",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "Parameter": {
+                                    "type": "object",
+                                    "description": "Reaction parameter.",
+                                    "properties": {
+                                      "id": {
+                                        "type": "integer",
+                                        "description": "Parameter unique ID."
+                                      },
+                                      "name": {
+                                        "type": "string",
+                                        "description": "Parameter name."
+                                      }
+                                    }
+                                  },
+                                  "value": {
+                                    "type": "string",
+                                    "description": "Reaction parameter value."
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new area",
+        "description": "Endpoint to create a new area for the authenticated user",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "tags": [
+          "Area"
+        ],
+        "requestBody": {
+          "description": "Object containing area details",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Mail from Discord"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "This area includes an action receive discord message and a reaction send mail"
+                  },
+                  "isEnable": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "logicalGate": {
+                    "type": "string",
+                    "example": "OR"
+                  },
+                  "primaryColor": {
+                    "type": "string",
+                    "example": null
+                  },
+                  "secondaryColor": {
+                    "type": "string",
+                    "example": null
+                  },
+                  "iconPath": {
+                    "type": "string",
+                    "example": "assets/icons/.png"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created area object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique ID of the area"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the area"
+                    },
+                    "isEnable": {
+                      "type": "boolean",
+                      "description": "Whether the area is enabled or not"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Description of the area"
+                    },
+                    "logicalGate": {
+                      "type": "string",
+                      "description": "Logical gate for the area"
+                    },
+                    "primaryColor": {
+                      "type": "string",
+                      "description": "Primary color of the area."
+                    },
+                    "secondaryColor": {
+                      "type": "string",
+                      "description": "Secondary color of the area."
+                    },
+                    "icon": {
+                      "type": "string",
+                      "description": "Icon path of the area."
+                    },
+                    "Actions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Unique ID of the action"
+                          },
+                          "triggered": {
+                            "type": "boolean",
+                            "description": "Whether the action is triggered or not"
+                          },
+                          "Action": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "Unique ID of the action type"
+                              },
+                              "name": {
+                                "type": "string",
+                                "description": "Name of the action type"
+                              },
+                              "isEnable": {
+                                "type": "boolean",
+                                "description": "Whether the action type is enabled or not"
+                              }
+                            }
+                          },
+                          "ActionParameters": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "description": "Unique ID of the action parameter"
+                                },
+                                "Parameter": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "description": "Unique ID of the action parameter type"
+                                    },
+                                    "name": {
+                                      "type": "string",
+                                      "description": "Name of the action parameter type"
+                                    }
+                                  }
+                                },
+                                "value": {
+                                  "type": "string",
+                                  "description": "Value of the action parameter"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Reactions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Unique ID of the reaction"
+                          },
+                          "Reaction": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "Unique ID of the reaction type"
+                              },
+                              "name": {
+                                "type": "string",
+                                "description": "Name of the reaction type"
+                              },
+                              "isEnable": {
+                                "type": "boolean",
+                                "description": "Whether the reaction type is enabled or not"
+                              }
+                            }
+                          },
+                          "ReactionParameters": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "description": "Unique ID of the reaction parameter"
+                                },
+                                "Parameter": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "description": "Unique ID of the reaction parameter type"
+                                    },
+                                    "name": {
+                                      "type": null,
+                                      "description": "Name of the reaction parameter type"
+                                    },
+                                    "value": {
+                                      "type": "string",
+                                      "description": "Value of the reaction parameter"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incomplete request body or area name already exists for the user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "An other AREA already have this name."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "An error occurred while creating the area."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/area/{id}": {
+      "get": {
+        "summary": "Get an area by ID",
+        "tags": [
+          "Area"
+        ],
+        "description": "Returns an area object with the specified ID, including its associated actions and reactions.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the area to retrieve",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with the area object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique ID of the area"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the area"
+                    },
+                    "isEnable": {
+                      "type": "boolean",
+                      "description": "Whether the area is enabled or not"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Description of the area"
+                    },
+                    "logicalGate": {
+                      "type": "string",
+                      "description": "Logical gate for the area"
+                    },
+                    "Actions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Unique ID of the action"
+                          },
+                          "triggered": {
+                            "type": "boolean",
+                            "description": "Whether the action is triggered or not"
+                          },
+                          "Action": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "Unique ID of the action type"
+                              },
+                              "name": {
+                                "type": "string",
+                                "description": "Name of the action type"
+                              },
+                              "isEnable": {
+                                "type": "boolean",
+                                "description": "Whether the action type is enabled or not"
+                              }
+                            }
+                          },
+                          "ActionParameters": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "description": "Unique ID of the action parameter"
+                                },
+                                "Parameter": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "description": "Unique ID of the action parameter type"
+                                    },
+                                    "name": {
+                                      "type": "string",
+                                      "description": "Name of the action parameter type"
+                                    }
+                                  }
+                                },
+                                "value": {
+                                  "type": "string",
+                                  "description": "Value of the action parameter"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Reactions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Unique ID of the reaction"
+                          },
+                          "Reaction": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "Unique ID of the reaction type"
+                              },
+                              "name": {
+                                "type": "string",
+                                "description": "Name of the reaction type"
+                              },
+                              "isEnable": {
+                                "type": "boolean",
+                                "description": "Whether the reaction type is enabled or not"
+                              }
+                            }
+                          },
+                          "ReactionParameters": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "description": "Unique ID of the reaction parameter"
+                                },
+                                "Parameter": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "description": "Unique ID of the reaction parameter type"
+                                    },
+                                    "name": {
+                                      "type": null,
+                                      "description": "Name of the reaction parameter type"
+                                    },
+                                    "value": {
+                                      "type": "string",
+                                      "description": "Value of the reaction parameter"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an area",
+        "description": "Update the name, description, logical gate, and enablement status of an area.",
+        "tags": [
+          "Area"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "The ID of the area to update.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Area object to be updated.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The new name of the area."
+                  },
+                  "isEnable": {
+                    "type": "boolean",
+                    "description": "The new enablement status of the area."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "The new description of the area."
+                  },
+                  "logicalGate": {
+                    "type": "string",
+                    "description": "The new logical gate of the area. Defaults to \"OR\" if not provided."
+                  },
+                  "primaryColor": {
+                    "type": "string",
+                    "example": null
+                  },
+                  "secondaryColor": {
+                    "type": "string",
+                    "example": null
+                  },
+                  "iconPath": {
+                    "type": "string",
+                    "example": "assets/icons/.png"
+                  }
+                },
+                "example": {
+                  "name": "New Area Name",
+                  "isEnable": true,
+                  "description": "This is the updated description for the area.",
+                  "logicalGate": "AND"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "The ID of the updated area."
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The new name of the area."
+                    },
+                    "isEnable": {
+                      "type": "boolean",
+                      "description": "The new enablement status of the area."
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "The new description of the area."
+                    },
+                    "logicalGate": {
+                      "type": "string",
+                      "description": "The new logical gate of the area."
+                    },
+                    "primaryColor": {
+                      "type": "string",
+                      "description": "The new primary color of the area."
+                    },
+                    "secondaryColor": {
+                      "type": "string",
+                      "description": "The new secondary color of the area."
+                    },
+                    "icon": {
+                      "type": "string",
+                      "description": "The new icon path of the area."
+                    }
+                  },
+                  "example": {
+                    "id": 123,
+                    "name": "New Area Name",
+                    "isEnable": true,
+                    "description": "This is the updated description for the area.",
+                    "logicalGate": "AND",
+                    "primaryColor": null,
+                    "secondaryColor": null,
+                    "icon": "assets/icons/.png"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  },
+                  "example": {
+                    "error": "Imcomplete body"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  },
+                  "example": {
+                    "error": "Area not found"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error message."
+                    }
+                  },
+                  "example": {
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an area by ID",
+        "description": "Deletes an area and its associated actions from the database.",
+        "tags": [
+          "Area"
+        ],
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the area to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The deleted area object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Area"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, invalid input parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, missing or invalid authentication credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The area with the specified ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/InternalServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/area/{areaId}/reaction": {
+      "get": {
+        "tags": [
+          "Area/Reaction"
+        ],
+        "summary": "Get all reactions for an area",
+        "description": "Retrieve all reactions associated with a given area ID.",
+        "parameters": [
+          {
+            "name": "areaId",
+            "in": "path",
+            "description": "ID of the area to retrieve reactions for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of reactions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Reaction"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Area not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Area not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "jwt": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Area/Reaction"
+        ],
+        "summary": "Create reaction",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "areaId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the area"
+          },
+          {
+            "in": "body",
+            "name": "reaction",
+            "description": "Reaction object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "reactionId": {
+                  "type": "string"
+                },
+                "reactionParameters": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Reaction id"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Reaction name"
+                    },
+                    "isEnable": {
+                      "type": "boolean",
+                      "description": "Reaction isEnable"
+                    },
+                    "ReactionParameters": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "Parameter": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "description": "Parameter id"
+                              },
+                              "name": {
+                                "type": "string",
+                                "description": "Parameter name"
+                              }
+                            }
+                          },
+                          "value": {
+                            "type": "string",
+                            "description": "Parameter value"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Area or Reaction not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/area/{areaId}/reaction/{id}": {
+      "get": {
+        "tags": [
+          "Area/Reaction"
+        ],
+        "summary": "Get a reaction",
+        "description": "Get a specific reaction and its parameters for a given area",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "areaId",
+            "description": "The ID of the area to retrieve the reaction from",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "The ID of the reaction to retrieve",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Reaction": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "description": "The ID of the reaction"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the reaction"
+                        },
+                        "isEnable": {
+                          "type": "boolean",
+                          "description": "Whether the reaction is enabled or not"
+                        }
+                      }
+                    },
+                    "ReactionParameters": {
+                      "type": "array",
+                      "description": "An array of parameter objects for the reaction",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The ID of the parameter"
+                          },
+                          "Parameter": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "The name of the parameter"
+                              }
+                            }
+                          },
+                          "value": {
+                            "type": "string",
+                            "description": "The value of the parameter"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Area/Reaction"
+        ],
+        "summary": "Delete reaction",
+        "description": "Deletes a reaction with the specified id and its parameters for the area with the specified areaId",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "areaId",
+            "required": true,
+            "description": "ID of the area",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the reaction/parameter set",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted reaction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ID of the reaction"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the reaction"
+                    },
+                    "isEnable": {
+                      "type": "boolean",
+                      "description": "Specifies if the reaction is enabled"
+                    },
+                    "reactionParameters": {
+                      "type": "array",
+                      "description": "An array of reaction parameters",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "ID of the parameter"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Name of the parameter"
+                          },
+                          "value": {
+                            "type": "string",
+                            "description": "Value of the parameter"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Area or Reaction not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Area/Reaction"
+        ],
+        "summary": "Update reaction",
+        "description": "Update a reaction with the specified ID in the area with the specified area ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "areaId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the area to update the reaction in"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID of the reaction to update"
+          },
+          {
+            "in": "body",
+            "name": "reactionParameters",
+            "description": "Reaction parameters to update",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "value"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated reaction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "isEnable": {
+                        "type": "boolean"
+                      },
+                      "reactionParameters": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "value": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incomplete body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Area or Reaction not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/login/google": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login with Google",
+        "description": "This endpoint allows users to login with Google.",
+        "requestBody": {
+          "description": "User data required for Google authentication",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Google ID token",
+                    "example": "googleidtoken"
+                  },
+                  "displayName": {
+                    "type": "string",
+                    "description": "User's display name on Google",
+                    "example": "John Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "User's email on Google",
+                    "example": "johndoe@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success",
+                      "description": "Status of the response"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/login/facebook": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Authenticate with Facebook",
+        "description": "Endpoint to initiate authentication with Facebook.",
+        "security": [],
+        "responses": {
+          "302": {
+            "description": "Redirects to Facebook login page.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/api/login/facebookCallBack": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Authenticate a user with Facebook and return a JWT token.",
+        "responses": {
+          "201": {
+            "description": "User authenticated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Welcome back."
+                        },
+                        "user": {
+                          "type": "object"
+                        },
+                        "token": {
+                          "type": "string",
+                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                        }
+                      }
+                    },
+                    "statusCode": {
+                      "type": "number",
+                      "example": 201
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid Facebook authentication."
+          }
+        }
+      }
+    },
+    "/api/token": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Updates user's tokens.",
+        "description": "Update user's Google, Discord, and Deezer tokens.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "google": {
+                    "type": "string",
+                    "description": "User's Google token."
+                  },
+                  "discord": {
+                    "type": "string",
+                    "description": "User's Discord token."
+                  },
+                  "deezer": {
+                    "type": "string",
+                    "description": "User's Deezer token."
+                  }
+                },
+                "example": {
+                  "google": "google_token_string",
+                  "discord": "discord_token_string",
+                  "deezer": "deezer_token_string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Response status.",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "Response data.",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "description": "Response message.",
+                          "example": "Token updated."
+                        },
+                        "user": {
+                          "type": "object",
+                          "description": "User object with updated token information.",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "description": "User ID.",
+                              "example": 1
+                            },
+                            "googleToken": {
+                              "type": "string",
+                              "description": "User's Google token.",
+                              "example": "google_token_string"
+                            },
+                            "discordToken": {
+                              "type": "string",
+                              "description": "User's Discord token.",
+                              "example": "discord_token_string"
+                            },
+                            "deezerToken": {
+                              "type": "string",
+                              "description": "User's Deezer token.",
+                              "example": "deezer_token_string"
+                            }
+                          }
+                        },
+                        "token": {
+                          "type": "string",
+                          "description": "New JWT token.",
+                          "example": "jwt_token_string"
+                        }
+                      }
+                    },
+                    "statusCode": {
+                      "type": "integer",
+                      "description": "Response status code.",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "An error occurred while updating token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message.",
+                      "example": "Token manager temporarily deactivated."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/code/deezer": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Create or update auth token for Deezer service",
+        "description": "Create or update an authentication token for the Deezer service by providing an app ID, secret, and authorization code.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "requestBody": {
+          "description": "JSON object containing the app ID, secret, and authorization code.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "app_id": {
+                    "type": "string"
+                  },
+                  "secret": {
+                    "type": "string"
+                  },
+                  "code": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Auth token created/updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Status of the response.",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "Contains the access token for Deezer.",
+                      "properties": {
+                        "access_token": {
+                          "type": "string",
+                          "description": "Access token for Deezer.",
+                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                        }
+                      }
+                    },
+                    "statusCode": {
+                      "type": "integer",
+                      "description": "HTTP status code of the response.",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Code generation has failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message.",
+                      "example": "Code generation has failed."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dev/user/create": {
+      "post": {
+        "summary": "Create a new user in the database",
+        "tags": [
+          "Dev"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "User name"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "User mail"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "User password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The newly created user"
+          },
+          "400": {
+            "description": "Please pass a complete body."
+          }
+        }
+      }
+    },
+    "/api/dev/user/listall": {
+      "get": {
+        "summary": "List all users in the database",
+        "tags": [
+          "Dev"
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of all users"
+          },
+          "400": {
+            "description": "An error occured."
+          }
+        }
+      }
+    },
+    "/api/dev/service/listall": {
+      "get": {
+        "tags": [
+          "Dev"
+        ],
+        "summary": "List all services in the database.",
+        "responses": {
+          "200": {
+            "description": "Returns the list of all services in the database.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "An error occurred while processing the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dev/action/listall": {
+      "get": {
+        "tags": [
+          "Dev"
+        ],
+        "summary": "List all actions in the database.",
+        "responses": {
+          "200": {
+            "description": "A list of all actions in the database.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "An error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "An error occurred."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dev/reaction/create": {
+      "post": {
+        "tags": [
+          "Dev"
+        ],
+        "summary": "Creating a new reaction.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "serviceId": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "name",
+                  "serviceId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The newly created reaction.",
+            "content": {
+              "application/json": null
+            }
+          },
+          "400": {
+            "description": "Please pass a complete body.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Please pass a complete body."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dev/reaction/listall": {
+      "get": {
+        "tags": [
+          "Dev"
+        ],
+        "summary": "Get a list of all reactions in the database.",
+        "responses": {
+          "200": {
+            "description": "A list of all reactions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "An error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dev/parameter/create": {
+      "post": {
+        "tags": [
+          "Dev"
+        ],
+        "summary": "Create a new parameter.",
+        "requestBody": {
+          "description": "Parameter information to create.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "isRequired": {
+                    "type": "boolean"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "actionId": {
+                    "type": "integer"
+                  },
+                  "reactionId": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The newly created parameter.",
+            "content": {
+              "application/json": null
+            }
+          },
+          "400": {
+            "description": "Please pass a complete body.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dev/parameter/listall": {
+      "get": {
+        "tags": [
+          "Dev"
+        ],
+        "summary": "Get a list of all parameters in the database.",
+        "responses": {
+          "200": {
+            "description": "A list of all parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "An error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dev/area/create": {
+      "post": {
+        "tags": [
+          "Dev"
+        ],
+        "summary": "Create a new area",
+        "description": "Create a new area with specified parameters.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "actionId": {
+                    "type": "string"
+                  },
+                  "actionParameters": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "paramId": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "reactionId": {
+                    "type": "string"
+                  },
+                  "reactionParameters": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "paramId": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Area created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "isEnable": {
+                      "type": "boolean"
+                    },
+                    "User": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "Action": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "code": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "ActionParameters": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "Parameter": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "isRequired": {
+                                "type": "boolean"
+                              },
+                              "description": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "Reactions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "Reaction": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "code": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "ReactionParameters": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "Parameter": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "isRequired": {
+                                      "type": "boolean"
+                                    },
+                                    "description": {
+                                      "type": "string"
+                                    }
+                                  }
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Please pass a complete body."
+          }
+        }
+      }
+    },
+    "/api/dev/area/listall": {
+      "get": {
+        "tags": [
+          "Dev"
+        ],
+        "summary": "List all areas",
+        "description": "List all areas in the database.",
+        "responses": {
+          "200": {
+            "description": "Areas listed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "isEnable": {
+                        "type": "boolean"
+                      },
+                      "User": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "Action": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "ActionParameters": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "value": {
+                              "type": "string"
+                            },
+                            "Parameter": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "description": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "Reactions": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "Reaction": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "code": {
+                                  "type": "string"
+                                },
+                                "description": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "ReactionParameters": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "value": {
+                                    "type": "string"
+                                  },
+                                  "Parameter": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      },
+                                      "description": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/dev/service/createAll": {
+      "get": {
+        "tags": [
+          "Dev"
+        ],
+        "summary": "Initialize the database with all services, actions, reactions and parameters.",
+        "description": "Initializes the database with all supported services, actions, reactions and parameters.",
+        "responses": {
+          "200": {
+            "description": "Services, actions, reactions and parameters initialized successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "Actions": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "Parameters": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "Reactions": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "code": {
+                              "type": "string"
+                            },
+                            "Parameters": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services/deezer/getUserPlaylists": {
+      "get": {
+        "tags": [
+          "Services/Deezer"
+        ],
+        "summary": "List all user's playlist on Deezer",
+        "description": "List all user's playlist on Deezer, requires authentication.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User's playlists listed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "picture": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "nb_tracks": {
+                            "type": "number"
+                          },
+                          "is_public": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
+                    },
+                    "statusCode": {
+                      "type": "number",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Deezer account not linked or error occurred.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services/deezer/fillUserId": {
+      "get": {
+        "tags": [
+          "Services/Deezer"
+        ],
+        "summary": "Add in database the user id",
+        "description": "Add in database the user id from a token",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deezer ID successfully updated.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Deezer account not linked or error occurred.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services/discord/getAvailablePerformers": {
+      "get": {
+        "tags": [
+          "Services/Discord"
+        ],
+        "summary": "List available performers such as bot/user.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of available performers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "1234567890"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Bot Name"
+                          }
+                        }
+                      }
+                    },
+                    "statusCode": {
+                      "type": "number",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No Discord account linked or an error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No Discord account linked."
+                    },
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services/discord/getVoiceChannels": {
+      "get": {
+        "tags": [
+          "Services/Discord"
+        ],
+        "summary": "List all available Voice Channels on a given Guild ID.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the Discord guild."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with the list of voice channels.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the response.",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "description": "An array of voice channel objects.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The ID of the voice channel."
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the voice channel."
+                          },
+                          "type": {
+                            "type": "string",
+                            "description": "The type of the voice channel.",
+                            "enum": [
+                              "voice"
+                            ]
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "description": "The date and time when the voice channel was created."
+                          }
+                        }
+                      }
+                    },
+                    "statusCode": {
+                      "type": "number",
+                      "description": "The status code of the response.",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services/discord/getTextChannels": {
+      "get": {
+        "tags": [
+          "Services/Discord"
+        ],
+        "summary": "List all available Text Channels on a given GuildID.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the guild to retrieve channels from."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of available text channels.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The unique ID of the text channel."
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the text channel."
+                          },
+                          "position": {
+                            "type": "integer",
+                            "description": "The position of the text channel in the guild's channel list."
+                          },
+                          "parentId": {
+                            "type": "string",
+                            "description": "The ID of the parent category for the text channel, if applicable."
+                          }
+                        }
+                      }
+                    },
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Service getter temporarily disabled."
+          },
+          "401": {
+            "description": "Invalid token."
+          },
+          "404": {
+            "description": "Guild not found."
+          }
+        }
+      }
+    },
+    "/api/services/discord/getAvailableGuilds": {
+      "get": {
+        "tags": [
+          "Services/Discord"
+        ],
+        "summary": "List all available Guilds where the bot is.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of available guilds.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the response.",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "description": "An array of guilds.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The unique identifier for the guild.",
+                            "example": "1234567890"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the guild.",
+                            "example": "My Discord Server"
+                          }
+                        }
+                      }
+                    },
+                    "statusCode": {
+                      "type": "number",
+                      "description": "The status code of the response.",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "An error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "The error message.",
+                      "example": "No Discord account linked."
+                    },
+                    "statusCode": {
+                      "type": "number",
+                      "description": "The status code of the response.",
+                      "example": 400
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services/gmail/getAvailablePerformers": {
+      "get": {
+        "tags": [
+          "Services/Gmail"
+        ],
+        "summary": "List available performers such as bot/user.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the list of available performers.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "1234567890"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "User Name"
+                          }
+                        }
+                      }
+                    },
+                    "statusCode": {
+                      "type": "number",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No Google account linked or an error occurred.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No Google account linked."
+                    },
+                    "statusCode": {
+                      "type": "number",
+                      "example": 400
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services/calendar/getAvailableCalendars": {
+      "get": {
+        "tags": [
+          "Services/Calendar"
+        ],
+        "summary": "List all available Google calendars",
+        "description": "Returns a list of all available Google calendars linked to the user's account.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Calendars listed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "summary": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "statusCode": {
+                      "type": "number",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing Google auth token.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "No Google account linked."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An error occurred while processing the request.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "An error occurred."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services/rea/getAvailableArea": {
+      "get": {
+        "tags": [
+          "Services/Rea"
+        ],
+        "summary": "List available area for rea service",
+        "description": "Retrieves the list of available areas for the rea service.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of available areas for the rea service",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the response",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "description": "The list of available areas",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "The ID of the area",
+                            "example": 1
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the area",
+                            "example": "Living Room"
+                          }
+                        }
+                      }
+                    },
+                    "statusCode": {
+                      "type": "integer",
+                      "description": "The status code of the response",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/services/rea/getAvailableStatus": {
+      "get": {
+        "tags": [
+          "Services/Rea"
+        ],
+        "summary": "List available status for rea service",
+        "description": "Retrieves the list of available status for the rea service.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of available status for the rea service",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the response",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "description": "The list of available status",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The ID of the status",
+                            "example": true
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the status",
+                            "example": "On"
+                          }
+                        }
+                      }
+                    },
+                    "statusCode": {
+                      "type": "integer",
+                      "description": "The status code of the response",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/code/reddit": {
+      "post": {
+        "summary": "Generate a Reddit token with a given code",
+        "description": "Generates a Reddit token with a given code and stores the refresh token in the database for the current user.",
+        "tags": [
+          "Services/Reddit"
+        ],
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "The authorization code obtained from Reddit.",
+                    "example": "123456"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully generated a Reddit token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the response.",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "The data returned from the API.",
+                      "properties": {
+                        "access_token": {
+                          "type": "string",
+                          "description": "The Reddit access token.",
+                          "example": "1234567890abcdefg"
+                        }
+                      }
+                    },
+                    "statusCode": {
+                      "type": "number",
+                      "description": "The HTTP status code of the response.",
+                      "example": 200
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to generate a Reddit token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "The error message.",
+                      "example": "Code generation has failed."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/get/Service": {
+      "get": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "Get all enabled services sorted by creation date",
+        "description": "Returns a list of all enabled services sorted by creation date. Requires a valid JSON web token.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with list of services",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Service getter temporarily deactivated",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Service getter temporarily deactivated."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token provided",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Invalid token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/signup": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Sign up a new user in the database",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "The user to create.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User created"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/api/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Login an existing user with username and password",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "username": "testuser",
+                "password": "testpassword"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successfully logged in",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "success"
+                  ]
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Welcome back."
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "testuser"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "testuser@example.com"
+                        },
+                        "mailVerification": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    },
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/api/mail/verification": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Verify user email from email link",
+        "produces": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "JWT token received in email link",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email verified",
+            "type": "string"
+          },
+          "401": {
+            "description": "No matching user found"
+          }
+        }
+      }
+    },
+    "/api/mail/customVerification": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Execute custom verification operation based on user's `confirmProcess` value",
+        "produces": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "JWT token received in email link",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation authorized and executed",
+            "type": "string"
+          },
+          "401": {
+            "description": "No matching user found"
+          }
+        }
+      }
+    },
+    "/api/user/deleteAccount": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete user account",
+        "description": "Deletes the user account with the authenticated user's ID after sending a confirmation email to the user's email address.",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A success message indicating that the confirmation email has been sent."
+          },
+          "401": {
+            "description": "Unauthorized access, when the authentication token is invalid or missing."
+          },
+          "500": {
+            "description": "Internal server error, when the database query or email sending fails."
+          }
+        }
+      }
+    },
+    "/api/user/resetPassword": {
+      "post": {
+        "summary": "Request to reset user password",
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "User's email address",
+                    "example": "example@example.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verification e-mail sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Success message",
+                      "example": "Verification e-mail sent."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No user found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message",
+                      "example": "No user found."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Please verify your e-mail address",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message",
+                      "example": "Please verify your e-mail address."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/updateData": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Updates the authenticated user's username, email, and password",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "username": "johndoe123",
+                  "email": "johndoe@example.com",
+                  "password": "newpassword"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "Your informations have been successfully updated."
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incomplete request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "Please pass a complete body."
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token or email not verified",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "Please verify your e-mail address."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Action": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      },
+      "Reaction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      },
+      "Parameter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "isRequired": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "Action": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "Reaction": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Service": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "Actions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Action"
+            }
+          },
+          "Reactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reaction"
+            }
+          },
+          "Parameters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Parameter"
+            }
+          }
+        }
+      },
+      "Area": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the area"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the area"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "The ID of the user who created the area"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the area was created"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the area was last updated"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "The request was invalid or could not be served",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "A message describing the error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Authentication failed or user does not have permissions for the requested operation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "A message describing the error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "The requested resource was not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "A message describing the error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "An error occurred while processing the request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "description": "A message describing the error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
