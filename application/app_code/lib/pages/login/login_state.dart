@@ -261,7 +261,6 @@ class LoginPageState extends State<LoginPage> {
   Widget displayResetAndForgotPassword() {
     return Column(
       children: <Widget>[
-        displayButtonRequestANewAccount(),
         TextButton(
           key: const Key('AskResetButton'),
           onPressed: () {
@@ -269,7 +268,10 @@ class LoginPageState extends State<LoginPage> {
               _futureLogin = apiAskForResetPassword();
             });
           },
-          child: Text(getSentence('LOGIN-07')),
+          child: Text(
+            getSentence('LOGIN-07'),
+            style: TextStyle(fontSize: 12, color: getOurBlueAreaColor(100)),
+          ),
         ),
       ],
     );
@@ -305,28 +307,41 @@ class LoginPageState extends State<LoginPage> {
           height: 20,
         ),
         if (_isConnexionWithEmail == true)
-          TextFormField(
-            obscureText: true,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: getSentence('LOGIN-11'),
-            ),
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (String? value) {
-              if (value != null && value.length <= 7) {
-                return getSentence('LOGIN-12');
-              }
-              _password = value;
-              return null;
-            },
+          Column(
+            children: [
+              TextFormField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: getSentence('LOGIN-11'),
+                ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (String? value) {
+                  if (value != null && value.length <= 7) {
+                    return getSentence('LOGIN-12');
+                  }
+                  _password = value;
+                  return null;
+                },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  displayResetAndForgotPassword(),
+                ],
+              ),
+            ],
           ),
-        const SizedBox(
-          height: 10,
-        ),
         if (_isConnexionWithEmail == true && snapshot.hasError)
-          Text('{$snapshot.error}')
+          Text(
+            '{$snapshot.error}',
+            style: const TextStyle(fontSize: 12),
+          )
         else
-          Text(snapshot.data!),
+          Text(
+            snapshot.data!,
+            style: const TextStyle(fontSize: 12),
+          ),
       ],
     );
   }
@@ -354,33 +369,40 @@ class LoginPageState extends State<LoginPage> {
                 return Container(
                     margin: const EdgeInsets.symmetric(
                         horizontal: 30, vertical: 12),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          displayLogoAndName(),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          getHostConfigField(),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          displayInputForEmailLogin(snapshot),
-                          if (_isConnexionWithEmail == false)
-                            displayButtonRequestForEmailLogin(),
-                          if (_isConnexionWithEmail)
-                            displayInputForEmailConnexion(snapshot),
-                          if (_isConnexionWithEmail)
-                            TextButton(
-                              key: const Key('GoLoginPageButton'),
-                              onPressed: () {
-                                setState(() {
-                                  _isConnexionWithEmail = false;
-                                });
-                              },
-                              child: Text(getSentence('LOGIN-08')),
-                            ),
-                        ]));
+                    child: SizedBox(
+                        width: isDesktop(context)
+                            ? 600
+                            : MediaQuery.of(context).size.width,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              displayLogoAndName(),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              if (_isConnexionWithEmail)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _isConnexionWithEmail = false;
+                                          });
+                                        },
+                                        icon: Icon(
+                                          Icons.arrow_back_ios,
+                                          color: getOurBlueAreaColor(100),
+                                        ))
+                                  ],
+                                ),
+                              getHostConfigField(),
+                              displayInputForEmailLogin(snapshot),
+                              if (_isConnexionWithEmail == false)
+                                displayButtonRequestForEmailLogin(),
+                              if (_isConnexionWithEmail)
+                                displayInputForEmailConnexion(snapshot),
+                            ])));
               }
               return const CircularProgressIndicator();
             },
