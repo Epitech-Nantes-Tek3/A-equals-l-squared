@@ -110,7 +110,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (logout) {
+    if (logout || userInformation == null) {
       userInformation = null;
       return const LoginPage();
     } else {
