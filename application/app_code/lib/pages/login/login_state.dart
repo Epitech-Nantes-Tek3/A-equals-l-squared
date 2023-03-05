@@ -161,8 +161,8 @@ class LoginPageState extends State<LoginPage> {
   /// This function display the google button for log with google AUTH
   Widget displayTextButtonGoogleLogin() {
     return TextButton.icon(
-        label: Text(getSentence('LOGIN-03')),
-        icon: const Icon(Icons.account_circle_sharp),
+        label: Text(getSentence('LOGIN-03'), style: TextStyle(color: getOurBlueAreaColor(100)),),
+        icon: Icon(Icons.account_circle_sharp, color: getOurBlueAreaColor(100),),
         onPressed: () {
           setState(() {
             _futureLogin = _signInGoogle();
