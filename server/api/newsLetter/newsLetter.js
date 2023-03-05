@@ -114,14 +114,74 @@ module.exports = function (app, passport, database) {
    */
   app.get(
     '/api/newsLetter',
-    passport.authenticate('jwt-admin', { session: false }),
+    passport.authenticate('jwt', { session: false }),
     async (req, res) => {
       try {
         const newsLetter = await database.prisma.NewsLetter.findMany({})
         return res.status(200).json(newsLetter)
       } catch (err) {
         console.debug(err)
-        res.status(500).json({ error: error.message })
+        res.status(500).json({ error: err.message })
+      }
+    }
+  )
+
+  /**
+   * @swagger
+   * /api/newsLetter:
+   *   post:
+   *     tags: [NewsLetter]
+   *     summary: Get all newsLetter
+   *     description: Retrieve a list of all newsLetter for the authenticated user
+   *     security:
+   *       - jwt: []
+   *     responses:
+   *       200:
+   *         description: The created newsLetter
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 type: object
+   *                 properties:
+   *                    id:
+   *                        type: integer
+   *                        description: The ID of the newsLetter
+   *                    title:
+   *                        type: string
+   *                        description: The title of the newsLetter
+   *                    content:
+   *                        type: string
+   *                        description: The content of the newsLetter
+   *                    createdAt:
+   *                        type: string
+   *                        format: date-time
+   *                        description: The date and time when the newsLetter was created
+   *                    createdBy:
+   *                        type: string
+   *                        description: The author name of the newsLetter
+   *       401:
+   *         description: Unauthorized
+   *       500:
+   *         description: Server error
+   */
+  app.post(
+    '/api/newsLetter',
+    passport.authenticate('jwt-admin', { session: false }),
+    async (req, res) => {
+      try {
+        const newsLetter = await database.prisma.NewsLetter.create({
+          data: {
+            title: req.body.title,
+            content: req.body.content,
+            createdBy: req.user.name
+          }
+        })
+        return res.status(200).json(newsLetter)
+      } catch (err) {
+        console.debug(err)
+        res.status(500).json({ error: err.message })
       }
     }
   )

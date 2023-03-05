@@ -193,6 +193,7 @@ app.get('/about.json', async (req, res) => {
 })
 
 require('./api/area/area.js')(app, passport, database)
+require('./api/newsLetter/newsLetter')(app, passport, database)
 require('./api/area/reaction/reaction.js')(app, passport, database)
 require('./api/area/action/action.js')(app, passport, database)
 require('./api/user/user.js')(app, passport, database)
