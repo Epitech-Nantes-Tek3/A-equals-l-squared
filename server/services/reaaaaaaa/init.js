@@ -27,7 +27,7 @@ const createReaaaaaaaService = async () => {
                 create: [
                   {
                     name: 'areaId',
-                    description: 'The linked area id',
+                    description: 'The linked area name',
                     isRequired: true,
                     GetterUrl: '/api/services/rea/getAvailableArea'
                   },
