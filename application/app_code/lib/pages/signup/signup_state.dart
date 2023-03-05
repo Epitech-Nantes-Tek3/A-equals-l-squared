@@ -55,7 +55,7 @@ class SignupPageState extends State<SignupPage> {
   Widget displayAreaLoginSentence() {
     return Text(getSentence('SIGNUP-01'),
         textAlign: TextAlign.center,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 45));
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 42));
   }
 
   /// This function display our logo and the login name of our project
@@ -64,7 +64,7 @@ class SignupPageState extends State<SignupPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           const Text(""),
-          displayLogo(120),
+          displayLogo(90),
           displayAreaLoginSentence()
         ]);
   }
@@ -82,89 +82,110 @@ class SignupPageState extends State<SignupPage> {
         body: Center(
             child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 30),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    displayLogoAndName(),
-                    Text(
-                      getSentence('SIGNUP-02'),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 22),
-                    ),
-                    getHostConfigField(),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        labelText: getSentence('SIGNUP-05'),
-                      ),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (String? value) {
-                        if (value != null && value.length <= 4) {
-                          return getSentence('SIGNUP-06');
-                        }
-                        _username = value;
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        labelText: getSentence('SIGNUP-07'),
-                      ),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (String? value) {
-                        if (value != null &&
-                            !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                .hasMatch(value)) {
-                          return getSentence('SIGNUP-08');
-                        }
-                        _email = value;
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        labelText: getSentence('SIGNUP-09'),
-                      ),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (String? value) {
-                        if (value != null && value.length <= 7) {
-                          return getSentence('SIGNUP-10');
-                        }
-                        _password = value;
-                        return null;
-                      },
-                    ),
-                    FutureBuilder<String>(
-                      future: _futureSignup,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Text(snapshot.data!);
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-                        return const CircularProgressIndicator();
-                      },
-                    ),
-                    ElevatedButton(
-                      key: const Key('SendSignupButton'),
-                      onPressed: () {
-                        setState(() {
-                          _futureSignup = apiAskForSignup();
-                        });
-                      },
-                      child: Text(getSentence('SIGNUP-03')),
-                    ),
-                    TextButton(
-                      key: const Key('GoLoginButton'),
-                      onPressed: () {
-                        goToLoginPage(context);
-                      },
-                      child: Text(getSentence('SIGNUP-04')),
-                    ),
-                  ],
-                ))));
+                child: SizedBox(
+                    width: isDesktop(context)
+                        ? 600
+                        : MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        displayLogoAndName(),
+                        Text(
+                          getSentence('SIGNUP-02'),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                        getHostConfigField(),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            labelText: getSentence('SIGNUP-05'),
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (String? value) {
+                            if (value != null && value.length <= 4) {
+                              return getSentence('SIGNUP-06');
+                            }
+                            _username = value;
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            labelText: getSentence('SIGNUP-07'),
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (String? value) {
+                            if (value != null &&
+                                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    .hasMatch(value)) {
+                              return getSentence('SIGNUP-08');
+                            }
+                            _email = value;
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            labelText: getSentence('SIGNUP-09'),
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (String? value) {
+                            if (value != null && value.length <= 7) {
+                              return getSentence('SIGNUP-10');
+                            }
+                            _password = value;
+                            return null;
+                          },
+                        ),
+                        FutureBuilder<String>(
+                          future: _futureSignup,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(snapshot.data!);
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            }
+                            return const CircularProgressIndicator();
+                          },
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            materialElevatedButtonArea(
+                              ElevatedButton(
+                                key: const Key('SendSignupButton'),
+                                onPressed: () {
+                                  setState(() {
+                                    _futureSignup = apiAskForSignup();
+                                  });
+                                },
+                                child: Text(getSentence('SIGNUP-03')),
+                              ),
+                              context,
+                              primaryColor: getOurBlueAreaColor(100),
+                              borderWith: 1,
+                              borderColor: getOurBlueAreaColor(100),
+                              sizeOfButton: 1.8,
+                              isShadowNeeded: true,
+                            ),
+                            TextButton(
+                              key: const Key('GoLoginButton'),
+                              onPressed: () {
+                                goToLoginPage(context);
+                              },
+                              child: Text(
+                                getSentence('SIGNUP-04'),
+                                style:
+                                    TextStyle(color: getOurBlueAreaColor(100)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )))));
   }
 }
