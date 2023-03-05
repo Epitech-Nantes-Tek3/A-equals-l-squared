@@ -5,17 +5,18 @@ const { hash } = require('../../utils.js')
 const auth_token = require('../../passport/token')
 const auth_google = require('../../passport/google')
 const auth_facebook = require('../../passport/facebook')
+const axios = require('axios')
 
 module.exports = function (app, passport, database) {
   /**
    * @swagger
    * /api/login/google:
    *   post:
-   *     tags: [Authentification]
+   *     tags: [Authentication]
    *     summary: Login with Google
    *     description: This endpoint allows users to login with Google.
    *     requestBody:
-   *       description: User data required for Google authentification
+   *       description: User data required for Google authentication
    *       required: true
    *       content:
    *         application/json:
@@ -91,13 +92,11 @@ module.exports = function (app, passport, database) {
         }
       })
       const token = utils.generateToken(user.id)
-      return res
-        .status(201)
-        .json({
-          status: 'success',
-          data: { user, token },
-          statusCode: res.statusCode
-        })
+      return res.status(201).json({
+        status: 'success',
+        data: { user, token },
+        statusCode: res.statusCode
+      })
     } catch (err) {
       console.error(err.message)
       return res.status(401).send('Google auth failed.')
@@ -108,9 +107,9 @@ module.exports = function (app, passport, database) {
    * @swagger
    * /api/login/facebook:
    *   get:
-   *     tags: [Authentification]
+   *     tags: [Authentication]
    *     summary: Authenticate with Facebook
-   *     description: Endpoint to initiate authentification with Facebook.
+   *     description: Endpoint to initiate authentication with Facebook.
    *     security: []
    *     responses:
    *       302:
@@ -132,7 +131,7 @@ module.exports = function (app, passport, database) {
    *
    * /api/login/facebookCallBack:
    *   get:
-   *     tags: [Authentification]
+   *     tags: [Authentication]
    *     description: Authenticate a user with Facebook and return a JWT token.
    *     responses:
    *       '201':
@@ -184,7 +183,7 @@ module.exports = function (app, passport, database) {
    * @swagger
    * /api/token:
    *   post:
-   *     tags: [Authentification]
+   *     tags: [Authentication]
    *     summary: Updates user's tokens.
    *     description: Update user's Google, Discord, and Deezer tokens.
    *     security:
@@ -280,6 +279,7 @@ module.exports = function (app, passport, database) {
           data: {
             googleToken: req.body.google != '' ? req.body.google : null,
             discordToken: req.body.discord != '' ? req.body.discord : null,
+            redditToken: req.body.reddit != '' ? req.body.reddit : null,
             deezerToken: req.body.deezer != '' ? req.body.deezer : null
           }
         })
@@ -300,7 +300,7 @@ module.exports = function (app, passport, database) {
    * @swagger
    * /api/code/deezer:
    *   post:
-   *     tags: [Authentification]
+   *     tags: [Authentication]
    *     summary: Create or update auth token for Deezer service
    *     description: Create or update an authentication token for the
    *       Deezer service by providing an app ID, secret, and authorization code.

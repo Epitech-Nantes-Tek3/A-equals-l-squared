@@ -8,7 +8,6 @@ const getAvailableGuilds = require('../../services/discord/getters/available_gui
 module.exports = function (app, passport, database) {
   /**
    * @swagger
-   *
    * /api/services/discord/getAvailablePerformers:
    *   get:
    *     tags: [Services/Discord]
@@ -79,7 +78,6 @@ module.exports = function (app, passport, database) {
 
   /**
    * @swagger
-   *
    * /api/services/discord/getVoiceChannels:
    *   get:
    *     tags: [Services/Discord]

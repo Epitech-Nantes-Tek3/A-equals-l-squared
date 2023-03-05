@@ -35,7 +35,7 @@ const createDiscordService = async () => {
     const discord = await database.prisma.Service.create({
       data: {
         name: 'Discord',
-        description: 'Discord service',
+        description: 'Chat service',
         primaryColor: '#7289DA',
         secondaryColor: '#2C2F33',
         icon: './assets/icons/discord.png',
@@ -305,7 +305,7 @@ const createDiscordService = async () => {
             {
               name: 'changeActivity',
               code: 'DSC-03',
-              description: 'Change the activity of the User',
+              description: 'Change the activity of the Bot',
               isEnable: true,
               Parameters: {
                 create: [

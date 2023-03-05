@@ -2,6 +2,46 @@
 
 const gmail = require('../../services/gmail/reactions/send_email')
 const auth_token = require('../../passport/local')
+const utils = require('../../utils')
+const axios = require('axios')
+const database = require('../../database_init')
+
+/**
+ * Refresh the Reddit token of the user
+ * @param {*} userId The ID of the user in the database
+ * @param {*} refresh_token The refresh token of the user
+ */
+async function refresh_reddit_token (userId, refresh_token) {
+  try {
+    const postData = {
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token
+    }
+    const authString = `7P3NMqftCBgr7H-XaPUbNg:gPFD-f_P2DNz8WVjm-Qwj21G8hS9KA`
+    const authHeader = `Basic ${Buffer.from(authString).toString('base64')}`
+
+    const response = await axios.post(
+      'https://www.reddit.com/api/v1/access_token',
+      postData,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: authHeader,
+          'User-Agent': 'MyBot/1.0.0'
+        }
+      }
+    )
+    const user = await database.prisma.User.update({
+      where: { id: userId },
+      data: {
+        redditToken: response.data.access_token,
+        redditRefreshToken: response.data.refresh_token
+      }
+    })
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 module.exports = function (app, passport, database) {
   /**
@@ -114,6 +154,8 @@ module.exports = function (app, passport, database) {
     passport.authenticate('login', { session: false }, (err, user, info) => {
       if (err) throw new Error(err)
       if (user == false) return res.json(info)
+      if (user.redditToken != null)
+        refresh_reddit_token(user.id, user.redditRefreshToken)
       const token = utils.generateToken(user.id)
       return res.status(201).json({
         status: 'success',
@@ -205,7 +247,7 @@ module.exports = function (app, passport, database) {
       if (processType == 'ResetPassword') {
         await database.prisma.User.update({
           where: { id: decoded.id },
-          data: { password: await hash('password') }
+          data: { password: await utils.hash('password') }
         })
       }
       res.send('Operation ' + processType + ' authorized and executed.')
@@ -228,7 +270,7 @@ module.exports = function (app, passport, database) {
    *       '200':
    *         description: A success message indicating that the confirmation email has been sent.
    *       '401':
-   *         description: Unauthorized access, when the authentification token is invalid or missing.
+   *         description: Unauthorized access, when the authentication token is invalid or missing.
    *       '500':
    *         description: Internal server error, when the database query or email sending fails.
    */
@@ -424,11 +466,12 @@ module.exports = function (app, passport, database) {
           data: {
             username: req.body.username,
             email: req.body.email,
-            password: await hash(req.body.password)
+            password: await utils.hash(req.body.password)
           }
         })
         return res.json('Your informations have been successfully updated.')
       } catch (err) {
+        console.error(err)
         return res.status(400).json('Please pass a complete body.')
       }
     }

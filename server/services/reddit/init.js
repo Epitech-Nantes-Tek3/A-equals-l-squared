@@ -10,7 +10,7 @@ const createRedditService = async () => {
     const Reddit = await database.prisma.Service.create({
       data: {
         name: 'Reddit',
-        description: 'Reddit service',
+        description: 'Forum service',
         primaryColor: '#FF4500',
         secondaryColor: '#FFFFFF',
         icon: './assets/icons/reddit.png',

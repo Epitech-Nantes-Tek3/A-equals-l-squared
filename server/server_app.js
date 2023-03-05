@@ -2,7 +2,6 @@
 
 /** @module route */
 
-const axios = require('axios')
 const express = require('express')
 const passport = require('passport')
 const database = require('./database_init')
@@ -13,6 +12,10 @@ const app = express()
 
 const swaggerUi = require('swagger-ui-express')
 const swaggerJsdoc = require('swagger-jsdoc')
+const onMessage = require('./services/discord/actions/on_message')
+const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
+const onReactionAdd = require('./services/discord/actions/on_reaction_add')
+const onMemberJoining = require('./services/discord/actions/on_member_joining')
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -37,8 +40,8 @@ const swaggerOptions = {
         description: 'User management'
       },
       {
-        name: 'Authentification',
-        description: 'Authentification management'
+        name: 'Authentication',
+        description: 'Authentication management'
       },
       {
         name: 'Services',
