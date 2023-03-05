@@ -21,26 +21,12 @@
             color: #666;
         }
     </style>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist/swagger-ui.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist/swagger-ui-bundle.js"></script>
 </head>
 
 <body>
     <h1>Welcome to AREA Documentation!</h1>
     <p>Flutter Documentation can be found at /flutter page<br>Js Documentation can be found at /js page<br>Prisma
         Documentation can be found at /prisma page<br>Swagger Documentation can be found at /swagger page<br>Have a good day! (You Lost...)</p>
-    <div id="swagger-ui"></div>
-    <script>
-        const ui = SwaggerUIBundle({
-            url: "/swagger.json",
-            dom_id: '#swagger-ui',
-            presets: [
-                SwaggerUIBundle.presets.apis,
-                SwaggerUIBundle.SwaggerUIStandalonePreset
-            ],
-            layout: "StandaloneLayout"
-        })
-    </script>
 </body>
 
 </html>
