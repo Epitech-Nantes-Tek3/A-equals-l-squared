@@ -11,7 +11,7 @@ const createGmailService = async () => {
     const gmail = await database.prisma.Service.create({
       data: {
         name: 'gmail',
-        description: 'Gmail service',
+        description: 'Email service',
         isEnable: true,
         primaryColor: '#EA4335',
         secondaryColor: '#FFFFFF',
@@ -71,7 +71,10 @@ const getGmailClient = () => {
     process.env.GMAIL_CLIENT_SECRET
   )
   auth.setCredentials({ refresh_token: process.env.GMAIL_REFRESH_TOKEN })
-  auth.scopes = ['https://www.googleapis.com/auth/gmail.send', 'https://www.googleapis.com/auth/pubsub']
+  auth.scopes = [
+    'https://www.googleapis.com/auth/gmail.send',
+    'https://www.googleapis.com/auth/pubsub'
+  ]
 
   return google.gmail({ version: 'v1', auth })
 }

@@ -10,7 +10,11 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
  * @param {*} User the user
  * @returns True if the message has been sent, false otherwise
  */
-function discordChangeActivityFromAreaParameters (ReactionParameters, dynamicParameters, User) {
+function discordChangeActivityFromAreaParameters (
+  ReactionParameters,
+  dynamicParameters,
+  User
+) {
   let activity = ReactionParameters.find(
     parameter => parameter.Parameter.name == 'activity'
   ).value
@@ -30,6 +34,7 @@ function changeActivity (string) {
       return true
     })
     .catch(err => {
+      console.log(err)
       return false
     })
 }

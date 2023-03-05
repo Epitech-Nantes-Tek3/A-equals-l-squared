@@ -158,29 +158,11 @@ class LoginPageState extends State<LoginPage> {
         children: <Widget>[displayLogo(90), displayAreaName()]);
   }
 
-  /// This function display the apple button for log with apple AUTH
-  Widget displayTextButtonAppleLogin() {
-    return TextButton.icon(
-        label: Text(
-          getSentence('LOGIN-02'),
-          style: TextStyle(color: getOurBlueAreaColor(100)),
-        ),
-        icon: Icon(
-          Icons.apple,
-          color: getOurBlueAreaColor(100),
-        ),
-        onPressed: () {});
-  }
-
   /// This function display the google button for log with google AUTH
   Widget displayTextButtonGoogleLogin() {
     return TextButton.icon(
-        label: Text(getSentence('LOGIN-03'),
-            style: TextStyle(color: getOurBlueAreaColor(100))),
-        icon: Icon(
-          Icons.access_alarm,
-          color: getOurBlueAreaColor(100),
-        ),
+        label: Text(getSentence('LOGIN-03')),
+        icon: const Icon(Icons.account_circle_sharp),
         onPressed: () {
           setState(() {
             _futureLogin = _signInGoogle();
@@ -190,10 +172,7 @@ class LoginPageState extends State<LoginPage> {
 
   /// This function display the google button for log with google AUTH and the apple button for log with apple AUTH
   Widget displayForRequestWhatConnectionIsUsed() {
-    return Column(children: <Widget>[
-      displayTextButtonAppleLogin(),
-      displayTextButtonGoogleLogin()
-    ]);
+    return Column(children: <Widget>[displayTextButtonGoogleLogin()]);
   }
 
   /// This function display the button for create a new account

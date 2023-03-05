@@ -42,8 +42,8 @@ class SettingsPageState extends State<SettingsPage> {
 
   /// List to know what mode is selected
   final List<bool> _selectedAppMode = <bool>[
-    !nightMod,
-    nightMod,
+    !nightMode,
+    nightMode,
   ];
 
   /// Network function calling the api for updating user information
@@ -179,9 +179,9 @@ class SettingsPageState extends State<SettingsPage> {
 
   /// Save the selected application mode
   void saveSelectedAppMode(bool appMode) async {
-    nightMod = appMode;
+    nightMode = appMode;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('nightMod', nightMod);
+    prefs.setBool('nightMode', nightMode);
   }
 
   /// Save the selected language in the desktop memory
@@ -374,21 +374,17 @@ class SettingsPageState extends State<SettingsPage> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Icon(
-                        icon,
-                        color: Colors.black,
-                      ),
+                      Icon(icon, color: Theme.of(context).secondaryHeaderColor),
                       const SizedBox(width: 20),
                       Text(
                         description,
-                        style: const TextStyle(color: Colors.black),
+                        style: TextStyle(
+                            color: Theme.of(context).secondaryHeaderColor),
                       ),
                     ],
                   ),
-                  const Icon(
-                    Icons.arrow_forward_ios_sharp,
-                    color: Colors.black,
-                  )
+                  Icon(Icons.arrow_forward_ios_sharp,
+                      color: Theme.of(context).secondaryHeaderColor)
                 ],
               )
             ])),

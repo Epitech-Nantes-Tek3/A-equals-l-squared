@@ -11,14 +11,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!nightMod) {
+    if (!nightMode) {
       return MaterialApp.router(
         title: 'A = L²',
         theme: ThemeData(
-          fontFamily: 'Roboto-Bold',
-          brightness: Brightness.light,
-          primaryColor: Colors.blue[200],
-        ),
+            fontFamily: 'Roboto-Bold',
+            brightness: Brightness.light,
+            primaryColor: Colors.white,
+            secondaryHeaderColor: Colors.black),
         routeInformationProvider: router.routeInformationProvider,
         routeInformationParser: router.routeInformationParser,
         routerDelegate: router.routerDelegate,
@@ -26,8 +26,10 @@ class MyApp extends StatelessWidget {
     } else {
       return MaterialApp.router(
         title: 'A = L²',
-        theme:
-            ThemeData(fontFamily: 'Roboto-Bold', brightness: Brightness.dark),
+        theme: ThemeData(
+            fontFamily: 'Roboto-Bold',
+            brightness: Brightness.dark,
+            secondaryHeaderColor: Colors.white),
         routeInformationProvider: router.routeInformationProvider,
         routeInformationParser: router.routeInformationParser,
         routerDelegate: router.routerDelegate,

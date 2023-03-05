@@ -68,7 +68,8 @@ class ReactionData {
 
   /// Get a visual representation of a Reaction
   /// update -> Function pointer used for update the state
-  Widget displayReactionModificationView(Function? update) {
+  Widget displayReactionModificationView(
+      Function? update, BuildContext context) {
     List<Widget> paramWid = <Widget>[];
 
     paramWid.add(Column(
@@ -76,7 +77,7 @@ class ReactionData {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            displayReactionDescription(),
+            displayReactionDescription(context),
             IconButton(
                 onPressed: () {
                   if (isPreviewDisplayMax) {
@@ -112,16 +113,14 @@ class ReactionData {
   }
 
   /// This function display the description of Reaction
-  Widget displayReactionDescription() {
+  Widget displayReactionDescription(BuildContext context) {
     List<Widget> paramWid = <Widget>[];
     paramWid.add(
       Column(crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
         Text(
           description,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.black,
-          ),
+          style: TextStyle(
+              fontSize: 14, color: Theme.of(context).secondaryHeaderColor),
         ),
       ]),
     );

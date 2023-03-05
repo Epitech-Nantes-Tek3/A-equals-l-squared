@@ -10,7 +10,11 @@ const { replaceDynamicParameters } = require('../../glue/dynamic_parameters.js')
  * @param {*} User User that contains the token
  * @returns True if it was successful, false otherwise
  */
-function redditUnsubscribeToSubredditFromAreaParameters(ReactionParameters, dynamicParameters, User) {
+function redditUnsubscribeToSubredditFromAreaParameters (
+  ReactionParameters,
+  dynamicParameters,
+  User
+) {
   let subredditName = ReactionParameters.find(
     parameter => parameter.Parameter.name == 'subredditName'
   ).value
