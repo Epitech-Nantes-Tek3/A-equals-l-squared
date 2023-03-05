@@ -50,12 +50,14 @@ jobs:
       run: |
         dart pub global activate dartdoc
         dart doc --output ../../server/docs/flutter
-    - name: Generate Swagger documentation
-      run: |
-        npm install -g swagger-ui-dist
-        mkdir ./server/docs/swagger
-        cp -R ./node_modules/swagger-ui-dist/* ./server/docs/swagger/
-      working-directory: ${{ env.WORKING_DIR }}
+
+    - name: Install Swagger UI Dist
+      run: npm install -g swagger-ui-dist
+    - name: Generate Swagger JSON
+      run: npx swagger-jsdoc -d ./server/server_app.js -o ./server/docs/swagger/swagger.json ./server/controllers/*.js
+    - name: Generate Swagger UI
+      run: swagger-ui-dist --config ./server/docs/swagger/swaggerUIConfig.json --url ./swagger/swagger.json --dir ./server/docs/swagger
+
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
       with:
