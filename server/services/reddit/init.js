@@ -64,4 +64,20 @@ const createRedditService = async () => {
   }
 }
 
-module.exports = { createRedditService }
+/**
+ * Create the reddit service if it does not already exist.
+ */
+const generateRedditService = async database => {
+  const redditService = await database.prisma.Service.findMany({
+    where: { name: 'reddit' }
+  })
+  if (redditService.length === 0) {
+    console.log('Creating reddit service...')
+    return await createRedditService()
+  } else {
+    console.log('Reddit service already exist.')
+    return redditService[0]
+  }
+}
+
+module.exports = { generateRedditService }

@@ -128,8 +128,24 @@ const createTimeTimeService = async () => {
   }
 }
 
+/**
+ * Create the timetime service if it does not already exist.
+ */
+const generateTimeTimeService = async database => {
+  const timeTimeService = await database.prisma.Service.findMany({
+    where: { name: 'timetime' }
+  })
+  if (timeTimeService.length === 0) {
+    console.log('Creating timetime service...')
+    return await createTimeTimeService()
+  } else {
+    console.log('Timetime service already exist.')
+    return timeTimeService[0]
+  }
+}
+
 module.exports = {
-  createTimeTimeService,
+  generateTimeTimeService,
   TriggerInitMap,
   TriggerDestroyMap
 }

@@ -1,14 +1,14 @@
 'use strict'
 
-const { createDeezerService } = require('../../services/deezer/init')
-const { createGmailService } = require('../../services/gmail/gmail_init')
+const { generateDeezerService } = require('../../services/deezer/init')
+const { generateGmailService } = require('../../services/gmail/gmail_init')
 const {
-  createCalendarService
+  generateCalendarService
 } = require('../../services/calendar/calendar_init')
-const { createDiscordService } = require('../../services/discord/init')
-const { createTimeTimeService } = require('../../services/timetime/init')
-const { createReaaaaaaaService } = require('../../services/reaaaaaaa/init')
-const { createRedditService } = require('../../services/reddit/init')
+const { generateDiscordService } = require('../../services/discord/init')
+const { generateTimeTimeService } = require('../../services/timetime/init')
+const { generateReaaaaaaaService } = require('../../services/reaaaaaaa/init')
+const { generateRedditService } = require('../../services/reddit/init')
 
 module.exports = function (app, database) {
   /**
@@ -745,13 +745,13 @@ module.exports = function (app, database) {
    */
   app.get('/api/dev/service/createAll', async (req, res) => {
     const response = []
-    response.push(await createDiscordService())
-    response.push(await createGmailService())
-    response.push(await createCalendarService())
-    response.push(await createTimeTimeService())
-    response.push(await createReaaaaaaaService())
-    response.push(await createDeezerService())
-    response.push(await createRedditService())
+    response.push(await generateDiscordService(database))
+    response.push(await generateGmailService(database))
+    response.push(await generateCalendarService(database))
+    response.push(await generateTimeTimeService(database))
+    response.push(await generateReaaaaaaaService(database))
+    response.push(await generateDeezerService(database))
+    response.push(await generateRedditService(database))
     return res.json(response)
   })
 }
