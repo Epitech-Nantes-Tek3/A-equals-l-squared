@@ -26,31 +26,10 @@ class HomePageState extends State<HomePage> {
     updatePage = update;
   }
 
-  /// To know if we are on desktop
-  bool isDesktop(BuildContext context) =>
-      MediaQuery.of(context).size.width >= 600;
-
-  /// To know if we are on mobile
-  bool isMobile(BuildContext context) =>
-      MediaQuery.of(context).size.width < 600;
-
   /// Re sync all flutter object
   void homeSync() async {
     await updateAllFlutterObject();
     update();
-  }
-
-  /// This function create a Row of two Areas
-  Widget createRowOfAreas(Widget firstArea, Widget? secondArea) {
-    Widget rowArea = Row(
-        mainAxisAlignment: secondArea != null
-            ? MainAxisAlignment.spaceBetween
-            : MainAxisAlignment.center,
-        children: <Widget>[
-          firstArea,
-          if (secondArea != null) secondArea,
-        ]);
-    return rowArea;
   }
 
   /// This function Create an Elevated Button thanks to an Area
@@ -79,6 +58,19 @@ class HomePageState extends State<HomePage> {
     );
   }
 
+  /// This function create a Row of two Areas
+  Widget createRowOfAreas(Widget firstArea, Widget? secondArea) {
+    Widget rowArea = Row(
+        mainAxisAlignment: secondArea != null
+            ? MainAxisAlignment.spaceBetween
+            : MainAxisAlignment.center,
+        children: <Widget>[
+          firstArea,
+          if (secondArea != null) secondArea,
+        ]);
+    return rowArea;
+  }
+
   /// This function display all Areas in Tab
   List<Widget> createTabOfAreas() {
     List<Widget> areaVis = <Widget>[];
@@ -91,7 +83,7 @@ class HomePageState extends State<HomePage> {
             areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor(),
                 tempArea.getSecondaryColor()),
             areaDataToElevatedButton(
-                temp, temp.getPrimaryColor(), tempArea.getSecondaryColor())));
+                temp, temp.getPrimaryColor(), temp.getSecondaryColor())));
         areaVis.add(const SizedBox(
           height: 30,
         ));
@@ -110,15 +102,19 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (logout) {
+    if (logout || userInformation == null) {
       userInformation = null;
       return const LoginPage();
     } else {
       return Scaffold(
           resizeToAvoidBottomInset: true,
           body: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+              child: Center(
+                  child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+            child: SizedBox(
+              width:
+                  isDesktop(context) ? 600 : MediaQuery.of(context).size.width,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -138,7 +134,7 @@ class HomePageState extends State<HomePage> {
                           onPressed: () {
                             homeSync();
                           },
-                          icon: const Icon(Icons.sync)),
+                          icon: Image.asset('assets/icons/Area_Logo.png')),
                       IconButton(
                           iconSize: 30,
                           onPressed: () {
@@ -184,6 +180,9 @@ class HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: createTabOfAreas(),
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   materialElevatedButtonArea(
                     ElevatedButton(
                       key: const Key('HomeServiceButton'),
@@ -201,7 +200,7 @@ class HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-          ));
+          ))));
     }
   }
 }
