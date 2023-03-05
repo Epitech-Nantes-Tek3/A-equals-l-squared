@@ -51,4 +51,20 @@ const createReaaaaaaaService = async () => {
   }
 }
 
-module.exports = { createReaaaaaaaService }
+/**
+ * Create the reaaaaaaa service if it does not already exist.
+ */
+const generateReaaaaaaaService = async database => {
+  const reaaaaaaaService = await database.prisma.Service.findMany({
+    where: { name: 'Reaaaaaaa' }
+  })
+  if (reaaaaaaaService.length === 0) {
+    console.log('Creating Reaaaaaaa service...')
+    return await createReaaaaaaaService()
+  } else {
+    console.log('Reaaaaaaa service already exist.')
+    return reaaaaaaaService[0]
+  }
+}
+
+module.exports = { generateReaaaaaaaService }

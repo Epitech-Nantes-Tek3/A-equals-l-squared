@@ -328,4 +328,20 @@ const createDiscordService = async () => {
   }
 }
 
-module.exports = { client, createDiscordService }
+/**
+ * Create the discord service if it does not already exist.
+ */
+const generateDiscordService = async (database) => {
+  const discordService = await database.prisma.Service.findMany({
+    where: { name: 'discord' }
+  })
+  if (discordService.length === 0) {
+    console.log('Creating discord service...')
+    return await createDiscordService()
+  } else {
+    console.log('Discord service already exist.')
+    return discordService[0]
+  }
+}
+
+module.exports = { client, generateDiscordService }

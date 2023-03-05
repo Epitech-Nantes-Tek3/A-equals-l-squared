@@ -120,4 +120,20 @@ const createDeezerService = async () => {
   }
 }
 
-module.exports = { createDeezerService }
+/**
+ * Create the deezer service if it does not already exist.
+ */
+const generateDeezerService = async database => {
+  const deezerService = await database.prisma.Service.findMany({
+    where: { name: 'deezer' }
+  })
+  if (deezerService.length === 0) {
+    console.log('Creating deezer service...')
+    return await createDeezerService()
+  } else {
+    console.log('Deezer service already exist.')
+    return deezerService[0]
+  }
+}
+
+module.exports = { generateDeezerService }
