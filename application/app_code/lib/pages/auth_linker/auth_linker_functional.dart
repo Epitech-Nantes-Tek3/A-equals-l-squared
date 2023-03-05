@@ -43,18 +43,23 @@ class AuthBox {
 
   /// Return a visual representation of the AuthBox
   Widget display(BuildContext context) {
+    String iconGiven = "assets/icons/Area_Logo.png";
     if (userInformation!.userToken != null) {
       if (authName == 'Google') {
         token = userInformation!.userToken!.googleToken;
+        iconGiven = "assets/icons/gmail.png";
       }
       if (authName == 'Discord') {
         token = userInformation!.userToken!.discordToken;
+        iconGiven = "assets/icons/discord.png";
       }
       if (authName == 'Reddit') {
         token = userInformation!.userToken!.redditToken;
+        iconGiven = "assets/icons/reddit.png";
       }
       if (authName == 'Deezer') {
         token = userInformation!.userToken!.deezerToken;
+        iconGiven = "assets/icons/deezer.png";
       }
       isEnable = token == null ? false : true;
     }
@@ -72,17 +77,45 @@ class AuthBox {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(
-                authName,
-                style: TextStyle(color: isEnable ? Colors.green : Colors.red),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Image.asset(
+                    iconGiven,
+                    height: 40,
+                    width: 40,
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            authName,
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .secondaryHeaderColor), //(color: isEnable ? Colors.green : Colors.red),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            authDescription,
+                            style: TextStyle(
+                                color: Theme.of(context).secondaryHeaderColor),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  Icon(
+                    isEnable ? Icons.check_box : Icons.check_box_outline_blank,
+                    color: isEnable
+                        ? getOurGreenAreaColor(100)
+                        : Theme.of(context).secondaryHeaderColor,
+                  )
+                ],
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                authDescription,
-                style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-              )
             ],
           )),
       context,
