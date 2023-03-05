@@ -35,17 +35,22 @@ function discordSendPrivateMessageFromAreaParameters (
  * @returns True if the message has been sent, false otherwise
  */
 function sendPrivateMessage (userID, message) {
-  client.users
-    .fetch(userID)
-    .then(user => {
-      user.send(message)
-      console.log('Private message sent successfully')
-      return true
-    })
-    .catch(err => {
-      console.error(err.message)
-      return false
-    })
+  if (client.users.cache.has(userID)) {
+    client.users
+      .fetch(userID)
+      .then(user => {
+        user.send(message)
+        console.log('Private message sent successfully')
+        return true
+      })
+      .catch(err => {
+        console.error(err.message)
+        return false
+      })
+  } else {
+    console.log('User not found')
+    return false
+  }
 }
 
 module.exports = {
