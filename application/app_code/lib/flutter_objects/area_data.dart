@@ -160,6 +160,7 @@ class AreaData {
           description == null
               ? '${getSentence("AREA-01")}${getSentence("AREA-02")}'
               : '${getSentence("AREA-01")}$description',
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
         )
       ],
