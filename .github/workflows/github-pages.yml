@@ -30,6 +30,7 @@ jobs:
       uses: Legion2/swagger-ui-action@v1.1.6
       with:
         output: swagger-ui
+        output_dir: ./server/docs/swagger
         spec-file: ./server/swagger.json
 
     - name: Js documentation
