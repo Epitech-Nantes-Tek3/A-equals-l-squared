@@ -76,18 +76,23 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Widget display(BuildContext context) {
+  String iconGiven = &quot;assets&#47;icons&#47;Area_Logo.png&quot;;
   if (userInformation!.userToken != null) {
     if (authName == &#39;Google&#39;) {
       token = userInformation!.userToken!.googleToken;
+      iconGiven = &quot;assets&#47;icons&#47;gmail.png&quot;;
     }
     if (authName == &#39;Discord&#39;) {
       token = userInformation!.userToken!.discordToken;
+      iconGiven = &quot;assets&#47;icons&#47;discord.png&quot;;
     }
     if (authName == &#39;Reddit&#39;) {
       token = userInformation!.userToken!.redditToken;
+      iconGiven = &quot;assets&#47;icons&#47;reddit.png&quot;;
     }
     if (authName == &#39;Deezer&#39;) {
       token = userInformation!.userToken!.deezerToken;
+      iconGiven = &quot;assets&#47;icons&#47;deezer.png&quot;;
     }
     isEnable = token == null ? false : true;
   }
@@ -105,17 +110,44 @@
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-              authName,
-              style: TextStyle(color: isEnable ? Colors.green : Colors.red),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset(
+                  iconGiven,
+                  height: 40,
+                  width: 40,
+                ),
+                Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          authName,
+                          style: TextStyle(
+                              color: Theme.of(context).secondaryHeaderColor),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          authDescription,
+                          style: TextStyle(
+                              color: Theme.of(context).secondaryHeaderColor),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                Icon(
+                  isEnable ? Icons.check_box : Icons.check_box_outline_blank,
+                  color: isEnable
+                      ? Colors.lightGreen
+                      : Theme.of(context).secondaryHeaderColor,
+                )
+              ],
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              authDescription,
-              style: TextStyle(color: Theme.of(context).secondaryHeaderColor),
-            )
           ],
         )),
     context,

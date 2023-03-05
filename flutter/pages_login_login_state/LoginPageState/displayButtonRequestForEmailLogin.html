@@ -78,23 +78,26 @@
   return Column(
     children: &lt;Widget&gt;[
       SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shadowColor: Colors.black,
-            elevation: 5,
+        child: materialElevatedButtonArea(
+          ElevatedButton(
+            key: const Key(&#39;SendLoginButton&#39;),
+            onPressed: () {
+              setState(() {
+                _isConnexionWithEmail = true;
+              });
+            },
+            child: Text(getSentence(&#39;LOGIN-05&#39;),
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontFamily: &#39;Roboto-Black&#39;)),
           ),
-          key: const Key(&#39;SendLoginButton&#39;),
-          onPressed: () {
-            setState(() {
-              _isConnexionWithEmail = true;
-            });
-          },
-          child: Text(getSentence(&#39;LOGIN-05&#39;),
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                  fontFamily: &#39;Roboto-Black&#39;)),
+          context,
+          primaryColor: getOurBlueAreaColor(100),
+          borderWith: 1,
+          borderColor: getOurBlueAreaColor(100),
+          sizeOfButton: 1.8,
+          isShadowNeeded: true,
         ),
       ),
       if (_isConnexionWithEmail == false)

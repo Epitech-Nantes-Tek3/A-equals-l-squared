@@ -78,18 +78,27 @@
   <pre class="language-dart"><code class="language-dart">Widget displayInputForEmailConnexion(snapshot) {
   return Column(children: &lt;Widget&gt;[
     SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
+        child: materialElevatedButtonArea(
+      ElevatedButton(
         key: const Key(&#39;SendLoginButton&#39;),
         onPressed: () {
           setState(() {
             _futureLogin = apiAskForLogin();
           });
         },
-        child: Text(getSentence(&#39;LOGIN-06&#39;)),
+        child: Text(
+          getSentence(&#39;LOGIN-06&#39;),
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
-    ),
-    displayResetAndForgotPassword(),
+      context,
+      primaryColor: getOurBlueAreaColor(100),
+      borderWith: 1,
+      borderColor: getOurBlueAreaColor(100),
+      sizeOfButton: 1.8,
+      isShadowNeeded: true,
+    )),
+    displayButtonRequestANewAccount(),
   ]);
 }</code></pre>
 </section>
