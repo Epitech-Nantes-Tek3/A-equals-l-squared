@@ -51,7 +51,7 @@ class ServiceListPageState extends State<ServiceListPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           IconButton(
                               onPressed: () {
@@ -59,7 +59,7 @@ class ServiceListPageState extends State<ServiceListPage> {
                                   goToHomePage(context);
                                 });
                               },
-                              icon: const Icon(Icons.home_filled)),
+                              icon: const Icon(Icons.arrow_back_ios)),
                           Text(
                             getSentence('SERVLIST-01'),
                             style: const TextStyle(
