@@ -110,6 +110,23 @@
       areaDataList = newList;
       sortAreaDataList(&quot;&quot;);
     }
+
+    response = await http.get(
+      Uri.parse(&#39;http:&#47;&#47;$serverIp:8080&#47;api&#47;newsLetter&#39;),
+      headers: &lt;String, String&gt;{
+        &#39;Content-Type&#39;: &#39;application&#47;json; charset=UTF-8&#39;,
+        &#39;Authorization&#39;: &#39;Bearer ${userInformation!.token}&#39;,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List&lt;NewsLetterData&gt; newList = &lt;NewsLetterData&gt;[];
+      var json = jsonDecode(response.body);
+      for (var temp in json) {
+        newList.add(NewsLetterData.fromJson(temp));
+      }
+      newsLetterDataList = newList;
+    }
   } catch (err) {
     debugPrint(err.toString());
   }
@@ -142,6 +159,7 @@
       <li class="section-title"><a href="../pages_home_home_functional/pages_home_home_functional-library.html#properties">Properties</a></li>
         <li><a href="../pages_home_home_functional/areaDataList.html">areaDataList</a></li>
         <li><a href="../pages_home_home_functional/logout.html">logout</a></li>
+        <li><a href="../pages_home_home_functional/newsLetterDataList.html">newsLetterDataList</a></li>
         <li><a href="../pages_home_home_functional/serviceDataList.html">serviceDataList</a></li>
         <li><a href="../pages_home_home_functional/updatePage.html">updatePage</a></li>
 
