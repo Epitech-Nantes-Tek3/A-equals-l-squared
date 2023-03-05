@@ -109,8 +109,11 @@ class HomePageState extends State<HomePage> {
       return Scaffold(
           resizeToAvoidBottomInset: true,
           body: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+              child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+            child: SizedBox(
+              width:
+                  isDesktop(context) ? 600 : MediaQuery.of(context).size.width,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -130,7 +133,7 @@ class HomePageState extends State<HomePage> {
                           onPressed: () {
                             homeSync();
                           },
-                          icon: const Icon(Icons.sync)),
+                          icon: Image.asset('assets/icons/Area_Logo.png')),
                       IconButton(
                           iconSize: 30,
                           onPressed: () {
@@ -193,7 +196,7 @@ class HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-          ));
+          )));
     }
   }
 }
