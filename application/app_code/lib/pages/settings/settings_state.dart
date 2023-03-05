@@ -260,8 +260,7 @@ class SettingsPageState extends State<SettingsPage> {
       parameterButtonView(
           Icons.manage_accounts_rounded, getSentence('SETT-04'), 1),
       const SizedBox(height: 20),
-      parameterButtonView(
-          Icons.app_settings_alt_sharp, getSentence('SETT-05'), 2),
+      parameterButtonView(Icons.email, getSentence('SETT-05'), 2),
       const SizedBox(height: 20),
       parameterButtonView(Icons.language, getSentence('SETT-06'), 3),
       const SizedBox(height: 20),
@@ -346,64 +345,6 @@ class SettingsPageState extends State<SettingsPage> {
     return const Text('');
   }
 
-  Widget goToAuthPage(context) {
-    goToAuthLinkerPage(context);
-    return const Text('');
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
-            child: Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                if (_settingPage == 0) {
-                                  goToHomePage(context);
-                                } else {
-                                  _settingPage = 0;
-                                }
-                              });
-                            },
-                            icon: _settingPage == 0
-                                ? const Icon(Icons.home_filled)
-                                : const Icon(Icons.arrow_back_ios),
-                          ),
-                          const SizedBox(
-                            width: 30,
-                          ),
-                          displaySettingsHeader(),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      displaySettingsViews(),
-                      FutureBuilder<String>(
-                        future: _futureAnswer,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Text(snapshot.data!);
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
-                          }
-                          return const CircularProgressIndicator();
-                        },
-                      ),
-                    ],
-                  ),
-                ))));
-  }
-
   /// This function display all settings which can manage by users
   Widget parameterButtonView(IconData icon, String description, int selector) {
     return materialElevatedButtonArea(
@@ -445,5 +386,58 @@ class SettingsPageState extends State<SettingsPage> {
         borderRadius: 10,
         paddingHorizontal: 20,
         paddingVertical: 20);
+  }
+
+  Widget goToAuthPage(context) {
+    goToAuthLinkerPage(context);
+    return const Text('');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: SingleChildScrollView(
+            child: Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                child: SizedBox(
+                  width: isDesktop(context)
+                      ? 600
+                      : MediaQuery.of(context).size.width,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (_settingPage == 0) {
+                                    goToHomePage(context);
+                                  } else {
+                                    _settingPage = 0;
+                                  }
+                                });
+                              },
+                              icon: const Icon(Icons.arrow_back_ios),
+                              color: Colors.black),
+                          displaySettingsHeader(),
+                        ],
+                      ),
+                      displaySettingsViews(),
+                      FutureBuilder<String>(
+                        future: _futureAnswer,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(snapshot.data!);
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+                          return const CircularProgressIndicator();
+                        },
+                      ),
+                    ],
+                  ),
+                ))));
   }
 }
