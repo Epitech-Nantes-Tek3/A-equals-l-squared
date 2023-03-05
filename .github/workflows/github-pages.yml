@@ -27,11 +27,11 @@ jobs:
       working-directory: ${{ env.WORKING_DIR }}
 
     - name: Swagger UI Action
+      working-directory: ${{ env.WORKING_DIR }}
       uses: Legion2/swagger-ui-action@v1.1.6
       with:
-        output: swagger-ui
-        output_dir: ./server/docs/swagger
-        spec-file: ./server/swagger.json
+        output: swagger
+        spec-file: swagger.json
 
     - name: Js documentation
       uses: andstor/jsdoc-action@v1
