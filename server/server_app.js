@@ -292,9 +292,122 @@ require('./api/auth/auth.js')(app, passport, database)
  */
 
 /**
+ * Create the discord service.
+ */
+const generateDiscordService = async () => {
+  const discordService = await database.prisma.Service.findMany({
+    where: { name: 'discord' }
+  })
+  if (discordService.length === 0) {
+    console.log('Creating discord service...')
+    await createDiscordService()
+  } else {
+    console.log('Discord service already exist.')
+  }
+}
+
+/**
+ * Create the gmail service.
+ */
+const generateGmailService = async () => {
+  const gmailService = await database.prisma.Service.findMany({
+    where: { name: 'gmail' }
+  })
+  if (gmailService.length === 0) {
+    console.log('Creating gmail service...')
+    await createGmailService()
+  } else {
+    console.log('Gmail service already exist.')
+  }
+}
+
+/**
+ * Create the calendar service.
+ */
+const generateCalendarService = async () => {
+  const calendarService = await database.prisma.Service.findMany({
+    where: { name: 'calendar' }
+  })
+  if (calendarService.length === 0) {
+    console.log('Creating calendar service...')
+    await createCalendarService()
+  } else {
+    console.log('Calendar service already exist.')
+  }
+}
+
+/**
+ * Create the timetime service.
+ */
+const generateTimeTimeService = async () => {
+  const timeTimeService = await database.prisma.Service.findMany({
+    where: { name: 'timetime' }
+  })
+  if (timeTimeService.length === 0) {
+    console.log('Creating timetime service...')
+    await createTimeTimeService()
+  } else {
+    console.log('Timetime service already exist.')
+  }
+}
+
+/**
+ * Create the reaaaaaaa service.
+ */
+const generateReaaaaaaaService = async () => {
+  const reaaaaaaaService = await database.prisma.Service.findMany({
+    where: { name: 'Reaaaaaaa' }
+  })
+  if (reaaaaaaaService.length === 0) {
+    console.log('Creating Reaaaaaaa service...')
+    await createReaaaaaaaService()
+  } else {
+    console.log('Reaaaaaaa service already exist.')
+  }
+}
+
+/**
+ * Create the deezer service.
+ */
+const generateDeezerService = async () => {
+  const deezerService = await database.prisma.Service.findMany({
+    where: { name: 'deezer' }
+  })
+  if (deezerService.length === 0) {
+    console.log('Creating deezer service...')
+    await createDeezerService()
+  } else {
+    console.log('Deezer service already exist.')
+  }
+}
+
+/**
+ * Create the reddit service.
+ */
+const generateRedditService = async () => {
+  const redditService = await database.prisma.Service.findMany({
+    where: { name: 'reddit' }
+  })
+  if (redditService.length === 0) {
+    console.log('Creating reddit service...')
+    await createRedditService()
+  } else {
+    console.log('Reddit service already exist.')
+  }
+}
+
+/**
  * Start the node.js server at PORT and HOST variable
  */
-app.listen(PORT, HOST, () => {
+app.listen(PORT, HOST, async () => {
+  console.log(`Server is starting...`)
+  await generateDiscordService()
+  await generateGmailService()
+  await generateCalendarService()
+  await generateTimeTimeService()
+  await generateReaaaaaaaService()
+  await generateDeezerService()
+  await generateRedditService()
   console.log(`Server running http://${HOST}:${PORT}`)
   console.log(`Api documentation available on http://${HOST}:${PORT}/api-docs`)
 })
