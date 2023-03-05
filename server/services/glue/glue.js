@@ -339,5 +339,6 @@ const AreaGlue = async (actionCode, actionParameters, dynamicParameters) => {
 }
 
 module.exports = {
-  AreaGlue
+  AreaGlue,
+  updateTriggeredLink
 }
