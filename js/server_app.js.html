@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-route.html">route</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-route.html#~initAdministratorAccount">initAdministratorAccount</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-route.html#~test_example">test_example</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#compare">compare</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#connection">connection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#generateToken">generateToken</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#hash">hash</a></span></li>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-route.html">route</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-route.html#~test_example">test_example</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#compare">compare</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#connection">connection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#generateToken">generateToken</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#hash">hash</a></span></li>
 </nav>
 
 <div id="main">
@@ -57,81 +57,9 @@ const onMessage = require('./services/discord/actions/on_message')
 const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
-const { generateAllServices } = require('./services/init_all')
-const { hash } = require('./utils')
 
-const swaggerOptions = {
-  swaggerDefinition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'A=L² API',
-      version: '1.0.0',
-      description: 'API for A=L² Area Epitech project'
-    },
-    servers: [
-      {
-        url: 'http://localhost:8080'
-      }
-    ],
-    tags: [
-      {
-        name: 'About',
-        description: 'About the A=L² project'
-      },
-      {
-        name: 'User',
-        description: 'User management'
-      },
-      {
-        name: 'Authentication',
-        description: 'Authentication management'
-      },
-      {
-        name: 'Services',
-        description: 'Service management',
-        children: [
-          {
-            name: 'Gmail',
-            description: 'Gmail management'
-          },
-          {
-            name: 'Discord',
-            description: 'Discord management'
-          },
-          {
-            name: 'Calendar',
-            description: 'Calendar management'
-          },
-          {
-            name: 'Deezer',
-            description: 'Deezer management'
-          }
-        ]
-      },
-      {
-        name: 'Area',
-        description: 'Area management',
-        children: [
-          {
-            name: 'Action',
-            description: 'Action management'
-          },
-          {
-            name: 'Reaction',
-            description: 'Reaction management'
-          }
-        ]
-      }
-    ],
-    host: 'localhost:8080',
-    basePath: '/'
-  },
-  consumes: ['application/json'],
-  produces: ['application/json'],
-  apis: ['server_app.js', 'api/**/*.js', 'api/area/**/*.js']
-}
-
-const swaggerDocs = swaggerJsdoc(swaggerOptions)
+const swaggerConfig = require('./swagger.json')
+const swaggerDocs = swaggerJsdoc(swaggerConfig)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 passport.serializeUser((user, done) => {
@@ -151,6 +79,15 @@ app.set('json spaces', 2)
 
 const PORT = 8080
 const HOST = '0.0.0.0'
+
+/**
+ * A basic function to demonstrate the test framework.
+ * @param {*} number A basic number
+ * @returns The passed number
+ */
+function test_example (number) {
+  return number
+}
 
 /**
  * Set the header protocol to authorize Web connection
@@ -226,7 +163,6 @@ app.get('/about.json', async (req, res) => {
 })
 
 require('./api/area/area.js')(app, passport, database)
-require('./api/newsLetter/newsLetter')(app, passport, database)
 require('./api/area/reaction/reaction.js')(app, passport, database)
 require('./api/area/action/action.js')(app, passport, database)
 require('./api/user/user.js')(app, passport, database)
@@ -327,46 +263,12 @@ require('./api/auth/auth.js')(app, passport, database)
  */
 
 /**
- * Utility function creating an administrator user if no one exist
- */
-async function initAdministratorAccount () {
-  const users = await database.prisma.User.findMany({
-    where: {
-      isAdmin: true
-    }
-  })
-  if (users.length == 0) {
-    const user = await database.prisma.User.create({
-      data: {
-        username: 'Admin',
-        email: 'aequallsquared@gmail.com',
-        password: await hash('adminadmin'),
-        isAdmin: true,
-        mailVerification: true
-      }
-    })
-  }
-}
-
-/**
  * Start the node.js server at PORT and HOST variable
  */
-app.listen(PORT, HOST, async () => {
-  console.log(`Server is starting...`)
-  await generateAllServices(database)
-  await initAdministratorAccount()
+app.listen(PORT, HOST, () => {
   console.log(`Server running http://${HOST}:${PORT}`)
   console.log(`Api documentation available on http://${HOST}:${PORT}/api-docs`)
 })
-
-/**
- * A basic function to demonstrate the test framework.
- * @param {*} number A basic number
- * @returns The passed number
- */
-function test_example (number) {
-  return number
-}
 
 module.exports = { test_example, app }
 </code></pre>
@@ -381,7 +283,7 @@ module.exports = { test_example, app }
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Sun Mar 05 2023 16:31:59 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Sun Mar 05 2023 17:19:12 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

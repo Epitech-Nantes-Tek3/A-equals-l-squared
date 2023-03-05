@@ -181,7 +181,7 @@ prints green, as expected.</p>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
-  if (logout || userInformation == null) {
+  if (logout) {
     userInformation = null;
     return const LoginPage();
   } else {
