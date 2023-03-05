@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../material_lib_functions/material_functions.dart';
 import '../../flutter_objects/action_data.dart';
 import '../../flutter_objects/area_data.dart';
 import '../../flutter_objects/parameter_data.dart';
@@ -208,6 +209,7 @@ class SettingsPageState extends State<SettingsPage> {
   Widget languageVisualization() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(getSentence('SETT-14')),
         DropdownButton<String>(
@@ -249,6 +251,7 @@ class SettingsPageState extends State<SettingsPage> {
           context,
           isShadowNeeded: true,
           sizeOfButton: 1.5,
+          borderColor: getOurBlueAreaColor(100),
           primaryColor: getOurBlueAreaColor(100)),
       materialElevatedButtonArea(
           ElevatedButton(
@@ -263,6 +266,7 @@ class SettingsPageState extends State<SettingsPage> {
           context,
           sizeOfButton: 1.5,
           isShadowNeeded: true,
+          borderColor: getOurBlueAreaColor(100),
           primaryColor: getOurBlueAreaColor(100)),
     ]);
   }
@@ -287,27 +291,28 @@ class SettingsPageState extends State<SettingsPage> {
       const SizedBox(
         height: 40,
       ),
-      ToggleButtons(
-        direction: isSelected ? Axis.vertical : Axis.horizontal,
-        onPressed: (int index) {
-          setState(() {
-            for (int i = 0; i < _selectedAppMode.length; i++) {
-              _selectedAppMode[i] = i == index;
-            }
-            saveSelectedAppMode(index == 1);
-          });
-        },
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
-        selectedBorderColor: Colors.blue[700],
-        fillColor: Colors.blue[200],
-        color: Colors.blue[400],
-        constraints: const BoxConstraints(
-          minHeight: 40.0,
-          minWidth: 80.0,
+      if (isMobile(context))
+        ToggleButtons(
+          direction: isSelected ? Axis.vertical : Axis.horizontal,
+          onPressed: (int index) {
+            setState(() {
+              for (int i = 0; i < _selectedAppMode.length; i++) {
+                _selectedAppMode[i] = i == index;
+              }
+              saveSelectedAppMode(index == 1);
+            });
+          },
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          selectedBorderColor: Colors.blue[700],
+          fillColor: Colors.blue[200],
+          color: Colors.blue[400],
+          constraints: const BoxConstraints(
+            minHeight: 40.0,
+            minWidth: 80.0,
+          ),
+          isSelected: _selectedAppMode,
+          children: listAppMode,
         ),
-        isSelected: _selectedAppMode,
-        children: listAppMode,
-      ),
     ]);
   }
 
@@ -608,64 +613,6 @@ class SettingsPageState extends State<SettingsPage> {
     return const Text('');
   }
 
-  Widget goToAuthPage(context) {
-    goToAuthLinkerPage(context);
-    return const Text('');
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
-            child: Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                if (_settingPage == 0) {
-                                  goToHomePage(context);
-                                } else {
-                                  _settingPage = 0;
-                                }
-                              });
-                            },
-                            icon: _settingPage == 0
-                                ? const Icon(Icons.home_filled)
-                                : const Icon(Icons.arrow_back_ios),
-                          ),
-                          const SizedBox(
-                            width: 30,
-                          ),
-                          displaySettingsHeader(),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      displaySettingsViews(),
-                      FutureBuilder<String>(
-                        future: _futureAnswer,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Text(snapshot.data!);
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
-                          }
-                          return const CircularProgressIndicator();
-                        },
-                      ),
-                    ],
-                  ),
-                ))));
-  }
-
   /// This function display all settings which can manage by users
   Widget parameterButtonView(IconData icon, String description, int selector) {
     return materialElevatedButtonArea(
@@ -707,5 +654,59 @@ class SettingsPageState extends State<SettingsPage> {
         borderRadius: 10,
         paddingHorizontal: 20,
         paddingVertical: 20);
+  }
+
+  Widget goToAuthPage(context) {
+    goToAuthLinkerPage(context);
+    return const Text('');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: SingleChildScrollView(
+            child: Center(
+                child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 30),
+                    child: SizedBox(
+                      width: isDesktop(context)
+                          ? 600
+                          : MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if (_settingPage == 0) {
+                                        goToHomePage(context);
+                                      } else {
+                                        _settingPage = 0;
+                                      }
+                                    });
+                                  },
+                                  icon: const Icon(Icons.arrow_back_ios),
+                                  color: Colors.black),
+                              displaySettingsHeader(),
+                            ],
+                          ),
+                          displaySettingsViews(),
+                          FutureBuilder<String>(
+                            future: _futureAnswer,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(snapshot.data!);
+                              } else if (snapshot.hasError) {
+                                return Text('${snapshot.error}');
+                              }
+                              return const CircularProgressIndicator();
+                            },
+                          ),
+                        ],
+                      ),
+                    )))));
   }
 }

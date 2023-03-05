@@ -148,21 +148,27 @@ class LoginPageState extends State<LoginPage> {
   Widget displayAreaName() {
     return Text(getSentence('LOGIN-01'),
         textAlign: TextAlign.center,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 48));
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 42));
   }
 
   /// This function display our logo and the login name of our project
   Widget displayLogoAndName() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[displayLogo(120), displayAreaName()]);
+        children: <Widget>[displayLogo(90), displayAreaName()]);
   }
 
   /// This function display the google button for log with google AUTH
   Widget displayTextButtonGoogleLogin() {
     return TextButton.icon(
-        label: Text(getSentence('LOGIN-03')),
-        icon: const Icon(Icons.account_circle_sharp),
+        label: Text(
+          getSentence('LOGIN-03'),
+          style: TextStyle(color: getOurBlueAreaColor(100)),
+        ),
+        icon: Icon(
+          Icons.account_circle_sharp,
+          color: getOurBlueAreaColor(100),
+        ),
         onPressed: () {
           setState(() {
             _futureLogin = _signInGoogle();
@@ -182,7 +188,10 @@ class LoginPageState extends State<LoginPage> {
       onPressed: () {
         goToSignupPage(context);
       },
-      child: Text(getSentence('LOGIN-04')),
+      child: Text(
+        getSentence('LOGIN-04'),
+        style: TextStyle(color: getOurBlueAreaColor(100)),
+      ),
     );
   }
 
@@ -191,23 +200,26 @@ class LoginPageState extends State<LoginPage> {
     return Column(
       children: <Widget>[
         SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shadowColor: Colors.black,
-              elevation: 5,
+          child: materialElevatedButtonArea(
+            ElevatedButton(
+              key: const Key('SendLoginButton'),
+              onPressed: () {
+                setState(() {
+                  _isConnexionWithEmail = true;
+                });
+              },
+              child: Text(getSentence('LOGIN-05'),
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontFamily: 'Roboto-Black')),
             ),
-            key: const Key('SendLoginButton'),
-            onPressed: () {
-              setState(() {
-                _isConnexionWithEmail = true;
-              });
-            },
-            child: Text(getSentence('LOGIN-05'),
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    fontFamily: 'Roboto-Black')),
+            context,
+            primaryColor: getOurBlueAreaColor(100),
+            borderWith: 1,
+            borderColor: getOurBlueAreaColor(100),
+            sizeOfButton: 1.8,
+            isShadowNeeded: true,
           ),
         ),
         if (_isConnexionWithEmail == false)
@@ -221,18 +233,27 @@ class LoginPageState extends State<LoginPage> {
   Widget displayInputForEmailConnexion(snapshot) {
     return Column(children: <Widget>[
       SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
+          child: materialElevatedButtonArea(
+        ElevatedButton(
           key: const Key('SendLoginButton'),
           onPressed: () {
             setState(() {
               _futureLogin = apiAskForLogin();
             });
           },
-          child: Text(getSentence('LOGIN-06')),
+          child: Text(
+            getSentence('LOGIN-06'),
+            style: const TextStyle(color: Colors.white),
+          ),
         ),
-      ),
-      displayResetAndForgotPassword(),
+        context,
+        primaryColor: getOurBlueAreaColor(100),
+        borderWith: 1,
+        borderColor: getOurBlueAreaColor(100),
+        sizeOfButton: 1.8,
+        isShadowNeeded: true,
+      )),
+      displayButtonRequestANewAccount(),
     ]);
   }
 
@@ -240,7 +261,6 @@ class LoginPageState extends State<LoginPage> {
   Widget displayResetAndForgotPassword() {
     return Column(
       children: <Widget>[
-        displayButtonRequestANewAccount(),
         TextButton(
           key: const Key('AskResetButton'),
           onPressed: () {
@@ -248,7 +268,10 @@ class LoginPageState extends State<LoginPage> {
               _futureLogin = apiAskForResetPassword();
             });
           },
-          child: Text(getSentence('LOGIN-07')),
+          child: Text(
+            getSentence('LOGIN-07'),
+            style: TextStyle(fontSize: 12, color: getOurBlueAreaColor(100)),
+          ),
         ),
       ],
     );
@@ -284,28 +307,41 @@ class LoginPageState extends State<LoginPage> {
           height: 20,
         ),
         if (_isConnexionWithEmail == true)
-          TextFormField(
-            obscureText: true,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: getSentence('LOGIN-11'),
-            ),
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (String? value) {
-              if (value != null && value.length <= 7) {
-                return getSentence('LOGIN-12');
-              }
-              _password = value;
-              return null;
-            },
+          Column(
+            children: [
+              TextFormField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: getSentence('LOGIN-11'),
+                ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (String? value) {
+                  if (value != null && value.length <= 7) {
+                    return getSentence('LOGIN-12');
+                  }
+                  _password = value;
+                  return null;
+                },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  displayResetAndForgotPassword(),
+                ],
+              ),
+            ],
           ),
-        const SizedBox(
-          height: 10,
-        ),
         if (_isConnexionWithEmail == true && snapshot.hasError)
-          Text('{$snapshot.error}')
+          Text(
+            '{$snapshot.error}',
+            style: const TextStyle(fontSize: 12),
+          )
         else
-          Text(snapshot.data!),
+          Text(
+            snapshot.data!,
+            style: const TextStyle(fontSize: 12),
+          ),
       ],
     );
   }
@@ -330,36 +366,46 @@ class LoginPageState extends State<LoginPage> {
                   return const HomePage();
                 }
                 logout = false;
-                return Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 12),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          displayLogoAndName(),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          getHostConfigField(),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          displayInputForEmailLogin(snapshot),
-                          if (_isConnexionWithEmail == false)
-                            displayButtonRequestForEmailLogin(),
-                          if (_isConnexionWithEmail)
-                            displayInputForEmailConnexion(snapshot),
-                          if (_isConnexionWithEmail)
-                            TextButton(
-                              key: const Key('GoLoginPageButton'),
-                              onPressed: () {
-                                setState(() {
-                                  _isConnexionWithEmail = false;
-                                });
-                              },
-                              child: Text(getSentence('LOGIN-08')),
-                            ),
-                        ]));
+                return Center(
+                    child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 12),
+                        child: SizedBox(
+                            width: isDesktop(context)
+                                ? 600
+                                : MediaQuery.of(context).size.width,
+                            child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  displayLogoAndName(),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  if (_isConnexionWithEmail)
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                _isConnexionWithEmail = false;
+                                              });
+                                            },
+                                            icon: Icon(
+                                              Icons.arrow_back_ios,
+                                              color: getOurBlueAreaColor(100),
+                                            ))
+                                      ],
+                                    ),
+                                  getHostConfigField(),
+                                  displayInputForEmailLogin(snapshot),
+                                  if (_isConnexionWithEmail == false)
+                                    displayButtonRequestForEmailLogin(),
+                                  if (_isConnexionWithEmail)
+                                    displayInputForEmailConnexion(snapshot),
+                                ]))));
               }
               return const CircularProgressIndicator();
             },
