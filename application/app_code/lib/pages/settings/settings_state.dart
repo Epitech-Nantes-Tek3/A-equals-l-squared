@@ -679,18 +679,18 @@ class SettingsPageState extends State<SettingsPage> {
                           Row(
                             children: <Widget>[
                               IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      if (_settingPage == 0) {
-                                        goToHomePage(context);
-                                      } else {
-                                        _settingPage = 0;
-                                        _futureAnswer = getAFirstApiAnswer();
-                                      }
-                                    });
-                                  },
-                                  icon: const Icon(Icons.arrow_back_ios),
-                                  color: Colors.black),
+                                onPressed: () {
+                                  setState(() {
+                                    if (_settingPage == 0) {
+                                      goToHomePage(context);
+                                    } else {
+                                      _settingPage = 0;
+                                      _futureAnswer = getAFirstApiAnswer();
+                                    }
+                                  });
+                                },
+                                icon: const Icon(Icons.arrow_back_ios),
+                              ),
                               displaySettingsHeader(),
                             ],
                           ),
