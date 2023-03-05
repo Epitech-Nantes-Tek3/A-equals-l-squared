@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'auth_linker_functional.dart';
 import 'auth_linker_page.dart';
+import '../../material_lib_functions/material_functions.dart';
 
 class AuthLinkerPageState extends State<AuthLinkerPage> {
   late Future<String> _futureApiResponse;
@@ -66,12 +67,25 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
             child: Container(
                 margin:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                child: Align(
-                  alignment: Alignment.topCenter,
+                child: SizedBox(
+                  width: isDesktop(context)
+                      ? 600
+                      : MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(getSentence('AUTHLINK-01')),
+                      Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  goToSettingsPage(context);
+                                });
+                              },
+                              icon: const Icon(Icons.arrow_back_ios)),
+                          Text(getSentence('AUTHLINK-01')),
+                        ],
+                      ),
                       displayAuthBox(),
                       FutureBuilder<String>(
                         future: _futureApiResponse,
@@ -88,18 +102,6 @@ class AuthLinkerPageState extends State<AuthLinkerPage> {
                           }
                           return const CircularProgressIndicator();
                         },
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      ElevatedButton(
-                        key: const Key('AuthLinkerHomeButton'),
-                        onPressed: () {
-                          setState(() {
-                            goToSettingsPage(context);
-                          });
-                        },
-                        child: Text(getSentence('AUTHLINK-02')),
                       ),
                     ],
                   ),
