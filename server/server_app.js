@@ -111,15 +111,6 @@ const PORT = 8080
 const HOST = '0.0.0.0'
 
 /**
- * A basic function to demonstrate the test framework.
- * @param {*} number A basic number
- * @returns The passed number
- */
-function test_example (number) {
-  return number
-}
-
-/**
  * Set the header protocol to authorize Web connection
  * @memberof route
  */
@@ -324,4 +315,4 @@ app.listen(PORT, HOST, async () => {
   await initAdministratorAccount()
 })
 
-module.exports = { test_example, app }
+module.exports = { app }

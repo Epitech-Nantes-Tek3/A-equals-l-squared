@@ -1,5 +1,5 @@
 var GoogleStrategy = require('passport-google-oidc')
-require('dotenv').config({ path: '../database.env' })
+require('dotenv').config({ path: '../../.env' })
 const passport = require('passport')
 const database = require('../database_init')
 const { hash, compare } = require('../utils')
