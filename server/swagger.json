@@ -3,12 +3,23 @@
         "openapi": "3.0.0",
         "info": {
             "title": "A=L² API",
-            "version": "1.0.0",
-            "description": "API for A=L² Area Epitech project"
+            "summary": "Area Epitech project",
+            "description": "API for A=L² application",
+            "constact": {
+                "name": "A=L²",
+                "email": "aequallsquared@gmail.com"
+            },
+            "license": {
+                "name": "Apache 2.0",
+                "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+            },
+            "version": "1.0.1"
         },
+
         "servers": [
             {
-                "url": "http://localhost:8080"
+                "url": "http://localhost:8080",
+                "description": "Local server"
             }
         ],
         "tags": [
