@@ -27,7 +27,7 @@ services:
     env_file:
       - .env
     environment:
-      - IS_MIGRATION=true #SET TO true when a migration needed
+      - IS_MIGRATION=false #SET TO true when a migration needed
       - DATABASE_URL=mysql://${user}:${password}@database:3306/${database}
     volumes:
       - .:/code
