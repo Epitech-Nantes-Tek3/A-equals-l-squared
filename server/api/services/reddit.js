@@ -1,6 +1,7 @@
 'use strict'
 
 const axios = require('axios')
+require('dotenv').config({ path: '../../.env' })
 
 module.exports = function (app, passport, database) {
   /**
