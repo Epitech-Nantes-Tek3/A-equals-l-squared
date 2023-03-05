@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application/flutter_objects/news_letter_data.dart';
 import 'package:application/language/language.dart';
 import 'package:application/material_lib_functions/material_functions.dart';
 import 'package:application/network/informations.dart';
@@ -33,6 +34,9 @@ class SettingsPageState extends State<SettingsPage> {
   /// future api answer
   late Future<String> _futureAnswer;
 
+  NewsLetterData createdNewsLetter = NewsLetterData(
+      title: 'Default', content: '', createdAt: DateTime(1), author: '');
+
   /// List all application mode
   static const List<Widget> listAppMode = <Widget>[
     Icon(
@@ -49,6 +53,10 @@ class SettingsPageState extends State<SettingsPage> {
     !nightMode,
     nightMode,
   ];
+
+  void update() {
+    setState(() {});
+  }
 
   /// Network function calling the api for updating user information
   Future<String> apiAskForUpdate() async {
@@ -484,15 +492,103 @@ class SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  void apiSendNewsLetter() async {
+    var response = await http.post(
+      Uri.parse('http://$serverIp:8080/api/newsLetter'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${userInformation!.token}',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "title": createdNewsLetter.title,
+        "content": createdNewsLetter.content
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      await updateAllFlutterObject();
+      createdNewsLetter.title = 'Default';
+      createdNewsLetter.content = '';
+      update();
+    }
+  }
+
   /// Return a visual representation of the newsLetter page
   Widget newsLetterVisualization() {
+    List<Widget> newsLetterList = <Widget>[];
+
+    for (var temp in newsLetterDataList) {
+      newsLetterList.add(materialElevatedButtonArea(
+          ElevatedButton(onPressed: () {}, child: temp.display(context)),
+          context,
+          sizeOfButton: 1,
+          isShadowNeeded: true));
+      newsLetterList.add(const SizedBox(
+        height: 20,
+      ));
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(getSentence('SETT-19')),
         const SizedBox(
           height: 20,
-        )
+        ),
+        Column(children: newsLetterList),
+        if (userInformation!.isAdmin)
+          Column(
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: getSentence('SETT-20'),
+                ),
+                initialValue: createdNewsLetter.title,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (String? value) {
+                  value ??= '';
+                  if (value.length > 15) {
+                    return getSentence('SETT-21');
+                  }
+                  createdNewsLetter.title = value;
+                  return null;
+                },
+                onChanged: (value) {
+                  setState(() {});
+                },
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: getSentence('SETT-22'),
+                ),
+                initialValue: createdNewsLetter.content,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (String? value) {
+                  value ??= '';
+                  if (value.length > 250) {
+                    return getSentence('SETT-23');
+                  }
+                  createdNewsLetter.content = value;
+                  return null;
+                },
+              ),
+              materialElevatedButtonArea(
+                ElevatedButton(
+                  onPressed: (() {
+                    apiSendNewsLetter();
+                  }),
+                  child: Text(getSentence('SETT-24'),
+                      style: TextStyle(color: getOurBlueAreaColor(100))),
+                ),
+                context,
+                isShadowNeeded: true,
+                borderWith: 2,
+                borderColor: getOurBlueAreaColor(100),
+              ),
+            ],
+          )
       ],
     );
   }

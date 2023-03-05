@@ -151,6 +151,11 @@
 // SETT-17 -> Thanks - Header text
 // SETT-18 -> Thanks - Button Text
 // SETT-19 -> NewsLetter - Header text
+// SETT-20 -> NewsLetter - NewsLetter Name
+// SETT-21 -> NewsLetter - NewsLetter label validator
+// SETT-22 -> NewsLetter - Newsletter content
+// SETT-23 -> NewsLetter - NewsLetter label validator
+// SETT-24 -> NewsLetter - Post newsLetter !
 
 /// Signup Functional File :
 
