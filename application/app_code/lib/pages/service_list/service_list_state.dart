@@ -40,41 +40,41 @@ class ServiceListPageState extends State<ServiceListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
-        child: Center(
-            child: Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                child: SizedBox(
-                  width: isDesktop(context)
-                      ? 600
-                      : MediaQuery.of(context).size.width,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+            child: Center(
+                child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 30),
+                    child: SizedBox(
+                      width: isDesktop(context)
+                          ? 600
+                          : MediaQuery.of(context).size.width,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  goToHomePage(context);
-                                });
-                              },
-                              icon: const Icon(Icons.arrow_back_ios)),
-                          Text(
-                            getSentence('SERVLIST-01'),
-                            style: const TextStyle(
-                                fontFamily: 'Roboto-Bold', fontSize: 25),
-                          )
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      goToHomePage(context);
+                                    });
+                                  },
+                                  icon: const Icon(Icons.arrow_back_ios)),
+                              Text(
+                                getSentence('SERVLIST-01'),
+                                style: const TextStyle(
+                                    fontFamily: 'Roboto-Bold', fontSize: 25),
+                              )
+                            ],
+                          ),
+                          Text(getSentence('SERVLIST-02')),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          displayAllService(),
                         ],
                       ),
-                      Text(getSentence('SERVLIST-02')),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      displayAllService(),
-                    ],
-                  ),
-                )))));
+                    )))));
   }
 }
