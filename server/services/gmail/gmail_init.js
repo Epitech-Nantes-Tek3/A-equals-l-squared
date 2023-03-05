@@ -79,7 +79,23 @@ const getGmailClient = () => {
   return google.gmail({ version: 'v1', auth })
 }
 
+/**
+ * Create the gmail service if it does not already exist.
+ */
+const generateGmailService = async database => {
+  const gmailService = await database.prisma.Service.findMany({
+    where: { name: 'gmail' }
+  })
+  if (gmailService.length === 0) {
+    console.log('Creating gmail service...')
+    return await createGmailService()
+  } else {
+    console.log('Gmail service already exist.')
+    return gmailService[0]
+  }
+}
+
 module.exports = {
-  createGmailService,
+  generateGmailService,
   getGmailClient
 }
