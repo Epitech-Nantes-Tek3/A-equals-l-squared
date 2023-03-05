@@ -179,6 +179,7 @@ class HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: createTabOfAreas(),
                   ),
+                  const SizedBox(height: 20,),
                   materialElevatedButtonArea(
                     ElevatedButton(
                       key: const Key('HomeServiceButton'),
