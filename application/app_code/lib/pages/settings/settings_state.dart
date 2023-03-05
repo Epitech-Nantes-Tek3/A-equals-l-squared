@@ -622,7 +622,7 @@ class SettingsPageState extends State<SettingsPage> {
                 if (selector == 5) {
                   goToAuthPage(context);
                 } else if (selector == 84) {
-                  goToLoginPage(context);
+                  goToLoginPage(context, true);
                 } else {
                   _settingPage = selector;
                 }
