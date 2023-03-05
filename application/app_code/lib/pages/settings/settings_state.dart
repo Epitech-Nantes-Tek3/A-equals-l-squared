@@ -264,13 +264,11 @@ class SettingsPageState extends State<SettingsPage> {
       parameterButtonView(
           Icons.manage_accounts_rounded, getSentence('SETT-04'), 1),
       const SizedBox(height: 20),
-      parameterButtonView(
-          Icons.email, getSentence('SETT-05'), 2),
+      parameterButtonView(Icons.email, getSentence('SETT-05'), 2),
       const SizedBox(height: 20),
       parameterButtonView(Icons.language, getSentence('SETT-06'), 3),
       const SizedBox(height: 20),
-      parameterButtonView(
-          Icons.handshake, getSentence('SETT-07'), 4),
+      parameterButtonView(Icons.handshake, getSentence('SETT-07'), 4),
       const SizedBox(height: 20),
       parameterButtonView(
           Icons.connect_without_contact, getSentence('SETT-15'), 5),
@@ -338,6 +336,7 @@ class SettingsPageState extends State<SettingsPage> {
     return const Text('');
   }
 
+  /// Action of the thanks button
   void thanksButtonAction() async {
     AreaData thanksArea = AreaData(
         id: '',
@@ -445,6 +444,7 @@ class SettingsPageState extends State<SettingsPage> {
     await updateAllFlutterObject();
   }
 
+  /// Return a visual representation of the thanks page
   Widget thanksVisualization() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -484,11 +484,24 @@ class SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  /// Return a visual representation of the newsLetter page
+  Widget newsLetterVisualization() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(getSentence('SETT-19')),
+        const SizedBox(
+          height: 20,
+        )
+      ],
+    );
+  }
+
   /// This function choose what Settings View display depends on _settingsPage
   Widget displaySettingsViews() {
     if (_settingPage == 0) return displayAllParameterButtons();
     if (_settingPage == 1) return userDataVisualization();
-    if (_settingPage == 2) return userDataVisualization();
+    if (_settingPage == 2) return newsLetterVisualization();
     if (_settingPage == 3) return languageVisualization();
     if (_settingPage == 4) return thanksVisualization();
     if (_settingPage == 5) return goToAuthPage(context);

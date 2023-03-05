@@ -84,6 +84,7 @@ Map<String, String> englishLanguageMap = Map.unmodifiable({
   'SETT-17':
       'Welcome to the thank you page.\n\nLucas Tesnier wanted to thank his whole group for this incredible end-of-year project, marking the end of our \'schooling\'.\n\n\n\'I truly had an incredible 8 weeks with all of you, not without stockings, and I am eternally grateful to you for giving your all for this project. I will never forget you guys, and I hope this delivery does not sign not the end of our adventure. I have prepared a little secret for you :)\n\nClick on the button below to discover it, love\'',
   'SETT-18': 'Thanks',
+  'SETT-19': 'Find all of your newsletters here.',
   'SIGNUP-01': 'Log In To A=l²',
   'SIGNUP-02': 'Welcome to Signup page !',
   'SIGNUP-03': 'Signup',

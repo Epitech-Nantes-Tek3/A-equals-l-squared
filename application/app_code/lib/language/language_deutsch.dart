@@ -87,6 +87,7 @@ Map<String, String> deutschLanguageMap = Map.unmodifiable({
   'SETT-17':
       'Willkommen auf der Dankesseite.\n\nLucas Tesnier wollte seiner ganzen Gruppe für dieses unglaubliche Projekt zum Jahresende danken, das das Ende unserer \'Schule\' kennzeichnet.\n\n\n\'Ich bin ehrlich Ich hatte unglaubliche 8 Wochen mit euch allen, nicht ohne Strümpfe, und ich bin euch unendlich dankbar, dass ihr alles für dieses Projekt gegeben habt. Ich werde euch nie vergessen, und ich hoffe, dass diese Lieferung nicht das Ende unseres Abenteuers bedeutet. Ich habe ein kleines Geheimnis für dich vorbereitet :)\n\nKlicke auf die Schaltfläche unten, um es zu entdecken, Liebling\'',
   'SETT-18': 'Danke',
+  'SETT-19': 'Hier finden Sie alle Ihre Newsletter.',
   'SIGNUP-01': 'Bei A=l² anmelden',
   'SIGNUP-02': 'Willkommen auf der Registrierungsseite!',
   'SIGNUP-03': 'Registrieren',

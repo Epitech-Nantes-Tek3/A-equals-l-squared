@@ -150,6 +150,7 @@
 // SETT-16 -> Header - Logout
 // SETT-17 -> Thanks - Header text
 // SETT-18 -> Thanks - Button Text
+// SETT-19 -> NewsLetter - Header text
 
 /// Signup Functional File :
 
