@@ -1133,27 +1133,24 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                           goToHomePage(context);
                         });
                       },
-                      icon: const Icon(Icons.arrow_back_ios),
-                      color: getOurBlueAreaColor(100),
+                      icon: const Icon(Icons.home),
+                      color: Theme.of(context).secondaryHeaderColor,
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    Row(children: [
-                      Text(
-                        createdArea != null ? createdArea!.name : '',
-                        style: const TextStyle(
-                            fontFamily: 'Roboto-Bold', fontSize: 20),
-                      )
-                    ])
                   ],
                 ),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Text(
+                    createdArea != null ? createdArea!.name : '',
+                    style: const TextStyle(
+                        fontFamily: 'Roboto-Bold', fontSize: 20),
+                  )
+                ]),
                 if (actionSetting)
                   Column(children: [
                     /// Block Action
-                    const SizedBox(
-                      height: 20,
-                    ),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
