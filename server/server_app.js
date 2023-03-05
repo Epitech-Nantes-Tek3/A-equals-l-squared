@@ -16,7 +16,11 @@ const onMessage = require('./services/discord/actions/on_message')
 const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
+<<<<<<< HEAD
 const { generateAllServices } = require('./services/init_all')
+=======
+const { hash } = require('./utils')
+>>>>>>> main
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -193,6 +197,7 @@ app.get('/about.json', async (req, res) => {
 })
 
 require('./api/area/area.js')(app, passport, database)
+require('./api/newsLetter/newsLetter')(app, passport, database)
 require('./api/area/reaction/reaction.js')(app, passport, database)
 require('./api/area/action/action.js')(app, passport, database)
 require('./api/user/user.js')(app, passport, database)
@@ -293,11 +298,34 @@ require('./api/auth/auth.js')(app, passport, database)
  */
 
 /**
+ * Utility function creating an administrator user if no one exist
+ */
+async function initAdministratorAccount () {
+  const users = await database.prisma.User.findMany({
+    where: {
+      isAdmin: true
+    }
+  })
+  if (users.length == 0) {
+    const user = await database.prisma.User.create({
+      data: {
+        username: 'Admin',
+        email: 'aequallsquared@gmail.com',
+        password: await hash('adminadmin'),
+        isAdmin: true,
+        mailVerification: true
+      }
+    })
+  }
+}
+
+/**
  * Start the node.js server at PORT and HOST variable
  */
 app.listen(PORT, HOST, async () => {
   console.log(`Server is starting...`)
   await generateAllServices(database)
+  await initAdministratorAccount()
   console.log(`Server running http://${HOST}:${PORT}`)
   console.log(`Api documentation available on http://${HOST}:${PORT}/api-docs`)
 })

@@ -136,9 +136,9 @@
 // SETT-02 -> Account Update - Deleter account button
 // SETT-03 -> Header - Settings
 // SETT-04 -> Header - User Informations
-// SETT-05 -> Header - Data Management
+// SETT-05 -> Header - Newsletter
 // SETT-06 -> Header - Language
-// SETT-07 -> Header - Notification
+// SETT-07 -> Header - Thanks
 // SETT-08 -> username field label text
 // SETT-09 -> username field validator error when username is too short
 // SETT-10 -> email field label text
@@ -148,6 +148,14 @@
 // SETT-14 -> header text of the language page
 // SETT-15 -> Header - Authentification
 // SETT-16 -> Header - Logout
+// SETT-17 -> Thanks - Header text
+// SETT-18 -> Thanks - Button Text
+// SETT-19 -> NewsLetter - Header text
+// SETT-20 -> NewsLetter - NewsLetter Name
+// SETT-21 -> NewsLetter - NewsLetter label validator
+// SETT-22 -> NewsLetter - Newsletter content
+// SETT-23 -> NewsLetter - NewsLetter label validator
+// SETT-24 -> NewsLetter - Post newsLetter !
 
 /// Signup Functional File :
 

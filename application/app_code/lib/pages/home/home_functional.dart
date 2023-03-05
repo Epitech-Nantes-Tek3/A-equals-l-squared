@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application/flutter_objects/news_letter_data.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +14,9 @@ List<ServiceData> serviceDataList = <ServiceData>[];
 
 /// List of all the Area data
 List<AreaData> areaDataList = <AreaData>[];
+
+/// List of all the NewsLetter data
+List<NewsLetterData> newsLetterDataList = <NewsLetterData>[];
 
 /// Function pointer needed to update the Home Page
 Function? updatePage;
@@ -77,6 +81,23 @@ Future<void> updateAllFlutterObject() async {
       }
       areaDataList = newList;
       sortAreaDataList("");
+    }
+
+    response = await http.get(
+      Uri.parse('http://$serverIp:8080/api/newsLetter'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${userInformation!.token}',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List<NewsLetterData> newList = <NewsLetterData>[];
+      var json = jsonDecode(response.body);
+      for (var temp in json) {
+        newList.add(NewsLetterData.fromJson(temp));
+      }
+      newsLetterDataList = newList;
     }
   } catch (err) {
     debugPrint(err.toString());
