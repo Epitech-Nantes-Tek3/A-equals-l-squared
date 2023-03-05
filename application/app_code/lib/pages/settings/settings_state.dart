@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../material_lib_functions/material_functions.dart';
 import '../../flutter_objects/action_data.dart';
 import '../../flutter_objects/area_data.dart';
 import '../../flutter_objects/parameter_data.dart';
@@ -290,27 +291,28 @@ class SettingsPageState extends State<SettingsPage> {
       const SizedBox(
         height: 40,
       ),
-      ToggleButtons(
-        direction: isSelected ? Axis.vertical : Axis.horizontal,
-        onPressed: (int index) {
-          setState(() {
-            for (int i = 0; i < _selectedAppMode.length; i++) {
-              _selectedAppMode[i] = i == index;
-            }
-            saveSelectedAppMode(index == 1);
-          });
-        },
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
-        selectedBorderColor: Colors.blue[700],
-        fillColor: Colors.blue[200],
-        color: Colors.blue[400],
-        constraints: const BoxConstraints(
-          minHeight: 40.0,
-          minWidth: 80.0,
+      if (isMobile(context))
+        ToggleButtons(
+          direction: isSelected ? Axis.vertical : Axis.horizontal,
+          onPressed: (int index) {
+            setState(() {
+              for (int i = 0; i < _selectedAppMode.length; i++) {
+                _selectedAppMode[i] = i == index;
+              }
+              saveSelectedAppMode(index == 1);
+            });
+          },
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          selectedBorderColor: Colors.blue[700],
+          fillColor: Colors.blue[200],
+          color: Colors.blue[400],
+          constraints: const BoxConstraints(
+            minHeight: 40.0,
+            minWidth: 80.0,
+          ),
+          isSelected: _selectedAppMode,
+          children: listAppMode,
         ),
-        isSelected: _selectedAppMode,
-        children: listAppMode,
-      ),
     ]);
   }
 
