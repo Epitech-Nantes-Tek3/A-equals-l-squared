@@ -16,11 +16,8 @@ const onMessage = require('./services/discord/actions/on_message')
 const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
-<<<<<<< HEAD
 const { generateAllServices } = require('./services/init_all')
-=======
 const { hash } = require('./utils')
->>>>>>> main
 
 const swaggerOptions = {
   swaggerDefinition: {
