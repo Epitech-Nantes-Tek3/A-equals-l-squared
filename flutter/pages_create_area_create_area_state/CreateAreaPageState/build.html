@@ -312,11 +312,8 @@ Widget build(BuildContext context) {
 
   return Scaffold(
       body: SingleChildScrollView(
-          child: Center(
-              child: Container(
-    margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-    child: SizedBox(
-        width: isDesktop(context) ? 600 : MediaQuery.of(context).size.width,
+    child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: &lt;Widget&gt;[
@@ -329,26 +326,22 @@ Widget build(BuildContext context) {
                         createdArea = null;
                         _createdAreaSave = null;
                         actionSetting = false;
-
-                        &#47;&#47;&#47; if (actionSetting == false) {
                         goToHomePage(context);
                       });
                     },
-                    icon: const Icon(Icons.home),
-                    color: Theme.of(context).secondaryHeaderColor,
+                    icon: const Icon(Icons.home_filled),
+                    color: getOurBlueAreaColor(100),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  Text(
+                    createdArea != null ? createdArea!.name : &#39;&#39;,
+                    style: const TextStyle(
+                        fontFamily: &#39;Roboto-Bold&#39;, fontSize: 20),
+                  )
                 ],
               ),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(
-                  createdArea != null ? createdArea!.name : &#39;&#39;,
-                  style: const TextStyle(
-                      fontFamily: &#39;Roboto-Bold&#39;, fontSize: 20),
-                )
-              ]),
+              const SizedBox(
+                height: 30,
+              ),
               if (actionSetting)
                 Column(children: [
                   &#47;&#47;&#47; Block Action
@@ -452,179 +445,197 @@ Widget build(BuildContext context) {
                   displayNewReactionSelectionView()
                 ])
               else
-                Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(getSentence(&#39;CREATE-22&#39;)),
-                      Switch(
-                        value: createdArea != null
-                            ? createdArea!.isEnable
-                            : true,
-                        activeColor: Colors.blue,
-                        onChanged: (bool value) {
-                          setState(() {
-                            createdArea!.isEnable = value;
-                          });
+                Container(
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border.all(),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10.0),
+                          topRight: Radius.circular(10.0),
+                          bottomLeft: Radius.circular(10.0),
+                          bottomRight: Radius.circular(10.0),
+                        )),
+                    child: Column(children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(getSentence(&#39;CREATE-22&#39;)),
+                          Switch(
+                            value: createdArea != null
+                                ? createdArea!.isEnable
+                                : true,
+                            activeColor: Colors.blue,
+                            onChanged: (bool value) {
+                              setState(() {
+                                createdArea!.isEnable = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText: getSentence(&#39;CREATE-25&#39;),
+                        ),
+                        initialValue:
+                            createdArea != null ? createdArea!.name : &#39;&#39;,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (String? value) {
+                          if (value!.length &gt; 15) {
+                            return getSentence(&#39;CREATE-26&#39;);
+                          }
+                          createdArea!.name = value;
+                          return null;
+                        },
+                        onChanged: (value) {
+                          setState(() {});
                         },
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: getSentence(&#39;CREATE-25&#39;),
-                    ),
-                    initialValue:
-                        createdArea != null ? createdArea!.name : &#39;&#39;,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (String? value) {
-                      if (value!.length &gt; 15) {
-                        return getSentence(&#39;CREATE-26&#39;);
-                      }
-                      createdArea!.name = value;
-                      return null;
-                    },
-                    onChanged: (value) {
-                      setState(() {});
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: getSentence(&#39;CREATE-27&#39;),
-                    ),
-                    initialValue:
-                        createdArea != null ? createdArea!.description : &#39;&#39;,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (String? value) {
-                      if (value!.length &gt; 42) {
-                        return getSentence(&#39;CREATE-28&#39;);
-                      }
-                      createdArea!.description = value;
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: &lt;Widget&gt;[
-                        Text(getSentence(&#39;CREATE-23&#39;)),
-                        const SizedBox(height: 5),
-                        ToggleButtons(
-                          direction:
-                              isSelected ? Axis.vertical : Axis.horizontal,
-                          onPressed: (int index) {
-                            setState(() {
-                              &#47;&#47; The button that is tapped is set to true, and the others to false.
-                              for (int i = 0;
-                                  i &lt; _selectedActionCondition.length;
-                                  i++) {
-                                _selectedActionCondition[i] = i == index;
-                              }
-                              createdArea!.logicalGate =
-                                  index == 0 ? &#39;OR&#39; : &#39;AND&#39;;
-                            });
-                          },
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8)),
-                          selectedBorderColor: Colors.blue[700],
-                          fillColor: Colors.blue[200],
-                          color: Colors.blue[400],
-                          constraints: const BoxConstraints(
-                            minHeight: 40.0,
-                            minWidth: 80.0,
-                          ),
-                          isSelected: _selectedActionCondition,
-                          children: listActionCondition,
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText: getSentence(&#39;CREATE-27&#39;),
                         ),
-                        const SizedBox(height: 5),
-                        ToggleButtons(
-                          direction:
-                              isSelected ? Axis.vertical : Axis.horizontal,
-                          onPressed: (int index) {
-                            setState(() {
-                              for (int i = 0;
-                                  i &lt; _selectedPrimaryColor.length;
-                                  i++) {
-                                _selectedPrimaryColor[i] = i == index;
-                                if (i == index) {
-                                  createdArea!.primaryColor =
-                                      &#39;#${(listPrimaryColor[i] as Icon).color!.value.toRadixString(16).substring(2, 8)}&#39;;
-                                }
-                              }
-                            });
-                          },
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8)),
-                          constraints: const BoxConstraints(
-                            minHeight: 40.0,
-                            minWidth: 60.0,
-                          ),
-                          isSelected: _selectedPrimaryColor,
-                          children: listPrimaryColor,
-                        ),
-                        const SizedBox(height: 5),
-                        ToggleButtons(
-                          direction:
-                              isSelected ? Axis.vertical : Axis.horizontal,
-                          onPressed: (int index) {
-                            setState(() {
-                              for (int i = 0;
-                                  i &lt; _selectedSecondaryColor.length;
-                                  i++) {
-                                _selectedSecondaryColor[i] = i == index;
-                                if (i == index) {
-                                  createdArea!.secondaryColor =
-                                      &#39;#${(listSecondaryColor[i] as Icon).color!.value.toRadixString(16).substring(2, 8)}&#39;;
-                                }
-                              }
-                            });
-                          },
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8)),
-                          constraints: const BoxConstraints(
-                            minHeight: 40.0,
-                            minWidth: 60.0,
-                          ),
-                          isSelected: _selectedSecondaryColor,
-                          children: listSecondaryColor,
-                        ),
-                        const SizedBox(height: 5),
-                        ToggleButtons(
-                          direction:
-                              isSelected ? Axis.vertical : Axis.horizontal,
-                          onPressed: (int index) {
-                            setState(() {
-                              for (int i = 0; i &lt; _selectedIcon.length; i++) {
-                                _selectedIcon[i] = i == index;
-                                if (i == index) {
-                                  createdArea!.iconPath =
-                                      (listIcon[i] as Image)
-                                          .key
-                                          .toString()
-                                          .replaceFirst(&quot;[&lt;&#39;&quot;, &quot;&quot;)
-                                          .replaceFirst(&quot;&#39;&gt;]&quot;, &quot;&quot;);
-                                }
-                              }
-                            });
-                          },
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8)),
-                          constraints: const BoxConstraints(
-                            minHeight: 40.0,
-                            minWidth: 42.0,
-                          ),
-                          isSelected: _selectedIcon,
-                          children: listIcon,
-                        ),
-                      ]),
-                ]),
+                        initialValue: createdArea != null
+                            ? createdArea!.description
+                            : &#39;&#39;,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (String? value) {
+                          if (value!.length &gt; 20) {
+                            return getSentence(&#39;CREATE-28&#39;);
+                          }
+                          createdArea!.description = value;
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: &lt;Widget&gt;[
+                            Text(getSentence(&#39;CREATE-23&#39;)),
+                            const SizedBox(height: 5),
+                            ToggleButtons(
+                              direction: isSelected
+                                  ? Axis.vertical
+                                  : Axis.horizontal,
+                              onPressed: (int index) {
+                                setState(() {
+                                  &#47;&#47; The button that is tapped is set to true, and the others to false.
+                                  for (int i = 0;
+                                      i &lt; _selectedActionCondition.length;
+                                      i++) {
+                                    _selectedActionCondition[i] = i == index;
+                                  }
+                                  createdArea!.logicalGate =
+                                      index == 0 ? &#39;OR&#39; : &#39;AND&#39;;
+                                });
+                              },
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                              selectedBorderColor: Colors.blue[700],
+                              fillColor: Colors.blue[200],
+                              color: Colors.blue[400],
+                              constraints: const BoxConstraints(
+                                minHeight: 40.0,
+                                minWidth: 80.0,
+                              ),
+                              isSelected: _selectedActionCondition,
+                              children: listActionCondition,
+                            ),
+                            const SizedBox(height: 5),
+                            ToggleButtons(
+                              direction: isSelected
+                                  ? Axis.vertical
+                                  : Axis.horizontal,
+                              onPressed: (int index) {
+                                setState(() {
+                                  for (int i = 0;
+                                      i &lt; _selectedPrimaryColor.length;
+                                      i++) {
+                                    _selectedPrimaryColor[i] = i == index;
+                                    if (i == index) {
+                                      createdArea!.primaryColor =
+                                          &#39;#${(listPrimaryColor[i] as Icon).color!.value.toRadixString(16).substring(2, 8)}&#39;;
+                                    }
+                                  }
+                                });
+                              },
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                              constraints: const BoxConstraints(
+                                minHeight: 40.0,
+                                minWidth: 60.0,
+                              ),
+                              isSelected: _selectedPrimaryColor,
+                              children: listPrimaryColor,
+                            ),
+                            const SizedBox(height: 5),
+                            ToggleButtons(
+                              direction: isSelected
+                                  ? Axis.vertical
+                                  : Axis.horizontal,
+                              onPressed: (int index) {
+                                setState(() {
+                                  for (int i = 0;
+                                      i &lt; _selectedSecondaryColor.length;
+                                      i++) {
+                                    _selectedSecondaryColor[i] = i == index;
+                                    if (i == index) {
+                                      createdArea!.secondaryColor =
+                                          &#39;#${(listSecondaryColor[i] as Icon).color!.value.toRadixString(16).substring(2, 8)}&#39;;
+                                    }
+                                  }
+                                });
+                              },
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                              constraints: const BoxConstraints(
+                                minHeight: 40.0,
+                                minWidth: 60.0,
+                              ),
+                              isSelected: _selectedSecondaryColor,
+                              children: listSecondaryColor,
+                            ),
+                            const SizedBox(height: 5),
+                            ToggleButtons(
+                              direction: isSelected
+                                  ? Axis.vertical
+                                  : Axis.horizontal,
+                              onPressed: (int index) {
+                                setState(() {
+                                  for (int i = 0;
+                                      i &lt; _selectedIcon.length;
+                                      i++) {
+                                    _selectedIcon[i] = i == index;
+                                    if (i == index) {
+                                      createdArea!.iconPath =
+                                          (listIcon[i] as Image)
+                                              .key
+                                              .toString()
+                                              .replaceFirst(&quot;[&lt;&#39;&quot;, &quot;&quot;)
+                                              .replaceFirst(&quot;&#39;&gt;]&quot;, &quot;&quot;);
+                                    }
+                                  }
+                                });
+                              },
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8)),
+                              constraints: const BoxConstraints(
+                                minHeight: 40.0,
+                                minWidth: 42.0,
+                              ),
+                              isSelected: _selectedIcon,
+                              children: listIcon,
+                            ),
+                          ]),
+                    ])),
               const SizedBox(
                 height: 10,
               ),
@@ -675,7 +686,7 @@ Widget build(BuildContext context) {
                 ),
               Text(_apiErrorMessage != null ? _apiErrorMessage! : &#39;&#39;)
             ])),
-  ))));
+  ));
 }</code></pre>
 </section>
 

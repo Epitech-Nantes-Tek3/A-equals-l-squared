@@ -181,19 +181,15 @@ prints green, as expected.</p>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
-  if (logout || userInformation == null) {
+  if (logout) {
     userInformation = null;
     return const LoginPage();
   } else {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         body: SingleChildScrollView(
-            child: Center(
-                child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-          child: SizedBox(
-            width:
-                isDesktop(context) ? 600 : MediaQuery.of(context).size.width,
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: &lt;Widget&gt;[
@@ -213,7 +209,7 @@ Widget build(BuildContext context) {
                         onPressed: () {
                           homeSync();
                         },
-                        icon: Image.asset(&#39;assets&#47;icons&#47;Area_Logo.png&#39;)),
+                        icon: const Icon(Icons.sync)),
                     IconButton(
                         iconSize: 30,
                         onPressed: () {
@@ -259,9 +255,6 @@ Widget build(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: createTabOfAreas(),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
                 materialElevatedButtonArea(
                   ElevatedButton(
                     key: const Key(&#39;HomeServiceButton&#39;),
@@ -279,7 +272,7 @@ Widget build(BuildContext context) {
               ],
             ),
           ),
-        ))));
+        ));
   }
 }</code></pre>
 </section>
@@ -331,6 +324,8 @@ Widget build(BuildContext context) {
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/dispose.html">dispose</a></li>
           <li><a href="../../pages_home_home_state/HomePageState/homeSync.html">homeSync</a></li>
           <li><a href="../../pages_home_home_state/HomePageState/initState.html">initState</a></li>
+          <li><a href="../../pages_home_home_state/HomePageState/isDesktop.html">isDesktop</a></li>
+          <li><a href="../../pages_home_home_state/HomePageState/isMobile.html">isMobile</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/reassemble.html">reassemble</a></li>
           <li class="inherited"><a href="https://api.flutter.dev/flutter/widgets/State/setState.html">setState</a></li>
