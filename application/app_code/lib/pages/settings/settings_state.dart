@@ -10,11 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../material_lib_functions/material_functions.dart';
 import '../../flutter_objects/action_data.dart';
 import '../../flutter_objects/area_data.dart';
 import '../../flutter_objects/parameter_data.dart';
 import '../../flutter_objects/reaction_data.dart';
+import '../../material_lib_functions/material_functions.dart';
 import '../auth_linker/auth_linker_functional.dart';
 import '../home/home_functional.dart';
 import '../login/login_functional.dart';
@@ -685,6 +685,7 @@ class SettingsPageState extends State<SettingsPage> {
                                         goToHomePage(context);
                                       } else {
                                         _settingPage = 0;
+                                        _futureAnswer = getAFirstApiAnswer();
                                       }
                                     });
                                   },
