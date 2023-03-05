@@ -16,7 +16,6 @@ const onMessage = require('./services/discord/actions/on_message')
 const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
-const { generateAllServices } = require('./services/init_all')
 const { hash } = require('./utils')
 
 const swaggerOptions = {
@@ -311,11 +310,18 @@ async function initAdministratorAccount () {
  * Start the node.js server at PORT and HOST variable
  */
 app.listen(PORT, HOST, async () => {
-  console.log(`Server is starting...`)
-  await generateAllServices(database)
-  await initAdministratorAccount()
   console.log(`Server running http://${HOST}:${PORT}`)
   console.log(`Api documentation available on http://${HOST}:${PORT}/api-docs`)
+  await initAdministratorAccount()
 })
 
-module.exports = { app }
+/**
+ * A basic function to demonstrate the test framework.
+ * @param {*} number A basic number
+ * @returns The passed number
+ */
+function test_example (number) {
+  return number
+}
+
+module.exports = { test_example, app }
