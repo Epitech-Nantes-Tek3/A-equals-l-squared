@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - 194-swagger-in-gh-pages-ci
 
 env:
   BUILD_TYPE: Release
@@ -54,7 +55,7 @@ jobs:
         npm install -g swagger-ui-dist
         mkdir ./server/docs/swagger
         cp -R ./node_modules/swagger-ui-dist/* ./server/docs/swagger/
-
+      working-directory: ${{ env.WORKING_DIR }}
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
       with:
