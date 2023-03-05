@@ -183,35 +183,42 @@ prints green, as expected.</p>
 Widget build(BuildContext context) {
   return Scaffold(
       body: SingleChildScrollView(
-          child: Container(
-    margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: &lt;Widget&gt;[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: &lt;Widget&gt;[
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    goToHomePage(context);
-                  });
-                },
-                icon: const Icon(Icons.home_filled)),
-            Text(
-              getSentence(&#39;SERVLIST-01&#39;),
-              style: const TextStyle(fontFamily: &#39;Roboto-Bold&#39;, fontSize: 25),
-            )
-          ],
-        ),
-        Text(getSentence(&#39;SERVLIST-02&#39;)),
-        const SizedBox(
-          height: 20,
-        ),
-        displayAllService(),
-      ],
-    ),
-  )));
+          child: Center(
+              child: Container(
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: 30, vertical: 30),
+                  child: SizedBox(
+                    width: isDesktop(context)
+                        ? 600
+                        : MediaQuery.of(context).size.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: &lt;Widget&gt;[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: &lt;Widget&gt;[
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    goToHomePage(context);
+                                  });
+                                },
+                                icon: const Icon(Icons.arrow_back_ios)),
+                            Text(
+                              getSentence(&#39;SERVLIST-01&#39;),
+                              style: const TextStyle(
+                                  fontFamily: &#39;Roboto-Bold&#39;, fontSize: 25),
+                            )
+                          ],
+                        ),
+                        Text(getSentence(&#39;SERVLIST-02&#39;)),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        displayAllService(),
+                      ],
+                    ),
+                  )))));
 }</code></pre>
 </section>
 

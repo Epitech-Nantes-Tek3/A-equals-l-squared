@@ -2048,6 +2048,120 @@
         }
       }
     },
+    "/api/newsLetter": {
+      "get": {
+        "tags": [
+          "NewsLetter"
+        ],
+        "summary": "Get all newsLetter",
+        "description": "Retrieve a list of all newsLetter for the authenticated user",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of newsLetter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "The ID of the newsLetter"
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "The title of the newsLetter"
+                      },
+                      "content": {
+                        "type": "string",
+                        "description": "The content of the newsLetter"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The date and time when the newsLetter was created"
+                      },
+                      "createdBy": {
+                        "type": "string",
+                        "description": "The author name of the newsLetter"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "NewsLetter"
+        ],
+        "summary": "Get all newsLetter",
+        "description": "Retrieve a list of all newsLetter for the authenticated user",
+        "security": [
+          {
+            "jwt": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The created newsLetter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "The ID of the newsLetter"
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "The title of the newsLetter"
+                      },
+                      "content": {
+                        "type": "string",
+                        "description": "The content of the newsLetter"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The date and time when the newsLetter was created"
+                      },
+                      "createdBy": {
+                        "type": "string",
+                        "description": "The author name of the newsLetter"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
     "/api/services/deezer/getUserPlaylists": {
       "get": {
         "tags": [
@@ -3379,6 +3493,32 @@
             "type": "string",
             "format": "date-time",
             "description": "The date and time when the area was last updated"
+          }
+        }
+      },
+      "NewsLetter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the newsLetter"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the newsLetter"
+          },
+          "content": {
+            "type": "string",
+            "description": "The content of the newsLetter"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the newsLetter was created"
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "The author name of the newsLetter"
           }
         }
       }

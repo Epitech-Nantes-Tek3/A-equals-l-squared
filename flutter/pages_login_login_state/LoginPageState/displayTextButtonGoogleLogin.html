@@ -76,8 +76,14 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Widget displayTextButtonGoogleLogin() {
   return TextButton.icon(
-      label: Text(getSentence(&#39;LOGIN-03&#39;)),
-      icon: const Icon(Icons.account_circle_sharp),
+      label: Text(
+        getSentence(&#39;LOGIN-03&#39;),
+        style: TextStyle(color: getOurBlueAreaColor(100)),
+      ),
+      icon: Icon(
+        Icons.account_circle_sharp,
+        color: getOurBlueAreaColor(100),
+      ),
       onPressed: () {
         setState(() {
           _futureLogin = _signInGoogle();

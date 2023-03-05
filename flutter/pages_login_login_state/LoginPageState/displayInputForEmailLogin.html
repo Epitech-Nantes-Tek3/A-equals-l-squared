@@ -104,28 +104,41 @@
         height: 20,
       ),
       if (_isConnexionWithEmail == true)
-        TextFormField(
-          obscureText: true,
-          decoration: InputDecoration(
-            border: const OutlineInputBorder(),
-            labelText: getSentence(&#39;LOGIN-11&#39;),
-          ),
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (String? value) {
-            if (value != null &amp;&amp; value.length &lt;= 7) {
-              return getSentence(&#39;LOGIN-12&#39;);
-            }
-            _password = value;
-            return null;
-          },
+        Column(
+          children: [
+            TextFormField(
+              obscureText: true,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: getSentence(&#39;LOGIN-11&#39;),
+              ),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (String? value) {
+                if (value != null &amp;&amp; value.length &lt;= 7) {
+                  return getSentence(&#39;LOGIN-12&#39;);
+                }
+                _password = value;
+                return null;
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                displayResetAndForgotPassword(),
+              ],
+            ),
+          ],
         ),
-      const SizedBox(
-        height: 10,
-      ),
       if (_isConnexionWithEmail == true &amp;&amp; snapshot.hasError)
-        Text(&#39;{$snapshot.error}&#39;)
+        Text(
+          &#39;{$snapshot.error}&#39;,
+          style: const TextStyle(fontSize: 12),
+        )
       else
-        Text(snapshot.data!),
+        Text(
+          snapshot.data!,
+          style: const TextStyle(fontSize: 12),
+        ),
     ],
   );
 }</code></pre>
