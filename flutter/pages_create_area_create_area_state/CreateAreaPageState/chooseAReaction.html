@@ -120,10 +120,18 @@
           key: const Key(&#39;CreateReactionPreviousButton&#39;),
           onPressed: () {
             setState(() {
-              createdArea = AreaData.clone(_createdAreaSave!);
+              createdArea!.reactionList = _createdAreaSave!.reactionList
+                  .map((v) =&gt; ReactionData.clone(v))
+                  .toList();
               if (_reactionCreationState == 0) {
                 _isChoosingAReaction = false;
                 _reactionCreationState = 0;
+              }
+              if (_reactionCreationState == 2) {
+                createdArea!.reactionList.removeLast();
+                _createdAreaSave!.reactionList = createdArea!.reactionList
+                    .map((v) =&gt; ReactionData.clone(v))
+                    .toList();
               }
               _reactionCreationState -= 1;
             });

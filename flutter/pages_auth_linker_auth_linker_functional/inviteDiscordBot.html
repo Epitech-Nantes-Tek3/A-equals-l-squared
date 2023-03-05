@@ -75,7 +75,10 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;String&gt; inviteDiscordBot() async {
-  await launchUrl(Uri.parse(&#39;https:&#47;&#47;www.test.com&#39;),
+  await launchUrl(
+      Uri.parse(kIsWeb
+          ? &quot;https:&#47;&#47;discord.com&#47;oauth2&#47;authorize?client_id=1066384923231006741&amp;permissions=8&amp;redirect_uri=http%3A%2F%2Flocalhost%3A8081%2Fauth.html&amp;response_type=code&amp;scope=identify%20guilds%20bot%20guilds.members.read%20messages.read%20email&quot;
+          : &quot;https:&#47;&#47;discord.com&#47;oauth2&#47;authorize?client_id=1066384923231006741&amp;permissions=8&amp;redirect_uri=https%3A%2F%2Fwww.test.com&amp;response_type=code&amp;scope=identify%20guilds%20bot%20guilds.members.read%20messages.read%20email&quot;),
       mode: LaunchMode.externalApplication);
   return &#39;Thanks for adding our bot to your server !&#39;;
 }</code></pre>

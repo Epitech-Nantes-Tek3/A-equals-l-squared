@@ -90,9 +90,12 @@
       ElevatedButton(
           onPressed: () {
             setState(() {
-              _createdAreaSave = AreaData.clone(createdArea!);
+              _createdAreaSave!.serviceId = createdArea!.serviceId != null
+                  ? ServiceData.clone(createdArea!.serviceId!)
+                  : null;
               createdArea!.serviceId = ServiceData.clone(temp);
               _reactionCreationState = 1;
+              _actionCreationState = 0;
             });
           },
           child: temp.display(context)),

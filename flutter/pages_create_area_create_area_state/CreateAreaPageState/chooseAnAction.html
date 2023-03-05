@@ -116,10 +116,18 @@
           key: const Key(&#39;CreateActionPreviousButton&#39;),
           onPressed: () {
             setState(() {
-              createdArea = AreaData.clone(_createdAreaSave!);
+              createdArea!.actionList = _createdAreaSave!.actionList
+                  .map((v) =&gt; ActionData.clone(v))
+                  .toList();
               if (_actionCreationState == 0) {
                 _isChoosingAnAction = false;
                 _actionCreationState = 0;
+              }
+              if (_actionCreationState == 2) {
+                createdArea!.actionList.removeLast();
+                _createdAreaSave!.actionList = createdArea!.actionList
+                    .map((v) =&gt; ActionData.clone(v))
+                    .toList();
               }
               _actionCreationState -= 1;
             });
@@ -138,9 +146,12 @@
               onPressed: () {
                 setState(() {
                   bool isRequired = true;
-                  _createdAreaSave = AreaData.clone(createdArea!);
+                  _createdAreaSave!.actionList = createdArea!.actionList
+                      .map((v) =&gt; ActionData.clone(v))
+                      .toList();
                   for (var temp in createdArea!.actionList.last.parameters) {
-                    if (temp.isRequired &amp;&amp; temp.matchedContent!.value == &quot;&quot;) {
+                    if (temp.isRequired &amp;&amp; temp.matchedContent!.value == &quot;&quot; ||
+                        temp.matchedContent!.value == &quot;Click To Update&quot;) {
                       isRequired = false;
                     }
                   }

@@ -88,13 +88,15 @@
       ElevatedButton(
           onPressed: () {
             setState(() {
-              _createdAreaSave = AreaData.clone(createdArea!);
               createdArea!.actionList.add(ActionData.clone(temp));
               for (var tmp in temp.parameters) {
                 createdArea!.actionList.last.parametersContent.add(
                     ParameterContent(paramId: tmp.id, value: &quot;&quot;, id: &#39;&#39;));
               }
               _actionCreationState = 2;
+              _createdAreaSave!.actionList = createdArea!.actionList
+                  .map((v) =&gt; ActionData.clone(v))
+                  .toList();
             });
           },
           child: temp.displayActionDescription(context)),

@@ -87,7 +87,9 @@
           onPressed: () {
             setState(() {
               bool isRequired = true;
-              _createdAreaSave = AreaData.clone(createdArea!);
+              _createdAreaSave!.reactionList = createdArea!.reactionList
+                  .map((v) =&gt; ReactionData.clone(v))
+                  .toList();
               for (var temp in createdArea!.reactionList.last.parameters) {
                 if (temp.isRequired &amp;&amp; temp.matchedContent!.value == &quot;&quot;) {
                   isRequired = false;
