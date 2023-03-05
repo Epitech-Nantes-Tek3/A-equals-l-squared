@@ -1,6 +1,7 @@
 'use strict'
 
 const { TriggerDestroyMap } = require('../../services/timetime/init')
+const updateTriggeredLink = require('../../services/glue/glue')
 
 module.exports = function (app, passport, database) {
   /**
@@ -931,6 +932,9 @@ module.exports = function (app, passport, database) {
             }
           }
         })
+        for (action in updatedArea.actions) {
+          updateTriggeredLink(action.id)
+        }
         for (let action of updatedArea.Actions) {
           if (updatedArea.isEnable && TriggerInitMap[action.Action.code])
             TriggerInitMap[action.Action.code](action)
