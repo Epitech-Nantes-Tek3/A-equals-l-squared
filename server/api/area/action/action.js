@@ -740,7 +740,6 @@ module.exports = function (app, passport, database) {
           }
           resolve(updatedActionParameters)
         })
-        console.log("UPDATE action")
         const action = await database.prisma.AREAhasActions.update({
           where: {
             id: req.params.id
@@ -769,7 +768,6 @@ module.exports = function (app, passport, database) {
             }
           }
         })
-        console.log("UPDATED action", action)
         if (TriggerDestroyMap[action.Action.code])
           TriggerDestroyMap[action.Action.code](action)
         if (area.isEnable && TriggerInitMap[action.Action.code])
