@@ -5,6 +5,7 @@ const auth_token = require('../../passport/local')
 const utils = require('../../utils')
 const axios = require('axios')
 const database = require('../../database_init')
+const jwt = require('jwt-simple')
 
 /**
  * Refresh the Reddit token of the user

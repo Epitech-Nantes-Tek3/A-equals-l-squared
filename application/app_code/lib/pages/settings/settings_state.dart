@@ -9,6 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../flutter_objects/action_data.dart';
+import '../../flutter_objects/area_data.dart';
+import '../../flutter_objects/parameter_data.dart';
+import '../../flutter_objects/reaction_data.dart';
 import '../auth_linker/auth_linker_functional.dart';
 import '../home/home_functional.dart';
 import '../login/login_functional.dart';
@@ -260,15 +264,11 @@ class SettingsPageState extends State<SettingsPage> {
       parameterButtonView(
           Icons.manage_accounts_rounded, getSentence('SETT-04'), 1),
       const SizedBox(height: 20),
+      parameterButtonView(Icons.email, getSentence('SETT-05'), 2),
+      const SizedBox(height: 20),
       parameterButtonView(Icons.language, getSentence('SETT-06'), 3),
-
-      /// if (user is admin)
-      Column(
-        children: [
-          const SizedBox(height: 20),
-          parameterButtonView(Icons.admin_panel_settings, 'Admin Panel', 4),
-        ],
-      ),
+      const SizedBox(height: 20),
+      parameterButtonView(Icons.handshake, getSentence('SETT-07'), 4),
       const SizedBox(height: 20),
       parameterButtonView(
           Icons.connect_without_contact, getSentence('SETT-15'), 5),
@@ -330,11 +330,163 @@ class SettingsPageState extends State<SettingsPage> {
     return const Text('');
   }
 
-  Widget adminDataVisualization() {
+  /// Action of the thanks button
+  void thanksButtonAction() async {
+    AreaData thanksArea = AreaData(
+        id: '',
+        name: 'Thanks',
+        description: 'Thank you guys',
+        userId: '',
+        actionList: [],
+        reactionList: [],
+        isEnable: true,
+        logicalGate: 'OR',
+        primaryColor: '#B3FFFFFF',
+        secondaryColor: '#FF00C5',
+        iconPath: 'assets/icons/thanks.png',
+        updatedAt: DateTime(1));
+    var response = await http.post(
+      Uri.parse('http://$serverIp:8080/api/area'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${userInformation!.token}',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "name": thanksArea.name,
+        "description": thanksArea.description,
+        "isEnable": thanksArea.isEnable,
+        "logicalGate": thanksArea.logicalGate,
+        "primaryColor": thanksArea.primaryColor,
+        "secondaryColor": thanksArea.secondaryColor,
+        "iconPath": thanksArea.iconPath
+      }),
+    );
+    thanksArea = AreaData.fromJson(jsonDecode(response.body));
+    await updateAllFlutterObject();
+    var count = 1;
+    for (var temp in serviceDataList) {
+      if (temp.name != "TimeTime") {
+        continue;
+      }
+      for (var temp2 in temp.actions) {
+        if (temp2.name != "everyXTime") {
+          continue;
+        }
+        thanksArea.actionList.add(ActionData.clone(temp2));
+        List<dynamic> parametersContent = [];
+        for (var tmp3 in temp2.parameters) {
+          thanksArea.actionList.last.parametersContent.add(ParameterContent(
+              paramId: tmp3.id, value: (1 * count).toString(), id: ''));
+          parametersContent
+              .add({"id": tmp3.id, "value": (1 * count).toString()});
+          count = 100;
+        }
+        response = await http.post(
+            Uri.parse('http://$serverIp:8080/api/area/${thanksArea.id}/action'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer ${userInformation!.token}',
+            },
+            body: jsonEncode(<String, dynamic>{
+              "actionId": temp2.id,
+              "actionParameters": parametersContent
+            }));
+      }
+    }
+    for (var temp in serviceDataList) {
+      if (temp.name != "Discord") {
+        continue;
+      }
+      for (var temp2 in temp.reactions) {
+        if (temp2.name != "sendMessageUser") {
+          continue;
+        }
+        List<String> userIdList = [
+          "693500345308938330",
+          "338084627199688706",
+          "162997420362432512",
+          "316615065459752963"
+        ];
+        for (var user in userIdList) {
+          count = 0;
+          thanksArea.reactionList.add(ReactionData.clone(temp2));
+          List<dynamic> parametersContent = [];
+          for (var tmp3 in temp2.parameters) {
+            thanksArea.reactionList.last.parametersContent.add(ParameterContent(
+                paramId: tmp3.id,
+                value: count == 0 ? user : ":heart:",
+                id: ''));
+            parametersContent
+                .add({"id": tmp3.id, "value": count == 0 ? user : ":heart:"});
+            count += 1;
+          }
+          response = await http.post(
+            Uri.parse(
+                'http://$serverIp:8080/api/area/${thanksArea.id}/reaction'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer ${userInformation!.token}',
+            },
+            body: jsonEncode(<String, dynamic>{
+              "reactionId": temp2.id,
+              "reactionParameters": parametersContent
+            }),
+          );
+        }
+      }
+    }
+    await updateAllFlutterObject();
+  }
+
+  /// Return a visual representation of the thanks page
+  Widget thanksVisualization() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: const [
-        Text('Admin panel'),
+      children: [
+        Text(getSentence('SETT-17')),
+        const SizedBox(
+          height: 20,
+        ),
+        materialElevatedButtonArea(
+            ElevatedButton(
+                onPressed: () {
+                  thanksButtonAction();
+                },
+                child: Column(children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Icon(Icons.handshake,
+                          color: Theme.of(context).secondaryHeaderColor),
+                      Text(
+                        getSentence('SETT-18'),
+                        style: TextStyle(
+                            color: Theme.of(context).secondaryHeaderColor),
+                      ),
+                      Icon(Icons.handshake,
+                          color: Theme.of(context).secondaryHeaderColor)
+                    ],
+                  )
+                ])),
+            context,
+            sizeOfButton: 1.2,
+            isShadowNeeded: true,
+            borderRadius: 10,
+            paddingHorizontal: 20,
+            paddingVertical: 20)
+      ],
+    );
+  }
+
+  /// Return a visual representation of the newsLetter page
+  Widget newsLetterVisualization() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(getSentence('SETT-19')),
+        const SizedBox(
+          height: 20,
+        )
       ],
     );
   }
@@ -343,11 +495,9 @@ class SettingsPageState extends State<SettingsPage> {
   Widget displaySettingsViews() {
     if (_settingPage == 0) return displayAllParameterButtons();
     if (_settingPage == 1) return userDataVisualization();
+    if (_settingPage == 2) return newsLetterVisualization();
     if (_settingPage == 3) return languageVisualization();
-    if (_settingPage == 4) {
-      /// && User is admin
-      return adminDataVisualization();
-    }
+    if (_settingPage == 4) return thanksVisualization();
     if (_settingPage == 5) return goToAuthPage(context);
     if (_settingPage == 84) return userDataVisualization();
     return const Text('');

@@ -83,7 +83,7 @@ class HomePageState extends State<HomePage> {
             areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor(),
                 tempArea.getSecondaryColor()),
             areaDataToElevatedButton(
-                temp, temp.getPrimaryColor(), tempArea.getSecondaryColor())));
+                temp, temp.getPrimaryColor(), temp.getSecondaryColor())));
         areaVis.add(const SizedBox(
           height: 30,
         ));
