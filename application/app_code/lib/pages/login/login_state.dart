@@ -148,21 +148,27 @@ class LoginPageState extends State<LoginPage> {
   Widget displayAreaName() {
     return Text(getSentence('LOGIN-01'),
         textAlign: TextAlign.center,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 48));
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 42));
   }
 
   /// This function display our logo and the login name of our project
   Widget displayLogoAndName() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[displayLogo(120), displayAreaName()]);
+        children: <Widget>[displayLogo(90), displayAreaName()]);
   }
 
   /// This function display the google button for log with google AUTH
   Widget displayTextButtonGoogleLogin() {
     return TextButton.icon(
-        label: Text(getSentence('LOGIN-03')),
-        icon: const Icon(Icons.account_circle_sharp),
+        label: Text(
+          getSentence('LOGIN-03'),
+          style: TextStyle(color: getOurBlueAreaColor(100)),
+        ),
+        icon: Icon(
+          Icons.account_circle_sharp,
+          color: getOurBlueAreaColor(100),
+        ),
         onPressed: () {
           setState(() {
             _futureLogin = _signInGoogle();
@@ -182,7 +188,10 @@ class LoginPageState extends State<LoginPage> {
       onPressed: () {
         goToSignupPage(context);
       },
-      child: Text(getSentence('LOGIN-04')),
+      child: Text(
+        getSentence('LOGIN-04'),
+        style: TextStyle(color: getOurBlueAreaColor(100)),
+      ),
     );
   }
 
