@@ -1301,7 +1301,7 @@ class CreateAreaPageState extends State<CreateAreaPage> {
                           createdArea != null ? createdArea!.description : '',
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (String? value) {
-                        if (value!.length > 20) {
+                        if (value!.length > 42) {
                           return getSentence('CREATE-28');
                         }
                         createdArea!.description = value;
