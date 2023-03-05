@@ -1,16 +1,18 @@
-version: "2.2"
+version: "2.4"
 services:
   database:
     build: ./server/database
-    env_file:
-      - ./server/database.env
     environment:
-      MYSQL_ROOT_PASSWORD: $${password}
-      MYSQL_DATABASE: $${database}
+      MYSQL_ROOT_PASSWORD: ${password}
+      MYSQL_DATABASE: ${database}
     volumes:
       - .:/code
+    ports:
+      - "3306:3306"
+    networks:
+      - database_net
     healthcheck:
-      test: mysqladmin ping -h 127.0.0.1 -u $${user} --password=$${password}
+      test: mysqladmin ping -h 127.0.0.1 -u ${user} --password=${password}
       interval: 5s
       timeout: 45s
       retries: 40
@@ -22,12 +24,17 @@ services:
     depends_on:
       database:
         condition: service_healthy
+    env_file:
+      - .env
     environment:
       - IS_MIGRATION=false #SET TO true when a migration needed
+      - DATABASE_URL=mysql://${user}:${password}@database:3306/${database}
     volumes:
       - .:/code
     stdin_open: true
     tty: true
+    networks:
+      - database_net
 
   client_mobile:
     build:
@@ -52,3 +59,6 @@ services:
 
 volumes:
   common:
+
+networks:
+  database_net:

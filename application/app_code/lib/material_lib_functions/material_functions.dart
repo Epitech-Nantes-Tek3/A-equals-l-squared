@@ -17,6 +17,13 @@ Color getOurGreenAreaColor(double opacity) {
   return Color.fromRGBO(22, 252, 188, opacity);
 }
 
+/// To know if we are on desktop
+bool isDesktop(BuildContext context) =>
+    MediaQuery.of(context).size.width >= 600;
+
+/// To know if we are on mobile
+bool isMobile(BuildContext context) => MediaQuery.of(context).size.width < 600;
+
 /// This function create a new ElevatedButton with the content of buttonContent
 /// This function can take many parameter to modified the style of the ElevatedButton but by it used default values of front design
 Widget materialElevatedButtonArea(

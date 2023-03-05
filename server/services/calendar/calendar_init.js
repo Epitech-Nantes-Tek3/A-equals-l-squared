@@ -99,7 +99,23 @@ const getCalendarClient = () => {
   return google.calendar({ version: 'v3', auth })
 }
 
+/**
+ * Create the calendar service if it does not already exist.
+ */
+const generateCalendarService = async database => {
+  const calendarService = await database.prisma.Service.findMany({
+    where: { name: 'calendar' }
+  })
+  if (calendarService.length === 0) {
+    console.log('Creating calendar service...')
+    return await createCalendarService()
+  } else {
+    console.log('Calendar service already exist.')
+    return calendarService[0]
+  }
+}
+
 module.exports = {
-  createCalendarService,
+  generateCalendarService,
   getCalendarClient
 }
