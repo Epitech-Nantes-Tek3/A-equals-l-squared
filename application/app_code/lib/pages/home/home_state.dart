@@ -91,7 +91,7 @@ class HomePageState extends State<HomePage> {
             areaDataToElevatedButton(tempArea, tempArea.getPrimaryColor(),
                 tempArea.getSecondaryColor()),
             areaDataToElevatedButton(
-                temp, temp.getPrimaryColor(), tempArea.getSecondaryColor())));
+                temp, temp.getPrimaryColor(), temp.getSecondaryColor())));
         areaVis.add(const SizedBox(
           height: 30,
         ));
@@ -110,7 +110,7 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (logout) {
+    if (logout || userInformation == null) {
       userInformation = null;
       return const LoginPage();
     } else {

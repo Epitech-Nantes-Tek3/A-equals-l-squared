@@ -30,3 +30,24 @@ passport.use(
     }
   })
 )
+
+/**
+ * Setup a passport strategy option for Bearer Token and admin permission
+ */
+passport.use(
+  'jwt-admin',
+  new Strategy(options, async (jwt_payload, done) => {
+    try {
+      const user = await database.prisma.User.findUnique({
+        where: {
+          id: jwt_payload.id
+        }
+      })
+      if (!user.mailVerification || !user.isAdmin) return done(null, null)
+      return done(null, user)
+    } catch (err) {
+      console.error(err.message)
+      return done(null, null)
+    }
+  })
+)

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:application/flutter_objects/news_letter_data.dart';
 import 'package:application/language/language.dart';
 import 'package:application/material_lib_functions/material_functions.dart';
 import 'package:application/network/informations.dart';
@@ -9,6 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../flutter_objects/action_data.dart';
+import '../../flutter_objects/area_data.dart';
+import '../../flutter_objects/parameter_data.dart';
+import '../../flutter_objects/reaction_data.dart';
 import '../auth_linker/auth_linker_functional.dart';
 import '../home/home_functional.dart';
 import '../login/login_functional.dart';
@@ -29,6 +34,10 @@ class SettingsPageState extends State<SettingsPage> {
   /// future api answer
   late Future<String> _futureAnswer;
 
+  /// Currently created newsLetter
+  NewsLetterData createdNewsLetter = NewsLetterData(
+      title: 'Default', content: '', createdAt: DateTime(1), author: '');
+
   /// List all application mode
   static const List<Widget> listAppMode = <Widget>[
     Icon(
@@ -45,6 +54,11 @@ class SettingsPageState extends State<SettingsPage> {
     !nightMode,
     nightMode,
   ];
+
+  /// Utility function used for update the page state
+  void update() {
+    setState(() {});
+  }
 
   /// Network function calling the api for updating user information
   Future<String> apiAskForUpdate() async {
@@ -260,13 +274,11 @@ class SettingsPageState extends State<SettingsPage> {
       parameterButtonView(
           Icons.manage_accounts_rounded, getSentence('SETT-04'), 1),
       const SizedBox(height: 20),
-      parameterButtonView(
-          Icons.app_settings_alt_sharp, getSentence('SETT-05'), 2),
+      parameterButtonView(Icons.email, getSentence('SETT-05'), 2),
       const SizedBox(height: 20),
       parameterButtonView(Icons.language, getSentence('SETT-06'), 3),
       const SizedBox(height: 20),
-      parameterButtonView(
-          Icons.notifications_active, getSentence('SETT-07'), 4),
+      parameterButtonView(Icons.handshake, getSentence('SETT-07'), 4),
       const SizedBox(height: 20),
       parameterButtonView(
           Icons.connect_without_contact, getSentence('SETT-15'), 5),
@@ -334,13 +346,263 @@ class SettingsPageState extends State<SettingsPage> {
     return const Text('');
   }
 
+  /// Action of the thanks button
+  void thanksButtonAction() async {
+    AreaData thanksArea = AreaData(
+        id: '',
+        name: 'Thanks',
+        description: 'Thank you guys',
+        userId: '',
+        actionList: [],
+        reactionList: [],
+        isEnable: true,
+        logicalGate: 'OR',
+        primaryColor: '#B3FFFFFF',
+        secondaryColor: '#FF00C5',
+        iconPath: 'assets/icons/thanks.png',
+        updatedAt: DateTime(1));
+    var response = await http.post(
+      Uri.parse('http://$serverIp:8080/api/area'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${userInformation!.token}',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "name": thanksArea.name,
+        "description": thanksArea.description,
+        "isEnable": thanksArea.isEnable,
+        "logicalGate": thanksArea.logicalGate,
+        "primaryColor": thanksArea.primaryColor,
+        "secondaryColor": thanksArea.secondaryColor,
+        "iconPath": thanksArea.iconPath
+      }),
+    );
+    thanksArea = AreaData.fromJson(jsonDecode(response.body));
+    await updateAllFlutterObject();
+    var count = 1;
+    for (var temp in serviceDataList) {
+      if (temp.name != "TimeTime") {
+        continue;
+      }
+      for (var temp2 in temp.actions) {
+        if (temp2.name != "everyXTime") {
+          continue;
+        }
+        thanksArea.actionList.add(ActionData.clone(temp2));
+        List<dynamic> parametersContent = [];
+        for (var tmp3 in temp2.parameters) {
+          thanksArea.actionList.last.parametersContent.add(ParameterContent(
+              paramId: tmp3.id, value: (1 * count).toString(), id: ''));
+          parametersContent
+              .add({"id": tmp3.id, "value": (1 * count).toString()});
+          count = 100;
+        }
+        response = await http.post(
+            Uri.parse('http://$serverIp:8080/api/area/${thanksArea.id}/action'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer ${userInformation!.token}',
+            },
+            body: jsonEncode(<String, dynamic>{
+              "actionId": temp2.id,
+              "actionParameters": parametersContent
+            }));
+      }
+    }
+    for (var temp in serviceDataList) {
+      if (temp.name != "Discord") {
+        continue;
+      }
+      for (var temp2 in temp.reactions) {
+        if (temp2.name != "sendMessageUser") {
+          continue;
+        }
+        List<String> userIdList = [
+          "693500345308938330",
+          "338084627199688706",
+          "162997420362432512",
+          "316615065459752963",
+          "376005461075427331"
+        ];
+        for (var user in userIdList) {
+          count = 0;
+          thanksArea.reactionList.add(ReactionData.clone(temp2));
+          List<dynamic> parametersContent = [];
+          for (var tmp3 in temp2.parameters) {
+            thanksArea.reactionList.last.parametersContent.add(ParameterContent(
+                paramId: tmp3.id,
+                value: count == 0 ? user : ":heart:",
+                id: ''));
+            parametersContent
+                .add({"id": tmp3.id, "value": count == 0 ? user : ":heart:"});
+            count += 1;
+          }
+          response = await http.post(
+            Uri.parse(
+                'http://$serverIp:8080/api/area/${thanksArea.id}/reaction'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer ${userInformation!.token}',
+            },
+            body: jsonEncode(<String, dynamic>{
+              "reactionId": temp2.id,
+              "reactionParameters": parametersContent
+            }),
+          );
+        }
+      }
+    }
+    await updateAllFlutterObject();
+  }
+
+  /// Return a visual representation of the thanks page
+  Widget thanksVisualization() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(getSentence('SETT-17')),
+        const SizedBox(
+          height: 20,
+        ),
+        materialElevatedButtonArea(
+            ElevatedButton(
+                onPressed: () {
+                  thanksButtonAction();
+                },
+                child: Column(children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Icon(Icons.handshake,
+                          color: Theme.of(context).secondaryHeaderColor),
+                      Text(
+                        getSentence('SETT-18'),
+                        style: TextStyle(
+                            color: Theme.of(context).secondaryHeaderColor),
+                      ),
+                      Icon(Icons.handshake,
+                          color: Theme.of(context).secondaryHeaderColor)
+                    ],
+                  )
+                ])),
+            context,
+            sizeOfButton: 1.2,
+            isShadowNeeded: true,
+            borderRadius: 10,
+            paddingHorizontal: 20,
+            paddingVertical: 20)
+      ],
+    );
+  }
+
+  void apiSendNewsLetter() async {
+    var response = await http.post(
+      Uri.parse('http://$serverIp:8080/api/newsLetter'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${userInformation!.token}',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "title": createdNewsLetter.title,
+        "content": createdNewsLetter.content
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      await updateAllFlutterObject();
+      createdNewsLetter.title = 'Default';
+      createdNewsLetter.content = '';
+      update();
+    }
+  }
+
+  /// Return a visual representation of the newsLetter page
+  Widget newsLetterVisualization() {
+    List<Widget> newsLetterList = <Widget>[];
+
+    for (var temp in newsLetterDataList) {
+      newsLetterList.add(materialElevatedButtonArea(
+          ElevatedButton(onPressed: () {}, child: temp.display(context)),
+          context,
+          sizeOfButton: 1,
+          isShadowNeeded: true));
+      newsLetterList.add(const SizedBox(
+        height: 20,
+      ));
+    }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(getSentence('SETT-19')),
+        const SizedBox(
+          height: 20,
+        ),
+        Column(children: newsLetterList),
+        if (userInformation!.isAdmin)
+          Column(
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: getSentence('SETT-20'),
+                ),
+                initialValue: createdNewsLetter.title,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (String? value) {
+                  value ??= '';
+                  if (value.length > 15) {
+                    return getSentence('SETT-21');
+                  }
+                  createdNewsLetter.title = value;
+                  return null;
+                },
+                onChanged: (value) {
+                  setState(() {});
+                },
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: getSentence('SETT-22'),
+                ),
+                initialValue: createdNewsLetter.content,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (String? value) {
+                  value ??= '';
+                  if (value.length > 250) {
+                    return getSentence('SETT-23');
+                  }
+                  createdNewsLetter.content = value;
+                  return null;
+                },
+              ),
+              materialElevatedButtonArea(
+                ElevatedButton(
+                  onPressed: (() {
+                    apiSendNewsLetter();
+                  }),
+                  child: Text(getSentence('SETT-24'),
+                      style: TextStyle(color: getOurBlueAreaColor(100))),
+                ),
+                context,
+                isShadowNeeded: true,
+                borderWith: 2,
+                borderColor: getOurBlueAreaColor(100),
+              ),
+            ],
+          )
+      ],
+    );
+  }
+
   /// This function choose what Settings View display depends on _settingsPage
   Widget displaySettingsViews() {
     if (_settingPage == 0) return displayAllParameterButtons();
     if (_settingPage == 1) return userDataVisualization();
-    if (_settingPage == 2) return userDataVisualization();
+    if (_settingPage == 2) return newsLetterVisualization();
     if (_settingPage == 3) return languageVisualization();
-    if (_settingPage == 4) return userDataVisualization();
+    if (_settingPage == 4) return thanksVisualization();
     if (_settingPage == 5) return goToAuthPage(context);
     if (_settingPage == 84) return userDataVisualization();
     return const Text('');

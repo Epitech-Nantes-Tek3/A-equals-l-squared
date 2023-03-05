@@ -16,13 +16,7 @@ const onMessage = require('./services/discord/actions/on_message')
 const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel')
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
-const { createGmailService } = require('./services/gmail/gmail_init')
-const { createCalendarService } = require('./services/calendar/calendar_init')
-const { createDiscordService } = require('./services/discord/init')
-const { createRedditService } = require('./services/reddit/init')
-const { createDeezerService } = require('./services/deezer/init')
-const { createReaaaaaaaService } = require('./services/reaaaaaaa/init')
-const { createTimeTimeService } = require('./services/timetime/init')
+const { hash } = require('./utils')
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -117,15 +111,6 @@ const PORT = 8080
 const HOST = '0.0.0.0'
 
 /**
- * A basic function to demonstrate the test framework.
- * @param {*} number A basic number
- * @returns The passed number
- */
-function test_example (number) {
-  return number
-}
-
-/**
  * Set the header protocol to authorize Web connection
  * @memberof route
  */
@@ -199,6 +184,7 @@ app.get('/about.json', async (req, res) => {
 })
 
 require('./api/area/area.js')(app, passport, database)
+require('./api/newsLetter/newsLetter')(app, passport, database)
 require('./api/area/reaction/reaction.js')(app, passport, database)
 require('./api/area/action/action.js')(app, passport, database)
 require('./api/user/user.js')(app, passport, database)
@@ -300,19 +286,43 @@ require('./api/webhook/webhook.js')(app, passport, database)
  */
 
 /**
+ * Utility function creating an administrator user if no one exist
+ */
+async function initAdministratorAccount () {
+  const users = await database.prisma.User.findMany({
+    where: {
+      isAdmin: true
+    }
+  })
+  if (users.length == 0) {
+    const user = await database.prisma.User.create({
+      data: {
+        username: 'Admin',
+        email: 'aequallsquared@gmail.com',
+        password: await hash('adminadmin'),
+        isAdmin: true,
+        mailVerification: true
+      }
+    })
+  }
+}
+
+/**
  * Start the node.js server at PORT and HOST variable
  */
 app.listen(PORT, HOST, async () => {
-  console.log(`Server is starting...`)
-  await generateDiscordService()
-  await generateGmailService()
-  await generateCalendarService()
-  await generateTimeTimeService()
-  await generateReaaaaaaaService()
-  await generateDeezerService()
-  await generateRedditService()
   console.log(`Server running http://${HOST}:${PORT}`)
   console.log(`Api documentation available on http://${HOST}:${PORT}/api-docs`)
+  await initAdministratorAccount()
 })
+
+/**
+ * A basic function to demonstrate the test framework.
+ * @param {*} number A basic number
+ * @returns The passed number
+ */
+function test_example (number) {
+  return number
+}
 
 module.exports = { test_example, app }
