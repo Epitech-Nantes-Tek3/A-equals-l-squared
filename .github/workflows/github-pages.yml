@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - 194-swagger-in-gh-pages-ci
 
 env:
   BUILD_TYPE: Release
