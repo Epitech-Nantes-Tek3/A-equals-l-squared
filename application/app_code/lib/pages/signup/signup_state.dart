@@ -175,7 +175,7 @@ class SignupPageState extends State<SignupPage> {
                             TextButton(
                               key: const Key('GoLoginButton'),
                               onPressed: () {
-                                goToLoginPage(context);
+                                goToLoginPage(context, false);
                               },
                               child: Text(
                                 getSentence('SIGNUP-04'),

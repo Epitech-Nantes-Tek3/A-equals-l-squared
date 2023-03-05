@@ -10,11 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../material_lib_functions/material_functions.dart';
 import '../../flutter_objects/action_data.dart';
 import '../../flutter_objects/area_data.dart';
 import '../../flutter_objects/parameter_data.dart';
 import '../../flutter_objects/reaction_data.dart';
+import '../../material_lib_functions/material_functions.dart';
 import '../auth_linker/auth_linker_functional.dart';
 import '../home/home_functional.dart';
 import '../login/login_functional.dart';
@@ -622,7 +622,7 @@ class SettingsPageState extends State<SettingsPage> {
                 if (selector == 5) {
                   goToAuthPage(context);
                 } else if (selector == 84) {
-                  goToLoginPage(context);
+                  goToLoginPage(context, true);
                 } else {
                   _settingPage = selector;
                 }
@@ -679,17 +679,18 @@ class SettingsPageState extends State<SettingsPage> {
                           Row(
                             children: <Widget>[
                               IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      if (_settingPage == 0) {
-                                        goToHomePage(context);
-                                      } else {
-                                        _settingPage = 0;
-                                      }
-                                    });
-                                  },
-                                  icon: const Icon(Icons.arrow_back_ios),
-                                  color: Colors.black),
+                                onPressed: () {
+                                  setState(() {
+                                    if (_settingPage == 0) {
+                                      goToHomePage(context);
+                                    } else {
+                                      _settingPage = 0;
+                                      _futureAnswer = getAFirstApiAnswer();
+                                    }
+                                  });
+                                },
+                                icon: const Icon(Icons.arrow_back_ios),
+                              ),
                               displaySettingsHeader(),
                             ],
                           ),

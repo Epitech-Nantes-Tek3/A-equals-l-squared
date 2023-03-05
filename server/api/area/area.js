@@ -1,6 +1,7 @@
 'use strict'
 
 const { TriggerDestroyMap } = require('../../services/timetime/init')
+const { updateTriggeredLink } = require('../../services/glue/glue')
 
 module.exports = function (app, passport, database) {
   /**
@@ -901,8 +902,48 @@ module.exports = function (app, passport, database) {
                 ? req.body.secondaryColor
                 : '#000000',
             icon: 'iconPath' in req.body ? req.body.iconPath : ''
+          },
+          select: {
+            isEnable: true,
+            userId: true,
+            Actions: {
+              select: {
+                id: true,
+                triggered: true,
+                Action: {
+                  select: {
+                    id: true,
+                    name: true,
+                    isEnable: true,
+                    code: true
+                  }
+                },
+                ActionParameters: {
+                  select: {
+                    id: true,
+                    Parameter: {
+                      select: {
+                        name: true
+                      }
+                    },
+                    value: true
+                  }
+                }
+              }
+            }
           }
         })
+        for (let action in updatedArea.Actions) {
+          if (updatedArea.Actions[action].triggered) {
+            updateTriggeredLink(updatedArea.Actions[action].id, false)
+          }
+        }
+        for (let action of updatedArea.Actions) {
+          if (updatedArea.isEnable && TriggerInitMap[action.Action.code])
+            TriggerInitMap[action.Action.code](action)
+          if (!updatedArea.isEnable && TriggerDestroyMap[action.Action.code])
+            TriggerDestroyMap[action.Action.code](action)
+        }
         res.status(200).json(updatedArea)
       } catch (error) {
         console.log(error)

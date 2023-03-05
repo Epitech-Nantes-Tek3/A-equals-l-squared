@@ -124,34 +124,7 @@ const createDiscordService = async () => {
                   }
                 ]
               },
-              DynamicParameters: {
-                create: [
-                  {
-                    name: 'USER_NAME',
-                    description: 'The username of the user who join the channel'
-                  },
-                  {
-                    name: 'USER_ID',
-                    description: 'The ID of the user who join the channel'
-                  },
-                  {
-                    name: 'CHANNEL_NAME',
-                    description: 'The name of the channel where the user join'
-                  },
-                  {
-                    name: 'CHANNEL_ID',
-                    description: 'The ID of the channel where the user join'
-                  },
-                  {
-                    name: 'GUILD_NAME',
-                    description: 'The name of the guild where the user join'
-                  },
-                  {
-                    name: 'GUILD_ID',
-                    description: 'The ID of the guild where the user join'
-                  }
-                ]
-              }
+              DynamicParameters: {}
             },
             {
               name: 'onMemberJoining',
@@ -331,7 +304,7 @@ const createDiscordService = async () => {
 /**
  * Create the discord service if it does not already exist.
  */
-const generateDiscordService = async (database) => {
+const generateDiscordService = async database => {
   const discordService = await database.prisma.Service.findMany({
     where: { name: 'discord' }
   })

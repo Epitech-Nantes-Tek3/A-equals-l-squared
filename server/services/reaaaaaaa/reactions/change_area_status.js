@@ -31,18 +31,40 @@ async function reaaaaaaaChangeAreaStatusFromAreaParameters (
         isEnable: newStatus == 'True'
       },
       select: {
-        id: true,
-        User: true,
-        ActionParameters: {
-          include: {
-            Parameter: true
+        isEnable: true,
+        userId: true,
+        Actions: {
+          select: {
+            id: true,
+            Action: {
+              select: {
+                id: true,
+                name: true,
+                isEnable: true,
+                code: true
+              }
+            },
+            ActionParameters: {
+              select: {
+                id: true,
+                Parameter: {
+                  select: {
+                    name: true
+                  }
+                },
+                value: true
+              }
+            }
           }
-        },
-        Action: true
+        }
       }
     })
-    if (TriggerInitMap[changingArea.Action.code])
-      TriggerInitMap[changingArea.Action.code](changingArea)
+    for (let action of changingArea.Actions) {
+      if (changingArea.isEnable && TriggerInitMap[action.Action.code])
+        TriggerInitMap[action.Action.code](action)
+      if (!changingArea.isEnable && TriggerDestroyMap[action.Action.code])
+        TriggerDestroyMap[action.Action.code](action)
+    }
     return true
   } catch (err) {
     console.log(err)

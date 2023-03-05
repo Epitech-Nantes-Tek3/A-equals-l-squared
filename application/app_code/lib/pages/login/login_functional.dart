@@ -5,8 +5,11 @@ import '../../network/informations.dart';
 import '../home/home_functional.dart';
 
 /// Navigation function -> Go to Login page
-void goToLoginPage(BuildContext context) {
+void goToLoginPage(BuildContext context, bool fromSettings) {
   userInformation = null;
   logout = true;
+  if (updatePage != null && fromSettings) {
+    updatePage!();
+  }
   context.go('/');
 }
