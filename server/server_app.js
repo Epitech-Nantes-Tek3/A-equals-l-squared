@@ -112,15 +112,6 @@ const PORT = 8080
 const HOST = '0.0.0.0'
 
 /**
- * A basic function to demonstrate the test framework.
- * @param {*} number A basic number
- * @returns The passed number
- */
-function test_example (number) {
-  return number
-}
-
-/**
  * Set the header protocol to authorize Web connection
  * @memberof route
  */
@@ -326,5 +317,14 @@ app.listen(PORT, HOST, async () => {
   console.log(`Server running http://${HOST}:${PORT}`)
   console.log(`Api documentation available on http://${HOST}:${PORT}/api-docs`)
 })
+
+/**
+ * A basic function to demonstrate the test framework.
+ * @param {*} number A basic number
+ * @returns The passed number
+ */
+function test_example (number) {
+  return number
+}
 
 module.exports = { test_example, app }
