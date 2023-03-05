@@ -265,12 +265,12 @@ class SettingsPageState extends State<SettingsPage> {
           Icons.manage_accounts_rounded, getSentence('SETT-04'), 1),
       const SizedBox(height: 20),
       parameterButtonView(
-          Icons.app_settings_alt_sharp, getSentence('SETT-05'), 2),
+          Icons.email, getSentence('SETT-05'), 2),
       const SizedBox(height: 20),
       parameterButtonView(Icons.language, getSentence('SETT-06'), 3),
       const SizedBox(height: 20),
       parameterButtonView(
-          Icons.notifications_active, getSentence('SETT-07'), 4),
+          Icons.handshake, getSentence('SETT-07'), 4),
       const SizedBox(height: 20),
       parameterButtonView(
           Icons.connect_without_contact, getSentence('SETT-15'), 5),
