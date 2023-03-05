@@ -17,78 +17,8 @@ const onVoiceChannel = require('./services/discord/actions/on_join_voice_channel
 const onReactionAdd = require('./services/discord/actions/on_reaction_add')
 const onMemberJoining = require('./services/discord/actions/on_member_joining')
 
-const swaggerOptions = {
-  swaggerDefinition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'A=L² API',
-      version: '1.0.0',
-      description: 'API for A=L² Area Epitech project'
-    },
-    servers: [
-      {
-        url: 'http://localhost:8080'
-      }
-    ],
-    tags: [
-      {
-        name: 'About',
-        description: 'About the A=L² project'
-      },
-      {
-        name: 'User',
-        description: 'User management'
-      },
-      {
-        name: 'Authentication',
-        description: 'Authentication management'
-      },
-      {
-        name: 'Services',
-        description: 'Service management',
-        children: [
-          {
-            name: 'Gmail',
-            description: 'Gmail management'
-          },
-          {
-            name: 'Discord',
-            description: 'Discord management'
-          },
-          {
-            name: 'Calendar',
-            description: 'Calendar management'
-          },
-          {
-            name: 'Deezer',
-            description: 'Deezer management'
-          }
-        ]
-      },
-      {
-        name: 'Area',
-        description: 'Area management',
-        children: [
-          {
-            name: 'Action',
-            description: 'Action management'
-          },
-          {
-            name: 'Reaction',
-            description: 'Reaction management'
-          }
-        ]
-      }
-    ],
-    host: 'localhost:8080',
-    basePath: '/'
-  },
-  consumes: ['application/json'],
-  produces: ['application/json'],
-  apis: ['server_app.js', 'api/**/*.js', 'api/area/**/*.js']
-}
-
-const swaggerDocs = swaggerJsdoc(swaggerOptions)
+const swaggerConfig = require('./swagger.json')
+const swaggerDocs = swaggerJsdoc(swaggerConfig)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 passport.serializeUser((user, done) => {

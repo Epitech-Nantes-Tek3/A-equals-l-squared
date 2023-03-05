@@ -25,14 +25,12 @@ jobs:
     - name: Generate Prisma docs
       run: npx prisma generate
       working-directory: ${{ env.WORKING_DIR }}
-    - name: Install Swagger UI Dist
-      run: npm install swagger-ui-dist
-    - name: Generate Swagger JSON
-      working-directory: ${{ env.WORKING_DIR }}
-      run: npx swagger-jsdoc -d ./server/server_app.js -o ./server/docs/swagger/swagger.json
-    - name: Generate Swagger UI
-      working-directory: ${{ env.WORKING_DIR }}
-      run: swagger-ui-dist --config ./server/docs/swagger/swaggerUIConfig.json --url ./swagger/swagger.json --dir ./server/docs/swagger
+
+    - name: Swagger UI Action
+      uses: Legion2/swagger-ui-action@v1.1.6
+      with:
+        output: swagger-ui
+        spec-file: ./server/swagger.json
 
     - name: Js documentation
       uses: andstor/jsdoc-action@v1
