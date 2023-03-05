@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
+/// This class is the newsLetter class
+/// It contains all information about a newsLetter
 class NewsLetterData {
   String title;
   String content;
   DateTime createdAt;
   String author;
 
+  /// Constructor of the newsLetter class
   NewsLetterData(
       {required this.title,
       required this.content,
       required this.createdAt,
       required this.author});
 
+  /// Convert a json map into the class
   factory NewsLetterData.fromJson(Map<String, dynamic> json) {
     return NewsLetterData(
         title: json['title'],
@@ -20,6 +24,7 @@ class NewsLetterData {
         author: json['createdBy']);
   }
 
+  /// Function returning a visual representation of a newsLetter
   Widget display(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

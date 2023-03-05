@@ -34,6 +34,7 @@ class SettingsPageState extends State<SettingsPage> {
   /// future api answer
   late Future<String> _futureAnswer;
 
+  /// Currently created newsLetter
   NewsLetterData createdNewsLetter = NewsLetterData(
       title: 'Default', content: '', createdAt: DateTime(1), author: '');
 
@@ -54,6 +55,7 @@ class SettingsPageState extends State<SettingsPage> {
     nightMode,
   ];
 
+  /// Utility function used for update the page state
   void update() {
     setState(() {});
   }

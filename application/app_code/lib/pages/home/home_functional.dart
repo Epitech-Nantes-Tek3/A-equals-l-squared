@@ -15,6 +15,7 @@ List<ServiceData> serviceDataList = <ServiceData>[];
 /// List of all the Area data
 List<AreaData> areaDataList = <AreaData>[];
 
+/// List of all the NewsLetter data
 List<NewsLetterData> newsLetterDataList = <NewsLetterData>[];
 
 /// Function pointer needed to update the Home Page

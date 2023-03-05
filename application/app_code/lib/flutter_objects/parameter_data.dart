@@ -22,7 +22,7 @@ class ParameterData {
   Map<String, String>? getterValue;
   bool needToUpdate = true;
 
-  /// Constructor of the reaction class
+  /// Constructor of the parameterData class
   ParameterData({
     required this.id,
     required this.name,
