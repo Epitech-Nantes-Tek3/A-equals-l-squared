@@ -25,6 +25,14 @@ jobs:
     - name: Generate Prisma docs
       run: npx prisma generate
       working-directory: ${{ env.WORKING_DIR }}
+    - name: Install Swagger UI Dist
+      run: npm install swagger-ui-dist
+    - name: Generate Swagger JSON
+      working-directory: ${{ env.WORKING_DIR }}
+      run: npx swagger-jsdoc -d ./server/server_app.js -o ./server/docs/swagger/swagger.json
+    - name: Generate Swagger UI
+      working-directory: ${{ env.WORKING_DIR }}
+      run: swagger-ui-dist --config ./server/docs/swagger/swaggerUIConfig.json --url ./swagger/swagger.json --dir ./server/docs/swagger
 
     - name: Js documentation
       uses: andstor/jsdoc-action@v1
@@ -50,13 +58,6 @@ jobs:
       run: |
         dart pub global activate dartdoc
         dart doc --output ../../server/docs/flutter
-
-    - name: Install Swagger UI Dist
-      run: npm install -g swagger-ui-dist
-    - name: Generate Swagger JSON
-      run: npx swagger-jsdoc -d ./server/server_app.js -o ./server/docs/swagger/swagger.json ./server/controllers/*.js
-    - name: Generate Swagger UI
-      run: swagger-ui-dist --config ./server/docs/swagger/swaggerUIConfig.json --url ./swagger/swagger.json --dir ./server/docs/swagger
 
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
