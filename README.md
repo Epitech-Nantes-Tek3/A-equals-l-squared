@@ -49,6 +49,7 @@ You can find the code documentation here :
 - [Prisma](https://epitech-nantes-tek3.github.io/A-equals-l-squared/prisma/)
 - [Flutter](https://epitech-nantes-tek3.github.io/A-equals-l-squared/flutter/)
 - [Node.js](https://epitech-nantes-tek3.github.io/A-equals-l-squared/js/)
+- [API](https://epitech-nantes-tek3.github.io/A-equals-l-squared/swagger/)
 
 ## **Thank for reading**
 
