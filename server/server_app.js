@@ -7,7 +7,7 @@ const passport = require('passport')
 const database = require('./database_init')
 const bodyParser = require('body-parser')
 const session = require('express-session')
-require('dotenv').config({ path: '../database.env' })
+require('dotenv').config({ path: '../../.env' })
 const app = express()
 
 const onMessage = require('./services/discord/actions/on_message')
@@ -124,6 +124,7 @@ require('./api/services/rea.js')(app, passport, database)
 require('./api/services/reddit.js')(app, passport, database)
 require('./api/dev/dev.js')(app, database)
 require('./api/auth/auth.js')(app, passport, database)
+require('./api/webhook/webhook.js')(app, passport, database)
 
 /**
  * @swagger
