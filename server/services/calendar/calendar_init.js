@@ -43,12 +43,12 @@ const createCalendarService = async () => {
                   },
                   {
                     name: 'start',
-                    description: 'The start date of the event',
+                    description: 'The start date of the event at the ISO format (YYYY-MM-DDTHH:mm:ss.sssZ)',
                     isRequired: true
                   },
                   {
                     name: 'end',
-                    description: 'The end date of the event',
+                    description: 'The end date of the event at the ISO format (YYYY-MM-DDTHH:mm:ss.sssZ)',
                     isRequired: true
                   }
                 ]
