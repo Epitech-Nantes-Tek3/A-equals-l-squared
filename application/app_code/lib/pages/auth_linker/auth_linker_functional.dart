@@ -93,8 +93,7 @@ class AuthBox {
                           Text(
                             authName,
                             style: TextStyle(
-                                color: Theme.of(context)
-                                    .secondaryHeaderColor), //(color: isEnable ? Colors.green : Colors.red),
+                                color: Theme.of(context).secondaryHeaderColor),
                           ),
                           const SizedBox(
                             height: 10,
