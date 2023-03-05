@@ -111,7 +111,7 @@ class AuthBox {
                   Icon(
                     isEnable ? Icons.check_box : Icons.check_box_outline_blank,
                     color: isEnable
-                        ? getOurGreenAreaColor(100)
+                        ? Colors.lightGreen
                         : Theme.of(context).secondaryHeaderColor,
                   )
                 ],

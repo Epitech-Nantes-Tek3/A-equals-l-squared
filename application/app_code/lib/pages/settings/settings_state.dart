@@ -208,6 +208,7 @@ class SettingsPageState extends State<SettingsPage> {
   Widget languageVisualization() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(getSentence('SETT-14')),
         DropdownButton<String>(
@@ -249,6 +250,7 @@ class SettingsPageState extends State<SettingsPage> {
           context,
           isShadowNeeded: true,
           sizeOfButton: 1.5,
+          borderColor: getOurBlueAreaColor(100),
           primaryColor: getOurBlueAreaColor(100)),
       materialElevatedButtonArea(
           ElevatedButton(
@@ -263,6 +265,7 @@ class SettingsPageState extends State<SettingsPage> {
           context,
           sizeOfButton: 1.5,
           isShadowNeeded: true,
+          borderColor: getOurBlueAreaColor(100),
           primaryColor: getOurBlueAreaColor(100)),
     ]);
   }
