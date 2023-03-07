@@ -120,7 +120,6 @@ module.exports = function (app, passport) {
     '/api/services/calendar/getAvailableCalendars',
     passport.authenticate('jwt', { session: false }),
     async (req, res) => {
-      console.log(req.user.googleToken)
       console.dir(getAvailableCalendars(req.user.googleToken))
       if (req.user.googleToken == null)
         return res.status(400).send('No Google account linked.')

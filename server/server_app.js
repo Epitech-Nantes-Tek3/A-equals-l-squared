@@ -124,6 +124,7 @@ require('./api/services/rea.js')(app, passport, database)
 require('./api/services/reddit.js')(app, passport, database)
 require('./api/dev/dev.js')(app, database)
 require('./api/auth/auth.js')(app, passport, database)
+const { generateAllServices } = require('./services/init_all')
 
 /**
  * @swagger

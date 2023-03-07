@@ -31,9 +31,6 @@ async function watchNewEmails () {
         topicName: 'projects/a-equal-l-squared/topics/watch-emails-sub'
       }
     })
-
-    console.log(`Watch resource: ${res.data.resourceId}`)
-    console.log(`Expiration: ${res.data.expiration}`)
   } catch (err) {
     console.error(err)
   }
@@ -53,8 +50,6 @@ async function getNewEmail () {
 
     messages.forEach(message => {
       const msg = message.messages[0]
-      console.log(`Message ID: ${msg.id}`)
-      console.log(`Thread ID: ${msg.threadId}`)
     })
   } catch (err) {
     console.error(err)

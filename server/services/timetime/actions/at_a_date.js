@@ -30,7 +30,6 @@ function parseAreaParameterToGetDate (paramsList) {
     const hour = paramsList[1].value != '' ? paramsList[1].value : '0'
     const min = paramsList[2].value != '' ? paramsList[2].value : '0'
     const sec = paramsList[3].value != '' ? paramsList[3].value : '0'
-    console.log(year + month + day + hour + min + sec)
     if (isNaN(parseInt(year)) || isNaN(parseInt(month)) || isNaN(parseInt(day)))
       return null
     if (
