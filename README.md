@@ -52,6 +52,10 @@ You can find the code documentation here :
 - [Node.js](https://epitech-nantes-tek3.github.io/A-equals-l-squared/js/)
 - [API](https://epitech-nantes-tek3.github.io/A-equals-l-squared/swagger/)
 
+An additional Youtube video containing all our bonuses is available here :
+
+- [Youtube](https://www.youtube.com/watch?v=qXRgzpx2Xk4)
+
 ## **Thank for reading**
 
 Feel free to read the `CONTRIBUTING.md`.
